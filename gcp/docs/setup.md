@@ -97,5 +97,32 @@ gcloud secrets add-iam-policy-binding ch-openbroadcast-settings \
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
     --member serviceAccount:${CLOUDBUILD_SERVICE_ACCOUNT} --role roles/cloudsql.client
+    
+    
+# superuser password - will be used in initial (django) migration
+    
+gcloud secrets create ch-openbroadcast-superuser --replication-policy automatic
+gcloud secrets add-iam-policy-binding ch-openbroadcast-superuser \
+  --member serviceAccount:${CLOUDBUILD_SERVICE_ACCOUNT} --role roles/secretmanager.secretAccessor
 
 ```
+
+
+## GCP Development Service Account
+
+key:
+
+`~/.keys/open-broadcast/gcp-service-account-dev.json`
+
+```shell
+gcloud iam service-accounts create development
+
+gcloud projects add-iam-policy-binding open-broadcast \
+  --member="serviceAccount:development@open-broadcast.iam.gserviceaccount.com" \
+  --role="roles/owner"
+```
+
+```shell
+gcloud iam service-accounts keys create \
+  ~/.keys/open-broadcast/gcp-service-account-dev.json \
+  --iam-account=development@open-broadcast.iam.gserviceaccount.com

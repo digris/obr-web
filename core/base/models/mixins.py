@@ -38,12 +38,6 @@ class UUIDModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    @property
-    def uid(self):
-        if not self.uuid:
-            return None
-        return str(self.uuid)[:8].upper()
-
 
 class CTModelMixin(models.Model):
     """CTModelMixin
@@ -56,6 +50,27 @@ class CTModelMixin(models.Model):
     @property
     def ct(self):
         return self.get_ct()
+
+    class Meta:
+        abstract = True
+
+
+class CTUIDModelMixin(UUIDModelMixin, CTModelMixin, models.Model):
+    """CTModelMixin
+    An abstract base class model that provides content-type & ID related methods / attributes.
+    """
+
+    @property
+    def uid(self):
+        if not self.uuid:
+            return None
+        return str(self.uuid)[:8].upper()
+
+    def __repr__(self):
+        return f"{self.ct}:{self.uuid}"
+
+    def __str__(self):
+        return f"{self.ct}:{self.uid}"
 
     class Meta:
         abstract = True

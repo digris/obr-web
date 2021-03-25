@@ -21,7 +21,7 @@ RUN yarn build
 #######################################################################
 # python base image
 #######################################################################
-FROM python:3.8-slim as python-base
+FROM python:3.9-slim as python-base
 
 WORKDIR /root/
 

@@ -3,17 +3,18 @@ import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-print("P", PROJECT_ROOT)
 APP_ROOT = os.path.join(PROJECT_ROOT, "core")
 
 sys.path.insert(0, APP_ROOT)
 
-SECRET_KEY = "-$0%!u7!*wouhr*-ofna8-zmswjp8l%q1(%1l9-n=&7z36@352"
 
 DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
+SECRET_KEY = "-$0%!u7!*wouhr*-ofna8-zmswjp8l%q1(%1l9-n=&7z36@352"
+SESSION_COOKIE_NAME = "sid"
 
+SITE_URL = ""
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -23,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "storages",
+    "account",
     "catalog",
 ]
 
@@ -33,6 +35,8 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    # "request_logging.middleware.LoggingMiddleware",
+    # "social_django.middleware.SocialAuthExceptionMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -67,22 +71,41 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+##################################################################
+# authentication
+##################################################################
+AUTH_USER_MODEL = "account.User"
+LOGIN_REDIRECT_URL = "/"
+
+AUTHENTICATION_BACKENDS = [
+    # "axes.backends.AxesBackend",
+    # "social_core.backends.google.GoogleOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
 ]
+
+# social auth
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_PIPELINE = (
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.user.get_username",
+    "social_core.pipeline.social_auth.associate_by_email",
+    "social_core.pipeline.user.create_user",
+    "account.social_auth_pipeline.user_groups.add_user_to_team",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+)
+
+SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 
 
 # Internationalization
@@ -90,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Zurich"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -100,21 +123,44 @@ USE_TZ = True
 # static files
 ##################################################################
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+
+# `build` -> webpack output
+STATICFILES_DIRS = [os.path.join(PROJECT_ROOT, "build")]
+
+# 'dist' -> ./manage.py collectstatic output
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "dist")
 
-print("STATIC_ROOT", STATIC_ROOT)
-
+# simply served via `django.views.static.serve` - then cached on CDN / LB
 STATIC_URL = "/static/"
-
-STATICFILES_DIRS = [os.path.join(PROJECT_ROOT, "build")]
 
 STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 
+
+##################################################################
+# security & co
+##################################################################
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
+
+##################################################################
+# file upload
+##################################################################
+# avoid in-memory files (as we need fs access)
+FILE_UPLOAD_HANDLERS = [
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
+
+# MAX_UPLOAD_SIZE = 256MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456
+
+
+##################################################################
+# logging
+##################################################################
 LOGGING_ = {
     "version": 1,
     "disable_existing_loggers": False,

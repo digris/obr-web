@@ -10,7 +10,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 Django = "^3.1"
 gunicorn = "^20.0.4"
 psycopg2-binary = "^2.8.6"
@@ -20,6 +20,18 @@ django-environ = "^0.4.5"
 django-storages = {extras = ["google"], version = "^1.11.1"}
 
 [tool.poetry.dev-dependencies]
+django-debug-toolbar = "*"
+django-extensions = "*"
+frosted = "*"
+pre-commit = "*"
+prospector = "*"
+pygtail = "*"
+pylint = "*"
+pylint-django = "*"
+werkzeug = "*"
+pytest-django = "*"
+pytest-cov = "*"
+django-querycount = "*"
 
 [build-system]
 requires = ["poetry>=0.12"]

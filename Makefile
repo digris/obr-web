@@ -17,6 +17,9 @@ fix:
 	yarn fix
 	black ./core/
 
+test:
+	pytest --ds core.settings.test --cov=core
+
 build-docker:
 	docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
@@ -25,7 +28,7 @@ deploy:
 
 update-settings:
 	gcloud --project $(GCP_PROJECT) \
-	  secrets versions add ch-openbroadcast-settings --data-file .env
+	  secrets versions add ch-openbroadcast-settings --data-file .env.live
 
 translations:
 	poetry run ./manage.py makemessages \

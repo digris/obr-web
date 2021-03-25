@@ -13,6 +13,7 @@ gcp/terraform
 .env
 .env.local
 .env.*.local
+.env.live
 
 # Log files
 npm-debug.log*

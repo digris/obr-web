@@ -4,6 +4,11 @@ from django.urls import include, path, re_path
 from django.conf import settings
 from django.views.static import serve
 
+SITE_URL = getattr(settings, "SITE_URL")
+
+admin.autodiscover()
+admin.site.site_header = "OBR - {}".format(SITE_URL)
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("catalog/", include("catalog.urls")),

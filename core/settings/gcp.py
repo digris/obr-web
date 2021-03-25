@@ -3,8 +3,9 @@ import environ
 import google.auth
 from google.cloud import secretmanager
 
-from .base import *
+from .base import *  # NOQA
 
+SITE_URL = "https://next.openbroadcast.ch"
 SETTINGS_NAME = "ch-openbroadcast-settings"
 
 _, project = google.auth.default()
@@ -22,6 +23,9 @@ SECRET_KEY = env("SECRET_KEY")
 ALLOWED_HOSTS = ["*"]
 DEBUG = env("DEBUG")
 DATABASES = {"default": env.db()}
+
+SECURE_SSL_REDIRECT = True
+
 
 # storage via django-storages[google]
 GS_BUCKET_NAME = env("GS_BUCKET_NAME")

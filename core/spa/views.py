@@ -6,10 +6,12 @@ from catalog.utils import get_signed_cookie
 
 class SPAIndexView(TemplateView):
     template_name = "spa/index.html"
+    path = ""
 
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
-
+        path = kwargs.get("path", "")
+        print("path", path)
         # set_cookie(key, value='', max_age=None, expires=None, path='/', domain=None, secure=None, httponly=False, samesite=None) :
 
         signed_cookie = get_signed_cookie()

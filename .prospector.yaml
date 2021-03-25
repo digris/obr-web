@@ -1,0 +1,41 @@
+#output-format: json
+
+strictness: medium
+test-warnings: true
+doc-warnings: false
+
+uses:
+    - django
+
+ignore-paths:
+  - app/settings/
+  - app/dev/
+
+ignore-patterns:
+  - (^|/)migrations?(/|$)
+
+dodgy:
+  run: true
+
+profile-validator:
+  run: true
+
+frosted:
+  run: false
+
+pyflakes:
+  run: true
+
+pylint:
+  run: false
+  disable:
+    - line-too-long # handled by Black
+    - logging-format-interpolation
+    - logging-fstring-interpolation
+    - relative-beyond-top-level # TODO: check
+
+pep8:
+  run: false
+
+mccabe:
+  run: false
