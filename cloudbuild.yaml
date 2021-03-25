@@ -1,5 +1,4 @@
 steps:
-# build the container image with kaniko
 - name: 'gcr.io/kaniko-project/executor:latest'
   args:
   - --dockerfile=docker/Dockerfile
@@ -12,7 +11,6 @@ steps:
     '-s', 'open-broadcast:europe-west6:open-broadcast-db',
     '--', 'python', 'manage.py', 'migrate'
   ]
-# deploy the container to cloud run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args: [
