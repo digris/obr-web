@@ -5,6 +5,8 @@ playground
 *.egg-info
 db.sqlite3
 __pycache__
+.coverage
+.python-version
 
 core/settings/local_development.py
 gcp/terraform
