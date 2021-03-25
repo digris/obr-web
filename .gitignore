@@ -4,6 +4,7 @@ playground
 /dist
 *.egg-info
 db.sqlite3
+__pycache__
 
 core/settings/local_development.py
 gcp/terraform
