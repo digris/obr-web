@@ -1,0 +1,18 @@
+version: "3"
+services:
+  core:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "9999:8000"
+    volumes:
+      - data:/data
+    networks:
+      - network
+
+volumes:
+  data:
+
+networks:
+  network:

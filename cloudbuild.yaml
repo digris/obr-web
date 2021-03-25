@@ -1,0 +1,29 @@
+steps:
+# build the container image with kaniko
+- name: 'gcr.io/kaniko-project/executor:latest'
+  args:
+  - --dockerfile=docker/Dockerfile
+  - --destination=gcr.io/open-broadcast/ch-openbroadcast-next-core
+  - --cache=true
+  - --cache-ttl=72h
+- name: 'gcr.io/google-appengine/exec-wrapper'
+  args: [
+    '-i', 'gcr.io/open-broadcast/ch-openbroadcast-next-core',
+    '-s', 'open-broadcast:europe-west6:open-broadcast-db',
+    '--', 'python', 'manage.py', 'migrate'
+  ]
+# deploy the container to cloud run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: [
+    'run',
+    'deploy',
+    'ch-openbroadcast-next-core',
+    '--image', 'gcr.io/open-broadcast/ch-openbroadcast-next-core',
+    '--region', 'europe-west6',
+    '--platform', 'managed',
+    '--max-instances', '50',
+    '--clear-vpc-connector',
+    '--add-cloudsql-instances', 'open-broadcast:europe-west6:open-broadcast-db',
+    '--allow-unauthenticated'
+  ]

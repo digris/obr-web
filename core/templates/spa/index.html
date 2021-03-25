@@ -1,0 +1,20 @@
+{% load i18n static %}<!doctype html>
+<html class="no-js" lang="{{ LANGUAGE }}">
+<head>
+  <title>APP ***</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="{% static 'app.css' %}" rel="preload" as="style">
+  <link href="{% static 'app.js' %}" rel="preload" as="script">
+  <link href="{% static 'chunk-vendors.js' %}" rel="preload" as="script">
+  <link href="{% static 'app.css' %}" rel="stylesheet">
+</head>
+<body id="body">
+  <div id="app">
+    <h1>APP ***</h1>
+  </div>
+  <script src="{% static 'chunk-vendors.js' %}"></script>
+  <script src="{% static 'app.js' %}"></script>
+</body>
+</html>

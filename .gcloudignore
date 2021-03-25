@@ -1,0 +1,7 @@
+.gcloudignore
+.git
+.gitignore
+gcp
+#!include:.gitignore
+
+/functions
