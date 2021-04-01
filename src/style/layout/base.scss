@@ -1,0 +1,34 @@
+html,
+body {
+  min-height: 100%;
+  background-color: rgb(var(--c-white));
+}
+
+body > #app {
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  > .content {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
+}
+
+body {
+  color: rgb(var(--c-live-fg));
+  background: rgb(var(--c-live-bg));
+  transition: background 3000ms;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  nav {
+    > ul {
+      list-style: none;
+    }
+  }
+}

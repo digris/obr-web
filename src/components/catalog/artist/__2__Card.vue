@@ -1,0 +1,65 @@
+<script>
+import LazyImage from '@/components/UI/LazyImage.vue';
+
+export default {
+  props: {
+    artist: {
+      type: Object,
+      required: true,
+    },
+  },
+  components: {
+    LazyImage,
+  },
+  computed: {
+    link() {
+      // return '/discover/artists/asd/';
+      return `/discover/artists/${this.artist.uid}/`;
+    },
+    imageSrc() {
+      return `https://picsum.photos/seed/${this.artist.uid}/200`;
+    },
+  },
+};
+</script>
+<template>
+  <div class="card card--artist">
+    <div class="visual">
+      <div class="visual__image">
+        <LazyImage
+          :src="imageSrc"
+        />
+      </div>
+    </div>
+    <div class="meta">
+      <div class="title">
+        <router-link :to="link">{{ artist.name }}</router-link>
+      </div>
+      <div class="subtitle">Sub Title</div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.card {
+  .visual {
+    background: rgba(var(--c-white), .25);
+    &__image {
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%;
+      img {
+        position: absolute;
+        width: 100%;
+      }
+    }
+  }
+  .meta {
+    padding: 0.75rem 0 0 0;
+    line-height: 1.5rem;
+    .title {
+      font-weight: 600;
+    }
+  }
+}
+</style>

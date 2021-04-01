@@ -1,0 +1,11 @@
+@mixin default {
+  margin: 1rem 0 2rem;
+  .menu {
+    > a {
+      margin-right: 1rem;
+      &.router-link-exact-active {
+        text-decoration: underline;
+      }
+    }
+  }
+}

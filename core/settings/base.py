@@ -24,6 +24,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "storages",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "drf_yasg",
+    "base",
+    "api_extra",
     "account",
     "catalog",
 ]
@@ -55,6 +60,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django_settings_export.settings_export",
             ],
         },
     },
@@ -157,6 +163,65 @@ FILE_UPLOAD_HANDLERS = [
 # MAX_UPLOAD_SIZE = 256MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456
 
+
+##################################################################
+# API
+##################################################################
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+}
+
+SWAGGER_SETTINGS = {
+    "DEFAULT_AUTO_SCHEMA_CLASS": "api_extra.schema.AutoSchema",
+    "SECURITY_DEFINITIONS": {
+        "Token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "`Authorization: Token <api_token>`",
+        },
+    },
+}
+
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_URLS_REGEX = r"^/api/.*$"
+# CORS_ALLOW_METHODS = [
+#     "OPTIONS",
+#     "GET",
+# ]
+
+
+##################################################################
+# services
+##################################################################
+IMAGE_RESIZER_URL = ""
+GOOGLE_TAG_ID = ""
+STREAM_ENDPOINTS = {
+    "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",
+    "hls": "",
+    "icecast": "",
+}
+MEDIA_ENDPOINTS = {
+    "dash": "https://media.next.openbroadcast.ch/encoded/",
+    "hls": "",
+}
+
+
+##################################################################
+# exported settings
+##################################################################
+SETTINGS_EXPORT = [
+    "DEBUG",
+    "SITE_URL",
+    "IMAGE_RESIZER_URL",
+    "STREAM_ENDPOINTS",
+    "MEDIA_ENDPOINTS",
+]
 
 ##################################################################
 # logging

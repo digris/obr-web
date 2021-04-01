@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+$breakpoints: (
+  small: 320px,
+  medium: 720px,
+  large: 1024px,
+  // max container width
+  max: 1400px,
+);
+
+$container-width: 1000px;
+
+$base-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Oxygen, Cantarell, sans-serif;

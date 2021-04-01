@@ -5,7 +5,10 @@ const DEVSERVER_HEADER = 'X-WEBPACK-DEVSERVER';
 
 module.exports = {
   outputDir: './build/',
-  publicPath: 'http://local.next.openbroadcast.ch:3000/static/',
+  // publicPath: 'http://local.next.openbroadcast.ch:3000/static/',
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/'
+    : 'http://mbp15.local:3000/static/',
   chainWebpack: (config) => {
     config.module
       .rule('images')
@@ -22,11 +25,10 @@ module.exports = {
     output: {
       filename: '[name].js',
       chunkFilename: '[name].js',
-      // publicPath: 'http://local.next.openbroadcast.ch:3000/static/',
     },
     performance: {
-      maxEntrypointSize: 512000,
-      maxAssetSize: 512000,
+      maxEntrypointSize: 1000000,
+      maxAssetSize: 1000000,
     },
   },
   devServer: {
@@ -34,7 +36,7 @@ module.exports = {
     inline: true,
     host: '0.0.0.0',
     port: 3000,
-    // public: 'MBP15.local:3000',
+    public: 'MBP15.local:3000',
     // public: 'local.next.openbroadcast.ch:3000',
     disableHostCheck: true,
     headers: {

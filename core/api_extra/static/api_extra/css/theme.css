@@ -1,0 +1,63 @@
+body {
+  background: none;
+}
+
+pre,
+button,
+.btn,
+.breadcrumb {
+  border-radius: 0;
+}
+
+
+body a {
+  color: #333;
+}
+
+body a:hover {
+  color: #222;
+}
+
+.navbar {
+  border-top: 0;
+}
+
+.prettyprint,
+.breadcrumb {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.prettyprint .str {
+  color: #333;
+  border-color: #333;
+}
+
+.prettyprint .lit {
+  color: #999;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #333;
+  border-color: #fff;
+  padding: 3px 12px;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #000;
+  border-color: #fff;
+}
+
+
+.h1,
+h1 {
+  font-size: 24px;
+}
+
+.response-info {
+  padding-top: 10px;
+  border-top: 1px solid #999;
+}

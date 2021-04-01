@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+@import "variables";
+@import "colors";
+@import "responsive";
+
+:root {
+  --grid-gap: 1rem;
+  --font-family: #{$base-font-family};
+  --container-width: #{$container-width};
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+:root {
+  @each $name, $color in $color-palette {
+    --c-#{"" + $name}: #{$color};
+  }
+}
+
+@include bp-medium-up {
+  :root {
+    --grid-gap: 1.5rem;
+  }
+}
+
+@include bp-large-up {
+  :root {
+    --grid-gap: 2rem;
+  }
+}

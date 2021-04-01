@@ -6,42 +6,22 @@ const state = {
   bufferInfo: {},
   currentState: null,
   playhead: {},
+  playerState: null,
 };
 
 const getters = {
-  configuration: (state) => state.configuration,
-  bufferInfo: (state) => state.bufferInfo,
-  currentState: (state) => state.currentState,
-  playhead: (state) => state.playhead,
+  playerState: (state) => state.playerState,
 };
 
 const mutations = {
-  SET_CONFIGURATION: (state, { configuration }) => {
-    state.configuration = configuration;
-  },
-  SET_BUFFER_INFO: (state, { bufferInfo }) => {
-    state.bufferInfo = bufferInfo;
-    if (bufferInfo.stateHistory.length) {
-      // eslint-disable-next-line prefer-destructuring
-      [state.currentState] = bufferInfo.stateHistory.slice(-1);
-    } else {
-      state.currentState = null;
-    }
-  },
-  SET_PLAYHEAD: (state, { playhead }) => {
-    state.playhead = playhead;
+  SET_PLAYER_STATE: (state, { playerState }) => {
+    state.playerState = playerState;
   },
 };
 
 const actions = {
-  updateConfiguration: async (context, { configuration }) => {
-    context.commit('SET_CONFIGURATION', { configuration });
-  },
-  updatePlayer: async (context, { player }) => {
-    const playhead = player.getPlayheadTimeAsDate();
-    const bufferInfo = player.getStats();
-    context.commit('SET_BUFFER_INFO', { bufferInfo });
-    context.commit('SET_PLAYHEAD', { playhead });
+  updatePlayerState: async (context, { playerState }) => {
+    context.commit('SET_PLAYER_STATE', { playerState });
   },
 };
 

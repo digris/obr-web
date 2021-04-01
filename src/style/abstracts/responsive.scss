@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+@import "variables";
+
+@mixin bp-small-only {
+  @media (max-width: #{map-get($breakpoints, medium)}) {
+    @content;
+  }
+}
+
+@mixin bp-medium-up {
+  @media (min-width: #{map-get($breakpoints, medium)}) {
+    @content;
+  }
+}
+
+@mixin bp-large-up {
+  @media (min-width: #{map-get($breakpoints, large)}) {
+    @content;
+  }
+}

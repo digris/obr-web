@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+body {
+  font-family: var(--font-family);
+  font-feature-settings: 'kern' 1;
+  font-kerning: normal;
+
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}

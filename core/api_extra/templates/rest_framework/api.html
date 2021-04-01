@@ -1,0 +1,10 @@
+{% extends "rest_framework/base.html" %}
+{% load static %}
+
+{% block title %}Adcast Core{% endblock %}
+{% block branding %}{% endblock %}
+{% block bootstrap_navbar_variant %}navbar-default{% endblock %}
+{% block style %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static 'api_extra/css/theme.css' %}"/>
+{% endblock %}

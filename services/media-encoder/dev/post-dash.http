@@ -1,0 +1,6 @@
+POST https://media-encoder-kcek2ea7xq-oa.a.run.app/encode-dash
+Content-Type: application/json
+
+{
+    "path": "F001/master.flac"
+}

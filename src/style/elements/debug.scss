@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+pre {
+  &.debug {
+    font-size: 10px;
+    line-height: 16px;
+    padding: 0.25rem;
+    overflow: auto;
+    color: white;
+    background: #444;
+  }
+  &._debug {
+    display: none;
+  }
+}

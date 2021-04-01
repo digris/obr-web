@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+pre {
+  &.code {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    overflow: scroll;
+    color: white;
+    background: #444;
+  }
+}

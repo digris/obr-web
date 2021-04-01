@@ -10,6 +10,7 @@ admin.autodiscover()
 admin.site.site_header = "OBR - {}".format(SITE_URL)
 
 urlpatterns = [
+    path("api/v1/", include("core.urls_api", namespace="api")),
     path("admin/", admin.site.urls),
     path("catalog/", include("catalog.urls")),
     path("", include("spa.urls")),

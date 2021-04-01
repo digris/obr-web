@@ -1,1 +1,2 @@
-from .media import Media
+from .artist import Artist
+from .media import Media, MediaArtists
