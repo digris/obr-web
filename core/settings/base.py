@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "graphene_django",
+    "django_filters",
     "base",
     "api_extra",
     "account",
@@ -194,6 +196,10 @@ SWAGGER_SETTINGS = {
 #     "OPTIONS",
 #     "GET",
 # ]
+
+GRAPHENE = {
+    "SCHEMA": "core.schema.schema",
+}
 
 
 ##################################################################

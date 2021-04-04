@@ -39,6 +39,30 @@ class UUIDModelMixin(models.Model):
         abstract = True
 
 
+class UIDModelMixin(UUIDModelMixin):
+    """UIDModelMixin
+    An abstract base class model that provides a self-managed "uid" field.
+    Requires UUIDModelMixin.
+    """
+
+    uid = models.CharField(
+        max_length=8,
+        editable=False,
+        unique=True,
+        db_index=True,
+    )
+
+    def get_uid(self):
+        return str(self.uuid)[:8].upper()
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.uid = self.get_uid()
+        super().save(*args, **kwargs)
+
+
 class CTModelMixin(models.Model):
     """CTModelMixin
     An abstract base class model that provides content-type related methods / attributes.
@@ -55,16 +79,16 @@ class CTModelMixin(models.Model):
         abstract = True
 
 
-class CTUIDModelMixin(UUIDModelMixin, CTModelMixin, models.Model):
+class CTUIDModelMixin(UIDModelMixin, CTModelMixin, models.Model):
     """CTModelMixin
     An abstract base class model that provides content-type & ID related methods / attributes.
     """
 
-    @property
-    def uid(self):
-        if not self.uuid:
-            return None
-        return str(self.uuid)[:8].upper()
+    # @property
+    # def uid(self):
+    #     if not self.uuid:
+    #         return None
+    #     return str(self.uuid)[:8].upper()
 
     def __repr__(self):
         return f"{self.ct}:{self.uuid}"

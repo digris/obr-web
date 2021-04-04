@@ -59,6 +59,8 @@ export default {
 
 <style lang="scss" scoped>
 img {
+  min-width: 100%;
+  max-width: 100%;
   filter: blur(0);
   opacity: 1;
   transition: filter 100ms, opacity 100ms;

@@ -7,8 +7,9 @@ import store from '@/store';
 
 const getContrastColor = (color) => {
   const rgb = color.split(',').map((s) => parseInt(s, 10));
-  console.debug('rgb', rgb);
-  return color;
+  const mean = rgb.reduce((s, b) => s + b, 0) / 3;
+  console.debug('rgb', rgb, mean);
+  return (mean > 128) ? '0, 0, 0' : '255, 255, 255';
 };
 
 class UIStateHandler {

@@ -63,7 +63,7 @@ export default {
     >
       <a
         @click="fetchNextPage"
-      >More and more...</a>
+      >Load more...</a>
     </intersect>
   </div>
 </template>

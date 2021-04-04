@@ -9,9 +9,12 @@
     "fix": "vue-cli-service lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.13",
     "axios": "^0.21.1",
     "axios-case-converter": "^0.7.0",
     "core-js": "^3.6.5",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.11.0",
     "mitt": "^2.1.0",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",

@@ -7,9 +7,21 @@
     </div>
     <div class="list-menu">
       <div class="menu menu--primary">
-        <router-link to="/discover/">Home</router-link>
-        <router-link to="/discover/artists/">Artists</router-link>
-        <router-link to="/discover/tracks/">Tracks</router-link>
+        <router-link
+          :to="{ name: 'discover' }"
+        >
+          Home
+        </router-link>
+        <router-link
+          :to="{ name: 'discoverArtists' }"
+        >
+          Artists
+        </router-link>
+        <router-link
+          :to="{ name: 'discoverMedia' }"
+        >
+          Tracks
+        </router-link>
       </div>
     </div>
     <div class="list-body">
@@ -29,6 +41,7 @@
 @use "@/style/elements/list-menu";
 .discover {
   @include container.default;
+  margin-bottom: 12rem;
 }
 .list-header {
   @include list-header.default;

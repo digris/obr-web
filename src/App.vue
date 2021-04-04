@@ -76,7 +76,7 @@ export default {
     padding: 0 1rem;
   }
   .menu {
-    color: #000;
+    color: inherit;
     > a {
       display: flex;
       align-items: center;

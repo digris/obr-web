@@ -49,7 +49,6 @@ export default {
         warn('[VueIntersect] You must have one child inside a <intersect> component.');
         return;
       }
-
       this.observer.observe(this.$el);
     });
   },
@@ -58,7 +57,14 @@ export default {
     this.observer.disconnect();
   },
   render() {
-    // eslint-disable-next-line prefer-destructuring
-    return this.$slots.default() ? this.$slots.default()[0] : null;
+    if (!this.$slots.default().length) {
+      return null;
+    }
+    if (this.$slots.default().length === 1) {
+      return this.$slots.default()[0];
+    }
+    return this.$slots.default()[1];
+    // // eslint-disable-next-line prefer-destructuring
+    // return this.$slots.default() ? this.$slots.default()[0] : null;
   },
 };

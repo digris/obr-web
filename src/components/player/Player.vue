@@ -101,7 +101,7 @@ export default {
   <div class="player-debug">
     <pre
       v-text="playerState"
-      class="debug"
+      class="_debug"
     />
   </div>
 </template>

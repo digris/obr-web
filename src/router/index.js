@@ -4,17 +4,24 @@ import OnAir from '../views/OnAir.vue';
 const routes = [
   {
     path: '/',
-    name: 'OnAir',
+    name: 'onAir',
     component: OnAir,
   },
   {
     path: '/discover/',
-    name: 'Discover',
-    component: () => import(/* webpackChunkName: "discover" */ '@/views/Discover.vue'),
+    name: 'discover',
+    component: () => import(
+      /* webpackChunkName: "discover" */
+      '@/views/Discover.vue'
+    ),
     children: [
       {
         path: 'artists/',
-        component: () => import(/* webpackChunkName: "catalog-artists-list" */ '@/components/catalog/artist/List.vue'),
+        name: 'discoverArtists',
+        component: () => import(
+          /* webpackChunkName: "catalog-artists-list" */
+          '@/components/catalog/artist/List.vue'
+        ),
       },
       // {
       //   path: 'artists/:uid/',
@@ -25,13 +32,17 @@ const routes = [
       // },
       {
         path: 'tracks/',
-        component: () => import(/* webpackChunkName: "catalog-media-list" */ '@/components/catalog/media/List.vue'),
+        name: 'discoverMedia',
+        component: () => import(
+          /* webpackChunkName: "catalog-media-list" */
+          '@/components/catalog/media/List.vue'
+        ),
       },
     ],
   },
   {
     path: '/discover/artists/:uid/',
-    name: 'Artist Detail',
+    name: 'artistDetail',
     component: () => import(
       /* webpackChunkName: "catalog-artist-detail" */
       '@/views/catalog/ArtistDetail.vue'
@@ -39,8 +50,11 @@ const routes = [
   },
   {
     path: '/collection/',
-    name: 'My Likes',
-    component: () => import(/* webpackChunkName: "collection" */ '@/views/Discover.vue'),
+    name: 'collection',
+    component: () => import(
+      /* webpackChunkName: "collection" */
+      '@/views/Discover.vue'
+    ),
   },
   {
     path: '/collection/artists/:uid/',
@@ -53,11 +67,17 @@ const routes = [
   {
     path: '/account/',
     name: 'Account',
-    component: () => import(/* webpackChunkName: "account" */ '@/views/Account.vue'),
+    component: () => import(
+      /* webpackChunkName: "account" */
+      '@/views/Account.vue'
+    ),
     children: [
       {
         path: 'settings/',
-        component: () => import(/* webpackChunkName: "account-settings" */ '@/components/account/Settings.vue'),
+        component: () => import(
+          /* webpackChunkName: "account-settings" */
+          '@/components/account/Settings.vue'
+        ),
       },
     ],
   },

@@ -5,23 +5,20 @@ body {
 }
 
 body > #app {
-
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
   > .content {
     position: relative;
     z-index: 1;
     flex: 1;
   }
-
 }
 
 body {
   color: rgb(var(--c-live-fg));
   background: rgb(var(--c-live-bg));
-  transition: background 3000ms;
+  transition: background 3000ms, color 200ms 1400ms;
   a {
     color: inherit;
     text-decoration: none;
