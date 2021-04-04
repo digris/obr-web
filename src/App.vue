@@ -6,7 +6,6 @@ import ColorChooser from '@/components/colors/ColorChooser.vue';
 export default {
   components: {
     Player,
-    // debug
     ColorChooser,
   },
   created() {
