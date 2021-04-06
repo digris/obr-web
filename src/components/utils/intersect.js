@@ -2,9 +2,6 @@
 
 const warn = (msg) => {
   console.warn(msg);
-  // if (!Vue.config.silent) {
-  //   console.warn(msg);
-  // }
 };
 
 export default {

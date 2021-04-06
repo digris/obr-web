@@ -5,7 +5,7 @@ import catalog from './catalog';
 import player from './player';
 
 export default createStore({
-  namespaced: true,
+  // namespaced: true,
   modules: {
     ui,
     catalog,

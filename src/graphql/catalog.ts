@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import apolloClient from './client';
 
-async function getMedia({ limit, offset }) {
+async function getMedia(limit: number, offset: number) {
   const query = gql`
   {
     media(first: ${limit} offset: ${offset}) {
@@ -18,7 +18,7 @@ async function getMedia({ limit, offset }) {
     }
   }`;
   const result = await apolloClient.query({ query });
-  const media = result.data.media.edges.map((n) => n.node);
+  const media = result.data.media.edges.map((n: any) => n.node);
   const response = {
     data: {
       results: media,

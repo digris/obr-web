@@ -10,6 +10,7 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 
+// @ts-ignore
 window.apolloClient = apolloClient;
 
 createApp(App)

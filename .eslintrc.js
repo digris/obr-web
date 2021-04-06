@@ -1,17 +1,27 @@
+/*
+ check to use rules from here:
+ https://gist.github.com/nkbt/9efd4facb391edbf8048
+ */
 module.exports = {
   root: true,
+
   env: {
     node: true,
+    es6: true,
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    '@vue/airbnb',
-  ],
+
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@typescript-eslint/parser',
   },
+
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
+
+  extends: [
+    'plugin:vue/vue3-essential',
+    '@vue/airbnb',
+    '@vue/typescript',
+  ],
 };

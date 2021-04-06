@@ -10,16 +10,19 @@ const state = {
 };
 
 const getters = {
+  // @ts-ignore
   playerState: (state) => state.playerState,
 };
 
 const mutations = {
+  // @ts-ignore
   SET_PLAYER_STATE: (state, { playerState }) => {
     state.playerState = playerState;
   },
 };
 
 const actions = {
+  // @ts-ignore
   updatePlayerState: async (context, { playerState }) => {
     context.commit('SET_PLAYER_STATE', { playerState });
   },

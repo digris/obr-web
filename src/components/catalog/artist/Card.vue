@@ -46,7 +46,7 @@ export default {
       <div
         class="subtitle"
       >
-        Sub Title
+        ( Sub Title )
       </div>
     </div>
   </div>

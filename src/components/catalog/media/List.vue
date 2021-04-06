@@ -1,6 +1,7 @@
 <script>
 import { ref, onMounted } from 'vue';
-import Intersect from '@/components/utils/intersect';
+// eslint-disable-next-line import/extensions
+import Intersect from '@/components/utils/intersect.js';
 // import { useRoute } from 'vue-router';
 // import { useStore } from 'vuex';
 
@@ -21,17 +22,13 @@ export default {
   setup() {
     // const store = useStore();
     const isLoaded = ref(false);
-    // const mediaList = ref([
-    //   { name: 'the name 1' },
-    //   { name: 'the name 2' },
-    // ]);
     const limit = 24;
     const lastOffset = ref(0);
     const mediaList = ref([]);
     const hasNext = ref(false);
     // eslint-disable-next-line no-shadow
     const fetchMedia = async (limit = 8, offset = 0) => {
-      const { results } = await getMedia({ limit, offset });
+      const { results } = await getMedia(limit, offset);
       hasNext.value = true;
       mediaList.value.push(...results);
     };

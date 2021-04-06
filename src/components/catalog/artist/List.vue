@@ -1,6 +1,7 @@
 <script>
 import { getArtists } from '@/api/catalog';
-import Intersect from '@/components/utils/intersect';
+// eslint-disable-next-line import/extensions
+import Intersect from '@/components/utils/intersect.js';
 import ArtistCard from './Card.vue';
 
 export default {
@@ -17,11 +18,6 @@ export default {
       lastOffset: 0,
     };
   },
-  // computed: {
-  //   artists() {
-  //     return this.$store.getters['catalog/artists'];
-  //   },
-  // },
   methods: {
     // fetchArtists(query) {
     //   this.$store.dispatch('catalog/loadArtists', { query });

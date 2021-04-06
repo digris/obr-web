@@ -1,3 +1,4 @@
+// @ts-ignore
 import shaka from 'shaka-player';
 import eventBus from '@/eventBus';
 import store from '@/store';
@@ -9,7 +10,7 @@ const SHAKA_CONFIG = {
     },
   },
   abr: {
-    switchInterval: 1,
+    switchInterval: 2,
     defaultBandwidthEstimate: (1000000), // 10 Mbit/s
     bandwidthDowngradeTarget: 0.4,
     bandwidthUpgradeTarget: 0.2,
@@ -26,10 +27,11 @@ const POLL_INTERVAL = 200;
 const PROTECTED_MEDIA = 'https://media.next.openbroadcast.ch/';
 
 // eslint-disable-next-line no-unused-vars
+// @ts-ignore
 const requestFilter = (type, request) => {
   // we need a dynamic way to switch on / off
   // `allowCrossSiteCredentials` (signed cookies for on-demand content via GCP / CDN)
-  if (request.uris.findIndex((uri) => uri.startsWith(PROTECTED_MEDIA)) === 0) {
+  if (request.uris.findIndex((uri: string) => uri.startsWith(PROTECTED_MEDIA)) === 0) {
     /* eslint-disable-next-line no-param-reassign */
     request.allowCrossSiteCredentials = true;
   }
@@ -63,7 +65,9 @@ class AudioPlayer {
     this.audio = audio;
     this.player = player;
     // add to window for debug access
+    // @ts-ignore
     window.audio = audio;
+    // @ts-ignore
     window.player = player;
 
     // TODO: does not need to run when player is idle..
@@ -141,24 +145,26 @@ class AudioPlayer {
     if (JSON.stringify(playerState) === JSON.stringify(this.playerState)) {
       return;
     }
+    // @ts-ignore
     this.playerState = playerState;
     store.dispatch('player/updatePlayerState', { playerState });
   }
 
-  play(url, startTime = 0) {
+  play(url: string, startTime: number = 0) {
     // load url to shaka player, then trigger 'play' on audio element
     this.player.load(url, startTime).then(() => {
       this.audio.play();
-    }).catch((e, a, b, c) => {
-      console.error(e, a, b, c);
+    }).catch((e: Error) => {
+      console.error(e);
     });
   }
 
-  seek(relPosition) {
+  seek(relPosition: number) {
     if (!(this.playerState && this.playerState.duration)) {
       console.warn('unable to seek');
       return;
     }
+    // @ts-ignore
     const absPosition = relPosition * this.playerState.duration;
     this.audio.currentTime = absPosition;
   }
