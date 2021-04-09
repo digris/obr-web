@@ -1,6 +1,7 @@
 import { APIClient } from '@/api/Client';
 import settings from '@/settings';
 
+const PLAYLIST_ENDPOINT = `${settings.API_BASE_URL}catalog/playlists/`;
 const ARTIST_ENDPOINT = `${settings.API_BASE_URL}catalog/artists/`;
 const MEDIA_ENDPOINT = `${settings.API_BASE_URL}catalog/media/`;
 
@@ -28,4 +29,23 @@ async function getMedia(limit: number, offset: number) {
   return response.data;
 }
 
-export { getArtists, getArtist, getMedia };
+// const check = () => 'checked.';
+
+async function getWTFPlaylists(limit: number, offset: number) {
+  const url = PLAYLIST_ENDPOINT;
+  const params = {
+    limit, offset,
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
+
+async function getPlaylist(uid: string) {
+  const url = `${PLAYLIST_ENDPOINT}${uid}/`;
+  const response = await APIClient.get(url);
+  return response.data;
+}
+
+export {
+  getArtists, getArtist, getMedia, getWTFPlaylists, getPlaylist,
+};

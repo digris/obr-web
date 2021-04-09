@@ -1,0 +1,3 @@
+.gcloudignore
+cmd/
+server

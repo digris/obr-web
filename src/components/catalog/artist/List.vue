@@ -1,19 +1,19 @@
 <script>
 import { getArtists } from '@/api/catalog';
-// eslint-disable-next-line import/extensions
-import Intersect from '@/components/utils/intersect.js';
+
+import LoadingMore from '@/components/UI/LoadingMore.vue';
 import ArtistCard from './Card.vue';
 
 export default {
   components: {
-    Intersect,
+    LoadingMore,
     ArtistCard,
   },
   data() {
     return {
       artists: [],
       count: 0,
-      limit: 24,
+      limit: 16,
       hasNext: false,
       lastOffset: 0,
     };
@@ -23,7 +23,7 @@ export default {
     //   this.$store.dispatch('catalog/loadArtists', { query });
     // },
     async fetchArtists(limit = 8, offset = 0) {
-      const { count, next, results } = await getArtists({ limit, offset });
+      const { count, next, results } = await getArtists(limit, offset);
       this.count = count;
       this.hasNext = !!next;
       this.artists.push(...results);
@@ -53,14 +53,11 @@ export default {
         :artist="artist"
       />
     </div>
-    <intersect
+    <LoadingMore
       v-if="hasNext"
-      @enter="onEnter"
-    >
-      <a
-        @click="fetchNextPage"
-      >Load more...</a>
-    </intersect>
+      :has-next="hasNext"
+      @on-enter="fetchNextPage"
+    />
   </div>
 </template>
 

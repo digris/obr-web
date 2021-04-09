@@ -1,16 +1,13 @@
 <script>
 import { ref, onMounted } from 'vue';
-// eslint-disable-next-line import/extensions
-import Intersect from '@/components/utils/intersect.js';
-// import { useRoute } from 'vue-router';
-// import { useStore } from 'vuex';
 
+import LoadingMore from '@/components/UI/LoadingMore.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
-import { getMedia } from '@/graphql/catalog';
+import { getMedia } from '@/api/catalog';
 
 export default {
   components: {
-    Intersect,
+    LoadingMore,
     MediaRow,
   },
   props: {
@@ -54,7 +51,7 @@ export default {
 
 <template>
   <pre
-    class="debug"
+    class="_debug"
     v-text="filter"
   />
   <div class="media-list">
@@ -65,11 +62,10 @@ export default {
         :media="media"
       />
     </div>
-    <intersect
+    <LoadingMore
       v-if="hasNext"
-      @enter="fetchNextPage"
-    >
-      <span>Load more...</span>
-    </Intersect>
+      :has-next="hasNext"
+      @on-enter="fetchNextPage"
+    />
   </div>
 </template>

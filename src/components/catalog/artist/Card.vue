@@ -1,5 +1,15 @@
 <script>
+import settings from '@/settings';
 import LazyImage from '@/components/UI/LazyImage.vue';
+
+const { IMAGE_RESIZER_URL } = settings;
+
+const getImageSrc = (obj) => {
+  if (obj.image && obj.image.path) {
+    return `${IMAGE_RESIZER_URL}crop/256x256/${obj.image.path}`;
+  }
+  return `https://picsum.photos/seed/${obj.uid}/200`;
+};
 
 export default {
   components: { LazyImage },
@@ -11,7 +21,8 @@ export default {
   },
   setup(props) {
     const link = `/discover/artists/${props.artist.uid}/`;
-    const imageSrc = `https://picsum.photos/seed/${props.artist.uid}/200`;
+    // const imageSrc = `https://picsum.photos/seed/${props.artist.uid}/200`;
+    const imageSrc = getImageSrc(props.artist);
     return { link, imageSrc };
   },
 };

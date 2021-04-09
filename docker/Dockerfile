@@ -13,7 +13,7 @@ RUN set -ex \
 
 ENV NODE_ENV=production
 
-COPY ["babel.config.js", "vue.config.js", ".eslintrc.js", "./"]
+COPY ["tsconfig.json", "babel.config.js", "vue.config.js", ".eslintrc.js", "./"]
 ADD ./src/ ./src/
 RUN yarn build
 

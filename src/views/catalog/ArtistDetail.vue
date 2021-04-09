@@ -32,13 +32,6 @@ export default {
         }
       },
     );
-    // onBeforeRouteUpdate(async (to, from) => {
-    //   // only fetch the user if the id changed as maybe only the query or the hash changed
-    //   if (to.params.uid !== from.params.uid) {
-    //     await store.dispatch('catalog/loadArtist', to.params.uid);
-    //     // userData.value = await fetchUser(to.params.id)
-    //   }
-    // });
     const dummyQuery = {
       filter: [],
       search: [],

@@ -30,4 +30,7 @@ class UIStateHandler {
 //   console.debug('n / o', n, o);
 // });
 
-export default new UIStateHandler();
+let stateHandler: UIStateHandler;
+stateHandler = new UIStateHandler();
+
+export default stateHandler;

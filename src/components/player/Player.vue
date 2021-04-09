@@ -13,6 +13,9 @@ export default {
     playerState() {
       return this.$store.getters['player/playerState'];
     },
+    currentMedia() {
+      return this.$store.getters['player/currentMedia'];
+    },
     streamUrl() {
       // e.g. https://stream-abr.next.openbroadcast.ch/stream.mpd
       return settings.STREAM_ENDPOINTS.dash;
@@ -25,7 +28,8 @@ export default {
     },
     cssVars() {
       return {
-        '--c-black': this.isLive ? '100, 100, 100' : '0, 0, 0',
+        '--c-bg': this.isLive ? '255, 255, 255' : '0, 0, 0',
+        '--c-fg': this.isLive ? '0, 0, 0' : '255, 255, 255',
       };
     },
   },
@@ -75,7 +79,9 @@ export default {
   >
     <div class="container">
       <div class="left">
-        <CurrentMedia />
+        <CurrentMedia
+          :media="currentMedia"
+        />
       </div>
       <div class="center">
         <Playhead
@@ -118,8 +124,8 @@ $player-height: 60px;
   height: $player-height;
   width: 100%;
   //@include container.default;
-  color: rgba(var(--c-white));
-  background: rgba(var(--c-black));
+  color: rgba(var(--c-fg));
+  background: rgba(var(--c-bg));
   transition: background 500ms;
 }
 

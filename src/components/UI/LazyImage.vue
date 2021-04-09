@@ -11,7 +11,8 @@ export default {
   props: {
     src: {
       type: String,
-      required: true,
+      required: false,
+      default: null,
     },
   },
   setup(props) {
@@ -31,6 +32,9 @@ export default {
     };
 
     const onEnter = () => {
+      if (!props.src) {
+        return;
+      }
       if (isLoading.value || isLoaded.value) {
         return;
       }
@@ -64,6 +68,7 @@ img {
   max-width: 100%;
   filter: blur(0);
   opacity: 1;
+  filter: brightness(0.95) grayscale(0.2);
   transition: filter 100ms, opacity 100ms;
   &.is-pending,
   &.is-loading {

@@ -13,6 +13,11 @@
           Home
         </router-link>
         <router-link
+          :to="{ name: 'discoverPlaylists' }"
+        >
+          Shows
+        </router-link>
+        <router-link
           :to="{ name: 'discoverArtists' }"
         >
           Artists

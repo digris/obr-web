@@ -12,3 +12,7 @@ core/settings/local_development.py
 build/*
 dist/*
 playground
+media
+data
+functions
+gcp
