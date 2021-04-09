@@ -1,13 +1,35 @@
 <script>
+import eventBus from '@/eventBus';
+import { getDashUrl } from '@/player/media';
+
+import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
+import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+
 export default {
   props: {
     media: {
       type: Object,
     },
   },
+  components: {
+    PlayerControlIcon,
+    MediaArtists,
+  },
   computed: {
     duration() {
       return new Date(this.media.duration * 1000).toISOString().substr(11, 8);
+    },
+  },
+  methods: {
+    controls(media) {
+      const url = getDashUrl(media);
+      const event = {
+        do: 'play',
+        url,
+        startTime: 10,
+      };
+      eventBus.emit('player:controls', event);
+      this.$store.dispatch('player/updateCurrentMedia', media);
     },
   },
 };
@@ -16,13 +38,17 @@ export default {
 <template>
   <div class="media-row">
     <div class="play">
-      (P)
+      <PlayerControlIcon
+        @click="controls(media)"
+      />
     </div>
     <div class="name">
       {{ media.name }}
     </div>
     <div class="artist">
-      {{ media.artistDisplay }}
+      <MediaArtists
+        :artists="media.artists"
+      />
     </div>
     <div class="duration">
       {{ duration }}
@@ -38,6 +64,10 @@ export default {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 8fr 8fr 2fr;
-  padding: 0.75rem 0;
+  padding: 0.5rem 0;
+  > div {
+    display: flex;
+    align-items: center;
+  }
 }
 </style>

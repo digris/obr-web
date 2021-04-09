@@ -16,11 +16,8 @@ from rest_framework.compat import coreapi
 from rest_framework.compat import coreschema
 from drf_yasg.utils import swagger_auto_schema
 
-from ..models import Media, Artist
-from .serializers import (
-    MediaSerializer,
-    ArtistSerializer,
-)
+from ..models import Media, Artist, Release, Playlist
+from . import serializers
 
 
 logger = logging.getLogger(__name__)
@@ -36,12 +33,16 @@ class ArtistViewSet(
     """
 
     queryset = Artist.objects.all().order_by("name")
-    serializer_class = ArtistSerializer
+    serializer_class = serializers.ArtistSerializer
     lookup_field = "uid"
 
     def get_queryset(self):
         # time.sleep(2)
-        qs = self.queryset.prefetch_related("media")
+        qs = self.queryset
+        qs = qs.prefetch_related(
+            "media",
+            "images",
+        )
         qs = qs.annotate(num_media=Count("media"))
         return qs
 
@@ -52,7 +53,7 @@ class ArtistViewSet(
         except AssertionError:
             raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
 
-        obj = get_object_or_404(self.get_queryset(), uuid__istartswith=obj_uid)
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
         return obj
 
@@ -77,7 +78,7 @@ class MediaViewSet(
     """
 
     queryset = Media.objects.all().order_by("-created")
-    serializer_class = MediaSerializer
+    serializer_class = serializers.MediaSerializer
     lookup_field = "uid"
     # permission_classes = (IsAuthenticated,)
     # filter_backends = [
@@ -86,7 +87,12 @@ class MediaViewSet(
 
     def get_queryset(self):
 
-        qs = self.queryset.prefetch_related("artists")
+        qs = self.queryset
+        qs = qs.prefetch_related(
+            "artists",
+            "media_artist",
+            "media_artist__artist",
+        )
 
         return qs
 
@@ -98,21 +104,67 @@ class MediaViewSet(
         except AssertionError:
             raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
 
-        obj = get_object_or_404(self.get_queryset(), uuid__istartswith=obj_uid)
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
         return obj
 
-    # @swagger_auto_schema()
-    # @action(url_path="transmissions", detail=True, methods=["get"])
-    # def transmissions(self, request, **kwargs):
-    #     transmissions = self.get_object().get_upcoming_transmissions()
-    #
-    #     logger.debug(
-    #         f"Sending {transmissions.count()} upcoming transmissions to controller {self.get_object().uuid}"
-    #     )
-    #
-    #     serializer = TransmissionSerializer(
-    #         transmissions, many=True, context={"request": request}
-    #     )
-    #
-    #     return Response(serializer.data)
+
+class ReleaseViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
+
+    queryset = Release.objects.all().order_by("-created")
+    serializer_class = serializers.ReleaseSerializer
+    lookup_field = "uid"
+
+    def get_queryset(self):
+        qs = self.queryset.prefetch_related("media")
+        return qs
+
+    def get_object(self):
+
+        try:
+            obj_uid = self.kwargs["uid"]
+            assert len(obj_uid) == 8
+        except AssertionError:
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
+
+        return obj
+
+
+class PlaylistViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
+
+    queryset = Playlist.objects.all().order_by("-created")
+    serializer_class = serializers.PlaylistSerializer
+    lookup_field = "uid"
+
+    def get_queryset(self):
+        qs = self.queryset.prefetch_related(
+            "media",
+            "emissions",
+            "images",
+        )
+        qs = qs.annotate(
+            num_media=Count("media"),
+            num_emissions=Count("emissions"),
+        )
+        return qs
+
+    def get_object(self):
+        try:
+            obj_uid = self.kwargs["uid"]
+            assert len(obj_uid) == 8
+        except AssertionError:
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
+
+        return obj

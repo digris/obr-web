@@ -1,5 +1,25 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+
+export default defineComponent({
+  props: {
+    media: {
+      type: Object,
+      required: true,
+      default: () => null,
+    },
+  },
+  components: {
+    MediaArtists,
+  },
+});
+</script>
+
 <template>
   <div
+    v-if="media"
     class="current-media"
   >
     <div
@@ -12,13 +32,16 @@
     >
       <div
         class="metadata--primary"
+        :title="media.name"
       >
-        Rock The Boat
+        {{ media.name }}
       </div>
       <div
         class="metadata--secondary"
       >
-        Inner Circle
+        <MediaArtists
+          :artists="media.artists"
+        />
       </div>
     </div>
   </div>
@@ -39,8 +62,18 @@
     align-items: flex-start;
     justify-content: center;
     font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &--primary,
     &--secondary {
-      color: rgb(var(--c-gray-500));
+      max-width: 100%;
+      white-space: inherit;
+      overflow: inherit;
+      text-overflow: inherit;
+    }
+    &--secondary {
+      color: rgba(var(--c-fg), 0.5);
     }
   }
 }

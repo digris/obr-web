@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Media, MediaArtists
+from catalog.models import Media
 
 
 class MediaArtistInline(admin.TabularInline):

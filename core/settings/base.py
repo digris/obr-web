@@ -29,10 +29,14 @@ INSTALLED_APPS = [
     "drf_yasg",
     "graphene_django",
     "django_filters",
+    "adminsortable2",
     "base",
     "api_extra",
+    "sync",
     "account",
+    "broadcast",
     "catalog",
+    "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
 ]
 
 MIDDLEWARE = [
@@ -205,7 +209,7 @@ GRAPHENE = {
 ##################################################################
 # services
 ##################################################################
-IMAGE_RESIZER_URL = ""
+IMAGE_RESIZER_URL = "https://next.openbroadcast.ch/images/"
 GOOGLE_TAG_ID = ""
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",

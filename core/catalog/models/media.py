@@ -28,8 +28,9 @@ class Media(TimestampedModelMixin, CTUIDModelMixin, models.Model):
 
     @property
     def artist_display(self):
-        qs = self.media_artist.all()
-        return ", ".join(str(ma.artist) for ma in qs)
+        return "-"
+        # qs = self.media_artist.all()
+        # return ", ".join(str(ma.artist) for ma in qs)
 
 
 class MediaArtists(models.Model):
@@ -58,3 +59,4 @@ class MediaArtists(models.Model):
         verbose_name = "Media artist"
         verbose_name_plural = "Media artists"
         db_table = "catalog_media_artists"
+        ordering = ["position"]

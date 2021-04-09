@@ -1,0 +1,45 @@
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+
+const BASE_SIZE = 24;
+
+export default defineComponent({
+  props: {
+    color: {
+      type: String,
+      default: 'rgb(var(--c-live-bg))',
+    },
+    size: {
+      type: Number,
+      default: 24,
+    },
+  },
+  setup(props) {
+    const style = ref({
+      fill: props.color,
+      transform: `scale(${props.size / BASE_SIZE})`,
+    });
+    // return () => h('div', { onClick: increase }, ['foo', count.value]);
+    return {
+      style,
+    };
+  },
+});
+</script>
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    width="24px"
+    viewBox="0 0 24 24"
+    :style="style"
+  >
+    <path
+      d="M0 0h24v24H0z"
+      fill="none"
+    />
+    <path
+      d="M8 5v14l11-7z"
+    />
+  </svg>
+</template>

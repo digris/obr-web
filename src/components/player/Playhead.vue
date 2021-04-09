@@ -102,7 +102,7 @@ export default {
   }
   .time {
     font-size: 0.9rem;
-    color: rgb(var(--c-gray-500));
+    color: rgba(var(--c-fg), 0.5);
     min-width: 84px;
     max-width: 84px;
   }
@@ -122,11 +122,12 @@ export default {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 0.75rem;
-    background: rgb(var(--c-gray-500));
+    color: rgb(var(--c-bg));
+    background: rgba(var(--c-fg), 0.5);
     cursor: pointer;
     transition: background 100ms;
     &:hover {
-      background: rgb(var(--c-gray-100));
+      background: rgba(var(--c-fg), 0.9);
     }
   }
 }

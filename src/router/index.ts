@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import OnAir from '../views/OnAir.vue';
+import OnAir from '@/views/OnAir.vue';
+import Discover from '@/views/Discover.vue';
+import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
+import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
+import PlaylistList from '@/components/catalog/playlist/List.vue';
+import ArtisttList from '@/components/catalog/artist/List.vue';
+import MediatList from '@/components/catalog/media/List.vue';
 
 const routes = [
   {
@@ -10,18 +16,17 @@ const routes = [
   {
     path: '/discover/',
     name: 'discover',
-    component: () => import(
-      /* webpackChunkName: "discover" */
-      '@/views/Discover.vue'
-    ),
+    component: Discover,
     children: [
+      {
+        path: 'playlists/',
+        name: 'discoverPlaylists',
+        component: PlaylistList,
+      },
       {
         path: 'artists/',
         name: 'discoverArtists',
-        component: () => import(
-          /* webpackChunkName: "catalog-artists-list" */
-          '@/components/catalog/artist/List.vue'
-        ),
+        component: ArtisttList,
       },
       // {
       //   path: 'artists/:uid/',
@@ -33,49 +38,40 @@ const routes = [
       {
         path: 'tracks/',
         name: 'discoverMedia',
-        component: () => import(
-          /* webpackChunkName: "catalog-media-list" */
-          '@/components/catalog/media/List.vue'
-        ),
+        component: MediatList,
       },
     ],
   },
   {
+    path: '/discover/playlists/:uid/',
+    name: 'playlistDetail',
+    component: PlaylistDetail,
+  },
+  {
     path: '/discover/artists/:uid/',
     name: 'artistDetail',
-    component: () => import(
-      /* webpackChunkName: "catalog-artist-detail" */
-      '@/views/catalog/ArtistDetail.vue'
-    ),
+    component: ArtistDetail,
   },
   {
     path: '/collection/',
     name: 'collection',
-    component: () => import(
-      /* webpackChunkName: "collection" */
-      '@/views/Discover.vue'
-    ),
+    component: Discover,
   },
   {
     path: '/collection/artists/:uid/',
     name: 'Artist Detail (Collection)',
-    component: () => import(
-      /* webpackChunkName: "catalog-artist-detail" */
-      '@/views/catalog/ArtistDetail.vue'
-    ),
+    component: ArtistDetail,
   },
   {
     path: '/account/',
     name: 'Account',
     component: () => import(
-      /* webpackChunkName: "account" */
       '@/views/Account.vue'
     ),
     children: [
       {
         path: 'settings/',
         component: () => import(
-          /* webpackChunkName: "account-settings" */
           '@/components/account/Settings.vue'
         ),
       },
