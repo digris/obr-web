@@ -20,4 +20,12 @@ class MediaAdmin(admin.ModelAdmin):
         "__str__",
         "artist_display",
         "duration",
+        "uid",
+        "created",
+        "updated",
+        "sync_state",
+    ]
+
+    search_fields = [
+        "name",
     ]

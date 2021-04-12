@@ -4,39 +4,36 @@
 import { ActionContext } from 'vuex';
 
 export interface State {
-  colors: {
-   bg: string,
-   fg: string,
-  }
+  // primaryColor: Array<number>,
+  title: string,
+  primaryColor: [number, number, number],
 }
 
 const state: State = {
-  colors: {
-    bg: '0, 0, 0',
-    fg: '250, 250, 250',
-  },
+  title: 'open broadcast radio',
+  primaryColor: [0, 0, 0],
 };
 
 const getters = {
-  colors: (state: State) => state.colors,
+  title: (state: State) => state.title,
+  primaryColor: (state: State) => state.primaryColor,
 };
 
 const mutations = {
-  // @ts-ignore
-  SET_COLORS: (state: State, { colors }) => {
-    state.colors = colors;
+  SET_TITLE: (state: State, title: string) => {
+    state.title = title;
+  },
+  SET_PRIMARY_COLOR: (state: State, color: [number, number, number]) => {
+    state.primaryColor = color;
   },
 };
 
 const actions = {
-  // @ts-ignore
-  setPrimaryColor: async (context, color: string) => {
-    const colors = {
-      bg: color,
-      fg: '#eeeeee',
-    };
-    context.commit('SET_COLORS', { colors });
-    console.debug('setPrimaryColor', color);
+  setTitle: async (context: any, title: string) => {
+    context.commit('SET_TITLE', title);
+  },
+  setPrimaryColor: async (context: any, color: [number, number, number]) => {
+    context.commit('SET_PRIMARY_COLOR', color);
   },
 };
 

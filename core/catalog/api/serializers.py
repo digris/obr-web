@@ -3,8 +3,9 @@ import logging
 
 from django.conf import settings
 from rest_framework import serializers
+from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 
-from ..models import Artist, Media, MediaArtists
+from ..models import Artist, Media, MediaArtists, PlaylistMedia
 
 
 SITE_URL = getattr(settings, "SITE_URL")
@@ -137,7 +138,26 @@ class ReleaseSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class PlaylistSerializer(serializers.HyperlinkedModelSerializer):
+class PlaylistMediaSerializer(serializers.ModelSerializer):
+
+    media = MediaSerializer(read_only=True)
+
+    class Meta:
+        model = PlaylistMedia
+        fields = [
+            "media",
+            "position",
+            "cue_in",
+            "cue_out",
+            "fade_in",
+            "fade_out",
+            "fade_cross",
+        ]
+
+
+class PlaylistSerializer(
+    FlexFieldsSerializerMixin, serializers.HyperlinkedModelSerializer
+):
 
     url = serializers.HyperlinkedIdentityField(
         view_name="api:catalog:playlist-detail",
@@ -149,6 +169,10 @@ class PlaylistSerializer(serializers.HyperlinkedModelSerializer):
     num_media = serializers.IntegerField(read_only=True)
     num_emissions = serializers.IntegerField(read_only=True)
 
+    # media_set = PlaylistMediaSerializer(
+    #     source="playlist_media", many=True, read_only=True
+    # )
+
     class Meta:
         model = Media
         fields = [
@@ -159,4 +183,14 @@ class PlaylistSerializer(serializers.HyperlinkedModelSerializer):
             "num_media",
             "num_emissions",
             "image",
+            # "media_set",
         ]
+        expandable_fields = {
+            "media_set": (
+                PlaylistMediaSerializer,
+                {
+                    "source": "playlist_media",
+                    "many": True,
+                },
+            )
+        }

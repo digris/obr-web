@@ -13,6 +13,9 @@ export default {
     playerState() {
       return this.$store.getters['player/playerState'];
     },
+    encodingFormat() {
+      return this.$store.getters['player/encodingFormat'];
+    },
     currentMedia() {
       return this.$store.getters['player/currentMedia'];
     },
@@ -43,6 +46,7 @@ export default {
       } else {
         // e.g. https://media.next.openbroadcast.ch/encoded/F002/manifest.mpd
         url = `${this.mediaBaseUrl}${key}/dash/manifest.mpd`;
+        // url = `${this.mediaBaseUrl}${key}/hls/manifest.m3u8`;
       }
 
       const event = {
@@ -68,6 +72,9 @@ export default {
     stop() {
       eventBus.emit('player:controls', { do: 'stop' });
     },
+    setEncodingFormat(encodingFormat) {
+      this.$store.dispatch('player/updateEncodingFormat', encodingFormat);
+    },
   },
 };
 </script>
@@ -89,7 +96,10 @@ export default {
         />
       </div>
       <div class="right">
-        ( actions )
+        ({{ encodingFormat }})
+        <a @click.prevent="setEncodingFormat('dash')">DASH</a>
+        <span> - </span>
+        <a @click.prevent="setEncodingFormat('hls')">HLS</a>
       </div>
     </div>
   </div>

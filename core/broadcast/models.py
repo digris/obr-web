@@ -38,4 +38,4 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         get_latest_by = "time_start"
 
     def __str__(self):
-        return self.obj_key
+        return f"{self.time_start} {self.obj_key}"

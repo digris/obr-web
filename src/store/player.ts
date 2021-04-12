@@ -2,6 +2,7 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
 const state = {
+  encodingFormat: 'dash',
   configuration: {},
   bufferInfo: {},
   currentState: null,
@@ -19,12 +20,18 @@ const state = {
 
 const getters = {
   // @ts-ignore
+  encodingFormat: (state) => state.encodingFormat,
+  // @ts-ignore
   playerState: (state) => state.playerState,
   // @ts-ignore
   currentMedia: (state) => state.currentMedia,
 };
 
 const mutations = {
+  // @ts-ignore
+  SET_ENCODING_FORMAT: (state, encodingFormat) => {
+    state.encodingFormat = encodingFormat;
+  },
   // @ts-ignore
   SET_PLAYER_STATE: (state, { playerState }) => {
     state.playerState = playerState;
@@ -36,6 +43,10 @@ const mutations = {
 };
 
 const actions = {
+  // @ts-ignore
+  updateEncodingFormat: async (context, encodingFormat) => {
+    context.commit('SET_ENCODING_FORMAT', encodingFormat);
+  },
   // @ts-ignore
   updatePlayerState: async (context, { playerState }) => {
     context.commit('SET_PLAYER_STATE', { playerState });

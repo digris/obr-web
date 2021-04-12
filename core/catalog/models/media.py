@@ -1,9 +1,11 @@
 from datetime import timedelta
 from django.db import models
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from sync.models.mixins import SyncModelMixin
+from catalog.sync.media import sync_media
 
 
-class Media(TimestampedModelMixin, CTUIDModelMixin, models.Model):
+class Media(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
 
     name = models.CharField(max_length=256)
 
@@ -21,7 +23,7 @@ class Media(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         app_label = "catalog"
         verbose_name = "Media"
         verbose_name_plural = "Media"
-        ordering = ["-created"]
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
@@ -31,6 +33,9 @@ class Media(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         return "-"
         # qs = self.media_artist.all()
         # return ", ".join(str(ma.artist) for ma in qs)
+
+    def sync_data(self):
+        return sync_media(self)
 
 
 class MediaArtists(models.Model):

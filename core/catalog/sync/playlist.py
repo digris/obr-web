@@ -1,18 +1,42 @@
-import requests
+# -*- coding: utf-8 -*-
+import logging
 import json
-import time
+import requests
 from datetime import datetime, timedelta
 from django.utils import timezone
-from pytz.exceptions import AmbiguousTimeError, NonExistentTimeError
 from urllib.request import urlopen
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 
 
+logger = logging.getLogger(__name__)
+
+
 PLAYLIST_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/playlist/"
 
 
+def get_playlist_media(items):
+    for item in items:
+        content = item["content"]
+        yield {
+            # `Media` fields
+            "uuid": content.get("uuid"),
+            "name": content.get("name").strip(),
+            "duration": content.get("duration"),
+            # `PlaylistMedia` fields
+            "position": item.get("position", 0),
+            "cue_in": item.get("cue_in", 0),
+            "cue_out": item.get("cue_out", 0),
+            "fade_in": item.get("fade_in", 0),
+            "fade_out": item.get("fade_out", 0),
+            "fade_cross": item.get("fade_cross", 0),
+        }
+
+
 def sync_playlist(playlist):
+    from catalog.models.media import Media
+    from catalog.models.playlist import PlaylistImage, PlaylistMedia
+
     url = f"{PLAYLIST_ENDPOINT}{playlist.uuid}/"
     fields = [
         "uuid",
@@ -20,44 +44,40 @@ def sync_playlist(playlist):
         "image",
         "created",
         "updated",
+        "items",
     ]
     params = {"fields": ",".join(fields)}
 
-    print(url, params)
-
     r = requests.get(url=url, params=params)
-
     data = r.json()
 
-    print(json.dumps(data, indent=2))
+    # print(
+    #     json.dumps(
+    #         {
+    #             "url": url,
+    #             "data": data,
+    #         },
+    #         indent=2,
+    #     )
+    # )
 
-    print('data.get("name")', data.get("name"))
-    playlist.name = data.get("name")
+    update = {
+        "name": data.get("name").strip(),
+        "created": timezone.make_aware(datetime.fromisoformat(data.get("created"))),
+    }
 
-    created = timezone.make_aware(datetime.fromisoformat(data.get("created")))
-    playlist.created = created
-
-    type(playlist).objects.filter(id=playlist.id).update(
-        name=data.get("name"),
-        created=created,
-    )
-
-    # updated = timezone.make_aware(datetime.fromisoformat(data.get("updated")))
-    # playlist.updated = updated
-
-    # playlist.save()
+    type(playlist).objects.filter(id=playlist.id).update(**update)
 
     if data.get("image"):
         playlist.images.all().delete()
-        from catalog.models.playlist import PlaylistImage
 
         image_url = data.get("image")
+        # kind uf ugly - we want the 'original' image, not a thumbnail.
         image_url = ".".join(b for b in image_url.split(".")[:-2]).replace(
             "thumbnails/", ""
         )
 
         ext = image_url.split(".")[-1]
-        # filename = f"{playlist.uid}.{ext}"
         filename = f"downloaded-image.{ext}"
 
         img_temp = NamedTemporaryFile(delete=True)
@@ -67,3 +87,33 @@ def sync_playlist(playlist):
         i = PlaylistImage(playlist=playlist)
         i.save()
         i.file.save(filename, File(img_temp))
+
+    media_list = get_playlist_media(data.get("items", []))
+
+    # TODO: handle safer cleanup of vanished relations
+    PlaylistMedia.objects.filter(playlist=playlist).delete()
+
+    for media_dict in media_list:
+        # print(json.dumps(media_dict, indent=2))
+
+        uuid = media_dict.pop("uuid")
+        name = media_dict.pop("name")
+        duration = timedelta(seconds=media_dict.pop("duration"))
+
+        try:
+            media = Media.objects.get(uuid=uuid)
+
+        except Media.DoesNotExist:
+            media = Media(uuid=uuid, name=name, duration=duration)
+            media.save()
+
+        playlist_media = PlaylistMedia(
+            playlist=playlist,
+            media=media,
+            **media_dict,
+        )
+        playlist_media.save()
+
+    logger.info(f"sync completed for playlist: {playlist.uid}")
+
+    return playlist

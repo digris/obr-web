@@ -1,9 +1,12 @@
 <script>
+// import { getContrastColor } from '@/utils/color';
+
 const COLORS = [
-  '20, 100, 20',
-  '20, 20, 100',
-  '200, 100, 20',
-  '200, 100, 200',
+  [230, 53, 14],
+  [247, 231, 64],
+  [247, 78, 40],
+  [15, 247, 163],
+  [83, 27, 247],
 ];
 
 export default {
@@ -15,6 +18,7 @@ export default {
   },
   methods: {
     setColor(color) {
+      this.$store.dispatch('ui/setTitle', `c-${color.join('-')}`);
       this.$store.dispatch('ui/setPrimaryColor', color);
     },
   },
@@ -30,10 +34,10 @@ export default {
       class="color"
       :key="`color-${index}`"
       @click="setColor(color)"
-      :style="{background: `rgb(${color})`}"
-    >
-      {{ color }}
-    </div>
+      :style="{
+        background: `rgb(${color.join(',')})`,
+      }"
+    ></div>
   </div>
 </template>
 
@@ -42,10 +46,19 @@ export default {
   position: fixed;
   top: 60px;
   right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
   .color {
     cursor: pointer;
-    padding: 2px 4px;
-    margin-bottom: 2px;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+    transition: width 100ms;
+    &:hover {
+      width: 48px;
+    }
   }
 }
 </style>
