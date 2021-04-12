@@ -24,15 +24,13 @@ export default {
     const playlists = ref([]);
     const hasNext = ref(false);
     // eslint-disable-next-line no-shadow
-    const fetchMedia = async (limit = 8, offset = 0) => {
-      console.debug('fetchMedia', limit, offset);
+    const fetchMedia = async (limit = 16, offset = 0) => {
       const { count, next, results } = await getWTFPlaylists(limit, offset);
       hasNext.value = !!next;
       numResults.value = count;
       playlists.value.push(...results);
     };
     const fetchNextPage = async () => {
-      console.debug('fetchNextPage');
       const offset = lastOffset.value + limit;
       await fetchMedia(limit, offset);
       lastOffset.value = offset;

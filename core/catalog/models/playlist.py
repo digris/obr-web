@@ -29,7 +29,7 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
         ordering = ["-created"]
 
     def __str__(self):
-        return self.name
+        return str(self.name or self.uid)
 
     @cached_property
     def image(self):
@@ -59,22 +59,22 @@ class PlaylistMedia(models.Model):
         on_delete=models.CASCADE,
         related_name="playlist_media",
     )
-    position = models.PositiveSmallIntegerField(
+    position = models.PositiveIntegerField(
         default=0,
     )
-    cue_in = models.PositiveSmallIntegerField(
+    cue_in = models.PositiveIntegerField(
         default=0,
     )
-    cue_out = models.PositiveSmallIntegerField(
+    cue_out = models.PositiveIntegerField(
         default=0,
     )
-    fade_in = models.PositiveSmallIntegerField(
+    fade_in = models.PositiveIntegerField(
         default=0,
     )
-    fade_out = models.PositiveSmallIntegerField(
+    fade_out = models.PositiveIntegerField(
         default=0,
     )
-    fade_cross = models.PositiveSmallIntegerField(
+    fade_cross = models.PositiveIntegerField(
         default=0,
     )
 

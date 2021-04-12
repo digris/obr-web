@@ -5,6 +5,7 @@ import {
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/UI/LazyImage.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
@@ -20,6 +21,13 @@ export default {
     const isLoaded = ref(false);
     const artist = computed(() => store.getters['catalog/artistByUid'](uid.value));
     const mediaList = ref([]);
+    const query = computed(() => ({
+      filter: {
+        artist: artist.value.uid,
+      },
+      search: [],
+      options: {},
+    }));
     onMounted(() => {
       store.dispatch('catalog/loadArtist', uid.value);
     });
@@ -32,18 +40,25 @@ export default {
         }
       },
     );
-    const dummyQuery = {
-      filter: [],
-      search: [],
-      options: {},
-    };
+    // const query = {
+    //   filter: {
+    //     artist: 'A425F27B',
+    //   },
+    //   search: [],
+    //   options: {},
+    // };
     return {
       uid,
       isLoaded,
       artist,
       mediaList,
-      dummyQuery,
+      query,
     };
+  },
+  computed: {
+    imageSrc() {
+      return getImageSrc(this.artist, 480);
+    },
   },
 };
 </script>
@@ -60,7 +75,7 @@ export default {
         class="visual"
       >
         <LazyImage
-          :src="`https://picsum.photos/seed/${uid}/500`"
+          :src="imageSrc"
         />
       </div>
       <div
@@ -115,7 +130,9 @@ export default {
     <div
       class="body"
     >
-      <MediaList />
+      <MediaList
+        :filter="query.filter"
+      />
     </div>
   </div>
 </template>

@@ -12,21 +12,23 @@ export default {
   },
   props: {
     filter: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {},
     },
   },
-  setup() {
+  setup(props) {
     // const store = useStore();
     const isLoaded = ref(false);
-    const limit = 24;
+    const numResults = ref(0);
+    const limit = 16;
     const lastOffset = ref(0);
     const mediaList = ref([]);
     const hasNext = ref(false);
     // eslint-disable-next-line no-shadow
-    const fetchMedia = async (limit = 8, offset = 0) => {
-      const { results } = await getMedia(limit, offset);
-      hasNext.value = true;
+    const fetchMedia = async (limit = 16, offset = 0) => {
+      const { count, next, results } = await getMedia(limit, offset, props.filter);
+      hasNext.value = !!next;
+      numResults.value = count;
       mediaList.value.push(...results);
     };
     const fetchNextPage = async () => {
@@ -35,14 +37,13 @@ export default {
       lastOffset.value = offset;
     };
     onMounted(() => {
-      console.debug('MediaList - mounted');
       fetchMedia();
-      // store.dispatch('catalog/loadArtist', uid.value);
     });
     return {
       isLoaded,
       mediaList,
       hasNext,
+      numResults,
       fetchNextPage,
     };
   },

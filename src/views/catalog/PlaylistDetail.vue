@@ -7,14 +7,14 @@ import { useStore } from 'vuex';
 
 import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/UI/LazyImage.vue';
-import MediaList from '@/components/catalog/media/List.vue';
+import MediaRow from '@/components/catalog/media/Row.vue';
 import CircleButton from '@/components/UI/button/CircleButton.vue';
 import IconPlay from '@/components/UI/icon/IconPlay.vue';
 
 export default {
   components: {
     LazyImage,
-    MediaList,
+    MediaRow,
     CircleButton,
     IconPlay,
   },
@@ -23,8 +23,11 @@ export default {
     const route = useRoute();
     const uid = ref(route.params.uid);
     const isLoaded = ref(false);
-    const playlists = computed(() => store.getters['catalog/playlistByUid'](uid.value));
-    const mediaList = ref([]);
+    const playlist = computed(() => store.getters['catalog/playlistByUid'](uid.value));
+    const mediaList = computed(() => {
+      const media = playlist.value.mediaSet.reduce((a, b) => a.concat({ ...b.media, ...b }), []);
+      return media;
+    });
     onMounted(() => {
       store.dispatch('catalog/loadPlaylist', uid.value);
     });
@@ -37,22 +40,24 @@ export default {
         }
       },
     );
-    const dummyQuery = {
-      filter: [],
+    const query = {
+      filter: {
+        playlist: '39E730FC',
+      },
       search: [],
       options: {},
     };
     return {
       uid,
       isLoaded,
-      playlists,
+      playlist,
       mediaList,
-      dummyQuery,
+      query,
     };
   },
   computed: {
     imageSrc() {
-      return getImageSrc(this.playlists, 480);
+      return getImageSrc(this.playlist, 480);
     },
   },
 };
@@ -60,8 +65,8 @@ export default {
 
 <template>
   <div
-    v-if="playlists"
-    class="playlists-detail"
+    v-if="playlist"
+    class="playlist-detail"
   >
     <div
       class="header detail-header"
@@ -89,7 +94,7 @@ export default {
         <div
           class="title"
         >
-          <h1>{{ playlists.name }}</h1>
+          <h1>{{ playlist.name }}</h1>
         </div>
         <div
           class="tags"
@@ -100,7 +105,7 @@ export default {
         <div
           class="summary"
         >
-          <span>125 Tracks</span>
+          <span>{{ mediaList.length }} Tracks</span>
           <span>1h 25m</span>
         </div>
       </div>
@@ -113,7 +118,15 @@ export default {
     <div
       class="body"
     >
-      <MediaList />
+      <div class="media-list">
+        <div class="grid">
+          <MediaRow
+            v-for="(media, index) in mediaList"
+            :key="`media-row-${index}-${media.uid}-${media.position}`"
+            :media="media"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -123,7 +136,7 @@ export default {
 @use "@/style/elements/container";
 /* stylelint-disable-next-line at-rule-no-unknown */
 @use "@/style/elements/detail-header";
-.playlists-detail {
+.playlist-detail {
   @include container.default;
   margin-bottom: 12rem;
 }

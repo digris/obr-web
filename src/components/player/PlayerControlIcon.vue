@@ -2,21 +2,39 @@
 import CircleButton from '@/components/UI/button/CircleButton.vue';
 import IconPlay from '@/components/UI/icon/IconPlay.vue';
 
-import { defineComponent, ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   components: {
     CircleButton,
     IconPlay,
   },
-  setup() {
-    const state = ref('stopped');
-    const click = (e: Event) => {
-      console.debug('click', e);
-    };
+  props: {
+    playerState: {
+      type: Object,
+      required: false,
+      default: () => null,
+    },
+  },
+  setup(props) {
+    // const state = ref('stopped');
+    const state = computed(() => {
+      if (!props.playerState) {
+        return 'stopped';
+      }
+      if (props.playerState.isBuffering) {
+        return 'buffering';
+      }
+      if (props.playerState.isPlaying) {
+        return 'playing';
+      }
+      if (props.playerState.isPaused) {
+        return 'paused';
+      }
+      return 'stopped';
+    });
     return {
       state,
-      click,
     };
   },
 });
@@ -24,7 +42,6 @@ export default defineComponent({
 
 <template>
   <div
-    @click="click"
     class="player-control-icon"
     :class="`is-${state}`"
   >
@@ -32,6 +49,12 @@ export default defineComponent({
       :size="24"
     >
       <IconPlay
+        v-if="(state === 'playing')"
+        :size="20"
+        color="#0ff"
+      />
+      <IconPlay
+        v-else
         :size="20"
       />
     </CircleButton>

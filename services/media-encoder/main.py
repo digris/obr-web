@@ -51,19 +51,12 @@ def index():
 def encode_dash():
     # The ce-Resourcename value will be something like this: projects/_/buckets/sayle-eventarc/objects/test_file.txt
     authorization = request.headers.get("Authorization")
-    print(f"authorization: {authorization}")
-
     payload = request.get_json()
-
     path = payload.get("path")
     print(f"path: {path}")
 
-    print(request.headers)
-
     workdir = tempfile.mkdtemp()
-
     uid, filename = os.path.split(path)
-
     src = download_file(
         bucketname=SRC_BUCKET,
         path=path,
@@ -78,6 +71,34 @@ def encode_dash():
     encoder.encode_dash(src=src, dst=dst)
 
     upload_dir(src=dst_dir, bucketname=DST_BUCKET, path=f"encoded/{uid}/dash")
+
+    return {"path": path}, 200
+
+
+@app.route("/encode-hls", methods=["POST"])
+def encode_hls():
+    # The ce-Resourcename value will be something like this: projects/_/buckets/sayle-eventarc/objects/test_file.txt
+    authorization = request.headers.get("Authorization")
+    payload = request.get_json()
+    path = payload.get("path")
+    print(f"path: {path}")
+
+    workdir = tempfile.mkdtemp()
+    uid, filename = os.path.split(path)
+    src = download_file(
+        bucketname=SRC_BUCKET,
+        path=path,
+        workdir=workdir,
+        filename=filename,
+    )
+
+    dst_dir = os.path.join(workdir, "hls")
+    os.mkdir(dst_dir)
+    dst = os.path.join(dst_dir, "manifest.m3u8")
+
+    encoder.encode_hls(src=src, dst=dst)
+
+    upload_dir(src=dst_dir, bucketname=DST_BUCKET, path=f"encoded/{uid}/hls")
 
     return {"path": path}, 200
 

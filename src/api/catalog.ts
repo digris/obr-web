@@ -20,11 +20,21 @@ async function getArtist(uid: string) {
   return response.data;
 }
 
-async function getMedia(limit: number, offset: number) {
+async function getMedia(limit: number, offset: number, filter: Object) {
   const url = MEDIA_ENDPOINT;
+  const filterStr = '';
+  // const params = {
+  //   limit, offset,
+  // };
   const params = {
-    limit, offset,
+    limit, offset, ...filter,
   };
+  // filter.forEach((f) => {
+  //   const k = Object.keys(f)[0];
+  //   const v = Object.values(f)[0];
+  //   console.debug('filter - k, v', k, v);
+  // });
+  // console.debug('prms', { ...params, ...filter });
   const response = await APIClient.get(url, { params });
   return response.data;
 }
@@ -42,7 +52,10 @@ async function getWTFPlaylists(limit: number, offset: number) {
 
 async function getPlaylist(uid: string) {
   const url = `${PLAYLIST_ENDPOINT}${uid}/`;
-  const response = await APIClient.get(url);
+  const params = {
+    expand: 'media_set',
+  };
+  const response = await APIClient.get(url, { params });
   return response.data;
 }
 

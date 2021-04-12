@@ -80,27 +80,24 @@ DEVSERVER_MODULES = []
 
 IPYTHON_ARGUMENTS = ["--debug"]
 
-LOGGING_ = {
+LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "root": {"level": "WARNING", "handlers": ["console"]},
     "formatters": {
-        "default": {"format": "%(levelname)s %(module)s %(message)s"},
+        "default": {
+            "format": "%(levelname)s %(name)s:%(lineno)s %(message)s",
+        },
         "verbose": {
             # "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
             "format": "%(asctime)s %(levelname)s\t%(name)s\t%(funcName)s:%(lineno)s - %(message)s",
         },
     },
     "handlers": {
-        # "sentry": {
-        #     "level": "DEBUG",
-        #     "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
-        #     "tags": {"custom-tag": "x-django"},
-        # },
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
-            "formatter": "verbose",
+            "formatter": "default",
         },
     },
     "loggers": {
@@ -114,9 +111,30 @@ LOGGING_ = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "geoip": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
-        "catalog": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
-        "raven": {"level": "INFO", "handlers": ["console"], "propagate": False},
-        "sentry.errors": {"level": "INFO", "handlers": ["console"], "propagate": False},
+        "geoip": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "catalog": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "sync": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "raven": {
+            "level": "INFO",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "sentry.errors": {
+            "level": "INFO",
+            "handlers": ["console"],
+            "propagate": False,
+        },
     },
 }

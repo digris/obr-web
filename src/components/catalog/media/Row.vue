@@ -19,6 +19,15 @@ export default {
     duration() {
       return new Date(this.media.duration * 1000).toISOString().substr(11, 8);
     },
+    currentMedia() {
+      return this.$store.getters['player/currentMedia'];
+    },
+    playerState() {
+      return this.isCurrent ? this.$store.getters['player/playerState'] : null;
+    },
+    isCurrent() {
+      return this.media.uid === this.currentMedia.uid;
+    },
   },
   methods: {
     controls(media) {
@@ -36,10 +45,14 @@ export default {
 </script>
 
 <template>
-  <div class="media-row">
+  <div
+    class="media-row"
+    :class="{'is-current': isCurrent}"
+  >
     <div class="play">
       <PlayerControlIcon
         @click="controls(media)"
+        :player-state="playerState"
       />
     </div>
     <div class="name">
@@ -68,6 +81,12 @@ export default {
   > div {
     display: flex;
     align-items: center;
+  }
+  .play {
+    padding-left: 0.5rem;
+  }
+  &.is-current {
+    background: rgba(var(--c-live-fg), 0.1);
   }
 }
 </style>

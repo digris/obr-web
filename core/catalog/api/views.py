@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.db.models import Count
 
-from rest_framework import mixins, status, viewsets, filters
+from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.exceptions import PermissionDenied
@@ -15,6 +15,7 @@ from rest_framework.exceptions import ParseError
 from rest_framework.compat import coreapi
 from rest_framework.compat import coreschema
 from drf_yasg.utils import swagger_auto_schema
+from django_filters import rest_framework as filters
 
 from ..models import Media, Artist, Release, Playlist
 from . import serializers
@@ -58,6 +59,21 @@ class ArtistViewSet(
         return obj
 
 
+class MediaFilter(filters.FilterSet):
+    playlist = filters.CharFilter(method="playlist_filter")
+    artist = filters.CharFilter(method="artist_filter")
+
+    class Meta:
+        model = Media
+        fields = ["playlist"]
+
+    def playlist_filter(self, queryset, name, value):
+        return queryset.filter(playlists__uid=value)
+
+    def artist_filter(self, queryset, name, value):
+        return queryset.filter(artists__uid=value)
+
+
 class MediaViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
@@ -77,13 +93,16 @@ class MediaViewSet(
 
     """
 
-    queryset = Media.objects.all().order_by("-created")
+    queryset = Media.objects.all()
     serializer_class = serializers.MediaSerializer
     lookup_field = "uid"
     # permission_classes = (IsAuthenticated,)
     # filter_backends = [
     #     ControllerListFilter,
     # ]
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = MediaFilter
 
     def get_queryset(self):
 
@@ -142,7 +161,7 @@ class PlaylistViewSet(
     viewsets.GenericViewSet,
 ):
 
-    queryset = Playlist.objects.all().order_by("-created")
+    queryset = Playlist.objects.all().order_by("name")
     serializer_class = serializers.PlaylistSerializer
     lookup_field = "uid"
 
@@ -151,6 +170,8 @@ class PlaylistViewSet(
             "media",
             "emissions",
             "images",
+            "playlist_media",
+            "playlist_media__media",
         )
         qs = qs.annotate(
             num_media=Count("media"),

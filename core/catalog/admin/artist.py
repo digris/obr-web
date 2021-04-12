@@ -10,6 +10,13 @@ class ArtistImageInline(SortableImageInlineMixin, admin.TabularInline):
 @admin.register(Artist)
 class ArtistAdmin(admin.ModelAdmin):
     save_on_top = True
+    list_display = [
+        "__str__",
+        "uid",
+        "created",
+        "updated",
+        "sync_state",
+    ]
     search_fields = [
         "name",
     ]

@@ -1,6 +1,5 @@
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 from datetime import datetime
-
 from sync import utils
 
 
@@ -11,12 +10,13 @@ class Command(BaseCommand):
         parser.add_argument(
             "-s",
             "--date-start",
-            type=str,
-            required=False,
         )
 
     def handle(self, *args, **options):
         date_start = options["date_start"]
         if date_start:
             date_start = datetime.strptime(date_start, "%Y-%m-%d")
-        utils.sync_schedule(date_start=date_start)
+
+        self.stdout.write(f"starting from date: {date_start}")
+        updated = list(utils.sync_schedule(date_start=date_start))
+        self.stdout.write(f"updated {len(updated)} emissions")

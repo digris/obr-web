@@ -6,10 +6,10 @@ ENCODER_ENDPOINT = "https://media-encoder-kcek2ea7xq-oa.a.run.app"
 API_TOKEN = "N1ZOBHLZ9JL141VHAC7H"
 
 
-def encode(path):
+def encode(path, encoding_format):
     print(f"encode: {path}")
     payload = {"path": path}
-    url = f"{ENCODER_ENDPOINT}/encode-dash"
+    url = f"{ENCODER_ENDPOINT}/encode-{encoding_format}"
     headers = {
         "Content-Type": "application/json",
         "Authentication": f"Bearer {API_TOKEN}",
@@ -38,5 +38,8 @@ def created(event, context):
 
     path = event["name"]
 
-    result = encode(path)
+    result = encode(path, "dash")
+    print(result)
+
+    result = encode(path, "hls")
     print(result)
