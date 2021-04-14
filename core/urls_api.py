@@ -51,5 +51,6 @@ urlpatterns = [
         name="schema-swagger-ui",
     ),
     url(r"^docs/$", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
+    path("account/", include("account.api.urls", "account")),
     path("catalog/", include("catalog.api.urls", "catalog")),
 ]

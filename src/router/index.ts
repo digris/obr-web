@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import OnAir from '@/views/OnAir.vue';
 import Discover from '@/views/Discover.vue';
+import Account from '@/views/Account.vue';
 import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
 import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
 import ArtisttList from '@/components/catalog/artist/List.vue';
 import MediatList from '@/components/catalog/media/List.vue';
+import AccountLogin from '@/components/account/Login.vue';
 
 const routes = [
   {
@@ -65,10 +67,12 @@ const routes = [
   {
     path: '/account/',
     name: 'Account',
-    component: () => import(
-      '@/views/Account.vue'
-    ),
+    component: Account,
     children: [
+      {
+        path: 'login/',
+        component: AccountLogin,
+      },
       {
         path: 'settings/',
         component: () => import(
