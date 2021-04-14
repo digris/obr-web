@@ -6,7 +6,7 @@ module.exports = {
   ],
   rules: {
     'at-rule-no-unknown': [true, {
-      ignoreAtRules: ['debug', 'warn', 'function', 'if', 'else', 'each', 'include', 'extend', 'mixin', 'return', 'for'],
+      ignoreAtRules: ['debug', 'warn', 'function', 'if', 'else', 'use', 'each', 'include', 'extend', 'mixin', 'return', 'for'],
     }],
     indentation: 2,
     'color-hex-case': 'lower',

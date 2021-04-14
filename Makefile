@@ -9,11 +9,13 @@ shell:
 	poetry run ./manage.py shell
 
 lint:
+	npx stylelint "./src/**/*.(scss|js|vue)"
 	yarn lint
 	black --check ./core/
 	poetry run prospector -p ./core/
 
 fix:
+	npx stylelint "./src/**/*.(scss|js|vue)" --fix
 	yarn fix
 	black ./core/
 

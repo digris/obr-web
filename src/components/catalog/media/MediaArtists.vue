@@ -44,8 +44,8 @@ export default {
 }
 .artist {
   &__join {
-    margin-left: 0.25rem;
     margin-right: 0.25rem;
+    margin-left: 0.25rem;
     opacity: 0.5;
   }
 }

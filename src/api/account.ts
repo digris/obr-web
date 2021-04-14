@@ -13,10 +13,16 @@ async function login(email: string, password: string) {
   return response.data;
 }
 
+async function logout() {
+  const url = `${ACCOUNT_ENDPOINT}logout/`;
+  const response = await APIClient.post(url);
+  return response.data;
+}
+
 async function getCurrentUser() {
   const url = `${ACCOUNT_ENDPOINT}users/me/`;
   const response = await APIClient.get(url);
   return response.data;
 }
 
-export { login, getCurrentUser };
+export { login, logout, getCurrentUser };

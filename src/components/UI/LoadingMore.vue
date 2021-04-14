@@ -30,10 +30,10 @@ export default {
 
 <style lang="scss" scoped>
 .loading-more {
-  min-height: 4rem;
-  margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 4rem;
+  margin-top: 2rem;
 }
 </style>

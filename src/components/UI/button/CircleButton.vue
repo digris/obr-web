@@ -33,12 +33,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .circle-button {
-  border: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: rgb(var(--c-live-bg));
   background: rgba(var(--c-live-fg), 0.5);
+  border: none;
   cursor: pointer;
   transition: background 100ms;
   &:hover {

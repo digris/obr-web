@@ -138,9 +138,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-/* stylelint-disable-next-line at-rule-no-unknown */
 @use "@/style/elements/container";
-/* stylelint-disable-next-line at-rule-no-unknown */
 @use "@/style/elements/detail-header";
 .artist-detail {
   @include container.default;
@@ -149,23 +147,23 @@ export default {
 .detail-header {
   @include detail-header.default;
   display: grid;
+  grid-gap: 2rem;
   //grid-template-columns: 220px 1fr auto;
   grid-template-columns: 2fr 4fr 2fr;
-  grid-gap: 2rem;
 }
 .header {
   .visual {
     img {
-      background: rgba(255, 255, 255, 0.1);
       min-width: 100%;
       max-width: 100%;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
     }
   }
   .body {
-    padding-top: 1rem;
     display: flex;
     flex-direction: column;
+    padding-top: 1rem;
     .title {
       margin-top: 2rem;
     }
@@ -181,8 +179,8 @@ export default {
   }
   .actions {
     display: flex;
-    justify-content: flex-end;
     align-items: flex-end;
+    justify-content: flex-end;
   }
 }
 </style>

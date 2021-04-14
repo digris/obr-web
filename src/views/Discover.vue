@@ -40,7 +40,6 @@
 </template>
 
 <style lang="scss" scoped>
-/* stylelint-disable-next-line at-rule-no-unknown */
 @use "@/style/elements/container";
 @use "@/style/elements/list-header";
 @use "@/style/elements/list-menu";

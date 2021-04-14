@@ -123,7 +123,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-/* stylelint-disable-next-line at-rule-no-unknown */
 @use "@/style/elements/container";
 
 $player-height: 60px;
@@ -131,8 +130,8 @@ $player-height: 60px;
 .player {
   position: fixed;
   bottom: 0;
-  height: $player-height;
   width: 100%;
+  height: $player-height;
   //@include container.default;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
@@ -172,10 +171,10 @@ $player-height: 60px;
 
 .player-debug {
   position: fixed;
-  bottom: 70px;
   right: 10px;
-  max-width: 600px;
+  bottom: 70px;
   width: 100%;
+  max-width: 600px;
   background: #000;
 }
 </style>
