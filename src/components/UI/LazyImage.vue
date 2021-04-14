@@ -66,14 +66,14 @@ export default {
 img {
   min-width: 100%;
   max-width: 100%;
-  filter: blur(0);
   opacity: 1;
+  filter: blur(0);
   filter: brightness(0.95) grayscale(0.2);
   transition: filter 100ms, opacity 100ms;
   &.is-pending,
   &.is-loading {
-    filter: blur(5px);
     opacity: 0.5;
+    filter: blur(5px);
   }
 }
 </style>

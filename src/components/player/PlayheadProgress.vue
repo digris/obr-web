@@ -78,8 +78,8 @@ export default {
     cursor: pointer;
   }
   .progress-total {
-    fill: #555;
     transition: fill 100ms;
+    fill: #555;
   }
   .progress-position {
     fill: #aaa;

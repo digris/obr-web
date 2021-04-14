@@ -12,7 +12,7 @@ import AccountLogin from '@/components/account/Login.vue';
 const routes = [
   {
     path: '/',
-    name: 'onAir',
+    name: 'home',
     component: OnAir,
   },
   {
@@ -71,6 +71,7 @@ const routes = [
     children: [
       {
         path: 'login/',
+        name: 'accountLogin',
         component: AccountLogin,
       },
       {

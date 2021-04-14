@@ -71,13 +71,13 @@ export default {
 
 <style lang="scss" scoped>
 .media-row {
-  border-bottom: 2px solid rgb(var(--c-live-fg));
-  //TODO: find a modular way to handle color / ui transitions
-  transition: border-bottom 200ms 1400ms;
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 8fr 8fr 2fr;
   padding: 0.5rem 0;
+  border-bottom: 2px solid rgb(var(--c-live-fg));
+  //TODO: find a modular way to handle color / ui transitions
+  transition: border-bottom 200ms 1400ms;
   > div {
     display: flex;
     align-items: center;

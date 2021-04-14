@@ -61,15 +61,15 @@ export default defineComponent({
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    overflow: hidden;
     font-size: 0.9rem;
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     &--primary,
     &--secondary {
       max-width: 100%;
-      white-space: inherit;
       overflow: inherit;
+      white-space: inherit;
       text-overflow: inherit;
     }
     &--secondary {

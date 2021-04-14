@@ -51,10 +51,10 @@ export default {
   align-items: flex-end;
   justify-content: center;
   .color {
-    cursor: pointer;
     width: 32px;
     height: 32px;
     margin-bottom: 8px;
+    cursor: pointer;
     transition: width 100ms;
     &:hover {
       width: 48px;

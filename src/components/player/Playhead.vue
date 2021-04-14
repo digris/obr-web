@@ -87,8 +87,32 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-/* stylelint-disable-next-line at-rule-no-unknown */
 @use "@/style/elements/container";
+
+@mixin time {
+  padding: 0 0.5rem;
+  color: rgba(var(--c-fg), 0.5);
+  font-size: 0.9rem;
+}
+
+@mixin actions {
+  display: grid;
+  grid-gap: 0.5rem;
+  .action {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: rgb(var(--c-bg));
+    background: rgba(var(--c-fg), 0.5);
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 100ms;
+    &:hover {
+      background: rgba(var(--c-fg), 0.9);
+    }
+  }
+}
 
 .playhead {
   display: grid;
@@ -100,9 +124,11 @@ export default {
     display: flex;
     align-items: center;
   }
+  .actions {
+    @include actions;
+  }
   .time {
-    font-size: 0.9rem;
-    color: rgba(var(--c-fg), 0.5);
+    @include time;
     min-width: 84px;
     max-width: 84px;
   }
@@ -110,26 +136,4 @@ export default {
     margin: 0 0.5rem;
   }
 }
-.time {
-  padding: 0 0.5rem;
-}
-.actions {
-  display: grid;
-  grid-gap: 0.5rem;
-  .action {
-    border: none;
-    display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 0.75rem;
-    color: rgb(var(--c-bg));
-    background: rgba(var(--c-fg), 0.5);
-    cursor: pointer;
-    transition: background 100ms;
-    &:hover {
-      background: rgba(var(--c-fg), 0.9);
-    }
-  }
-}
-
 </style>
