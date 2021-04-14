@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from base.models.mixins import CTUIDModelMixin
+from sync.models.mixins import SyncModelMixin
 
 
 class UserManager(BaseUserManager):
@@ -42,7 +44,12 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(
+    CTUIDModelMixin,
+    SyncModelMixin,
+    AbstractBaseUser,
+    PermissionsMixin,
+):
     email = models.EmailField(_("email address"), unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

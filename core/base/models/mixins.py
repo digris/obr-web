@@ -50,6 +50,7 @@ class UIDModelMixin(UUIDModelMixin):
         editable=False,
         unique=True,
         db_index=True,
+        null=True,
     )
 
     def get_uid(self):
