@@ -16,7 +16,7 @@ def sync_model_post_save(sender, instance, **kwargs):
     if instance.sync_state == SyncState.PENDING:
         qs = type(instance).objects.filter(id=instance.id)
         qs.update(sync_state=SyncState.RUNNING)
-        logger.debug(f"sync pending for {instance}")
+        logger.debug(f'sync pending for {instance.ct}:{instance.uid} "{instance}"')
 
         result = instance.sync_data()
 

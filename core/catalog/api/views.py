@@ -4,7 +4,8 @@ import time
 
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from django.db.models import Count
+from django.db.models import Count, Max, Q
+from django.db.models.functions import Now
 
 from rest_framework import mixins, status, viewsets
 from rest_framework.decorators import action
@@ -113,6 +114,21 @@ class MediaViewSet(
             "media_artist__artist",
         )
 
+        qs = qs.annotate(
+            latest_airplay=Max(
+                "airplays__time_start",
+                filter=Q(airplays__time_start__lte=Now()),
+            ),
+            num_airplays=Count(
+                "airplays",
+                filter=Q(airplays__time_start__lte=Now()),
+            ),
+        )
+
+        qs = qs.filter(latest_airplay__lte=Now())
+
+        qs = qs.order_by("-latest_airplay")
+
         return qs
 
     def get_object(self):
@@ -175,8 +191,19 @@ class PlaylistViewSet(
         )
         qs = qs.annotate(
             num_media=Count("media"),
-            num_emissions=Count("emissions"),
+            latest_emission=Max(
+                "emissions__time_start",
+                filter=Q(emissions__time_start__lte=Now()),
+            ),
+            num_emissions=Count(
+                "emissions",
+                filter=Q(emissions__time_start__lte=Now()),
+            ),
         )
+
+        qs = qs.filter(latest_emission__lte=Now())
+
+        qs = qs.order_by("-latest_emission")
         return qs
 
     def get_object(self):

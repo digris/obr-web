@@ -26,6 +26,8 @@ export default {
     const playlist = computed(() => store.getters['catalog/playlistByUid'](uid.value));
     const mediaList = computed(() => {
       const media = playlist.value.mediaSet.reduce((a, b) => a.concat({ ...b.media, ...b }), []);
+      // const sortedMedia = media.sort((a, b) => b.position - a.position);
+      // return sortedMedia;
       return media;
     });
     onMounted(() => {

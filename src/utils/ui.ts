@@ -9,9 +9,12 @@ const setTitle = (title: string) => {
 const setPrimaryColor = (color: Array<number>) => {
   const bg = color;
   const fg = getContrastColor(bg);
+  const fgInverse = getContrastColor(fg);
   const { style } = document.body;
+  console.debug(bg, fg, fgInverse);
   style.setProperty('--c-live-bg', bg.join(','));
   style.setProperty('--c-live-fg', fg.join(','));
+  style.setProperty('--c-live-fg-inverse', fgInverse.join(','));
 };
 
 class UIStateHandler {

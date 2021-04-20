@@ -2,11 +2,27 @@ from django.db import models
 from django.utils.functional import cached_property
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 from image.models import BaseSortableImage
+from sync.models.mixins import SyncModelMixin
+from catalog.sync.release import sync_release
 
 
-class Release(TimestampedModelMixin, CTUIDModelMixin, models.Model):
+class Release(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
 
-    name = models.CharField(max_length=256)
+    name = models.CharField(
+        max_length=256,
+    )
+
+    release_date = models.DateField(
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+
+    release_type = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+    )
 
     media = models.ManyToManyField(
         "catalog.Media",
@@ -33,6 +49,9 @@ class Release(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     def num_media(self):
         return self.media.count()
 
+    def sync_data(self):
+        return sync_release(self)
+
 
 class ReleaseMedia(models.Model):
 
@@ -55,6 +74,10 @@ class ReleaseMedia(models.Model):
         verbose_name = "Release media"
         verbose_name_plural = "Release media"
         db_table = "catalog_release_media"
+        unique_together = [
+            "release",
+            "media",
+        ]
 
 
 class ReleaseImage(BaseSortableImage):

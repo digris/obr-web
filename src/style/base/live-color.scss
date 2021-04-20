@@ -1,0 +1,28 @@
+@mixin transition {
+  transition: background-color 3000ms, color 200ms 1400ms;
+}
+
+@mixin transition-inverse {
+  transition: color 3000ms, background-color 200ms 1400ms;
+}
+
+
+@mixin fg {
+  @include transition;
+  color: rgb(var(--c-live-fg));
+}
+
+@mixin fg-inverse {
+  @include transition-inverse;
+  color: rgb(var(--c-live-fg-inverse));
+}
+
+@mixin bg {
+  @include transition;
+  background-color: rgb(var(--c-live-bg));
+}
+
+@mixin bg-inverse {
+  @include transition-inverse;
+  background-color: rgb(var(--c-live-fg));
+}

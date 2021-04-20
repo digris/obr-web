@@ -20,7 +20,8 @@ export default {
         await store.dispatch('account/loginUser', credentials);
         await router.push({ name: 'home' });
       } catch (err) {
-        errors.value = ['login error'];
+        console.warn(err);
+        // errors.value = ['login error'];
       }
     };
     return {

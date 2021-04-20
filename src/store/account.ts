@@ -54,7 +54,6 @@ const actions = {
       console.warn(err);
       user = null;
     }
-    console.debug(user);
     context.commit('SET_USER', user);
   },
 };

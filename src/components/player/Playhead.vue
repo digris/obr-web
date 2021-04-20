@@ -96,9 +96,11 @@ export default {
 }
 
 @mixin actions {
-  display: grid;
-  grid-gap: 0.5rem;
+  //display: grid;
+  //grid-gap: 0.5rem;
+  display: flex;
   .action {
+    margin: 0 0.25rem;
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;

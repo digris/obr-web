@@ -91,7 +91,6 @@ gcloud secrets create ch-openbroadcast-settings --data-file .env
 gcloud secrets add-iam-policy-binding ch-openbroadcast-settings \
   --member serviceAccount:${COMPUTE_SERVICE_ACCOUNT} --role roles/secretmanager.secretAccessor
 
-
 gcloud secrets add-iam-policy-binding ch-openbroadcast-settings \
   --member serviceAccount:${CLOUDBUILD_SERVICE_ACCOUNT} --role roles/secretmanager.secretAccessor
 

@@ -31,18 +31,18 @@ class PlaylistAdmin(admin.ModelAdmin):
         "updated",
         "sync_state",
     ]
+    search_fields = [
+        "name",
+    ]
     date_hierarchy = "created"
     inlines = [
         PlaylistMediaInline,
         PlaylistImageInline,
     ]
 
-    @staticmethod
-    def image_display(obj):
-
+    def image_display(self, obj):
         if not (obj.image and obj.image.file):
             return "-"
-
         return mark_safe('<img width="100" src="{url}"/>'.format(url=obj.image.url))
 
     image_display.short_description = "Image"

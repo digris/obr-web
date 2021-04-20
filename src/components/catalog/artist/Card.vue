@@ -57,7 +57,7 @@ export default {
       <div
         class="subtitle"
       >
-        ( Sub Title )
+        <small>Subtitle</small>
       </div>
     </div>
   </div>
