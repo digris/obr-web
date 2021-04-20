@@ -1,5 +1,23 @@
+# -*- coding: utf-8 -*-
+from datetime import timedelta
 from django.db import models
+from django.db.models import Q
+from django.utils import timezone
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+
+
+class EmissionQuerySet(models.QuerySet):
+    def upcoming(self):
+        now = timezone.now()
+        return self.filter(time_start__gt=now)
+
+    def past(self):
+        now = timezone.now()
+        return self.filter(time_end__lt=now)
+
+    def current(self):
+        now = timezone.now()
+        return self.filter(time_start__lte=now, time_end__gte=now)
 
 
 class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
@@ -22,6 +40,13 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         blank=False,
     )
 
+    time_end = models.DateTimeField(
+        # editable=False,
+        db_index=True,
+        null=True,
+        blank=False,
+    )
+
     playlist = models.ForeignKey(
         "catalog.Playlist",
         null=True,
@@ -29,6 +54,8 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         on_delete=models.CASCADE,
         related_name="emissions",
     )
+
+    objects = EmissionQuerySet.as_manager()
 
     class Meta:
         app_label = "broadcast"
@@ -38,4 +65,60 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         get_latest_by = "time_start"
 
     def __str__(self):
-        return f"{self.time_start} {self.obj_key}"
+        if self.playlist and self.playlist.name:
+            return str(self.playlist.name)
+        return f"<Emission> {self.uid}"
+
+    @property
+    def duration(self):
+        if not (self.time_start and self.time_end):
+            return None
+        return self.time_end - self.time_start
+
+    @property
+    def is_current(self):
+        now = timezone.now()
+        return self.time_start <= now <= self.time_end
+
+    def get_media_set(self):
+        if not self.playlist:
+            return []
+
+        # print(f"playlist", self.playlist)
+
+        media_set = []
+        time_base = self.time_start
+        time_offset = timedelta()
+        qs = self.playlist.playlist_media.order_by("position").select_related("media")
+        for playlist_media in qs:
+            time_start = time_base + time_offset
+            time_end = time_start + playlist_media.effective_duration
+
+            # media_entry = {
+            #     "media": playlist_media.media,
+            # }
+
+            media_set.append(
+                {
+                    "media": playlist_media.media,
+                    "uid": playlist_media.uid,
+                    "key": f"{self.uid}-{playlist_media.uid}",
+                    "cue_in": playlist_media.cue_in,
+                    "cue_out": playlist_media.cue_out,
+                    "fade_in": playlist_media.fade_in,
+                    "fade_out": playlist_media.fade_out,
+                    "fade_cross": playlist_media.fade_cross,
+                    "time_start": time_start,
+                    "time_end": time_end,
+                }
+            )
+
+            # print("-" * 72)
+            # print(f"{time_start} - {time_end}")
+            #
+            # print(
+            #     f"{playlist_media.position} - {playlist_media.effective_duration} - {playlist_media.media.name}"
+            # )
+            time_offset += playlist_media.effective_duration
+
+        return media_set

@@ -45,6 +45,7 @@ def sync_playlist(playlist):
         "created",
         "updated",
         "items",
+        "items",
     ]
     params = {"fields": ",".join(fields)}
 
@@ -98,13 +99,15 @@ def sync_playlist(playlist):
 
         uuid = media_dict.pop("uuid")
         name = media_dict.pop("name")
-        duration = timedelta(seconds=media_dict.pop("duration"))
+        media_dict.pop("duration")
+        # duration = timedelta(seconds=media_dict.pop("duration"))
+        # print("DURATION", duration)
 
         try:
             media = Media.objects.get(uuid=uuid)
 
         except Media.DoesNotExist:
-            media = Media(uuid=uuid, name=name, duration=duration)
+            media = Media(uuid=uuid, name=name, duration=timedelta())
             media.save()
 
         playlist_media = PlaylistMedia(

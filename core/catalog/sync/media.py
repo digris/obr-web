@@ -16,56 +16,14 @@ logger = logging.getLogger(__name__)
 MEDIA_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/media/"
 
 
-def copy_to_gcs(uuid):
-
-    # nas to tmp
-    src = f'5.79.64.65:/nas/storage/prod.openbroadcast.org/media/private/{uuid.replace("-", "/")}/'
-    dst = f"data/tmp/{uuid[0:8]}"
-    cmd = [
-        "rsync",
-        "-r",
-        src,
-        dst,
-    ]
-
-    # print(" ".join(cmd))
-    try:
-        out = subprocess.check_output(" ".join(cmd), shell=True).decode("utf-8")
-        # print(out)
-    except Exception as e:
-        print(e)
-        print(" ".join(cmd))
-        print("--")
-        return
-
-    # tmp to gcs
-    src = f"data/tmp/{uuid[0:8]}"
-    dst = f"gs://obr-master/{uuid[0:8].upper()}"
-    cmd = [
-        "gsutil",
-        "cp",
-        "-r",
-        src,
-        dst,
-    ]
-
-    # print(" ".join(cmd))
-    out = subprocess.check_output(" ".join(cmd), shell=True).decode("utf-8")
-    # print(out)
-
-    pass
-
-
 def sync_master_to_gcs(uuid):
     # TODO: change OBP api to uniformly use `media` (instead of `track`)
-    master_url = (
-        f"{MEDIA_ENDPOINT.replace('/media/', '/track/')}{uuid}/download-master/"
-    )
+    master_url = f"{MEDIA_ENDPOINT}{uuid}/download-master/"
 
     headers = {"Authorization": "Token 0dbea6aeb52acc8f71ed33611b51ded4f0b5bdda"}
     r = requests.get(master_url, headers=headers)
 
-    print("status", r.status_code)
+    # print("status", r.status_code)
 
     if not r.status_code == 200:
         return False
@@ -95,21 +53,24 @@ def sync_media(media):
         "updated",
         "artist",
         "release",
+        "tracknumber",
+        "duration",
+        "media_artists",
     ]
     params = {"fields": ",".join(fields)}
 
     r = requests.get(url=url, params=params)
     data = r.json()
 
-    print(json.dumps(data, indent=2))
+    # print(json.dumps(data, indent=2))
 
     update = {
         "created": timezone.make_aware(datetime.fromisoformat(data.get("created"))),
+        "duration": timedelta(seconds=data.get("duration")),
     }
 
     type(media).objects.filter(id=media.id).update(**update)
 
-    # copy_to_gcs(str(media.uuid))
     sync_master_to_gcs(str(media.uuid))
 
     # related items
@@ -132,6 +93,57 @@ def sync_media(media):
             media=media,
             artist=artist,
         )
+
+    media_artists = data.get("media_artists", [])
+    for media_artist in media_artists:
+        from catalog.models import Artist, MediaArtists
+
+        artist_uuid = media_artist["uuid"]
+        artist_name = media_artist["name"]
+        try:
+            artist = Artist.objects.get(uuid=artist_uuid)
+
+        except Artist.DoesNotExist:
+            artist = Artist(uuid=artist_uuid, name=artist_name)
+            artist.save()
+
+        media_artist_obj, created = MediaArtists.objects.get_or_create(
+            media=media,
+            artist=artist,
+        )
+
+        MediaArtists.objects.filter(id=media_artist_obj.id).update(
+            position=media_artist["position"],
+            join_phrase=media_artist["join_phrase"] or None,
+        )
+
+    # related items
+    release_url = data.get("release")
+    tracknumber = data.get("tracknumber", 0)
+    print("tracknumber", tracknumber)
+    # e.g. https://www.openbroadcast.org/api/v2/alibrary/release/a3c87aae-7a4e-4b27-acf5-4ef2dd5facdf/
+    if release_url:
+        from catalog.models import Release, ReleaseMedia
+
+        release_uuid = release_url.split("/")[-2]
+        logger.debug(f"sync media release: {release_uuid}")
+
+        try:
+            release = Release.objects.get(uuid=release_uuid)
+
+        except Release.DoesNotExist:
+            release = Release(uuid=release_uuid, name="--init--")
+            release.save()
+
+        release_media, created = ReleaseMedia.objects.get_or_create(
+            release=release,
+            media=media,
+        )
+
+        if tracknumber and tracknumber != release_media.position:
+            ReleaseMedia.objects.filter(id=release_media.id).update(
+                position=tracknumber,
+            )
 
     logger.info(f"sync completed for media: {media.uid}")
 

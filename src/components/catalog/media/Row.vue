@@ -1,4 +1,5 @@
 <script>
+import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
 import { getDashUrl } from '@/player/media';
 
@@ -28,6 +29,13 @@ export default {
     isCurrent() {
       return this.media.uid === this.currentMedia.uid;
     },
+    latestAirplay() {
+      if (!this.media.latestAirplay) {
+        return null;
+      }
+      const dt = DateTime.fromISO(this.media.latestAirplay);
+      return dt.toFormat('HH:mm yyyy-LL-dd');
+    },
   },
   methods: {
     controls(media) {
@@ -35,7 +43,7 @@ export default {
       const event = {
         do: 'play',
         url,
-        startTime: 10,
+        startTime: 0,
       };
       eventBus.emit('player:controls', event);
       this.$store.dispatch('player/updateCurrentMedia', media);
@@ -63,6 +71,12 @@ export default {
         :artists="media.artists"
       />
     </div>
+    <div class="airplays">
+      <span
+        v-if="latestAirplay"
+        :title="`Total: ${media.numAirplays}`"
+      >{{ latestAirplay }}</span>
+    </div>
     <div class="duration">
       {{ duration }}
     </div>
@@ -73,7 +87,7 @@ export default {
 .media-row {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 1fr 8fr 8fr 2fr;
+  grid-template-columns: 1fr 6fr 7fr 3fr 2fr;
   padding: 0.5rem 0;
   border-bottom: 2px solid rgb(var(--c-live-fg));
   //TODO: find a modular way to handle color / ui transitions

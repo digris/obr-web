@@ -62,3 +62,7 @@ class User(
 
     def __str__(self):
         return self.email
+
+    def sync_data(self):
+        print(f"sync account: {self.uuid}")
+        pass

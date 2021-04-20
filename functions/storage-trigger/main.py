@@ -12,7 +12,7 @@ def encode(path, encoding_format):
     url = f"{ENCODER_ENDPOINT}/encode-{encoding_format}"
     headers = {
         "Content-Type": "application/json",
-        "Authentication": f"Bearer {API_TOKEN}",
+        "Authentication": f"Bearer {API_TOKEN}",  # Note: Flask style
     }
     body = json.dumps(payload).encode("utf-8")
     http = urllib3.PoolManager(ca_certs=certifi.where())

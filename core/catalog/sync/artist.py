@@ -33,15 +33,15 @@ def sync_artist(artist):
     r = requests.get(url=url, params=params)
     data = r.json()
 
-    print(
-        json.dumps(
-            {
-                "url": url,
-                "data": data,
-            },
-            indent=2,
-        )
-    )
+    # print(
+    #     json.dumps(
+    #         {
+    #             "url": url,
+    #             "data": data,
+    #         },
+    #         indent=2,
+    #     )
+    # )
 
     update = {
         "name": data.get("name").strip(),

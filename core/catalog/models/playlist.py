@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from datetime import timedelta
 from django.db import models
 from django.utils.functional import cached_property
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
@@ -47,7 +49,7 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
         return sync_playlist(self)
 
 
-class PlaylistMedia(models.Model):
+class PlaylistMedia(CTUIDModelMixin, models.Model):
 
     playlist = models.ForeignKey(
         Playlist,
@@ -83,6 +85,12 @@ class PlaylistMedia(models.Model):
         verbose_name = "Playlist media"
         verbose_name_plural = "Playlist media"
         db_table = "catalog_playlist_media"
+
+    @property
+    def effective_duration(self):
+        # calculate effective duration, taking into account cues + fade-out
+        diff_s = (self.cue_in + self.cue_out + self.fade_cross) / 1000.0
+        return self.media.duration - timedelta(seconds=diff_s)
 
 
 class PlaylistImage(BaseSortableImage):

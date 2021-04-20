@@ -101,6 +101,10 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
 
     duration = DurationInSecondsSerializer(read_only=True)
 
+    latest_airplay = serializers.DateTimeField(read_only=True)
+
+    num_airplays = serializers.IntegerField()
+
     class Meta:
         model = Media
         fields = [
@@ -112,6 +116,8 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
             "artist_display",
             "artists",
             "duration",
+            "latest_airplay",
+            "num_airplays",
         ]
 
 
@@ -166,6 +172,7 @@ class PlaylistSerializer(
 
     image = ImageSerializer(read_only=True)
 
+    latest_emission = serializers.DateTimeField(read_only=True)
     num_media = serializers.IntegerField(read_only=True)
     num_emissions = serializers.IntegerField(read_only=True)
 
@@ -180,6 +187,7 @@ class PlaylistSerializer(
             "ct",
             "uid",
             "name",
+            "latest_emission",
             "num_media",
             "num_emissions",
             "image",

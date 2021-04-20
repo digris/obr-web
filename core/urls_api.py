@@ -53,4 +53,6 @@ urlpatterns = [
     url(r"^docs/$", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
     path("account/", include("account.api.urls", "account")),
     path("catalog/", include("catalog.api.urls", "catalog")),
+    path("broadcast/", include("broadcast.api.urls", "broadcast")),
+    path("pub-sub-bridge/", include("pub_sub_bridge.api.urls", "pub_sub_bridge")),
 ]

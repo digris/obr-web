@@ -1,4 +1,6 @@
 <script>
+import { computed } from 'vue';
+import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/UI/LazyImage.vue';
 import { getImageSrc } from '@/utils/image';
@@ -14,7 +16,11 @@ export default {
   setup(props) {
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const imageSrc = getImageSrc(props.playlist);
-    return { link, imageSrc };
+    const latestEmission = computed(() => {
+      const dt = DateTime.fromISO(props.playlist.latestEmission);
+      return dt.toFormat('HH:mm yyyy-LL-dd');
+    });
+    return { link, imageSrc, latestEmission };
   },
 };
 </script>
@@ -48,7 +54,7 @@ export default {
       <div
         class="subtitle"
       >
-        ( Sub Title )
+        <small>{{ latestEmission }}</small>
       </div>
     </div>
   </div>
