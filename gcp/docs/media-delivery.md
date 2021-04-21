@@ -85,6 +85,15 @@ gcloud beta compute backend-buckets update obr-media-backend-bucket \
 ```
 
 
+```shell
+# NOTE: just as a test. the headers set via cors.json are ignored when
+# signed cookie is invalid...
+gcloud beta compute backend-buckets update obr-media-backend-bucket \
+    --custom-response-header='Access-Control-Allow-Credentials: true' \
+    --custom-response-header='Access-Control-Allow-Origin: https://next.openbroadcast.ch'
+```
+
+
 
 
 

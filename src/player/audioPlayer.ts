@@ -139,6 +139,7 @@ class AudioPlayer {
       duration: isLive ? null : audio.duration,
       currentTime,
       relPosition,
+      playheadTime,
     };
 
     // if (Object.is(state, this.state)) {

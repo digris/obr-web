@@ -1,26 +1,15 @@
 # -*- coding: utf-8 -*-
 import logging
-import time
 
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
-
-from rest_framework import mixins, status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ParseError
-from rest_framework.compat import coreapi
-from rest_framework.compat import coreschema
-from drf_yasg.utils import swagger_auto_schema
+from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
+from rest_framework import mixins, viewsets
+from rest_framework.exceptions import ParseError
 
-from ..models import Media, Artist, Release, Playlist
 from . import serializers
-
+from ..models import Media, Artist, Release, Playlist
 
 logger = logging.getLogger(__name__)
 

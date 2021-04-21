@@ -57,7 +57,7 @@ export default {
       <div
         class="subtitle"
       >
-        <small>Subtitle</small>
+        <small>{{ artist.numMedia }} tracks</small>
       </div>
     </div>
   </div>

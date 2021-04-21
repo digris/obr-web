@@ -25,4 +25,12 @@ async function getCurrentUser() {
   return response.data;
 }
 
-export { login, logout, getCurrentUser };
+async function refreshCredentials() {
+  const url = `${ACCOUNT_ENDPOINT}refresh-credentials/`;
+  const response = await APIClient.get(url);
+  return response.data;
+}
+
+export {
+  login, logout, getCurrentUser, refreshCredentials,
+};
