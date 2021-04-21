@@ -1,6 +1,6 @@
 import logging
-from google.cloud import logging as google_cloud_logging
 
+from google.cloud import logging as google_cloud_logging
 
 gcp_log_client = google_cloud_logging.Client()
 gcp_log_client.setup_logging()

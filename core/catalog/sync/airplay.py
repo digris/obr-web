@@ -1,7 +1,9 @@
 import itertools
+
 from django.db import transaction
-from catalog.models.media import Airplay
+
 from broadcast.models import Emission
+from catalog.models.media import Airplay
 
 flatten = itertools.chain.from_iterable
 

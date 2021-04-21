@@ -1,8 +1,9 @@
 import graphene
+import graphene_django_optimizer as gql_optimizer
 from graphene import Node
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
-import graphene_django_optimizer as gql_optimizer
+
 from catalog.models import Artist, Media
 
 

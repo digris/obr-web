@@ -6,7 +6,6 @@ from rest_framework import serializers
 
 from account.models import User
 
-
 SITE_URL = getattr(settings, "SITE_URL")
 
 logger = logging.getLogger(__name__)

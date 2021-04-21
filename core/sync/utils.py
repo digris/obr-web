@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
-import requests
 from datetime import datetime, timedelta
+
+import requests
 from django.utils import timezone
 from pytz.exceptions import AmbiguousTimeError, NonExistentTimeError
 

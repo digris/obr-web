@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-import logging
 import json
-import requests
-from datetime import datetime, timedelta
-from django.utils import timezone
+import logging
+from datetime import datetime
 from urllib.request import urlopen
+
+import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,6 @@ RELEASE_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/release/"
 
 
 def sync_release(release):
-    from catalog.models.media import Media
     from catalog.models.release import ReleaseImage
 
     url = f"{RELEASE_ENDPOINT}{release.uuid}/"

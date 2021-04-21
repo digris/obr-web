@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
 from django.db import models
 from django.utils.functional import cached_property
+
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from catalog.sync.playlist import sync_playlist
 from image.models import BaseSortableImage
 from sync.models.mixins import SyncModelMixin
-from catalog.sync.playlist import sync_playlist
 
 
 class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):

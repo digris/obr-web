@@ -2,11 +2,10 @@
 import logging
 
 from django.conf import settings
-from rest_framework import serializers
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
+from rest_framework import serializers
 
 from ..models import Artist, Media, MediaArtists, PlaylistMedia
-
 
 SITE_URL = getattr(settings, "SITE_URL")
 

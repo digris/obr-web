@@ -1,7 +1,8 @@
 import json
 import time
-import requests
 from datetime import timedelta
+
+import requests
 
 from catalog.models import Artist, Media, MediaArtists
 

@@ -1,7 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
-from random import randint
-from faker import Faker
 from datetime import timedelta
+from random import randint
+
+from django.core.management.base import BaseCommand
+from faker import Faker
 
 from catalog.models import Artist, Media, MediaArtists
 

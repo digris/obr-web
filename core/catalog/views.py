@@ -1,5 +1,4 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.views.generic import View
 
 DASH_MANIFEST_URL_TPL = "https://media.next.openbroadcast.ch/encoded/{uid}/manifest.mpd"

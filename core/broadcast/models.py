@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
 from django.db import models
-from django.db.models import Q
 from django.utils import timezone
+
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 
 
