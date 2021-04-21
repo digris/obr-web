@@ -9,6 +9,11 @@ export default {
     CurrentMedia,
     Playhead,
   },
+  data() {
+    return {
+      startTime: -10,
+    };
+  },
   computed: {
     playerState() {
       return this.$store.getters['player/playerState'];
@@ -42,7 +47,7 @@ export default {
       let startTime;
       if (key === 'stream') {
         url = `${this.streamUrl}?${Date.now()}`;
-        startTime = -10;
+        startTime = parseInt(this.startTime, 10);
       } else {
         // e.g. https://media.next.openbroadcast.ch/encoded/F002/manifest.mpd
         url = `${this.mediaBaseUrl}${key}/dash/manifest.mpd`;
@@ -106,6 +111,7 @@ export default {
   <div class="player-dummy-controls">
     <div>
       <button @click="play('stream')">LIVE</button>
+      <input v-model="startTime" type="number">
       <button @click="play('F001')">F001</button>
       <button @click="play('F002')">F002</button>
       <button @click="play('F003')">F003</button>

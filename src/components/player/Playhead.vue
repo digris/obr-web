@@ -100,10 +100,10 @@ export default {
   //grid-gap: 0.5rem;
   display: flex;
   .action {
-    margin: 0 0.25rem;
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
+    margin: 0 0.25rem;
     color: rgb(var(--c-bg));
     background: rgba(var(--c-fg), 0.5);
     border: none;

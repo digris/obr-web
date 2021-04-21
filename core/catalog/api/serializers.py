@@ -34,6 +34,9 @@ class ImageSerializer(serializers.Serializer):
 
         return data
 
+    class Meta:
+        ref_name = "CatalogImageSerializer"
+
 
 class ArtistSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -182,6 +185,7 @@ class PlaylistSerializer(
 
     class Meta:
         model = Media
+        ref_name = "CatalogPlaylistSerializer"
         fields = [
             "url",
             "ct",

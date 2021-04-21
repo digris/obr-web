@@ -82,6 +82,8 @@ DATABASES = {
     }
 }
 
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 
 ##################################################################
 # authentication
@@ -262,11 +264,11 @@ LOGGING_ = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "django.request": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": False,
-        },
+        # "django.request": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        #     "propagate": False,
+        # },
         "geoip": {
             "level": "DEBUG",
             "handlers": ["console"],

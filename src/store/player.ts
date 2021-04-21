@@ -1,12 +1,13 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
+import { DateTime } from 'luxon';
 
 const state = {
   encodingFormat: 'dash',
   configuration: {},
   bufferInfo: {},
   currentState: null,
-  playhead: {},
+  playheadTime: null,
   playerState: null,
   currentMedia: {
     name: 'Rock The Boat',
@@ -22,6 +23,8 @@ const getters = {
   // @ts-ignore
   encodingFormat: (state) => state.encodingFormat,
   // @ts-ignore
+  playheadTime: (state) => state.playheadTime,
+  // @ts-ignore
   playerState: (state) => state.playerState,
   // @ts-ignore
   currentMedia: (state) => state.currentMedia,
@@ -34,7 +37,13 @@ const mutations = {
   },
   // @ts-ignore
   SET_PLAYER_STATE: (state, { playerState }) => {
-    state.playerState = playerState;
+    const { playheadTime, ...pState } = playerState;
+    if (playheadTime) {
+      state.playheadTime = DateTime.fromJSDate(playheadTime);
+    } else {
+      state.playheadTime = null;
+    }
+    state.playerState = pState;
   },
   // @ts-ignore
   SET_CURRENT_MEDIA: (state, media) => {

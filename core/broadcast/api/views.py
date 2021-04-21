@@ -65,7 +65,7 @@ class ScheduleView(APIView):
         time_from = now - timedelta(seconds=seconds_ahead)
         time_until = now + timedelta(seconds=seconds_back)
 
-        print(f"{time_from} - {time_until}")
+        # print(f"{time_from} - {time_until}")
 
         # get emissions within window
         qs = Emission.objects.filter(
@@ -73,11 +73,11 @@ class ScheduleView(APIView):
             time_start__lte=time_until,
         )
 
-        print(f"num: {qs.count()}")
+        # print(f"num: {qs.count()}")
 
-        print("// emissions ///")
-        for e in qs:
-            print(f"e: {e.time_start} - {e.time_end}")
+        # print("// emissions ///")
+        # for e in qs:
+        #     print(f"e: {e.time_start} - {e.time_end}")
 
         flatten = itertools.chain.from_iterable
 
@@ -94,8 +94,8 @@ class ScheduleView(APIView):
 
         # print(len(media_set))
         #
-        for m in media_in_range:
-            print(m["time_start"])
+        # for m in media_in_range:
+        #     print(m["time_start"])
 
         serializer = serializers.ScheduleSerializer(
             media_in_range,

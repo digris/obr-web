@@ -9,6 +9,7 @@
         "http://mbp15.local:8080"
       ],
       "method": ["HEAD", "GET", "OPTIONS"],
-      "maxAgeSeconds": 1
+      "maxAgeSeconds": 1,
+      "responseHeader": ["Authorization", "Content-Range", "Accept", "Content-Type", "Origin", "Range"]
     }
 ]

@@ -16,14 +16,14 @@ python-versions = "*"
 
 [[package]]
 name = "asgiref"
-version = "3.3.1"
+version = "3.3.4"
 description = "ASGI specs, helper code, and adapters"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.6"
 
 [package.extras]
-tests = ["pytest", "pytest-asyncio"]
+tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 
 [[package]]
 name = "astroid"
@@ -156,19 +156,19 @@ python-versions = "*"
 
 [[package]]
 name = "django"
-version = "3.1.8"
+version = "3.2"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-asgiref = ">=3.2.10,<4"
+asgiref = ">=3.3.2,<4"
 pytz = "*"
 sqlparse = ">=0.2.2"
 
 [package.extras]
-argon2 = ["argon2-cffi (>=16.1.0)"]
+argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
@@ -178,9 +178,16 @@ description = "Generic drag-and-drop sorting for the List, the Stacked- and the 
 category = "main"
 optional = false
 python-versions = "*"
+develop = false
 
 [package.dependencies]
-Django = ">=1.8,<3.2"
+Django = ">=1.8,<3.3"
+
+[package.source]
+type = "git"
+url = "https://github.com/jrief/django-admin-sortable2.git"
+reference = "master"
+resolved_reference = "45821d797dd8bb5e44a30b90ebc054f4ecba1646"
 
 [[package]]
 name = "django-cleanup"
@@ -236,6 +243,17 @@ description = "Middleware that Prints the number of DB queries to the runserver 
 category = "dev"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "django-request-logging"
+version = "0.7.2"
+description = "Django middleware that logs http request body."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Django = "*"
 
 [[package]]
 name = "django-settings-export"
@@ -403,6 +421,19 @@ six = ">=1.12.0"
 
 [package.extras]
 grpc = ["grpcio (>=1.8.2,<2.0dev)"]
+
+[[package]]
+name = "google-cloud-logging"
+version = "2.3.1"
+description = "Stackdriver Logging API client library"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+google-api-core = {version = ">=1.22.0,<2.0.0dev", extras = ["grpc"]}
+google-cloud-core = ">=1.4.1,<2.0dev"
+proto-plus = ">=1.11.0"
 
 [[package]]
 name = "google-cloud-secret-manager"
@@ -1294,7 +1325,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8cc5cffcc0c04cd2e289ea6dc053218bab9a2d114423ecad3b496f6943990422"
+content-hash = "09ca6b386508f8eb0e0924b93070f7aed25ebbced0fa5c981a025d36881117c2"
 
 [metadata.files]
 aniso8601 = [
@@ -1306,8 +1337,8 @@ appdirs = [
     {file = "appdirs-1.4.4.tar.gz", hash = "sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41"},
 ]
 asgiref = [
-    {file = "asgiref-3.3.1-py3-none-any.whl", hash = "sha256:5ee950735509d04eb673bd7f7120f8fa1c9e2df495394992c73234d526907e17"},
-    {file = "asgiref-3.3.1.tar.gz", hash = "sha256:7162a3cb30ab0609f1a4c95938fd73e8604f63bdba516a7f7d64b83ff09478f0"},
+    {file = "asgiref-3.3.4-py3-none-any.whl", hash = "sha256:92906c611ce6c967347bbfea733f13d6313901d54dcca88195eaeb52b2a8e8ee"},
+    {file = "asgiref-3.3.4.tar.gz", hash = "sha256:d1216dfbdfb63826470995d31caed36225dcaf34f182e0fa257a4dd9e86f1b78"},
 ]
 astroid = [
     {file = "astroid-2.5.1-py3-none-any.whl", hash = "sha256:21d735aab248253531bb0f1e1e6d068f0ee23533e18ae8a6171ff892b98297cf"},
@@ -1446,13 +1477,10 @@ distlib = [
     {file = "distlib-0.3.1.zip", hash = "sha256:edf6116872c863e1aa9d5bb7cb5e05a022c519a4594dc703843343a9ddd9bff1"},
 ]
 django = [
-    {file = "Django-3.1.8-py3-none-any.whl", hash = "sha256:c348b3ddc452bf4b62361f0752f71a339140c777ebea3cdaaaa8fdb7f417a862"},
-    {file = "Django-3.1.8.tar.gz", hash = "sha256:f8393103e15ec2d2d313ccbb95a3f1da092f9f58d74ac1c61ca2ac0436ae1eac"},
+    {file = "Django-3.2-py3-none-any.whl", hash = "sha256:0604e84c4fb698a5e53e5857b5aea945b2f19a18f25f10b8748dbdf935788927"},
+    {file = "Django-3.2.tar.gz", hash = "sha256:21f0f9643722675976004eb683c55d33c05486f94506672df3d6a141546f389d"},
 ]
-django-admin-sortable2 = [
-    {file = "django-admin-sortable2-0.7.8.tar.gz", hash = "sha256:d523388976c9254f130375cb16c636369e89a5fd1db7a025253aeb497ce6018e"},
-    {file = "django_admin_sortable2-0.7.8-py3-none-any.whl", hash = "sha256:b51a161b6dc69aedcba3c216df4aef58d54f389d0c4d2c720f59cf2d3f594c00"},
-]
+django-admin-sortable2 = []
 django-cleanup = [
     {file = "django-cleanup-5.1.0.tar.gz", hash = "sha256:8976aec12a22913afb3d1fcb541b1aedde2f5ec243e4260c5ff78bb6aa75a089"},
     {file = "django_cleanup-5.1.0-py2.py3-none-any.whl", hash = "sha256:71e098c7d9ac3f3da40b95cff9c0bc51218d40ef419261232f46ba3141c50acc"},
@@ -1475,6 +1503,10 @@ django-filter = [
 ]
 django-querycount = [
     {file = "django-querycount-0.7.0.tar.gz", hash = "sha256:8f5123d78716ff0704f2373e746a7200b8d8417798ce4a99bf2de87e3768f9ce"},
+]
+django-request-logging = [
+    {file = "django-request-logging-0.7.2.tar.gz", hash = "sha256:5ac99bc885bd30b3b59d3ea8e28ec7fa5d5343748f752cc3ef0c98c1ccf206a8"},
+    {file = "django_request_logging-0.7.2-py2.py3-none-any.whl", hash = "sha256:7c1c6e5fee02a95e4c85e3ebfcc3e0db0b436c8b2bd1f41d645b8e10ee365633"},
 ]
 django-settings-export = [
     {file = "django-settings-export-1.2.1.tar.gz", hash = "sha256:fceeae49fc597f654c1217415d8e049fc81c930b7154f5d8f28c432db738ff79"},
@@ -1521,6 +1553,10 @@ google-auth = [
 google-cloud-core = [
     {file = "google-cloud-core-1.6.0.tar.gz", hash = "sha256:c6abb18527545379fc82efc4de75ce9a3772ccad2fc645adace593ba097cbb02"},
     {file = "google_cloud_core-1.6.0-py2.py3-none-any.whl", hash = "sha256:40d9c2da2d03549b5ac3dcccf289d4f15e6d1210044c6381ce45c92913e62904"},
+]
+google-cloud-logging = [
+    {file = "google-cloud-logging-2.3.1.tar.gz", hash = "sha256:ca2de51bbb4a8b606453bbed30810fb25975517fc9c6b363e06f8325a190ffe9"},
+    {file = "google_cloud_logging-2.3.1-py2.py3-none-any.whl", hash = "sha256:7cad276c7db8b443c1e73fefbc13f577d87d43346aa0277442bf41b4f9ff6812"},
 ]
 google-cloud-secret-manager = [
     {file = "google-cloud-secret-manager-2.3.0.tar.gz", hash = "sha256:4df4b7e3f83bc12d6bd29e69608172586b6ddfc7586dd2a2fd70cc4f18ed05c7"},
