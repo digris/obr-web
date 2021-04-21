@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db.models import Max
+
 from catalog.models.media import Media, Airplay
 
 

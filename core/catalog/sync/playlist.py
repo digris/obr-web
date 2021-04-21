@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import logging
-import json
-import requests
 from datetime import datetime, timedelta
-from django.utils import timezone
 from urllib.request import urlopen
+
+import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 

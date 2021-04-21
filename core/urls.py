@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path, re_path
-from django.conf import settings
-from django.views.static import serve
 from django.views.decorators.csrf import csrf_exempt
+from django.views.static import serve
 from graphene_django.views import GraphQLView
 
 SITE_URL = getattr(settings, "SITE_URL")

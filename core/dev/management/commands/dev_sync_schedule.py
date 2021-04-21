@@ -1,8 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from dev.schedule import synch_to_catalog
-
-from catalog.models import Artist, Media
 
 
 class Command(BaseCommand):

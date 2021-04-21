@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models.mixins import SyncModelMixin, SyncState
 
+from .models.mixins import SyncModelMixin, SyncState
 
 logger = logging.getLogger(__name__)
 

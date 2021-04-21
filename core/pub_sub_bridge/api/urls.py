@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.urls import path
-from . import views
 
+from . import views
 
 app_name = "pub_sub_bridge"
 urlpatterns = [

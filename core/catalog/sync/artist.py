@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import logging
-import json
-import requests
-from datetime import datetime, timedelta
-from django.utils import timezone
+from datetime import datetime
 from urllib.request import urlopen
+
+import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-
+from django.utils import timezone
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +15,6 @@ ARTIST_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/artist/"
 
 
 def sync_artist(artist):
-    from catalog.models.media import Media
     from catalog.models.artist import ArtistImage
 
     url = f"{ARTIST_ENDPOINT}{artist.uuid}/"

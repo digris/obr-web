@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+
 from catalog.models.artist import Artist, ArtistImage
 from image.admin import SortableImageInlineMixin
 

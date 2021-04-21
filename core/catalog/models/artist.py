@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.functional import cached_property
+
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from catalog.sync.artist import sync_artist
 from image.models import BaseSortableImage
 from sync.models.mixins import SyncModelMixin
-from catalog.sync.artist import sync_artist
 
 
 class Artist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
