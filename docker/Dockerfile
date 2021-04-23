@@ -32,7 +32,8 @@ ENV PYTHONFAULTHANDLER=1 \
 RUN set -ex \
     && apt-get update \
     && apt-get install -y \
-        gettext
+        gettext \
+        git
 
 
 #######################################################################
@@ -53,7 +54,8 @@ RUN pip3 install -U pip "poetry==$POETRY_VERSION" \
 COPY ["pyproject.toml","poetry.lock", "./"]
 
 # https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker
-RUN poetry export -f requirements.txt | /venv/bin/pip install -r /dev/stdin
+# NOTE: --without-hashes is temporary here to allow install pacvkages from git (only pypi supports hashes)
+RUN poetry export --without-hashes -f requirements.txt | /venv/bin/pip install -r /dev/stdin
 
 ADD ./core/ ./core/
 

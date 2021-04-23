@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 @receiver(post_save)
+# pylint: disable=unused-argument
 def sync_model_post_save(sender, instance, **kwargs):
     if not issubclass(sender, SyncModelMixin):
         return

@@ -30,7 +30,7 @@ django-admin-sortable2 = {git = "https://github.com/jrief/django-admin-sortable2
 django-cleanup = "^5.1.0"
 mondrian = "^0.8.1"
 drf-flex-fields = "^0.8.9"
-django-request-logging = "^0.7.2"
+django-request-logging = {git = "https://github.com/Rhumbix/django-request-logging.git"}
 google-cloud-logging = "^2.3.1"
 
 [tool.poetry.dev-dependencies]
@@ -38,7 +38,7 @@ django-debug-toolbar = "*"
 django-extensions = "*"
 frosted = "*"
 pre-commit = "*"
-prospector = "*"
+prospector = "^1.3.1"
 pygtail = "*"
 pylint = "*"
 pylint-django = "*"

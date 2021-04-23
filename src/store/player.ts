@@ -9,14 +9,15 @@ const state = {
   currentState: null,
   playheadTime: null,
   playerState: null,
-  currentMedia: {
-    name: 'Rock The Boat',
-    artists: [
-      {
-        name: 'Inner Circle',
-      },
-    ],
-  },
+  // currentMedia: {
+  //   name: 'Rock The Boat',
+  //   artists: [
+  //     {
+  //       name: 'Inner Circle',
+  //     },
+  //   ],
+  // },
+  currentMedia: null,
 };
 
 const getters = {

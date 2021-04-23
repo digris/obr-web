@@ -62,6 +62,7 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     @staticmethod
+    # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
         logout(request)
         response = Response(
@@ -74,7 +75,9 @@ class LogoutView(APIView):
 
 class CredentialsView(APIView):
     @staticmethod
+    # pylint: disable=unused-argument
     def get(request, *args, **kwargs):
+        # logger.debug("headers", request.headers)
         if request.user.is_authenticated:
             seconds_valid = 60 * 60
             logger.info(
@@ -98,3 +101,16 @@ class CredentialsView(APIView):
             )
             response = remove_credentials(response)
         return response
+
+
+class NoOpView(APIView):
+    @staticmethod
+    # pylint: disable=unused-argument
+    def get(request, *args, **kwargs):
+        print(request.user.is_authenticated)
+        return Response(
+            {
+                "no": "op",
+            },
+            status=status.HTTP_200_OK,
+        )

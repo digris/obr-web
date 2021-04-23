@@ -66,4 +66,3 @@ class User(
 
     def sync_data(self):
         print(f"sync account: {self.uuid}")
-        pass

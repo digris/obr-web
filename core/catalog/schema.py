@@ -27,6 +27,7 @@ class MediaNode(DjangoObjectType):
     # def resolve_id(self, info):
     #     return self.uid
 
+    # pylint: disable=unused-argument
     def resolve_duration(self, info):
         return self.duration.total_seconds()
 
@@ -60,6 +61,7 @@ class Query(graphene.ObjectType):
     artists = DjangoFilterConnectionField(ArtistNode)
     media = DjangoFilterConnectionField(MediaNode)
 
+    # pylint: disable=unused-argument
     def resolve_media(self, info, **kwargs):
         # return Media.objects.filter(uuid__istartswith="1C56D818")
         return gql_optimizer.query(Media.objects.all(), info)

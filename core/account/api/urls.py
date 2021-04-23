@@ -17,5 +17,10 @@ urlpatterns = [
         views.CredentialsView.as_view(),
         name="refresh-credentials",
     ),
+    path(
+        "noop/",
+        views.NoOpView.as_view(),
+        name="noop",
+    ),
     # path("", include(router.urls)),
 ]

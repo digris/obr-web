@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     media: {
       type: Object,
-      required: true,
+      required: false,
       default: () => null,
     },
   },
@@ -19,7 +19,6 @@ export default defineComponent({
 
 <template>
   <div
-    v-if="media"
     class="current-media"
   >
     <div
@@ -28,6 +27,7 @@ export default defineComponent({
       ( P )
     </div>
     <div
+      v-if="media"
       class="metadata"
     >
       <div

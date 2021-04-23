@@ -41,8 +41,14 @@ def sync_master_to_gcs(uuid):
         # (else it is just set to application/octet-stream)
         blob.upload_from_filename(f.name)
 
+    return True
 
+
+# pylint: disable=too-many-locals
 def sync_media(media):
+    # pylint: disable=import-outside-toplevel
+    from catalog.models import Artist, MediaArtists, Release, ReleaseMedia
+
     url = f"{MEDIA_ENDPOINT}{media.uuid}/"
     fields = [
         "uuid",
@@ -75,8 +81,6 @@ def sync_media(media):
     artist_url = data.get("artist")
     # e.g. https://www.openbroadcast.org/api/v2/alibrary/artist/a425f27b-0581-4562-b32d-8bf451b11445/
     if artist_url:
-        from catalog.models import Artist, MediaArtists
-
         artist_uuid = artist_url.split("/")[-2]
         logger.debug(f"sync media artist: {artist_uuid}")
 
@@ -94,8 +98,6 @@ def sync_media(media):
 
     media_artists = data.get("media_artists", [])
     for media_artist in media_artists:
-        from catalog.models import Artist, MediaArtists
-
         artist_uuid = media_artist["uuid"]
         artist_name = media_artist["name"]
         try:
@@ -105,6 +107,7 @@ def sync_media(media):
             artist = Artist(uuid=artist_uuid, name=artist_name)
             artist.save()
 
+        # pylint: disable=unused-variable
         media_artist_obj, created = MediaArtists.objects.get_or_create(
             media=media,
             artist=artist,
@@ -121,8 +124,6 @@ def sync_media(media):
     print("tracknumber", tracknumber)
     # e.g. https://www.openbroadcast.org/api/v2/alibrary/release/a3c87aae-7a4e-4b27-acf5-4ef2dd5facdf/
     if release_url:
-        from catalog.models import Release, ReleaseMedia
-
         release_uuid = release_url.split("/")[-2]
         logger.debug(f"sync media release: {release_uuid}")
 

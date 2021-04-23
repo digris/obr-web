@@ -2,7 +2,7 @@
 import logging
 
 from django.db.models import Count, Max, Q
-from django.db.models.functions import Now
+from django.db.models.functions import Now, JSONObject
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
@@ -57,9 +57,11 @@ class MediaFilter(filters.FilterSet):
         model = Media
         fields = ["playlist"]
 
+    # pylint: disable=unused-argument
     def playlist_filter(self, queryset, name, value):
         return queryset.filter(playlists__uid=value)
 
+    # pylint: disable=unused-argument
     def artist_filter(self, queryset, name, value):
         return queryset.filter(artists__uid=value)
 
@@ -101,6 +103,8 @@ class MediaViewSet(
             "artists",
             "media_artist",
             "media_artist__artist",
+            "votes",
+            "votes__user",
         )
 
         qs = qs.annotate(
@@ -114,7 +118,25 @@ class MediaViewSet(
             ),
         )
 
+        # annotate with request user's rating
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value", filter=Q(votes__user=self.request.user)
+                ),
+            )
+        # annotate with anonymous user 'identity'
+        else:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value",
+                    filter=Q(votes__user_identity=self.request.user_identity),
+                ),
+            )
+
         qs = qs.filter(latest_airplay__lte=Now())
+
+        # qs = qs.filter(user_rating__gte=1)
 
         qs = qs.order_by("-latest_airplay")
 

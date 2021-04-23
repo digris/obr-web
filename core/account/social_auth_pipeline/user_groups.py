@@ -7,13 +7,12 @@ WHITELISTED_DOMAINS = getattr(settings, "SOCIAL_AUTH_WHITELISTED_DOMAINS")
 log = logging.getLogger(__name__)
 
 
-def add_user_to_team(strategy, details, user=None, *args, **kwargs):
+# pylint: disable=unused-argument,keyword-arg-before-vararg
+def add_user_to_team(strategy, user=None, *args, **kwargs):
     """
     assign user to team group.
     also sets staff & email verification flags
     """
-
-    group_name = "Team"
 
     if not (user and user.email):
         return

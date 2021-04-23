@@ -15,6 +15,7 @@ ARTIST_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/artist/"
 
 
 def sync_artist(artist):
+    # pylint: disable=import-outside-toplevel
     from catalog.models.artist import ArtistImage
 
     url = f"{ARTIST_ENDPOINT}{artist.uuid}/"

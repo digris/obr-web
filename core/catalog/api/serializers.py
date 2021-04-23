@@ -82,6 +82,10 @@ class MediaArtistSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserRatingSerializer(serializers.Serializer):
+    vote = serializers.IntegerField()
+
+
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
 
     # controller_uuid = serializers.UUIDField(source="controller.uuid", read_only=True)
@@ -103,9 +107,11 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
 
     duration = DurationInSecondsSerializer(read_only=True)
 
-    latest_airplay = serializers.DateTimeField(read_only=True)
+    latest_airplay = serializers.DateTimeField(read_only=True, allow_null=True)
 
-    num_airplays = serializers.IntegerField()
+    num_airplays = serializers.IntegerField(read_only=True, allow_null=True)
+
+    # user_rating = serializers.IntegerField(read_only=True, allow_null=True)
 
     class Meta:
         model = Media
@@ -120,6 +126,7 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
             "duration",
             "latest_airplay",
             "num_airplays",
+            # "user_rating",
         ]
 
 
