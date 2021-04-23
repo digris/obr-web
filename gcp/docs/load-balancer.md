@@ -57,3 +57,14 @@ terraformer import google \
   --resources=globalAddresses,globalForwardingRules,project \
   --projects=open-broadcast
 ```
+
+
+## Additional request headers
+
+```shell
+gcloud beta compute backend-services update ch-openbroadcast-be \
+  --global \
+  --custom-request-header 'X-Client-Geo-Location-Region:{client_region}' \
+  --custom-request-header 'X-Client-Geo-Location-City:{client_city}' \
+  --custom-request-header 'X-Client-Geo-Location-Coordinates:{client_city_lat_long}'
+```

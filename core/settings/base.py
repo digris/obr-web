@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "api_extra",
     "sync",
     "account",
+    "rating",
     "broadcast",
     "catalog",
     # "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
@@ -46,8 +47,10 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "user_identity.middleware.UserIdentityMiddleware",
     # "request_logging.middleware.LoggingMiddleware",
     # "social_django.middleware.SocialAuthExceptionMiddleware",
+    "geolocation.middleware.GeolocationMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -67,6 +70,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django_settings_export.settings_export",
+                "geolocation.context_processors.geolocation",
             ],
         },
     },
@@ -83,6 +87,9 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 
 ##################################################################

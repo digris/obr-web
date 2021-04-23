@@ -32,8 +32,12 @@ def get_playlist_media(items):
         }
 
 
+# pylint: disable=too-many-locals
 def sync_playlist(playlist):
+    # pylint: disable=import-outside-toplevel
     from catalog.models.media import Media
+
+    # pylint: disable=import-outside-toplevel
     from catalog.models.playlist import PlaylistImage, PlaylistMedia
 
     url = f"{PLAYLIST_ENDPOINT}{playlist.uuid}/"

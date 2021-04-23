@@ -1,4 +1,4 @@
-from .artist import Artist
-from .media import Media, MediaArtists
-from .playlist import Playlist, PlaylistMedia
-from .release import Release, ReleaseMedia
+from .artist import Artist  # NOQA
+from .media import Media, MediaArtists  # NOQA
+from .playlist import Playlist, PlaylistMedia  # NOQA
+from .release import Release, ReleaseMedia  # NOQA
