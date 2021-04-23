@@ -111,7 +111,7 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
 
     num_airplays = serializers.IntegerField(read_only=True, allow_null=True)
 
-    # user_rating = serializers.IntegerField(read_only=True, allow_null=True)
+    user_rating = serializers.IntegerField(read_only=True, allow_null=True)
 
     class Meta:
         model = Media
@@ -126,7 +126,7 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
             "duration",
             "latest_airplay",
             "num_airplays",
-            # "user_rating",
+            "user_rating",
         ]
 
 

@@ -1,21 +1,38 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
+
+// import IconPlay from '@/components/UI/icon/IconPlay.vue';
+import IconHeart from '@/components/UI/icon/IconHeart.vue';
 
 export default defineComponent({
   props: {
-    rating: {
-      type: Object,
+    objKey: {
+      type: String,
       required: false,
+      default: null,
     },
   },
+  components: {
+    IconHeart,
+  },
   setup(props) {
-    // const state = ref('stopped');
-    // eslint-disable-next-line arrow-body-style
-    const value = computed(() => {
-      return (props.rating && props.rating.userRating) ? props.rating.userRating : null;
+    const store = useStore();
+    const userRating = computed(() => {
+      const rating = store.getters['rating/ratingByKey'](props.objKey);
+      return rating;
     });
+    const rate = async (value: Number) => {
+      console.debug('vote', value);
+      const vote = {
+        key: props.objKey,
+        value,
+      };
+      await store.dispatch('rating/updateRating', vote);
+    };
     return {
-      value,
+      userRating,
+      rate,
     };
   },
 });
@@ -23,9 +40,28 @@ export default defineComponent({
 
 <template>
   <div
+    v-if="userRating"
     class="user-rating"
   >
-    {{ value }}
+    <IconHeart
+      v-if="(userRating.value === 1)"
+      :size="20"
+      @click="rate(null)"
+      color="rgba(var(--c-live-fg), 0.8)"
+    />
+    <IconHeart
+      v-if="(userRating.value === null)"
+      :size="20"
+      :outlined="(true)"
+      @click="rate(1)"
+      color="rgba(var(--c-live-fg), 0.5)"
+    />
+    <span
+      v-if="(userRating.value === -1)"
+      @click="rate(null)"
+    >
+      -
+    </span>
   </div>
 </template>
 

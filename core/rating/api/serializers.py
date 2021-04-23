@@ -14,13 +14,13 @@ from ..models import Vote
 
 
 class VoteSerializer(serializers.ModelSerializer):
-    user_rating = serializers.IntegerField(source="value")
+    value = serializers.IntegerField()
 
     class Meta:
         model = Vote
         depth = 1
         fields = [
             "key",
-            "user_rating",
+            "value",
             "updated",
         ]
