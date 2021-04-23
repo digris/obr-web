@@ -56,41 +56,9 @@ class ObjectRatingView(APIView):
         except ObjectDoesNotExist:
             raise Http404
 
-    # def get_rating(self, obj, user):
-    #
-    #     avg_rating = {
-    #         "avg_rating": None,
-    #         "num_ratings": None,
-    #         "user_rating": None,
-    #     }
-    #
-    #     qs = obj.ratings.all()
-    #
-    #     if not qs.exists():
-    #         return avg_rating
-    #
-    #     _r = qs.aggregate(rating=models.Avg("value"))
-    #
-    #     avg_rating["avg_rating"] = round(_r["rating"], 1)
-    #     # avg_rating['avg_rating'] = _r['rating']
-    #     avg_rating["num_ratings"] = qs.count()
-    #
-    #     if user.is_authenticated:
-    #         try:
-    #             _ur = obj.ratings.get(user=user)
-    #             avg_rating["user_rating"] = _ur.value
-    #         except ObjectDoesNotExist:
-    #             pass
-    #
-    #     return avg_rating
-
-    def get(self, request, obj_ct, obj_uid):
-
-        # obj = self.get_object(obj_ct, obj_uid)
-        # avg_rating = self.get_rating(obj, request.user)
+    def get_vote(self, request, obj_ct, obj_uid):
 
         app_label, model = obj_ct.split(".")
-        # ct = ContentType.objects.get(app_label=app_label, model=model)
 
         kwargs = {
             "content_type": ContentType.objects.get(app_label=app_label, model=model),
@@ -110,16 +78,60 @@ class ObjectRatingView(APIView):
             )
 
         try:
-            qs = Vote.objects.get(**kwargs)
-            serializer = VoteSerializer(qs)
-            return Response(serializer.data)
+            return Vote.objects.get(**kwargs)
 
         except Vote.DoesNotExist:
-            return Response({}, status=status.HTTP_200_OK)
+            return None
 
-    def put(self, request, obj_ct, obj_uid):
+    def create_vote(self, request, obj_ct, obj_uid, value):
 
-        return Response({})
+        content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
+
+        kwargs = {
+            "content_object": content_object,
+            "value": value,
+        }
+        if self.request.user.is_authenticated:
+            kwargs.update(
+                {
+                    "user": self.request.user,
+                }
+            )
+        else:
+            kwargs.update(
+                {
+                    "user_identity": self.request.user_identity,
+                }
+            )
+
+        return Vote.objects.create(**kwargs)
+
+    def get(self, request, obj_ct, obj_uid):
+
+        vote = self.get_vote(request, obj_ct, obj_uid)
+
+        serializer = VoteSerializer(vote)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, obj_ct, obj_uid):
+
+        value = request.data.get("value")
+
+        vote = self.get_vote(request, obj_ct, obj_uid)
+
+        if vote and value:
+            vote.value = vote
+            vote.save()
+        elif vote:
+            vote.delete()
+            vote = None
+        elif value:
+            vote = self.create_vote(request, obj_ct, obj_uid, value)
+
+        serializer = VoteSerializer(vote)
+
+        return Response(serializer.data)
 
     # def delete(self, request, pk):
     #     vote = self.get_object(pk)

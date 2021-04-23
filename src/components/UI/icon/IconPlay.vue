@@ -19,7 +19,6 @@ export default defineComponent({
       fill: props.color,
       transform: `scale(${props.size / BASE_SIZE})`,
     });
-    // return () => h('div', { onClick: increase }, ['foo', count.value]);
     return {
       style,
     };

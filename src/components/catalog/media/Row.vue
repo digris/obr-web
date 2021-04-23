@@ -19,11 +19,8 @@ export default {
     UserRating,
   },
   computed: {
-    key() {
+    objKey() {
       return `${this.media.ct}:${this.media.uid}`;
-    },
-    userRating() {
-      return this.$store.getters['rating/ratingByKey'](this.key);
     },
     duration() {
       return new Date(this.media.duration * 1000).toISOString().substr(11, 8);
@@ -56,11 +53,6 @@ export default {
       eventBus.emit('player:controls', event);
       this.$store.dispatch('player/updateCurrentMedia', media);
     },
-  },
-  created() {
-    if (!this.userRating) {
-      this.$store.dispatch('rating/loadRating', this.key);
-    }
   },
 };
 </script>
@@ -95,7 +87,7 @@ export default {
     </div>
     <div class="rating">
       <UserRating
-        :rating="userRating"
+        :obj-key="objKey"
       />
     </div>
   </div>

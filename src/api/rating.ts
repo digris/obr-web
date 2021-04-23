@@ -9,5 +9,14 @@ async function getRating(key: string) {
   return response.data;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { getRating };
+async function postRating(key: string, rating: object) {
+  const url = `${VOTE_ENDPOINT}${key}/`;
+  const payload = {
+    // @ts-ignore
+    value: rating.value,
+  };
+  const response = await APIClient.post(url, payload);
+  return response.data;
+}
+
+export { getRating, postRating };
