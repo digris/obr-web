@@ -20,7 +20,6 @@ export default {
     const uid = ref(route.params.uid);
     const isLoaded = ref(false);
     const artist = computed(() => store.getters['catalog/artistByUid'](uid.value));
-    const mediaList = ref([]);
     const query = computed(() => ({
       filter: {
         artist: artist.value.uid,
@@ -34,29 +33,30 @@ export default {
     watch(
       () => route.params,
       async (newParams) => {
+        // console.debug('route params', newParams);
+        console.debug('route', route.params, route.query);
         uid.value = newParams.uid;
-        if (uid.value) {
+        if (!artist.value && uid.value) {
           await store.dispatch('catalog/loadArtist', uid.value);
         }
       },
     );
-    // const query = {
-    //   filter: {
-    //     artist: 'A425F27B',
+    // watch(
+    //   () => route.query,
+    //   async (newQuery) => {
+    //     console.debug('route query', newQuery);
     //   },
-    //   search: [],
-    //   options: {},
-    // };
+    // );
     return {
       uid,
       isLoaded,
       artist,
-      mediaList,
       query,
     };
   },
   computed: {
     imageSrc() {
+      // console.debug('imageSrc', this.artist);
       return getImageSrc(this.artist, 480);
     },
   },
@@ -84,7 +84,7 @@ export default {
         <div
           class="kind"
         >
-          Artist
+          Artist {{ uid }}
         </div>
         <div
           class="title"
@@ -117,7 +117,9 @@ export default {
         <div
           class="summary"
         >
-          <span>125 Tracks</span>
+          <span
+            v-if="artist"
+          >{{ artist.numMedia }} Tracks</span>
           <span>1h 25m</span>
         </div>
       </div>

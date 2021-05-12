@@ -1,5 +1,5 @@
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 // eslint-disable-next-line import/extensions
 import Intersect from '@/components/utils/intersect.js';
 
@@ -41,6 +41,17 @@ export default {
       loadImage();
     };
 
+    watch(
+      () => props.src,
+      async () => {
+        isLoading.value = false;
+        isLoaded.value = false;
+        imageSrc.value = PLACEHOLDER_SRC;
+
+        loadImage();
+      },
+    );
+
     return {
       isLoading,
       isLoaded,
@@ -56,6 +67,7 @@ export default {
     @enter="onEnter"
   >
     <img
+      :title="imageSrc"
       :src="imageSrc"
       :class="{'is-pending': !isLoaded, 'is-loading': isLoading}"
     />
@@ -67,13 +79,12 @@ img {
   min-width: 100%;
   max-width: 100%;
   opacity: 1;
-  filter: blur(0);
-  filter: brightness(0.95) grayscale(0.2);
+  filter: blur(0) brightness(0.95) grayscale(0.2);
   transition: filter 100ms, opacity 100ms;
   &.is-pending,
   &.is-loading {
     opacity: 0.5;
-    filter: blur(5px);
+    filter: blur(2px);
   }
 }
 </style>

@@ -5,6 +5,7 @@ import { getDashUrl } from '@/player/media';
 
 import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import UserRating from '@/components/rating/UserRating.vue';
 
 export default {
   props: {
@@ -15,8 +16,12 @@ export default {
   components: {
     PlayerControlIcon,
     MediaArtists,
+    UserRating,
   },
   computed: {
+    objKey() {
+      return `${this.media.ct}:${this.media.uid}`;
+    },
     duration() {
       return new Date(this.media.duration * 1000).toISOString().substr(11, 8);
     },
@@ -27,7 +32,7 @@ export default {
       return this.isCurrent ? this.$store.getters['player/playerState'] : null;
     },
     isCurrent() {
-      return this.media.uid === this.currentMedia.uid;
+      return this.currentMedia && (this.media.uid === this.currentMedia.uid);
     },
     latestAirplay() {
       if (!this.media.latestAirplay) {
@@ -80,6 +85,11 @@ export default {
     <div class="duration">
       {{ duration }}
     </div>
+    <div class="rating">
+      <UserRating
+        :obj-key="objKey"
+      />
+    </div>
   </div>
 </template>
 
@@ -87,7 +97,7 @@ export default {
 .media-row {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 1fr 6fr 7fr 3fr 2fr;
+  grid-template-columns: 1fr 6fr 6fr 3fr 2fr 1fr;
   padding: 0.5rem 0;
   border-bottom: 2px solid rgb(var(--c-live-fg));
   //TODO: find a modular way to handle color / ui transitions

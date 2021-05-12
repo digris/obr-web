@@ -1,5 +1,6 @@
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useStore } from 'vuex';
 
 import LoadingMore from '@/components/UI/LoadingMore.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
@@ -17,7 +18,7 @@ export default {
     },
   },
   setup(props) {
-    // const store = useStore();
+    const store = useStore();
     const isLoaded = ref(false);
     const numResults = ref(0);
     const limit = 16;
@@ -30,6 +31,8 @@ export default {
       hasNext.value = !!next;
       numResults.value = count;
       mediaList.value.push(...results);
+      // TODO: this kind of smells...
+      await store.dispatch('rating/updateObjectRatings', results);
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
@@ -39,6 +42,15 @@ export default {
     onMounted(() => {
       fetchMedia();
     });
+    watch(
+      () => props.filter,
+      async (nv) => {
+        console.debug('filter updated', nv);
+        lastOffset.value = 0;
+        mediaList.value = [];
+        await fetchMedia(limit, 0);
+      },
+    );
     return {
       isLoaded,
       mediaList,

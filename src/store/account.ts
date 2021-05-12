@@ -1,7 +1,9 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
-import { login, logout, getCurrentUser } from '@/api/account';
+import {
+  login, logout, loginBySignedEmail, getCurrentUser,
+} from '@/api/account';
 
 export interface State {
   currentUser: object | null,
@@ -43,6 +45,16 @@ const actions = {
       context.commit('SET_USER', null);
     } catch (err) {
       console.error(err);
+      throw err;
+    }
+  },
+  loginUserBySignedEmail: async (context: any, signedEmail: string) => {
+    try {
+      const user = await loginBySignedEmail(signedEmail);
+      context.commit('SET_USER', user);
+    } catch (err) {
+      console.warn(err);
+      context.commit('SET_USER', null);
       throw err;
     }
   },

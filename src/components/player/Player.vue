@@ -26,6 +26,9 @@ export default {
     },
     streamUrl() {
       // e.g. https://stream-abr.next.openbroadcast.ch/stream.mpd
+      // return 'http://local.stream-dash.openbroadcast.ch:7779/alt.m3u8';
+      // return 'http://local.stream-dash.openbroadcast.ch:7779/manifest.m3u8';
+      // return 'http://local.stream-dash.openbroadcast.ch:7779/stream.mpd';
       return settings.STREAM_ENDPOINTS.dash;
     },
     mediaBaseUrl() {

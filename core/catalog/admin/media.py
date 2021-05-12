@@ -65,5 +65,8 @@ class AirplayAdmin(admin.ModelAdmin):
 
     search_fields = [
         "media__name",
+        "media__uid",
         "media__uuid",
     ]
+
+    date_hierarchy = "time_start"

@@ -60,6 +60,7 @@ class UIDModelMixin(UUIDModelMixin):
     class Meta:
         abstract = True
 
+    # pylint: disable=signature-differs
     def save(self, *args, **kwargs):
         self.uid = self.get_uid()
         super().save(*args, **kwargs)

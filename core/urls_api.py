@@ -25,6 +25,7 @@ schema_view = get_schema_view(
 
 @api_view(["GET"])
 @permission_classes([AllowAny])
+# pylint: disable=redefined-builtin
 def api_root(request, format=None):
     return Response(
         {
@@ -41,13 +42,14 @@ urlpatterns = [
         schema_view.without_ui(cache_timeout=0),
         name="openapi-schema",
     ),
-    url(
-        r"^swagger/$",
+    path(
+        "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    url(r"^docs/$", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
+    path("docs/", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
     path("account/", include("account.api.urls", "account")),
+    path("rating/", include("rating.api.urls", "rating")),
     path("catalog/", include("catalog.api.urls", "catalog")),
     path("broadcast/", include("broadcast.api.urls", "broadcast")),
     path("pub-sub-bridge/", include("pub_sub_bridge.api.urls", "pub_sub_bridge")),

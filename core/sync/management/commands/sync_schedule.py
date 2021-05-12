@@ -39,6 +39,12 @@ class Command(BaseCommand):
                 force=force,
             )
         )
+        # TODO: find a better place to update airplays...
+        from catalog.sync.airplay import sync_airplays
+        from catalog.models.media import Airplay
+
+        sync_airplays(time_start=Airplay.objects.latest().time_end)
+
         self.stdout.write(f"updated {len(updated)} emissions")
 
     def handle(self, *args, **options):

@@ -8,7 +8,7 @@ from django.db import models
 from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 
@@ -57,13 +57,13 @@ class BaseImage(
         # filename does not include bucket in cloud storage
         # so we have to get it out of the url. sorry.
         if not self.url:
-            return
+            return None
         return urlparse(self.url).path[1:]
 
     @cached_property
     def url(self):
         if not self.file:
-            return
+            return None
         return self.file.url
 
 
@@ -87,6 +87,7 @@ def image_pre_save(sender, instance=None, **kwargs):
     if not issubclass(sender, BaseImage):
         return
 
+    # pylint: disable=protected-access
     if instance.file and instance.file.name and instance.file._file:
         instance.filename = instance.file.name
 
