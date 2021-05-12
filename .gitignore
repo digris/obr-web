@@ -3,6 +3,7 @@ node_modules
 playground
 /dist
 /data
+/build
 *.egg-info
 db.sqlite3
 __pycache__
