@@ -19,7 +19,10 @@ def sync_master_to_gcs(uuid):
     master_url = f"{MEDIA_ENDPOINT}{uuid}/download-master/"
 
     headers = {"Authorization": "Token 0dbea6aeb52acc8f71ed33611b51ded4f0b5bdda"}
-    r = requests.get(master_url, headers=headers)
+    r = requests.get(
+        master_url,
+        headers=headers,
+    )
 
     # print("status", r.status_code)
 
@@ -121,7 +124,6 @@ def sync_media(media):
     # related items
     release_url = data.get("release")
     tracknumber = data.get("tracknumber", 0)
-    print("tracknumber", tracknumber)
     # e.g. https://www.openbroadcast.org/api/v2/alibrary/release/a3c87aae-7a4e-4b27-acf5-4ef2dd5facdf/
     if release_url:
         release_uuid = release_url.split("/")[-2]

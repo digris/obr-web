@@ -7,22 +7,22 @@
 }
 
 
-@mixin fg {
+@mixin fg($alpha: 1) {
   @include transition;
-  color: rgb(var(--c-live-fg));
+  color: rgba(var(--c-live-fg), $alpha);
 }
 
-@mixin fg-inverse {
+@mixin fg-inverse($alpha: 1) {
   @include transition-inverse;
-  color: rgb(var(--c-live-fg-inverse));
+  color: rgba(var(--c-live-fg-inverse), $alpha);
 }
 
-@mixin bg {
+@mixin bg($alpha: 1) {
   @include transition;
-  background-color: rgb(var(--c-live-bg));
+  background-color: rgba(var(--c-live-bg), $alpha);
 }
 
-@mixin bg-inverse {
+@mixin bg-inverse($alpha: 1) {
   @include transition-inverse;
-  background-color: rgb(var(--c-live-fg));
+  background-color: rgba(var(--c-live-fg), $alpha);
 }

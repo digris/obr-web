@@ -1,0 +1,11 @@
+{% extends 'electronic_mail/base.html' %}
+{% load electronic_mail_tags %}
+
+{% block body %}
+  {% spaceless %}<p>
+    <strong>{{ subject }}</strong>
+  </p>
+  <p>
+    To login <a {% style '.button' %} href="{{ login_url }}">click here</a>.
+  </p>{% endspaceless %}
+{% endblock %}

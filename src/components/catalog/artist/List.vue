@@ -27,6 +27,8 @@ export default {
       this.count = count;
       this.hasNext = !!next;
       this.artists.push(...results);
+      // TODO: this kind of smells...
+      await this.$store.dispatch('rating/updateObjectRatings', results);
       // this.artists = [...this.artists, ...results];
     },
     fetchNextPage() {

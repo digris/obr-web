@@ -1,4 +1,5 @@
 <script lang="ts">
+import eventBus from '@/eventBus';
 import MainMenu from '@/components/topbar/MainMenu.vue';
 import AccountMenu from '@/components/topbar/AccountMenu.vue';
 
@@ -6,6 +7,12 @@ export default {
   components: {
     MainMenu,
     AccountMenu,
+  },
+  methods: {
+    toggleModal() {
+      const event = {};
+      eventBus.emit('account:authenticate', event);
+    },
   },
 };
 </script>
@@ -27,6 +34,11 @@ export default {
     />
     <div class="menu-toggle">
       +
+      <span
+        @click="toggleModal"
+      >
+        x
+      </span>
     </div>
   </div>
 </template>

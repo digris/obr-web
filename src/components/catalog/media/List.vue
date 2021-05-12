@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import LoadingMore from '@/components/UI/LoadingMore.vue';
@@ -42,6 +42,15 @@ export default {
     onMounted(() => {
       fetchMedia();
     });
+    watch(
+      () => props.filter,
+      async (nv) => {
+        console.debug('filter updated', nv);
+        lastOffset.value = 0;
+        mediaList.value = [];
+        await fetchMedia(limit, 0);
+      },
+    );
     return {
       isLoaded,
       mediaList,

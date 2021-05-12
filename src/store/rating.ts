@@ -20,6 +20,10 @@ const mutations = {
     // @ts-ignore
     state.ratings[key] = rating;
   },
+  // @ts-ignore
+  SET_RATINGS: (state, ratings) => {
+    state.ratings = ratings;
+  },
 };
 
 const actions = {
@@ -45,6 +49,9 @@ const actions = {
     // context.commit('SET_RATING', { key, rating });
     const newRating = await postRating(key, rating);
     context.commit('SET_RATING', { key, rating: newRating });
+  },
+  clearRatings: async (context: any) => {
+    context.commit('SET_RATINGS', []);
   },
 };
 

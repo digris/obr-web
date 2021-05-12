@@ -1,5 +1,5 @@
 import applyConverters from 'axios-case-converter';
-import { Store } from 'vuex';
+// import { Store } from 'vuex';
 import axios from 'axios';
 
 const APIClient = applyConverters(axios.create({

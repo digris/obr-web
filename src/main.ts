@@ -2,6 +2,7 @@ import './style/main.scss';
 import createUIStateHandler from '@/utils/ui';
 import createCredentialsHandler from '@/utils/credentials';
 import createStationTimeHandler from '@/utils/time';
+import createAccountHandler from '@/utils/account';
 import creadeScheduleHandler from '@/broadcast/schedule';
 
 import { createApp } from 'vue';
@@ -12,6 +13,7 @@ import router from './router';
 createStationTimeHandler();
 createCredentialsHandler();
 creadeScheduleHandler();
+createAccountHandler();
 createUIStateHandler();
 
 // console.debug('stateHandler', stateHandler);

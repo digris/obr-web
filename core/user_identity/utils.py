@@ -21,26 +21,22 @@ def get_user_agent(request):
     return request.headers.get("User-Agent", "").strip()
 
 
-def get_accept(request):
-    return request.headers.get("Accept", "").strip()
+def get_accept_language(request):
+    return request.headers.get("Accept-Language", "").strip()
 
 
 def get_anonymous_user_key(request):
     remote_ip = get_remote_ip(request)
     user_agent = get_user_agent(request)
-    accept = get_accept(request)
+    accept_language = get_accept_language(request)
 
     parts = [
         get_base64(remote_ip),
         get_sha1(user_agent)[:10],
-        get_sha1(accept)[:10],
+        get_sha1(accept_language)[:10],
     ]
 
     return "anonymous:" + "-".join(parts)
-
-    # key = ":".join(parts)
-    #
-    # return f"anonymous:{key}"
 
 
 def get_user_identity(request):
