@@ -8,8 +8,8 @@ uses:
     - django
 
 ignore-paths:
-  - app/settings/
-  - app/dev/
+  - core/settings/
+  - core/dev/
 
 ignore-patterns:
   - (^|/)migrations?(/|$)
@@ -27,11 +27,12 @@ pyflakes:
   run: true
 
 pylint:
-  run: false
+  run: true
   disable:
     - line-too-long # handled by Black
     - logging-format-interpolation
     - logging-fstring-interpolation
+    - logging-too-many-args
     - relative-beyond-top-level # TODO: check
 
 pep8:

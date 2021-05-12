@@ -4,13 +4,22 @@ from django.db import models
 from django.db.models.functions import Now
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.contrib.contenttypes.fields import GenericRelation
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+
+# from rating.mixins import RatingModelMixin
 from catalog.sync.media import sync_media
 from sync.models.mixins import SyncModelMixin
 
 
-class Media(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
+class Media(
+    TimestampedModelMixin,
+    CTUIDModelMixin,
+    SyncModelMixin,
+    # RatingModelMixin,
+    models.Model,
+):
 
     name = models.CharField(max_length=256)
 
@@ -23,6 +32,8 @@ class Media(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model
     )
 
     duration = models.DurationField(default=timedelta())
+
+    votes = GenericRelation("rating.Vote", related_query_name="media")
 
     class Meta:
         app_label = "catalog"

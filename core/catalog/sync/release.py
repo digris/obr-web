@@ -16,6 +16,7 @@ RELEASE_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/release/"
 
 
 def sync_release(release):
+    # pylint: disable=import-outside-toplevel
     from catalog.models.release import ReleaseImage
 
     url = f"{RELEASE_ENDPOINT}{release.uuid}/"

@@ -51,10 +51,29 @@ class User(
     AbstractBaseUser,
     PermissionsMixin,
 ):
-    email = models.EmailField(_("email address"), unique=True)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(default=timezone.now)
+    email = models.EmailField(
+        _("email address"),
+        unique=True,
+    )
+    first_name = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+    )
+    last_name = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+    )
+    is_staff = models.BooleanField(
+        default=False,
+    )
+    is_active = models.BooleanField(
+        default=True,
+    )
+    date_joined = models.DateTimeField(
+        default=timezone.now,
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -65,5 +84,13 @@ class User(
         return self.email
 
     def sync_data(self):
-        print(f"sync account: {self.uuid}")
-        pass
+        # TODO: implement sync
+        return None
+
+    @property
+    def full_name(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
+        elif self.first_name:
+            return self.first_name
+        return self.email

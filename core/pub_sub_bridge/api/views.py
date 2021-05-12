@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-
+from datetime import timedelta, datetime
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -24,7 +24,7 @@ class BridgeView(APIView):
             result = {}
 
             if command == "sync_schedule":
-                from datetime import timedelta, datetime
+                # pylint: disable=import-outside-toplevel
                 from sync import utils
 
                 date_start = datetime.now().replace(minute=0, second=0)

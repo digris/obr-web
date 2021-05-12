@@ -1,15 +1,16 @@
 <script lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default {
   setup() {
-    const router = useRouter();
+    // const router = useRouter();
     const store = useStore();
     const email = ref('');
     const password = ref('');
-    const errors = ref([]);
+    const errors = ref<Array<String>>([]);
+    const message = ref('');
     const submitForm = async () => {
       const credentials = {
         email: email.value,
@@ -18,16 +19,19 @@ export default {
       errors.value = [];
       try {
         await store.dispatch('account/loginUser', credentials);
-        await router.push({ name: 'home' });
+        // TODO: refresh user related data (ratings etc) instead of location reload
+        window.location.reload();
+        // await router.push({ name: 'home' });
       } catch (err) {
         console.warn(err);
-        // errors.value = ['login error'];
+        errors.value = [err.message, err.response.data];
       }
     };
     return {
       email,
       password,
       errors,
+      message,
       submitForm,
     };
   },
@@ -41,12 +45,20 @@ export default {
   >
     <pre v-text="errors" />
   </div>
+  <div
+    v-if="message"
+  >
+    <p>{{ message }}</p>
+  </div>
   <form
     class="form"
     @submit.prevent="submitForm"
   >
-    <label>
+    <label
+      class="input-container"
+    >
       <input
+        class="input"
         v-model="email"
         required
         name="email"
@@ -55,8 +67,11 @@ export default {
         autocomplete="username"
       >
     </label>
-    <label>
+    <label
+      class="input-container"
+    >
       <input
+        class="input"
         v-model="password"
         required
         name="password"
@@ -65,16 +80,27 @@ export default {
         autocomplete="current-password"
       >
     </label>
-    <button
-      type="submit"
+    <div
+      class="input-container"
     >
-      Login
-    </button>
+      <button
+        class="button"
+        type="submit"
+      >
+        Login
+      </button>
+    </div>
   </form>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/elements/form";
 .form {
+  @include form.default;
   display: flex;
+  flex-direction: column;
+  .input-container {
+    width: 100%;
+  }
 }
 </style>
