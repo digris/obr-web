@@ -53,8 +53,6 @@ class Vote(TimestampedModelMixin, models.Model):
         ]
 
     def __str__(self):
-        if self.value:
-            return "{}".format(self.value)
         return "{}".format(self.pk)
 
     @property

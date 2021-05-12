@@ -12,6 +12,16 @@
   <script>
     document.settings = {% json_settings settings %};
     document.settings.API_BASE_URL = "{% url 'api:base' %}";
+    document.settings.SOCIAL_LOGIN = [
+        {
+            provider: 'google',
+            url: "{% url 'social:begin' 'google-oauth2' %}",
+        },
+        {
+            provider: 'spotify',
+            url: "{% url 'social:begin' 'spotify' %}",
+        },
+    ];
   </script>
 </head>
 <body id="body">

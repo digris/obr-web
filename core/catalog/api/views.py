@@ -33,8 +33,27 @@ class ArtistViewSet(
         qs = qs.prefetch_related(
             "media",
             "images",
+            "votes",
+            "votes__user",
         )
         qs = qs.annotate(num_media=Count("media"))
+
+        # annotate with request user's rating
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value", filter=Q(votes__user=self.request.user)
+                ),
+            )
+        # annotate with anonymous user 'identity'
+        else:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value",
+                    filter=Q(votes__user_identity=self.request.user_identity),
+                ),
+            )
+
         return qs
 
     def get_object(self):

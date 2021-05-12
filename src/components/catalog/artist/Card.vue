@@ -1,18 +1,15 @@
 <script>
-import settings from '@/settings';
+import { computed } from 'vue';
+
+import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/UI/LazyImage.vue';
-
-const { IMAGE_RESIZER_URL } = settings;
-
-const getImageSrc = (obj) => {
-  if (obj.image && obj.image.path) {
-    return `${IMAGE_RESIZER_URL}crop/256x256/${obj.image.path}`;
-  }
-  return `https://picsum.photos/seed/${obj.uid}/200`;
-};
+import UserRating from '@/components/rating/UserRating.vue';
 
 export default {
-  components: { LazyImage },
+  components: {
+    LazyImage,
+    UserRating,
+  },
   props: {
     artist: {
       type: Object,
@@ -20,10 +17,15 @@ export default {
     },
   },
   setup(props) {
+    const objKey = computed(() => `${props.artist.ct}:${props.artist.uid}`);
     const link = `/discover/artists/${props.artist.uid}/`;
     // const imageSrc = `https://picsum.photos/seed/${props.artist.uid}/200`;
     const imageSrc = getImageSrc(props.artist);
-    return { link, imageSrc };
+    return {
+      objKey,
+      link,
+      imageSrc,
+    };
   },
 };
 </script>
@@ -53,6 +55,11 @@ export default {
         >
           {{ artist.name }}
         </router-link>
+        <div class="rating">
+          <UserRating
+            :obj-key="objKey"
+          />
+        </div>
       </div>
       <div
         class="subtitle"
@@ -81,7 +88,11 @@ export default {
     padding: 0.5rem 0 0 0;
     line-height: 1.25rem;
     .title {
+      display: flex;
       font-weight: 600;
+      a {
+        flex-grow: 1;
+      }
     }
   }
 }

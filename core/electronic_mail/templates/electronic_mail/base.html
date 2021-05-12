@@ -1,0 +1,89 @@
+{% load static electronic_mail_tags %}{% spaceless %}<!doctype html>
+<html>
+<head>
+  <meta
+    http-equiv="Content-Type"
+    content="text/html charset=UTF-8"
+  />
+  <style>
+    a {
+      color:  #000000;
+    }
+  </style>
+</head>
+<body
+  style="font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Helvetica Neue, Oxygen, Cantarell, sans-serif; background: #f5f5f5;"
+>
+<table
+  cellspacing="0"
+  cellpadding="0"
+  border="0"
+  width="100%"
+>
+  <tr>
+    <td
+      width="100%"
+      align="center"
+    >
+      <table
+        cellspacing="0"
+        cellpadding="0"
+        border="0"
+        style="max-width: 600px"
+      >
+        <tr>
+          <td
+            style="padding: 18px 18px 0 18px; background-color: #ffffff;"
+          >
+            <table {% style '.table' %}>
+              <tr>
+                <td>
+                  <span
+                    style="color: #5a5a5a; background-color: white; line-height: 21px; font-size: 16px; font-family: Arial, Helvetica, sans-serif;"
+                  >{% block subject %}{{ subject }}{% endblock %}</span>
+                </td>
+                <td {% style '.right' %}>
+                  <img
+                    alt="Logo"
+                    style="height: 30px; image-rendering: pixelated;"
+                    src="data:application/octet-stream;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAIAAAC0tAIdAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ2MCwgMjAyMC8wNS8xMi0xNjowNDoxNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDUwQ0FBRUVBOUREMTFFQkE1OERBNzlCNzAzM0JFQUMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDUwQ0FBRUZBOUREMTFFQkE1OERBNzlCNzAzM0JFQUMiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1RTAxQUVGRkE5REMxMUVCQTU4REE3OUI3MDMzQkVBQyIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1RTAxQUYwMEE5REMxMUVCQTU4REE3OUI3MDMzQkVBQyIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PttZpxUAAAA6SURBVHjaYvz//z8D0YCJgRRAQDUjIyPNzMauGs1GuvgSzWYmIkODYpcQ9CsTkW4gxyWMNExVAAEGAFflBikDpPtqAAAAAElFTkSuQmCC"
+                  >
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="padding: 4px 18px 18px 18px; color: #444444; background-color: white; line-height: 21px; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"
+            width="480"
+          >
+            {% block body %}{% endblock %}
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="padding: 4px 18px 18px 18px; color: #444444; background-color: white; line-height: 21px; font-size: 14px; font-family: Arial, Helvetica, sans-serif;"
+            width="480"
+          >
+            <hr>
+            <table {% style '.table' %}>
+              <tr {% style '.dim' %}>
+                <td {% style '.dim' %}>
+                  Renggerstrasse 31<br>
+                  8038 Zürich <br>
+                  <a {% style '.dim' %} href="mailto:info@openbroadcast.ch">info@openbroadcast.ch</a>
+                </td>
+                <td {% style '.right' %}>
+                  <a {% style '.dim' %} href="{{ SITE_URL }}">open broadcast radio</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>{% endspaceless %}

@@ -4,6 +4,8 @@ import { DateTime } from 'luxon';
 import scheduler from 'node-schedule';
 import store from '@/store';
 
+const JOB_MAX_AGE = 60;
+
 class Schedule {
   timeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -14,7 +16,14 @@ class Schedule {
     this.jobs = [];
     // add load interval & run immediately
     const rule = `${new Date().getSeconds()} * * * * *`;
-    const loadScheduleJob = scheduler.scheduleJob(rule, Schedule.loadSchedule);
+    // const rule = '*/10 * * * * *';
+    const loadScheduleJob = scheduler.scheduleJob(rule, (scheduledDate: Date) => {
+      // @ts-ignore
+      if (scheduledDate && (new Date() - scheduledDate) > JOB_MAX_AGE * 1000) {
+        return;
+      }
+      Schedule.loadSchedule();
+    });
     loadScheduleJob.invoke();
 
     // watch schedule updates
@@ -25,7 +34,7 @@ class Schedule {
       });
       this.jobs = [];
 
-      // loop whole loaded schedule, create update job upcoming entries
+      // loop whole loaded schedule, create / update job upcoming entries
       const now = DateTime.now();
       const until = DateTime.now().plus({ minutes: 15 });
 

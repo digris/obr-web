@@ -42,12 +42,12 @@ urlpatterns = [
         schema_view.without_ui(cache_timeout=0),
         name="openapi-schema",
     ),
-    url(
-        r"^swagger/$",
+    path(
+        "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
-    url(r"^docs/$", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
+    path("docs/", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
     path("account/", include("account.api.urls", "account")),
     path("rating/", include("rating.api.urls", "rating")),
     path("catalog/", include("catalog.api.urls", "catalog")),

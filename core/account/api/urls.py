@@ -10,6 +10,16 @@ from . import views
 app_name = "account"
 urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
+    path(
+        "send-email-login/",
+        views.SendEmailLoginView.as_view(),
+        name="send-email-login",
+    ),
+    path(
+        "signed-email-login/",
+        views.SignedEmailLoginView.as_view(),
+        name="signed-email-login",
+    ),
     path("logout/", views.LogoutView.as_view(), name="logout"),
     path("users/me/", views.CurrentUserView.as_view(), name="current-user"),
     path(
@@ -17,10 +27,15 @@ urlpatterns = [
         views.CredentialsView.as_view(),
         name="refresh-credentials",
     ),
-    path(
-        "noop/",
-        views.NoOpView.as_view(),
-        name="noop",
-    ),
     # path("", include(router.urls)),
+    path(
+        "social-backends/",
+        views.SocialBackendListView.as_view(),
+        name="social-backends",
+    ),
+    path(
+        "social-backends/<str:provider>/<str:uid>/",
+        views.SocialBackendDetailView.as_view(),
+        name="social-backends-detail",
+    ),
 ]

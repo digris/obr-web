@@ -27,8 +27,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
-    "graphene_django",
     "django_filters",
+    "social_django",
     "adminsortable2",
     "base",
     "api_extra",
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "rating",
     "broadcast",
     "catalog",
+    "electronic_mail",
     # "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
 ]
 
@@ -49,7 +50,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "user_identity.middleware.UserIdentityMiddleware",
     # "request_logging.middleware.LoggingMiddleware",
-    # "social_django.middleware.SocialAuthExceptionMiddleware",
+    "social_django.middleware.SocialAuthExceptionMiddleware",
     "geolocation.middleware.GeolocationMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -70,6 +71,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django_settings_export.settings_export",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
                 "geolocation.context_processors.geolocation",
             ],
         },
@@ -100,7 +103,8 @@ LOGIN_REDIRECT_URL = "/"
 
 AUTHENTICATION_BACKENDS = [
     # "axes.backends.AxesBackend",
-    # "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.spotify.SpotifyOAuth2",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -111,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # social auth
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_POSTGRES_JSONFIELD = False
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
     "social_core.pipeline.social_auth.social_uid",
@@ -121,12 +125,29 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_by_email",
     "social_core.pipeline.user.create_user",
     "account.social_auth_pipeline.user_groups.add_user_to_team",
+    "account.social_auth_pipeline.user_details.get_user_details",
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
 )
 
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
+
+# google oauth2
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ""
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+]
+
+# https://developer.spotify.com/documentation/general/guides/scopes/
+SOCIAL_AUTH_SPOTIFY_SCOPE = [
+    "user-read-private",
+    "user-read-email",
+    "user-top-read",
+]
 
 
 # Internationalization
@@ -149,7 +170,9 @@ DATE_FORMAT = "Y-m-d"
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 # `build` -> webpack output
-STATICFILES_DIRS = [os.path.join(PROJECT_ROOT, "build")]
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, "build"),
+]
 
 # 'dist' -> ./manage.py collectstatic output
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "dist")
@@ -186,6 +209,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456
 # API
 ##################################################################
 REST_FRAMEWORK = {
+    "EXCEPTION_HANDLER": "api_extra.utils.api_exception_handler",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
     "DEFAULT_AUTHENTICATION_CLASSES": [
@@ -240,6 +264,7 @@ MEDIA_ENDPOINTS = {
 SETTINGS_EXPORT = [
     "DEBUG",
     "SITE_URL",
+    "STATIC_URL",
     "IMAGE_RESIZER_URL",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",

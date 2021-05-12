@@ -48,5 +48,8 @@ export default {
     margin-left: 0.25rem;
     opacity: 0.5;
   }
+  &__name {
+    white-space: nowrap;
+  }
 }
 </style>

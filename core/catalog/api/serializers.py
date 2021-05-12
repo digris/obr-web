@@ -48,6 +48,8 @@ class ArtistSerializer(serializers.HyperlinkedModelSerializer):
 
     num_media = serializers.IntegerField()
 
+    user_rating = serializers.IntegerField(read_only=True, allow_null=True)
+
     class Meta:
         model = Artist
         fields = [
@@ -58,6 +60,7 @@ class ArtistSerializer(serializers.HyperlinkedModelSerializer):
             "name",
             "num_media",
             "image",
+            "user_rating",
         ]
 
 

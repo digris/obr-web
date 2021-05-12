@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
 import logging
 
-from rest_framework import mixins
-from rest_framework import status
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
 from django.apps import apps
-from django.db import models
-from django.http import Http404
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.http import Http404
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import VoteSerializer
 from ..models import Vote
@@ -116,12 +110,14 @@ class ObjectRatingView(APIView):
 
     def post(self, request, obj_ct, obj_uid):
 
-        value = request.data.get("value")
+        serializer = VoteSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
+        value = request.data.get("value")
         vote = self.get_vote(request, obj_ct, obj_uid)
 
         if vote and value:
-            vote.value = vote
+            vote.value = value
             vote.save()
         elif vote:
             vote.delete()

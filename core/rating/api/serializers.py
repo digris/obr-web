@@ -14,7 +14,11 @@ from ..models import Vote
 
 
 class VoteSerializer(serializers.ModelSerializer):
-    value = serializers.IntegerField()
+    value = serializers.IntegerField(
+        min_value=-1,
+        max_value=1,
+        allow_null=True,
+    )
 
     class Meta:
         model = Vote

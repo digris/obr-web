@@ -10,13 +10,8 @@ class UserIdentityMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # if not (request.user.is_authenticated and request.session.session_key):
-        #     request.session.create()
-        #     request.session["key"] = "123"
-        #     logger.debug(f"created anonymous session: {request.session.session_key}")
 
         request.user_identity = get_user_identity(request)
-
         response = self.get_response(request)
         response["X-User-Identity"] = request.user_identity
         return response
