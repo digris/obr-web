@@ -27,11 +27,38 @@ export default defineComponent({
     <h3
       class="header"
     >User Details</h3>
-    <div>
-      <pre
-        v-text="currentUser"
-        class="debug"
-      />
+    <pre
+      v-text="currentUser"
+      class="_debug"
+    />
+    <div
+      class="info-grid"
+    >
+      <div
+        class="label"
+      >Account ID:</div>
+      <div
+        class="value"
+      >{{ currentUser.uid }}</div>
+      <div
+        class="label"
+      >E-Mail:</div>
+      <div
+        class="value"
+      >{{ currentUser.email }}</div>
+      <div
+        class="label"
+      >Name:</div>
+      <div
+        class="value"
+      >
+        <span
+          v-if="currentUser.firstName"
+        >{{ currentUser.firstName }}</span>
+        <span
+          v-if="currentUser.lastName"
+        >{{ currentUser.lastName }}</span>
+      </div>
     </div>
   </section>
   <section
@@ -41,7 +68,7 @@ export default defineComponent({
       class="header"
     >Change Password</h3>
     <div>
-      (( Bar ))
+      ...
     </div>
   </section>
   <section
@@ -49,7 +76,7 @@ export default defineComponent({
   >
     <h3
       class="header"
-    >Link Accounts</h3>
+    >Connect Accounts</h3>
     <div>
       <SocialLogin
         :next="socialNext"
@@ -62,5 +89,13 @@ export default defineComponent({
 @use "@/style/elements/section";
 .section {
   @include section.default;
+}
+.info-grid {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: auto 1fr;
+  .label {
+    opacity: 0.5;
+  }
 }
 </style>

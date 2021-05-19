@@ -13,14 +13,11 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const signedEmail = ref(route.params.signedEmail);
-    // const errors = ref([]);
     const errors = ref<Array<String>>([]);
     const loginBySignedEmail = async (value: string | string[]) => {
-      console.debug('loginBySignedEmail', value);
-      console.debug('store', store);
       try {
         await store.dispatch('account/loginUserBySignedEmail', value);
-        await router.push({ name: 'Account' });
+        await router.push({ name: 'accountSettings' });
       } catch (err) {
         console.warn(err);
         errors.value = [err.message, err.response.data];

@@ -14,6 +14,7 @@ steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args: [
+    'beta',
     'run',
     'deploy',
     'ch-openbroadcast-next-core',
@@ -23,7 +24,7 @@ steps:
     '--max-instances', '50',
     '--memory', '512M',
     '--concurrency', '20',
-    '--clear-vpc-connector',
+    '--use-http2',
     '--add-cloudsql-instances', 'open-broadcast:europe-west6:open-broadcast-db',
     '--allow-unauthenticated'
   ]

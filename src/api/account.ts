@@ -19,12 +19,17 @@ async function logout() {
   return response.data;
 }
 
+async function checkLoginEmail(email: string) {
+  const url = `${ACCOUNT_ENDPOINT}send-email-login/?email=${email}`;
+  const response = await APIClient.get(url);
+  return response.data;
+}
+
 async function sendLoginEmail(email: string) {
   const url = `${ACCOUNT_ENDPOINT}send-email-login/`;
   const payload = {
     email,
   };
-  console.debug('payload', payload);
   const response = await APIClient.post(url, payload);
   return response.data;
 }
@@ -39,7 +44,7 @@ async function loginBySignedEmail(signedEmail: string) {
 }
 
 async function getCurrentUser() {
-  const url = `${ACCOUNT_ENDPOINT}users/me/`;
+  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings`;
   const response = await APIClient.get(url);
   return response.data;
 }
@@ -65,6 +70,7 @@ async function disconnectSocialBackend(provider: string, uid: string) {
 export {
   login,
   logout,
+  checkLoginEmail,
   sendLoginEmail,
   loginBySignedEmail,
   getCurrentUser,

@@ -105,11 +105,11 @@ const routes = [
           }
         },
       },
-      // {
-      //   path: 'email-login/:signedEmail?/',
-      //   name: 'accountEmailLogin',
-      //   component: AccountEmailLogin,
-      // },
+      {
+        path: 'email-login/:signedEmail?/',
+        name: 'accountEmailLogin',
+        component: AccountEmailLogin,
+      },
     ],
   },
   {

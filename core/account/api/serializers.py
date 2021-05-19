@@ -4,8 +4,9 @@ import logging
 from django.conf import settings
 from django.urls import reverse_lazy, reverse
 from rest_framework import serializers
+from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 
-from account.models import User
+from account.models import User, Settings
 from social_django.models import UserSocialAuth
 
 SITE_URL = getattr(settings, "SITE_URL")
@@ -13,15 +14,30 @@ SITE_URL = getattr(settings, "SITE_URL")
 logger = logging.getLogger(__name__)
 
 
-class UserSerializer(serializers.ModelSerializer):
+class SettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Settings
+        fields = [
+            "id",
+        ]
+
+
+class UserSerializer(FlexFieldsSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
             "ct",
             "uid",
             "email",
-            "full_name",
+            "date_joined",
+            "signup_completed",
+            "first_name",
+            "last_name",
+            # "full_name",
         ]
+        expandable_fields = {
+            "settings": SettingsSerializer,
+        }
 
 
 class SocialBackendSerializer(serializers.Serializer):
