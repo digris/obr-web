@@ -1,6 +1,45 @@
+@use "@/style/elements/button";
+
 @mixin input {
   border: 1px solid #000;
   border-radius: 0;
+}
+
+@mixin float-label {
+  position:  relative;
+  label {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 10ms, transform 100ms;
+    pointer-events: none;
+  }
+  input,
+  .input {
+    min-height: 3rem;
+    padding: 0.5rem 0.5rem;
+    &:not(:placeholder-shown) {
+      padding: 0.85rem 0.5rem 0.15rem;
+      transition: padding 100ms ease;
+    }
+  }
+  input:not(:placeholder-shown) {
+    //padding: 28px 0 12px 0;
+  }
+  input:not(:placeholder-shown) + label {
+    top: 14px;
+    bottom: unset;
+    color: rgba(var(--c-black), 0.5);
+    //transform:  translateY(-0.75rem);
+    font-size: 75%;
+    opacity: 1;
+    transition: opacity 100ms, transform 100ms;
+  }
 }
 
 @mixin default {
@@ -17,11 +56,12 @@
     padding: 0.5rem 0.5rem;
   }
   .button {
-    @include input;
+    @include button.default;
+    //@include input;
     display: flex;
-    align-content: center;
-    justify-content: center;
+    //align-content: center;
+    //justify-content: center;
     width: 100%;
-    padding: 0.5rem 0;
+    //padding: 0.5rem 0;
   }
 }

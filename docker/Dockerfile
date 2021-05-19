@@ -16,6 +16,8 @@ ENV NODE_ENV=production
 COPY ["tsconfig.json", "babel.config.js", "vue.config.js", ".eslintrc.js", "./"]
 ADD ./src/ ./src/
 RUN yarn build
+# TODO: maybe use webpack to handle assets?
+ADD ./src/assets/ ./build/assets/
 
 
 #######################################################################
@@ -95,4 +97,5 @@ ENV DJANGO_SETTINGS_MODULE=core.settings.gcp \
 
 EXPOSE 8000
 
-CMD exec gunicorn core.wsgi --bind :$PORT --workers 2 --timeout 600
+#CMD exec gunicorn core.wsgi --bind :$PORT --workers 2 --timeout 600
+CMD exec hypercorn core.asgi:application --bind :$PORT

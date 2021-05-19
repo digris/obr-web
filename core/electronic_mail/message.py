@@ -46,5 +46,5 @@ class BaseMessage:
         mail.attach_alternative(self.html, "text/html")
         try:
             return mail.send()
-        except SMTPException as e:
+        except (SMTPException, ConnectionError) as e:
             raise SendMessageException(e)

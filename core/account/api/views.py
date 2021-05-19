@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -71,6 +72,32 @@ class LoginView(APIView):
 @method_decorator(csrf_exempt, name="dispatch")
 class SendEmailLoginView(APIView):
     @staticmethod
+    def get(request):
+        email = request.GET.get("email", None)
+        if not email:
+            return Response(
+                {
+                    "error": 'query parameter "email" missing.',
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            user = User.objects.get(email=email)
+            return Response(
+                {
+                    "ct": user.ct,
+                    "uid": user.uid,
+                },
+                status=status.HTTP_200_OK,
+            )
+        except User.DoesNotExist:
+            return Response(
+                None,
+                status=status.HTTP_204_NO_CONTENT,
+            )
+
+    @staticmethod
     def post(request):
         email = request.data.get("email")
         try:
@@ -114,7 +141,11 @@ class SignedEmailLoginView(APIView):
             )
 
         user, user_created = User.objects.get_or_create(email=email)
-        login(request, user)
+        login(
+            request,
+            user,
+            backend=settings.AUTHENTICATION_BACKENDS[-1],
+        )
 
         serializer = serializers.UserSerializer(
             user,

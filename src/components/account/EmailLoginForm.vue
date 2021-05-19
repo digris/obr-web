@@ -3,18 +3,22 @@ import debounce from 'lodash.debounce';
 import * as EmailValidator from 'email-validator';
 import { defineComponent, ref } from 'vue';
 
-import { sendLoginEmail } from '@/api/account';
+import { checkLoginEmail, sendLoginEmail } from '@/api/account';
 
 export default defineComponent({
   setup() {
     const email = ref('');
+    const emailAlreadyRegistered = ref(false);
     const token = ref('');
     const errors = ref<Array<String>>([]);
     const message = ref('');
-    const handleEmailInput = debounce((e: any) => {
+    const handleEmailInput = debounce(async (e: any) => {
       const { value } = e.target;
-      const isValid = EmailValidator.validate(value);
-      console.debug('value', value, 'valid', isValid);
+      emailAlreadyRegistered.value = false;
+      if (EmailValidator.validate(value)) {
+        const account = await checkLoginEmail(value);
+        emailAlreadyRegistered.value = !!(account && account.uid);
+      }
     }, 200);
     const submitForm = async () => {
       errors.value = [];
@@ -28,6 +32,7 @@ export default defineComponent({
     };
     return {
       email,
+      emailAlreadyRegistered,
       token,
       errors,
       message,
@@ -54,20 +59,26 @@ export default defineComponent({
     class="form"
     @submit.prevent="submitForm"
   >
-    <label
+    <div
       class="input-container"
     >
       <input
+        @keyup="handleEmailInput"
         class="input"
-        @input="handleEmailInput"
         v-model="email"
         required
+        id="email-1625"
         name="email"
         type="email"
         placeholder="E-Mail"
-        autocomplete="on"
+        autocomplete="username"
       >
-    </label>
+      <label
+        for="email-1625"
+      >
+        E-Mail
+      </label>
+    </div>
     <!--
     <label
       class="input-container"
@@ -82,9 +93,27 @@ export default defineComponent({
     </label>
     -->
     <div
+      v-if="emailAlreadyRegistered"
+      class="input-container"
+    >
+      <p
+      >
+        Für <em>{{ email }}</em> ist bereits ein Konto vorhanden.<br>
+        Klicke auf "Login link senden".
+      </p>
+    </div>
+    <div
       class="input-container"
     >
       <button
+        v-if="emailAlreadyRegistered"
+        class="button"
+        type="submit"
+      >
+        Login link senden
+      </button>
+      <button
+        v-else
         class="button"
         type="submit"
       >
@@ -101,6 +130,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   .input-container {
+    @include form.float-label;
     width: 100%;
   }
 }

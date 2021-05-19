@@ -1,0 +1,15 @@
+@mixin default {
+  color: rgb(var(--c-white));
+  background: rgb(var(--c-black));
+  cursor: pointer;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-size: 1rem;
+  transition: background 100ms;
+  &:hover {
+    background: rgba(var(--c-black), 0.95);
+  }
+}

@@ -54,32 +54,44 @@ export default {
     class="form"
     @submit.prevent="submitForm"
   >
-    <label
+    <div
       class="input-container"
     >
       <input
         class="input"
         v-model="email"
         required
+        id="email"
         name="email"
         type="email"
-        placeholder="email"
+        placeholder="E-Mail"
         autocomplete="username"
       >
-    </label>
-    <label
+      <label
+        for="email"
+      >
+        E-Mail
+      </label>
+    </div>
+    <div
       class="input-container"
     >
       <input
         class="input"
         v-model="password"
+        id="password"
         required
         name="password"
         type="password"
-        placeholder="password"
+        placeholder="Password"
         autocomplete="current-password"
       >
-    </label>
+      <label
+        for="password"
+      >
+        Password
+      </label>
+    </div>
     <div
       class="input-container"
     >
@@ -100,6 +112,7 @@ export default {
   display: flex;
   flex-direction: column;
   .input-container {
+    @include form.float-label;
     width: 100%;
   }
 }

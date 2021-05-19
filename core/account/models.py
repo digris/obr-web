@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
@@ -74,6 +76,9 @@ class User(
     date_joined = models.DateTimeField(
         default=timezone.now,
     )
+    signup_completed = models.BooleanField(
+        default=False,
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -94,3 +99,19 @@ class User(
         elif self.first_name:
             return self.first_name
         return self.email
+
+
+class Settings(models.Model):
+
+    user = models.OneToOneField(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="settings",
+    )
+
+
+@receiver(post_save, sender=User)
+# pylint: disable=unused-argument
+def create_user_settings(sender, instance, created, **kwargs):
+    if created and not hasattr(instance, "settings"):
+        Settings.objects.create(user=instance)

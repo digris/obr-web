@@ -24,7 +24,8 @@ def send_login_email(email):
     url = settings.SITE_URL + f"/account/email-login/{signed_email}/"
 
     from_email = "open broadcast radio <no-reply@openbroadcast.ch>"
-    to_email = "Peter Muster <ohrstrom@gmail.com>"
+    # to_email = "Peter Muster <ohrstrom@gmail.com>"
+    to_email = email
 
     context = {
         "subject": "Your Account",
