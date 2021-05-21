@@ -1,13 +1,15 @@
-@mixin default {
-  color: rgb(var(--c-white));
-  background: rgb(var(--c-black));
-  cursor: pointer;
-  min-height: 3rem;
+@mixin default($height: 2.5rem) {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  min-height: $height;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  color: rgb(var(--c-white));
   font-size: 1rem;
+  background: rgb(var(--c-black));
+  border: none;
+  cursor: pointer;
   transition: background 100ms;
   &:hover {
     background: rgba(var(--c-black), 0.95);

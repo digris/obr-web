@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import LoadingMore from '@/components/UI/LoadingMore.vue';
+import LoadingMore from '@/components/ui/LoadingMore.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
 import { getMedia } from '@/api/catalog';
 

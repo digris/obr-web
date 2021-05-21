@@ -29,13 +29,19 @@ export default defineComponent({
 });
 </script>
 <template>
+  <transition name="fade">
+    <div
+      v-if="isVisible"
+      class="mask"
+    />
+  </transition>
   <transition name="slide">
     <div
       v-if="isVisible"
-      class="modal"
+      class="side-panel"
     >
       <div
-        class="modal__header"
+        class="side-panel__header"
       >
         <button
           @click.prevent="close"
@@ -45,14 +51,14 @@ export default defineComponent({
         </button>
       </div>
       <div
-        class="modal__body"
+        class="side-panel__body"
       >
         <slot
           name="default"
         />
       </div>
       <div
-        class="modal__footer"
+        class="side-panel__footer"
       >
         <slot
           name="footer"
@@ -63,7 +69,17 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.modal {
+.mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+  background: rgba(var(--c-black), 0.7);
+  backdrop-filter: grayscale(70%) brightness(80%);
+}
+.side-panel {
   position: fixed;
   top: 0;
   right: 0;
@@ -96,6 +112,17 @@ export default defineComponent({
   &__footer {
     padding: 1rem;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 200ms;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-to {
+  opacity: 0;
 }
 
 .slide-enter-active,

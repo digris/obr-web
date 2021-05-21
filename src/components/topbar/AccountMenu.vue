@@ -18,7 +18,6 @@ export default defineComponent({
       eventBus.emit('account:authenticate', event);
     };
     const logout = async () => {
-      console.debug('trigger logout');
       try {
         await store.dispatch('account/logoutUser');
         await router.push({ name: 'home' });
@@ -52,13 +51,10 @@ export default defineComponent({
       @mouseenter="showSubmenu"
       @mouseleave="hideSubmenu"
     >
-      <!--
-      <span>{{ currentUser.email }}</span>
-      -->
       <router-link
         :to="{ name: 'accountSettings' }"
       >
-        Account
+        <span>Account</span>
       </router-link>
       <div
         v-if="submenuVisible"

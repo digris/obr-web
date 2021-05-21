@@ -2,14 +2,14 @@
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import eventBus from '@/eventBus';
-import Modal from '@/components/UI/Modal.vue';
+import SidePanel from '@/components/ui/SidePanel.vue';
 import SocialLogin from '@/components/account/SocialLogin.vue';
 import LoginForm from '@/components/account/LoginForm.vue';
 import EmailLoginForm from '@/components/account/EmailLoginForm.vue';
 
 export default defineComponent({
   components: {
-    Modal,
+    SidePanel,
     SocialLogin,
     LoginForm,
     EmailLoginForm,
@@ -39,7 +39,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <Modal
+  <SidePanel
     :is-visible="isVisible"
     @close="close"
   >
@@ -62,7 +62,7 @@ export default defineComponent({
     >
       <EmailLoginForm />
     </section>
-  </Modal>
+  </SidePanel>
 </template>
 
 <style lang="scss" scoped>

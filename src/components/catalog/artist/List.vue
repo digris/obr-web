@@ -1,7 +1,7 @@
 <script>
 import { getArtists } from '@/api/catalog';
 
-import LoadingMore from '@/components/UI/LoadingMore.vue';
+import LoadingMore from '@/components/ui/LoadingMore.vue';
 import ArtistCard from './Card.vue';
 
 export default {

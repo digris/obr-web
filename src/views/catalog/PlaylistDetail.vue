@@ -6,10 +6,10 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import { getImageSrc } from '@/utils/image';
-import LazyImage from '@/components/UI/LazyImage.vue';
+import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
-import CircleButton from '@/components/UI/button/CircleButton.vue';
-import IconPlay from '@/components/UI/icon/IconPlay.vue';
+import CircleButton from '@/components/ui/button/CircleButton.vue';
+import IconPlay from '@/components/ui/icon/IconPlay.vue';
 
 export default {
   components: {
