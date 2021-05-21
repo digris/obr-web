@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-from social_django.admin import UserSocialAuth
+from social_django.models import UserSocialAuth
+from subscription.models import Subscription
 
 from .forms import UserCreationForm, UserChangeForm
 from .models import User, Settings
@@ -19,6 +20,11 @@ class UserSocialAuthInline(admin.TabularInline):
     ]
 
 
+class SubscriptionInline(admin.TabularInline):
+    model = Subscription
+    extra = 0
+
+
 class SettingsInline(admin.TabularInline):
     model = Settings
     can_delete = False
@@ -31,9 +37,9 @@ class UserAdmin(AuthUserAdmin):
     model = User
     list_display = [
         "email",
-        "is_staff",
+        # "is_staff",
         "is_active",
-        "is_superuser",
+        # "is_superuser",
         "signup_completed",
     ]
     list_filter = [
@@ -49,6 +55,7 @@ class UserAdmin(AuthUserAdmin):
     ]
     inlines = [
         SettingsInline,
+        SubscriptionInline,
         UserSocialAuthInline,
     ]
     fieldsets = (

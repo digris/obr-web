@@ -49,6 +49,7 @@ urlpatterns = [
     ),
     path("docs/", schema_view.with_ui("redoc", cache_timeout=0), name="api-docs"),
     path("account/", include("account.api.urls", "account")),
+    path("subscription/", include("subscription.api.urls", "subscription")),
     path("rating/", include("rating.api.urls", "rating")),
     path("catalog/", include("catalog.api.urls", "catalog")),
     path("broadcast/", include("broadcast.api.urls", "broadcast")),

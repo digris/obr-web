@@ -1,6 +1,6 @@
 import logging
 from django.conf import settings
-from account.utils.signer import timestamp_signer
+from base.utils.signer import timestamp_signer
 from django.core.signing import BadSignature, SignatureExpired
 
 from electronic_mail.message import BaseMessage, SendMessageException

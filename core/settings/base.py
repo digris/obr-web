@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "api_extra",
     "sync",
     "account",
+    "subscription",
     "rating",
     "broadcast",
     "catalog",
@@ -260,6 +261,13 @@ MEDIA_ENDPOINTS = {
 
 
 ##################################################################
+# payment providers
+##################################################################
+STRIPE_PUBLISHABLE_KEY = ""
+STRIPE_SECRET_KEY = ""
+
+
+##################################################################
 # exported settings
 ##################################################################
 SETTINGS_EXPORT = [
@@ -269,7 +277,9 @@ SETTINGS_EXPORT = [
     "IMAGE_RESIZER_URL",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",
+    "STRIPE_PUBLISHABLE_KEY",
 ]
+
 
 ##################################################################
 # logging
