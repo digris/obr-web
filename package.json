@@ -9,6 +9,7 @@
     "fix": "vue-cli-service lint"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^1.15.0",
     "axios": "^0.21.1",
     "axios-case-converter": "^0.7.0",
     "core-js": "^3.6.5",

@@ -8,6 +8,7 @@ from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 
 from account.models import User, Settings
 from social_django.models import UserSocialAuth
+from subscription.models import Subscription
 
 SITE_URL = getattr(settings, "SITE_URL")
 
@@ -19,6 +20,18 @@ class SettingsSerializer(serializers.ModelSerializer):
         model = Settings
         fields = [
             "id",
+        ]
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = [
+            "ct",
+            "uid",
+            "active_until",
+            "is_active",
+            "is_trial",
         ]
 
 
@@ -37,6 +50,7 @@ class UserSerializer(FlexFieldsSerializerMixin, serializers.ModelSerializer):
         ]
         expandable_fields = {
             "settings": SettingsSerializer,
+            "subscription": SubscriptionSerializer,
         }
 
 

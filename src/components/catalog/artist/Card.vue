@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 import { getImageSrc } from '@/utils/image';
-import LazyImage from '@/components/UI/LazyImage.vue';
+import LazyImage from '@/components/ui/LazyImage.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 
 export default {

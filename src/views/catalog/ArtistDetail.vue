@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import { getImageSrc } from '@/utils/image';
-import LazyImage from '@/components/UI/LazyImage.vue';
+import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
 export default {
