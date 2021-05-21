@@ -2,8 +2,8 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 
-// import IconPlay from '@/components/UI/icon/IconPlay.vue';
-import IconHeart from '@/components/UI/icon/IconHeart.vue';
+// import IconPlay from '@/components/ui/icon/IconPlay.vue';
+import IconHeart from '@/components/ui/icon/IconHeart.vue';
 
 export default defineComponent({
   props: {

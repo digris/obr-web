@@ -1,7 +1,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 
-import LoadingMore from '@/components/UI/LoadingMore.vue';
+import LoadingMore from '@/components/ui/LoadingMore.vue';
 import PlaylistCard from '@/components/catalog/playlist/Card.vue';
 import { getWTFPlaylists } from '@/api/catalog';
 

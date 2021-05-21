@@ -1,6 +1,6 @@
 <script>
 // import settings from '@/settings';
-// import LazyImage from '@/components/UI/LazyImage.vue';
+// import LazyImage from '@/components/ui/LazyImage.vue';
 import { DateTime } from 'luxon';
 
 import { computed } from 'vue';

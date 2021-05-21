@@ -1,11 +1,13 @@
 <script lang="ts">
 import MainMenu from '@/components/topbar/MainMenu.vue';
 import AccountMenu from '@/components/topbar/AccountMenu.vue';
+import SubscriptionStatus from '@/components/topbar/SubscriptionStatus.vue';
 
 export default {
   components: {
     MainMenu,
     AccountMenu,
+    SubscriptionStatus,
   },
 };
 </script>
@@ -21,6 +23,9 @@ export default {
     </div>
     <MainMenu
       class="menu menu--main"
+    />
+    <SubscriptionStatus
+      class="menu menu--subscription"
     />
     <AccountMenu
       class="menu menu--account"
@@ -39,7 +44,7 @@ export default {
   top: 0;
   z-index: 2;
   display: grid;
-  grid-template-columns: 180px 1fr 120px 40px;
+  grid-template-columns: 180px 1fr 40px 120px 40px;
   height: 48px;
   background: rgba(var(--c-live-bg), 0.9);
   backdrop-filter: blur(2px);

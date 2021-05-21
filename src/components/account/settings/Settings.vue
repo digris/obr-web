@@ -3,10 +3,12 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 import SocialLogin from '@/components/account/SocialLogin.vue';
+import SettingsSubscription from '@/components/account/settings/SettingsSubscription.vue';
 
 export default defineComponent({
   components: {
     SocialLogin,
+    SettingsSubscription,
   },
   setup() {
     const store = useStore();
@@ -22,6 +24,18 @@ export default defineComponent({
 
 <template>
   <section
+    v-if="currentUser"
+    class="section"
+  >
+    <h3
+      class="header"
+    >Plan / Subscription</h3>
+    <SettingsSubscription
+      :user="currentUser"
+    />
+  </section>
+  <section
+    v-if="currentUser"
     class="section"
   >
     <h3
@@ -36,7 +50,7 @@ export default defineComponent({
     >
       <div
         class="label"
-      >Account ID:</div>
+      >ID:</div>
       <div
         class="value"
       >{{ currentUser.uid }}</div>
@@ -87,15 +101,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/section";
+@use "@/style/elements/info-grid";
 .section {
   @include section.default;
 }
 .info-grid {
-  display: grid;
-  grid-gap: 0.5rem;
-  grid-template-columns: auto 1fr;
-  .label {
-    opacity: 0.5;
-  }
+  @include info-grid.default;
 }
 </style>

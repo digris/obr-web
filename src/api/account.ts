@@ -44,7 +44,7 @@ async function loginBySignedEmail(signedEmail: string) {
 }
 
 async function getCurrentUser() {
-  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings`;
+  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription`;
   const response = await APIClient.get(url);
   return response.data;
 }

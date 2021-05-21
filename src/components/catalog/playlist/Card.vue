@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { DateTime } from 'luxon';
 
-import LazyImage from '@/components/UI/LazyImage.vue';
+import LazyImage from '@/components/ui/LazyImage.vue';
 import { getImageSrc } from '@/utils/image';
 
 export default {
