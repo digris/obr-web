@@ -1,5 +1,4 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-/* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 import { DateTime } from 'luxon';
 
 const state = {
@@ -9,26 +8,14 @@ const state = {
   currentState: null,
   playheadTime: null,
   playerState: null,
-  // currentMedia: {
-  //   name: 'Rock The Boat',
-  //   artists: [
-  //     {
-  //       name: 'Inner Circle',
-  //     },
-  //   ],
-  // },
   currentMedia: null,
 };
 
 const getters = {
-  // @ts-ignore
-  encodingFormat: (state) => state.encodingFormat,
-  // @ts-ignore
-  playheadTime: (state) => state.playheadTime,
-  // @ts-ignore
-  playerState: (state) => state.playerState,
-  // @ts-ignore
-  currentMedia: (state) => state.currentMedia,
+  encodingFormat: (state:any) => state.encodingFormat,
+  playheadTime: (state:any) => state.playheadTime,
+  playerState: (state:any) => state.playerState,
+  currentMedia: (state:any) => state.currentMedia,
 };
 
 const mutations = {
@@ -46,12 +33,13 @@ const mutations = {
     }
     state.playerState = pState;
   },
-  // @ts-ignore
-  SET_CURRENT_MEDIA: (state, media) => {
+
+  SET_CURRENT_MEDIA: (state:any, media:object) => {
     state.currentMedia = media;
   },
 };
 
+// @ts-ignore
 const actions = {
   // @ts-ignore
   updateEncodingFormat: async (context, encodingFormat) => {

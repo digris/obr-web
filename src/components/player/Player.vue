@@ -3,15 +3,18 @@ import settings from '@/settings';
 import eventBus from '@/eventBus';
 import CurrentMedia from './CurrentMedia.vue';
 import Playhead from './Playhead.vue';
+import Queue from './Queue.vue';
 
 export default {
   components: {
     CurrentMedia,
     Playhead,
+    Queue,
   },
   data() {
     return {
       startTime: -10,
+      queueVisible: false,
     };
   },
   computed: {
@@ -43,6 +46,19 @@ export default {
         '--c-fg': this.isLive ? '0, 0, 0' : '255, 255, 255',
       };
     },
+  },
+  mounted() {
+    eventBus.on('player:onended', (e) => {
+      console.debug('Player - onended', e);
+      // TODO: chek if next in queue...
+      this.play('stream');
+      const msg = {
+        // level: 'success',
+        body: 'No more tracks - switching bak to live-stream...',
+        ttl: 3,
+      };
+      this.$store.dispatch('notification/addMessage', msg);
+    });
   },
   methods: {
     play(key) {
@@ -83,11 +99,20 @@ export default {
     setEncodingFormat(encodingFormat) {
       this.$store.dispatch('player/updateEncodingFormat', encodingFormat);
     },
+    showQueue() {
+      this.queueVisible = true;
+    },
+    hideQueue() {
+      this.queueVisible = false;
+    },
   },
 };
 </script>
 
 <template>
+  <Queue
+    :is-visible="queueVisible"
+  />
   <div
     class="player"
     :style="cssVars"
@@ -105,9 +130,23 @@ export default {
       </div>
       <div class="right">
         ({{ encodingFormat }})
+        <span
+          v-if="(!queueVisible)"
+          @click="showQueue"
+        >
+          Q+
+        </span>
+        <span
+          v-else
+          @click="hideQueue"
+        >
+          Q-
+        </span>
+        <!--
         <a @click.prevent="setEncodingFormat('dash')">DASH</a>
         <span> - </span>
         <a @click.prevent="setEncodingFormat('hls')">HLS</a>
+        -->
       </div>
     </div>
   </div>

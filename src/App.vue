@@ -4,11 +4,13 @@ import Topbar from '@/components/topbar/Topbar.vue';
 import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
+import Notifications from '@/components/notification/Notifications.vue';
 import ColorChooser from '@/components/colors/ColorChooser.vue';
 
 export default {
   components: {
     Topbar,
+    Notifications,
     AuthPanel,
     Subscribe,
     Player,
@@ -28,6 +30,7 @@ export default {
 
 <template>
   <Topbar />
+  <Notifications />
   <router-view v-slot="{ Component }">
     <keep-alive>
       <component :is="Component" />

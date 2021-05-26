@@ -22,6 +22,15 @@ export default {
         // TODO: refresh user related data (ratings etc) instead of location reload
         window.location.reload();
         // await router.push({ name: 'home' });
+        // const msg = {
+        //   level: 'success',
+        //   body: 'foo the blu',
+        //   action: {
+        //     label: 'More',
+        //     url: '/foo/bar/',
+        //   },
+        // };
+        // store.dispatch('notification/addMessage', msg);
       } catch (err) {
         console.warn(err);
         errors.value = [err.message, err.response.data];

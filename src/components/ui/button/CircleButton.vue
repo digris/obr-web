@@ -7,12 +7,17 @@ export default defineComponent({
       type: Number,
       default: 24,
     },
+    backgroundColor: {
+      type: String,
+      default: 'rgb(var(--c-live-fg))',
+    },
   },
   setup(props) {
     const style = ref({
       height: `${props.size}px`,
       width: `${props.size}px`,
       borderRadius: `${props.size / 2}px`,
+      // backgroundColor: props.backgroundColor,
     });
     return {
       style,

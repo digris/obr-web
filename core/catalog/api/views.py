@@ -71,6 +71,7 @@ class ArtistViewSet(
 class MediaFilter(filters.FilterSet):
     playlist = filters.CharFilter(method="playlist_filter")
     artist = filters.CharFilter(method="artist_filter")
+    obj_key = filters.CharFilter(method="obj_key_filter")
 
     class Meta:
         model = Media
@@ -83,6 +84,17 @@ class MediaFilter(filters.FilterSet):
     # pylint: disable=unused-argument
     def artist_filter(self, queryset, name, value):
         return queryset.filter(artists__uid=value)
+
+    # pylint: disable=unused-argument
+    def obj_key_filter(self, queryset, name, value):
+        import time
+
+        time.sleep(2)
+        obj_ct, obj_uid = value.split(":")
+        query = {
+            f"{obj_ct[8:]}s__uid": obj_uid,
+        }
+        return queryset.filter(**query)
 
 
 class MediaViewSet(
