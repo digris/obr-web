@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 class PaymentSerializer(serializers.Serializer):
     sku = serializers.CharField(required=True)
     donation = serializers.FloatField(default=0)
+    next = serializers.CharField(required=False)
 
 
 class PaymentView(APIView):
@@ -45,6 +46,7 @@ class PaymentView(APIView):
         user_uid = str(user.uid)
         sku = request.data.get("sku")
         donation = request.data.get("donation", 0)
+        next = request.data.get("next")
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -79,6 +81,7 @@ class PaymentView(APIView):
                 "sku": plan["sku"],
                 "num_days": plan["num_days"],
             },
+            "next": next,
         }
 
         payment = Payment.objects.create(
@@ -123,18 +126,10 @@ class PaymentSuccessView(APIView):
 
         checkout_session = get_checkout_session(request)
 
-        # print("checkout_session", checkout_session)
-
         complete_checkout_session(session=checkout_session, payment=payment)
-        #
-        redirect_url = "/account/settings/"
-        # delete_current_order_from_request(request=request)
-        #
-        # return Response(
-        #     {
-        #         "location": redirect_url,
-        #     }
-        # )
+
+        redirect_url = payment.extra_data.get("next", "/account/settings/")
+
         return HttpResponseRedirect(redirect_url)
 
 

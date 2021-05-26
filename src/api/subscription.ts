@@ -26,10 +26,11 @@ async function getPlanOptions() {
   return response.data;
 }
 
-async function createStripeCheckoutSession(sku: string) {
+async function createStripeCheckoutSession(sku: string, next: string) {
   const url = `${SUBSCRIPTION_ENDPOINT}payment/stripe/`;
   const payload = {
     sku,
+    next,
   };
   const response = await APIClient.post(url, payload);
   return response.data;

@@ -23,7 +23,13 @@ export default defineComponent({
     Datetime,
     Money,
   },
-  setup() {
+  props: {
+    next: {
+      type: String,
+      default: null,
+    },
+  },
+  setup(props) {
     const errors = ref<Array<String>>([]);
     const message = ref(null);
     const selectedKey = ref(null);
@@ -53,7 +59,10 @@ export default defineComponent({
     const startStripePayment = async () => {
       const stripe = await stripePromise;
       // @ts-ignore
-      const response = await createStripeCheckoutSession(selectedOption.value.sku);
+      const response = await createStripeCheckoutSession(selectedOption.value.sku, props.next);
+      // if (response) {
+      //   throw new Error('foo');
+      // }
       console.debug('response', response);
       const sessionId = response.id;
       console.debug('sessionId', sessionId);

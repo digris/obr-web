@@ -18,7 +18,10 @@ export default defineComponent({
     APIErrors,
     Datetime,
   },
-  setup() {
+  emits: [
+    'subscriptionCreated',
+  ],
+  setup(props, { emit }) {
     const store = useStore();
     const isSuccess = ref(false);
     const errors = ref<Array<String>>([]);
@@ -47,6 +50,7 @@ export default defineComponent({
         await store.dispatch('account/getUser');
         isSuccess.value = true;
         // close();
+        emit('subscriptionCreated');
       } catch (err: any) {
         console.warn(err);
         // errors.value = [err.message, err.response.data];
@@ -77,19 +81,14 @@ export default defineComponent({
       class="section info"
     >
       <div>
-        <p
-          class="message"
-          v-text="message"
-        />
         <div
           v-if="firstOption"
-          class="details"
+          class="option"
         >
           <span>
-            Full acces for {{ firstOption.numDays }} days
+            Your {{ firstOption.numDays }} day Trial
           </span>
           <span>
-            <span> &bull; </span>
             until
             <Datetime
               :display-time="(false)"
@@ -97,10 +96,14 @@ export default defineComponent({
             />
           </span>
         </div>
+        <p
+          class="message"
+          v-text="message"
+        />
       </div>
     </section>
     <section
-      v-if="errors"
+      v-if="errors.length"
       class="section errors"
     >
       <APIErrors
@@ -125,16 +128,28 @@ export default defineComponent({
 @use "@/style/elements/button";
 .section {
   @include section.default;
+  padding: 2rem 0 1rem;
+  text-align: center;
   &.info {
+    .option {
+      display: flex;
+      flex-direction: column;
+      font-size: 3rem;
+      text-align: center;
+    }
     .message {
       padding: 1rem 0;
+      font-size: 1.75rem;
+      line-height: 130%;
     }
-    .details {
-      font-size: 150%;
-    }
+  }
+  &.actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 .button {
-  @include button.default;
+  @include button.default(4rem);
 }
 </style>

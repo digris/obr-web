@@ -1,13 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, onMounted } from 'vue';
 import eventBus from '@/eventBus';
 import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
-import Subscribe from '@/components/subscription/Subscribe.vue';
 
 export default defineComponent({
   components: {
     CurrentSubscription,
-    Subscribe,
   },
   props: {
     user: {
@@ -17,6 +15,7 @@ export default defineComponent({
   },
   setup(props) {
     const subscription = computed(() => props.user.subscription);
+    console.debug('subscription', subscription);
     const subscribe = (intent: string) => {
       const event = {
         intent,
@@ -24,6 +23,12 @@ export default defineComponent({
       };
       eventBus.emit('subscription:subscribe', event);
     };
+    onMounted(() => {
+      // NOTE: just testing - initially show trial CTA if no subscription yet.
+      if (!subscription.value) {
+        subscribe('trial');
+      }
+    });
     return {
       subscription,
       subscribe,
@@ -33,9 +38,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <Subscribe />
-  </div>
   <div
     class="subscription"
   >
@@ -51,8 +53,7 @@ export default defineComponent({
         class="lead">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lobortis rhoncus nisl.
-          Quisque luctus mattis lectus, non faucibus purus volutpat volutpat. Suspendisse posuere
-          diam a tincidunt venenatis. Quisque eget erat tempor libero dignissim venenatis.
+          Quisque luctus mattis lectus.
           <br>
           Proin mi ante, auctor molestie consectetur at.
         </p>
@@ -138,6 +139,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/button";
 @mixin option {
   display: flex;
@@ -173,12 +175,16 @@ export default defineComponent({
 }
 .subscription {
   .lead {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0;
+    line-height: 140%;
   }
   &__options {
     display: grid;
     grid-gap: 0.5rem;
     grid-template-columns: repeat(3, 1fr);
+    @include responsive.bp-small {
+      grid-template-columns: unset;
+    }
   }
   &__option {
     padding: 1rem;

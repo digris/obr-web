@@ -2,7 +2,7 @@
 
 @import "variables";
 
-@mixin bp-small-only {
+@mixin bp-small {
   @media (max-width: #{map-get($breakpoints, medium)}) {
     @content;
   }
