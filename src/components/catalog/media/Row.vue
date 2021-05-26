@@ -2,6 +2,7 @@
 import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
 import { getDashUrl } from '@/player/media';
+import { requireSubscription } from '@/utils/account';
 
 import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
@@ -43,7 +44,8 @@ export default {
     },
   },
   methods: {
-    controls(media) {
+    // eslint-disable-next-line func-names
+    controls: requireSubscription(function (media) {
       const url = getDashUrl(media);
       const event = {
         do: 'play',
@@ -52,7 +54,7 @@ export default {
       };
       eventBus.emit('player:controls', event);
       this.$store.dispatch('player/updateCurrentMedia', media);
-    },
+    }, 'A subscription is required...'),
   },
 };
 </script>

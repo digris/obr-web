@@ -39,6 +39,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .topbar {
   position: sticky;
   top: 0;
@@ -63,6 +64,9 @@ export default {
     }
     &--account {
       justify-content: flex-end;
+    }
+    @include responsive.bp-small {
+      display: none;
     }
   }
   .menu-toggle {

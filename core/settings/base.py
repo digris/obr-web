@@ -106,6 +106,7 @@ AUTHENTICATION_BACKENDS = [
     # "axes.backends.AxesBackend",
     "social_core.backends.google.GoogleOAuth2",
     "social_core.backends.spotify.SpotifyOAuth2",
+    "social_core.backends.apple.AppleIdAuth",
     "django.contrib.auth.backends.ModelBackend",
 ]
 

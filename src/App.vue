@@ -1,7 +1,8 @@
 <script>
 import { AudioPlayer } from '@/player/audioPlayer';
-import AuthPanel from '@/components/account/AuthPanel.vue';
 import Topbar from '@/components/topbar/Topbar.vue';
+import AuthPanel from '@/components/account/AuthPanel.vue';
+import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
 import ColorChooser from '@/components/colors/ColorChooser.vue';
 
@@ -9,6 +10,7 @@ export default {
   components: {
     Topbar,
     AuthPanel,
+    Subscribe,
     Player,
     ColorChooser,
   },
@@ -33,5 +35,6 @@ export default {
   </router-view>
   <ColorChooser />
   <AuthPanel />
+  <Subscribe />
   <Player />
 </template>

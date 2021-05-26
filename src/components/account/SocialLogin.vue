@@ -28,10 +28,14 @@ export default defineComponent({
       connectedBackends.value = backends.connected;
       disconnectedBackends.value = backends.disconnected;
     };
-
     const getProviderLogo = (provider: string) => {
       const key = provider.split('-')[0];
       return getStaticSrc(`assets/brand-icons/${key}.svg`);
+    };
+    const getProviderText = (provider: string) => {
+      const key = provider.split('-')[0];
+      // return key.charAt(0).toUpperCase() + key.slice(1);
+      return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = (backend: Backend) => {
       console.debug('beginLogin', backend);
@@ -55,6 +59,7 @@ export default defineComponent({
       beginLogin,
       disconnect,
       getProviderLogo,
+      getProviderText,
     };
   },
 });
@@ -88,7 +93,7 @@ export default defineComponent({
         />
         <p
           class="name"
-        >{{ backend.provider }}</p>
+        >Continue with {{ getProviderText(backend.provider) }}</p>
       </div>
     </section>
     <section
@@ -131,7 +136,7 @@ export default defineComponent({
   .backends {
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     margin-bottom: 2rem;
   }
   .backend {
@@ -140,7 +145,7 @@ export default defineComponent({
     padding: 0.5rem 1rem;
     color: rgb(var(--c-black));
     background: rgb(var(--c-white));
-    border: 1px solid rgb(var(--c-white));
+    border: 1px solid rgba(var(--c-black), 0.5);
     cursor: pointer;
     transition: border-radius 100ms;
     .logo {
@@ -149,7 +154,7 @@ export default defineComponent({
     }
     .name {
       flex-grow: 1;
-      text-transform: capitalize;
+      //text-transform: capitalize;
       .uid {
         color: rgba(var(--c-black), 0.5);
         text-transform: lowercase;
@@ -158,7 +163,7 @@ export default defineComponent({
     //.disconnect {
     //
     //}
-    &--google {
+    &--google-oauth2 {
       border-color: rgba(var(--c-black), 0.5);
     }
     &--facebook {
@@ -167,7 +172,7 @@ export default defineComponent({
       border-color: #1877f2;
     }
     &:hover {
-      border-radius: 0.25rem;
+      border-radius: 4px;
     }
   }
 }

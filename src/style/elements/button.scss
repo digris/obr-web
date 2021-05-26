@@ -3,15 +3,18 @@
   align-items: center;
   justify-content: center;
   min-height: $height;
-  padding-right: 1rem;
-  padding-left: 1rem;
+  padding-right: $height / 2.5;
+  padding-left: $height / 2.5;
   color: rgb(var(--c-white));
-  font-size: 1rem;
+  font-size: $height / 2.5;
   background: rgb(var(--c-black));
   border: none;
+  border-radius: $height / 10;
   cursor: pointer;
-  transition: background 100ms;
+  transition: background 250ms;
   &:hover {
-    background: rgba(var(--c-black), 0.95);
+    //background: rgba(var(--c-black), 0.95);
+    background: rgb(var(--c-cta));
+    transition: background 100ms;
   }
 }

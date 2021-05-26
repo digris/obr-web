@@ -10,6 +10,9 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 
+// directives
+// import { loginRequired } from './directives/account';
+
 createStationTimeHandler();
 createCredentialsHandler();
 creadeScheduleHandler();
@@ -21,4 +24,5 @@ createUIStateHandler();
 createApp(App)
   .use(router)
   .use(store)
+  // .directive('login-required', loginRequired)
   .mount('#app');
