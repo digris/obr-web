@@ -106,6 +106,15 @@ class AudioPlayer {
         }
       }
     });
+
+    // "audio" events
+    // audio.onprogress = (e) => {
+    //   console.debug('onprogress', e);
+    // };
+    audio.onended = (e) => {
+      console.debug('AudioPlayer - onended', e);
+      eventBus.emit('player:onended', e);
+    };
   }
 
   updateState() {

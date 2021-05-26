@@ -3,11 +3,13 @@ import { computed } from 'vue';
 
 import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/ui/LazyImage.vue';
+import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 
 export default {
   components: {
     LazyImage,
+    PlayIcon,
     UserRating,
   },
   props: {
@@ -43,6 +45,10 @@ export default {
           :src="imageSrc"
         />
       </div>
+      <PlayIcon
+        class="visual__play"
+        :obj-key="objKey"
+      />
     </div>
     <div
       class="meta"
@@ -73,15 +79,28 @@ export default {
 <style lang="scss" scoped>
 .card {
   .visual {
+    position: relative;
     background: rgba(var(--c-white), .25);
     &__image {
       position: relative;
       width: 100%;
       padding-bottom: 100%;
+      filter: grayscale(100%);
+      transition: filter 100ms;
       img {
         position: absolute;
         width: 100%;
       }
+    }
+    &__play {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
   .meta {
@@ -92,6 +111,13 @@ export default {
       font-weight: 600;
       a {
         flex-grow: 1;
+      }
+    }
+  }
+  &:hover {
+    .visual {
+      &__image {
+        filter: grayscale(0);
       }
     }
   }

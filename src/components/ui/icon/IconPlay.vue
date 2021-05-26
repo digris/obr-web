@@ -5,13 +5,13 @@ const BASE_SIZE = 24;
 
 export default defineComponent({
   props: {
-    color: {
-      type: String,
-      default: 'rgb(var(--c-live-bg))',
-    },
     size: {
       type: Number,
       default: 24,
+    },
+    color: {
+      type: String,
+      default: 'rgb(var(--c-live-bg))',
     },
   },
   setup(props) {

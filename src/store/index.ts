@@ -6,7 +6,9 @@ import ui from './ui';
 import rating from './rating';
 import catalog from './catalog';
 import player from './player';
+import queue from './queue';
 import schedule from './schedule';
+import notification from './notification';
 
 export default createStore({
   // namespaced: true,
@@ -17,7 +19,9 @@ export default createStore({
     rating,
     catalog,
     player,
+    queue,
     schedule,
+    notification,
   },
   mutations: {},
   actions: {},
