@@ -22,6 +22,9 @@ export default defineComponent({
       if (!props.playerState) {
         return 'stopped';
       }
+      if (props.playerState.isLive) {
+        return 'stopped';
+      }
       if (props.playerState.isBuffering) {
         return 'buffering';
       }

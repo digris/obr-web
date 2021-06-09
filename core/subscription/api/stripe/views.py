@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 class PaymentSerializer(serializers.Serializer):
     sku = serializers.CharField(required=True)
     donation = serializers.FloatField(default=0)
-    next = serializers.CharField(required=False)
+    next = serializers.CharField(required=False, allow_null=True)
 
 
 class PaymentView(APIView):

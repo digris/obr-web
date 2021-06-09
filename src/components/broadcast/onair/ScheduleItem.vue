@@ -1,73 +1,183 @@
-<script>
-// import settings from '@/settings';
-// import LazyImage from '@/components/ui/LazyImage.vue';
+<script lang="ts">
+import { computed, defineComponent } from 'vue';
 import { DateTime } from 'luxon';
+import eventBus from '@/eventBus';
+import settings from '@/settings';
+import LazyImage from '@/components/ui/LazyImage.vue';
+import ScheduleItemPlay from './ScheduleItemPlay.vue';
 
-import { computed } from 'vue';
-
-export default {
-  // components: { LazyImage },
+export default defineComponent({
+  components: {
+    LazyImage,
+    ScheduleItemPlay,
+  },
   props: {
+    hasFocus: {
+      type: Boolean,
+      default: false,
+    },
     isCurrent: {
       type: Boolean,
       default: false,
     },
     scheduleItem: {
       type: Object,
-      required: true,
+      required: false,
+      default: null,
     },
   },
-  setup(props) {
+  emits: [
+    'play',
+  ],
+  setup(props, { emit }) {
+    // eslint-disable-next-line arrow-body-style
+    const isPlaceholder = computed(() => {
+      return props.scheduleItem === null;
+    });
     // eslint-disable-next-line arrow-body-style
     const media = computed(() => {
       return props.scheduleItem ? props.scheduleItem.media : null;
     });
+    const release = computed(() => {
+      if (media.value && media.value.releases.length) {
+        return media.value.releases[0];
+      }
+      return null;
+    });
+    const image = computed(() => {
+      return (release.value && release.value.image) ? release.value.image : null;
+    });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
-    return { media, timeFormat };
+    const streamUrl = computed(() => settings.STREAM_ENDPOINTS.dash);
+    const play = () => {
+      let startTime = -10;
+      if (props.isCurrent) {
+        startTime = -10;
+      } else {
+        const now = DateTime.now();
+        const { timeStart } = props.scheduleItem;
+        const diffDt = timeStart.diff(now, 'seconds');
+        const diffSeconds = diffDt.seconds;
+        console.dir({
+          now,
+          timeStart,
+          diffDt,
+          diffSeconds,
+        });
+        console.debug('diff', diffSeconds);
+        startTime = diffSeconds + 10;
+        // startTime = timeStart.diff(now, 'seconds').seconds;
+      }
+      const event = {
+        do: 'play',
+        url: `${streamUrl.value}?${Date.now()}`,
+        startTime,
+      };
+      eventBus.emit('player:controls', event);
+      emit('play');
+    };
+    return {
+      isPlaceholder,
+      media,
+      release,
+      image,
+      timeFormat,
+      play,
+    };
   },
-};
+});
 </script>
 
 <template>
   <div
     class="schedule-item"
-    :class="{'is-current': isCurrent}"
+    :class="{'has-focus': hasFocus, 'is-placeholder': isPlaceholder}"
   >
     <div
-      v-if="media"
+      v-if="isPlaceholder"
+      class="panel"
     >
-      <h4>{{ media.name }}</h4>
-      <small>UID: {{ media.uid }}</small>
+      (( placeholder ))
     </div>
     <div
-      class="timing"
+      v-else
+      class="panel"
     >
-      <small
-        class="label"
+      <LazyImage
+        :image="image"
+      />
+      <div
+        v-if="scheduleItem"
+        class="info"
       >
-        Airtime:
-      </small>
-      <span
-        class="value"
-      >
-        {{ scheduleItem.timeStart.toLocaleString(timeFormat) }}
-        -
-        {{ scheduleItem.timeEnd.toLocaleString(timeFormat) }}
-      </span>
+        <div
+          class="meta"
+        >
+          {{ scheduleItem.media.name }}
+        </div>
+        <div
+          class="timing"
+        >
+          {{ scheduleItem.timeStart.toLocaleString(timeFormat) }}
+          -
+          {{ scheduleItem.timeEnd.toLocaleString(timeFormat) }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="actions"
+    >
+      <ScheduleItemPlay
+        :is-current="isCurrent"
+        :item="scheduleItem"
+        @play="play"
+      />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
+@use "@/style/base/typo";
 .schedule-item {
-  padding: 0.5rem;
-  &.is-current {
-    @include live-color.fg-inverse;
-    @include live-color.bg-inverse;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(var(--c-black));
+  &.is-placeholder {
+    background: rgb(var(--c-black));
   }
-}
-.mono {
-  font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+  .panel {
+    width: 100%;
+    height: 100%;
+  }
+  .info {
+    position: absolute;
+    bottom: 0;
+    .meta {
+      @include typo.small;
+      padding: 0.25rem;
+      color: black;
+      background: white;
+    }
+    .timing {
+      @include typo.small;
+      padding: 0.25rem;
+      color: black;
+      background: white;
+    }
+  }
+  .actions {
+    position: absolute;
+  }
+  /*
+  &:not(.has-focus) {
+    .actions {
+      left: 0;
+      transform: scale(0.5);
+    }
+  }
+  */
 }
 </style>

@@ -5,6 +5,7 @@ import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { requireSubscription } from '@/utils/account';
 import { getMedia } from '@/api/catalog';
+import eventBus from '@/eventBus';
 
 export default defineComponent({
   components: {
@@ -22,19 +23,19 @@ export default defineComponent({
     const isLoading = ref(false);
     const play = requireSubscription(async () => {
       isLoading.value = true;
-      console.debug('play', props.objKey);
       const filter = {
         obj_key: props.objKey,
       };
-      const { count, next, results } = await getMedia(20, 0, filter);
-      console.debug('r', count, next, results);
+      const { results } = await getMedia(100, 0, filter);
       const payload = {
         mode: 'replace',
         media: results,
       };
+      // NOTE: hm - this is not very nice...
       await store.dispatch('queue/updateQueue', payload);
+      eventBus.emit('queue:controls:startPlayCurrent');
       isLoading.value = false;
-    });
+    }, 'Subscription required.');
     return {
       play,
       isLoading,
@@ -62,6 +63,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .play-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   .container {
     display: flex;
     align-items: center;
@@ -75,6 +84,10 @@ export default defineComponent({
     transition: background 100ms;
     &:hover {
       background: rgba(var(--c-black), 0.9);
+    }
+    &.is-loading {
+      cursor: wait;
+      opacity: 0.8;
     }
   }
 }

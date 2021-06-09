@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "storages",
+    "taggit",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
@@ -31,10 +32,12 @@ INSTALLED_APPS = [
     "social_django",
     "adminsortable2",
     "base",
+    "tagging",
     "api_extra",
     "sync",
     "account",
     "subscription",
+    "identifier",
     "rating",
     "broadcast",
     "catalog",
@@ -206,6 +209,12 @@ FILE_UPLOAD_HANDLERS = [
 
 # MAX_UPLOAD_SIZE = 256MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 268435456
+
+
+##################################################################
+# tagging
+##################################################################
+TAGGIT_CASE_INSENSITIVE = False
 
 
 ##################################################################

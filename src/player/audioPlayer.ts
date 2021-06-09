@@ -1,5 +1,6 @@
 // @ts-ignore
 import shaka from 'shaka-player';
+import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
 import store from '@/store';
 
@@ -76,6 +77,7 @@ class AudioPlayer {
     }, POLL_INTERVAL);
 
     eventBus.on('player:controls', (e) => {
+      console.debug('player:controls', e);
       switch (e.do) {
         case 'play': {
           const { url, startTime } = e;
@@ -107,13 +109,18 @@ class AudioPlayer {
       }
     });
 
+    // eventBus.on('player:controls:playStream', (e) => {
+    //   const startTime = (e.startTime) ? e.startTime : -10;
+    //   console.debug('player:controls:playStream', startTime);
+    // });
+
     // "audio" events
     // audio.onprogress = (e) => {
     //   console.debug('onprogress', e);
     // };
     audio.onended = (e) => {
-      console.debug('AudioPlayer - onended', e);
-      eventBus.emit('player:onended', e);
+      console.debug('AudioPlayer - audio.onended', e);
+      eventBus.emit('player:audio:ended', e);
     };
   }
 
@@ -121,8 +128,9 @@ class AudioPlayer {
     const { audio, player } = this;
     const playheadTime = player.getPlayheadTimeAsDate();
     const stats = player.getStats();
+    const isLive = player.isLive();
+    const bandwidth = Number.isNaN(stats.streamBandwidth) ? 0 : stats.streamBandwidth;
     let bufferState = null;
-    let isLive;
     let currentTime;
     let relPosition;
     if (stats.stateHistory.length) {
@@ -130,11 +138,9 @@ class AudioPlayer {
       bufferState = stats.stateHistory.slice(-1)[0];
     }
     if (playheadTime) {
-      isLive = true;
       currentTime = playheadTime;
       relPosition = null;
     } else {
-      isLive = false;
       currentTime = audio.currentTime;
       relPosition = currentTime / audio.duration;
     }
@@ -146,10 +152,18 @@ class AudioPlayer {
       isPaused: audio.paused,
       // duration: audio.duration,
       duration: isLive ? null : audio.duration,
+      bandwidth,
       currentTime,
       relPosition,
       playheadTime,
     };
+
+    // NOTE: check how to structure playhead info / time...
+    if (playheadTime) {
+      store.dispatch('time/setPlayheadTime', DateTime.fromJSDate(playheadTime).plus({ seconds: +1 }));
+    } else {
+      store.dispatch('time/setPlayheadTime', null);
+    }
 
     // if (Object.is(state, this.state)) {
     if (JSON.stringify(playerState) === JSON.stringify(this.playerState)) {
@@ -177,10 +191,19 @@ class AudioPlayer {
     // @ts-ignore
     const absPosition = relPosition * this.playerState.duration;
     this.audio.currentTime = absPosition;
+    if (this.playerState.isPaused) {
+      this.resume();
+    }
   }
 
   stop() {
     this.player.unload();
+    // this.audio.pause();
+    // try {
+    //   this.audio.currentTime = 0;
+    // } catch (err) {
+    //   console.warn(err);
+    // }
   }
 
   pause() {

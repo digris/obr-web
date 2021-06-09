@@ -1,4 +1,5 @@
 <script>
+import eventBus from '@/eventBus';
 import PlayheadProgress from './PlayheadProgress.vue';
 
 const dt2hhmmss = (dt) => dt.toISOString().substr(11, 8);
@@ -49,10 +50,32 @@ export default {
       }
       return s2hhmmss(this.duration);
     },
+    strBandwidth() {
+      if (this.playerState) {
+        const kbps = Math.round(this.playerState.bandwidth / 1000);
+        return `${kbps} kbps`;
+      }
+      return '-';
+    },
   },
   methods: {
     seek(relPosition) {
       this.$emit('seek', relPosition);
+    },
+    playNext() {
+      eventBus.emit('queue:controls:playNext');
+    },
+    playPrevious() {
+      eventBus.emit('queue:controls:playPrevious');
+    },
+    stop() {
+      eventBus.emit('player:controls', { do: 'stop' });
+    },
+    pause() {
+      eventBus.emit('player:controls', { do: 'pause' });
+    },
+    resume() {
+      eventBus.emit('player:controls', { do: 'resume' });
     },
   },
 };
@@ -61,8 +84,18 @@ export default {
 <template>
   <div class="playhead">
     <div class="actions">
-      <button class="action">+</button>
-      <button class="action">+</button>
+      <button
+        @click="stop"
+        class="action"
+      >S</button>
+      <button
+        @click="pause"
+        class="action"
+      >P</button>
+      <button
+        @click="resume"
+        class="action"
+      >R</button>
     </div>
     <div class="time time--current">
       <span>{{ strCurrentTime }}</span>
@@ -80,14 +113,28 @@ export default {
       <span>{{ strTotalTime }}</span>
     </div>
     <div class="actions">
-      <button class="action">+</button>
-      <button class="action">+</button>
+      <button
+        @click="playPrevious"
+        class="action"
+      >&lt;</button>
+      <button
+        @click="playNext"
+        class="action"
+      >&gt;</button>
+    </div>
+    <div
+      class="info"
+    >
+      <span
+        class="bandwidth"
+      >{{ strBandwidth }}</span>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
+@use "@/style/base/typo";
 
 @mixin time {
   padding: 0 0.5rem;
@@ -118,7 +165,7 @@ export default {
 
 .playhead {
   display: grid;
-  grid-template-columns: auto auto 1fr auto auto;
+  grid-template-columns: auto auto 1fr auto auto auto;
   width: 100%;
   .actions,
   .progress,
@@ -136,6 +183,14 @@ export default {
   }
   .progress {
     margin: 0 0.5rem;
+  }
+  .info {
+    display: flex;
+    align-items: center;
+    padding-left: 0.5rem;
+    .bandwidth {
+      @include typo.small;
+    }
   }
 }
 </style>

@@ -32,6 +32,13 @@ class MediaAdmin(admin.ModelAdmin):
 
     search_fields = [
         "name",
+        "artists__name",
+        "artists__uid",
+    ]
+
+    readonly_fields = [
+        "uuid",
+        "uid",
     ]
 
     def get_queryset(self, request):

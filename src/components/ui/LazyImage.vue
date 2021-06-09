@@ -1,7 +1,8 @@
 <script>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 // eslint-disable-next-line import/extensions
 import Intersect from '@/components/utils/intersect.js';
+import { getImageColor, getImageSrc } from '@/utils/image';
 
 // eslint-disable-next-line max-len
 const PLACEHOLDER_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
@@ -9,8 +10,8 @@ const PLACEHOLDER_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABC
 export default {
   components: { Intersect },
   props: {
-    src: {
-      type: String,
+    image: {
+      type: Object,
       required: false,
       default: null,
     },
@@ -20,19 +21,27 @@ export default {
     const isLoaded = ref(false);
     const imageSrc = ref(PLACEHOLDER_SRC);
 
+    const color = computed(() => {
+      return getImageColor(props.image);
+    });
+
+    const src = computed(() => {
+      return getImageSrc(props.image);
+    });
+
     const loadImage = async () => {
       isLoading.value = true;
       const img = new Image();
-      img.src = props.src;
+      img.src = src.value;
       img.addEventListener('load', () => {
         isLoading.value = false;
         isLoaded.value = true;
-        imageSrc.value = props.src;
+        imageSrc.value = src.value;
       }, true);
     };
 
     const onEnter = () => {
-      if (!props.src) {
+      if (!src.value) {
         return;
       }
       if (isLoading.value || isLoaded.value) {
@@ -41,8 +50,18 @@ export default {
       loadImage();
     };
 
+    const cssVars = computed(() => {
+      if (!color.value) {
+        return {};
+      }
+      const rgb = color.value.join(',');
+      return {
+        '--c-color': rgb,
+      };
+    });
+
     watch(
-      () => props.src,
+      () => src.value,
       async () => {
         isLoading.value = false;
         isLoaded.value = false;
@@ -57,6 +76,9 @@ export default {
       isLoaded,
       imageSrc,
       onEnter,
+      cssVars,
+      //
+      src,
     };
   },
 };
@@ -67,8 +89,9 @@ export default {
     @enter="onEnter"
   >
     <img
-      :title="imageSrc"
+      :alt="imageSrc"
       :src="imageSrc"
+      :style="cssVars"
       :class="{'is-pending': !isLoaded, 'is-loading': isLoading}"
     />
   </Intersect>
@@ -78,13 +101,12 @@ export default {
 img {
   min-width: 100%;
   max-width: 100%;
+  background: rgb(var(--c-color));
   opacity: 1;
-  filter: blur(0) brightness(0.95) grayscale(0.2);
-  transition: filter 100ms, opacity 100ms;
+  transition: opacity 100ms;
   &.is-pending,
   &.is-loading {
-    opacity: 0.5;
-    filter: blur(2px);
+    opacity: 0.9;
   }
 }
 </style>

@@ -20,7 +20,7 @@ export default {
       try {
         await store.dispatch('account/loginUser', credentials);
         // TODO: refresh user related data (ratings etc) instead of location reload
-        window.location.reload();
+        // window.location.reload();
         // await router.push({ name: 'home' });
         // const msg = {
         //   level: 'success',

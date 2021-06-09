@@ -3,10 +3,13 @@ import { computed } from 'vue';
 import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
-import { getImageSrc } from '@/utils/image';
+import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 
 export default {
-  components: { LazyImage },
+  components: {
+    LazyImage,
+    PlayIcon,
+  },
   props: {
     playlist: {
       type: Object,
@@ -14,13 +17,17 @@ export default {
     },
   },
   setup(props) {
+    const objKey = computed(() => `${props.playlist.ct}:${props.playlist.uid}`);
     const link = `/discover/playlists/${props.playlist.uid}/`;
-    const imageSrc = getImageSrc(props.playlist);
     const latestEmission = computed(() => {
       const dt = DateTime.fromISO(props.playlist.latestEmission);
       return dt.toFormat('HH:mm yyyy-LL-dd');
     });
-    return { link, imageSrc, latestEmission };
+    return {
+      objKey,
+      link,
+      latestEmission,
+    };
   },
 };
 </script>
@@ -35,9 +42,13 @@ export default {
         class="visual__image"
       >
         <LazyImage
-          :src="imageSrc"
+          :image="playlist.image"
         />
       </div>
+      <PlayIcon
+        class="visual__play"
+        :obj-key="objKey"
+      />
     </div>
     <div
       class="meta"
@@ -63,6 +74,7 @@ export default {
 <style lang="scss" scoped>
 .card {
   .visual {
+    position: relative;
     background: rgba(var(--c-white), .25);
     &__image {
       position: relative;

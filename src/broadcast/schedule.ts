@@ -27,6 +27,7 @@ class Schedule {
     loadScheduleJob.invoke();
 
     // watch schedule updates
+    /*
     store.watch((state: any) => state.schedule.schedule, (schedule) => {
       // cancel all pending jobs & reset array
       this.jobs.forEach((job) => {
@@ -54,6 +55,28 @@ class Schedule {
         }.bind(null, item));
         this.jobs.push(job);
       });
+    });
+    */
+    // store.watch((state: any, getters: any) => getters.time, (time) => {
+    //   console.debug('time', time);
+    // });
+    // eslint-disable-next-line arrow-body-style
+    store.watch((state: any, getters: any) => {
+      return getters['time/time'];
+    }, (time) => {
+      const current = store.getters['schedule/current'];
+      if (current && current.timeStart <= time && current.timeEnd > time) {
+        // console.debug('current item matches - all fine!');
+        return;
+      }
+      const schedule = store.getters['schedule/schedule'];
+      if (!schedule.length) {
+        console.debug('schedule empty');
+        return;
+      }
+      const newCurrent = schedule.find((s:any) => s.timeStart <= time && s.timeEnd > time);
+      console.debug('newCurrent', newCurrent);
+      Schedule.updateCurrent(newCurrent);
     });
   }
 

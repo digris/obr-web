@@ -90,14 +90,24 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         media_set = []
         time_base = self.time_start
         time_offset = timedelta()
-        qs = self.playlist.playlist_media.order_by("position").select_related("media")
+        qs = (
+            self.playlist.playlist_media.order_by(
+                "position",
+            )
+            .select_related(
+                "media",
+            )
+            .prefetch_related(
+                "media__artists",
+                "media__media_artist",
+                "media__media_artist__artist",
+                "media__releases",
+                "media__releases__images",
+            )
+        )
         for playlist_media in qs:
             time_start = time_base + time_offset
             time_end = time_start + playlist_media.effective_duration
-
-            # media_entry = {
-            #     "media": playlist_media.media,
-            # }
 
             media_set.append(
                 {
@@ -114,12 +124,6 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 }
             )
 
-            # print("-" * 72)
-            # print(f"{time_start} - {time_end}")
-            #
-            # print(
-            #     f"{playlist_media.position} - {playlist_media.effective_duration} - {playlist_media.media.name}"
-            # )
             time_offset += playlist_media.effective_duration
 
         return media_set

@@ -13,9 +13,12 @@ class StationTimeHandler {
         return;
       }
       const now = DateTime.now();
-      await store.dispatch('time/setStationTime', now);
+      // await store.dispatch('time/setStationTime', now);
     });
     job.invoke();
+    const interval = setInterval(async () => {
+      await store.dispatch('time/setStationTime', DateTime.now());
+    }, 200);
   }
 }
 

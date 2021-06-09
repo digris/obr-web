@@ -55,6 +55,9 @@ def create_checkout_session(request, user, items, payment):
                         # "images": [],
                     },
                     "unit_amount": int(item["price"] * Decimal(100)),
+                    # "recurring": {
+                    #     "interval": "month",
+                    # },
                 },
                 "quantity": 1,
             }
@@ -67,6 +70,8 @@ def create_checkout_session(request, user, items, payment):
         "payment_uid": payment_uid,
         "email": email,
     }
+
+    print(line_items)
 
     session = stripe.checkout.Session.create(
         payment_method_types=["card"],

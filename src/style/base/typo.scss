@@ -8,3 +8,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
+
+@mixin copy {
+  color: red;
+}
+
+@mixin dim($r: 0.5) {
+  opacity: 1 * $r;
+}
+
+@mixin large {
+  font-size: 120%;
+}
+
+@mixin small {
+  font-size: 80%;
+}

@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from catalog.models.artist import Artist, ArtistImage
+from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 
 
@@ -30,8 +31,14 @@ class ArtistAdmin(admin.ModelAdmin):
         "name",
         "uid",
     ]
+    readonly_fields = [
+        "uuid",
+        "uid",
+        "tags",
+    ]
     inlines = [
         ArtistImageInline,
+        IdentifierInline,
     ]
 
     def image_display(self, obj):
