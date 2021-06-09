@@ -6,6 +6,7 @@ from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
 from catalog.models import Playlist, Media
+from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
 from ..models import Emission
 
 SITE_URL = getattr(settings, "SITE_URL")
@@ -86,13 +87,24 @@ class EmissionSerializer(
         ]
 
 
-class ScheduleMediaSerializer(serializers.HyperlinkedModelSerializer):
+# class ScheduleMediaSerializer(serializers.HyperlinkedModelSerializer):
+#
+#     url = serializers.HyperlinkedIdentityField(
+#         view_name="api:catalog:media-detail",
+#         lookup_field="uid",
+#     )
+#
+#     class Meta:
+#         model = Media
+#         fields = [
+#             "url",
+#             "ct",
+#             "uid",
+#             "name",
+#         ]
 
-    url = serializers.HyperlinkedIdentityField(
-        view_name="api:catalog:media-detail",
-        lookup_field="uid",
-    )
 
+class ScheduleMediaSerializer(CatalogMediaSerializer):
     class Meta:
         model = Media
         fields = [
@@ -100,6 +112,10 @@ class ScheduleMediaSerializer(serializers.HyperlinkedModelSerializer):
             "ct",
             "uid",
             "name",
+            "artist_display",
+            "artists",
+            "releases",
+            "duration",
         ]
 
 

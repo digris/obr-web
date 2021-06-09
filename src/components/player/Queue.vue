@@ -2,6 +2,7 @@
 import {
   computed,
   defineComponent,
+  onMounted,
 } from 'vue';
 import { useStore } from 'vuex';
 import QueueMedia from '@/components/player/QueueMedia.vue';
@@ -22,12 +23,24 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const mediaList = computed(() => store.getters['queue/media']);
+    const currentIndex = computed(() => store.getters['queue/currentIndex']);
+    const currentMedia = computed(() => store.getters['queue/currentMedia']);
     const close = () => {
       emit('close');
     };
+
+    onMounted(() => {
+      document.addEventListener('keydown', (e) => {
+        if (props.isVisible && e.code === 'KeyX') {
+          close();
+        }
+      });
+    });
     return {
       close,
       mediaList,
+      currentIndex,
+      currentMedia,
     };
   },
 });
@@ -41,11 +54,20 @@ export default defineComponent({
       <div
         class="container"
       >
-      <QueueMedia
-        v-for="(media, index) in mediaList"
-        :key="`media-row-${index}`"
-        :media="media"
-      />
+        <!--
+        <div>
+          ci: {{ currentIndex }}
+        </div>
+        <pre
+          v-text="currentMedia"
+        ></pre>
+        -->
+        <QueueMedia
+          v-for="(media, index) in mediaList"
+          :key="`media-row-${index}`"
+          :media="media"
+          :is-current="(media === currentMedia)"
+        />
       </div>
     </div>
   </transition>
@@ -67,7 +89,7 @@ $player-height: 60px;
   min-height: 100px;
   max-height: 75%;
   overflow-y: auto;
-  color: rgb(var(--c-black));;
+  color: rgb(var(--c-black));
   background: rgb(var(--c-white));
 }
 

@@ -5,12 +5,14 @@ import time
 from urllib.parse import urlparse
 
 from django.db import models
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_delete, pre_save, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+
+from .colors import extract_colors
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +45,15 @@ class BaseImage(
     )
 
     filename = models.CharField(
-        verbose_name=_("Filename"), max_length=512, null=True, editable=False
+        verbose_name=_("Filename"),
+        max_length=512,
+        null=True,
+        editable=False,
+    )
+
+    colors = models.JSONField(
+        null=True,
+        blank=True,
     )
 
     class Meta:
@@ -65,6 +75,12 @@ class BaseImage(
         if not self.file:
             return None
         return self.file.url
+
+    @cached_property
+    def rgb(self):
+        if not self.colors:
+            return None
+        return self.colors.get("primary")
 
 
 class BaseSortableImage(BaseImage):
@@ -90,6 +106,13 @@ def image_pre_save(sender, instance=None, **kwargs):
     # pylint: disable=protected-access
     if instance.file and instance.file.name and instance.file._file:
         instance.filename = instance.file.name
+
+    if instance.file:
+        color, palette = extract_colors(file=instance.file, num_colors=2)
+        instance.colors = {
+            "primary": color,
+            "palette": palette,
+        }
 
 
 @receiver(pre_delete)

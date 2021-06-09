@@ -1,117 +1,107 @@
-<script>
+<script lang="ts">
 import settings from '@/settings';
 import eventBus from '@/eventBus';
+import { computed, defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 import CurrentMedia from './CurrentMedia.vue';
 import Playhead from './Playhead.vue';
 import Queue from './Queue.vue';
 
-export default {
+export default defineComponent({
   components: {
     CurrentMedia,
     Playhead,
     Queue,
   },
-  data() {
-    return {
-      startTime: -10,
-      queueVisible: false,
-    };
-  },
-  computed: {
-    playerState() {
-      return this.$store.getters['player/playerState'];
-    },
-    encodingFormat() {
-      return this.$store.getters['player/encodingFormat'];
-    },
-    currentMedia() {
-      return this.$store.getters['player/currentMedia'];
-    },
-    streamUrl() {
-      // e.g. https://stream-abr.next.openbroadcast.ch/stream.mpd
-      // return 'http://local.stream-dash.openbroadcast.ch:7779/alt.m3u8';
-      // return 'http://local.stream-dash.openbroadcast.ch:7779/manifest.m3u8';
-      // return 'http://local.stream-dash.openbroadcast.ch:7779/stream.mpd';
-      return settings.STREAM_ENDPOINTS.dash;
-    },
-    mediaBaseUrl() {
-      return settings.MEDIA_ENDPOINTS.dash;
-    },
-    isLive() {
-      return this.playerState && this.playerState.isLive;
-    },
-    cssVars() {
-      return {
-        '--c-bg': this.isLive ? '255, 255, 255' : '0, 0, 0',
-        '--c-fg': this.isLive ? '0, 0, 0' : '255, 255, 255',
-      };
-    },
-  },
-  mounted() {
-    eventBus.on('player:onended', (e) => {
-      console.debug('Player - onended', e);
-      // TODO: chek if next in queue...
-      this.play('stream');
-      const msg = {
-        // level: 'success',
-        body: 'No more tracks - switching bak to live-stream...',
-        ttl: 3,
-      };
-      this.$store.dispatch('notification/addMessage', msg);
-    });
-  },
-  methods: {
-    play(key) {
-      let url;
-      let startTime;
-      if (key === 'stream') {
-        url = `${this.streamUrl}?${Date.now()}`;
-        startTime = parseInt(this.startTime, 10);
-      } else {
-        // e.g. https://media.next.openbroadcast.ch/encoded/F002/manifest.mpd
-        url = `${this.mediaBaseUrl}${key}/dash/manifest.mpd`;
-        // url = `${this.mediaBaseUrl}${key}/hls/manifest.m3u8`;
+  setup() {
+    const store = useStore();
+    const liveTimeOffset = ref(-10);
+    const streamUrl = computed(() => settings.STREAM_ENDPOINTS.dash);
+    const playerState = computed(() => store.getters['player/playerState']);
+    const isLive = computed(() => playerState.value && playerState.value.isLive);
+    // const currentMedia = computed(() => store.getters['player/currentMedia']);
+    const currentMedia = computed(() => {
+      if (isLive.value) {
+        return store.getters['schedule/currentMedia'];
       }
+      return store.getters['queue/currentMedia'];
+    });
+    const cssVars = computed(() => ({
+      '--c-bg': isLive.value ? '255, 255, 255' : '0, 0, 0',
+      '--c-fg': isLive.value ? '0, 0, 0' : '255, 255, 255',
+    }));
 
+    const play = (key:string) => {
+      if (key !== 'live') {
+        return;
+      }
+      const startTime = parseInt(`${liveTimeOffset.value}`, 10);
       const event = {
         do: 'play',
-        url,
+        url: `${streamUrl.value}?${Date.now()}`,
         startTime,
       };
       eventBus.emit('player:controls', event);
-    },
-    seek(relPosition) {
+    };
+
+    const seek = (relPosition:number) => {
       const event = {
         do: 'seek',
         relPosition,
       };
       eventBus.emit('player:controls', event);
-    },
-    pause() {
+    };
+
+    const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });
-    },
-    resume() {
+    };
+
+    const resume = () => {
       eventBus.emit('player:controls', { do: 'resume' });
-    },
-    stop() {
+    };
+
+    const stop = () => {
       eventBus.emit('player:controls', { do: 'stop' });
-    },
-    setEncodingFormat(encodingFormat) {
-      this.$store.dispatch('player/updateEncodingFormat', encodingFormat);
-    },
-    showQueue() {
-      this.queueVisible = true;
-    },
-    hideQueue() {
-      this.queueVisible = false;
-    },
+    };
+
+    const queueVisible = ref(false);
+    const queueNumMedia = computed(() => store.getters['queue/numMedia']);
+    const queueTotalDuration = computed(() => store.getters['queue/totalDuration']);
+
+    const showQueue = () => {
+      queueVisible.value = true;
+    };
+
+    const hideQueue = () => {
+      queueVisible.value = false;
+    };
+
+    return {
+      isLive,
+      liveTimeOffset,
+      playerState,
+      currentMedia,
+      cssVars,
+      play,
+      seek,
+      pause,
+      resume,
+      stop,
+      //
+      queueVisible,
+      queueNumMedia,
+      queueTotalDuration,
+      showQueue,
+      hideQueue,
+    };
   },
-};
+});
 </script>
 
 <template>
   <Queue
     :is-visible="queueVisible"
+    @close="hideQueue"
   />
   <div
     class="player"
@@ -129,44 +119,46 @@ export default {
         />
       </div>
       <div class="right">
-        ({{ encodingFormat }})
         <span
           v-if="(!queueVisible)"
           @click="showQueue"
         >
-          Q+
+          Q
+          <small>{{ queueNumMedia }} / {{ queueTotalDuration }}</small>
         </span>
         <span
           v-else
           @click="hideQueue"
         >
-          Q-
+          Q
+          <small>{{ queueNumMedia }} / {{ queueTotalDuration }}</small>
         </span>
-        <!--
-        <a @click.prevent="setEncodingFormat('dash')">DASH</a>
-        <span> - </span>
-        <a @click.prevent="setEncodingFormat('hls')">HLS</a>
-        -->
       </div>
     </div>
   </div>
   <div class="player-dummy-controls">
     <div>
-      <button @click="play('stream')">LIVE</button>
-      <input v-model="startTime" type="number">
-      <button @click="play('F001')">F001</button>
-      <button @click="play('F002')">F002</button>
-      <button @click="play('F003')">F003</button>
+      <button @click="play('live')">LIVE</button>
+      <input v-model="liveTimeOffset" type="number" style="width: 60px;">
       <button @click="pause">PAUSE</button>
       <button @click="resume">RESUME</button>
       <button @click="stop">STOP</button>
     </div>
   </div>
-  <div class="player-debug">
+  <div
+    v-if="(1 === 2)"
+    class="player-debug"
+  >
+    <!--
+    <pre
+      v-text="currentMedia"
+      class="_debug"
+    />
     <pre
       v-text="playerState"
       class="_debug"
     />
+    -->
   </div>
 </template>
 
@@ -175,12 +167,16 @@ export default {
 
 $player-height: 60px;
 
+.queue {
+  z-index: 30;
+}
+
 .player {
   position: fixed;
   bottom: 0;
+  z-index: 31;
   width: 100%;
   height: $player-height;
-  //@include container.default;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
   transition: background 500ms;

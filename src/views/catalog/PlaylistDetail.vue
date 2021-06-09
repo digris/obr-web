@@ -5,18 +5,13 @@ import {
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconPlay from '@/components/ui/icon/IconPlay.vue';
 
 export default {
   components: {
     LazyImage,
     MediaRow,
-    CircleButton,
-    IconPlay,
   },
   setup() {
     const store = useStore();
@@ -57,11 +52,6 @@ export default {
       query,
     };
   },
-  computed: {
-    imageSrc() {
-      return getImageSrc(this.playlist, 480);
-    },
-  },
 };
 </script>
 
@@ -77,7 +67,7 @@ export default {
         class="visual"
       >
         <LazyImage
-          :src="imageSrc"
+          :image="playlist.image"
         />
       </div>
       <div
@@ -87,11 +77,6 @@ export default {
           class="kind"
         >
           Playlist
-          <CircleButton>
-            <IconPlay
-              :size="24"
-            />
-          </CircleButton>
         </div>
         <div
           class="title"

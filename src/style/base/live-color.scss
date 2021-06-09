@@ -10,6 +10,7 @@
 @mixin fg($alpha: 1) {
   @include transition;
   color: rgba(var(--c-live-fg), $alpha);
+  //border-color: rgba(var(--c-live-fg), $alpha);
 }
 
 @mixin fg-inverse($alpha: 1) {

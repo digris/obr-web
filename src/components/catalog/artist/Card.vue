@@ -1,7 +1,6 @@
 <script>
 import { computed } from 'vue';
 
-import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 import UserRating from '@/components/rating/UserRating.vue';
@@ -21,12 +20,9 @@ export default {
   setup(props) {
     const objKey = computed(() => `${props.artist.ct}:${props.artist.uid}`);
     const link = `/discover/artists/${props.artist.uid}/`;
-    // const imageSrc = `https://picsum.photos/seed/${props.artist.uid}/200`;
-    const imageSrc = getImageSrc(props.artist);
     return {
       objKey,
       link,
-      imageSrc,
     };
   },
 };
@@ -42,7 +38,7 @@ export default {
         class="visual__image"
       >
         <LazyImage
-          :src="imageSrc"
+          :image="artist.image"
         />
       </div>
       <PlayIcon
@@ -92,6 +88,7 @@ export default {
         width: 100%;
       }
     }
+    /*
     &__play {
       position: absolute;
       top: 0;
@@ -102,6 +99,7 @@ export default {
       align-items: center;
       justify-content: center;
     }
+    */
   }
   .meta {
     padding: 0.5rem 0 0 0;

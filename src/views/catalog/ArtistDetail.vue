@@ -1,11 +1,13 @@
 <script>
 import {
-  computed, ref, onMounted, watch,
+  computed,
+  ref,
+  onMounted,
+  watch,
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import { getImageSrc } from '@/utils/image';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
@@ -33,32 +35,18 @@ export default {
     watch(
       () => route.params,
       async (newParams) => {
-        // console.debug('route params', newParams);
-        console.debug('route', route.params, route.query);
         uid.value = newParams.uid;
         if (!artist.value && uid.value) {
           await store.dispatch('catalog/loadArtist', uid.value);
         }
       },
     );
-    // watch(
-    //   () => route.query,
-    //   async (newQuery) => {
-    //     console.debug('route query', newQuery);
-    //   },
-    // );
     return {
       uid,
       isLoaded,
       artist,
       query,
     };
-  },
-  computed: {
-    imageSrc() {
-      // console.debug('imageSrc', this.artist);
-      return getImageSrc(this.artist, 480);
-    },
   },
 };
 </script>
@@ -75,7 +63,7 @@ export default {
         class="visual"
       >
         <LazyImage
-          :src="imageSrc"
+          :image="artist.image"
         />
       </div>
       <div

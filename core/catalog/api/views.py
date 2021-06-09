@@ -87,9 +87,6 @@ class MediaFilter(filters.FilterSet):
 
     # pylint: disable=unused-argument
     def obj_key_filter(self, queryset, name, value):
-        import time
-
-        time.sleep(2)
         obj_ct, obj_uid = value.split(":")
         query = {
             f"{obj_ct[8:]}s__uid": obj_uid,
@@ -134,6 +131,9 @@ class MediaViewSet(
             "artists",
             "media_artist",
             "media_artist__artist",
+            "releases",
+            "releases__images",
+            "releases__media",
             "votes",
             "votes__user",
         )

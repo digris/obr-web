@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 
+import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 
 export default defineComponent({
@@ -12,7 +13,23 @@ export default defineComponent({
     },
   },
   components: {
+    LazyImage,
     MediaArtists,
+  },
+  setup(props) {
+    const release = computed(() => {
+      if (props.media && props.media.releases.length) {
+        return props.media.releases[0];
+      }
+      return null;
+    });
+    const image = computed(() => {
+      return (release.value && release.value.image) ? release.value.image : null;
+    });
+    return {
+      release,
+      image,
+    };
   },
 });
 </script>
@@ -22,9 +39,12 @@ export default defineComponent({
     class="current-media"
   >
     <div
-      class="actions"
+      v-if="media"
+      class="visual"
     >
-      ( P )
+      <LazyImage
+        :image="image"
+      />
     </div>
     <div
       v-if="media"
@@ -51,10 +71,8 @@ export default defineComponent({
 .current-media {
   display: grid;
   grid-template-columns: 64px 1fr;
-  .actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .visual {
+    padding: 0.75rem;
   }
   .metadata {
     display: flex;

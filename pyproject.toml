@@ -34,6 +34,8 @@ social-auth-app-django = "^4.0.0"
 Hypercorn = "^0.11.2"
 click = "^8.0.0"
 stripe = "^2.57.0"
+colorthief = "^0.2.1"
+django-taggit = "^1.4.0"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"

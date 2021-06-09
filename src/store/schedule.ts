@@ -17,6 +17,10 @@ const state: State = {
 const getters = {
   schedule: (state: State) => state.schedule,
   current: (state: State) => state.current,
+  currentMedia: (state: State) => {
+    // @ts-ignore
+    return (state.current) ? state.current.media : null;
+  },
   past: (state: State) => {
     if (!state.current) {
       return [];
@@ -69,6 +73,7 @@ const actions = {
     }
 
     const schedule = await getSchedule(params);
+    // console.table(schedule);
     context.commit('SET_SCHEDULE', schedule);
   },
   updateCurrent: async (context: any, current: Object) => {

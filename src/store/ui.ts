@@ -3,23 +3,41 @@
 
 import { ActionContext } from 'vuex';
 
+export interface Viewport {
+  top: number,
+  left: number,
+  height: number,
+  width: number,
+}
+
 export interface State {
   // primaryColor: Array<number>,
   title: string,
   primaryColor: [number, number, number],
+  viewport: Viewport,
 }
 
 const state: State = {
   title: 'open broadcast radio',
   primaryColor: [0, 0, 0],
+  viewport: {
+    top: 0,
+    left: 0,
+    height: 0,
+    width: 0,
+  },
 };
 
 const getters = {
+  viewport: (state: State) => state.viewport,
   title: (state: State) => state.title,
   primaryColor: (state: State) => state.primaryColor,
 };
 
 const mutations = {
+  SET_VIEWPORT: (state: State, viewport: Viewport) => {
+    state.viewport = viewport;
+  },
   SET_TITLE: (state: State, title: string) => {
     state.title = title;
   },
@@ -29,6 +47,9 @@ const mutations = {
 };
 
 const actions = {
+  setViewport: async (context: any, viewport: Viewport) => {
+    context.commit('SET_VIEWPORT', viewport);
+  },
   setTitle: async (context: any, title: string) => {
     context.commit('SET_TITLE', title);
   },

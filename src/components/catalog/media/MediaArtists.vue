@@ -50,6 +50,9 @@ export default {
   }
   &__name {
     white-space: nowrap;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 </style>

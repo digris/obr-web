@@ -1,11 +1,12 @@
 <script>
 import { AudioPlayer } from '@/player/audioPlayer';
+import { Queue } from '@/player/queue';
 import Topbar from '@/components/topbar/Topbar.vue';
 import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
 import Notifications from '@/components/notification/Notifications.vue';
-import ColorChooser from '@/components/colors/ColorChooser.vue';
+// import ColorChooser from '@/components/colors/ColorChooser.vue';
 
 export default {
   components: {
@@ -14,11 +15,12 @@ export default {
     AuthPanel,
     Subscribe,
     Player,
-    ColorChooser,
+    // ColorChooser,
   },
   created() {
     this.$store.dispatch('account/getUser');
     this.audioPlayer = new AudioPlayer();
+    this.queue = new Queue();
   },
   computed: {
     currentUser() {
@@ -36,7 +38,7 @@ export default {
       <component :is="Component" />
     </keep-alive>
   </router-view>
-  <ColorChooser />
+<!--  <ColorChooser />-->
   <AuthPanel />
   <Subscribe />
   <Player />

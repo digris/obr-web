@@ -1,10 +1,13 @@
 import settings from '@/settings';
 
-const { MEDIA_ENDPOINTS } = settings;
+const { DEBUG, MEDIA_ENDPOINTS } = settings;
 
 const getDashUrl = (media: object) => {
-  // @ts-ignore
-  console.debug('media', media);
+  if (DEBUG) {
+    const dummyUuids: Array<string> = ['F001', 'F002'];
+    const uid = dummyUuids[Math.floor(Math.random() * dummyUuids.length)];
+    return `${MEDIA_ENDPOINTS.dash}${uid}/dash/manifest.mpd`;
+  }
   // @ts-ignore
   // const dummyUuids: Array = ['F001', 'F002', 'F003'];
   // const uid = dummyUuids[Math.floor(Math.random() * dummyUuids.length)];

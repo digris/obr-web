@@ -29,6 +29,7 @@ class ImageSerializer(serializers.Serializer):
             "file": instance.file.name,
             "path": instance.path,
             "url": instance.url,
+            "rgb": instance.rgb,
         }
 
         return data
@@ -89,50 +90,6 @@ class UserRatingSerializer(serializers.Serializer):
     vote = serializers.IntegerField()
 
 
-class MediaSerializer(serializers.HyperlinkedModelSerializer):
-
-    # controller_uuid = serializers.UUIDField(source="controller.uuid", read_only=True)
-
-    url = serializers.HyperlinkedIdentityField(
-        view_name="api:catalog:media-detail",
-        lookup_field="uid",
-    )
-
-    # state = serializers.ChoiceField(choices=Transmission.STATE_CHOICES)
-
-    # time = serializers.DateTimeField(read_only=True)
-    #
-    # slide = SlideImageSerializer(read_only=True)
-    #
-    # events = TransmissionEventSerializer(many=True, read_only=True)
-
-    artists = MediaArtistSerializer(source="media_artist", many=True, read_only=True)
-
-    duration = DurationInSecondsSerializer(read_only=True)
-
-    latest_airplay = serializers.DateTimeField(read_only=True, allow_null=True)
-
-    num_airplays = serializers.IntegerField(read_only=True, allow_null=True)
-
-    user_rating = serializers.IntegerField(read_only=True, allow_null=True)
-
-    class Meta:
-        model = Media
-        fields = [
-            "url",
-            "ct",
-            # "uuid",
-            "uid",
-            "name",
-            "artist_display",
-            "artists",
-            "duration",
-            "latest_airplay",
-            "num_airplays",
-            "user_rating",
-        ]
-
-
 class ReleaseSerializer(serializers.HyperlinkedModelSerializer):
 
     url = serializers.HyperlinkedIdentityField(
@@ -153,6 +110,51 @@ class ReleaseSerializer(serializers.HyperlinkedModelSerializer):
             "name",
             "num_media",
             "image",
+        ]
+
+
+class MediaSerializer(serializers.HyperlinkedModelSerializer):
+
+    # controller_uuid = serializers.UUIDField(source="controller.uuid", read_only=True)
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="api:catalog:media-detail",
+        lookup_field="uid",
+    )
+
+    # state = serializers.ChoiceField(choices=Transmission.STATE_CHOICES)
+
+    # time = serializers.DateTimeField(read_only=True)
+    #
+    # slide = SlideImageSerializer(read_only=True)
+    #
+    # events = TransmissionEventSerializer(many=True, read_only=True)
+
+    artists = MediaArtistSerializer(source="media_artist", many=True, read_only=True)
+    releases = ReleaseSerializer(many=True, read_only=True)
+    duration = DurationInSecondsSerializer(read_only=True)
+
+    latest_airplay = serializers.DateTimeField(read_only=True, allow_null=True)
+
+    num_airplays = serializers.IntegerField(read_only=True, allow_null=True)
+
+    user_rating = serializers.IntegerField(read_only=True, allow_null=True)
+
+    class Meta:
+        model = Media
+        fields = [
+            "url",
+            "ct",
+            # "uuid",
+            "uid",
+            "name",
+            "artist_display",
+            "artists",
+            "releases",
+            "duration",
+            "latest_airplay",
+            "num_airplays",
+            "user_rating",
         ]
 
 

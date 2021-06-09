@@ -13,8 +13,8 @@ $color-palette: (
   //cta-active: (7, 198, 234),
   //cta-100: (224, 248, 255),
 
-  cta: (225, 87, 114),
-  cta-active: (227, 60, 90),
+  cta: (83, 27, 247),
+  cta-active: (90, 30, 230),
   cta-100: (250, 205, 215),
 
   selected: (0, 240, 160),
@@ -33,6 +33,6 @@ $color-palette: (
 
   //initial values - controlled via js
   live-fg: (255, 255, 255),
-  live-bg: (48, 48, 48),
+  live-bg: (36, 36, 36),
   live-fg-inverse: (0, 0, 0),
 );
