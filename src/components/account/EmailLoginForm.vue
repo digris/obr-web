@@ -1,41 +1,170 @@
 <script lang="ts">
 import debounce from 'lodash.debounce';
 import * as EmailValidator from 'email-validator';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 import { checkLoginEmail, sendLoginEmail } from '@/api/account';
+import APIErrors from '@/components/ui/error/APIErrors.vue';
+import Message from '@/components/ui/Message.vue';
+import TokenInput from '@/components/account/TokenInput.vue';
+
+const CREATE_ACCOUNT = 'Konto erstellen';
+const SEND_TOKEN = 'Code senden';
+const LOGIN = 'Login';
+
+export enum Flow {
+  Password = 'password',
+  Token = 'token',
+  Register = 'register',
+}
 
 export default defineComponent({
+  components: {
+    APIErrors,
+    Message,
+    TokenInput,
+  },
   setup() {
+    const store = useStore();
     const email = ref('');
-    const emailAlreadyRegistered = ref(false);
+    const password = ref('');
     const token = ref('');
-    const errors = ref<Array<String>>([]);
-    const message = ref('');
+    const emailExists = ref(false);
+    const emailSent = ref(false);
+    const promptPassword = ref(false);
+    const buttonText = ref(CREATE_ACCOUNT);
+    const message = ref({});
+    const errors = ref<Array<string>>([]);
+    const flow = computed(() => {
+      if (emailExists.value && promptPassword.value) {
+        return Flow.Password;
+      }
+      if (emailExists.value) {
+        return Flow.Token;
+      }
+      return Flow.Register;
+    });
+    const promptToken = computed(() => {
+      if (flow.value === Flow.Password) {
+        return false;
+      }
+      return emailSent.value;
+    });
+    const updateAccount = (account: any | null) => {
+      message.value = '';
+      if (account && account.uid) {
+        emailExists.value = true;
+        if (account.hasUsablePassword) {
+          promptPassword.value = true;
+          buttonText.value = LOGIN;
+        } else {
+          message.value = {
+            level: 'info',
+            body: 'Konto bereits vorhanden. Klicke auf ***',
+          };
+          buttonText.value = SEND_TOKEN;
+        }
+      } else {
+        emailExists.value = false;
+        promptPassword.value = false;
+        buttonText.value = CREATE_ACCOUNT;
+      }
+    };
     const handleEmailInput = debounce(async (e: any) => {
       const { value } = e.target;
-      emailAlreadyRegistered.value = false;
+      emailExists.value = false;
+      promptPassword.value = false;
       if (EmailValidator.validate(value)) {
         const account = await checkLoginEmail(value);
-        emailAlreadyRegistered.value = !!(account && account.uid);
+        updateAccount(account);
       }
     }, 200);
     const submitForm = async () => {
+      message.value = {};
       errors.value = [];
-      try {
-        const response = await sendLoginEmail(email.value);
-        message.value = response.message;
-      } catch (err: any) {
-        console.warn(err);
-        errors.value = [err.message, err.response.data];
+      console.debug(email.value, promptToken.value);
+      if (email.value && promptToken.value) {
+        console.debug('submit - token login');
+        const credentials = {
+          email: email.value,
+          token: token.value,
+        };
+        errors.value = [];
+        try {
+          await store.dispatch('account/loginUserByToken', credentials);
+          document.location.reload();
+        } catch (err) {
+          console.warn(err);
+          errors.value = [err.response];
+        }
+        return;
+      }
+      if (flow.value === Flow.Password) {
+        console.debug('submit - password');
+        const credentials = {
+          email: email.value,
+          password: password.value,
+        };
+        errors.value = [];
+        try {
+          await store.dispatch('account/loginUser', credentials);
+          document.location.reload();
+        } catch (err) {
+          console.warn(err);
+          errors.value = [err.response];
+        }
+        return;
+      }
+      if (flow.value === Flow.Token) {
+        console.debug('submit - token');
+        emailSent.value = false;
+        try {
+          const response = await sendLoginEmail(email.value);
+          console.debug(response);
+          emailSent.value = true;
+          buttonText.value = LOGIN;
+          message.value = {
+            level: 'info',
+            body: response.message,
+          };
+        } catch (err: any) {
+          console.warn(err);
+          emailSent.value = false;
+          errors.value = [err.response];
+        }
+        return;
+      }
+      if (flow.value === Flow.Register) {
+        console.debug('submit - register');
+        emailSent.value = false;
+        try {
+          const response = await sendLoginEmail(email.value);
+          console.debug(response);
+          emailSent.value = true;
+          buttonText.value = LOGIN;
+          message.value = {
+            level: 'info',
+            body: response.message,
+          };
+        } catch (err: any) {
+          console.warn(err);
+          emailSent.value = false;
+          errors.value = [err.response];
+        }
       }
     };
     return {
+      flow,
       email,
-      emailAlreadyRegistered,
+      password,
       token,
-      errors,
+      emailExists,
+      promptPassword,
+      promptToken,
+      buttonText,
       message,
+      errors,
       handleEmailInput,
       submitForm,
     };
@@ -48,12 +177,18 @@ export default defineComponent({
     class="form-errors"
     v-if="errors.length"
   >
-    <pre v-text="errors" />
+    <APIErrors
+      :errors="errors"
+    />
   </div>
   <div
-    v-if="message"
+    class="form-messages"
+    v-if="(message && message.body)"
   >
-    <p>{{ message }}</p>
+    <Message
+      :level="message.level"
+      :body="message.body"
+    />
   </div>
   <form
     class="form"
@@ -71,7 +206,7 @@ export default defineComponent({
         name="email"
         type="email"
         placeholder="E-Mail"
-        autocomplete="username"
+        autocomplete="email"
       >
       <label
         for="email-1625"
@@ -79,46 +214,62 @@ export default defineComponent({
         E-Mail
       </label>
     </div>
-    <!--
-    <label
+    <div
+      v-if="(flow === 'password')"
       class="input-container"
     >
       <input
         class="input"
+        v-model="password"
+        required
+        id="password-1625"
+        name="password"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
+      <label
+        for="password-1625"
+      >
+        Password
+      </label>
+    </div>
+    <div
+      v-if="promptToken"
+      class="input-container token-input"
+    >
+      <p>
+        Code aus E-Mail...
+      </p>
+      <TokenInput
+        :token="token"
+        @input="token = $event"
+      />
+      <!--
+      <input
+        class="input"
         v-model="token"
+        required
+        id="token-1625"
         name="token"
         type="text"
-        placeholder="Token"
+        placeholder="Code"
       >
-    </label>
-    -->
-    <div
-      v-if="emailAlreadyRegistered"
-      class="input-container"
-    >
-      <p
+      <label
+        for="token-1625"
       >
-        Für <em>{{ email }}</em> ist bereits ein Konto vorhanden.<br>
-        Klicke auf "Login link senden".
-      </p>
+        Code
+      </label>
+      -->
     </div>
     <div
       class="input-container"
     >
       <button
-        v-if="emailAlreadyRegistered"
         class="button"
         type="submit"
-      >
-        Login link senden
-      </button>
-      <button
-        v-else
-        class="button"
-        type="submit"
-      >
-        Konto erstellen
-      </button>
+        v-text="buttonText"
+      />
     </div>
   </form>
 </template>
@@ -133,5 +284,16 @@ export default defineComponent({
     @include form.float-label;
     width: 100%;
   }
+  .token-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+}
+.form-messages,
+.form-errors {
+  margin: 1rem 0;
 }
 </style>

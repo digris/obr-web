@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 
 export interface Message {
   key: string,

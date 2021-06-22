@@ -18,6 +18,10 @@ module.exports = {
     'arrow-body-style': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
   },
 
   plugins: [
@@ -25,6 +29,7 @@ module.exports = {
   ],
 
   extends: [
+    // 'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
     '@vue/airbnb',
     '@vue/typescript',

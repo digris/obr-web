@@ -9,7 +9,7 @@ export default {
     const store = useStore();
     const email = ref('');
     const password = ref('');
-    const errors = ref<Array<String>>([]);
+    const errors = ref<Array<string>>([]);
     const message = ref('');
     const submitForm = async () => {
       const credentials = {

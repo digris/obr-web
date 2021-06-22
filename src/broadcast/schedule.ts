@@ -1,6 +1,3 @@
-// @ts-ignore
-import { DateTime } from 'luxon';
-// @ts-ignore
 import scheduler from 'node-schedule';
 import store from '@/store';
 
@@ -18,8 +15,7 @@ class Schedule {
     const rule = `${new Date().getSeconds()} * * * * *`;
     // const rule = '*/10 * * * * *';
     const loadScheduleJob = scheduler.scheduleJob(rule, (scheduledDate: Date) => {
-      // @ts-ignore
-      if (scheduledDate && (new Date() - scheduledDate) > JOB_MAX_AGE * 1000) {
+      if (scheduledDate && (+new Date() - +scheduledDate) > JOB_MAX_AGE * 1000) {
         return;
       }
       Schedule.loadSchedule();
@@ -71,7 +67,7 @@ class Schedule {
       }
       const schedule = store.getters['schedule/schedule'];
       if (!schedule.length) {
-        console.debug('schedule empty');
+        // console.debug('schedule empty');
         return;
       }
       const newCurrent = schedule.find((s:any) => s.timeStart <= time && s.timeEnd > time);

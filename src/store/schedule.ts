@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 // @ts-ignore
 import { DateTime } from 'luxon';

@@ -180,6 +180,13 @@ export default defineComponent({
   .play {
     grid-area: play;
     padding-left: 0.5rem;
+    .state {
+      display: grid;
+      grid-template-columns: 12px 12px;
+      margin-left: 0.5rem;
+      font-size: 90%;
+      opacity: 0.5;
+    }
   }
   .name {
     grid-area: name;
@@ -203,15 +210,6 @@ export default defineComponent({
   }
   &.is-current {
     background: rgba(var(--c-live-fg), 0.1);
-  }
-}
-.play {
-  .state {
-    display: grid;
-    grid-template-columns: 12px 12px;
-    margin-left: 0.5rem;
-    font-size: 90%;
-    opacity: 0.5;
   }
 }
 </style>

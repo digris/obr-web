@@ -32,43 +32,44 @@ export default defineComponent({
       >
         {{ error.data.message }}
       </p>
-      <div
+      <p
+        v-else
+        class="error__message"
+      >
+        An error occured. Sorry.
+      </p>
+      <code
         class="error__status"
       >
         <div
-          class="status-text"
-        >
-          {{ error.statusText }}
-        </div>
-        <div
           class="status-code"
         >
-          [{{ error.status }}]
+          {{ error.status }}
         </div>
-      </div>
+      </code>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .errors {
-  padding: 0.5rem;
-  background: rgba(255, 0, 0, 0.1);
-  border-left: 4px solid red;
+  padding: 0.5rem 1rem 0.5rem calc(1rem - 4px);
+  background: rgba(var(--c-error), 0.1);
+  border-left: 4px solid rgb(var(--c-error));
 }
 .error {
+  position: relative;
   &__message {
-    padding-bottom: 0.5rem;
+    &:not(:first-child) {
+      padding-top: 0.5rem;
+    }
   }
   &__status {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    font-size: 85%;
-    opacity: 0.5;
-    .status-code {
-      padding-left: 0.5rem;
-    }
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 90%;
+    opacity: 0.75;
   }
 }
 .error:not(:last-child) {

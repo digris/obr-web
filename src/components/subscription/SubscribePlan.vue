@@ -30,7 +30,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const errors = ref<Array<String>>([]);
+    const errors = ref<Array<string>>([]);
     const message = ref(null);
     const selectedKey = ref(null);
     const options = ref([]);

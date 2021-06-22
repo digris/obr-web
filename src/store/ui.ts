@@ -1,7 +1,5 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
-
-import { ActionContext } from 'vuex';
 
 export interface Viewport {
   top: number,

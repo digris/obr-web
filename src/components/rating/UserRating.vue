@@ -22,7 +22,7 @@ export default defineComponent({
       const rating = store.getters['rating/ratingByKey'](props.objKey);
       return rating;
     });
-    const rate = async (value: Number) => {
+    const rate = async (value: number) => {
       console.debug('vote', value);
       const vote = {
         key: props.objKey,

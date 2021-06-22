@@ -24,6 +24,9 @@ ADD ./src/assets/ ./build/assets/
 # python base image
 #######################################################################
 FROM python:3.9-slim as python-base
+ARG BRANCH="master"
+ARG COMMIT=""
+LABEL branch=${BRANCH}
 
 WORKDIR /root/
 

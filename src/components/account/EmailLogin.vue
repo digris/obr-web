@@ -13,7 +13,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const signedEmail = ref(route.params.signedEmail);
-    const errors = ref<Array<String>>([]);
+    const errors = ref<Array<string>>([]);
     const loginBySignedEmail = async (value: string | string[]) => {
       try {
         await store.dispatch('account/loginUserBySignedEmail', value);

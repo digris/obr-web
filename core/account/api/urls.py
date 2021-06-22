@@ -16,6 +16,11 @@ urlpatterns = [
         name="send-email-login",
     ),
     path(
+        "token-login/",
+        views.TokenLoginView.as_view(),
+        name="token-login",
+    ),
+    path(
         "signed-email-login/",
         views.SignedEmailLoginView.as_view(),
         name="signed-email-login",

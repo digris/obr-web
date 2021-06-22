@@ -2,7 +2,7 @@ import settings from '@/settings';
 
 const { IMAGE_RESIZER_URL } = settings;
 
-const getImageSrc = (image: object, size: number = 240) => {
+const getImageSrc = (image: object, size = 240) => {
   // @ts-ignore
   if (image && image.path) {
     // @ts-ignore

@@ -5,14 +5,14 @@ import eventBus from '@/eventBus';
 import SidePanel from '@/components/ui/SidePanel.vue';
 // import SidePanel from '@/components/ui/Modal.vue';
 import SocialLogin from '@/components/account/SocialLogin.vue';
-import LoginForm from '@/components/account/LoginForm.vue';
+// import LoginForm from '@/components/account/LoginForm.vue';
 import EmailLoginForm from '@/components/account/EmailLoginForm.vue';
 
 export default defineComponent({
   components: {
     SidePanel,
     SocialLogin,
-    LoginForm,
+    // LoginForm,
     EmailLoginForm,
   },
   setup() {
@@ -60,18 +60,9 @@ export default defineComponent({
       class="intents"
     >
       <h1
-        @click="setIntent('register')"
         class="intent"
-        :class="{'is-selected': (intent === 'register')}"
       >
-        Sign-Up
-      </h1>
-      <h1
-        @click="setIntent('login')"
-        class="intent"
-        :class="{'is-selected': (intent === 'login')}"
-      >
-        Login
+        Access
       </h1>
     </div>
     <div
@@ -90,14 +81,8 @@ export default defineComponent({
     <section
       class="section email"
     >
-      <p>Oder anmelden mit:</p>
+      <p>Oder weiter mit:</p>
       <EmailLoginForm />
-    </section>
-    <section
-      v-if="(intent === 'login')"
-      class="section email"
-    >
-      <LoginForm />
     </section>
   </SidePanel>
 </template>

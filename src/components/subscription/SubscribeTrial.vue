@@ -24,7 +24,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const isSuccess = ref(false);
-    const errors = ref<Array<String>>([]);
+    const errors = ref<Array<string>>([]);
     const message = ref(null);
     const options = ref([]);
     const fetchOptions = async () => {

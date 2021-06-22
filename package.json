@@ -12,6 +12,7 @@
     "@stripe/stripe-js": "^1.15.0",
     "axios": "^0.21.1",
     "axios-case-converter": "^0.7.0",
+    "bowser": "^2.11.0",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
     "lodash.debounce": "^4.0.8",
