@@ -174,7 +174,7 @@ class AudioPlayer {
     store.dispatch('player/updatePlayerState', { playerState });
   }
 
-  play(url: string, startTime: number = 0) {
+  play(url: string, startTime = 0) {
     // load url to shaka player, then trigger 'play' on audio element
     this.player.load(url, startTime).then(() => {
       this.audio.play();

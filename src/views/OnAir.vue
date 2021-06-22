@@ -192,7 +192,7 @@ export default {
     pointer-events: none;
   }
 
-  &:hover {;
+  &:hover {
     //opacity: 1;
     cursor: pointer;
     filter: grayscale(0%);

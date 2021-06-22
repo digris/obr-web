@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from account.models import User
-from account import email_login
+from account import email_login, token_login
 from account.cdn_credentials.utils import (
     set_credentials,
     remove_credentials,
@@ -62,7 +62,7 @@ class LoginView(APIView):
         else:
             response = Response(
                 {
-                    "error": "invalid login",
+                    "message": "The email or password you entered is incorrect.",
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
@@ -77,7 +77,7 @@ class SendEmailLoginView(APIView):
         if not email:
             return Response(
                 {
-                    "error": 'query parameter "email" missing.',
+                    "message": 'query parameter "email" missing.',
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -88,6 +88,7 @@ class SendEmailLoginView(APIView):
                 {
                     "ct": user.ct,
                     "uid": user.uid,
+                    "has_usable_password": user.has_usable_password(),
                 },
                 status=status.HTTP_200_OK,
             )
@@ -105,7 +106,7 @@ class SendEmailLoginView(APIView):
         except email_login.SendLoginEmailException as e:
             return Response(
                 {
-                    "error": f"{e}",
+                    "message": f"{e}",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -117,6 +118,58 @@ class SendEmailLoginView(APIView):
             data,
             status=status.HTTP_200_OK,
         )
+
+        return response
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class TokenLoginView(APIView):
+    @staticmethod
+    def post(request):
+        email = request.data.get("email")
+        token = request.data.get("token")
+
+        try:
+            email = token_login.validate_token(
+                email=email,
+                token=token,
+                max_age=60 * 60,
+            )
+        except token_login.TokenValidationException as e:
+            return Response(
+                {
+                    "message": f"{e}",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        user_created = False
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = User(email=email)
+            user.set_unusable_password()
+            user.save()
+            user_created = True
+
+        login(
+            request,
+            user,
+            backend=settings.AUTHENTICATION_BACKENDS[-1],
+        )
+
+        serializer = serializers.UserSerializer(
+            user,
+            context={
+                "request": request,
+            },
+        )
+
+        response = Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED if user_created else status.HTTP_200_OK,
+        )
+        response = set_credentials(response)
 
         return response
 
@@ -135,12 +188,21 @@ class SignedEmailLoginView(APIView):
         except email_login.SignedEmailValidationException as e:
             return Response(
                 {
-                    "error": f"{e}",
+                    "message": f"{e}",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        user, user_created = User.objects.get_or_create(email=email)
+        # user, user_created = User.objects.get_or_create(email=email)
+        user_created = False
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = User(email=email)
+            user.set_unusable_password()
+            user.save()
+            user_created = True
+
         login(
             request,
             user,

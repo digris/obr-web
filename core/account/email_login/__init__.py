@@ -3,6 +3,7 @@ from django.conf import settings
 from base.utils.signer import timestamp_signer
 from django.core.signing import BadSignature, SignatureExpired
 
+from account import token_login
 from electronic_mail.message import BaseMessage, SendMessageException
 
 logger = logging.getLogger(__name__)
@@ -19,7 +20,9 @@ class SignedEmailValidationException(Exception):
 def send_login_email(email):
     logger.info(f"send email login to {email}")
     signed_email = timestamp_signer.sign(str(email))
-    print(signed_email)
+
+    # NOTE: improve token handling...
+    login_token = token_login.create_token_for_email(email=email)
 
     url = settings.SITE_URL + f"/account/email-login/{signed_email}/"
 
@@ -30,6 +33,7 @@ def send_login_email(email):
     context = {
         "subject": "Your Account",
         "login_url": url,
+        "login_token": login_token,
     }
     template_dir = "account/email/login_email/"
 

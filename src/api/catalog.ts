@@ -20,21 +20,11 @@ async function getArtist(uid: string) {
   return response.data;
 }
 
-async function getMedia(limit: number, offset: number, filter: Object) {
+async function getMedia(limit: number, offset: number, filter: any) {
   const url = MEDIA_ENDPOINT;
-  const filterStr = '';
-  // const params = {
-  //   limit, offset,
-  // };
   const params = {
     limit, offset, ...filter,
   };
-  // filter.forEach((f) => {
-  //   const k = Object.keys(f)[0];
-  //   const v = Object.values(f)[0];
-  //   console.debug('filter - k, v', k, v);
-  // });
-  // console.debug('prms', { ...params, ...filter });
   const response = await APIClient.get(url, { params });
   return response.data;
 }

@@ -5,7 +5,7 @@ from social_django.models import UserSocialAuth
 from subscription.models import Subscription
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Settings
+from .models import User, Settings, LoginToken
 
 
 class UserSocialAuthInline(admin.TabularInline):
@@ -109,3 +109,18 @@ class UserAdmin(AuthUserAdmin):
     )
     search_fields = ("email",)
     ordering = ("email",)
+
+
+@admin.register(LoginToken)
+class LoginTokenAdmin(admin.ModelAdmin):
+
+    save_on_top = True
+    list_display = [
+        "__str__",
+        "email",
+        "created",
+        "claimed",
+    ]
+    readonly_fields = [
+        "value",
+    ]

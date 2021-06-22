@@ -23,7 +23,7 @@ export default {
     const lastOffset = ref(0);
     const playlists = ref([]);
     const hasNext = ref(false);
-    // eslint-disable-next-line no-shadow
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchMedia = async (limit = 16, offset = 0) => {
       const { count, next, results } = await getWTFPlaylists(limit, offset);
       hasNext.value = !!next;

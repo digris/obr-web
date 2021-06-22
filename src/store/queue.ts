@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 
 export interface Queue {
   mode: string,
@@ -7,7 +7,7 @@ export interface Queue {
 
 export interface State {
   media: Array<object>,
-  currentIndex: Number,
+  currentIndex: number,
 }
 
 const state: State = {
@@ -41,7 +41,7 @@ const mutations = {
     state.media = media;
     state.currentIndex = (media.length) ? 0 : -1;
   },
-  SET_CURRENT_INDEX: (state:any, index: Number) => {
+  SET_CURRENT_INDEX: (state:any, index: number) => {
     state.currentIndex = index;
   },
 };
@@ -53,7 +53,7 @@ const actions = {
       context.commit('REPLACE_MEDIA', media);
     }
   },
-  setIndex: async (context:any, index: Number) => {
+  setIndex: async (context:any, index: number) => {
     context.commit('SET_CURRENT_INDEX', index);
   },
 };

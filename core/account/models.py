@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import itertools
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
@@ -9,6 +10,9 @@ from django.dispatch import receiver
 
 from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
+
+from account import signals as account_signals
+from account import token_login
 
 
 class UserManager(BaseUserManager):
@@ -113,5 +117,52 @@ class Settings(models.Model):
 @receiver(post_save, sender=User)
 # pylint: disable=unused-argument
 def create_user_settings(sender, instance, created, **kwargs):
+
     if created and not hasattr(instance, "settings"):
         Settings.objects.create(user=instance)
+
+    if created:
+        account_signals.user_registered.send(
+            sender=instance.__class__,
+            user=instance,
+        )
+
+
+class LoginToken(
+    CTUIDModelMixin,
+):
+
+    email = models.EmailField(
+        _("email"),
+        db_index=True,
+    )
+
+    value = models.CharField(
+        _("token"),
+        max_length=6,
+        db_index=True,
+        unique=True,
+        editable=False,
+    )
+
+    created = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True,
+    )
+
+    claimed = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    def __str__(self):
+        return f"{self.value[:3]}-{self.value[3:]}"
+
+    def save(self, *args, **kwargs):
+        if not self.value:
+            for i in itertools.count(1):
+                token = token_login.generate_token()
+                if not LoginToken.objects.filter(value=token).exists():
+                    self.value = token
+                    break
+        return super().save(*args, **kwargs)

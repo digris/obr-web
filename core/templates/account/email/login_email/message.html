@@ -5,6 +5,11 @@
   {% spaceless %}<p>
     <strong>{{ subject }}</strong>
   </p>
+  {% if login_token %}
+  <p style="width: 100%; padding: 24px; text-align: center;">
+    <span {% style '.login-token' %}>{{ login_token }}</span>
+  </p>
+  {% endif %}
   <p>
     To login <a {% style '.button' %} href="{{ login_url }}">click here</a>.
   </p>{% endspaceless %}

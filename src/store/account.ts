@@ -1,16 +1,24 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
 import {
-  login, logout, loginBySignedEmail, getCurrentUser,
+  login,
+  logout,
+  loginByToken,
+  loginBySignedEmail,
+  getCurrentUser,
 } from '@/api/account';
 
 export interface State {
-  currentUser: object | null,
+  currentUser: any | null,
 }
 export interface Credentials {
   email: string,
   password: string,
+}
+export interface TokenCredentials {
+  email: string,
+  token: string,
 }
 
 const state: State = {
@@ -22,7 +30,7 @@ const getters = {
 };
 
 const mutations = {
-  SET_USER: (state: State, user: object | null) => {
+  SET_USER: (state: State, user: any | null) => {
     state.currentUser = user;
   },
 };
@@ -48,6 +56,17 @@ const actions = {
       throw err;
     }
   },
+  loginUserByToken: async (context: any, credentials: TokenCredentials) => {
+    const { email, token } = credentials;
+    try {
+      const user = await loginByToken(email, token);
+      context.commit('SET_USER', user);
+    } catch (err) {
+      console.warn(err);
+      context.commit('SET_USER', null);
+      throw err;
+    }
+  },
   loginUserBySignedEmail: async (context: any, signedEmail: string) => {
     try {
       const user = await loginBySignedEmail(signedEmail);
@@ -59,7 +78,7 @@ const actions = {
     }
   },
   getUser: async (context: any) => {
-    let user: object | null;
+    let user: any | null;
     try {
       user = await getCurrentUser();
     } catch (err) {

@@ -2,7 +2,7 @@ import eventBus from '@/eventBus';
 import store from '@/store';
 import settings from '@/settings';
 import { computed } from 'vue';
-import { getDashUrl } from '@/player/media';
+import { getMediaUrl } from '@/player/media';
 
 const streamUrl = settings.STREAM_ENDPOINTS.dash;
 
@@ -81,7 +81,7 @@ class Queue {
   startPlayCurrent() {
     // NOTE: not sure if there is no better way.. ;)
     const media = this.currentMedia.value;
-    const url = getDashUrl(media);
+    const url = getMediaUrl(media);
     const event = {
       do: 'play',
       url,

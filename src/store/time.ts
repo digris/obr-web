@@ -1,4 +1,4 @@
-/* eslint no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 import { DateTime } from 'luxon';
 
@@ -19,7 +19,7 @@ const getters = {
   time: (state: State) => {
     return (state.playheadTime) ? state.playheadTime : state.stationTime;
   },
-  // eslint-disable-next-line no-shadow
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   offset: (state: State, getters: any) => {
     return Math.floor((getters.stationTime - getters.time) / 1000);
   },

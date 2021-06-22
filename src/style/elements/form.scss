@@ -1,8 +1,14 @@
 @use "@/style/elements/button";
 
 @mixin input {
-  border: 1px solid #000;
+  border: 2px solid rgba(var(--c-black), 0.3);
   border-radius: 0;
+  transition: border 200ms;
+  &:focus,
+  &:focus-visible {
+    border-color: rgb(var(--c-black));
+    outline: none;
+  }
 }
 
 @mixin float-label {
@@ -46,6 +52,7 @@
   .input-container {
     display: flex;
     align-content: center;
+    //margin: 0.5rem 0;
     padding: 0.5rem 0;
   }
   .input {
