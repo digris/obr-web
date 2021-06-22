@@ -8,11 +8,15 @@ import requests
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
+from django.conf import settings
+from catalog.sync.utils import update_relations, update_tags, update_image
+
+SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
+# SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
+SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
+RELEASE_ENDPOINT = SYNC_ENDPOINT + "releases/"
 
 logger = logging.getLogger(__name__)
-
-
-RELEASE_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/release/"
 
 
 def sync_release(release):
@@ -20,60 +24,34 @@ def sync_release(release):
     from catalog.models.release import ReleaseImage
 
     url = f"{RELEASE_ENDPOINT}{release.uuid}/"
-    fields = [
-        "uuid",
-        "name",
-        "image",
-        "created",
-        "updated",
-        # "releasedate",
-        "releasedate_iso",
-        # "catalognumber",
-        "releasetype",
-        # "items",
-    ]
-    params = {"fields": ",".join(fields)}
 
-    r = requests.get(url=url, params=params)
+    r = requests.get(url=url)
     data = r.json()
 
-    print(
-        json.dumps(
-            {
-                "url": url,
-                "data": data,
-            },
-            indent=2,
+    if SYNC_DEBUG:
+        print(
+            json.dumps(
+                {
+                    "url": url,
+                    "data": data,
+                },
+                indent=2,
+            )
         )
-    )
 
     update = {
         "name": data.get("name").strip(),
-        "created": timezone.make_aware(datetime.fromisoformat(data.get("created"))),
-        "release_date": data.get("releasedate_iso"),
-        "release_type": data.get("releasetype"),
+        "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
+        "release_date": data.get("releasedate"),
+        "release_type": data.get("type"),
     }
 
     type(release).objects.filter(id=release.id).update(**update)
 
-    if data.get("image"):
-        release.images.all().delete()
+    update_relations(release, data.get("relations", []))
+    update_tags(release, data.get("tags", []))
+    update_image(release, data.get("image"), ReleaseImage)
 
-        image_url = data.get("image")
-        # kind uf ugly - we want the 'original' image, not a thumbnail.
-        image_url = ".".join(b for b in image_url.split(".")[:-2]).replace(
-            "thumbnails/", ""
-        )
-
-        ext = image_url.split(".")[-1]
-        filename = f"downloaded-image.{ext}"
-
-        img_temp = NamedTemporaryFile(delete=True)
-        img_temp.write(urlopen(image_url).read())
-        img_temp.flush()
-
-        i = ReleaseImage(release=release)
-        i.save()
-        i.file.save(filename, File(img_temp))
+    logger.info(f"sync completed for {release.ct}{release.uid}")
 
     return release

@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 
 # from rating.mixins import RatingModelMixin
+from tagging.models import TaggedItem, TaggableManager
 from catalog.sync.media import sync_media
 from sync.models.mixins import SyncModelMixin
 
@@ -23,6 +24,8 @@ class Media(
 
     name = models.CharField(max_length=256)
 
+    duration = models.DurationField(default=timedelta())
+
     artists = models.ManyToManyField(
         "catalog.Artist",
         through="catalog.MediaArtists",
@@ -31,9 +34,17 @@ class Media(
         blank=True,
     )
 
-    duration = models.DurationField(default=timedelta())
+    tags = TaggableManager(
+        through=TaggedItem,
+        blank=True,
+    )
 
     votes = GenericRelation("rating.Vote", related_query_name="media")
+
+    identifiers = GenericRelation(
+        "identifier.Identifier",
+        related_name="artist",
+    )
 
     class Meta:
         app_label = "catalog"

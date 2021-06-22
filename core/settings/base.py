@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "storages",
-    "taggit",
+    # "taggit",
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
@@ -289,6 +289,13 @@ SETTINGS_EXPORT = [
     "MEDIA_ENDPOINTS",
     "STRIPE_PUBLISHABLE_KEY",
 ]
+
+
+##################################################################
+# OBP API
+##################################################################
+OBP_SYNC_ENDPOINT = "https://www.openbroadcast.org/api/v2/obr-sync/"
+OBP_SYNC_TOKEN = "0dbea6aeb52acc8f71ed33611b51ded4f0b5bdda"
 
 
 ##################################################################
