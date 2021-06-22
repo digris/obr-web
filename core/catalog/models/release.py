@@ -1,13 +1,21 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.functional import cached_property
+from django.contrib.contenttypes.fields import GenericRelation
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 from catalog.sync.release import sync_release
 from image.models import BaseSortableImage
+from tagging.models import TaggedItem, TaggableManager
 from sync.models.mixins import SyncModelMixin
 
 
-class Release(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
+class Release(
+    TimestampedModelMixin,
+    CTUIDModelMixin,
+    SyncModelMixin,
+    models.Model,
+):
 
     name = models.CharField(
         max_length=256,
@@ -31,6 +39,21 @@ class Release(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mod
         verbose_name="Artists",
         related_name="releases",
         blank=True,
+    )
+
+    tags = TaggableManager(
+        through=TaggedItem,
+        blank=True,
+    )
+
+    votes = GenericRelation(
+        "rating.Vote",
+        related_query_name="artist",
+    )
+
+    identifiers = GenericRelation(
+        "identifier.Identifier",
+        related_name="artist",
     )
 
     class Meta:

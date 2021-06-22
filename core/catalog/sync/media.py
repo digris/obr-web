@@ -1,24 +1,29 @@
 # -*- coding: utf-8 -*-
 import logging
+import json
 import re
 from datetime import datetime, timedelta
 
 import requests
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
+from django.conf import settings
 from google.cloud import storage
+from catalog.sync.utils import update_relations, update_tags
 
 logger = logging.getLogger(__name__)
 
-
-MEDIA_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/media/"
+SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
+SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
+SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
+MEDIA_ENDPOINT = SYNC_ENDPOINT + "media/"
 
 
 def sync_master_to_gcs(uuid):
     # TODO: change OBP api to uniformly use `media` (instead of `track`)
     master_url = f"{MEDIA_ENDPOINT}{uuid}/download-master/"
 
-    headers = {"Authorization": "Token 0dbea6aeb52acc8f71ed33611b51ded4f0b5bdda"}
+    headers = {"Authorization": f"Token {SYNC_TOKEN}"}
     r = requests.get(
         master_url,
         headers=headers,
@@ -53,61 +58,44 @@ def sync_media(media):
     from catalog.models import Artist, MediaArtists, Release, ReleaseMedia
 
     url = f"{MEDIA_ENDPOINT}{media.uuid}/"
-    fields = [
-        "uuid",
-        "name",
-        "created",
-        "updated",
-        "artist",
-        "release",
-        "tracknumber",
-        "duration",
-        "media_artists",
-    ]
-    params = {"fields": ",".join(fields)}
-
-    r = requests.get(url=url, params=params)
+    r = requests.get(url=url)
     data = r.json()
 
-    # print(json.dumps(data, indent=2))
+    if SYNC_DEBUG:
+        print(
+            json.dumps(
+                {
+                    "url": url,
+                    "data": data,
+                },
+                indent=2,
+            )
+        )
 
     update = {
-        "created": timezone.make_aware(datetime.fromisoformat(data.get("created"))),
+        "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
         "duration": timedelta(seconds=data.get("duration")),
     }
 
     type(media).objects.filter(id=media.id).update(**update)
 
+    update_relations(media, data.get("relations", []))
+    update_tags(media, data.get("tags", []))
+
     sync_master_to_gcs(str(media.uuid))
 
-    # related items
-    artist_url = data.get("artist")
-    # e.g. https://www.openbroadcast.org/api/v2/alibrary/artist/a425f27b-0581-4562-b32d-8bf451b11445/
-    if artist_url:
-        artist_uuid = artist_url.split("/")[-2]
-        logger.debug(f"sync media artist: {artist_uuid}")
+    for artist in data.get("artists"):
+        uuid = artist.get("uuid")
+        name = artist.get("name")
+        position = artist.get("position")
+        join_phrase = artist.get("join_phrase")
+        logger.debug(f"sync media artist: {uuid} - {name}")
 
         try:
-            artist = Artist.objects.get(uuid=artist_uuid)
+            artist = Artist.objects.get(uuid=uuid)
 
         except Artist.DoesNotExist:
-            artist = Artist(uuid=artist_uuid, name="--init--")
-            artist.save()
-
-        MediaArtists.objects.get_or_create(
-            media=media,
-            artist=artist,
-        )
-
-    media_artists = data.get("media_artists", [])
-    for media_artist in media_artists:
-        artist_uuid = media_artist["uuid"]
-        artist_name = media_artist["name"]
-        try:
-            artist = Artist.objects.get(uuid=artist_uuid)
-
-        except Artist.DoesNotExist:
-            artist = Artist(uuid=artist_uuid, name=artist_name)
+            artist = Artist(uuid=uuid, name=name)
             artist.save()
 
         # pylint: disable=unused-variable
@@ -117,23 +105,23 @@ def sync_media(media):
         )
 
         MediaArtists.objects.filter(id=media_artist_obj.id).update(
-            position=media_artist["position"],
-            join_phrase=media_artist["join_phrase"] or None,
+            position=position,
+            join_phrase=join_phrase or None,
         )
 
-    # related items
-    release_url = data.get("release")
-    tracknumber = data.get("tracknumber", 0)
-    # e.g. https://www.openbroadcast.org/api/v2/alibrary/release/a3c87aae-7a4e-4b27-acf5-4ef2dd5facdf/
-    if release_url:
-        release_uuid = release_url.split("/")[-2]
-        logger.debug(f"sync media release: {release_uuid}")
+    if data.get("release"):
+        release_dict = data.get("release")
+        uuid = release_dict.get("uuid")
+        name = release_dict.get("name")
+        position = release_dict.get("position")
+
+        logger.debug(f"sync media release: {uuid} - {name}")
 
         try:
-            release = Release.objects.get(uuid=release_uuid)
+            release = Release.objects.get(uuid=uuid)
 
         except Release.DoesNotExist:
-            release = Release(uuid=release_uuid, name="--init--")
+            release = Release(uuid=uuid, name=name)
             release.save()
 
         release_media, created = ReleaseMedia.objects.get_or_create(
@@ -141,9 +129,9 @@ def sync_media(media):
             media=media,
         )
 
-        if tracknumber and tracknumber != release_media.position:
+        if position and position != release_media.position:
             ReleaseMedia.objects.filter(id=release_media.id).update(
-                position=tracknumber,
+                position=position,
             )
 
     logger.info(f"sync completed for media: {media.uid}")

@@ -36,7 +36,7 @@ click = "^8.0.0"
 stripe = "^2.57.0"
 colorthief = "^0.2.1"
 django-taggit = "^1.4.0"
-algoliasearch = ">=2.0,<3.0"
+algoliasearch-django = ">=2.0,<3.0"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"

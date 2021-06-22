@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from catalog.models.release import Release, ReleaseImage
+from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 
 
@@ -36,9 +37,15 @@ class ReleaseAdmin(admin.ModelAdmin):
         "name",
         "uid",
     ]
+    readonly_fields = [
+        "uuid",
+        "uid",
+        "tags",
+    ]
     inlines = [
         MediaArtistInline,
         ReleaseImageInline,
+        IdentifierInline,
     ]
 
     def image_display(self, obj):

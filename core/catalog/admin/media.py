@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.db.models import Max
 
 from catalog.models.media import Media, Airplay
+from identifier.admin import IdentifierInline
 
 
 class MediaArtistInline(admin.TabularInline):
@@ -16,6 +17,7 @@ class MediaAdmin(admin.ModelAdmin):
 
     inlines = [
         MediaArtistInline,
+        IdentifierInline,
     ]
 
     list_display = [
@@ -32,6 +34,7 @@ class MediaAdmin(admin.ModelAdmin):
 
     search_fields = [
         "name",
+        "uid",
         "artists__name",
         "artists__uid",
     ]
@@ -39,6 +42,7 @@ class MediaAdmin(admin.ModelAdmin):
     readonly_fields = [
         "uuid",
         "uid",
+        "tags",
     ]
 
     def get_queryset(self, request):

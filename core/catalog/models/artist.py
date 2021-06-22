@@ -19,6 +19,26 @@ class Artist(
 
     name = models.CharField(max_length=256)
 
+    country_code = models.CharField(
+        verbose_name="Country",
+        max_length=2,
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+
+    date_start = models.DateField(
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+
+    date_end = models.DateField(
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,

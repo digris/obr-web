@@ -78,6 +78,14 @@ class CTModelMixin(models.Model):
     def ct(self):
         return self.get_ct()
 
+    @property
+    def ct_app(self):
+        return self.get_ct().split(".")[0]
+
+    @property
+    def ct_model(self):
+        return self.get_ct().split(".")[1]
+
     class Meta:
         abstract = True
 
