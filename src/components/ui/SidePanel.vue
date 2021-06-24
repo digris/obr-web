@@ -69,6 +69,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .mask {
   position: fixed;
   top: 0;
@@ -91,6 +92,10 @@ export default defineComponent({
   height: 100%;
   color: rgb(var(--c-black));
   background: rgb(var(--c-white));
+
+  @include responsive.bp-small {
+    max-width: unset;
+  }
 
   &__header {
     display: flex;

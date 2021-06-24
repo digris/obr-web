@@ -1,10 +1,3 @@
-from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
-
-
-from urllib.request import urlopen
-
-
 def get_user_details(backend, strategy, details, response, user=None, *args, **kwargs):
 
     if not user:
@@ -14,7 +7,7 @@ def get_user_details(backend, strategy, details, response, user=None, *args, **k
 
     if backend.name == "google-oauth2":
 
-        print(response)
+        # print(response)
 
         if not user.first_name and "given_name" in response:
             user.first_name = response["given_name"]

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
-from django.contrib.contenttypes.fields import GenericRelation
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
-from sync.models.mixins import SyncModelMixin
-from image.models import BaseSortableImage
-from tagging.models import TaggedItem, TaggableManager
 from catalog.sync.artist import sync_artist
+from image.models import BaseSortableImage
+from sync.models.mixins import SyncModelMixin
+from tagging.models import TaggedItem, TaggableManager
 
 
 class Artist(

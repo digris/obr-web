@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import logging
 import json
+import logging
 from datetime import datetime
 
 import requests
-from django.utils import timezone
 from django.conf import settings
+from django.utils import timezone
+
 from catalog.sync.utils import update_relations, update_tags, update_image
 
 SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")

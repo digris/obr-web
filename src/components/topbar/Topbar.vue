@@ -33,7 +33,11 @@ export default {
     <div
       class="menu-toggle"
     >
-      +
+      <router-link
+        :to="{ name: 'discoverPlaylists' }"
+      >
+        x
+      </router-link>
     </div>
   </div>
 </template>

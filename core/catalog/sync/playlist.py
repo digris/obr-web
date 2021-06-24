@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 from datetime import datetime, timedelta
 from urllib.request import urlopen
 
 import requests
+from django.conf import settings
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 
+from catalog.sync.utils import update_tags, update_image
+
+SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
+# SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
+SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
+PLAYLIST_ENDPOINT = SYNC_ENDPOINT + "playlists/"
+
 logger = logging.getLogger(__name__)
-
-
-PLAYLIST_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/playlist/"
 
 
 def get_playlist_media(items):
@@ -38,59 +44,36 @@ def sync_playlist(playlist):
     from catalog.models.media import Media
 
     # pylint: disable=import-outside-toplevel
-    from catalog.models.playlist import PlaylistImage, PlaylistMedia
+    from catalog.models.playlist import Series, PlaylistMedia, PlaylistImage
+
+    # pylint: disable=import-outside-toplevel
+    from broadcast.models import Editor
 
     url = f"{PLAYLIST_ENDPOINT}{playlist.uuid}/"
-    fields = [
-        "uuid",
-        "name",
-        "image",
-        "created",
-        "updated",
-        "items",
-        "items",
-    ]
-    params = {"fields": ",".join(fields)}
 
-    r = requests.get(url=url, params=params)
+    r = requests.get(url=url)
     data = r.json()
 
-    # print(
-    #     json.dumps(
-    #         {
-    #             "url": url,
-    #             "data": data,
-    #         },
-    #         indent=2,
-    #     )
-    # )
+    if SYNC_DEBUG:
+        print(
+            json.dumps(
+                {
+                    "url": url,
+                    "data": data,
+                },
+                indent=2,
+            )
+        )
 
     update = {
         "name": data.get("name").strip(),
-        "created": timezone.make_aware(datetime.fromisoformat(data.get("created"))),
+        "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
     }
 
     type(playlist).objects.filter(id=playlist.id).update(**update)
 
-    if data.get("image"):
-        playlist.images.all().delete()
-
-        image_url = data.get("image")
-        # kind uf ugly - we want the 'original' image, not a thumbnail.
-        image_url = ".".join(b for b in image_url.split(".")[:-2]).replace(
-            "thumbnails/", ""
-        )
-
-        ext = image_url.split(".")[-1]
-        filename = f"downloaded-image.{ext}"
-
-        img_temp = NamedTemporaryFile(delete=True)
-        img_temp.write(urlopen(image_url).read())
-        img_temp.flush()
-
-        i = PlaylistImage(playlist=playlist)
-        i.save()
-        i.file.save(filename, File(img_temp))
+    update_tags(playlist, data.get("tags", []))
+    update_image(playlist, data.get("image"), PlaylistImage)
 
     media_list = get_playlist_media(data.get("items", []))
 
@@ -98,13 +81,10 @@ def sync_playlist(playlist):
     PlaylistMedia.objects.filter(playlist=playlist).delete()
 
     for media_dict in media_list:
-        # print(json.dumps(media_dict, indent=2))
 
         uuid = media_dict.pop("uuid")
         name = media_dict.pop("name")
         media_dict.pop("duration")
-        # duration = timedelta(seconds=media_dict.pop("duration"))
-        # print("DURATION", duration)
 
         try:
             media = Media.objects.get(uuid=uuid)
@@ -120,6 +100,49 @@ def sync_playlist(playlist):
         )
         playlist_media.save()
 
-    logger.info(f"sync completed for playlist: {playlist.uid}")
+    if data.get("series"):
+        series_dict = data.get("series")
+        uuid = series_dict.get("uuid")
+        name = series_dict.get("name")
+        episode = series_dict.get("episode")
+
+        try:
+            series = Series.objects.get(uuid=uuid)
+            if series.name != name:
+                Series.objects.filter(id=series.id).update(name=name)
+
+        except Series.DoesNotExist:
+            series = Series(uuid=uuid, name=name)
+            series.save()
+        series_episode = episode
+    else:
+        series = None
+        series_episode = None
+
+    type(playlist).objects.filter(id=playlist.id).update(
+        series=series,
+        series_episode=series_episode,
+    )
+
+    if data.get("editor"):
+        editor_dict = data.get("editor")
+
+        uuid = editor_dict.get("uuid")
+        display_name = editor_dict.get("name")
+
+        try:
+            editor = Editor.objects.get(uuid=uuid)
+            if editor.display_name != display_name:
+                Editor.objects.filter(id=editor.id).update(display_name=display_name)
+
+        except Editor.DoesNotExist:
+            editor = Editor(uuid=uuid, display_name=display_name)
+            editor.save()
+
+        type(playlist).objects.filter(id=playlist.id).update(
+            editor=editor,
+        )
+
+    logger.info(f"sync completed for {playlist.ct}{playlist.uid}")
 
     return playlist

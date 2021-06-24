@@ -3,6 +3,7 @@ import logging
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.db.models.functions import Now
 
 from .models.mixins import SyncModelMixin, SyncState
 
@@ -24,4 +25,7 @@ def sync_model_post_save(sender, instance, **kwargs):
         result = instance.sync_data()
 
         sync_state = SyncState.COMPLETED if result else SyncState.FAILED
-        qs.update(sync_state=sync_state)
+        qs.update(
+            sync_state=sync_state,
+            sync_last_update=Now(),
+        )

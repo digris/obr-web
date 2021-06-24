@@ -2,8 +2,11 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from catalog.models.playlist import Playlist, PlaylistImage
+# from django.utils.html import format_html_join
+
+from catalog.models.playlist import Playlist, PlaylistImage, Series
 from image.admin import SortableImageInlineMixin
+from image.utils import get_admin_inline_image
 
 
 class PlaylistMediaInline(admin.TabularInline):
@@ -16,34 +19,68 @@ class PlaylistImageInline(SortableImageInlineMixin, admin.TabularInline):
     model = PlaylistImage
 
 
+@admin.register(Series)
+class SeriesAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Playlist)
 class PlaylistAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = [
         "image_display",
-        "__str__",
+        "name",
+        "series_display",
+        "editor",
         "uid",
-        "created",
-        "updated",
         "sync_state",
     ]
     list_filter = [
-        "created",
         "updated",
         "sync_state",
+        "editor",
+        "series",
     ]
     search_fields = [
         "name",
+        "uid",
+        "series__uid",
+        "series__name",
+        "editor__uid",
+        "editor__display_name",
+    ]
+    readonly_fields = [
+        "series",
+        "series_episode",
+        "editor",
+        "uuid",
+        "uid",
+        "tags",
     ]
     date_hierarchy = "created"
     inlines = [
         PlaylistMediaInline,
         PlaylistImageInline,
     ]
+    raw_id_fields = [
+        "editor",
+        "series",
+    ]
 
+    @admin.display(
+        empty_value="-",
+        ordering="series__name",
+        description="Series",
+    )
+    def series_display(self, obj):
+        if obj.series and obj.series_episode:
+            return f"{obj.series.name} #{obj.series_episode}"
+        elif obj.series:
+            return obj.series.name
+        return None
+
+    @admin.display(
+        description="Image",
+    )
     def image_display(self, obj):
-        if not (obj.image and obj.image.file):
-            return "-"
-        return mark_safe('<img width="100" src="{url}"/>'.format(url=obj.image.url))
-
-    image_display.short_description = "Image"
+        return get_admin_inline_image(obj)

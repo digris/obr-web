@@ -2,7 +2,7 @@
 import logging
 
 from django.db.models import Count, Max, Q
-from django.db.models.functions import Now, JSONObject
+from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
@@ -53,6 +53,9 @@ class ArtistViewSet(
                     filter=Q(votes__user_identity=self.request.user_identity),
                 ),
             )
+
+        # NOTE: make dynamic...
+        qs = qs.order_by("-num_media")
 
         return qs
 
@@ -230,6 +233,7 @@ class PlaylistViewSet(
             "images",
             "playlist_media",
             "playlist_media__media",
+            "series",
         )
         qs = qs.annotate(
             num_media=Count("media"),

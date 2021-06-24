@@ -191,6 +191,8 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 
+GS_BUCKET_NAME = ""
+
 
 ##################################################################
 # security & co

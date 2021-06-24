@@ -136,7 +136,10 @@ export default defineComponent({
       </div>
     </div>
   </div>
-  <div class="player-dummy-controls">
+  <div
+    v-if="(1 === 2)"
+    class="player-dummy-controls"
+  >
     <div>
       <button @click="play('live')">LIVE</button>
       <input v-model="liveTimeOffset" type="number" style="width: 60px;">

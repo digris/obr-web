@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-import logging
 import json
+import logging
 import re
 from datetime import datetime, timedelta
 
 import requests
+from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
-from django.conf import settings
 from google.cloud import storage
+
 from catalog.sync.utils import update_relations, update_tags
 
 logger = logging.getLogger(__name__)

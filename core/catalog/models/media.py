@@ -1,17 +1,17 @@
 from datetime import timedelta
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Now
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.contrib.contenttypes.fields import GenericRelation
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from catalog.sync.media import sync_media
+from sync.models.mixins import SyncModelMixin
 
 # from rating.mixins import RatingModelMixin
 from tagging.models import TaggedItem, TaggableManager
-from catalog.sync.media import sync_media
-from sync.models.mixins import SyncModelMixin
 
 
 class Media(

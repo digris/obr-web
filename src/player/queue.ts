@@ -3,6 +3,9 @@ import store from '@/store';
 import settings from '@/settings';
 import { computed } from 'vue';
 import { getMediaUrl } from '@/player/media';
+import createMediaSessionHandler from '@/player/mediaSession';
+
+createMediaSessionHandler();
 
 const streamUrl = settings.STREAM_ENDPOINTS.dash;
 

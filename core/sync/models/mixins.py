@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from django.db import models
+from django.utils import timezone
 
 
 class SyncState(models.TextChoices):
@@ -16,6 +18,11 @@ class SyncModelMixin(models.Model):
         db_index=True,
         default=SyncState.PENDING,
         choices=SyncState.choices,
+    )
+
+    sync_last_update = models.DateTimeField(
+        default=timezone.make_aware(datetime.fromtimestamp(0)),
+        db_index=True,
     )
 
     class Meta:
