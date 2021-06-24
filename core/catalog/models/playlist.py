@@ -2,12 +2,14 @@
 from datetime import timedelta
 
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from django.utils.functional import cached_property
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 from catalog.sync.playlist import sync_playlist
 from image.models import BaseSortableImage
 from sync.models.mixins import SyncModelMixin
+from tagging.models import TaggedItem, TaggableManager
 
 
 class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
@@ -18,12 +20,45 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
         blank=False,
     )
 
+    series = models.ForeignKey(
+        "catalog.Series",
+        verbose_name="Series",
+        related_name="playlists",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
+    series_episode = models.PositiveSmallIntegerField(
+        verbose_name="Series #",
+        null=True,
+        blank=True,
+    )
+
+    editor = models.ForeignKey(
+        to="broadcast.Editor",
+        verbose_name="Editor",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+
     media = models.ManyToManyField(
         "catalog.Media",
         through="catalog.PlaylistMedia",
         verbose_name="Media",
         related_name="playlists",
         blank=True,
+    )
+
+    tags = TaggableManager(
+        through=TaggedItem,
+        blank=True,
+    )
+
+    votes = GenericRelation(
+        "rating.Vote",
+        related_query_name="artist",
     )
 
     class Meta:
@@ -35,20 +70,40 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
     def __str__(self):
         return str(self.name or self.uid)
 
+    def get_absolute_url(self):
+        return f"/discover/playlists/{self.uid}/"
+
     @cached_property
     def image(self):
         return self.images.first()
 
-    # @cached_property
-    # def num_media(self):
-    #     return self.media.count()
-    #
-    # @cached_property
-    # def num_emissions(self):
-    #     return self.emissions.count()
-
     def sync_data(self):
         return sync_playlist(self)
+
+
+class Series(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
+
+    name = models.CharField(
+        max_length=256,
+        null=True,
+        blank=False,
+    )
+
+    class Meta:
+        app_label = "catalog"
+        verbose_name = "Series"
+        verbose_name_plural = "Series"
+        ordering = ["name"]
+
+    def __str__(self):
+        if not self.name:
+            return str(self.uid)
+        num_playlists = self.playlists.count()
+        return f"{self.name} ({num_playlists})"
+
+    def sync_data(self):
+        pass
+        # return sync_playlist(self)
 
 
 class PlaylistMedia(CTUIDModelMixin, models.Model):

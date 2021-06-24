@@ -132,12 +132,16 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .social-login {
   .backends {
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: repeat(3, 1fr);
     margin-bottom: 2rem;
+    @include responsive.bp-small {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
   .backend {
     display: inline-flex;

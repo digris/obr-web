@@ -4,11 +4,13 @@ import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
+import DateOrTime from '@/components/ui/DateOrTime.vue';
 
 export default {
   components: {
     LazyImage,
     PlayIcon,
+    DateOrTime,
   },
   props: {
     playlist: {
@@ -19,12 +21,25 @@ export default {
   setup(props) {
     const objKey = computed(() => `${props.playlist.ct}:${props.playlist.uid}`);
     const link = `/discover/playlists/${props.playlist.uid}/`;
+    const title = computed(() => {
+      return {
+        name: (props.playlist.series) ? props.playlist.series.name : props.playlist.name,
+        appendix: (props.playlist.series) ? props.playlist.series.episode : null,
+      };
+    });
+    const subTitle = computed(() => {
+      if (props.playlist.series) {
+        return props.playlist.name;
+      }
+      return '?';
+    });
     const latestEmission = computed(() => {
-      const dt = DateTime.fromISO(props.playlist.latestEmission);
-      return dt.toFormat('HH:mm yyyy-LL-dd');
+      return DateTime.fromISO(props.playlist.latestEmission);
     });
     return {
       objKey,
+      title,
+      subTitle,
       link,
       latestEmission,
     };
@@ -59,13 +74,28 @@ export default {
         <router-link
           :to="link"
         >
-          {{ playlist.name }}
+          <span
+            v-text="title.name"
+          />
+          <span
+            v-if="title.appendix"
+            v-text="`#${title.appendix}`"
+            class="title__appendix"
+          />
         </router-link>
+        <!--
+        <p
+          v-text="subTitle"
+        />
+        -->
       </div>
       <div
         class="subtitle"
       >
-        <small>{{ latestEmission }}</small>
+        <!--<small>{{ latestEmission }}</small>-->
+        <DateOrTime
+          :date-time="latestEmission"
+        />
       </div>
     </div>
   </div>
@@ -92,6 +122,15 @@ export default {
     .title {
       font-weight: 600;
       overflow-wrap: anywhere;
+      &__appendix {
+        margin-left: 0.5rem;
+        font-weight: 300;
+        font-size: 85%;
+        opacity: 0.5;
+      }
+    }
+    .subtitle {
+      opacity: 0.5;
     }
   }
 }

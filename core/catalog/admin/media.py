@@ -81,3 +81,7 @@ class AirplayAdmin(admin.ModelAdmin):
     ]
 
     date_hierarchy = "time_start"
+
+    raw_id_fields = [
+        "media",
+    ]

@@ -64,6 +64,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .artist-list {
   margin: 0 0 8rem;
 }
@@ -71,5 +72,9 @@ export default {
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: repeat(4, 1fr);
+  @include responsive.bp-small {
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>

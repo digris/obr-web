@@ -7,26 +7,23 @@ import requests
 from django.conf import settings
 from django.utils import timezone
 
-from catalog.sync.utils import update_relations, update_tags, update_image
+from catalog.sync.utils import update_tags, update_image
 
 SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
 # SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
 SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
-RELEASE_ENDPOINT = SYNC_ENDPOINT + "releases/"
+EDITOR_ENDPOINT = SYNC_ENDPOINT + "profiles/"
 
 logger = logging.getLogger(__name__)
 
 
-def sync_release(release):
+def sync_editor(editor):
     # pylint: disable=import-outside-toplevel
-    from catalog.models.release import ReleaseImage
+    from broadcast.models import EditorImage
 
-    url = f"{RELEASE_ENDPOINT}{release.uuid}/"
+    url = f"{EDITOR_ENDPOINT}{editor.uuid}/"
 
     r = requests.get(url=url)
-    if not r.status_code == 200:
-        return
-
     data = r.json()
 
     if SYNC_DEBUG:
@@ -41,18 +38,17 @@ def sync_release(release):
         )
 
     update = {
-        "name": data.get("name").strip(),
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
-        "release_date": data.get("releasedate"),
-        "release_type": data.get("type"),
+        "display_name": data.get("name").strip(),
+        # "description": data.get("description"),
     }
 
-    type(release).objects.filter(id=release.id).update(**update)
+    type(editor).objects.filter(id=editor.id).update(**update)
 
-    update_relations(release, data.get("relations", []))
-    update_tags(release, data.get("tags", []))
-    update_image(release, data.get("image"), ReleaseImage)
+    # update_relations(editor, data.get("relations", []))
+    update_tags(editor, data.get("tags", []))
+    update_image(editor, data.get("image"), EditorImage)
 
-    logger.info(f"sync completed for {release.ct}{release.uid}")
+    logger.info(f"sync completed for {editor.ct}{editor.uid}")
 
-    return release
+    return editor

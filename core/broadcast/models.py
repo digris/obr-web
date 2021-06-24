@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils import timezone
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from sync.models.mixins import SyncModelMixin
+from image.models import BaseSortableImage
+from tagging.models import TaggedItem, TaggableManager
+from broadcast.sync.editor import sync_editor
 
 
 class EmissionQuerySet(models.QuerySet):
@@ -127,3 +133,76 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
             time_offset += playlist_media.effective_duration
 
         return media_set
+
+
+class Editor(
+    TimestampedModelMixin,
+    CTUIDModelMixin,
+    SyncModelMixin,
+    models.Model,
+):
+
+    display_name = models.CharField(
+        verbose_name="Display name",
+        max_length=256,
+        null=True,
+        blank=True,
+    )
+
+    user = models.OneToOneField(
+        to="account.User",
+        verbose_name="User account",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+    )
+
+    tags = TaggableManager(
+        through=TaggedItem,
+        blank=True,
+    )
+
+    votes = GenericRelation(
+        "rating.Vote",
+        related_query_name="editor",
+    )
+
+    identifiers = GenericRelation(
+        "identifier.Identifier",
+        related_name="editor",
+    )
+
+    class Meta:
+        app_label = "broadcast"
+        verbose_name = "Editor"
+        verbose_name_plural = "Editors"
+
+    def __str__(self):
+        return str(self.display_name or self.uid)
+
+    @cached_property
+    def image(self):
+        return self.images.first()
+
+    def sync_data(self):
+        return sync_editor(self)
+
+
+class EditorImage(BaseSortableImage):
+
+    editor = models.ForeignKey(
+        Editor,
+        null=True,
+        blank=False,
+        related_name="images",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        app_label = "broadcast"
+        verbose_name = "Image"
+        verbose_name_plural = "Images"
+        ordering = ["position"]
+
+    def __str__(self):
+        return "{}".format(self.pk)

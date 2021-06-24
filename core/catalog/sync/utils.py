@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 from urllib.request import urlopen
+
+from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 
-from django.contrib.contenttypes.models import ContentType
 from identifier.models import Identifier, IdentifierScope
 from tagging.models import Tag, TaggedItem, TagType
 
