@@ -3,7 +3,6 @@ import logging
 import re
 from datetime import datetime, timedelta
 
-from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 from google.cloud import storage
@@ -13,46 +12,44 @@ from sync import api_client
 
 logger = logging.getLogger(__name__)
 
-SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
-MEDIA_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/media/"
-
 
 class MasterDownloadException(Exception):
     pass
 
 
-def sync_master_to_gcs(uuid):
-    # TODO: change OBP api to uniformly use `media` (instead of `track`)
-    master_url = f"{MEDIA_ENDPOINT}{uuid}/download-master/"
-
-    try:
-        r = api_client.get(master_url, raw=True)
-    except api_client.APIClientException as e:
-        raise MasterDownloadException(f"unable to download master: {uuid} - {e}")
-
-    filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]
-    ext = filename.split(".")[-1]
-
-    with NamedTemporaryFile(delete=True, suffix=f".{ext}") as f:
-        f.write(r.content)
-        f.flush()
-
-        client = storage.Client()
-        bucket = client.bucket("obr-master")
-        blob = bucket.blob(f"{uuid[0:8].upper()}/master.{ext}")
-
-        # blob.upload_from_file(f, rewind=True)
-        # NOTE: we upload via name instead of file object to 'detect' content type
-        # (else it is just set to application/octet-stream)
-        blob.upload_from_filename(f.name)
-
-    return True
+# def sync_master_to_gcs(media_uuid):
+#     try:
+#         r = api_client.get(f"media/{media_uuid}/download-master/", raw=True)
+#     except api_client.APIClientException as e:
+#         raise MasterDownloadException(f"unable to download master: {media_uuid} - {e}")
+#
+#     filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]
+#     ext = filename.split(".")[-1]
+#     path = f"{media_uuid[0:8].upper()}/master.{ext}"
+#
+#     client = storage.Client()
+#     bucket = client.bucket("obr-master")
+#     blob = bucket.blob(path)
+#
+#     if blob.exists():
+#         return path
+#
+#     with NamedTemporaryFile(delete=True, suffix=f".{ext}") as f:
+#         f.write(r.content)
+#         f.flush()
+#
+#         # blob.upload_from_file(f, rewind=True)
+#         # NOTE: we upload via name instead of file object to 'detect' content type
+#         # (else it is set to application/octet-stream)
+#         blob.upload_from_filename(f.name)
+#
+#     return path
 
 
 # pylint: disable=too-many-locals
 def sync_media(media):
     # pylint: disable=import-outside-toplevel
-    from catalog.models import Artist, MediaArtists, Release, ReleaseMedia
+    from catalog.models import Artist, MediaArtists, Release, ReleaseMedia, Master
 
     try:
         data = api_client.get(f"media/{media.uuid}/")
@@ -70,11 +67,18 @@ def sync_media(media):
     update_relations(media, data.get("relations", []))
     update_tags(media, data.get("tags", []))
 
+    # try:
+    #     sync_master_to_gcs(uuid=str(media.uuid))
+    # except MasterDownloadException as e:
+    #     logger.error(f"unable to download master: {e}")
+    #     return None
+
     try:
-        sync_master_to_gcs(str(media.uuid))
-    except MasterDownloadException as e:
-        logger.error(f"unable to download master: {e}")
-        return None
+        master = Master.objects.get(media=media)
+        logger.debug(f"master exists: {master}")
+    except Master.DoesNotExist:
+        master = Master(media=media)
+        master.save()
 
     for artist in data.get("artists"):
         uuid = artist.get("uuid")
@@ -126,6 +130,52 @@ def sync_media(media):
                 position=position,
             )
 
-    logger.info(f"sync completed for media: {media.uid}")
+    logger.info(f"sync completed for {media.ct}:{media.uid}")
 
     return media
+
+
+def download_master(media_uuid):
+    try:
+        r = api_client.get(f"media/{media_uuid}/download-master/", raw=True)
+    except api_client.APIClientException as e:
+        raise MasterDownloadException(f"unable to download master: {media_uuid} - {e}")
+
+    filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]
+
+    return r.content, filename
+
+
+def sync_master(master):
+
+    client = storage.Client()
+    bucket = client.bucket("obr-master")
+
+    if master.path:
+        # NOTE: implement re-sync
+        if bucket.blob(master.path).exists():
+            return master
+
+    content, filename = download_master(media_uuid=master.uuid)
+    encoding = filename.split(".")[-1].lower()
+    path = f"{master.uid}/master.{encoding}"
+    blob = bucket.blob(path)
+
+    with NamedTemporaryFile(delete=True, suffix=f".{encoding}") as f:
+        f.write(content)
+        f.flush()
+
+        # blob.upload_from_file(f, rewind=True)
+        # NOTE: we upload via name instead of file object to 'detect' content type
+        # (else it is set to application/octet-stream)
+        blob.upload_from_filename(f.name)
+
+    update = {
+        "encoding": encoding,
+    }
+
+    type(master).objects.filter(id=master.id).update(**update)
+
+    logger.info(f"sync completed for {master.ct}:{master.uid}")
+
+    return master

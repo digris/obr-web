@@ -35,6 +35,6 @@ def sync_artist(artist):
     update_tags(artist, data.get("tags", []))
     update_image(artist, data.get("image"), ArtistImage)
 
-    logger.info(f"sync completed for {artist.ct}{artist.uid}")
+    logger.info(f"sync completed for {artist.ct}:{artist.uid}")
 
     return artist

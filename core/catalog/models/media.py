@@ -6,8 +6,8 @@ from django.db.models.functions import Now
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
-from catalog.sync.media import sync_media
+from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin, CTModelMixin
+from catalog.sync.media import sync_media, sync_master
 from sync.models.mixins import SyncModelMixin
 
 # from rating.mixins import RatingModelMixin
@@ -18,7 +18,6 @@ class Media(
     TimestampedModelMixin,
     CTUIDModelMixin,
     SyncModelMixin,
-    # RatingModelMixin,
     models.Model,
 ):
 
@@ -76,6 +75,50 @@ class Media(
 
     def sync_data(self):
         return sync_media(self)
+
+
+class Master(
+    TimestampedModelMixin,
+    CTModelMixin,
+    SyncModelMixin,
+    models.Model,
+):
+
+    encoding = models.CharField(
+        max_length=4,
+        null=True,
+    )
+
+    media = models.OneToOneField(
+        to=Media,
+        on_delete=models.PROTECT,
+        related_name="master",
+    )
+
+    class Meta:
+        app_label = "catalog"
+        verbose_name = "Master"
+        verbose_name_plural = "Masters"
+
+    def __str__(self):
+        return str(self.media)
+
+    @property
+    def uuid(self):
+        return self.media.uuid
+
+    @property
+    def uid(self):
+        return self.media.uid
+
+    @property
+    def path(self):
+        if not self.encoding:
+            return None
+        return f"{self.uid}/master.{self.encoding}"
+
+    def sync_data(self):
+        return sync_master(self)
 
 
 class MediaArtists(models.Model):

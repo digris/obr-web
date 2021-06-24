@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.db.models import Max
 
-from catalog.models.media import Media, Airplay
+from catalog.models.media import Media, Airplay, Master
+from sync.admin import sync_qs_action
 from identifier.admin import IdentifierInline
 
 
@@ -15,34 +16,37 @@ class MediaArtistInline(admin.TabularInline):
 class MediaAdmin(admin.ModelAdmin):
     save_on_top = True
 
-    inlines = [
-        MediaArtistInline,
-        IdentifierInline,
-    ]
-
     list_display = [
         "__str__",
         "uid",
         "artist_display",
         "duration",
-        # "created",
-        # "updated",
         "latest_airplay",
         "num_airplays",
         "sync_state",
     ]
-
+    list_filter = [
+        "sync_state",
+        "airplays__time_start",
+        "releases__release_type",
+    ]
     search_fields = [
         "name",
         "uid",
         "artists__name",
         "artists__uid",
     ]
-
     readonly_fields = [
         "uuid",
         "uid",
         "tags",
+    ]
+    inlines = [
+        MediaArtistInline,
+        IdentifierInline,
+    ]
+    actions = [
+        sync_qs_action,
     ]
 
     def get_queryset(self, request):
@@ -64,24 +68,47 @@ class MediaAdmin(admin.ModelAdmin):
     latest_airplay.admin_order_field = "latest_airplay"
 
 
+@admin.register(Master)
+class MasterAdmin(admin.ModelAdmin):
+    save_on_top = True
+
+    list_display = [
+        "media",
+        "uid",
+        "encoding",
+        "path",
+        "sync_state",
+    ]
+    list_filter = [
+        "sync_state",
+        "encoding",
+    ]
+    search_fields = [
+        "media__name",
+        "media__uid",
+    ]
+    raw_id_fields = [
+        "media",
+    ]
+    actions = [
+        sync_qs_action,
+    ]
+
+
 @admin.register(Airplay)
 class AirplayAdmin(admin.ModelAdmin):
     save_on_top = True
-
+    date_hierarchy = "time_start"
     list_display = [
         "media",
         "time_start",
         "time_end",
     ]
-
     search_fields = [
         "media__name",
         "media__uid",
         "media__uuid",
     ]
-
-    date_hierarchy = "time_start"
-
     raw_id_fields = [
         "media",
     ]
