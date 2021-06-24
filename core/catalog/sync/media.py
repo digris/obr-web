@@ -1,39 +1,35 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 import re
 from datetime import datetime, timedelta
 
-import requests
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 from google.cloud import storage
 
-from catalog.sync.utils import update_relations, update_tags
+from sync.utils import update_relations, update_tags
+from sync import api_client
 
 logger = logging.getLogger(__name__)
 
-SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
 SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
-SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
-MEDIA_ENDPOINT = SYNC_ENDPOINT + "media/"
+MEDIA_ENDPOINT = "https://www.openbroadcast.org/api/v2/alibrary/media/"
+
+
+class MasterDownloadException(Exception):
+    pass
 
 
 def sync_master_to_gcs(uuid):
     # TODO: change OBP api to uniformly use `media` (instead of `track`)
     master_url = f"{MEDIA_ENDPOINT}{uuid}/download-master/"
 
-    headers = {"Authorization": f"Token {SYNC_TOKEN}"}
-    r = requests.get(
-        master_url,
-        headers=headers,
-    )
+    try:
+        r = api_client.get(master_url, raw=True)
+    except api_client.APIClientException as e:
+        raise MasterDownloadException(f"unable to download master: {uuid} - {e}")
 
-    # print("status", r.status_code)
-
-    if not r.status_code == 200:
-        return False
     filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]
     ext = filename.split(".")[-1]
 
@@ -58,20 +54,11 @@ def sync_media(media):
     # pylint: disable=import-outside-toplevel
     from catalog.models import Artist, MediaArtists, Release, ReleaseMedia
 
-    url = f"{MEDIA_ENDPOINT}{media.uuid}/"
-    r = requests.get(url=url)
-    data = r.json()
-
-    if SYNC_DEBUG:
-        print(
-            json.dumps(
-                {
-                    "url": url,
-                    "data": data,
-                },
-                indent=2,
-            )
-        )
+    try:
+        data = api_client.get(f"media/{media.uuid}/")
+    except api_client.APIClientException as e:
+        logger.error(f"unable to get media: {media} - {e}")
+        return None
 
     update = {
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
@@ -83,7 +70,11 @@ def sync_media(media):
     update_relations(media, data.get("relations", []))
     update_tags(media, data.get("tags", []))
 
-    sync_master_to_gcs(str(media.uuid))
+    try:
+        sync_master_to_gcs(str(media.uuid))
+    except MasterDownloadException as e:
+        logger.error(f"unable to download master: {e}")
+        return None
 
     for artist in data.get("artists"):
         uuid = artist.get("uuid")

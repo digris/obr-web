@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django.utils.safestring import mark_safe
-
-# from django.utils.html import format_html_join
 
 from catalog.models.playlist import Playlist, PlaylistImage, Series
 from image.admin import SortableImageInlineMixin

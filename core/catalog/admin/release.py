@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django.utils.safestring import mark_safe
 
 from catalog.models.release import Release, ReleaseImage
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
+from image.utils import get_admin_inline_image
 
 
 class MediaArtistInline(admin.TabularInline):
@@ -48,9 +48,8 @@ class ReleaseAdmin(admin.ModelAdmin):
         IdentifierInline,
     ]
 
+    @admin.display(
+        description="Image",
+    )
     def image_display(self, obj):
-        if not (obj.image and obj.image.file):
-            return "-"
-        return mark_safe('<img width="100" src="{url}"/>'.format(url=obj.image.url))
-
-    image_display.short_description = "Image"
+        return get_admin_inline_image(obj)

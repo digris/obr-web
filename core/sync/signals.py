@@ -4,7 +4,9 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db.models.functions import Now
-
+from django.utils import timezone
+from broadcast import signals as broadcast_signals
+from catalog.sync.airplay import sync_airplays
 from .models.mixins import SyncModelMixin, SyncState
 
 logger = logging.getLogger(__name__)
@@ -29,3 +31,10 @@ def sync_model_post_save(sender, instance, **kwargs):
             sync_state=sync_state,
             sync_last_update=Now(),
         )
+
+
+@receiver(broadcast_signals.schedule_updated)
+# pylint: disable=unused-argument
+def schedule_post_update(sender, time_start, time_end, emissions, **kwargs):
+    time_start = timezone.make_aware(time_start)
+    sync_airplays(time_start=time_start)
