@@ -36,6 +36,8 @@ class ReleaseAdmin(admin.ModelAdmin):
     search_fields = [
         "name",
         "uid",
+        "media__name",
+        "media__uuid",
     ]
     readonly_fields = [
         "uuid",

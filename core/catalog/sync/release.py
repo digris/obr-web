@@ -34,6 +34,6 @@ def sync_release(release):
     update_tags(release, data.get("tags", []))
     update_image(release, data.get("image"), ReleaseImage)
 
-    logger.info(f"sync completed for {release.ct}{release.uid}")
+    logger.info(f"sync completed for {release.ct}:{release.uid}")
 
     return release

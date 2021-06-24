@@ -123,6 +123,6 @@ def sync_playlist(playlist):
             editor=editor,
         )
 
-    logger.info(f"sync completed for {playlist.ct}{playlist.uid}")
+    logger.info(f"sync completed for {playlist.ct}:{playlist.uid}")
 
     return playlist

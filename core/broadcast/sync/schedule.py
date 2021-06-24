@@ -2,7 +2,6 @@
 import logging
 from datetime import datetime, timedelta
 
-from django.conf import settings
 from django.utils import timezone
 from pytz.exceptions import AmbiguousTimeError, NonExistentTimeError
 
@@ -11,8 +10,6 @@ from broadcast import signals as broadcast_signals
 from catalog.models.playlist import Playlist
 from sync import api_client
 
-SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
-EMISSION_ENDPOINT = "https://www.openbroadcast.org/api/v2/abcast/emission/"
 
 logger = logging.getLogger(__name__)
 
