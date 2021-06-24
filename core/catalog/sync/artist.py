@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 from datetime import datetime
 
-import requests
-from django.conf import settings
 from django.utils import timezone
 
-from catalog.sync.utils import update_relations, update_tags, update_image
+from sync.utils import update_relations, update_tags, update_image
+from sync import api_client
 
-SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
-# SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
-SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
-ARTIST_ENDPOINT = SYNC_ENDPOINT + "artists/"
 
 logger = logging.getLogger(__name__)
 
@@ -21,21 +15,11 @@ def sync_artist(artist):
     # pylint: disable=import-outside-toplevel
     from catalog.models.artist import ArtistImage
 
-    url = f"{ARTIST_ENDPOINT}{artist.uuid}/"
-
-    r = requests.get(url=url)
-    data = r.json()
-
-    if SYNC_DEBUG:
-        print(
-            json.dumps(
-                {
-                    "url": url,
-                    "data": data,
-                },
-                indent=2,
-            )
-        )
+    try:
+        data = api_client.get(f"artists/{artist.uuid}/")
+    except api_client.APIClientException as e:
+        logger.error(f"unable to get artist: {artist} - {e}")
+        return None
 
     update = {
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),

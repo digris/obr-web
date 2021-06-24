@@ -73,6 +73,14 @@ LOGGING = {
             ],
             "propagate": False,
         },
+        "user_identity": {
+            "level": "DEBUG",
+            "handlers": [
+                "console",
+                "gcp",
+            ],
+            "propagate": False,
+        },
         "account": {
             "level": "DEBUG",
             "handlers": [
@@ -90,6 +98,14 @@ LOGGING = {
             "propagate": False,
         },
         "catalog": {
+            "level": "DEBUG",
+            "handlers": [
+                "console",
+                "gcp",
+            ],
+            "propagate": False,
+        },
+        "sync": {
             "level": "DEBUG",
             "handlers": [
                 "console",

@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 from datetime import datetime, timedelta
-from urllib.request import urlopen
 
-import requests
-from django.conf import settings
-from django.core.files import File
-from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 
-from catalog.sync.utils import update_tags, update_image
-
-SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
-# SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
-SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
-PLAYLIST_ENDPOINT = SYNC_ENDPOINT + "playlists/"
+from sync.utils import update_tags, update_image
+from sync import api_client
 
 logger = logging.getLogger(__name__)
 
@@ -49,21 +39,11 @@ def sync_playlist(playlist):
     # pylint: disable=import-outside-toplevel
     from broadcast.models import Editor
 
-    url = f"{PLAYLIST_ENDPOINT}{playlist.uuid}/"
-
-    r = requests.get(url=url)
-    data = r.json()
-
-    if SYNC_DEBUG:
-        print(
-            json.dumps(
-                {
-                    "url": url,
-                    "data": data,
-                },
-                indent=2,
-            )
-        )
+    try:
+        data = api_client.get(f"playlists/{playlist.uuid}/")
+    except api_client.APIClientException as e:
+        logger.error(f"unable to get playlist: {playlist} - {e}")
+        return None
 
     update = {
         "name": data.get("name").strip(),

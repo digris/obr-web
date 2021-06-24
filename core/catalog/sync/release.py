@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 from datetime import datetime
 
-import requests
-from django.conf import settings
 from django.utils import timezone
 
-from catalog.sync.utils import update_relations, update_tags, update_image
+from sync.utils import update_relations, update_tags, update_image
+from sync import api_client
 
-SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
-# SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
-SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
-RELEASE_ENDPOINT = SYNC_ENDPOINT + "releases/"
 
 logger = logging.getLogger(__name__)
 
@@ -21,24 +15,11 @@ def sync_release(release):
     # pylint: disable=import-outside-toplevel
     from catalog.models.release import ReleaseImage
 
-    url = f"{RELEASE_ENDPOINT}{release.uuid}/"
-
-    r = requests.get(url=url)
-    if not r.status_code == 200:
-        return
-
-    data = r.json()
-
-    if SYNC_DEBUG:
-        print(
-            json.dumps(
-                {
-                    "url": url,
-                    "data": data,
-                },
-                indent=2,
-            )
-        )
+    try:
+        data = api_client.get(f"releases/{release.uuid}/")
+    except api_client.APIClientException as e:
+        logger.error(f"unable to get release: {release} - {e}")
+        return None
 
     update = {
         "name": data.get("name").strip(),

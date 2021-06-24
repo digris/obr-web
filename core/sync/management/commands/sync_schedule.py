@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.core.management.base import BaseCommand
 
-from sync import utils
+from broadcast.sync import schedule
 
 
 class Command(BaseCommand):
@@ -33,19 +33,19 @@ class Command(BaseCommand):
     def sync_schedule(self, date_start, date_end, force):
         self.stdout.write(f"sync schedule: {date_start} - {date_end} - force: {force}")
         updated = list(
-            utils.sync_schedule(
+            schedule.sync_schedule(
                 date_start=date_start,
                 date_end=date_end,
                 force=force,
             )
         )
         # TODO: find a better place to update airplays...
-        from catalog.sync.airplay import sync_airplays
-        from catalog.models.media import Airplay
+        # from catalog.sync.airplay import sync_airplays
+        # from catalog.models.media import Airplay
+        #
+        # sync_airplays(time_start=Airplay.objects.latest().time_end)
 
-        sync_airplays(time_start=Airplay.objects.latest().time_end)
-
-        self.stdout.write(f"updated {len(updated)} emissions")
+        self.stdout.write(f"processed {len(updated)} emissions")
 
     def handle(self, *args, **options):
         date_start = options["date_start"]

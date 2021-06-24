@@ -25,22 +25,16 @@ class BridgeView(APIView):
 
             if command == "sync_schedule":
                 # pylint: disable=import-outside-toplevel
-                from sync import utils
+                from broadcast.sync import schedule
 
                 date_start = datetime.now().replace(minute=0, second=0)
                 date_end = date_start + timedelta(hours=4)
 
                 updated = list(
-                    utils.sync_schedule(
+                    schedule.sync_schedule(
                         date_start=date_start, date_end=date_end, force=True
                     )
                 )
-
-                # TODO: find a better place to update airplays...
-                from catalog.sync.airplay import sync_airplays
-                from catalog.models.media import Airplay
-
-                sync_airplays(time_start=Airplay.objects.latest().time_end)
 
                 result.update({"updated": [str(u) for u in updated]})
 

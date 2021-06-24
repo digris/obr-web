@@ -16,9 +16,6 @@ class Command(BaseCommand):
             except Playlist.DoesNotExist:
                 raise CommandError(f"playlist does not exist: {uid}")
 
-            # poll.opened = False
-            # poll.save()
-
             playlist.sync_data()
 
             self.stdout.write(f"sync completed for playlist: {uid}")
