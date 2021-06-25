@@ -30,7 +30,7 @@ class Identifier(
 
     value = models.CharField(
         verbose_name="Identifier",
-        max_length=256,
+        max_length=512,
         db_index=True,
         null=True,
         blank=False,
