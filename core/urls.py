@@ -9,7 +9,7 @@ from spa.views import SPAIndexView, SPA404View
 SITE_URL = getattr(settings, "SITE_URL")
 
 admin.autodiscover()
-admin.site.site_header = "OBR - {}".format(SITE_URL)
+admin.site.site_header = "open broadcast radio"
 
 urlpatterns = [
     path("api/v1/", include("core.urls_api", namespace="api")),

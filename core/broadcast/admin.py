@@ -14,6 +14,7 @@ class EditorImageInline(SortableImageInlineMixin, admin.TabularInline):
 @admin.register(Emission)
 class EmissionAdmin(admin.ModelAdmin):
     save_on_top = True
+    date_hierarchy = "time_start"
     list_display = [
         "__str__",
         "uid",
@@ -22,15 +23,14 @@ class EmissionAdmin(admin.ModelAdmin):
         "duration",
         "is_current",
     ]
-
     list_filter = [
         "time_start",
     ]
-
-    date_hierarchy = "time_start"
-
     search_fields = [
         "uuid",
+    ]
+    raw_id_fields = [
+        "playlist",
     ]
 
     def is_current(self, obj):

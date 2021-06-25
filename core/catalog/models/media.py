@@ -101,7 +101,7 @@ class Master(
         verbose_name_plural = "Masters"
 
     def __str__(self):
-        return str(self.media)
+        return f"{self.ct}:{self.uid} {self.path or '-'}"
 
     @property
     def uuid(self):
