@@ -5,20 +5,18 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.models import User
 from account import email_login, token_login
 from account.cdn_credentials.utils import (
     set_credentials,
     remove_credentials,
 )
+from account.models import User
 from account.utils import social_backends
 from . import serializers
-
 
 logger = logging.getLogger(__name__)
 

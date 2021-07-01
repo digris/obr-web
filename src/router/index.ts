@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NotFound from '@/views/NotFound.vue';
 import OnAir from '@/views/OnAir.vue';
 import Discover from '@/views/Discover.vue';
+import Collection from '@/views/Collection.vue';
 import Account from '@/views/Account.vue';
 import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
 import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
 import ArtisttList from '@/components/catalog/artist/List.vue';
-import MediatList from '@/components/catalog/media/List.vue';
+import MediaList from '@/components/catalog/media/List.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
@@ -29,6 +30,9 @@ const routes = [
     path: '/discover/',
     name: 'discover',
     component: Discover,
+    redirect: {
+      name: 'discoverPlaylists',
+    },
     children: [
       {
         path: 'playlists/',
@@ -50,7 +54,7 @@ const routes = [
       {
         path: 'tracks/',
         name: 'discoverMedia',
-        component: MediatList,
+        component: MediaList,
       },
     ],
   },
@@ -67,7 +71,25 @@ const routes = [
   {
     path: '/collection/',
     name: 'collection',
-    component: Discover,
+    component: Collection,
+    redirect: {
+      name: 'collectionMedia',
+    },
+    children: [
+      {
+        path: 'artists/',
+        name: 'collectionArtists',
+        component: ArtisttList,
+      },
+      {
+        path: 'tracks/',
+        name: 'collectionMedia',
+        component: MediaList,
+        props: {
+          scope: 'collection',
+        },
+      },
+    ],
   },
   {
     path: '/collection/artists/:uid/',

@@ -1,26 +1,21 @@
 <template>
   <div class="discover">
-    <div class="list-header">
-      <div class="title">
-        <h1>Discover</h1>
-      </div>
-    </div>
     <div class="list-menu">
       <div class="menu menu--primary">
         <router-link
           :to="{ name: 'discover' }"
         >
-          Home
+          Moods
+        </router-link>
+        <router-link
+          :to="{ name: 'discoverArtists' }"
+        >
+          Künstler*innen
         </router-link>
         <router-link
           :to="{ name: 'discoverPlaylists' }"
         >
           Shows
-        </router-link>
-        <router-link
-          :to="{ name: 'discoverArtists' }"
-        >
-          Artists
         </router-link>
         <router-link
           :to="{ name: 'discoverMedia' }"

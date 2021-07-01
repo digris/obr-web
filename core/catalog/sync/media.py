@@ -7,8 +7,8 @@ from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 from google.cloud import storage
 
-from sync.utils import update_relations, update_tags
 from sync import api_client
+from sync.utils import update_relations, update_tags
 
 logger = logging.getLogger(__name__)
 
@@ -146,12 +146,12 @@ def download_master(media_uuid):
     return r.content, filename
 
 
-def sync_master(master):
+def sync_master(master, force=False):
 
     client = storage.Client()
     bucket = client.bucket("obr-master")
 
-    if master.path:
+    if master.path and not force:
         # NOTE: implement re-sync
         if bucket.blob(master.path).exists():
             return master
@@ -172,6 +172,11 @@ def sync_master(master):
 
     update = {
         "encoding": encoding,
+        "size": blob.size,
+        # "content_type": blob._properties.get("contentType", ""),
+        # "md5_hash": blob._properties.get("md5Hash", ""),
+        "content_type": blob.content_type,
+        "md5_hash": blob.md5_hash,
     }
 
     type(master).objects.filter(id=master.id).update(**update)

@@ -2,8 +2,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from social_django.models import UserSocialAuth
-from subscription.models import Subscription
 
+from subscription.models import Subscription
 from .forms import UserCreationForm, UserChangeForm
 from .models import User, Settings, LoginToken
 
@@ -38,6 +38,7 @@ class UserAdmin(AuthUserAdmin):
     list_display = [
         "email",
         # "is_staff",
+        "uid",
         "is_active",
         # "is_superuser",
         "signup_completed",
@@ -52,6 +53,8 @@ class UserAdmin(AuthUserAdmin):
     readonly_fields = [
         "last_login",
         "date_joined",
+        "uuid",
+        "uid",
     ]
     inlines = [
         SettingsInline,

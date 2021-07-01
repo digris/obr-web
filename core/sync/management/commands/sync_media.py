@@ -16,9 +16,6 @@ class Command(BaseCommand):
             except Media.DoesNotExist:
                 raise CommandError(f"media does not exist: {uid}")
 
-            # poll.opened = False
-            # poll.save()
-
             media.sync_data()
 
             self.stdout.write(f"sync completed for media: {uid}")

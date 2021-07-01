@@ -1,9 +1,10 @@
 import logging
+
 from django.conf import settings
-from base.utils.signer import timestamp_signer
 from django.core.signing import BadSignature, SignatureExpired
 
 from account import token_login
+from base.utils.signer import timestamp_signer
 from electronic_mail.message import BaseMessage, SendMessageException
 
 logger = logging.getLogger(__name__)

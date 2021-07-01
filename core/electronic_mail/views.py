@@ -1,8 +1,5 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
-from django.utils.translation import activate, get_language
-
+from django.http import HttpResponse
 
 from .message import BaseMessage
 

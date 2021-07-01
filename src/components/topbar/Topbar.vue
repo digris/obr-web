@@ -38,6 +38,14 @@ export default {
       >
         x
       </router-link>
+      &nbsp;
+      -
+      &nbsp;
+      <router-link
+        :to="{ name: 'collectionMedia' }"
+      >
+        +
+      </router-link>
     </div>
   </div>
 </template>
@@ -50,15 +58,16 @@ export default {
   z-index: 2;
   display: grid;
   grid-template-columns: 180px 1fr 40px 120px 40px;
-  height: 48px;
+  height: 72px;
   background: rgba(var(--c-live-bg), 0.9);
+  border-bottom: 1px solid rgb(var(--c-live-fg));
   backdrop-filter: blur(2px);
   transition: background 3000ms;
   .brand {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 1rem;
+    padding-left: 1.5rem;
   }
   .menu {
     display: flex;

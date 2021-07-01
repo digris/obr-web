@@ -1,0 +1,113 @@
+<script lang="js">
+import { computed, defineComponent } from 'vue';
+import Tag from './Tag.vue';
+
+const addOrRemove = (arr, item) => {
+  if (!arr) {
+    return [item];
+  }
+  return arr.includes(item) ? arr.filter((i) => i !== item) : [...arr, item];
+};
+
+export default defineComponent({
+  components: {
+    Tag,
+  },
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    filter: {
+      type: Object,
+      required: true,
+      default: () => {},
+    },
+    tagList: {
+      type: Array,
+      required: true,
+      default: () => [],
+    },
+  },
+  emits: [
+    'change',
+  ],
+  setup(props, { emit }) {
+    const selectedTags = computed(() => {
+      return props.filter.tags || [];
+    });
+    const moodTags = computed(() => {
+      return props.tagList.filter((t) => t.type === 'mood');
+    });
+    const otherTags = computed(() => {
+      return props.tagList.filter((t) => t.type !== 'mood');
+    });
+    const toggleTag = (tag) => {
+      const { tags, other } = { ...props.filter };
+      const filter = {
+        tags: addOrRemove(tags, tag.uid),
+        ...other,
+      };
+      emit('change', filter);
+    };
+    return {
+      selectedTags,
+      moodTags,
+      otherTags,
+      toggleTag,
+    };
+  },
+});
+</script>
+
+<template>
+  <div
+    class="list-filter"
+  >
+    <pre
+      class="_debug"
+      v-text="filter"
+    />
+    <div
+      class="tag-list"
+      :class="{'is-loading': isLoading}"
+    >
+      <div>
+        <Tag
+          v-for="tag in moodTags"
+          :key="`tag-list-tag-${tag.uid}`"
+          :tag="tag"
+          :selected="(selectedTags.includes(tag.uid))"
+          @click="toggleTag"
+        />
+      </div>
+      <div>
+        <Tag
+          v-for="tag in otherTags"
+          :key="`tag-list-tag-${tag.uid}`"
+          :tag="tag"
+          :selected="(selectedTags.includes(tag.uid))"
+          @click="toggleTag"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.tag-list {
+  .tag {
+    margin-bottom: 0.5rem;
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+  }
+  &.is-loading {
+    cursor: wait;
+    opacity: 0.7;
+    > * {
+      pointer-events: none;
+    }
+  }
+}
+</style>

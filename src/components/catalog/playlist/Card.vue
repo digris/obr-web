@@ -4,13 +4,13 @@ import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
-import DateOrTime from '@/components/ui/DateOrTime.vue';
+import RelativeDateTime from '@/components/ui/RelativeDateTime.vue';
 
 export default {
   components: {
     LazyImage,
     PlayIcon,
-    DateOrTime,
+    RelativeDateTime,
   },
   props: {
     playlist: {
@@ -46,6 +46,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="card card--artist"
@@ -93,7 +94,7 @@ export default {
         class="subtitle"
       >
         <!--<small>{{ latestEmission }}</small>-->
-        <DateOrTime
+        <RelativeDateTime
           :date-time="latestEmission"
         />
       </div>

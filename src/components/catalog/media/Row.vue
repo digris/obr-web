@@ -9,6 +9,7 @@ import { requireSubscription } from '@/utils/account';
 import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import UserRating from '@/components/rating/UserRating.vue';
+import RelativeDateTime from '@/components/ui/RelativeDateTime.vue';
 
 export default defineComponent({
   props: {
@@ -21,6 +22,7 @@ export default defineComponent({
     PlayerControlIcon,
     MediaArtists,
     UserRating,
+    RelativeDateTime,
   },
   setup(props) {
     const store = useStore();
@@ -53,8 +55,7 @@ export default defineComponent({
       if (!props.media.latestAirplay) {
         return null;
       }
-      const dt = DateTime.fromISO(props.media.latestAirplay);
-      return dt.toFormat('HH:mm yyyy-LL-dd');
+      return DateTime.fromISO(props.media.latestAirplay);
     });
     const currentOnairMedia = computed(() => {
       return store.getters['schedule/currentMedia'];
@@ -139,10 +140,11 @@ export default defineComponent({
       />
     </div>
     <div class="airplays">
-      <span
+      <RelativeDateTime
         v-if="latestAirplay"
-        :title="`Total: ${media.numAirplays}`"
-      >{{ latestAirplay }}</span>
+        :date-time="latestAirplay"
+        v-tooltip="`Total airplays: ${media.numAirplays}`"
+      />
     </div>
     <div class="duration">
       {{ duration }}
@@ -170,8 +172,8 @@ export default defineComponent({
   //TODO: find a modular way to handle color / ui transitions
   transition: border-bottom 200ms 1400ms, color 200ms, background 200ms;
   &:hover {
-    color: rgb(var(--c-contrast-color));
-    background: rgb(var(--c-color));
+    //color: rgb(var(--c-contrast-color));
+    //background: rgb(var(--c-color));
   }
   > div {
     display: flex;

@@ -22,7 +22,7 @@ export default {
     // fetchArtists(query) {
     //   this.$store.dispatch('catalog/loadArtists', { query });
     // },
-    async fetchArtists(limit = 8, offset = 0) {
+    async fetchArtists(limit = 16, offset = 0) {
       const { count, next, results } = await getArtists(limit, offset);
       this.count = count;
       this.hasNext = !!next;

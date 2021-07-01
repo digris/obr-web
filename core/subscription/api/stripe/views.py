@@ -1,24 +1,19 @@
 # -*- coding: utf-8 -*-
-import json
 import logging
 from decimal import Decimal
-
 
 from django.http import HttpResponseRedirect
 from rest_framework import status, permissions, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from subscription.models import Payment, PaymentProvider, PaymentState
-
 from base.utils.signer import timestamp_signer
-
+from subscription.models import Payment, PaymentProvider, PaymentState
 from subscription.payment.stripe.checkout import (
     create_checkout_session,
     get_checkout_session,
     complete_checkout_session,
 )
-
 from subscription.utils.plan import get_plan_by_sku
 
 logger = logging.getLogger(__name__)

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from django.db.models.functions import Now
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.db.models.functions import Now
 from django.utils import timezone
+
 from broadcast import signals as broadcast_signals
 from catalog.sync.airplay import sync_airplays
 from .models.mixins import SyncModelMixin, SyncState

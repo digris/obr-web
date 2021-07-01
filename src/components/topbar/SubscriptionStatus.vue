@@ -122,7 +122,7 @@ export default defineComponent({
   }
   .subscription {
     position: absolute;
-    top: 48px;
+    top: 72px;
     min-width: 240px;
     padding: 1rem;
     color: rgb(var(--c-black));

@@ -103,6 +103,7 @@ img {
   max-width: 100%;
   background: rgb(var(--c-color));
   opacity: 1;
+  filter: brightness(0.95) grayscale(0.1);
   transition: opacity 100ms;
   &.is-pending,
   &.is-loading {

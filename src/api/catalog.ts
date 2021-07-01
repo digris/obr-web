@@ -29,6 +29,15 @@ async function getMedia(limit: number, offset: number, filter: any) {
   return response.data;
 }
 
+async function getMediaTags(filter: any) {
+  const url = `${MEDIA_ENDPOINT}tags/`;
+  const params = {
+    ...filter,
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
+
 // const check = () => 'checked.';
 
 async function getWTFPlaylists(limit: number, offset: number) {
@@ -50,5 +59,10 @@ async function getPlaylist(uid: string) {
 }
 
 export {
-  getArtists, getArtist, getMedia, getWTFPlaylists, getPlaylist,
+  getArtists,
+  getArtist,
+  getMedia,
+  getMediaTags,
+  getWTFPlaylists,
+  getPlaylist,
 };

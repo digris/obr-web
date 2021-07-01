@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from .utils import get_user_identity
 
 logger = logging.getLogger(__name__)

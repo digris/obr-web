@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
 from django.core.management.base import BaseCommand
 from django.db.models.functions import Now
 from django.utils import timezone
+
 from sync.models.mixins import SyncModelMixin, SyncState
 
 

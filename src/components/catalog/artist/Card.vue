@@ -63,11 +63,13 @@ export default {
           />
         </div>
       </div>
+      <!--
       <div
         class="subtitle"
       >
         <small>{{ artist.numMedia }} tracks</small>
       </div>
+      -->
     </div>
   </div>
 </template>
@@ -77,29 +79,18 @@ export default {
   .visual {
     position: relative;
     background: rgba(var(--c-white), .25);
+    cursor: pointer;
     &__image {
       position: relative;
       width: 100%;
       padding-bottom: 100%;
-      filter: grayscale(100%);
-      transition: filter 100ms;
+      //filter: grayscale(100%);
+      transition: opacity 200ms;
       img {
         position: absolute;
         width: 100%;
       }
     }
-    /*
-    &__play {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    */
   }
   .meta {
     padding: 0.5rem 0 0 0;
@@ -114,8 +105,10 @@ export default {
   }
   &:hover {
     .visual {
+      background: rgba(var(--c-black), 0.2);
       &__image {
-        filter: grayscale(0);
+        //filter: grayscale(0);
+        opacity: 0.5;
       }
     }
   }

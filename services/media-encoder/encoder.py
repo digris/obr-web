@@ -4,11 +4,11 @@ import subprocess
 
 def encode_dash(src, dst):
     print(f"encode_dash: {src} - {dst}")
-    print(subprocess.check_output("ffmpeg -version", shell=True).decode("utf-8"))
+    # print(subprocess.check_output("ffmpeg -version", shell=True).decode("utf-8"))
     cmd = [
         "ffmpeg",
         "-hide_banner",
-        "-v 32",
+        "-loglevel warning",
         "-i",
         src,
         "-ac 2",
@@ -31,14 +31,14 @@ def encode_dash(src, dst):
 
 def encode_hls(src, dst):
     print(f"encode_hls: {src} - {dst}")
-    print(subprocess.check_output("ffmpeg -version", shell=True).decode("utf-8"))
+    # print(subprocess.check_output("ffmpeg -version", shell=True).decode("utf-8"))
 
     dst_dir, dst_filename = os.path.split(dst)
 
     cmd = [
         "ffmpeg",
         "-hide_banner",
-        "-v 32",
+        "-loglevel warning",
         "-i",
         src,
         "-ac 2",

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
+from smtplib import SMTPException
+
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from smtplib import SMTPException
 
 
 class SendMessageException(Exception):

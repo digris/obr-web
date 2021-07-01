@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from image.admin import SortableImageInlineMixin
-from .models import Emission, Editor, EditorImage
 from identifier.admin import IdentifierInline
+from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
+from .models import Emission, Editor, EditorImage
 
 
 class EditorImageInline(SortableImageInlineMixin, admin.TabularInline):

@@ -11,7 +11,8 @@ from catalog.sync.media import sync_media, sync_master
 from sync.models.mixins import SyncModelMixin
 
 # from rating.mixins import RatingModelMixin
-from tagging.models import TaggedItem, TaggableManager
+from tagging.models import TaggedItem
+from tagging.managers import TaggableManager
 
 
 class Media(
@@ -36,6 +37,7 @@ class Media(
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
+        related_name="tagged_media",
     )
 
     votes = GenericRelation("rating.Vote", related_query_name="media")
@@ -87,6 +89,23 @@ class Master(
     encoding = models.CharField(
         max_length=4,
         null=True,
+        db_index=True,
+    )
+
+    size = models.PositiveIntegerField(
+        default=0,
+        db_index=True,
+    )
+
+    content_type = models.CharField(
+        max_length=32,
+        default="",
+        db_index=True,
+    )
+
+    md5_hash = models.CharField(
+        max_length=24,
+        default="",
     )
 
     media = models.OneToOneField(
@@ -117,8 +136,8 @@ class Master(
             return None
         return f"{self.uid}/master.{self.encoding}"
 
-    def sync_data(self):
-        return sync_master(self)
+    def sync_data(self, *args, **kwargs):
+        return sync_master(self, *args, **kwargs)
 
 
 class MediaArtists(models.Model):

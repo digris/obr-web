@@ -5,8 +5,8 @@ from django.conf import settings
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
-from catalog.models import Playlist, Media
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
+from catalog.models import Playlist, Media
 from ..models import Emission
 
 SITE_URL = getattr(settings, "SITE_URL")

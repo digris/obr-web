@@ -21,4 +21,4 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+CMD exec gunicorn --bind :$PORT --log-level warning --workers 1 --threads 8 --timeout 0 main:app

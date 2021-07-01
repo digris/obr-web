@@ -1,9 +1,11 @@
 @mixin transition {
-  transition: background-color 3000ms, color 200ms 1400ms;
+  //transition: background-color 3000ms, color 200ms 1400ms;
+  transition: background-color 1000ms, color 100ms 400ms;
 }
 
 @mixin transition-inverse {
-  transition: color 3000ms, background-color 200ms 1400ms;
+  //transition: color 3000ms, background-color 200ms 1400ms;
+  transition: color 1000ms, background-color 100ms 400ms;
 }
 
 

@@ -1,5 +1,6 @@
-from user_identity.utils import get_anonymous_user_key
 from rating.models import Vote
+from user_identity.utils import get_anonymous_user_key
+
 
 # pylint: disable=unused-argument,keyword-arg-before-vararg
 def adopt_votes(strategy, user=None, request=None, *args, **kwargs):
