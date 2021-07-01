@@ -19,7 +19,8 @@ body > #app {
 body {
   color: rgb(var(--c-live-fg));
   background: rgb(var(--c-live-bg));
-  transition: background 3000ms, color 200ms 1400ms;
+  //transition: background 3000ms, color 200ms 1400ms;
+  transition: background-color 1000ms, color 100ms 400ms;
   a {
     color: inherit;
     text-decoration: none;

@@ -2,8 +2,8 @@ from django.contrib import admin
 from django.db.models import Max
 
 from catalog.models.media import Media, Airplay, Master
-from sync.admin import sync_qs_action
 from identifier.admin import IdentifierInline
+from sync.admin import sync_qs_action
 
 
 class MediaArtistInline(admin.TabularInline):
@@ -76,16 +76,20 @@ class MasterAdmin(admin.ModelAdmin):
         "media",
         "uid",
         "encoding",
+        "content_type",
+        "size",
         "path",
         "sync_state",
     ]
     list_filter = [
         "sync_state",
         "encoding",
+        "content_type",
     ]
     search_fields = [
         "media__name",
         "media__uid",
+        "md5_hash",
     ]
     raw_id_fields = [
         "media",

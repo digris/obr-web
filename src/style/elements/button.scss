@@ -1,20 +1,25 @@
-@mixin default($height: 2.5rem) {
+@mixin default($height: 3rem) {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: $height;
-  padding-right: $height / 2.5;
-  padding-left: $height / 2.5;
+  padding-right: $height / 1.5;
+  padding-left: $height / 1.5;
   color: rgb(var(--c-white));
-  font-size: $height / 2.5;
+  font-size: $height / 3;
   background: rgb(var(--c-black));
   border: none;
-  border-radius: $height / 10;
+  border-radius: $height / 12;
   cursor: pointer;
-  transition: background 250ms;
+  transition: background 250ms, border-radius 100ms;
   &:hover {
-    //background: rgba(var(--c-black), 0.95);
-    background: rgb(var(--c-cta));
-    transition: background 100ms;
+    background: rgba(var(--c-black), 0.9);
+    //background: rgb(var(--c-cta));
+    border-radius: $height / 2;
+    transition: background 100ms, border-radius 100ms;
   }
+}
+
+@mixin circle($size: 3rem) {
+  background: orangered;
 }

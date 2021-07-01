@@ -9,8 +9,9 @@ gcloud builds submit \
 gcloud run deploy media-encoder \
   --region=europe-west6 \
   --image gcr.io/open-broadcast/media-encoder \
-  --memory 1024M \
+  --memory 4096M \
   --concurrency 4 \
+  --timeout 1200 \
   --platform managed \
   --allow-unauthenticated
 ```

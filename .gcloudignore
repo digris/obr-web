@@ -5,3 +5,5 @@ gcp
 #!include:.gitignore
 
 /functions
+/services
+/docs

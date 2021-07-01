@@ -12,6 +12,7 @@ import router from './router';
 
 // directives
 // import { loginRequired } from './directives/account';
+import { TooltipDirective } from './directives/tooltip';
 
 createStationTimeHandler();
 createCredentialsHandler();
@@ -24,5 +25,5 @@ createUIStateHandler();
 createApp(App)
   .use(router)
   .use(store)
-  // .directive('login-required', loginRequired)
+  .directive('tooltip', TooltipDirective)
   .mount('#app');

@@ -32,9 +32,10 @@ $color-palette: (
   gray-500: (130, 130, 130),
   gray-600: (100, 100, 100),
   gray-800: (60, 60, 60),
+  gray-900: (30, 30, 30),
 
-  //initial values - controlled via js
-  live-fg: (255, 255, 255),
-  live-bg: (36, 36, 36),
-  live-fg-inverse: (0, 0, 0),
+  //initial values - controlled via js later on
+  live-fg: (0, 0, 0),
+  live-bg: (255, 255, 255),
+  live-fg-inverse: (255, 255, 255),
 );

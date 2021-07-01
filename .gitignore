@@ -14,6 +14,7 @@ core/settings/local_development.py
 gcp/terraform
 
 # local env files
+.envrc
 .env
 .env.local
 .env.*.local
@@ -28,3 +29,5 @@ pnpm-debug.log*
 # Editor directories and files
 .idea
 .vscode
+
+/docs/terraform

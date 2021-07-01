@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
+from django.db import models
 from django.utils.functional import cached_property
 
 

@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 import itertools
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from base.models.mixins import CTUIDModelMixin
-from sync.models.mixins import SyncModelMixin
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from account import signals as account_signals
 from account import token_login
+from base.models.mixins import CTUIDModelMixin
+from sync.models.mixins import SyncModelMixin
+from account.sync.user import sync_user
 
 
 class UserManager(BaseUserManager):
@@ -92,9 +93,8 @@ class User(
     def __str__(self):
         return self.email
 
-    def sync_data(self):
-        # TODO: implement sync
-        return None
+    def sync_data(self, *args, **kwargs):
+        return sync_user(self, *args, **kwargs)
 
     @property
     def full_name(self):

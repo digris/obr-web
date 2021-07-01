@@ -6,7 +6,6 @@ const browserName = parser.getBrowserName(true);
 const getMediaFormat = () => {
   // returns (best) supported media format
   // either `dash` or `hls`
-  console.debug('browserName', browserName);
   if (browserName === 'safari') {
     return 'hls';
   }

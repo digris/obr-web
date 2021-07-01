@@ -1,8 +1,11 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
 
-from taggit.managers import TaggableManager  # NOQA
+# from taggit.managers import TaggableManager  # NOQA
 from taggit.models import TagBase, GenericTaggedItemBase
+
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from .managers import TaggableManager  # NOQA
 
 
 class TagType(models.TextChoices):
@@ -33,6 +36,15 @@ class Tag(
 
     def __str__(self):
         return f"{ self.name }"
+
+    @classmethod
+    def get_for(cls, queryset):
+        ct = ContentType.objects.get_for_model(queryset.model)
+        return cls.objects.filter(
+            pk__in=TaggedItem.objects.filter(content_type=ct, object_id__in=queryset)
+            .values_list("tag", flat=True)
+            .distinct()
+        )
 
 
 class TaggedItem(GenericTaggedItemBase):

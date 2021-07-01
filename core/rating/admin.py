@@ -15,7 +15,13 @@ class VoteAdmin(admin.ModelAdmin):
         # "created",
         "updated",
     ]
-
     list_filter = [
         "value",
+    ]
+    search_fields = [
+        "user__uid",
+        "user__email",
+    ]
+    raw_id_fields = [
+        "user",
     ]

@@ -1,24 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from django.utils import timezone
-from datetime import timedelta
-from django.conf import settings
-from django.contrib.auth import authenticate, login, logout
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions
-
 from rest_framework import status, permissions
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 
-from subscription.models import Subscription
-
-from subscription.utils import trial, plan
 from subscription.api.serializers import serializers
-
+from subscription.utils import trial, plan
 
 logger = logging.getLogger(__name__)
 

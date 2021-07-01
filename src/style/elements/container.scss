@@ -1,6 +1,16 @@
 @mixin default {
   width: 100%;
   max-width: var(--container-width);
-  margin: 0 auto;
+  margin-right: auto;
+  margin-left: auto;
   padding: 0 1rem;
 }
+
+@mixin section {
+
+  &.section--dark {
+    color: rgb(var(--c-white));
+    background: rgb(var(--c-gray-900));
+  }
+}
+

@@ -3,14 +3,14 @@ from datetime import timedelta
 
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.utils.functional import cached_property
 from django.utils import timezone
+from django.utils.functional import cached_property
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
-from sync.models.mixins import SyncModelMixin
-from image.models import BaseSortableImage
-from tagging.models import TaggedItem, TaggableManager
 from broadcast.sync.editor import sync_editor
+from image.models import BaseSortableImage
+from sync.models.mixins import SyncModelMixin
+from tagging.models import TaggedItem, TaggableManager
 
 
 class EmissionQuerySet(models.QuerySet):

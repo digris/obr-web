@@ -4,7 +4,6 @@ from django.urls import include, path
 from . import views
 from .stripe import urls as stripe_urls
 
-
 app_name = "subscription"
 urlpatterns = [
     path(

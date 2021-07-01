@@ -2,12 +2,12 @@
 import logging
 
 from django.conf import settings
-from django.urls import reverse_lazy, reverse
-from rest_framework import serializers
+from django.urls import reverse
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
+from rest_framework import serializers
+from social_django.models import UserSocialAuth
 
 from account.models import User, Settings
-from social_django.models import UserSocialAuth
 from subscription.models import Subscription
 
 SITE_URL = getattr(settings, "SITE_URL")

@@ -2,7 +2,6 @@
 import logging
 
 from django.conf import settings
-from django.urls import reverse_lazy, reverse
 from rest_framework import serializers
 
 from subscription.models import Subscription

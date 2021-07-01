@@ -1,5 +1,6 @@
 import datetime
-from account.cdn_credentials.cookie import get_signed_cookie, get_cdn_policy
+
+from account.cdn_credentials.cookie import get_signed_cookie
 
 
 def test_get_signed_cookie():

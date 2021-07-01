@@ -107,5 +107,9 @@ class CTUIDModelMixin(UIDModelMixin, CTModelMixin, models.Model):
     def __str__(self):
         return f"{self.ct}:{self.uid}"
 
+    @property
+    def ct_uid(self):
+        return f"{self.ct}:{self.uid}"
+
     class Meta:
         abstract = True

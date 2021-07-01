@@ -1,4 +1,5 @@
 from django.utils.safestring import mark_safe
+
 from .resizer import get_resized_url
 
 

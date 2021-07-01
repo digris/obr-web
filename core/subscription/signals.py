@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
+
 from django import dispatch
+
 from account.signals import user_registered
 
 logger = logging.getLogger(__name__)

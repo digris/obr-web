@@ -107,16 +107,42 @@ export default defineComponent({
     transition: color, background-color 200ms;
   }
 }
+@mixin menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 2rem;
+  color: inherit;
+  text-decoration: none;
+  transition: color, background-color 500ms;
+  border-radius: 24px;
+  &:hover {
+    @include live-color.bg-inverse(0.2);
+    transition: color, background-color 200ms;
+  }
+  /*
+  &.router-link-active {
+    color: #fff;
+    background: black;
+    transition: color, background-color 200ms;
+  }
+  */
+}
 
 .account-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   color: inherit;
   > a {
-    @include menu-link;
+    @include menu-button;
   }
   .submenu {
     @include live-color.bg(0.9);
     position: absolute;
+    top: 72px;
     display: flex;
     flex-direction: column;
     > a {

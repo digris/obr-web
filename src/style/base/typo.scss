@@ -1,12 +1,13 @@
 @charset "UTF-8";
 
 body {
+  font-weight: var(--font-weight);
   font-family: var(--font-family);
   font-feature-settings: 'kern' 1;
   font-kerning: normal;
 
   -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;  //NOTE: disabled in CB version
 }
 
 @mixin copy {

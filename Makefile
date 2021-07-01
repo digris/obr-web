@@ -23,7 +23,8 @@ test:
 	pytest --ds core.settings.test --cov=core term-missing
 
 build-docker:
-	docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
+	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
+	docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
 deploy:
 	gcloud builds submit --project $(GCP_PROJECT)

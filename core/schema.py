@@ -1,7 +1,6 @@
+import catalog.schema
 import graphene
 from graphene_django.debug import DjangoDebug
-
-import catalog.schema
 
 
 class Query(

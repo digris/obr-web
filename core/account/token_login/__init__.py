@@ -1,7 +1,6 @@
 import logging
 import random
 import string
-from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
