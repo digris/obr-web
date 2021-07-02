@@ -115,8 +115,8 @@ export default defineComponent({
   padding: 0 2rem;
   color: inherit;
   text-decoration: none;
-  transition: color, background-color 500ms;
   border-radius: 24px;
+  transition: color, background-color 500ms;
   &:hover {
     @include live-color.bg-inverse(0.2);
     transition: color, background-color 200ms;

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -13,14 +13,23 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const style = ref({
-      height: `${props.size}px`,
-      width: `${props.size}px`,
-      borderRadius: `${props.size / 2}px`,
+    const style = computed(() => {
+      return {
+        height: `${props.size}px`,
+        width: `${props.size}px`,
+        borderRadius: `${props.size / 2}px`,
+      };
+      // backgroundColor: props.backgroundColor,
+    });
+    const cssVars = computed(() => {
+      return {
+        '--size': `${props.size}px`,
+      };
       // backgroundColor: props.backgroundColor,
     });
     return {
       style,
+      cssVars,
     };
   },
 });
@@ -28,9 +37,8 @@ export default defineComponent({
 
 <template>
   <div
-    @click="increase"
     class="circle-button"
-    :style="style"
+    :style="cssVars"
   >
     <slot name="default" />
   </div>
@@ -41,9 +49,15 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgb(var(--c-live-bg));
-  background: rgba(var(--c-live-fg), 0.5);
-  border: none;
+  width: var(--size);
+  min-width: var(--size);
+  height: var(--size);
+  min-height: var(--size);
+  //color: rgb(var(--c-live-bg));
+  //background: rgba(var(--c-live-fg), 0.5);
+  //border: none;
+  border: 1px solid rgba(var(--c-live-fg), 0.2);
+  border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background 100ms;
   &:hover {

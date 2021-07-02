@@ -46,10 +46,8 @@ const routes = [
       },
       // {
       //   path: 'artists/:uid/',
-      //   component: () => import(
-      //     /* webpackChunkName: "catalog-artist-detail" */
-      //     '@/components/catalog/artist/Detail.vue'
-      //   ),
+      //   name: 'artistDetail',
+      //   component: ArtistDetail,
       // },
       {
         path: 'tracks/',
