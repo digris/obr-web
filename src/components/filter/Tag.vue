@@ -50,13 +50,13 @@ export default defineComponent({
 .tag {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 1rem;
   height: 2rem;
-  border: 1px solid rgba(var(--c-live-fg), 0.2);
-  border-radius: 1rem;
+  padding: 0.25rem 1rem;
   color: rgb(var(--c-black));
   text-transform: lowercase;
   background: rgb(var(--c-white));
+  border: 1px solid rgba(var(--c-live-fg), 0.2);
+  border-radius: 1rem;
   cursor: pointer;
   &.is-selected {
     color: rgb(var(--c-white));

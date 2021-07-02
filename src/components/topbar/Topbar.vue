@@ -2,12 +2,14 @@
 import MainMenu from '@/components/topbar/MainMenu.vue';
 import AccountMenu from '@/components/topbar/AccountMenu.vue';
 import SubscriptionStatus from '@/components/topbar/SubscriptionStatus.vue';
+import ToggleMenuButton from '@/components/topbar/ToggleMenuButton.vue';
 
 export default {
   components: {
     MainMenu,
     AccountMenu,
     SubscriptionStatus,
+    ToggleMenuButton,
   },
 };
 </script>
@@ -33,19 +35,7 @@ export default {
     <div
       class="menu-toggle"
     >
-      <router-link
-        :to="{ name: 'discoverPlaylists' }"
-      >
-        x
-      </router-link>
-      &nbsp;
-      -
-      &nbsp;
-      <router-link
-        :to="{ name: 'collectionMedia' }"
-      >
-        +
-      </router-link>
+      <ToggleMenuButton />
     </div>
   </div>
 </template>
@@ -57,7 +47,7 @@ export default {
   top: 0;
   z-index: 2;
   display: grid;
-  grid-template-columns: 180px 1fr 40px 120px 40px;
+  grid-template-columns: 202px 1fr 40px 120px 72px;
   height: 72px;
   background: rgba(var(--c-live-bg), 0.9);
   border-bottom: 1px solid rgb(var(--c-live-fg));

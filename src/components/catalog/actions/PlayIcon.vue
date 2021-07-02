@@ -50,7 +50,27 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+  :deep(.container) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: rgba(var(--c-black), 0.6);
+    border: 1px solid rgba(var(--c-white), 0.5);
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background 100ms;
+    &:hover {
+      background: rgba(var(--c-black), 0.9);
+    }
+    &.is-loading {
+      cursor: wait;
+      opacity: 0.8;
+    }
+  }
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown
   ::v-deep {
     .container {
       display: flex;
@@ -72,5 +92,6 @@ export default defineComponent({
       }
     }
   }
+  */
 }
 </style>

@@ -8,12 +8,14 @@ import {
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
 export default {
   components: {
+    DetailHeader,
     LazyImage,
     PlayIcon,
     MediaList,
@@ -69,12 +71,11 @@ export default {
     v-if="artist"
     class="artist-detail"
   >
-    <section
-      class="section section--dark"
+    <DetailHeader
+      scope="artist"
+      :title="artist.name"
     >
-      <div
-        class="header detail-header"
-      >
+      <template #visual>
         <div
           class="visual"
         >
@@ -90,58 +91,23 @@ export default {
             :obj-key="objKey"
           />
         </div>
+      </template>
+      <template #info-panel>
         <div
-          class="body"
+          class="tags"
         >
-          <div
-            class="kind"
-          >
-            Artist {{ uid }}
-          </div>
-          <div
-            class="title"
-          >
-            <h1>{{ artist.name }}</h1>
-          </div>
-          <div
-            class="tags"
-          >
-            <span class="tag">#Electronic</span>
-            <span class="tag">#Rock</span>
-            <router-link
-              :to="{
-                name: 'artistDetail',
-                params: {
-                  uid: uid,
-                },
-                query:{
-                  'filter.duration': 'long',
-                  'filter.tags': 'techno+hiphop',
-                },
-                // query: {
-                //   filter: JSON.stringify(dummyQuery),
-                // },
-              }"
-            >
-              #Techno
-            </router-link>
-          </div>
-          <div
-            class="summary"
-          >
-            <span
-              v-if="artist"
-            >{{ artist.numMedia }} Tracks</span>
-            <span>1h 25m</span>
-          </div>
+          <span class="tag">#Electronic</span>
+          <span class="tag">#Rock</span>
+          <span class="tag">#Techno</span>
         </div>
-        <div
-          class="actions">
-          <span>+</span>
-          <span>-</span>
-        </div>
-      </div>
-    </section>
+      </template>
+      <template #meta-panel>
+        <span
+          v-if="artist"
+        >{{ artist.numMedia }} Tracks</span>
+        <span>1h 25m</span>
+      </template>
+    </DetailHeader>
     <section
       class="section section--light"
     >
@@ -158,7 +124,6 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
-@use "@/style/elements/detail-header";
 .section {
   @include container.section;
 }
@@ -167,41 +132,28 @@ export default {
   margin-bottom: 12rem;
   //background: rgb(var(--c-gray-900));
 }
-.detail-header {
-  @include detail-header.default;
-  @include container.default;
-  display: grid;
-  grid-gap: 2rem;
-  //grid-template-columns: 220px 1fr auto;
-  grid-template-columns: 2fr 4fr 2fr;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+.visual {
+  img {
+    border-radius: 50%;
+  }
 }
-.header {
-  .visual {
-    /*
+.visual__ {
+  position: relative;
+  &__image {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    filter: grayscale(100%);
+    transition: filter 100ms;
     img {
-      min-width: 100%;
-      max-width: 100%;
-      background: rgba(255, 255, 255, 0.1);
+      position: absolute;
+      width: 100%;
+      background: rgba(var(--c-white), .25);
       border-radius: 50%;
     }
-    */
-    position: relative;
-    &__image {
-      position: relative;
-      width: 100%;
-      padding-bottom: 100%;
-      filter: grayscale(100%);
-      transition: filter 100ms;
-      img {
-        position: absolute;
-        width: 100%;
-        background: rgba(var(--c-white), .25);
-        border-radius: 50%;
-      }
-    }
   }
+}
+.header {
   .body {
     display: flex;
     flex-direction: column;
