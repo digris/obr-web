@@ -3,12 +3,14 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 import SocialLogin from '@/components/account/SocialLogin.vue';
-import SettingsSubscription from '@/components/account/settings/SettingsSubscription.vue';
+import Subscription from '@/components/account/settings/SettingsSubscription.vue';
+import Section from '@/components/account/settings/SettingsSection.vue';
 
 export default defineComponent({
   components: {
+    Section,
     SocialLogin,
-    SettingsSubscription,
+    Subscription,
   },
   setup() {
     const store = useStore();
@@ -23,89 +25,68 @@ export default defineComponent({
 </script>
 
 <template>
-  <section
+  <Section
     v-if="currentUser"
-    class="section"
+    title="Guthaben für kostenpflichtige Inhalte"
   >
-    <h3
-      class="header"
-    >Plan / Subscription</h3>
-    <SettingsSubscription
+    <Subscription
       :user="currentUser"
     />
-  </section>
-  <section
+  </Section>
+  <Section
     v-if="currentUser"
-    class="section"
+    title="Persönliche Angaben"
   >
-    <h3
-      class="header"
-    >User Details</h3>
-    <pre
-      v-text="currentUser"
-      class="_debug"
-    />
     <div
-      class="info-grid"
+      class="user-details"
     >
-      <div
-        class="label"
-      >ID:</div>
-      <div
-        class="value"
-      >{{ currentUser.uid }}</div>
-      <div
-        class="label"
-      >E-Mail:</div>
-      <div
-        class="value"
-      >{{ currentUser.email }}</div>
-      <div
-        class="label"
-      >Name:</div>
-      <div
-        class="value"
-      >
+      <p
+        v-text="currentUser.email"
+      />
+      <p>
         <span
           v-if="currentUser.firstName"
-        >{{ currentUser.firstName }}</span>
+          v-text="currentUser.firstName"
+        />
         <span
           v-if="currentUser.lastName"
-        >{{ currentUser.lastName }}</span>
-      </div>
-    </div>
-  </section>
-  <section
-    class="section"
-  >
-    <h3
-      class="header"
-    >Change Password</h3>
-    <div>
-      ...
-    </div>
-  </section>
-  <section
-    class="section"
-  >
-    <h3
-      class="header"
-    >Connect Accounts</h3>
-    <div>
-      <SocialLogin
-        :next="socialNext"
+          v-text="currentUser.lastName"
+        />
+      </p>
+      <p
+        v-text="`ID: ${currentUser.uid}`"
       />
     </div>
-  </section>
+  </Section>
+  <Section
+    v-if="currentUser"
+    title="Verbundene Accounts"
+    :outlined="(false)"
+  >
+    <SocialLogin
+      :next="socialNext"
+    />
+  </Section>
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/elements/section";
-@use "@/style/elements/info-grid";
+@use "@/style/base/typo";
 .section {
-  @include section.default;
+  margin: 2rem 0;
+  :deep(.title) {
+    padding-bottom: 0.4rem;
+  }
+  :deep(.panel) {
+    padding-top: 0.75rem;
+  }
+  &.is-outlined {
+    :deep(.panel) {
+      padding: 0.75rem;
+      border: 1px solid rgb(var(--c-gray-200));
+    }
+  }
 }
-.info-grid {
-  @include info-grid.default;
+.user-details {
+  @include typo.large;
 }
 </style>

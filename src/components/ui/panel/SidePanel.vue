@@ -1,7 +1,12 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
+import CloseButton from './CloseButton.vue';
+
 export default defineComponent({
+  components: {
+    CloseButton,
+  },
   props: {
     isVisible: {
       type: Boolean,
@@ -43,12 +48,9 @@ export default defineComponent({
       <div
         class="side-panel__header"
       >
-        <button
+        <CloseButton
           @click.prevent="close"
-          class="close-button"
-        >
-          X
-        </button>
+        />
       </div>
       <div
         class="side-panel__body"
@@ -77,7 +79,7 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   z-index: 100;
-  background: rgba(var(--c-black), 0.7);
+  background: rgba(var(--c-black), 0.9);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
 .side-panel {
@@ -91,6 +93,7 @@ export default defineComponent({
   max-width: 50vw;
   height: 100%;
   color: rgb(var(--c-black));
+  font-weight: 500;
   background: rgb(var(--c-white));
 
   @include responsive.bp-small {
@@ -101,21 +104,16 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 3rem;
-    padding-right: 1rem;
-    .close-button {
-      font-size: 1.5rem;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
+    height: 75px;
+    margin: 0rem 4rem 1rem;
+    border-bottom: 1px solid rgb(var(--c-gray-200));
   }
   &__body {
     flex-grow: 1;
-    padding: 1rem;
+    padding: 0 4rem 1rem;
   }
   &__footer {
-    padding: 1rem;
+    padding: 1rem 4rem;
   }
 }
 

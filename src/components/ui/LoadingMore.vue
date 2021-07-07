@@ -1,8 +1,8 @@
 <script lang="ts">
 import { debounce } from 'lodash-es';
 import { defineComponent } from 'vue';
-// eslint-disable-next-line import/extensions
-import Intersect from '@/components/utils/intersect.js';
+// @ts-ignore
+import Intersect from '@/components/utils/intersect';
 
 const DEBOUNCE_FOR = 100;
 

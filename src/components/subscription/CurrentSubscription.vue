@@ -1,9 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
+import { DateTime } from 'luxon';
 
 import eventBus from '@/eventBus';
-import Datetime from '@/components/ui/Datetime.vue';
+import Datetime from '@/components/ui/date/Datetime.vue';
 
 export default defineComponent({
   components: {
@@ -12,16 +13,24 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const currentUser = computed(() => store.getters['account/currentUser']);
-    // eslint-disable-next-line arrow-body-style
+    const now = ref(DateTime.now());
     const subscription = computed(() => {
       return (currentUser.value) ? currentUser.value.subscription : null;
+    });
+    const numDaysRemaining = computed(() => {
+      if (!subscription.value) {
+        return null;
+      }
+      const activeUntil = DateTime.fromISO(subscription.value.activeUntil);
+      const diff = activeUntil.diff(now.value, ['days']);
+      return Math.round(diff.days);
     });
     const isActive = computed(() => (subscription.value && subscription.value.isActive));
     const title = computed(() => {
       if (isActive.value) {
         return 'Active Subscription';
       }
-      return 'Expired Subscription';
+      return 'Guthaben abgelaufen';
     });
     const extendSubscription = () => {
       const event = {
@@ -33,6 +42,7 @@ export default defineComponent({
       currentUser,
       subscription,
       isActive,
+      numDaysRemaining,
       title,
       extendSubscription,
     };
@@ -46,37 +56,21 @@ export default defineComponent({
     :class="{'is-active': isActive, 'is-expired': !isActive}"
   >
     <div
-      class="title"
-    >
-      <h2>
-        {{ title }}
-      </h2>
-    </div>
-    <div
       class="details"
     >
-      <div
-        class="label"
-      >
-        ID:
-      </div>
-      <div
-        class="value"
-        v-text="subscription.uid"
+      <p
+        v-text="title"
       />
-      <div
-        class="label"
-      >
-        Expires:
-      </div>
-      <div
-        class="value"
-      >
+      <p>
+        {{ numDaysRemaining }} Tage
+      </p>
+      <p>
+        Gültig bis am:
         <Datetime
           :value="subscription.activeUntil"
           :display-time="(false)"
         />
-      </div>
+      </p>
     </div>
     <div
       class="actions"
@@ -85,39 +79,29 @@ export default defineComponent({
         @click="extendSubscription"
         class="button"
       >
-        Extend subscription
+        Guthaben laden
       </button>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/elements/button";
-@use "@/style/elements/info-grid";
 .subscription {
   display: grid;
-  grid-template-areas:
-    "title actions"
-    "details actions";
   grid-template-columns: 1fr auto;
-  padding: 1rem;
   color: rgb(var(--c-black));
   &.is-active {
-    background: rgb(var(--c-success));
+    color: rgb(var(--c-success));
   }
   &.is-expired {
-    background: rgb(var(--c-warning));
-  }
-  .title {
-    grid-area: title;
-    margin-bottom: 1rem;
+    color: rgb(var(--c-warning));
   }
   .details {
-    @include info-grid.default;
-    grid-area: details;
+    @include typo.large;
   }
   .actions {
-    grid-area: actions;
     align-self: end;
     padding-top: 0.5rem;
     .button {

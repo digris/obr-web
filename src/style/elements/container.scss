@@ -6,8 +6,15 @@
   padding: 0 1rem;
 }
 
-@mixin section {
+@mixin small {
+  width: 100%;
+  max-width: calc(var(--container-width) * 0.75);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 1rem;
+}
 
+@mixin section {
   &.section--dark {
     color: rgb(var(--c-white));
     background: rgb(var(--c-gray-900));

@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
-import RelativeDateTime from '@/components/ui/RelativeDateTime.vue';
+import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 
 export default {
   components: {

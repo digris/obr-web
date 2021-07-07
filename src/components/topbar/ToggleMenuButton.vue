@@ -16,8 +16,7 @@ export default defineComponent({
     :size="(48)"
   >
     <IconMenu
-      size="32"
-      color="#000"
+      :size="(48)"
     />
   </CircleButton>
 </template>

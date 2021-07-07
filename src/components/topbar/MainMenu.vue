@@ -32,10 +32,10 @@
     padding: 0 2rem;
     color: inherit;
     text-decoration: none;
-    transition: color, background-color 500ms;
+    transition: color, background-color 10ms;
     &:hover {
       color: rgb(var(--c-black));
-      background: rgba(var(--c-live-fg), 0.2);
+      background: rgba(var(--c-live-fg), 0.1);
       transition: color, background-color 200ms;
     }
     &.router-link-active {

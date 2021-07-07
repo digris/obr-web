@@ -20,5 +20,4 @@ const getImageColor = (image: object) => {
   return null;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { getImageSrc, getImageColor };

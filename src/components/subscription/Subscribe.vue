@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import eventBus from '@/eventBus';
-import Modal from '@/components/ui/Modal.vue';
+import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 
 import SubscribeTrial from '@/components/subscription/SubscribeTrial.vue';
 import SubscribePlan from '@/components/subscription/SubscribePlan.vue';
 
 export default defineComponent({
   components: {
-    Modal,
+    OverlayPanel,
     SubscribeTrial,
     SubscribePlan,
   },
@@ -50,21 +50,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <Modal
+  <OverlayPanel
     :is-visible="isVisible"
     @close="close"
   >
     <template #title>
-      Subscription
+      Guthaben
     </template>
     <!--
-    <div
-      v-if="message"
-      class="message"
-    >
-      <p>{{ message }}</p>
-    </div>
-    -->
     <nav
       class="subscribe-menu"
     >
@@ -87,9 +80,33 @@ export default defineComponent({
         @click="setIntent('voucher')"
         :class="{'is-selected': (intent === 'voucher')}"
       >
-        <span>Do you have a code / voucher?</span>
+        <span>Hast du einen Gratis-Code?</span>
       </div>
     </nav>
+    -->
+    <div>
+      <p
+        class="lead"
+      >
+        Keine Abos - dafür Prepaid Guthaben!
+        <br>
+        Die von uns gespielten Inhalte zu jederzeit hören für CHF 1.– pro Monat.
+      </p>
+      <p
+        class="current-subscription-text"
+      >
+        Aktuelles Guthaben:
+        <br>
+        Noch 3 Tage
+        <br>
+        Gültig bis am: 12.04.2021
+      </p>
+      <p
+        class="lead"
+      >
+        Hast du einen <a @click.prevent="setIntent('voucher')">Gratis-Code</a>?
+      </p>
+    </div>
     <div
       class="subscribe"
     >
@@ -140,10 +157,11 @@ export default defineComponent({
         (( Legal shizzle... ))
       </div>
     </template>
-  </Modal>
+  </OverlayPanel>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/elements/section";
 @use "@/style/elements/button";
 @use "@/style/elements/tab-menu";
@@ -155,6 +173,12 @@ export default defineComponent({
 }
 .subscribe-menu {
   @include tab-menu.default
+}
+.current-subscription-text {
+  margin: 2rem 0;
+}
+.lead {
+  @include typo.large;
 }
 .subscribe {
   color: inherit;

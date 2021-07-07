@@ -1,8 +1,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
+import { DateTime } from 'luxon';
 
-import Datetime from '@/components/ui/Datetime.vue';
+import Datetime from '@/components/ui/date/Datetime.vue';
 
 export default defineComponent({
   components: {
@@ -12,11 +13,18 @@ export default defineComponent({
     const detailsVisible = ref(false);
     const store = useStore();
     const currentUser = computed(() => store.getters['account/currentUser']);
-    // eslint-disable-next-line arrow-body-style
+    const now = ref(DateTime.now());
     const subscription = computed(() => {
       return (currentUser.value) ? currentUser.value.subscription : null;
     });
-
+    const numDaysRemaining = computed(() => {
+      if (!subscription.value) {
+        return null;
+      }
+      const activeUntil = DateTime.fromISO(subscription.value.activeUntil);
+      const diff = activeUntil.diff(now.value, ['days']);
+      return Math.round(diff.days);
+    });
     const isActive = computed(() => (subscription.value && subscription.value.isActive));
     const showDetails = () => {
       detailsVisible.value = true;
@@ -28,6 +36,7 @@ export default defineComponent({
       currentUser,
       subscription,
       isActive,
+      numDaysRemaining,
       detailsVisible,
       showDetails,
       hideDetails,
@@ -52,12 +61,14 @@ export default defineComponent({
         <span
           v-if="isActive"
         >
-          +
+          <span v-text="numDaysRemaining" />
+          Tage
         </span>
         <span
           v-else
         >
-          -
+          <span v-text="numDaysRemaining" />
+          Tage
         </span>
       </router-link>
       <div
@@ -68,7 +79,7 @@ export default defineComponent({
         <div
           class="title"
         >
-          <span>Subscription</span>
+          <span>Guthaben</span>
           <span
             v-if="subscription.isTrial"
           >
@@ -81,7 +92,7 @@ export default defineComponent({
           <span
             v-if="isActive"
           >
-            Active until:
+            Gültig bis:
             <Datetime
               :value="subscription.activeUntil"
             />
@@ -89,7 +100,7 @@ export default defineComponent({
           <span
             v-else
           >
-            Expired:
+            Abgelaufen:
             <Datetime
               :value="subscription.activeUntil"
             />
@@ -122,7 +133,7 @@ export default defineComponent({
   }
   .subscription {
     position: absolute;
-    top: 72px;
+    top: 54px;
     min-width: 240px;
     padding: 1rem;
     color: rgb(var(--c-black));

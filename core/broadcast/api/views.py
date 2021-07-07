@@ -54,19 +54,11 @@ class ScheduleView(APIView):
         time_from = now - timedelta(seconds=seconds_ahead)
         time_until = now + timedelta(seconds=seconds_back)
 
-        # print(f"{time_from} - {time_until}")
-
         # get emissions within window
         qs = Emission.objects.filter(
             time_end__gte=time_from,
             time_start__lte=time_until,
         )
-
-        # print(f"num: {qs.count()}")
-
-        # print("// emissions ///")
-        # for e in qs:
-        #     print(f"e: {e.time_start} - {e.time_end}")
 
         flatten = itertools.chain.from_iterable
 
@@ -76,8 +68,6 @@ class ScheduleView(APIView):
             for m in all_media
             if (m["time_end"] >= time_from and m["time_start"] <= time_until)
         ]
-
-        # media_in_range = sorted(media_in_range, key=lambda i: i["time_start"])
 
         media_in_range.sort(key=lambda i: i["time_start"], reverse=True)
 

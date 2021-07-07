@@ -72,7 +72,9 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 64px 1fr;
   .visual {
-    padding: 0.75rem;
+    //padding: 0.75rem;
+    width: 3rem;
+    height: 3rem;
   }
   .metadata {
     display: flex;
@@ -80,7 +82,6 @@ export default defineComponent({
     align-items: flex-start;
     justify-content: center;
     overflow: hidden;
-    font-size: 0.9rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     &--primary,
@@ -90,9 +91,11 @@ export default defineComponent({
       white-space: inherit;
       text-overflow: inherit;
     }
+    /*
     &--secondary {
       color: rgba(var(--c-fg), 0.5);
     }
+    */
   }
 }
 </style>

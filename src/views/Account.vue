@@ -2,7 +2,7 @@
   <div class="account">
     <div class="header">
       <div class="title">
-        <h1>Account</h1>
+        Einstellungen
       </div>
     </div>
     <div class="body">
@@ -13,12 +13,13 @@
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
-@use "@/style/elements/detail-header";
+@use "@/style/base/typo";
 .account {
-  @include container.default;
+  @include container.small;
   margin-bottom: 12rem;
 }
 .header {
-  @include detail-header.default;
+  @include typo.large;
+  margin: 2rem 0 4rem;
 }
 </style>

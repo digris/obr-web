@@ -33,7 +33,11 @@ export default {
 <template>
   <div
     class="playhead-progress"
-    :class="{'is-live': isLive, 'is-playing': isPlaying, 'is-buffering': isBuffering}"
+    :class="{
+      'is-live': isLive,
+      'is-playing': isPlaying,
+      'is-buffering': isBuffering
+    }"
   >
     <svg
       viewBox="0 0 1000 32"
@@ -49,19 +53,17 @@ export default {
       />
       <rect
         x="0"
-        y="14"
+        y="12"
         width="100%"
-        height="4"
-        fill="#555"
+        height="8"
         class="progress-total"
       />
       <rect
         v-if="relPosition"
         x="0"
-        y="14"
+        y="12"
         :width="`${relPosition * 100}%`"
-        height="4"
-        fill="#aaa"
+        height="8"
         class="progress-position"
       />
     </svg>
@@ -79,10 +81,10 @@ export default {
   }
   .progress-total {
     transition: fill 100ms;
-    fill: #555;
+    fill: rgba(var(--c-fg), 0.2);
   }
   .progress-position {
-    fill: #aaa;
+    fill: rgba(var(--c-fg), 1);
   }
   &.is-buffering {
     svg {
@@ -94,7 +96,7 @@ export default {
       cursor: not-allowed;
     }
     .progress-total {
-      fill: #333;
+      fill: rgba(var(--c-fg), 0.2);
     }
   }
 }

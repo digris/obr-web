@@ -1,107 +1,121 @@
-<script>
+<script lang="ts">
+import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
+import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
-import PlayheadProgress from './PlayheadProgress.vue';
+import IconSkip from '@/components/ui/icon/IconSkip.vue';
+import Progress from './PlayheadProgress.vue';
+import PlayerButton from './PlayerButton.vue';
 
-const dt2hhmmss = (dt) => dt.toISOString().substr(11, 8);
-const s2hhmmss = (s) => dt2hhmmss(new Date(s * 1000));
+const dt2hhmmss = (dt:any) => dt.toISOString().substr(11, 8);
+const s2hhmmss = (s:number) => dt2hhmmss(new Date(s * 1000));
 
-export default {
+export default defineComponent({
   components: {
-    PlayheadProgress,
+    Progress,
+    PlayerButton,
+    IconSkip,
   },
-  computed: {
-    playerState() {
-      return this.$store.getters['player/playerState'];
-    },
-    isLive() {
-      return this.playerState && this.playerState.isLive;
-    },
-    isPlaying() {
-      return this.playerState && this.playerState.isPlaying;
-    },
-    isBuffering() {
-      return this.playerState && this.playerState.isBuffering;
-    },
-    currentTime() {
-      return this.playerState && this.playerState.currentTime;
-    },
-    duration() {
-      return this.playerState && this.playerState.duration;
-    },
-    relPosition() {
-      return this.playerState && this.playerState.relPosition;
-    },
-    // mapped output
-    strCurrentTime() {
-      if (!this.currentTime) {
+  emits: [
+    'seek',
+  ],
+  setup(props, { emit }) {
+    const store = useStore();
+    const playerState = computed(() => store.getters['player/playerState']);
+    const isLive = computed(() => playerState.value && playerState.value.isLive);
+    const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
+    const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
+    const currentTime = computed(() => playerState.value && playerState.value.currentTime);
+    const duration = computed(() => playerState.value && playerState.value.duration);
+    const relPosition = computed(() => playerState.value && playerState.value.relPosition);
+
+    const strCurrentTime = computed(() => {
+      if (!currentTime.value) {
         return '00:00:00';
       }
-      if (this.isLive) {
-        return dt2hhmmss(this.currentTime);
+      if (isLive.value) {
+        const dt = DateTime.fromJSDate(currentTime.value);
+        return dt.toLocaleString({
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
       }
-      return s2hhmmss(this.currentTime);
-    },
-    strTotalTime() {
-      if (this.isLive) {
+      return s2hhmmss(currentTime.value);
+    });
+
+    const strTotalTime = computed(() => {
+      if (isLive.value) {
         return '--:--:--';
       }
-      if (!this.duration) {
+      if (!duration.value) {
         return '00:00:00';
       }
-      return s2hhmmss(this.duration);
-    },
-    strBandwidth() {
-      if (this.playerState) {
-        const kbps = Math.round(this.playerState.bandwidth / 1000);
-        return `${kbps} kbps`;
-      }
-      return '-';
-    },
-  },
-  methods: {
-    seek(relPosition) {
-      this.$emit('seek', relPosition);
-    },
-    playNext() {
+      return s2hhmmss(duration.value);
+    });
+
+    const hasPrevious = computed(() => store.getters['queue/previousIndex'] !== null);
+    const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
+
+    const seek = (pos:number) => {
+      emit('seek', pos);
+    };
+
+    const playNext = () => {
       eventBus.emit('queue:controls:playNext');
-    },
-    playPrevious() {
+    };
+
+    const playPrevious = () => {
       eventBus.emit('queue:controls:playPrevious');
-    },
-    stop() {
-      eventBus.emit('player:controls', { do: 'stop' });
-    },
-    pause() {
-      eventBus.emit('player:controls', { do: 'pause' });
-    },
-    resume() {
-      eventBus.emit('player:controls', { do: 'resume' });
-    },
+    };
+
+    return {
+      isLive,
+      isPlaying,
+      isBuffering,
+      currentTime,
+      duration,
+      relPosition,
+      // times
+      strCurrentTime,
+      strTotalTime,
+      // controls
+      hasNext,
+      hasPrevious,
+      seek,
+      playNext,
+      playPrevious,
+    };
   },
-};
+});
 </script>
 
 <template>
   <div class="playhead">
     <div class="actions">
-      <button
-        @click="stop"
-        class="action"
-      >S</button>
-      <button
-        @click="pause"
-        class="action"
-      >P</button>
-      <button
-        @click="resume"
-        class="action"
-      >R</button>
-    </div>
-    <div class="time time--current">
-      <span>{{ strCurrentTime }}</span>
+      <PlayerButton
+        v-if="(!isLive)"
+        :size="(48)"
+        :disabled="(!hasPrevious)"
+        @click.prevent="playPrevious"
+      >
+        <IconSkip
+          :size="(32)"
+          :rotate="(180)"
+          color="rgb(var(--c-fg))"
+        />
+      </PlayerButton>
     </div>
     <div class="progress">
-      <PlayheadProgress
+      <div class="time time--current">
+        <span>{{ strCurrentTime }}</span>
+      </div>
+      <!--
+      <div class="time time--total">
+        <span>{{ strTotalTime }}</span>
+      </div>
+      -->
+      <Progress
         :is-live="isLive"
         :is-playing="isPlaying"
         :is-buffering="isBuffering"
@@ -109,19 +123,20 @@ export default {
         @seek="seek"
       />
     </div>
-    <div class="time time--total">
-      <span>{{ strTotalTime }}</span>
-    </div>
     <div class="actions">
-      <button
-        @click="playPrevious"
-        class="action"
-      >&lt;</button>
-      <button
-        @click="playNext"
-        class="action"
-      >&gt;</button>
+      <PlayerButton
+        v-if="(!isLive)"
+        :size="(48)"
+        :disabled="(!hasNext)"
+        @click.prevent="playNext"
+      >
+        <IconSkip
+          :size="(32)"
+          color="rgb(var(--c-fg))"
+        />
+      </PlayerButton>
     </div>
+    <!--
     <div
       class="info"
     >
@@ -129,6 +144,7 @@ export default {
         class="bandwidth"
       >{{ strBandwidth }}</span>
     </div>
+    -->
   </div>
 </template>
 
@@ -165,8 +181,9 @@ export default {
 
 .playhead {
   display: grid;
-  grid-template-columns: auto auto 1fr auto auto auto;
+  grid-template-columns: auto 1fr auto;
   width: 100%;
+  min-height: 48px;
   .actions,
   .progress,
   .time {
@@ -176,13 +193,19 @@ export default {
   .actions {
     @include actions;
   }
-  .time {
-    @include time;
-    min-width: 84px;
-    max-width: 84px;
-  }
   .progress {
-    margin: 0 0.5rem;
+    position: relative;
+    margin: 0 1rem;
+    .time {
+      @include time;
+      position: absolute;
+      top: -4px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      //min-width: 84px;
+      //max-width: 84px;
+    }
   }
   .info {
     display: flex;
