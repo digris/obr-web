@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 const BASE_SIZE = 24;
 
@@ -15,9 +15,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const style = ref({
-      fill: props.color,
-      transform: `scale(${props.size / BASE_SIZE})`,
+    const style = computed(() => {
+      return {
+        fill: props.color,
+        transform: `scale(${props.size / BASE_SIZE})`,
+      };
     });
     return {
       style,

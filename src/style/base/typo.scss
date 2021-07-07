@@ -2,6 +2,7 @@
 
 body {
   font-weight: var(--font-weight);
+  font-size: var(--font-size);
   font-family: var(--font-family);
   font-feature-settings: 'kern' 1;
   font-kerning: normal;
@@ -19,9 +20,9 @@ body {
 }
 
 @mixin large {
-  font-size: 120%;
+  font-size: 2rem;
 }
 
 @mixin small {
-  font-size: 80%;
+  font-size: 0.75rem;
 }

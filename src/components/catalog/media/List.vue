@@ -43,6 +43,10 @@ export default {
       type: Object,
       default: () => null,
     },
+    showUserFilter: {
+      type: Boolean,
+      default: true,
+    },
     primaryColor: {
       type: Array,
       default: () => null,
@@ -156,6 +160,7 @@ export default {
     v-text="tagList"
   />
   <ListFilter
+    v-if="showUserFilter"
     :filter="userFilter"
     :tag-list="tagList"
     :is-loading="tagListLoading"

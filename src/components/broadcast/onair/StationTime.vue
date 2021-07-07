@@ -1,20 +1,37 @@
 <script lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { DateTime } from 'luxon';
+// import { DateTime } from 'luxon';
+
+import ToggleTimeshiftButton from './ToggleTimeshiftButton.vue';
 
 const TIMESHIFT_OFFSET = 30;
 
+const zeroPad = (n:number) => {
+  return n > 9 ? `${n}` : `0${n}`;
+};
+
 export default {
+  components: {
+    ToggleTimeshiftButton,
+  },
   setup() {
     const store = useStore();
     const time = computed(() => {
       return store.getters['time/time'];
     });
-    const formattedTime = computed(() => {
-      console.debug(time);
-      return time.value.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
+    const hour = computed(() => {
+      return zeroPad(time.value.hour);
     });
+    const minute = computed(() => {
+      return zeroPad(time.value.minute);
+    });
+    const second = computed(() => {
+      return zeroPad(time.value.second);
+    });
+    // const formattedTime = computed(() => {
+    //   return time.value.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
+    // });
     const offset = computed(() => {
       return store.getters['time/offset'];
     });
@@ -22,8 +39,10 @@ export default {
       return offset.value > TIMESHIFT_OFFSET;
     });
     return {
-      formattedTime,
       time,
+      hour,
+      minute,
+      second,
       isTimeshifted,
       offset,
     };
@@ -39,34 +58,41 @@ export default {
       class="station-time"
     >
       <div
+        v-if="(!isTimeshifted)"
         class="time"
       >
         <span
           class="hour"
-        >{{ time.hour }}</span>
+        >{{ hour }}</span>
         <span
           class="separator"
         >:</span>
         <span
           class="minute"
-        >{{ time.minute }}</span>
+        >{{ minute }}</span>
+        <!---->
         <span
           class="separator"
         >:</span>
         <span
           class="second"
-        >{{ time.second }}</span>
+        >{{ second }}</span>
       </div>
       <div
         v-if="isTimeshifted"
         class="time-shift"
-        :class="{'is-active': isTimeshifted}"
       >
         <span
-          :title="offset">
-          TS
+          :title="offset"
+        >
+          &ndash; {{ offset }} Sec.
         </span>
       </div>
+    </div>
+    <div
+      class="actions"
+    >
+      <ToggleTimeshiftButton />
     </div>
   </div>
 </template>
@@ -75,43 +101,59 @@ export default {
 @use "@/style/base/live-color";
 @use "@/style/elements/container";
 $width: 200px;
-$height: 40px;
+$height: 48px;
 .container {
-  @include container.default;
-  display: flex;
+  //@include container.default;
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
+  width: 40%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0;
 }
 .station-time {
   @include live-color.fg;
+  position: relative;
   display: inline-flex;
+  grid-column-start: 2;
+  align-items: center;
+  justify-content: center;
   min-width: $width;
-  height: $height;
-  border: 2px solid transparent;
-  border-color: inherit;
+  height: 78px;
+  user-select: none;
   .time {
     display: grid;
     flex-grow: 1;
-    grid-template-columns: 20px 10px 20px 10px 20px;
+    grid-template-columns: 64px 32px 64px 32px 64px;
     align-items: center;
     justify-content: center;
+
     //padding-left: $height;
     > span {
       justify-self: center;
     }
+    .hour,
+    .minute,
+    .second {
+      font-weight: 600;
+      font-size: 64px;
+    }
+    .separator {
+      font-size: 32px;
+    }
   }
   .time-shift {
-    @include live-color.bg-inverse;
-    @include live-color.fg-inverse;
+    @include live-color.fg;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: $height;
-    opacity: 0;
-    &.is-active {
-      opacity: 1;
-    }
+    min-width: $width;
+    height: 3rem;
+    border: 3px solid transparent;
+    border-color: inherit;
+    border-radius: $height / 2;
   }
 }
 </style>

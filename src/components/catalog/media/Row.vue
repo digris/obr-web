@@ -9,7 +9,7 @@ import { requireSubscription } from '@/utils/account';
 import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import UserRating from '@/components/rating/UserRating.vue';
-import RelativeDateTime from '@/components/ui/RelativeDateTime.vue';
+import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 
 export default defineComponent({
   props: {

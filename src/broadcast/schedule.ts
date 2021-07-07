@@ -71,8 +71,9 @@ class Schedule {
         return;
       }
       const newCurrent = schedule.find((s:any) => s.timeStart <= time && s.timeEnd > time);
-      // console.debug('newCurrent', newCurrent);
-      Schedule.updateCurrent(newCurrent);
+      if (newCurrent) {
+        Schedule.updateCurrent(newCurrent);
+      }
     });
   }
 

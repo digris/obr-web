@@ -11,6 +11,22 @@ export default defineComponent({
       type: String,
       default: 'rgb(var(--c-live-fg))',
     },
+    outlined: {
+      type: Boolean,
+      default: true,
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    outlineOpacity: {
+      type: Number,
+      default: 0.2,
+    },
+    outlineWidth: {
+      type: Number,
+      default: 1,
+    },
   },
   setup(props) {
     const style = computed(() => {
@@ -24,6 +40,8 @@ export default defineComponent({
     const cssVars = computed(() => {
       return {
         '--size': `${props.size}px`,
+        '--outline-opacity': props.outlineOpacity,
+        '--outline-width': `${props.outlineWidth}px`,
       };
       // backgroundColor: props.backgroundColor,
     });
@@ -39,6 +57,10 @@ export default defineComponent({
   <div
     class="circle-button"
     :style="cssVars"
+    :class="{
+      'is-outlined': outlined,
+      'is-active': active,
+    }"
   >
     <slot name="default" />
   </div>
@@ -53,15 +75,20 @@ export default defineComponent({
   min-width: var(--size);
   height: var(--size);
   min-height: var(--size);
-  //color: rgb(var(--c-live-bg));
-  //background: rgba(var(--c-live-fg), 0.5);
-  //border: none;
-  border: 1px solid rgba(var(--c-live-fg), 0.2);
+  border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
-  transition: background 100ms;
+  transition: background 200ms, color 200ms, border 200ms;
   &:hover {
-    background: rgba(var(--c-live-fg), 0.9);
+    background: rgba(var(--c-live-fg), 0.1);
+    border-color: transparent;
+  }
+  &.is-outlined {
+    border-color: rgba(var(--c-live-fg), var(--outline-opacity));
+  }
+  &.is-active {
+    color: rgb(var(--c-live-fg-inverse));
+    background: rgb(var(--c-live-fg));
   }
 }
 </style>

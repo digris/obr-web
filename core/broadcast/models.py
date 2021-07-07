@@ -127,6 +127,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                     "fade_cross": playlist_media.fade_cross,
                     "time_start": time_start,
                     "time_end": time_end,
+                    "emission": self,
                 }
             )
 

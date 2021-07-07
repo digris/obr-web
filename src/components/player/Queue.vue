@@ -89,8 +89,8 @@ $player-height: 60px;
   min-height: 100px;
   max-height: 75%;
   overflow-y: auto;
-  color: rgb(var(--c-black));
-  background: rgb(var(--c-white));
+  color: rgb(var(--c-white));
+  background: rgb(var(--c-black));
 }
 
 .slide-enter-active,

@@ -2,7 +2,7 @@
   <div class="collection">
     <div class="list-header">
       <div class="title">
-        <h1>My Likes</h1>
+        <h1>Favoriten</h1>
       </div>
     </div>
     <!--

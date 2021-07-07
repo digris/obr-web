@@ -12,27 +12,21 @@ logger = logging.getLogger(__name__)
 PLANS = [
     {
         "sku": "OBR-P-M1",
-        "title": "1 Monat",
-        "price": Decimal(0.99),
-        "num_days": 28,
+        "title": "+ 1 Monat",
+        "price": Decimal(1),
+        "num_days": 31,
     },
     {
         "sku": "OBR-P-M3",
-        "title": "3 Monate",
+        "title": "+ 3 Monate",
         "price": Decimal(3),
-        "num_days": 85,
+        "num_days": 93,
     },
     {
         "sku": "OBR-P-M6",
-        "title": "6 Monate",
+        "title": "+ 6 Monate",
         "price": Decimal(6),
-        "num_days": 183,
-    },
-    {
-        "sku": "OBR-P-M12",
-        "title": "1 Jahr",
-        "price": Decimal(10),
-        "num_days": 365,
+        "num_days": 186,
     },
 ]
 

@@ -116,6 +116,7 @@ export default {
       >
         <MediaList
           :initial-filter="query.filter"
+          :show-user-filter="(false)"
         />
       </div>
     </section>

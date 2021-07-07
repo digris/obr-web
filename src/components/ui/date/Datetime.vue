@@ -1,10 +1,11 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import { DateTime } from 'luxon';
 
 export default defineComponent({
   props: {
     value: {
-      type: String,
+      type: [String, DateTime],
       required: true,
     },
     displayDate: {
@@ -17,18 +18,26 @@ export default defineComponent({
     },
   },
   setup(props) {
-    // eslint-disable-next-line arrow-body-style
+    const parsedValue = computed(() => {
+      console.debug(props.value, typeof props.value);
+      if (typeof props.value === 'string') {
+        return DateTime.fromISO(props.value);
+      }
+      return props.value;
+    });
     const dateDisplay = computed(() => {
       if (!props.displayDate) {
         return null;
       }
-      return props.value.substr(0, 10);
+      // @ts-ignore
+      return parsedValue.value.setLocale('de-ch').toLocaleString(DateTime.DATE_SHORT);
     });
     const timeDisplay = computed(() => {
       if (!props.displayTime) {
         return null;
       }
-      return props.value.substr(11, 5);
+      // @ts-ignore
+      return parsedValue.value.setLocale('de-ch').toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     return {
       dateDisplay,
