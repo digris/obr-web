@@ -2,7 +2,7 @@
 import { defineComponent, ref } from 'vue';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconSkip from '@/components/ui/icon/IconSkip.vue';
+import IconPlay from '@/components/ui/icon/IconPlay.vue';
 
 const SIZE = 120;
 const ICON_SIZE = 80;
@@ -10,24 +10,27 @@ const ICON_SIZE = 80;
 export default defineComponent({
   components: {
     CircleButton,
-    IconSkip,
+    IconPlay,
   },
   props: {
     disabled: {
       type: Boolean,
       default: false,
     },
-    rotate: {
-      type: Number,
-      default: 0,
-    },
   },
-  setup() {
+  emits: [
+    'play',
+  ],
+  setup(props, { emit }) {
     const size = ref(SIZE);
     const iconSize = ref(ICON_SIZE);
+    const play = () => {
+      emit('play');
+    };
     return {
       size,
       iconSize,
+      play,
     };
   },
 });
@@ -39,10 +42,10 @@ export default defineComponent({
     :disabled="disabled"
     :outline-opacity="(1)"
     :outline-width="(3)"
+    @click="play"
   >
-    <IconSkip
+    <IconPlay
       :size="iconSize"
-      :rotate="rotate"
       color="rgb(var(--c-live-fg))"
     />
   </CircleButton>

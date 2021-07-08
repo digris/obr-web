@@ -2,21 +2,21 @@
 import {
   computed,
   ref,
-  reactive,
   watch,
+  defineComponent,
 } from 'vue';
 import { useStore } from 'vuex';
 
-import StationTime from '@/components/broadcast/onair/StationTime.vue';
-import ScheduleItem from '@/components/broadcast/onair/ScheduleItem.vue';
+import StationTime from '@/components/broadcast/onair/station-time/StationTime.vue';
+import Schedule from '@/components/broadcast/onair/Schedule.vue';
 import FocusedEmission from '@/components/broadcast/onair/FocusedEmission.vue';
 import FocusedMedia from '@/components/broadcast/onair/FocusedMedia.vue';
 import PaginateButton from '@/components/broadcast/onair/button/PaginateNext.vue';
 
-export default {
+export default defineComponent({
   components: {
     StationTime,
-    ScheduleItem,
+    Schedule,
     FocusedEmission,
     FocusedMedia,
     PaginateButton,
@@ -36,10 +36,13 @@ export default {
       // const maxSize = (innerWidth < innerHeight) ? innerWidth : innerHeight;
       // const maxSize = width * 0.3;
       const maxSize = width * 0.4;
-      return (maxSize < 700) ? maxSize : 700;
+      return (maxSize < 720) ? maxSize : 720;
     });
     const cssVars = computed(() => ({
       '--size': `${itemSize.value}px`,
+      '--item-size': `${itemSize.value}px`,
+      '--item-offset': `${itemSize.value * 0.12}px`,
+      // '--item-size': '600px',
     }));
     const focusKey = ref('');
     const calculatedOffset = computed(() => {
@@ -62,11 +65,6 @@ export default {
         return null;
       }
     });
-    // const focusedMedia = computed(() => {
-    //   return {
-    //     title: 'foo the blu',
-    //   };
-    // });
     const paginate = (offset:number) => {
       if (offset === 0) {
         focusKey.value = '';
@@ -79,24 +77,33 @@ export default {
     const setFocus = (key:string) => {
       focusKey.value = key;
     };
-    const play = () => {
-      setTimeout(() => {
-        focusKey.value = '';
-      }, 1000);
-    };
     // eslint-disable-next-line arrow-body-style
     const paginatedItems = computed(() => {
       const numItems = 10;
       return items.value.slice(calculatedOffset.value, calculatedOffset.value + numItems);
     });
-    const debug = reactive({
-      focusKey,
-      calculatedOffset,
-      itemSize,
-      viewport,
+    const hasPrevious = computed(() => {
+      return items.value[calculatedOffset.value + 2] !== undefined;
+      // console.debug(calculatedOffset.value);
+      // console.table(items.value);
+      // return false;
+    });
+    const hasNext = computed(() => {
+      return items.value[calculatedOffset.value - 1] !== undefined;
+      // console.debug(calculatedOffset.value);
+      // console.table(items.value);
+      // return false;
     });
     // live-colors
-    watch(current, (item) => {
+    // watch(current, (item) => {
+    //   if (item.media.releases && item.media.releases.length) {
+    //     const { image } = item.media.releases[0];
+    //     if (image && image.rgb) {
+    //       store.dispatch('ui/setPrimaryColor', image.rgb);
+    //     }
+    //   }
+    // });
+    watch(focused, (item) => {
       if (item.media.releases && item.media.releases.length) {
         const { image } = item.media.releases[0];
         if (image && image.rgb) {
@@ -106,6 +113,7 @@ export default {
     });
     return {
       items,
+      itemSize,
       current,
       focused,
       next,
@@ -113,168 +121,115 @@ export default {
       cssVars,
       paginate,
       paginatedItems,
+      hasPrevious,
+      hasNext,
       setFocus,
-      play,
-      //
-      debug,
     };
   },
-};
+});
 </script>
 
 <template>
-  <div class="on-air">
-    <StationTime />
+  <div
+    class="on-air"
+    :style="cssVars"
+  >
+    <StationTime
+      @release-focus="setFocus('')"
+    />
     <div
-      class="debug-panel"
-    >
-      <PaginateButton
-        :rotate="180"
-        @click="paginate(1)"
-      />
-      <PaginateButton
-        @click="paginate(-1)"
-      />
-    </div>
-    <div
-      class="metadata-container"
+      class="left"
     >
       <FocusedEmission
         v-if="focused && focused.emission && focused.playlist"
         :emission="focused.emission"
         :playlist="focused.playlist"
       />
+      <PaginateButton
+        :disabled="(!hasPrevious)"
+        :rotate="180"
+        @click="paginate(1)"
+      />
+    </div>
+    <div
+      class="center"
+    >
+      <div
+        class="placeholder"
+      />
+    </div>
+    <div
+      class="right"
+    >
       <FocusedMedia
         v-if="focused && focused.media"
         :media="focused.media"
       />
-      <pre
-        v-if="focused"
-        v-text="focused.media"
-        class="_debug"
+      <PaginateButton
+        :disabled="(!hasNext)"
+        @click="paginate(-1)"
       />
     </div>
     <div
-      class="schedule"
-      :style="cssVars"
+      class="actions"
     >
-      <ScheduleItem
-        v-for="(item, index) in paginatedItems"
-        :key="`schedule-item-${(item) ? item.key : index}`"
-        :schedule-item="item"
-        :has-focus="(index === 1)"
-        :is-current="(item === current)"
-        :class="`pos-${index}`"
-        @play="play"
-        @click="setFocus(item.key)"
-      />
+      (( ACTIONS ))
     </div>
+    <Schedule
+      :current="current"
+      :items="paginatedItems"
+      :item-size="itemSize"
+      @on-focus="setFocus"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
-@mixin item {
-  position: absolute;
-  width: var(--size);
-  height: var(--size);
-  box-shadow: 0 0 20px rgb(0 0 0 / 50%);
-  transition: transform 500ms, filter 500ms, opacity 500ms;
-  // next
-  &:nth-child(1) {
-    z-index: 20;
-    transform: translateX(calc(100vw)) scale(1.2);
-    opacity: 0;
-    pointer-events: none;
-  }
-  // current
-  &:nth-child(2) {
-    z-index: 19;
-    transform: translateX(0px) scale(1);
-  }
-  &:nth-child(3) {
-    z-index: 18;
-    transform: translateX(-180px) scale(0.9);
-    opacity: 0.8;
-  }
-  &:nth-child(4) {
-    z-index: 8;
-    transform: translateX(-360px) scale(0.7);
-    opacity: 0.6;
-  }
-  &:nth-child(5) {
-    z-index: 7;
-    transform: translateX(-600px) scale(0.3);
-    opacity: 0;
-  }
-  &:nth-child(6) {
-    z-index: 6;
-    transform: translateX(-580px) scale(0.1);
-    opacity: 0;
-  }
-  &:nth-child(n+6) {
-    z-index: 5;
-    transform: translateX(-620px) scale(0.1);
-    opacity: 0;
-  }
-  &:nth-child(n+3) {
-    filter: grayscale(100%);
-  }
-  /*
-  &.is-current {
-    z-index: 10;
-    transform: translateX(0px) scale(1);
-  }
-  */
-  &.is-next {
-    z-index: 11;
-    transform: translateX(600px) scale(3.0);
-    opacity: 0.1;
-    pointer-events: none;
-  }
-
-  &:hover {
-    //opacity: 1;
-    cursor: pointer;
-    filter: grayscale(0%);
-  }
-}
-
 .on-air {
   position: relative;
-  .metadata-container {
-    position: absolute;
-    z-index: 1;
-    .metadata {
-      margin-top: -0.25rem;
-      &--emission {
-        width: 20vw;
-        margin-left: 1.5rem;
-      }
-      &--media {
-        position: absolute;
-        top: 0;
-        left: 70vw;
-        width: 20vw;
-        margin-left: 1.5rem;
-      }
+  display: grid;
+  grid-row-gap: 0.25rem;
+  grid-column-gap: 1rem;
+  grid-template-areas:
+    ". station-time ."
+    "left center right"
+    ". actions .";
+  grid-template-columns: auto var(--item-size) auto;
+  .station-time {
+    grid-area: station-time;
+  }
+  .left {
+    grid-area: left;
+    padding: 1rem;
+  }
+  .center {
+    grid-area: center;
+    .placeholder {
+      width: var(--item-size);
+      height: calc(var(--item-size) + 40px);
     }
   }
-}
-
-.schedule {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: var(--size);
-  overflow: hidden;
-  .schedule-item {
-    @include item;
+  .right {
+    grid-area: right;
+    padding: 1rem;
   }
-}
-.debug-panel {
-  position: absolute;
-  z-index: 999;
+  .actions {
+    display: flex;
+    grid-area: actions;
+    align-items: center;
+    justify-content: center;
+  }
+  .left,
+  .right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .metadata {
+      position: absolute;
+      top: 12px;
+      left: 2rem;
+    }
+  }
 }
 </style>

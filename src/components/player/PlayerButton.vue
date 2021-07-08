@@ -83,7 +83,7 @@ export default defineComponent({
   }
   &.is-active {
     //color: rgb(var(--c-live-fg-inverse));
-    color: rgb(var(--c-fg-inverse));;
+    color: rgb(var(--c-fg-inverse));
     background: rgb(var(--c-fg));
   }
   &.is-disabled {

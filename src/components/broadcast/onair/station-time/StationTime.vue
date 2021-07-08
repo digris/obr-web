@@ -1,9 +1,10 @@
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-// import { DateTime } from 'luxon';
+import { playStream } from '@/player/stream';
 
 import ToggleTimeshiftButton from './ToggleTimeshiftButton.vue';
+import ResetTimeshiftButton from './ResetTimeshiftButton.vue';
 
 const TIMESHIFT_OFFSET = 30;
 
@@ -11,11 +12,15 @@ const zeroPad = (n:number) => {
   return n > 9 ? `${n}` : `0${n}`;
 };
 
-export default {
+export default defineComponent({
   components: {
     ToggleTimeshiftButton,
+    ResetTimeshiftButton,
   },
-  setup() {
+  emits: [
+    'releaseFocus',
+  ],
+  setup(props, { emit }) {
     const store = useStore();
     const time = computed(() => {
       return store.getters['time/time'];
@@ -38,6 +43,12 @@ export default {
     const isTimeshifted = computed(() => {
       return offset.value > TIMESHIFT_OFFSET;
     });
+    const releaseFocus = () => {
+      emit('releaseFocus');
+    };
+    const resetTimeshift = () => {
+      playStream();
+    };
     return {
       time,
       hour,
@@ -45,21 +56,24 @@ export default {
       second,
       isTimeshifted,
       offset,
+      releaseFocus,
+      resetTimeshift,
     };
   },
-};
+});
 </script>
 
 <template>
   <div
-    class="container"
+    class="station-time"
   >
     <div
-      class="station-time"
+      class="container"
     >
       <div
         v-if="(!isTimeshifted)"
         class="time"
+        @click="releaseFocus"
       >
         <span
           class="hour"
@@ -82,11 +96,17 @@ export default {
         v-if="isTimeshifted"
         class="time-shift"
       >
-        <span
+        <div
+          class="offset"
           :title="offset"
         >
           &ndash; {{ offset }} Sec.
-        </span>
+        </div>
+        <div>
+          <ResetTimeshiftButton
+            @click="resetTimeshift"
+          />
+        </div>
       </div>
     </div>
     <div
@@ -102,18 +122,18 @@ export default {
 @use "@/style/elements/container";
 $width: 200px;
 $height: 48px;
-.container {
+.station-time {
   //@include container.default;
   display: grid;
   grid-template-columns: 48px 1fr 48px;
   align-items: center;
   justify-content: center;
-  width: 40%;
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 1rem 0;
 }
-.station-time {
+.container {
   @include live-color.fg;
   position: relative;
   display: inline-flex;
@@ -146,7 +166,8 @@ $height: 48px;
   }
   .time-shift {
     @include live-color.fg;
-    display: flex;
+    display: grid;
+    grid-template-columns: 36px 1fr 36px;
     align-items: center;
     justify-content: center;
     min-width: $width;
@@ -154,6 +175,10 @@ $height: 48px;
     border: 3px solid transparent;
     border-color: inherit;
     border-radius: $height / 2;
+    .offset {
+      grid-column-start: 2;
+      justify-self: center;
+    }
   }
 }
 </style>

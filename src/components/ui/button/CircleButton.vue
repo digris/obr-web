@@ -19,6 +19,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     outlineOpacity: {
       type: Number,
       default: 0.2,
@@ -60,6 +64,7 @@ export default defineComponent({
     :class="{
       'is-outlined': outlined,
       'is-active': active,
+      'is-disabled': disabled,
     }"
   >
     <slot name="default" />
@@ -89,6 +94,10 @@ export default defineComponent({
   &.is-active {
     color: rgb(var(--c-live-fg-inverse));
     background: rgb(var(--c-live-fg));
+  }
+  &.is-disabled {
+    opacity: 0.2;
+    pointer-events: none;
   }
 }
 </style>

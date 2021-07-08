@@ -13,6 +13,7 @@
   <script>
     document.settings = {% json_settings settings %};
     document.settings.API_BASE_URL = "{% url 'api:base' %}";
+    {% if color %}document.settings.COLOR = {{ color }}{% endif %}
   </script>
 </head>
 <body id="body">

@@ -76,10 +76,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 
-$player-height: 60px;
+$player-height: 72px;
 
 .container {
   @include container.default;
+  padding: 2rem 0;
 }
 
 .queue {
@@ -91,6 +92,9 @@ $player-height: 60px;
   overflow-y: auto;
   color: rgb(var(--c-white));
   background: rgb(var(--c-black));
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .slide-enter-active,
