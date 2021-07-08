@@ -1,15 +1,16 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { DateTime } from 'luxon';
-import eventBus from '@/eventBus';
-import settings from '@/settings';
+import { playStream } from '@/player/stream';
 import LazyImage from '@/components/ui/LazyImage.vue';
-import ScheduleItemPlay from './ScheduleItemPlay.vue';
+// import ScheduleItemPlay from './ScheduleItemPlay.vue';
+import PlayButton from './button/Play.vue';
 
 export default defineComponent({
   components: {
     LazyImage,
-    ScheduleItemPlay,
+    // ScheduleItemPlay,
+    PlayButton,
   },
   props: {
     hasFocus: {
@@ -48,32 +49,16 @@ export default defineComponent({
       return (release.value && release.value.image) ? release.value.image : null;
     });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
-    const streamUrl = computed(() => settings.STREAM_ENDPOINTS.dash);
     const play = () => {
       let startTime = -10;
-      if (props.isCurrent) {
-        startTime = -10;
-      } else {
+      if (!props.isCurrent) {
         const now = DateTime.now();
         const { timeStart } = props.scheduleItem;
         const diffDt = timeStart.diff(now, 'seconds');
         const diffSeconds = diffDt.seconds;
-        console.dir({
-          now,
-          timeStart,
-          diffDt,
-          diffSeconds,
-        });
-        console.debug('diff', diffSeconds);
         startTime = diffSeconds + 10;
-        // startTime = timeStart.diff(now, 'seconds').seconds;
       }
-      const event = {
-        do: 'play',
-        url: `${streamUrl.value}?${Date.now()}`,
-        startTime,
-      };
-      eventBus.emit('player:controls', event);
+      playStream(startTime);
       emit('play');
     };
     return {
@@ -97,7 +82,6 @@ export default defineComponent({
       v-if="isPlaceholder"
       class="panel"
     >
-      (( placeholder ))
     </div>
     <div
       v-else
@@ -127,11 +111,16 @@ export default defineComponent({
     <div
       class="actions"
     >
+      <PlayButton
+        @play="play"
+      />
+      <!--
       <ScheduleItemPlay
         :is-current="isCurrent"
         :item="scheduleItem"
         @play="play"
       />
+      -->
     </div>
   </div>
 </template>

@@ -111,10 +111,8 @@ export default defineComponent({
   }
 }
 .message {
-  margin: 2rem 0 2rem;
+  margin: 1rem 0 1rem;
   padding: 1rem;
-  //color: rgb(var(--c-white));
-  //background: rgb(var(--c-black));
   background: rgba(var(--c-cta), 0.1);
   border-left: 4px solid rgb(var(--c-cta));
 }

@@ -130,9 +130,6 @@ export default {
         opacity: 0.5;
       }
     }
-    .subtitle {
-      opacity: 0.5;
-    }
   }
 }
 </style>

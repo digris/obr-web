@@ -200,9 +200,9 @@ export default defineComponent({
       @include time;
       position: absolute;
       top: -4px;
-      width: 100%;
       display: flex;
       justify-content: center;
+      width: 100%;
       //min-width: 84px;
       //max-width: 84px;
     }

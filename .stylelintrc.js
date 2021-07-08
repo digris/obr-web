@@ -15,10 +15,10 @@ module.exports = {
       'empty-line-between-groups': false,
     }],
     'selector-pseudo-element-no-unknown': [true, {
-      ignorePseudoElements: ["deep"],
+      ignorePseudoElements: ['deep'],
     }],
     'selector-pseudo-class-no-unknown': [true, {
-      ignorePseudoElements: ["deep"],
+      ignorePseudoClasses: ['deep'],
     }],
   },
 };

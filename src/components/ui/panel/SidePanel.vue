@@ -105,15 +105,24 @@ export default defineComponent({
     align-items: center;
     justify-content: flex-end;
     height: 75px;
-    margin: 0rem 4rem 1rem;
+    margin: 0 4rem 1rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
+    @include responsive.bp-small {
+      margin: 0 1rem 1rem;
+    }
   }
   &__body {
     flex-grow: 1;
     padding: 0 4rem 1rem;
+    @include responsive.bp-small {
+      padding: 0 1rem 1rem;
+    }
   }
   &__footer {
     padding: 1rem 4rem;
+    @include responsive.bp-small {
+      padding: 0 1rem 1rem;
+    }
   }
 }
 

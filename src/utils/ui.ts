@@ -1,5 +1,6 @@
 import store from '@/store';
 // import { UIState } from '@/types';
+import settings from '@/settings';
 import { getContrastColor } from '@/utils/color';
 
 const setTitle = (title: string) => {
@@ -18,6 +19,11 @@ const setPrimaryColor = (color: Array<number>) => {
 
 class UIStateHandler {
   constructor() {
+    // set initial color (passed via django template / settings)
+    const color = settings.COLOR;
+    if (color) {
+      setPrimaryColor(color);
+    }
     // TODO: https://codeburst.io/vuex-and-typescript-3427ba78cfa8
     // implement types on store
     window.addEventListener('load', () => {
