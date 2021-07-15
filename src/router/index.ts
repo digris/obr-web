@@ -8,6 +8,7 @@ import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
 import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
 import ArtisttList from '@/components/catalog/artist/List.vue';
+import MoodList from '@/components/catalog/mood/List.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
@@ -32,9 +33,17 @@ const routes = [
     name: 'discover',
     component: Discover,
     redirect: {
-      name: 'discoverMedia',
+      name: 'discoverMoods',
     },
     children: [
+      {
+        path: 'moods/',
+        name: 'discoverMoods',
+        component: MoodList,
+        props: {
+          primaryColor: [255, 255, 255],
+        },
+      },
       {
         path: 'playlists/',
         name: 'discoverPlaylists',

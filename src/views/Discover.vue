@@ -14,7 +14,7 @@
         class="menu menu--primary"
       >
         <router-link
-          :to="{ name: 'discover' }"
+          :to="{ name: 'discoverMoods' }"
         >
           Stimmung
         </router-link>
