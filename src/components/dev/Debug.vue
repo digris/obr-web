@@ -57,10 +57,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .debug-panel {
-  font-size: 0.8rem;
-  font-weight: 300;
-  background: #222;
   padding: 1rem;
+  font-weight: 300;
+  font-size: 0.8rem;
+  background: #222;
 
   :deep(pre) {
     color: white;

@@ -33,13 +33,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 .card {
-  width: 100%;
   position: relative;
-  background: red;
-  overflow: hidden;
+  width: 100%;
   height: 0;
   padding-top: 100%;
+  overflow: hidden;
   color: rgb(var(--c-black));
+  background: red;
   background: rgb(var(--c-gray-200));
   transition: color 200ms, background 300ms;
   &:hover {
@@ -48,15 +48,15 @@ export default defineComponent({
   }
   .panel {
     @include typo.x-large;
-    text-transform: lowercase;
     position: absolute;
-    display: flex;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-transform: lowercase;
   }
 }
 </style>
