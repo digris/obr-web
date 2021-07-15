@@ -35,18 +35,17 @@ export default defineComponent({
     {{ tag.name }}
     <small
       class="tag__type"
-    >
-      <small v-text="tag.type" />
-    </small>
+      v-text="tag.type"
+    />
     <small
       class="tag__count"
-    >
-      <small v-text="tag.count" />
-    </small>
+      v-text="tag.count"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .tag {
   display: inline-flex;
   align-items: center;
@@ -58,19 +57,23 @@ export default defineComponent({
   border: 1px solid rgba(var(--c-live-fg), 0.2);
   border-radius: 1rem;
   cursor: pointer;
+  &:hover {
+    background: rgb(var(--c-gray-100));
+  }
   &.is-selected {
     color: rgb(var(--c-white));
     background: rgb(var(--c-black));
   }
   &__type {
-    //display: none;
+    display: none;
+    @include typo.tiny;
+    @include typo.dim;
     padding-left: 0.5rem;
-    opacity: 0.5;
   }
   &__count {
-    //display: none;
+    @include typo.tiny;
+    @include typo.dim;
     padding-left: 0.5rem;
-    opacity: 0.5;
   }
 }
 </style>

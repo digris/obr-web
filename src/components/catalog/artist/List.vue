@@ -9,6 +9,12 @@ export default {
     LoadingMore,
     ArtistCard,
   },
+  props: {
+    primaryColor: {
+      type: Array,
+      default: null,
+    },
+  },
   data() {
     return {
       artists: [],
@@ -44,6 +50,10 @@ export default {
     this.artists = [];
     this.fetchArtists();
   },
+  activated() {
+    console.debug(this.primaryColor);
+    this.$store.dispatch('ui/setPrimaryColor', this.primaryColor);
+  },
 };
 </script>
 <template>
@@ -65,8 +75,10 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
+@use "@/style/elements/container";
 .artist-list {
-  margin: 0 0 8rem;
+  @include container.default;
+  margin-bottom: 8rem;
 }
 .grid {
   display: grid;

@@ -3,6 +3,7 @@ import {
   computed,
   ref,
   onMounted,
+  onActivated,
   watch,
 } from 'vue';
 import { useRoute } from 'vue-router';
@@ -41,7 +42,12 @@ export default {
       options: {},
     }));
     onMounted(() => {
-      store.dispatch('catalog/loadArtist', uid.value);
+      console.debug('onMounted');
+      // store.dispatch('catalog/loadArtist', uid.value);
+    });
+    onActivated(() => {
+      // console.debug('activated', route.params.uid);
+      store.dispatch('catalog/loadArtist', route.params.uid);
       if (props.primaryColor) {
         store.dispatch('ui/setPrimaryColor', props.primaryColor);
       }
@@ -116,7 +122,8 @@ export default {
       >
         <MediaList
           :initial-filter="query.filter"
-          :show-user-filter="(false)"
+          :disable-user-filter="(true)"
+          :disable-play-all="(true)"
         />
       </div>
     </section>
@@ -134,24 +141,14 @@ export default {
   //background: rgb(var(--c-gray-900));
 }
 .visual {
+  height: 50vh;
+  min-height: 240px;
+  max-height: 500px;
+  &__image {
+    height: 100%;
+  }
   img {
     border-radius: 50%;
-  }
-}
-.visual__ {
-  position: relative;
-  &__image {
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    filter: grayscale(100%);
-    transition: filter 100ms;
-    img {
-      position: absolute;
-      width: 100%;
-      background: rgba(var(--c-white), .25);
-      border-radius: 50%;
-    }
   }
 }
 .header {
@@ -178,7 +175,9 @@ export default {
     justify-content: flex-end;
   }
 }
+/*
 .media-list {
   background: rgb(var(--c-white));
 }
+*/
 </style>

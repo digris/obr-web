@@ -4,12 +4,14 @@ import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
+import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 
 export default {
   components: {
     LazyImage,
     PlayIcon,
+    UserRating,
     RelativeDateTime,
   },
   props: {
@@ -27,11 +29,11 @@ export default {
         appendix: (props.playlist.series) ? props.playlist.series.episode : null,
       };
     });
-    const subTitle = computed(() => {
+    const subtitle = computed(() => {
       if (props.playlist.series) {
         return props.playlist.name;
       }
-      return '?';
+      return '-';
     });
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmission);
@@ -39,7 +41,7 @@ export default {
     return {
       objKey,
       title,
-      subTitle,
+      subtitle,
       link,
       latestEmission,
     };
@@ -72,23 +74,34 @@ export default {
       <div
         class="title"
       >
-        <router-link
-          :to="link"
+        <div
+          class="primary"
         >
-          <span
-            v-text="title.name"
+          <router-link
+            :to="link"
+          >
+            <span
+              v-text="title.name"
+            />
+            <span
+              v-if="title.appendix"
+              v-text="`#${title.appendix}`"
+              class="appendix"
+            />
+          </router-link>
+        </div>
+        <div
+          class="secondary"
+        >
+          <div
+            v-text="subtitle"
           />
-          <span
-            v-if="title.appendix"
-            v-text="`#${title.appendix}`"
-            class="title__appendix"
+        </div>
+        <div class="actions">
+          <UserRating
+            :obj-key="objKey"
           />
-        </router-link>
-        <!--
-        <p
-          v-text="subTitle"
-        />
-        -->
+        </div>
       </div>
       <div
         class="subtitle"
@@ -121,14 +134,34 @@ export default {
     padding: 0.5rem 0 0 0;
     line-height: 1.25rem;
     .title {
-      font-weight: 600;
+      display: grid;
+      grid-row-gap: 0.25rem;
+      grid-column-gap: 1rem;
+      grid-template-areas:
+        "primary   actions"
+        "secondary actions";
+      grid-template-columns: 1fr auto;
+      margin-bottom: 0.25rem;
       overflow-wrap: anywhere;
-      &__appendix {
-        margin-left: 0.5rem;
-        font-weight: 300;
-        font-size: 85%;
-        opacity: 0.5;
+      a {
+        flex-grow: 1;
       }
+      .primary {
+        grid-area: primary;
+        font-weight: 600;
+        .appendix {
+          margin-left: 0.5rem;
+        }
+      }
+      .secondary {
+        grid-area: secondary;
+      }
+      .actions {
+        grid-area: actions;
+      }
+    }
+    .subtitle {
+      text-transform: capitalize;
     }
   }
 }

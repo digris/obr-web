@@ -197,6 +197,7 @@ class PlaylistSerializer(
     num_media = serializers.IntegerField(read_only=True)
     num_emissions = serializers.IntegerField(read_only=True)
     series = serializers.SerializerMethodField()
+    user_rating = serializers.IntegerField(read_only=True, allow_null=True)
 
     def get_series(self, obj):
         if not obj.series:
@@ -222,6 +223,7 @@ class PlaylistSerializer(
             "num_media",
             "num_emissions",
             "image",
+            "user_rating",
         ]
         expandable_fields = {
             "media_set": (

@@ -64,11 +64,15 @@ export default defineComponent({
   z-index: 2;
   display: grid;
   grid-template-columns: 272px 1fr 200px 72px;
+  width: 100%;
   height: 78px;
   background: rgba(var(--c-live-bg), 0.9);
-  border-bottom: 6px solid rgb(var(--c-live-fg));
-  backdrop-filter: blur(2px);
+  border-bottom: 7px solid rgb(var(--c-live-fg));
+  //backdrop-filter: blur(2px);
   transition: background 1000ms;
+  @include responsive.bp-small {
+    grid-template-columns: 120px 1fr 120px;
+  }
   .brand {
     display: flex;
     align-items: center;

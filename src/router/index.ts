@@ -12,6 +12,7 @@ import MediaList from '@/components/catalog/media/List.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
+import Filterbar from '@/components/filter/Filterbar.vue';
 
 import { getCurrentUser } from '@/api/account';
 
@@ -31,28 +32,55 @@ const routes = [
     name: 'discover',
     component: Discover,
     redirect: {
-      name: 'discoverPlaylists',
+      name: 'discoverMedia',
     },
     children: [
       {
         path: 'playlists/',
         name: 'discoverPlaylists',
-        component: PlaylistList,
+        // component: PlaylistList,
+        components: {
+          default: PlaylistList,
+          filterbar: Filterbar,
+        },
+        props: {
+          default: {
+            primaryColor: [255, 255, 255],
+          },
+          primaryColor: [255, 255, 255],
+        },
       },
       {
         path: 'artists/',
         name: 'discoverArtists',
-        component: ArtisttList,
+        // component: ArtisttList,
+        // props: {
+        //   primaryColor: [255, 255, 255],
+        // },
+        components: {
+          default: ArtisttList,
+          filterbar: Filterbar,
+        },
+        props: {
+          default: {
+            primaryColor: [255, 255, 255],
+          },
+          primaryColor: [255, 255, 255],
+        },
       },
-      // {
-      //   path: 'artists/:uid/',
-      //   name: 'artistDetail',
-      //   component: ArtistDetail,
-      // },
       {
         path: 'tracks/',
         name: 'discoverMedia',
-        component: MediaList,
+        components: {
+          default: MediaList,
+          filterbar: Filterbar,
+        },
+        props: {
+          default: {
+            primaryColor: [255, 255, 255],
+          },
+          primaryColor: [255, 255, 255],
+        },
       },
     ],
   },
@@ -65,6 +93,9 @@ const routes = [
     path: '/discover/artists/:uid/',
     name: 'artistDetail',
     component: ArtistDetail,
+    props: {
+      primaryColor: [102, 102, 102],
+    },
   },
   {
     path: '/collection/',
@@ -75,17 +106,28 @@ const routes = [
     },
     children: [
       {
-        path: 'artists/',
-        name: 'collectionArtists',
-        component: ArtisttList,
-      },
-      {
         path: 'tracks/',
         name: 'collectionMedia',
-        component: MediaList,
-        props: {
-          scope: 'collection',
+        components: {
+          default: MediaList,
+          filterbar: Filterbar,
         },
+        props: {
+          default: {
+            scope: 'collection',
+            primaryColor: [255, 255, 255],
+          },
+          primaryColor: [255, 255, 255],
+        },
+        // component: MediaList,
+        // props: {
+        //   scope: 'collection',
+        // },
+      },
+      {
+        path: 'shows/',
+        name: 'collectionAPlaylists',
+        component: PlaylistList,
       },
     ],
   },

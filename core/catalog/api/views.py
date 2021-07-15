@@ -64,7 +64,8 @@ class ArtistViewSet(
             )
 
         # NOTE: make dynamic...
-        qs = qs.order_by("-num_media")
+        qs = qs.filter(num_media__gt=0)
+        qs = qs.order_by("-created")
 
         return qs
 
@@ -301,14 +302,30 @@ class PlaylistViewSet(
         qs = qs.annotate(
             num_media=Count("media"),
             latest_emission=Max(
-                "emissions__time_start",
-                filter=Q(emissions__time_start__lte=Now()),
+                "emissions__time_end",
+                filter=Q(emissions__time_end__lte=Now()),
             ),
             num_emissions=Count(
                 "emissions",
-                filter=Q(emissions__time_start__lte=Now()),
+                filter=Q(emissions__time_end__lte=Now()),
             ),
         )
+
+        # annotate with request user's rating
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value", filter=Q(votes__user=self.request.user)
+                ),
+            )
+        # annotate with anonymous user 'identity'
+        else:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value",
+                    filter=Q(votes__user_identity=self.request.user_identity),
+                ),
+            )
 
         qs = qs.filter(latest_emission__lte=Now())
 

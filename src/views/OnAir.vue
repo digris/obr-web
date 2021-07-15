@@ -6,6 +6,7 @@ import {
   defineComponent,
 } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 import StationTime from '@/components/broadcast/onair/station-time/StationTime.vue';
 import Schedule from '@/components/broadcast/onair/Schedule.vue';
@@ -22,6 +23,7 @@ export default defineComponent({
     PaginateButton,
   },
   setup() {
+    const route = useRoute();
     const store = useStore();
     const viewport = computed(() => store.getters['ui/viewport']);
     const current = computed(() => store.getters['schedule/current']);
@@ -103,7 +105,25 @@ export default defineComponent({
     //     }
     //   }
     // });
+    watch(
+      () => route.name,
+      async (newName) => {
+        if (newName !== 'home') {
+          return;
+        }
+        const item = focused.value;
+        if (item && item.media.releases && item.media.releases.length) {
+          const { image } = item.media.releases[0];
+          if (image && image.rgb) {
+            store.dispatch('ui/setPrimaryColor', image.rgb);
+          }
+        }
+      },
+    );
     watch(focused, (item) => {
+      if (route.name !== 'home') {
+        return;
+      }
       if (item.media.releases && item.media.releases.length) {
         const { image } = item.media.releases[0];
         if (image && image.rgb) {

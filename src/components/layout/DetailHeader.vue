@@ -37,7 +37,7 @@ export default defineComponent({
       <div
         class="actions"
       >
-
+        (( actions ))
       </div>
     </div>
     <div
@@ -73,13 +73,14 @@ export default defineComponent({
       <div
         class="actions"
       >
-        (( actions ))
+
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/elements/container";
 .detail-header {
   .top,
@@ -87,12 +88,17 @@ export default defineComponent({
   .bottom {
     @include container.default;
   }
-  background: #efefef;
+  .top {
+    position: sticky;
+    top: 78px;
+  }
+  //background: #efefef;
   .top,
   .bottom {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    height: 4rem;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     .actions {
@@ -103,6 +109,7 @@ export default defineComponent({
     position: relative;
     .t-visual {
       display: flex;
+      //height: 50vh;
       align-items: center;
       justify-content: center;
     }
@@ -110,8 +117,7 @@ export default defineComponent({
       position: absolute;
       top: 0;
       h1 {
-        font-weight: 500;
-        font-size: 4rem;
+        @include typo.x-large;
       }
     }
   }

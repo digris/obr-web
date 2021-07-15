@@ -1,8 +1,35 @@
 <template>
-  <div class="collection">
-    <div class="list-header">
-      <div class="title">
-        <h1>Favoriten</h1>
+  <div
+    class="collection"
+  >
+    <div
+      class="title"
+    >
+      Favoriten
+    </div>
+    <div
+      class="list-menu"
+    >
+      <div
+        class="menu menu--primary"
+      >
+        <router-link
+          :to="{ name: 'collectionMedia' }"
+        >
+          Tracks
+        </router-link>
+        <router-link
+          :to="{ name: 'collectionAPlaylists' }"
+        >
+          Shows
+        </router-link>
+      </div>
+      <div
+        class="menu menu--secondary"
+      >
+        <router-view
+          name="filterbar"
+        />
       </div>
     </div>
     <!--
@@ -32,17 +59,22 @@
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/elements/container";
-@use "@/style/elements/list-header";
 @use "@/style/elements/list-menu";
 .collection {
-  @include container.default;
   margin-bottom: 12rem;
 }
-.list-header {
-  @include list-header.default;
+.title {
+  @include container.default;
+  @include typo.x-large;
+  @include typo.bold;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 .list-menu {
+  @include container.default;
   @include list-menu.default;
 }
 </style>

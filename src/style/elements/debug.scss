@@ -2,11 +2,13 @@
 
 pre {
   &.debug {
-    padding: 0.25rem;
+    font-weight: 300;
+    padding: 0.5rem;
     overflow: auto;
     color: white;
-    line-height: 16px;
-    background: #444;
+    font-size: 0.85rem;
+    line-height: 1rem;
+    background: #222;
   }
   &._debug {
     display: none;

@@ -7,10 +7,10 @@ export default defineComponent({
       type: Number,
       default: 24,
     },
-    backgroundColor: {
-      type: String,
-      default: 'rgb(var(--c-fg))',
-    },
+    // color: {
+    //   type: String,
+    //   default: 'rgb(var(--c-fg))',
+    // },
     outlined: {
       type: Boolean,
       default: true,
@@ -31,13 +31,11 @@ export default defineComponent({
         width: `${props.size}px`,
         borderRadius: `${props.size / 2}px`,
       };
-      // backgroundColor: props.backgroundColor,
     });
     const cssVars = computed(() => {
       return {
         '--size': `${props.size}px`,
       };
-      // backgroundColor: props.backgroundColor,
     });
     return {
       style,
@@ -82,8 +80,6 @@ export default defineComponent({
     border-color: rgba(var(--c-fg), 0.15);
   }
   &.is-active {
-    //color: rgb(var(--c-live-fg-inverse));
-    color: rgb(var(--c-fg-inverse));
     background: rgb(var(--c-fg));
   }
   &.is-disabled {

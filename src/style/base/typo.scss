@@ -19,10 +19,26 @@ body {
   opacity: 1 * $r;
 }
 
+@mixin x-large {
+  font-size: 4rem;
+}
+
 @mixin large {
   font-size: 2rem;
 }
 
+@mixin default {
+  font-size: 1rem;
+}
+
 @mixin small {
   font-size: 0.75rem;
+}
+
+@mixin tiny {
+  font-size: 0.65rem;
+}
+
+@mixin bold {
+  font-weight: 600;
 }

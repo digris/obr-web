@@ -2,17 +2,16 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { getContrastColor } from '@/utils/color';
-import eventBus from '@/eventBus';
 import CurrentMedia from './CurrentMedia.vue';
 import Playhead from './Playhead.vue';
 import Queue from './Queue.vue';
-import PlayerButton from './PlayerButton.vue';
+import Circle from './button/Circle.vue';
 
 export default defineComponent({
   components: {
     CurrentMedia,
     Playhead,
-    PlayerButton,
+    Circle,
     Queue,
   },
   setup() {
@@ -47,13 +46,6 @@ export default defineComponent({
       };
     });
 
-    const seek = (relPosition:number) => {
-      const event = {
-        do: 'seek',
-        relPosition,
-      };
-      eventBus.emit('player:controls', event);
-    };
     const queueVisible = ref(false);
     const queueNumMedia = computed(() => store.getters['queue/numMedia']);
     const hideQueue = () => {
@@ -66,7 +58,6 @@ export default defineComponent({
       isLive,
       liveTimeOffset,
       playerState,
-      seek,
       currentMedia,
       cssVars,
       queueVisible,
@@ -94,16 +85,17 @@ export default defineComponent({
         />
       </div>
       <div class="center">
-        <Playhead
-          @seek="seek"
-        />
+        <Playhead />
       </div>
       <div class="right">
-        <PlayerButton
+        <Circle
           :size="(48)"
           :active="queueVisible"
           @click.prevent="toggleQueue"
           v-text="queueNumMedia"
+          :style="{
+            color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
+          }"
         />
       </div>
     </div>

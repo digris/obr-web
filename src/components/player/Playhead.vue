@@ -3,9 +3,9 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
-import IconSkip from '@/components/ui/icon/IconSkip.vue';
 import Progress from './PlayheadProgress.vue';
-import PlayerButton from './PlayerButton.vue';
+import ButtonPlay from './button/ButtonPlay.vue';
+import ButtonSkip from './button/ButtonSkip.vue';
 
 const dt2hhmmss = (dt:any) => dt.toISOString().substr(11, 8);
 const s2hhmmss = (s:number) => dt2hhmmss(new Date(s * 1000));
@@ -13,13 +13,10 @@ const s2hhmmss = (s:number) => dt2hhmmss(new Date(s * 1000));
 export default defineComponent({
   components: {
     Progress,
-    PlayerButton,
-    IconSkip,
+    ButtonPlay,
+    ButtonSkip,
   },
-  emits: [
-    'seek',
-  ],
-  setup(props, { emit }) {
+  setup() {
     const store = useStore();
     const playerState = computed(() => store.getters['player/playerState']);
     const isLive = computed(() => playerState.value && playerState.value.isLive);
@@ -57,8 +54,20 @@ export default defineComponent({
     const hasPrevious = computed(() => store.getters['queue/previousIndex'] !== null);
     const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
 
+    const pause = () => {
+      eventBus.emit('player:controls', { do: 'pause' });
+    };
+
+    const play = () => {
+      eventBus.emit('player:controls', { do: 'resume' });
+    };
+
     const seek = (pos:number) => {
-      emit('seek', pos);
+      const event = {
+        do: 'seek',
+        relPosition: pos,
+      };
+      eventBus.emit('player:controls', event);
     };
 
     const playNext = () => {
@@ -82,6 +91,8 @@ export default defineComponent({
       // controls
       hasNext,
       hasPrevious,
+      pause,
+      play,
       seek,
       playNext,
       playPrevious,
@@ -93,18 +104,12 @@ export default defineComponent({
 <template>
   <div class="playhead">
     <div class="actions">
-      <PlayerButton
-        v-if="(!isLive)"
-        :size="(48)"
-        :disabled="(!hasPrevious)"
-        @click.prevent="playPrevious"
-      >
-        <IconSkip
-          :size="(32)"
-          :rotate="(180)"
-          color="rgb(var(--c-fg))"
-        />
-      </PlayerButton>
+      <ButtonPlay
+        :is-playing="isPlaying"
+        :is-buffering="isBuffering"
+        @pause="pause"
+        @play="play"
+      />
     </div>
     <div class="progress">
       <div class="time time--current">
@@ -124,17 +129,12 @@ export default defineComponent({
       />
     </div>
     <div class="actions">
-      <PlayerButton
+      <ButtonSkip
         v-if="(!isLive)"
         :size="(48)"
         :disabled="(!hasNext)"
         @click.prevent="playNext"
-      >
-        <IconSkip
-          :size="(32)"
-          color="rgb(var(--c-fg))"
-        />
-      </PlayerButton>
+      />
     </div>
     <!--
     <div

@@ -2,6 +2,7 @@
 import {
   computed,
   onMounted,
+  onActivated,
   ref,
   watch,
 } from 'vue';
@@ -11,6 +12,7 @@ import { useRoute, useRouter } from 'vue-router';
 import LoadingMore from '@/components/ui/LoadingMore.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+import PlayAll from '@/components/catalog/media/PlayAll.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
 import { getMedia, getMediaTags } from '@/api/catalog';
 
@@ -31,6 +33,7 @@ export default {
   components: {
     ListFilter,
     PlayAction,
+    PlayAll,
     MediaRow,
     LoadingMore,
   },
@@ -43,9 +46,13 @@ export default {
       type: Object,
       default: () => null,
     },
-    showUserFilter: {
+    disablePlayAll: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+    disableUserFilter: {
+      type: Boolean,
+      default: false,
     },
     primaryColor: {
       type: Array,
@@ -53,6 +60,7 @@ export default {
     },
   },
   setup(props:any) {
+    console.debug('MediaList', props);
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -102,6 +110,12 @@ export default {
       tagList.value = await getMediaTags(combinedFilter.value);
       tagListLoading.value = false;
     };
+    const showUserFilter = computed(() => {
+      if (props.disableUserFilter) {
+        return false;
+      }
+      return store.getters['ui/filterExpanded'];
+    });
     const updateUserFilter = (filter: any) => {
       const query = filter;
       const routeName = route.name || 'discoverMedia';
@@ -113,6 +127,11 @@ export default {
       userFilter.value = filter;
       // fetchMedia();
       // fetchTags();
+      if (props.primaryColor) {
+        store.dispatch('ui/setPrimaryColor', props.primaryColor);
+      }
+    });
+    onActivated(() => {
       if (props.primaryColor) {
         store.dispatch('ui/setPrimaryColor', props.primaryColor);
       }
@@ -143,6 +162,7 @@ export default {
       hasNext,
       numResults,
       fetchNextPage,
+      showUserFilter,
       userFilter,
       updateUserFilter,
     };
@@ -151,32 +171,30 @@ export default {
 </script>
 
 <template>
-  <pre
-    class="_debug"
-    v-text="combinedFilter"
-  />
-  <pre
-    class="_debug"
-    v-text="tagList"
-  />
-  <ListFilter
-    v-if="showUserFilter"
-    :filter="userFilter"
-    :tag-list="tagList"
-    :is-loading="tagListLoading"
-    @change="updateUserFilter"
-  />
-  <div>
-    <div
-      class="play-all"
-    >
-      <PlayAction
-        :filter="combinedFilter"
-      >
-        Play all
-      </PlayAction>
-    </div>
+  <div
+    class="list-filter-container"
+  >
+    <ListFilter
+      v-if="showUserFilter"
+      :filter="userFilter"
+      :tag-list="tagList"
+      :is-loading="tagListLoading"
+      @change="updateUserFilter"
+    />
   </div>
+  <PlayAction
+    v-if="(!disablePlayAll && numResults > 0)"
+    :filter="combinedFilter"
+  >
+    <template #default="{
+      isLoading,
+    }">
+      <PlayAll
+        :is-loading="isLoading"
+        :num-total="numResults"
+      />
+    </template>
+  </PlayAction>
   <div class="media-list">
     <div class="table">
       <MediaRow
@@ -196,6 +214,8 @@ export default {
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/button";
+@use "@/style/elements/container";
+/*
 .play-all {
   display: flex;
   align-items: center;
@@ -206,8 +226,13 @@ export default {
     //padding: 0.5rem 1rem;
   }
 }
+*/
+.list-filter-container {
+  @include container.default;
+}
 .media-list {
-  margin: 1rem 0 8rem;
+  margin: 0 0 8rem;
+  background: rgb(var(--c-white));
 }
 .grid {
   display: grid;
