@@ -6,7 +6,11 @@ import eventBus from '@/eventBus';
 import { getContrastColor } from '@/utils/color';
 import { requireSubscription } from '@/utils/account';
 
-import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
+import Debug from '@/components/dev/Debug.vue';
+// import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
+import CircleButton from '@/components/ui/button/CircleButton.vue';
+import IconContext from '@/components/ui/icon/IconContext.vue';
+import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
@@ -19,7 +23,11 @@ export default defineComponent({
     },
   },
   components: {
-    PlayerControlIcon,
+    Debug,
+    // PlayerControlIcon,
+    CircleButton,
+    IconContext,
+    ButtonPlay,
     MediaArtists,
     UserRating,
     RelativeDateTime,
@@ -48,6 +56,13 @@ export default defineComponent({
     const playerState = computed(() => {
       return isCurrent.value ? store.getters['player/playerState'] : null;
     });
+    const isLive = computed(() => playerState.value && playerState.value.isLive);
+    const isPlaying = computed(() => {
+      return playerState.value && playerState.value.isPlaying && !isLive.value;
+    });
+    const isBuffering = computed(() => {
+      return playerState.value && playerState.value.isBuffering && !isLive.value;
+    });
     const duration = computed(() => {
       return new Date(props.media.duration * 1000).toISOString().substr(11, 8);
     });
@@ -66,18 +81,34 @@ export default defineComponent({
     const color = computed(() => {
       return (release.value && release.value.image) ? release.value.image.rgb : null;
     });
+    const contrastColor = computed(() => {
+      if (color.value && isCurrent.value && !isLive.value) {
+        return getContrastColor(color.value);
+      }
+      return [0, 0, 0];
+    });
     const cssVars = computed(() => {
       if (!color.value) {
         return {};
       }
       const rgb = color.value.join(',');
-      const rgbContrast = getContrastColor(color.value).join(',');
+      const rgbContrast = contrastColor.value.join(',');
       return {
         '--c-color': rgb,
         '--c-contrast-color': rgbContrast,
       };
     });
-    const controls = requireSubscription((media: object) => {
+    const buttonCssVars = computed(() => {
+      if (color.value && isCurrent.value) {
+        return {
+          '--c-fg': color.value.join(','),
+        };
+      }
+      return {
+        '--c-fg': '0,0,0',
+      };
+    });
+    const play = requireSubscription((media: object) => {
       const payload = {
         mode: 'replace',
         media: [media],
@@ -86,18 +117,27 @@ export default defineComponent({
       store.dispatch('queue/updateQueue', payload);
       eventBus.emit('queue:controls:startPlayCurrent');
     }, 'A subscription is required...');
+    const pause = () => {
+      eventBus.emit('player:controls', { do: 'pause' });
+    };
     return {
       objKey,
       release,
       color,
+      contrastColor,
       cssVars,
+      buttonCssVars,
       duration,
-      playerState,
+      // playerState,
+      isPlaying,
+      isBuffering,
       isCurrent,
+      isLive,
       isQueued,
       isOnair,
       latestAirplay,
-      controls,
+      play,
+      pause,
     };
   },
 });
@@ -107,81 +147,135 @@ export default defineComponent({
   <div
     class="media-row"
     :style="cssVars"
-    :class="{'is-current': isCurrent, 'is-onair': isOnair}"
+    :class="{
+      'is-current': isCurrent,
+      'is-onair': isOnair,
+    }"
   >
-    <div class="play">
-      <PlayerControlIcon
-        @click="controls(media)"
-        :player-state="playerState"
-      />
-      <div
-        class="state"
-      >
-        <div>
-          <span
-            v-if="isOnair"
-          >A</span>
-        </div>
-        <div>
-          <span
-            v-if="isQueued"
-          >Q</span>
+    <Debug
+      :visible="(false)"
+      :value="media"
+    />
+    <div
+      class="container"
+    >
+      <div class="play">
+        <ButtonPlay
+          @play="play(media)"
+          @pause="pause"
+          :is-active="(isCurrent && !isLive)"
+          :is-playing="isPlaying"
+          :is-buffering="isBuffering"
+          :style="buttonCssVars"
+          :color="`rgb(${contrastColor.join(',')})`"
+        />
+        <div
+          class="state"
+        >
+          <div>
+            <span
+              v-if="isOnair"
+            >A</span>
+          </div>
+          <div>
+            <span
+              v-if="isQueued"
+            >Q</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div
-      class="name"
-    >
-      {{ media.name }}
-    </div>
-    <div class="artist">
-      <MediaArtists
-        :artists="media.artists"
-      />
-    </div>
-    <div class="airplays">
-      <RelativeDateTime
-        v-if="latestAirplay"
-        :date-time="latestAirplay"
-        v-tooltip="`Total airplays: ${media.numAirplays}`"
-      />
-    </div>
-    <div class="duration">
-      {{ duration }}
-    </div>
-    <div class="rating">
-      <UserRating
-        :obj-key="objKey"
-      />
+      <div
+        class="name"
+      >
+        <a>
+          {{ media.name }}
+        </a>
+      </div>
+      <div class="artist">
+        <MediaArtists
+          :artists="media.artists"
+        />
+      </div>
+      <div class="release">
+        <a
+          v-if="release"
+        >
+          {{ release.name }}
+        </a>
+      </div>
+      <div class="airplays">
+        <RelativeDateTime
+          v-if="latestAirplay"
+          :date-time="latestAirplay"
+          v-tooltip="`Total airplays: ${media.numAirplays}`"
+        />
+      </div>
+      <div class="duration">
+        {{ duration }}
+      </div>
+      <div class="actions">
+        <CircleButton
+          :size="(48)"
+          :outlined="(false)"
+        >
+          <UserRating
+            :obj-key="objKey"
+            :icon-size="24"
+          />
+        </CircleButton>
+        <CircleButton
+          :size="(48)"
+          :outlined="(false)"
+        >
+          <IconContext
+            :size="36"
+          />
+        </CircleButton>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/elements/container";
+
 .media-row {
+  border-bottom: 1px solid rgb(var(--c-gray-200));
+  transition: background 200ms;
+
+  &:first-child {
+    border-top: 1px solid rgb(var(--c-gray-200));
+  }
+
+  &:hover {
+    background: rgb(var(--c-gray-100));
+  }
+}
+
+.container {
+  @include container.default;
   display: grid;
-  grid-row-gap: 0.25rem;
+  grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-areas:
-    "play name   duration rating"
-    "play artist airplays rating";
-  grid-template-columns: 1fr 9fr 3fr 1fr;
-  padding: 0.5rem 0;
-  border-bottom: 2px solid rgb(var(--c-live-fg));
+    "play name artist  duration actions"
+    "play name release airplays actions";
+  grid-template-columns: 1fr 8fr 5fr 2fr 2fr;
+  padding: 0.75rem 0;
+  color: rgb(var(--c-black));
   //TODO: find a modular way to handle color / ui transitions
   transition: border-bottom 200ms 1400ms, color 200ms, background 200ms;
-  &:hover {
-    //color: rgb(var(--c-contrast-color));
-    //background: rgb(var(--c-color));
-  }
+
   > div {
     display: flex;
     align-items: center;
   }
+
   .play {
     grid-area: play;
     padding-left: 0.5rem;
+
     .state {
       display: grid;
       grid-template-columns: 12px 12px;
@@ -190,28 +284,43 @@ export default defineComponent({
       opacity: 0.5;
     }
   }
+
   .name {
     grid-area: name;
     @include typo.large;
+    min-width: 0;
+    > a {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
+
   .artist {
     grid-area: artist;
-    @include typo.dim(0.5);
   }
+
+  .release {
+    grid-area: release;
+    min-width: 0;
+    > a {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
   .airplays {
     grid-area: airplays;
-    @include typo.small;
   }
+
   .duration {
     grid-area: duration;
-    @include typo.small;
-    @include typo.dim;
   }
-  .rating {
-    grid-area: rating;
-  }
-  &.is-current {
-    background: rgba(var(--c-live-fg), 0.1);
+
+  .actions {
+    grid-area: actions;
+    justify-self: flex-end;
   }
 }
 </style>

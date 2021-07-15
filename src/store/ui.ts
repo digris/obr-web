@@ -13,6 +13,7 @@ export interface State {
   title: string,
   primaryColor: [number, number, number],
   viewport: Viewport,
+  filterExpanded: boolean,
 }
 
 const state: State = {
@@ -24,12 +25,14 @@ const state: State = {
     height: 0,
     width: 0,
   },
+  filterExpanded: false,
 };
 
 const getters = {
   viewport: (state: State) => state.viewport,
   title: (state: State) => state.title,
   primaryColor: (state: State) => state.primaryColor,
+  filterExpanded: (state: State) => state.filterExpanded,
 };
 
 const mutations = {
@@ -42,6 +45,9 @@ const mutations = {
   SET_PRIMARY_COLOR: (state: State, color: [number, number, number]) => {
     state.primaryColor = color;
   },
+  SET_FILTER_EXPANDED: (state: State, value: boolean) => {
+    state.filterExpanded = value;
+  },
 };
 
 const actions = {
@@ -53,6 +59,12 @@ const actions = {
   },
   setPrimaryColor: async (context: any, color: [number, number, number]) => {
     context.commit('SET_PRIMARY_COLOR', color);
+  },
+  expandFilter: async (context: any) => {
+    context.commit('SET_FILTER_EXPANDED', true);
+  },
+  closeFilter: async (context: any) => {
+    context.commit('SET_FILTER_EXPANDED', false);
   },
 };
 
