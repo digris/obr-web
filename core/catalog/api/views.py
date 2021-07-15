@@ -12,9 +12,31 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
 from tagging import utils as tagging_utils
 from . import serializers
-from ..models import Media, Artist, Release, Playlist
+from ..models import Mood, Media, Artist, Release, Playlist
 
 logger = logging.getLogger(__name__)
+
+
+class MoodViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
+
+    queryset = Mood.objects.all().order_by("name")
+    serializer_class = serializers.MoodSerializer
+    lookup_field = "uid"
+
+    def get_object(self):
+        try:
+            obj_uid = self.kwargs["uid"]
+            assert len(obj_uid) == 8
+        except AssertionError:
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
+
+        return obj
 
 
 class ArtistViewSet(

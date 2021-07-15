@@ -5,7 +5,7 @@ from django.conf import settings
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
-from ..models import Artist, Media, MediaArtists, PlaylistMedia
+from ..models import Mood, Artist, Media, MediaArtists, PlaylistMedia
 
 SITE_URL = getattr(settings, "SITE_URL")
 
@@ -36,6 +36,24 @@ class ImageSerializer(serializers.Serializer):
 
     class Meta:
         ref_name = "CatalogImageSerializer"
+
+
+class MoodSerializer(serializers.HyperlinkedModelSerializer):
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="api:catalog:mood-detail",
+        lookup_field="uid",
+    )
+
+    class Meta:
+        model = Mood
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "name",
+            "teaser",
+        ]
 
 
 class ArtistSerializer(serializers.HyperlinkedModelSerializer):
