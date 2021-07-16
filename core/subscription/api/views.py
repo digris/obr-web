@@ -90,7 +90,7 @@ class SubscriptionPlanView(APIView):
     def get(request):
         options = plan.get_options(user=request.user)
         data = {
-            "message": "Choose your plan.",
+            "message": "Wähle ein Angebot:",
             "options": options,
         }
 

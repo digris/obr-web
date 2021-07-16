@@ -63,13 +63,11 @@ export default {
           />
         </div>
       </div>
-      <!--
       <div
         class="subtitle"
       >
-        <small>{{ artist.numMedia }} tracks</small>
+        {{ artist.numMedia }} tracks
       </div>
-      -->
     </div>
   </div>
 </template>

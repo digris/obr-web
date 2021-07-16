@@ -39,6 +39,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/live-color";
+@use "@/style/abstracts/responsive";
 .media-artists {
   display: inline-flex;
 }
@@ -50,8 +52,11 @@ export default {
   }
   &__name {
     white-space: nowrap;
-    &:hover {
-      text-decoration: underline;
+    @include responsive.hover-supported {
+      &:hover {
+        @include live-color.bg-inverse(0.1);
+        transition: color, background-color 200ms;
+      }
     }
   }
 }

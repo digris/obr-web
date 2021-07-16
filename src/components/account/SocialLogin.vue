@@ -137,7 +137,7 @@ export default defineComponent({
   .backends {
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     margin-bottom: 2rem;
     @include responsive.bp-small {
       grid-template-columns: repeat(1, 1fr);
@@ -149,7 +149,8 @@ export default defineComponent({
     padding: 0.5rem 1rem;
     color: rgb(var(--c-black));
     background: rgb(var(--c-white));
-    border: 1px solid rgba(var(--c-black), 0.5);
+    border: 3px solid rgb(var(--c-black));
+    border-radius: 2rem;
     cursor: pointer;
     transition: border-radius 100ms;
     .logo {
@@ -167,9 +168,11 @@ export default defineComponent({
     //.disconnect {
     //
     //}
+    /*
     &--google-oauth2 {
       border-color: rgba(var(--c-black), 0.5);
     }
+    */
     &--facebook {
       color: rgb(var(--c-white));
       background: #1877f2;

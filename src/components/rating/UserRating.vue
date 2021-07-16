@@ -12,6 +12,10 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    iconSize: {
+      type: Number,
+      default: 24,
+    },
   },
   components: {
     IconHeart,
@@ -42,16 +46,19 @@ export default defineComponent({
   <div
     v-if="userRating"
     class="user-rating"
+    :style="{
+      height: `${iconSize}px`,
+    }"
   >
     <IconHeart
       v-if="(userRating.value === 1)"
-      :size="20"
+      :size="iconSize"
       @click="rate(null)"
       color="rgba(var(--c-live-fg), 0.8)"
     />
     <IconHeart
       v-if="(userRating.value === null)"
-      :size="20"
+      :size="iconSize"
       :outlined="(true)"
       @click="rate(1)"
       color="rgba(var(--c-live-fg), 0.5)"

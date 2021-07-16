@@ -29,7 +29,7 @@ export default defineComponent({
     */
     const timeDisplay = computed(() => {
       if (isToday.value) {
-        return props.dateTime.toFormat('HH:mm');
+        return `Heute ${props.dateTime.toFormat('HH:mm')}`;
       }
       return props.dateTime.setLocale('de-CH').toRelativeCalendar();
     });
@@ -47,6 +47,7 @@ export default defineComponent({
   <span
     class="date-or-time"
   >
+    <slot name="default"></slot>
     {{ timeDisplay }}
   </span>
 </template>

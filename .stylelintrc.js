@@ -14,5 +14,11 @@ module.exports = {
       'border-in-box-model': false,
       'empty-line-between-groups': false,
     }],
+    'selector-pseudo-element-no-unknown': [true, {
+      ignorePseudoElements: ['deep'],
+    }],
+    'selector-pseudo-class-no-unknown': [true, {
+      ignorePseudoClasses: ['deep'],
+    }],
   },
 };

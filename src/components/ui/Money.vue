@@ -45,7 +45,7 @@ export default {
     <span
       v-if="includeCurrency"
       class="symbol"
-    >{{ symbol }}</span><span
+    >{{ symbol }}&nbsp;</span><span
       class="value"
     >{{ valueDisplay }}</span>
   </span>
@@ -55,8 +55,5 @@ export default {
   .money {
     display: inline-flex;
     align-items: flex-end;
-    .symbol {
-      padding-right: 0.2rem;
-    }
   }
 </style>

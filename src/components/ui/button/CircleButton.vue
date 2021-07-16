@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -11,16 +11,47 @@ export default defineComponent({
       type: String,
       default: 'rgb(var(--c-live-fg))',
     },
+    outlined: {
+      type: Boolean,
+      default: true,
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    outlineOpacity: {
+      type: Number,
+      default: 0.2,
+    },
+    outlineWidth: {
+      type: Number,
+      default: 1,
+    },
   },
   setup(props) {
-    const style = ref({
-      height: `${props.size}px`,
-      width: `${props.size}px`,
-      borderRadius: `${props.size / 2}px`,
+    const style = computed(() => {
+      return {
+        height: `${props.size}px`,
+        width: `${props.size}px`,
+        borderRadius: `${props.size / 2}px`,
+      };
+      // backgroundColor: props.backgroundColor,
+    });
+    const cssVars = computed(() => {
+      return {
+        '--size': `${props.size}px`,
+        '--outline-opacity': props.outlineOpacity,
+        '--outline-width': `${props.outlineWidth}px`,
+      };
       // backgroundColor: props.backgroundColor,
     });
     return {
       style,
+      cssVars,
     };
   },
 });
@@ -28,9 +59,13 @@ export default defineComponent({
 
 <template>
   <div
-    @click="increase"
     class="circle-button"
-    :style="style"
+    :style="cssVars"
+    :class="{
+      'is-outlined': outlined,
+      'is-active': active,
+      'is-disabled': disabled,
+    }"
   >
     <slot name="default" />
   </div>
@@ -41,13 +76,28 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgb(var(--c-live-bg));
-  background: rgba(var(--c-live-fg), 0.5);
-  border: none;
+  width: var(--size);
+  min-width: var(--size);
+  height: var(--size);
+  min-height: var(--size);
+  border: var(--outline-width) solid transparent;
+  border-radius: calc(var(--size) / 2);
   cursor: pointer;
-  transition: background 100ms;
+  transition: background 200ms, color 200ms, border 200ms;
   &:hover {
-    background: rgba(var(--c-live-fg), 0.9);
+    background: rgba(var(--c-live-fg), 0.1);
+    border-color: transparent;
+  }
+  &.is-outlined {
+    border-color: rgba(var(--c-live-fg), var(--outline-opacity));
+  }
+  &.is-active {
+    color: rgb(var(--c-live-fg-inverse));
+    background: rgb(var(--c-live-fg));
+  }
+  &.is-disabled {
+    opacity: 0.2;
+    pointer-events: none;
   }
 }
 </style>

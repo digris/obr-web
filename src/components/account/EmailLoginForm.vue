@@ -1,5 +1,6 @@
 <script lang="ts">
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
+import { debounce } from 'lodash-es';
 import * as EmailValidator from 'email-validator';
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -263,7 +264,7 @@ export default defineComponent({
       -->
     </div>
     <div
-      class="input-container"
+      class="input-container submit"
     >
       <button
         class="button"
@@ -283,6 +284,12 @@ export default defineComponent({
   .input-container {
     @include form.float-label;
     width: 100%;
+    &.submit {
+      padding-top: 2rem;
+      .button {
+        max-width: 33%;
+      }
+    }
   }
   .token-input {
     display: flex;

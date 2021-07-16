@@ -1,15 +1,27 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
+import eventBus from '@/eventBus';
 import MainMenu from '@/components/topbar/MainMenu.vue';
 import AccountMenu from '@/components/topbar/AccountMenu.vue';
 import SubscriptionStatus from '@/components/topbar/SubscriptionStatus.vue';
+import ToggleMenuButton from '@/components/topbar/ToggleMenuButton.vue';
 
-export default {
+export default defineComponent({
   components: {
     MainMenu,
     AccountMenu,
     SubscriptionStatus,
+    ToggleMenuButton,
   },
-};
+  setup() {
+    const showSideMenu = () => {
+      eventBus.emit('side-menu:show');
+    };
+    return {
+      showSideMenu,
+    };
+  },
+});
 </script>
 
 <template>
@@ -24,28 +36,22 @@ export default {
     <MainMenu
       class="menu menu--main"
     />
-    <SubscriptionStatus
-      class="menu menu--subscription"
-    />
-    <AccountMenu
-      class="menu menu--account"
-    />
+    <div
+      class="subscription-and-account"
+    >
+      <SubscriptionStatus
+        class="menu menu--subscription"
+      />
+      <AccountMenu
+        class="menu menu--account"
+      />
+    </div>
     <div
       class="menu-toggle"
     >
-      <router-link
-        :to="{ name: 'discoverPlaylists' }"
-      >
-        x
-      </router-link>
-      &nbsp;
-      -
-      &nbsp;
-      <router-link
-        :to="{ name: 'collectionMedia' }"
-      >
-        +
-      </router-link>
+      <ToggleMenuButton
+        @click.prevent="showSideMenu"
+      />
     </div>
   </div>
 </template>
@@ -57,12 +63,16 @@ export default {
   top: 0;
   z-index: 2;
   display: grid;
-  grid-template-columns: 180px 1fr 40px 120px 40px;
-  height: 72px;
+  grid-template-columns: 272px 1fr 200px 72px;
+  width: 100%;
+  height: 78px;
   background: rgba(var(--c-live-bg), 0.9);
-  border-bottom: 1px solid rgb(var(--c-live-fg));
-  backdrop-filter: blur(2px);
-  transition: background 3000ms;
+  border-bottom: 7px solid rgb(var(--c-live-fg));
+  //backdrop-filter: blur(2px);
+  transition: background 1000ms;
+  @include responsive.bp-small {
+    grid-template-columns: 120px 1fr 120px;
+  }
   .brand {
     display: flex;
     align-items: center;
@@ -80,6 +90,16 @@ export default {
     }
     @include responsive.bp-small {
       display: none;
+    }
+  }
+  .subscription-and-account {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    > div {
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
     }
   }
   .menu-toggle {

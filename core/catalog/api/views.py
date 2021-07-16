@@ -12,9 +12,31 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
 from tagging import utils as tagging_utils
 from . import serializers
-from ..models import Media, Artist, Release, Playlist
+from ..models import Mood, Media, Artist, Release, Playlist
 
 logger = logging.getLogger(__name__)
+
+
+class MoodViewSet(
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
+
+    queryset = Mood.objects.all().order_by("name")
+    serializer_class = serializers.MoodSerializer
+    lookup_field = "uid"
+
+    def get_object(self):
+        try:
+            obj_uid = self.kwargs["uid"]
+            assert len(obj_uid) == 8
+        except AssertionError:
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
+
+        return obj
 
 
 class ArtistViewSet(
@@ -64,7 +86,8 @@ class ArtistViewSet(
             )
 
         # NOTE: make dynamic...
-        qs = qs.order_by("-num_media")
+        qs = qs.filter(num_media__gt=0)
+        qs = qs.order_by("-created")
 
         return qs
 
@@ -301,14 +324,30 @@ class PlaylistViewSet(
         qs = qs.annotate(
             num_media=Count("media"),
             latest_emission=Max(
-                "emissions__time_start",
-                filter=Q(emissions__time_start__lte=Now()),
+                "emissions__time_end",
+                filter=Q(emissions__time_end__lte=Now()),
             ),
             num_emissions=Count(
                 "emissions",
-                filter=Q(emissions__time_start__lte=Now()),
+                filter=Q(emissions__time_end__lte=Now()),
             ),
         )
+
+        # annotate with request user's rating
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value", filter=Q(votes__user=self.request.user)
+                ),
+            )
+        # annotate with anonymous user 'identity'
+        else:
+            qs = qs.annotate(
+                user_rating=Max(
+                    "votes__value",
+                    filter=Q(votes__user_identity=self.request.user_identity),
+                ),
+            )
 
         qs = qs.filter(latest_emission__lte=Now())
 

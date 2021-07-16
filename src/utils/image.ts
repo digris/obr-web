@@ -2,7 +2,7 @@ import settings from '@/settings';
 
 const { IMAGE_RESIZER_URL } = settings;
 
-const getImageSrc = (image: object, size = 240) => {
+const getImageSrc = (image: object, size = 800) => {
   // @ts-ignore
   if (image && image.path) {
     // @ts-ignore
@@ -20,5 +20,4 @@ const getImageColor = (image: object) => {
   return null;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { getImageSrc, getImageColor };

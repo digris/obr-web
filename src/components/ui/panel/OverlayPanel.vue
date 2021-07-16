@@ -1,7 +1,12 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
+import CloseButton from './CloseButton.vue';
+
 export default defineComponent({
+  components: {
+    CloseButton,
+  },
   props: {
     isVisible: {
       type: Boolean,
@@ -38,27 +43,24 @@ export default defineComponent({
   <transition name="slide">
     <div
       v-if="isVisible"
-      class="side-panel"
+      class="ovelay-panel"
     >
       <div
-        class="side-panel__header"
+        class="ovelay-panel__header"
       >
-        <button
+        <CloseButton
           @click.prevent="close"
-          class="close-button"
-        >
-          X
-        </button>
+        />
       </div>
       <div
-        class="side-panel__body"
+        class="ovelay-panel__body"
       >
         <slot
           name="default"
         />
       </div>
       <div
-        class="side-panel__footer"
+        class="ovelay-panel__footer"
       >
         <slot
           name="footer"
@@ -70,6 +72,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
+@use "@/style/elements/container";
 .mask {
   position: fixed;
   top: 0;
@@ -77,20 +80,20 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   z-index: 100;
-  background: rgba(var(--c-black), 0.7);
+  background: rgba(var(--c-black), 0.9);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
-.side-panel {
+.ovelay-panel {
   position: fixed;
   top: 0;
-  right: 0;
+  //right: 0;
   z-index: 101;
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 50vw;
   height: 100%;
   color: rgb(var(--c-black));
+  font-weight: 500;
   background: rgb(var(--c-white));
 
   @include responsive.bp-small {
@@ -98,30 +101,28 @@ export default defineComponent({
   }
 
   &__header {
+    @include container.small;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 3rem;
-    padding-right: 1rem;
-    .close-button {
-      font-size: 1.5rem;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-    }
+    height: 75px;
+    margin-top: 0;
+    margin-bottom: 1rem;
   }
   &__body {
+    @include container.small;
     flex-grow: 1;
-    padding: 1rem;
+    padding: 0 4rem 1rem;
   }
   &__footer {
-    padding: 1rem;
+    @include container.small;
+    padding: 1rem 4rem;
   }
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 200ms;
+  transition: opacity 300ms;
 }
 .fade-enter-from {
   opacity: 0;
@@ -132,12 +133,14 @@ export default defineComponent({
 
 .slide-enter-active,
 .slide-leave-active {
-  transition: transform 200ms;
+  transition: transform 300ms;
 }
 .slide-enter-from {
-  transform: translate(100%, 0);
+  //transform: translate(0, -100%);
+  opacity: 0;
 }
 .slide-leave-to {
-  transform: translate(100%, 0);
+  //transform: translate(0, -100%);
+  opacity: 0;
 }
 </style>

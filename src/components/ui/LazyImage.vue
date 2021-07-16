@@ -19,6 +19,7 @@ export default {
   setup(props) {
     const isLoading = ref(false);
     const isLoaded = ref(false);
+    const size = ref(800);
     const imageSrc = ref(PLACEHOLDER_SRC);
 
     const color = computed(() => {
@@ -26,7 +27,7 @@ export default {
     });
 
     const src = computed(() => {
-      return getImageSrc(props.image);
+      return getImageSrc(props.image, size.value);
     });
 
     const loadImage = async () => {
@@ -101,10 +102,12 @@ export default {
 img {
   min-width: 100%;
   max-width: 100%;
+  height: 100%;
   background: rgb(var(--c-color));
   opacity: 1;
   filter: brightness(0.95) grayscale(0.1);
   transition: opacity 100ms;
+  image-rendering: pixelated;
   &.is-pending,
   &.is-loading {
     opacity: 0.9;

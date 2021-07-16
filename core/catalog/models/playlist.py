@@ -58,7 +58,7 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
 
     votes = GenericRelation(
         "rating.Vote",
-        related_query_name="artist",
+        related_query_name="playlist",
     )
 
     class Meta:

@@ -1,9 +1,19 @@
 import { APIClient } from '@/api/Client';
 import settings from '@/settings';
 
+const MOOD_ENDPOINT = `${settings.API_BASE_URL}catalog/moods/`;
 const PLAYLIST_ENDPOINT = `${settings.API_BASE_URL}catalog/playlists/`;
 const ARTIST_ENDPOINT = `${settings.API_BASE_URL}catalog/artists/`;
 const MEDIA_ENDPOINT = `${settings.API_BASE_URL}catalog/media/`;
+
+async function getMoods(limit: number, offset: number) {
+  const url = MOOD_ENDPOINT;
+  const params = {
+    limit, offset,
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
 
 async function getArtists(limit: number, offset: number) {
   const url = ARTIST_ENDPOINT;
@@ -59,6 +69,7 @@ async function getPlaylist(uid: string) {
 }
 
 export {
+  getMoods,
   getArtists,
   getArtist,
   getMedia,

@@ -2,20 +2,20 @@
 import { AudioPlayer } from '@/player/audioPlayer';
 import { Queue } from '@/player/queue';
 import Topbar from '@/components/topbar/Topbar.vue';
+import SideMenu from '@/components/topbar/SideMenu.vue';
 import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
 import Notifications from '@/components/notification/Notifications.vue';
-// import ColorChooser from '@/components/colors/ColorChooser.vue';
 
 export default {
   components: {
     Topbar,
+    SideMenu,
     Notifications,
     AuthPanel,
     Subscribe,
     Player,
-    // ColorChooser,
   },
   created() {
     this.$store.dispatch('account/getUser');
@@ -32,13 +32,13 @@ export default {
 
 <template>
   <Topbar />
+  <SideMenu />
   <Notifications />
   <router-view v-slot="{ Component }">
     <keep-alive>
       <component :is="Component" />
     </keep-alive>
   </router-view>
-<!--  <ColorChooser />-->
   <AuthPanel />
   <Subscribe />
   <Player />
