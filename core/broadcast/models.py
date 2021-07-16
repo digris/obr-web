@@ -177,6 +177,9 @@ class Editor(
         app_label = "broadcast"
         verbose_name = "Editor"
         verbose_name_plural = "Editors"
+        ordering = [
+            "display_name",
+        ]
 
     def __str__(self):
         return str(self.display_name or self.uid)
@@ -184,6 +187,10 @@ class Editor(
     @cached_property
     def image(self):
         return self.images.first()
+
+    @cached_property
+    def num_playlists(self):
+        return self.playlists.count()
 
     def sync_data(self):
         return sync_editor(self)

@@ -23,5 +23,4 @@ const paramsSerializer = (params: any) => {
   return qs.stringify(params);
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { APIClient, paramsSerializer };

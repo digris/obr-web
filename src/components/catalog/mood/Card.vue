@@ -25,7 +25,16 @@ export default defineComponent({
       class="panel"
       :to="link"
     >
-      {{ mood.name }}
+      <div
+        class="name"
+      >
+        {{ mood.name }}
+      </div>
+      <div
+        class="teaser"
+      >
+        {{ mood.teaser }}
+      </div>
     </router-link>
   </div>
 </template>
@@ -39,7 +48,6 @@ export default defineComponent({
   padding-top: 100%;
   overflow: hidden;
   color: rgb(var(--c-black));
-  background: red;
   background: rgb(var(--c-gray-200));
   transition: color 200ms, background 300ms;
   &:hover {
@@ -47,16 +55,46 @@ export default defineComponent({
     background: rgb(var(--c-black));
   }
   .panel {
-    @include typo.x-large;
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     height: 100%;
+    //padding: 1rem;
+    //text-align: center;
     text-transform: lowercase;
+    .name {
+      @include typo.large;
+      display: flex;
+      align-items: flex-start;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 1rem;
+      transition: height 100ms;
+    }
+    .teaser {
+      @include typo.default;
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 50%;
+      padding: 1rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 100ms;
+    }
+    &:hover {
+      .teaser {
+        opacity: 1;
+      }
+    }
   }
 }
 </style>

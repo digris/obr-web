@@ -38,6 +38,7 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
     editor = models.ForeignKey(
         to="broadcast.Editor",
         verbose_name="Editor",
+        related_name="playlists",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

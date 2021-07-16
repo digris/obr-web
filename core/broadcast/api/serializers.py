@@ -7,7 +7,7 @@ from rest_framework import serializers
 
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
 from catalog.models import Playlist, Media
-from ..models import Emission
+from ..models import Editor, Emission
 
 SITE_URL = getattr(settings, "SITE_URL")
 
@@ -23,9 +23,32 @@ class ImageSerializer(serializers.Serializer):
             "file": instance.file.name,
             "path": instance.path,
             "url": instance.url,
+            "rgb": instance.rgb,
         }
 
         return data
+
+
+class EditorSerializer(serializers.HyperlinkedModelSerializer):
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="api:broadcast:editor-detail",
+        lookup_field="uid",
+    )
+
+    name = serializers.CharField(source="display_name")
+    image = ImageSerializer(read_only=True)
+
+    class Meta:
+        model = Editor
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "name",
+            "num_playlists",
+            "image",
+        ]
 
 
 class PlaylistSerializer(serializers.HyperlinkedModelSerializer):
@@ -85,23 +108,6 @@ class EmissionSerializer(
             "duration",
             "media_set",
         ]
-
-
-# class ScheduleMediaSerializer(serializers.HyperlinkedModelSerializer):
-#
-#     url = serializers.HyperlinkedIdentityField(
-#         view_name="api:catalog:media-detail",
-#         lookup_field="uid",
-#     )
-#
-#     class Meta:
-#         model = Media
-#         fields = [
-#             "url",
-#             "ct",
-#             "uid",
-#             "name",
-#         ]
 
 
 class ScheduleMediaSerializer(CatalogMediaSerializer):

@@ -79,14 +79,14 @@ export default defineComponent({
           class="hour"
         >{{ hour }}</span>
         <span
-          class="separator"
+          class="separator separator--minute"
         >:</span>
         <span
           class="minute"
         >{{ minute }}</span>
         <!---->
         <span
-          class="separator"
+          class="separator separator--second"
         >:</span>
         <span
           class="second"

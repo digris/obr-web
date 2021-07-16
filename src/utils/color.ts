@@ -3,5 +3,4 @@ const getContrastColor = (rgb: Array<number>) => {
   return (mean > 64) ? [0, 0, 0] : [255, 255, 255];
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { getContrastColor };

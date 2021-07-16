@@ -10,6 +10,8 @@
   --font-size: #{$base-font-size};
   --font-family: #{$base-font-family};
   --container-width: #{$container-width};
+  --image-filter: brightness(0.95) grayscale(0.1);
+  //--image-filter: brightness(1.2) grayscale(1) contrast(1.5);
 }
 
 /* stylelint-disable-next-line no-duplicate-selectors */

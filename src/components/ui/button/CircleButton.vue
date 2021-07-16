@@ -90,6 +90,7 @@ export default defineComponent({
   }
   &.is-outlined {
     border-color: rgba(var(--c-live-fg), var(--outline-opacity));
+    box-shadow: rgba(var(--c-live-fg), 0.2) 0 0 3px 0;
   }
   &.is-active {
     color: rgb(var(--c-live-fg-inverse));

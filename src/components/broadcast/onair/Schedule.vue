@@ -67,6 +67,8 @@ export default defineComponent({
   </div>
 </template>
 <style lang="scss" scoped>
+//@use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @mixin item {
   position: absolute;
   width: var(--item-size);
@@ -136,6 +138,14 @@ export default defineComponent({
   pointer-events: none;
   .schedule-item {
     @include item;
+  }
+  //TODO: just a quick fix..
+  @include responsive.bp-small {
+    .schedule-item {
+      &:not(:nth-child(2)) {
+        display: none;
+      }
+    }
   }
 }
 </style>

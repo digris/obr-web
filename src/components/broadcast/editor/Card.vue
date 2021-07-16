@@ -1,33 +1,31 @@
-<script>
-import { computed } from 'vue';
+<script lang="ts">
+import { defineComponent } from 'vue';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 
-export default {
+export default defineComponent({
   components: {
     LazyImage,
-    PlayIcon,
   },
   props: {
-    artist: {
+    editor: {
       type: Object,
       required: true,
     },
   },
   setup(props) {
-    const objKey = computed(() => `${props.artist.ct}:${props.artist.uid}`);
-    const link = `/discover/artists/${props.artist.uid}/`;
+    const link = `/discover/editors/${props.editor.uid}/`;
     return {
-      objKey,
       link,
     };
   },
-};
+});
 </script>
+
 <template>
-  <div
-    class="card card--artist"
+  <router-link
+    class="card card--editor"
+    :to="link"
   >
     <div
       class="visual"
@@ -36,13 +34,9 @@ export default {
         class="visual__image"
       >
         <LazyImage
-          :image="artist.image"
+          :image="editor.image"
         />
       </div>
-      <PlayIcon
-        class="visual__play"
-        :obj-key="objKey"
-      />
     </div>
     <div
       class="meta"
@@ -50,21 +44,16 @@ export default {
       <div
         class="title"
       >
-        <router-link
-          :to="link"
-        >
-          {{ artist.name }}
-        </router-link>
+        {{ editor.name }}
       </div>
       <div
         class="subtitle"
       >
-        {{ artist.numMedia }} Tracks
+        {{ editor.numPlaylists }} Shows
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
-
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 .card {
@@ -76,7 +65,6 @@ export default {
       position: relative;
       width: 100%;
       padding-bottom: 100%;
-      //filter: grayscale(100%);
       transition: opacity 200ms;
       img {
         position: absolute;
@@ -103,7 +91,6 @@ export default {
     .visual {
       background: rgba(var(--c-black), 0.2);
       &__image {
-        //filter: grayscale(0);
         opacity: 0.5;
       }
     }

@@ -19,6 +19,10 @@ body {
   opacity: 1 * $r;
 }
 
+@mixin light($w: 400) {
+  font-weight: $w;
+}
+
 @mixin x-large {
   font-size: 4rem;
 }

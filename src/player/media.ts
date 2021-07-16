@@ -36,5 +36,4 @@ const getMediaUrl = (media: object) => {
   return `${MEDIA_ENDPOINTS.dash}${uid}${suffix}`;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { getMediaUrl };

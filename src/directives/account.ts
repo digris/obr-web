@@ -27,5 +27,4 @@ const loginRequired = {
   },
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { loginRequired };
