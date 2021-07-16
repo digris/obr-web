@@ -37,10 +37,18 @@ export default defineComponent({
       return props.filter.tags || [];
     });
     const moodTags = computed(() => {
-      return props.tagList.filter((t) => t.type === 'mood');
+      return props.tagList.filter((t) => {
+        return t.type === 'mood';
+      }).sort((t) => {
+        return (selectedTags.value.includes(t.uid) ? -1 : 1);
+      });
     });
     const otherTags = computed(() => {
-      return props.tagList.filter((t) => t.type !== 'mood');
+      return props.tagList.filter((t) => {
+        return t.type !== 'mood';
+      }).sort((t) => {
+        return (selectedTags.value.includes(t.uid) ? -1 : 1);
+      });
     });
     const toggleTag = (tag) => {
       const { tags, other } = { ...props.filter };
@@ -64,10 +72,6 @@ export default defineComponent({
   <div
     class="list-filter"
   >
-    <pre
-      class="_debug"
-      v-text="filter"
-    />
     <div
       class="tag-list"
       :class="{'is-loading': isLoading}"

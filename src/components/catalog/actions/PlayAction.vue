@@ -54,7 +54,10 @@ export default defineComponent({
       class="container"
       :class="{'is-loading': isLoading}"
     >
-      <slot name="default">
+      <slot
+        name="default"
+        :isLoading="isLoading"
+      >
         Play
       </slot>
     </div>

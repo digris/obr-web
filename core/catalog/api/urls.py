@@ -6,6 +6,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
+router.register(r"moods", views.MoodViewSet)
 router.register(r"artists", views.ArtistViewSet)
 router.register(r"media", views.MediaViewSet)
 router.register(r"releases", views.ReleaseViewSet)

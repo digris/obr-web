@@ -1,8 +1,12 @@
-<script>
-// eslint-disable-next-line import/extensions
-import Intersect from '@/components/utils/intersect.js';
+<script lang="ts">
+import { debounce } from 'lodash-es';
+import { defineComponent } from 'vue';
+// @ts-ignore
+import Intersect from '@/components/utils/intersect';
 
-export default {
+const DEBOUNCE_FOR = 100;
+
+export default defineComponent({
   components: {
     Intersect,
   },
@@ -12,12 +16,18 @@ export default {
       default: false,
     },
   },
-  methods: {
-    onEnter() {
-      this.$emit('onEnter');
-    },
+  emits: [
+    'onEnter',
+  ],
+  setup(props, { emit }) {
+    const onEnter = debounce(async () => {
+      emit('onEnter');
+    }, DEBOUNCE_FOR, { leading: true });
+    return {
+      onEnter,
+    };
   },
-};
+});
 </script>
 <template>
   <intersect

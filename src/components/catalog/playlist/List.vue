@@ -1,5 +1,6 @@
 <script>
 import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
 import PlaylistCard from '@/components/catalog/playlist/Card.vue';
@@ -17,6 +18,7 @@ export default {
     },
   },
   setup() {
+    const store = useStore();
     const isLoaded = ref(false);
     const numResults = ref(0);
     const limit = 16;
@@ -29,6 +31,8 @@ export default {
       hasNext.value = !!next;
       numResults.value = count;
       playlists.value.push(...results);
+      // TODO: this kind of smells...
+      await store.dispatch('rating/updateObjectRatings', results);
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
@@ -68,8 +72,10 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
+@use "@/style/elements/container";
 .playlist-list {
-  margin: 0 0 8rem;
+  @include container.default;
+  margin-bottom: 8rem;
 }
 .grid {
   display: grid;

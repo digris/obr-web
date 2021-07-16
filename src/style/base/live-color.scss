@@ -8,7 +8,6 @@
   transition: color 1000ms, background-color 100ms 400ms;
 }
 
-
 @mixin fg($alpha: 1) {
   @include transition;
   color: rgba(var(--c-live-fg), $alpha);

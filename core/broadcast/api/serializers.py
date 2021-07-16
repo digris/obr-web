@@ -119,6 +119,31 @@ class ScheduleMediaSerializer(CatalogMediaSerializer):
         ]
 
 
+class ScheduleEmissionSerializer(CatalogMediaSerializer):
+    class Meta:
+        model = Emission
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "duration",
+            "time_start",
+            "time_end",
+        ]
+
+
+class SchedulePlaylistSerializer(CatalogMediaSerializer):
+    class Meta:
+        model = Playlist
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "name",
+            "duration",
+        ]
+
+
 class ScheduleSerializer(serializers.Serializer):
     key = serializers.CharField()
     cue_in = serializers.IntegerField()
@@ -130,3 +155,5 @@ class ScheduleSerializer(serializers.Serializer):
     time_end = serializers.DateTimeField()
 
     media = ScheduleMediaSerializer()
+    emission = ScheduleEmissionSerializer()
+    playlist = SchedulePlaylistSerializer(source="emission.playlist")

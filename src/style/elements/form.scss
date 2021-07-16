@@ -1,12 +1,13 @@
 @use "@/style/elements/button";
 
 @mixin input {
-  border: 2px solid rgba(var(--c-black), 0.3);
-  border-radius: 0;
-  transition: border 200ms;
+  border: 3px solid rgba(var(--c-black), 1);
+  border-radius: 3px;
+  transition: border 200ms, background 200ms;
   &:focus,
   &:focus-visible {
-    border-color: rgb(var(--c-black));
+    background: rgba(var(--c-black), .1);
+    border-color: rgba(var(--c-black), .1);
     outline: none;
   }
 }

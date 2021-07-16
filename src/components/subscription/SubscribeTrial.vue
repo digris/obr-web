@@ -10,7 +10,7 @@ import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
 
 import { startTrial, getTrialOptions } from '@/api/subscription';
-import Datetime from '@/components/ui/Datetime.vue';
+import Datetime from '@/components/ui/date/Datetime.vue';
 
 export default defineComponent({
   components: {

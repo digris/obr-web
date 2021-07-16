@@ -2,6 +2,7 @@ import logging
 
 from django.http import Http404
 from django.views.generic import TemplateView, View
+from broadcast.utils import get_current_media
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +13,23 @@ class SPAIndexView(TemplateView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        current_media = get_current_media()
+        if current_media:
+            try:
+                color = current_media.releases.first().image.rgb
+                context.update(
+                    {
+                        "color": color,
+                    }
+                )
+            except:
+                pass
+
+        return context
 
 
 class SPA404View(View):

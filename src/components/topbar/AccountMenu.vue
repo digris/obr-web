@@ -3,12 +3,25 @@ import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import eventBus from '@/eventBus';
+import CircleButton from '@/components/ui/button/CircleButton.vue';
 
 export default defineComponent({
+  components: {
+    CircleButton,
+  },
   setup() {
     const router = useRouter();
     const store = useStore();
     const currentUser = computed(() => store.getters['account/currentUser']);
+    const initials = computed(() => {
+      if (!currentUser.value) {
+        return '?';
+      }
+      if (currentUser.value.firstName) {
+        return currentUser.value.firstName.substr(0, 1).toUpperCase();
+      }
+      return currentUser.value.email.substr(0, 1).toUpperCase();
+    });
     const submenuVisible = ref(false);
     const login = () => {
       const event = {
@@ -33,6 +46,7 @@ export default defineComponent({
     };
     return {
       currentUser,
+      initials,
       submenuVisible,
       login,
       logout,
@@ -53,9 +67,16 @@ export default defineComponent({
     >
       <router-link
         :to="{ name: 'accountSettings' }"
+        v-slot="{ isActive }"
       >
-        <span>Account</span>
+        <CircleButton
+          :size="(48)"
+          :active="isActive"
+        >
+          {{ initials }}
+        </CircleButton>
       </router-link>
+      <!--
       <div
         v-if="submenuVisible"
         class="submenu"
@@ -67,6 +88,7 @@ export default defineComponent({
           Logout
         </a>
       </div>
+      -->
     </div>
     <div
       class="account-menu"
@@ -75,6 +97,7 @@ export default defineComponent({
       <a
         href="#"
         @click.prevent="login"
+        class="menu-link"
       >
         Login
       </a>
@@ -115,10 +138,10 @@ export default defineComponent({
   padding: 0 2rem;
   color: inherit;
   text-decoration: none;
-  transition: color, background-color 500ms;
   border-radius: 24px;
+  transition: color, background-color 500ms;
   &:hover {
-    @include live-color.bg-inverse(0.2);
+    @include live-color.bg-inverse(0.1);
     transition: color, background-color 200ms;
   }
   /*
@@ -136,7 +159,7 @@ export default defineComponent({
   justify-content: center;
   height: 100%;
   color: inherit;
-  > a {
+  > a.menu-link {
     @include menu-button;
   }
   .submenu {

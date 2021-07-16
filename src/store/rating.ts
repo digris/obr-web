@@ -46,7 +46,7 @@ const actions = {
   updateRating: async (context: any, vote: object) => {
     // @ts-ignore
     const { key, ...rating } = vote;
-    // context.commit('SET_RATING', { key, rating });
+    context.commit('SET_RATING', { key, rating });
     const newRating = await postRating(key, rating);
     context.commit('SET_RATING', { key, rating: newRating });
   },

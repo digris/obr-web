@@ -2,7 +2,7 @@
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import eventBus from '@/eventBus';
-import SidePanel from '@/components/ui/SidePanel.vue';
+import SidePanel from '@/components/ui/panel/SidePanel.vue';
 // import SidePanel from '@/components/ui/Modal.vue';
 import SocialLogin from '@/components/account/SocialLogin.vue';
 // import LoginForm from '@/components/account/LoginForm.vue';
@@ -57,13 +57,9 @@ export default defineComponent({
     @close="close"
   >
     <div
-      class="intents"
+      class="title"
     >
-      <h1
-        class="intent"
-      >
-        Access
-      </h1>
+      Anmelden
     </div>
     <div
       v-if="message"
@@ -74,14 +70,20 @@ export default defineComponent({
     <section
       class="section social"
     >
+      <p>Mit einem bestehenden Konto:</p>
       <SocialLogin
         :next="next"
       />
     </section>
+    <div
+      class="title"
+    >
+      oder
+    </div>
     <section
       class="section email"
     >
-      <p>Oder weiter mit:</p>
+      <p>Mit deiner E-Mail-Adresse:</p>
       <EmailLoginForm />
     </section>
   </SidePanel>
@@ -89,28 +91,28 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/section";
+@use "@/style/base/typo";
 .section {
   @include section.default;
 }
-.intents {
+.title {
+  @include typo.large;
   display: flex;
-  justify-content: center;
-  .intent {
-    //padding: 0 1rem;
-    cursor: pointer;
-    &:not(:first-child) {
-      margin-left: 2rem;
-    }
-    &.is-selected {
-      text-decoration: underline;
-    }
+  justify-content: flex-start;
+}
+.social {
+  > p {
+    margin-bottom: 1rem;
+  }
+}
+.email {
+  > p {
+    margin-bottom: 0.5rem;
   }
 }
 .message {
-  margin: 2rem 0 2rem;
+  margin: 1rem 0 1rem;
   padding: 1rem;
-  //color: rgb(var(--c-white));
-  //background: rgb(var(--c-black));
   background: rgba(var(--c-cta), 0.1);
   border-left: 4px solid rgb(var(--c-cta));
 }

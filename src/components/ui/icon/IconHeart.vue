@@ -29,6 +29,7 @@ export default defineComponent({
           stroke: props.color,
           fill: 'transparent',
           transform: `scale(${props.size / BASE_SIZE})`,
+          strokeWidth: (2 * BASE_SIZE) / props.size,
         };
       }
       return {
@@ -61,7 +62,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 svg {
   path {
-    stroke-width: 2px;
     shape-rendering: geometricprecision;
   }
 }

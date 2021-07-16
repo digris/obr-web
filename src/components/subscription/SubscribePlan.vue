@@ -10,7 +10,7 @@ import settings from '@/settings';
 import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
 import { getPlanOptions, createStripeCheckoutSession } from '@/api/subscription';
-import Datetime from '@/components/ui/Datetime.vue';
+import Datetime from '@/components/ui/date/Datetime.vue';
 import Money from '@/components/ui/Money.vue';
 
 const { STRIPE_PUBLISHABLE_KEY } = settings;
@@ -121,19 +121,24 @@ export default defineComponent({
             class="option"
             :class="{'is-selected': option.sku === selectedOption.sku}"
           >
+            <!--
             <div
               class="num-days"
             >
               {{ option.numDays }} days
             </div>
+            -->
             <div
               class="price"
             >
               <Money
                 :value="option.price"
-                :include-currency="(false)"
+                :include-currency="(true)"
               />
             </div>
+            <div
+              class="separator"
+            />
             <div
               class="title"
             >
@@ -142,9 +147,10 @@ export default defineComponent({
             <div
               class="until-date"
             >
-              until
+              Gültig bis am
               <Datetime
                 :value="option.untilDate"
+                :display-time="(false)"
               />
             </div>
           </div>
@@ -158,7 +164,7 @@ export default defineComponent({
       <div
         class="title"
       >
-        TOTAL:
+        Total inkl. aller Steuren und Gebühren
       </div>
       <div
         class="price"
@@ -183,19 +189,22 @@ export default defineComponent({
         class="button"
         @click.prevent="startPayment('stripe')"
       >
-        (CC) Complete Order
+        Jetzt Bezahlen
       </AsyncButton>
+      <!--
       <AsyncButton
         class="button"
         @click.prevent="startPayment('paypal')"
       >
         (PP) Complete Order
       </AsyncButton>
+      -->
     </section>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/elements/section";
 @use "@/style/elements/button";
 .section {
@@ -212,36 +221,44 @@ export default defineComponent({
 @mixin options {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 @mixin option {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  background: rgb(var(--c-gray-50));
+  background: rgb(var(--c-white));
+  box-shadow: 0 0 3px rgba(var(--c-black),0.33);
   cursor: pointer;
   transition: background 100ms;
   &:hover {
-    background: rgba(var(--c-selected), 0.5);
+    background: rgb(var(--c-gray-100));
   }
   &.is-selected {
-    background: rgb(var(--c-selected));
+    color: rgb(var(--c-white));
+    background: rgb(var(--c-black));
   }
+  /*
   .num-days {
     padding: 0.5rem 0;
     opacity: 0.75;
   }
+  */
   .price {
     font-size: 200%;
   }
+  .separator {
+    width: 100%;
+    height: 1px;
+    margin: 1rem 0;
+    background: rgb(var(--c-gray-100));
+  }
   .title {
-    padding: 0.5rem 0;
-    font-size: 120%;
+    padding: 0;
   }
   .until-date {
-    padding: 0.5rem 0;
-    opacity: 0.75;
+    padding: 0;
   }
 }
 .options {
@@ -251,22 +268,21 @@ export default defineComponent({
   }
 }
 .total {
-  display: flex;
   padding: 0.5rem 0.5rem;
-  font-weight: 800;
-  border-top: 3px solid rgb(var(--c-black));
-  border-bottom: 1px solid rgb(var(--c-black));
   .title {
-    flex-grow: 1;
+    margin-bottom: 0.5rem;
+  }
+  .price {
+    @include typo.large;
   }
 }
 .actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   .button {
     @include button.default(3rem);
-    min-width: 200px;
+    min-width: 33%;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
   }

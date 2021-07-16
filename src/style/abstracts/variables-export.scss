@@ -6,8 +6,9 @@
 
 :root {
   --grid-gap: 1rem;
-  --font-family: #{$base-font-family};
   --font-weight: #{$base-font-weight};
+  --font-size: #{$base-font-size};
+  --font-family: #{$base-font-family};
   --container-width: #{$container-width};
 }
 
@@ -15,6 +16,12 @@
 :root {
   @each $name, $color in $color-palette {
     --c-#{"" + $name}: #{$color};
+  }
+}
+
+@include bp-small {
+  :root {
+    --font-size: #{$base-font-size * 1.25};
   }
 }
 
