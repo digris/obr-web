@@ -238,6 +238,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 
 .media-row {
@@ -298,6 +299,7 @@ export default defineComponent({
 
   .artist {
     grid-area: artist;
+    overflow: hidden;
   }
 
   .release {
@@ -321,6 +323,39 @@ export default defineComponent({
   .actions {
     grid-area: actions;
     justify-self: flex-end;
+  }
+  @include responsive.bp-small {
+    grid-template-areas:
+      "play name   actions"
+      "play artist actions";
+    grid-template-columns: 48px 1fr 96px;
+    padding: 0.375rem 0;
+    .name {
+      @include typo.default;
+    }
+    .artist {
+      @include typo.default;
+      @include typo.dim;
+      @include typo.light;
+      min-width: 0;
+      margin-top: -4px; //TODO: just a quick fix
+      overflow: hidden;
+      > div {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+    //TODO: just a quick fix
+    .play,
+    .actions {
+      transform: scale(calc(40 / 48));
+    }
+    .release,
+    .airplays,
+    .duration {
+      display: none;
+    }
   }
 }
 </style>

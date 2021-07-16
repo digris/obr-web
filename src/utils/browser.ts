@@ -12,5 +12,4 @@ const getMediaFormat = () => {
   return 'dash';
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { getMediaFormat };

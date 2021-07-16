@@ -105,7 +105,7 @@ img {
   height: 100%;
   background: rgb(var(--c-color));
   opacity: 1;
-  filter: brightness(0.95) grayscale(0.1);
+  filter: var(--image-filter);
   transition: opacity 100ms;
   image-rendering: pixelated;
   &.is-pending,

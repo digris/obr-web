@@ -36,22 +36,22 @@ export default defineComponent({
     :style="style"
   >
         <rect
-          x="6"
-          y="7.5"
-          width="12"
-          height="1"
+          x="4"
+          y="6"
+          width="16"
+          height="1.5"
         />
         <rect
-          x="6"
-          y="11.5"
-          width="12"
-          height="1"
+          x="4"
+          y="11"
+          width="16"
+          height="1.5"
         />
         <rect
-          x="6"
-          y="15.5"
-          width="12"
-          height="1"
+          x="4"
+          y="16"
+          width="16"
+          height="1.5"
         />
   </svg>
 </template>

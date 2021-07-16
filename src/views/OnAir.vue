@@ -37,7 +37,8 @@ export default defineComponent({
       // const innerHeight = height - 150 - 60 - 60;
       // const maxSize = (innerWidth < innerHeight) ? innerWidth : innerHeight;
       // const maxSize = width * 0.3;
-      const maxSize = width * 0.4;
+      let maxSize = width * 0.4;
+      maxSize = (maxSize > 240) ? maxSize : 240;
       return (maxSize < 720) ? maxSize : 720;
     });
     const cssVars = computed(() => ({
@@ -205,6 +206,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .on-air {
   position: relative;
   display: grid;
@@ -249,6 +251,18 @@ export default defineComponent({
       position: absolute;
       top: 12px;
       left: 2rem;
+    }
+  }
+  //TODO: just a quick fix..
+  @include responsive.bp-small {
+    grid-template-areas:
+      "station-time"
+      "center"
+      "actions";
+    grid-template-columns: auto;
+    .left,
+    .right {
+      display: none;
     }
   }
 }

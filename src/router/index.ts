@@ -4,6 +4,7 @@ import OnAir from '@/views/OnAir.vue';
 import Discover from '@/views/Discover.vue';
 import Collection from '@/views/Collection.vue';
 import Account from '@/views/Account.vue';
+import EditorList from '@/components/broadcast/editor/List.vue';
 import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
 import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
@@ -88,6 +89,14 @@ const routes = [
           default: {
             primaryColor: [255, 255, 255],
           },
+          primaryColor: [255, 255, 255],
+        },
+      },
+      {
+        path: 'editors/',
+        name: 'discoverEditors',
+        component: EditorList,
+        props: {
           primaryColor: [255, 255, 255],
         },
       },

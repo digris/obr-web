@@ -6,12 +6,15 @@ from django.views.static import serve
 
 from spa.views import SPAIndexView, SPA404View
 
+# from manifest.views import manifest
+
 SITE_URL = getattr(settings, "SITE_URL")
 
 admin.autodiscover()
 admin.site.site_header = "open broadcast radio"
 
 urlpatterns = [
+    path("", include("manifest.urls", namespace="manifest")),
     path("api/v1/", include("core.urls_api", namespace="api")),
     path("admin/", admin.site.urls),
     path("social/", include("social_django.urls", namespace="social")),

@@ -6,6 +6,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
+router.register(r"editors", views.EditorViewSet)
 router.register(r"emissions", views.EmissionViewSet)
 
 app_name = "broadcast"

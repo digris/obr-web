@@ -33,6 +33,11 @@
         >
           Shows
         </router-link>
+        <router-link
+          :to="{ name: 'discoverEditors' }"
+        >
+          Editor*innen
+        </router-link>
       </div>
       <div
         class="menu menu--secondary"

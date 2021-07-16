@@ -116,6 +116,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .card {
   .visual {
     position: relative;
@@ -155,12 +156,15 @@ export default {
       }
       .secondary {
         grid-area: secondary;
+        display: none;
       }
       .actions {
         grid-area: actions;
       }
     }
     .subtitle {
+      @include typo.dim;
+      @include typo.light;
       text-transform: capitalize;
     }
   }
