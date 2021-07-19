@@ -104,23 +104,12 @@ class ArtistViewSet(
 
 
 class MediaFilter(filters.FilterSet):
-    # playlist = filters.CharFilter(method="playlist_filter")
-    # artist = filters.CharFilter(method="artist_filter")
     obj_key = filters.CharFilter(method="obj_key_filter")
-    # tags = filters.CharFilter(method="tag_filter", field_name="tags[]")
     user_rating = filters.NumberFilter(method="user_rating_filter")
 
     class Meta:
         model = Media
         fields = ["obj_key"]
-
-    # # pylint: disable=unused-argument
-    # def playlist_filter(self, queryset, name, value):
-    #     return queryset.filter(playlists__uid=value)
-    #
-    # # pylint: disable=unused-argument
-    # def artist_filter(self, queryset, name, value):
-    #     return queryset.filter(artists__uid=value)
 
     # pylint: disable=unused-argument
     def obj_key_filter(self, queryset, name, value):
@@ -129,11 +118,6 @@ class MediaFilter(filters.FilterSet):
             f"{obj_ct[8:]}s__uid": obj_uid,
         }
         return queryset.filter(**query)
-
-    # # pylint: disable=unused-argument
-    # def tag_filter(self, queryset, name, value):
-    #     print("**", name, value)
-    #     return queryset
 
     # pylint: disable=unused-argument
     def user_rating_filter(self, queryset, name, value):
@@ -156,19 +140,11 @@ class MediaViewSet(
 
     list:
     Returns all a list of media...
-
-    artists:
-    Returns appearing artists.
-
     """
 
     queryset = Media.objects.all()
     serializer_class = serializers.MediaSerializer
     lookup_field = "uid"
-    # permission_classes = (IsAuthenticated,)
-    # filter_backends = [
-    #     ControllerListFilter,
-    # ]
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = MediaFilter
@@ -302,6 +278,34 @@ class ReleaseViewSet(
         return obj
 
 
+class PlaylistFilter(filters.FilterSet):
+    obj_key = filters.CharFilter(method="obj_key_filter")
+    user_rating = filters.NumberFilter(method="user_rating_filter")
+
+    class Meta:
+        model = Playlist
+        fields = ["obj_key"]
+
+    # pylint: disable=unused-argument
+    def obj_key_filter(self, queryset, name, value):
+        obj_ct, obj_uid = value.split(":")
+        # TODO: implement in a better / real way
+        ct = obj_ct[8:]
+        if ct != "media":
+            ct = ct + "s"
+        query = {
+            f"{ct}__uid": obj_uid,
+        }
+        return queryset.filter(**query)
+
+    # pylint: disable=unused-argument
+    def user_rating_filter(self, queryset, name, value):
+        query = {
+            f"user_rating__gte": value,
+        }
+        return queryset.filter(**query)
+
+
 class PlaylistViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
@@ -311,6 +315,9 @@ class PlaylistViewSet(
     queryset = Playlist.objects.all().order_by("name")
     serializer_class = serializers.PlaylistSerializer
     lookup_field = "uid"
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = PlaylistFilter
 
     def get_queryset(self):
         qs = self.queryset.prefetch_related(

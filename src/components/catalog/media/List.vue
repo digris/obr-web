@@ -8,6 +8,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import { isEqual } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
@@ -42,6 +43,10 @@ export default {
       type: String,
       default: null,
     },
+    query: {
+      type: Object,
+      default: () => {},
+    },
     initialFilter: {
       type: Object,
       default: () => null,
@@ -60,11 +65,9 @@ export default {
     },
   },
   setup(props:any) {
-    console.debug('MediaList', props);
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    // const currentUser = computed(() => store.getters['account/currentUser']);
     const numResults = ref(0);
     const limit = 16;
     const lastOffset = ref(0);
@@ -73,6 +76,7 @@ export default {
     const tagList = ref([]);
     const tagListLoading = ref(false);
     const hasNext = ref(false);
+    // const lastFilter = ref({});
     const userFilter = ref({});
     const combinedFilter = computed(() => {
       if (props.scope === 'collection') {
@@ -137,9 +141,9 @@ export default {
       }
     });
     watch(
-      // () => props.filter,
       () => combinedFilter.value,
       async () => {
+        // console.debug('watched combinedFilter', newValue, oldValue, isEqual(newValue, oldValue));
         lastOffset.value = 0;
         mediaList.value = [];
         fetchMedia(limit, 0).then(() => {});
@@ -147,12 +151,38 @@ export default {
       },
     );
     watch(
-      () => route.query,
-      async (newQuery) => {
-        const filter = parseFilterQuery(newQuery);
-        userFilter.value = filter;
+      () => props.query,
+      async (newValue, oldValue) => {
+        if (isEqual(newValue, oldValue)) {
+          console.debug('query unchanged');
+          return;
+        }
+        userFilter.value = newValue;
       },
     );
+    /*
+    watch(
+      () => route.query,
+      async (newValue, oldValue) => {
+        // @ts-ignore
+        if (!['discoverMedia', 'collectionMedia'].includes(route.name)) {
+          console.debug('ignored route:', route.name);
+          return;
+        }
+        if (isEqual(newValue, oldValue)) {
+          console.debug('query unchanged - ignore');
+          return;
+        }
+        const filter = parseFilterQuery(newValue);
+        if (isEqual(filter, lastFilter.value)) {
+          console.debug('filter unchanged');
+          return;
+        }
+        lastFilter.value = filter;
+        // userFilter.value = filter;
+      },
+    );
+    */
     return {
       combinedFilter,
       tagList,
@@ -213,20 +243,7 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
-@use "@/style/elements/button";
 @use "@/style/elements/container";
-/*
-.play-all {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem 0;
-  .play-action {
-    @include button.default;
-    //padding: 0.5rem 1rem;
-  }
-}
-*/
 .list-filter-container {
   @include container.default;
 }

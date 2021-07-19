@@ -1,5 +1,8 @@
-<script>
-import { ref, onMounted } from 'vue';
+<script lang="ts">
+import {
+  ref,
+  onMounted, computed,
+} from 'vue';
 import { useStore } from 'vuex';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
@@ -16,8 +19,16 @@ export default {
       type: Array,
       default: () => [],
     },
+    scope: {
+      type: String,
+      default: null,
+    },
+    initialFilter: {
+      type: Object,
+      default: () => null,
+    },
   },
-  setup() {
+  setup(props:any) {
     const store = useStore();
     const isLoaded = ref(false);
     const numResults = ref(0);
@@ -25,11 +36,26 @@ export default {
     const lastOffset = ref(0);
     const playlists = ref([]);
     const hasNext = ref(false);
+    const userFilter = ref({});
+    const combinedFilter = computed(() => {
+      if (props.scope === 'collection') {
+        return {
+          ...props.initialFilter,
+          ...userFilter.value,
+          user_rating: 1,
+        };
+      }
+      return {
+        ...props.initialFilter,
+        ...userFilter.value,
+      };
+    });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchMedia = async (limit = 16, offset = 0) => {
-      const { count, next, results } = await getWTFPlaylists(limit, offset);
+      const { count, next, results } = await getWTFPlaylists(limit, offset, combinedFilter.value);
       hasNext.value = !!next;
       numResults.value = count;
+      // @ts-ignore
       playlists.value.push(...results);
       // TODO: this kind of smells...
       await store.dispatch('rating/updateObjectRatings', results);
