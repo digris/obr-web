@@ -2,7 +2,6 @@
 import {
   computed,
   defineComponent,
-  ref,
   onActivated,
 } from 'vue';
 import { useStore } from 'vuex';
@@ -10,30 +9,31 @@ import { useStore } from 'vuex';
 import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
-import MediaList from '@/components/catalog/media/List.vue';
+import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
+import PlaylistList from '@/components/catalog/playlist/List.vue';
 
 export default defineComponent({
   components: {
     DetailHeader,
     LazyImage,
     PlayIcon,
-    MediaList,
+    MediaArtists,
+    MediaReleases,
+    PlaylistList,
   },
   props: {
     uid: {
       type: String,
       required: true,
     },
-    primaryColor: {
-      type: Array,
-      default: null,
-    },
   },
   setup(props) {
     const store = useStore();
-    const isLoaded = ref(false);
-    const artist = computed(() => store.getters['catalog/artistByUid'](props.uid));
-    const objKey = computed(() => `${artist.value.ct}:${artist.value.uid}`);
+    const media = computed(() => store.getters['catalog/mediaByUid'](props.uid));
+    const objKey = computed(() => {
+      return `${media.value.ct}:${media.value.uid}`;
+    });
     const query = computed(() => ({
       filter: {
         obj_key: objKey.value,
@@ -41,34 +41,38 @@ export default defineComponent({
       search: [],
       options: {},
     }));
-    onActivated(() => {
-      // console.debug('activated', route.params.uid);
-      // store.dispatch('catalog/loadArtist', props.uid);
-      if (!artist.value) {
-        store.dispatch('catalog/loadArtist', props.uid);
+    const release = computed(() => {
+      if (!(media.value && media.value.releases && media.value.releases.length)) {
+        return null;
       }
-      if (props.primaryColor) {
-        store.dispatch('ui/setPrimaryColor', props.primaryColor);
+      return media.value.releases[0];
+    });
+    const image = computed(() => {
+      return (release.value && release.value.image) ? release.value.image : null;
+    });
+    onActivated(() => {
+      if (!media.value) {
+        store.dispatch('catalog/loadMedia', props.uid);
       }
     });
     return {
+      media,
       objKey,
-      isLoaded,
-      artist,
       query,
+      release,
+      image,
     };
   },
 });
 </script>
-
 <template>
   <div
-    v-if="artist"
-    class="artist-detail"
+    v-if="media"
+    class="media-detail"
   >
     <DetailHeader
-      scope="artist"
-      :title="artist.name"
+      scope="media"
+      :title="media.name"
     >
       <template #visual>
         <div
@@ -78,7 +82,7 @@ export default defineComponent({
             class="image"
           >
             <LazyImage
-              :image="artist.image"
+              :image="image"
             />
           </div>
           <PlayIcon
@@ -88,6 +92,16 @@ export default defineComponent({
         </div>
       </template>
       <template #info-panel>
+        <div class="artists">
+          <MediaArtists
+            :artists="media.artists"
+          />
+        </div>
+        <div class="releases">
+          <MediaReleases
+            :releases="media.releases"
+          />
+        </div>
         <div
           class="tags"
         >
@@ -98,18 +112,23 @@ export default defineComponent({
       </template>
       <template #meta-panel>
         <span
-          v-if="artist"
-        >{{ artist.numMedia }} Tracks</span>
-        <span>1h 25m</span>
+          v-if="media"
+        >
+          {{ media.numAirplays }} Airplays
+        </span>
+        <span>
+          •
+        </span>
+        <span>{{ media.duration }}s</span>
       </template>
     </DetailHeader>
     <section
       class="section section--light"
     >
       <div
-        class="media-list"
+        class="playlist-list"
       >
-        <MediaList
+        <PlaylistList
           :initial-filter="query.filter"
           :disable-user-filter="(true)"
           :disable-play-all="(true)"
@@ -118,37 +137,3 @@ export default defineComponent({
     </section>
   </div>
 </template>
-
-<style lang="scss" scoped>
-@use "@/style/elements/container";
-.section {
-  @include container.section;
-}
-.artist-detail {
-  margin-bottom: 12rem;
-}
-.header {
-  .body {
-    display: flex;
-    flex-direction: column;
-    padding-top: 1rem;
-    .title {
-      margin-top: 2rem;
-    }
-    .tags,
-    .summary {
-      margin-top: 1rem;
-    }
-    .summary {
-      display: flex;
-      flex-grow: 1;
-      align-items: flex-end;
-    }
-  }
-  .actions {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-  }
-}
-</style>

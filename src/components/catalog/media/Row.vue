@@ -12,6 +12,7 @@ import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 
@@ -29,6 +30,7 @@ export default defineComponent({
     IconContext,
     ButtonPlay,
     MediaArtists,
+    MediaReleases,
     UserRating,
     RelativeDateTime,
   },
@@ -187,9 +189,16 @@ export default defineComponent({
       <div
         class="name"
       >
-        <a>
+        <router-link
+          :to="{
+            name: 'mediaDetail',
+            params: {
+              uid: media.uid,
+            },
+          }"
+        >
           {{ media.name }}
-        </a>
+        </router-link>
       </div>
       <div class="artist">
         <MediaArtists
@@ -197,11 +206,9 @@ export default defineComponent({
         />
       </div>
       <div class="release">
-        <a
-          v-if="release"
-        >
-          {{ release.name }}
-        </a>
+        <MediaReleases
+          :releases="media.releases"
+        />
       </div>
       <div class="airplays">
         <RelativeDateTime

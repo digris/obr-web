@@ -1,14 +1,19 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
-import { getArtist, getPlaylist } from '@/api/catalog';
+import { getMediaDetail, getArtist, getPlaylist } from '@/api/catalog';
 
 const state = {
+  media: [],
   artists: [],
   playlists: [],
 };
 
 const getters = {
+  // @ts-ignore
+  media: (state) => state.media,
+  // @ts-ignore
+  mediaByUid: (state) => (uid: string) => state.media.find((obj) => obj.uid === uid),
   // @ts-ignore
   artists: (state) => state.artists,
   // @ts-ignore
@@ -20,6 +25,16 @@ const getters = {
 };
 
 const mutations = {
+  // @ts-ignore
+  SET_MEDIA: (state, { media }) => {
+    // @ts-ignore
+    const index = state.media.findIndex((obj) => obj.uid === media.uid);
+    if (index > -1) {
+      state.media[index] = media;
+    } else {
+      state.media.push(media);
+    }
+  },
   // @ts-ignore
   SET_ARTIST: (state, { artist }) => {
     // @ts-ignore
@@ -43,6 +58,11 @@ const mutations = {
 };
 
 const actions = {
+  // @ts-ignore
+  loadMedia: async (context, uid: string) => {
+    const media = await getMediaDetail(uid);
+    context.commit('SET_MEDIA', { media });
+  },
   // @ts-ignore
   loadArtist: async (context, uid: string) => {
     const artist = await getArtist(uid);

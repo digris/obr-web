@@ -82,6 +82,18 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/container";
+@mixin visual {
+  height: 50vh;
+  min-height: 240px;
+  max-height: 500px;
+  .image {
+    height: 100%;
+  }
+  img {
+    border-radius: 50%;
+  }
+}
+
 .detail-header {
   .top,
   .main,
@@ -109,9 +121,11 @@ export default defineComponent({
     position: relative;
     .t-visual {
       display: flex;
-      //height: 50vh;
       align-items: center;
       justify-content: center;
+      :deep(.visual) {
+        @include visual;
+      }
     }
     .body {
       position: absolute;

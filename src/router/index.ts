@@ -5,12 +5,13 @@ import Discover from '@/views/Discover.vue';
 import Collection from '@/views/Collection.vue';
 import Account from '@/views/Account.vue';
 import EditorList from '@/components/broadcast/editor/List.vue';
-import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
-import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
-import PlaylistList from '@/components/catalog/playlist/List.vue';
-import ArtisttList from '@/components/catalog/artist/List.vue';
 import MoodList from '@/components/catalog/mood/List.vue';
+import ArtistList from '@/components/catalog/artist/List.vue';
+import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
+import PlaylistList from '@/components/catalog/playlist/List.vue';
+import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
 import MediaList from '@/components/catalog/media/List.vue';
+import MediaDetail from '@/views/catalog/MediaDetail.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
@@ -63,12 +64,12 @@ const routes = [
       {
         path: 'artists/',
         name: 'discoverArtists',
-        // component: ArtisttList,
+        // component: ArtistList,
         // props: {
         //   primaryColor: [255, 255, 255],
         // },
         components: {
-          default: ArtisttList,
+          default: ArtistList,
           filterbar: Filterbar,
         },
         props: {
@@ -85,10 +86,19 @@ const routes = [
           default: MediaList,
           filterbar: Filterbar,
         },
+        // props: (route: any) => ({
+        //   default: {
+        //     query: route.query,
+        //     primaryColor: [255, 255, 255],
+        //   },
+        //   query: route.query,
+        //   primaryColor: [255, 255, 255],
+        // }),
         props: {
-          default: {
-            primaryColor: [255, 255, 255],
-          },
+          default: (route: any) => ({
+            query: route.query,
+            primaryColor: [102, 102, 102],
+          }),
           primaryColor: [255, 255, 255],
         },
       },
@@ -106,14 +116,31 @@ const routes = [
     path: '/discover/playlists/:uid/',
     name: 'playlistDetail',
     component: PlaylistDetail,
+    props: (route: any) => ({
+      uid: route.params.uid,
+    }),
   },
   {
     path: '/discover/artists/:uid/',
     name: 'artistDetail',
     component: ArtistDetail,
-    props: {
+    props: (route: any) => ({
+      uid: route.params.uid,
       primaryColor: [102, 102, 102],
-    },
+    }),
+  },
+  {
+    path: '/discover/tracks/:uid/',
+    name: 'mediaDetail',
+    component: MediaDetail,
+    props: (route: any) => ({
+      uid: route.params.uid,
+      primaryColor: [102, 102, 102],
+    }),
+    // props: {
+    //   route => ({ query: route.query.q }),
+    //   primaryColor: [102, 102, 102],
+    // },
   },
   {
     path: '/collection/',
@@ -130,17 +157,21 @@ const routes = [
           default: MediaList,
           filterbar: Filterbar,
         },
+        // props: {
+        //   default: {
+        //     scope: 'collection',
+        //     primaryColor: [255, 255, 255],
+        //   },
+        //   primaryColor: [255, 255, 255],
+        // },
         props: {
-          default: {
+          default: (route: any) => ({
             scope: 'collection',
-            primaryColor: [255, 255, 255],
-          },
+            query: route.query,
+            primaryColor: [102, 102, 102],
+          }),
           primaryColor: [255, 255, 255],
         },
-        // component: MediaList,
-        // props: {
-        //   scope: 'collection',
-        // },
       },
       {
         path: 'shows/',
@@ -153,6 +184,10 @@ const routes = [
     path: '/collection/artists/:uid/',
     name: 'Artist Detail (Collection)',
     component: ArtistDetail,
+    props: (route: any) => ({
+      uid: route.params.uid,
+      primaryColor: [102, 102, 102],
+    }),
   },
   {
     path: '/account/',
@@ -202,17 +237,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory('/'),
   routes,
-  // @ts-ignore
-  // scrollBehavior(to, from, savedPosition) {
-  //   if (savedPosition) {
-  //     return savedPosition;
-  //   }
-  //   return { x: 0, y: 0 };
-  // },
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { x: 0, y: 0 };
+    return savedPosition || { left: 0, top: 0 };
   },
 });
+
+// router.beforeEach((to, from, next) => {
+//   // eslint-disable-next-line no-param-reassign
+//   to.meta.activated = true;
+//   // eslint-disable-next-line no-param-reassign
+//   from.meta.activated = false;
+//   next();
+// });
 
 // router.afterEach((to, from) => {
 //   const toDepth = to.path.split('/').length;

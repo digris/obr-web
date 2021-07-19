@@ -1,42 +1,42 @@
 <script>
 import {
-  computed, ref, onMounted, watch,
+  computed,
+  ref,
+  onActivated,
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
+import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
+import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
 
 export default {
   components: {
+    DetailHeader,
     LazyImage,
+    PlayIcon,
     MediaRow,
   },
-  setup() {
+  props: {
+    uid: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
     const store = useStore();
-    const route = useRoute();
-    const uid = ref(route.params.uid);
     const isLoaded = ref(false);
-    const playlist = computed(() => store.getters['catalog/playlistByUid'](uid.value));
+    const playlist = computed(() => store.getters['catalog/playlistByUid'](props.uid));
+    const objKey = computed(() => `${playlist.value.ct}:${playlist.value.uid}`);
     const mediaList = computed(() => {
-      const media = playlist.value.mediaSet.reduce((a, b) => a.concat({ ...b.media, ...b }), []);
-      // const sortedMedia = media.sort((a, b) => b.position - a.position);
-      // return sortedMedia;
-      return media;
+      return playlist.value.mediaSet.reduce((a, b) => a.concat({ ...b.media, ...b }), []);
     });
-    onMounted(() => {
-      store.dispatch('catalog/loadPlaylist', uid.value);
+    onActivated(() => {
+      if (!playlist.value) {
+        store.dispatch('catalog/loadPlaylist', props.uid);
+      }
     });
-    watch(
-      () => route.params,
-      async (newParams) => {
-        uid.value = newParams.uid;
-        if (uid.value) {
-          await store.dispatch('catalog/loadPlaylist', uid.value);
-        }
-      },
-    );
     const query = {
       filter: {
         playlist: '39E730FC',
@@ -45,7 +45,7 @@ export default {
       options: {},
     };
     return {
-      uid,
+      objKey,
       isLoaded,
       playlist,
       mediaList,
@@ -60,87 +60,65 @@ export default {
     v-if="playlist"
     class="playlist-detail"
   >
-    <div
-      class="header detail-header"
+    <DetailHeader
+      scope="playlist"
+      :title="playlist.name"
     >
-      <div
-        class="visual"
-      >
-        <LazyImage
-          :image="playlist.image"
-        />
-      </div>
-      <div
-        class="body"
-      >
+      <template #visual>
         <div
-          class="kind"
+          class="visual"
         >
-          Playlist
+          <div
+            class="image"
+          >
+            <LazyImage
+              :image="playlist.image"
+            />
+          </div>
+          <PlayIcon
+            class="visual__play"
+            :obj-key="objKey"
+          />
         </div>
-        <div
-          class="title"
-        >
-          <h1>{{ playlist.name }}</h1>
-        </div>
+      </template>
+      <template #info-panel>
         <div
           class="tags"
         >
           <span class="tag">#Electronic</span>
           <span class="tag">#Rock</span>
+          <span class="tag">#Techno</span>
         </div>
-        <div
-          class="summary"
-        >
-          <span>{{ mediaList.length }} Tracks</span>
-          <span>1h 25m</span>
-        </div>
-      </div>
-      <div
-        class="actions">
-        <span>+</span>
-        <span>-</span>
-      </div>
-    </div>
-    <div
-      class="body"
+      </template>
+      <template #meta-panel>
+        <span>1h 25m</span>
+      </template>
+    </DetailHeader>
+    <section
+      class="section section--light"
     >
-      <div class="media-list">
-        <div class="grid">
-          <MediaRow
-            v-for="(media, index) in mediaList"
-            :key="`media-row-${index}-${media.uid}-${media.position}`"
-            :media="media"
-          />
-        </div>
+      <div
+        class="media-list"
+      >
+        <MediaRow
+          v-for="(media, index) in mediaList"
+          :key="`media-row-${index}-${media.uid}-${media.position}`"
+          :media="media"
+        />
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
-@use "@/style/elements/detail-header";
+.section {
+  @include container.section;
+}
 .playlist-detail {
-  @include container.default;
   margin-bottom: 12rem;
 }
-.detail-header {
-  @include detail-header.default;
-  display: grid;
-  grid-gap: 2rem;
-  //grid-template-columns: 220px 1fr auto;
-  grid-template-columns: 2fr 4fr 2fr;
-}
 .header {
-  .visual {
-    img {
-      min-width: 100%;
-      max-width: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-    }
-  }
   .body {
     display: flex;
     flex-direction: column;
@@ -163,5 +141,8 @@ export default {
     align-items: flex-end;
     justify-content: flex-end;
   }
+}
+.media-list {
+  background: rgb(var(--c-white));
 }
 </style>

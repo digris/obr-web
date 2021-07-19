@@ -53,7 +53,9 @@ export default {
 
     const cssVars = computed(() => {
       if (!color.value) {
-        return {};
+        return {
+          '--c-color': '128,128,128',
+        };
       }
       const rgb = color.value.join(',');
       return {
