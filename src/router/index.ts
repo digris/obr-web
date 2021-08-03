@@ -157,13 +157,6 @@ const routes = [
           default: MediaList,
           filterbar: Filterbar,
         },
-        // props: {
-        //   default: {
-        //     scope: 'collection',
-        //     primaryColor: [255, 255, 255],
-        //   },
-        //   primaryColor: [255, 255, 255],
-        // },
         props: {
           default: (route: any) => ({
             scope: 'collection',
@@ -176,7 +169,19 @@ const routes = [
       {
         path: 'shows/',
         name: 'collectionAPlaylists',
-        component: PlaylistList,
+        // component: PlaylistList,
+        components: {
+          default: PlaylistList,
+          filterbar: Filterbar,
+        },
+        props: {
+          default: (route: any) => ({
+            scope: 'collection',
+            query: route.query,
+            primaryColor: [102, 102, 102],
+          }),
+          primaryColor: [255, 255, 255],
+        },
       },
     ],
   },
