@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-// import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
 
 export default defineComponent({
   props: {
@@ -13,8 +13,8 @@ export default defineComponent({
     },
   },
   components: {
-    // LazyImage,
     MediaArtists,
+    MediaReleases,
   },
   setup(props) {
     const title = computed(() => {
@@ -57,6 +57,13 @@ export default defineComponent({
     >
       <MediaArtists
         :artists="media.artists"
+      />
+    </div>
+    <div
+      class="subtitle"
+    >
+      <MediaReleases
+        :releases="media.releases"
       />
     </div>
   </div>

@@ -15,6 +15,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    hasShadow: {
+      type: Boolean,
+      default: false,
+    },
     active: {
       type: Boolean,
       default: false,
@@ -25,7 +29,7 @@ export default defineComponent({
     },
     outlineOpacity: {
       type: Number,
-      default: 0.2,
+      default: 0.1,
     },
     outlineWidth: {
       type: Number,
@@ -63,6 +67,7 @@ export default defineComponent({
     :style="cssVars"
     :class="{
       'is-outlined': outlined,
+      'has-shadow': hasShadow,
       'is-active': active,
       'is-disabled': disabled,
     }"
@@ -84,12 +89,10 @@ export default defineComponent({
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background 200ms, color 200ms, border 200ms;
-  &:hover {
-    background: rgba(var(--c-live-fg), 0.1);
-    border-color: transparent;
-  }
   &.is-outlined {
     border-color: rgba(var(--c-live-fg), var(--outline-opacity));
+  }
+  &.has-shadow {
     box-shadow: rgba(var(--c-live-fg), 0.2) 0 0 3px 0;
   }
   &.is-active {
@@ -99,6 +102,10 @@ export default defineComponent({
   &.is-disabled {
     opacity: 0.2;
     pointer-events: none;
+  }
+  &:hover {
+    background: rgba(var(--c-live-fg), 0.1);
+    border-color: transparent;
   }
 }
 </style>

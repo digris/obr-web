@@ -155,8 +155,8 @@ export default {
         }
       }
       .secondary {
-        grid-area: secondary;
         display: none;
+        grid-area: secondary;
       }
       .actions {
         grid-area: actions;

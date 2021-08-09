@@ -3,13 +3,11 @@ import { computed, defineComponent } from 'vue';
 import { DateTime } from 'luxon';
 import { playStream } from '@/player/stream';
 import LazyImage from '@/components/ui/LazyImage.vue';
-// import ScheduleItemPlay from './ScheduleItemPlay.vue';
 import PlayButton from './button/Play.vue';
 
 export default defineComponent({
   components: {
     LazyImage,
-    // ScheduleItemPlay,
     PlayButton,
   },
   props: {
@@ -95,11 +93,6 @@ export default defineComponent({
         class="info"
       >
         <div
-          class="meta"
-        >
-          {{ scheduleItem.media.name }}
-        </div>
-        <div
           class="timing"
         >
           {{ scheduleItem.timeStart.toLocaleString(timeFormat) }}
@@ -114,13 +107,6 @@ export default defineComponent({
       <PlayButton
         @play="play"
       />
-      <!--
-      <ScheduleItemPlay
-        :is-current="isCurrent"
-        :item="scheduleItem"
-        @play="play"
-      />
-      -->
     </div>
   </div>
 </template>
@@ -140,6 +126,12 @@ export default defineComponent({
   .panel {
     width: 100%;
     height: 100%;
+    //crop a couple of pixels
+    overflow: hidden;
+    :deep(img) {
+      transform: scale(1.02);
+      //transform: scale(0.95);
+    }
   }
   .info {
     position: absolute;

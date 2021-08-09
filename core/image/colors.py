@@ -11,9 +11,8 @@ PngImagePlugin.MAX_TEXT_CHUNK = 4 * (1024 ** 2)
 
 
 def read_as_image(file):
-    fp = file
-    image = Image.open(fp)
-    fp.close()
+    image = Image.open(file)
+    # fp.close()
     return image
 
 
@@ -26,8 +25,11 @@ def resize_image(img, size=100):
 
 def image_as_fp(img):
     fp = io.BytesIO()
+    print("fp", fp)
     try:
+        print("img", img)
         img.save(fp, "png")
+        print("img x", img)
         fp.seek(0)
         return fp
     except OSError as e:
@@ -39,7 +41,11 @@ def extract_colors(file, num_colors=2):
 
     img = read_as_image(file=file.file)
     img = resize_image(img=img)
-    fp = image_as_fp(img=img)
+
+    try:
+        fp = image_as_fp(img=img)
+    except ValueError:
+        return None, None
 
     if not fp:
         return None, None
