@@ -1,8 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-// import LazyImage from '@/components/ui/LazyImage.vue';
-// import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import LazyImage from '@/components/ui/LazyImage.vue';
 
 export default defineComponent({
   props: {
@@ -18,8 +17,7 @@ export default defineComponent({
     },
   },
   components: {
-    // LazyImage,
-    // MediaArtists,
+    LazyImage,
   },
   setup(props) {
     const title = computed(() => {
@@ -33,9 +31,13 @@ export default defineComponent({
         },
       };
     });
+    const editor = computed(() => {
+      return props.playlist?.editor;
+    });
     return {
       title,
       link,
+      editor,
     };
   },
 });
@@ -54,28 +56,31 @@ export default defineComponent({
       :to="link"
       v-text="title"
       class="title"
-    >
-    </router-link>
-    <div
-      class="subtitle"
-    >
-      <a href="#">
-        (( Editor ))
-      </a>
-    </div>
-    <div
-      class="classification"
-    >
-      <div
-        class="tags"
+    />
+    <div>
+      <router-link
+        v-if="editor"
+        class="editor"
+        :to="{
+          name: 'discoverEditors',
+        }"
       >
-        <span>
-          #flow
-        </span>
-        <span>
-          #mellow
-        </span>
-      </div>
+        <div
+          class="visual"
+        >
+          <LazyImage
+            v-if="editor.image"
+            class="image"
+            :image="editor.image"
+            :size="(128)"
+          />
+        </div>
+        <div
+          class="name"
+        >
+          {{ editor.name }}
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -91,11 +96,41 @@ export default defineComponent({
 .title {
   @include typo.large;
 }
-.subtitle {
+.editor {
+  display: inline-flex;
+  align-items: center;
+  height: 3rem;
   margin-top: 0.75rem;
-}
-.classification {
-  margin-top: 0.325rem;
+  border-radius: 1.5rem;
+  .visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    .image {
+      width: 3rem;
+      min-width: unset;
+      max-width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      filter: grayscale(1);
+      transition: width 100ms, height 100ms;
+    }
+  }
+  .name {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    padding: 0 1rem;
+  }
+  &:hover {
+    .image {
+      width: 2.5rem;
+      height: 2.5rem;
+
+    }
+  }
 }
 a {
   @include responsive.hover-supported {

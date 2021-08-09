@@ -41,7 +41,7 @@ export default defineComponent({
     :size="size"
     :disabled="disabled"
     :outline-opacity="(1)"
-    :outline-width="(3)"
+    :outline-width="(6)"
     @click="play"
   >
     <IconPlay

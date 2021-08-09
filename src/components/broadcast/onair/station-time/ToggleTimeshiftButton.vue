@@ -14,7 +14,7 @@ export default defineComponent({
 <template>
   <CircleButton
     :size="(48)"
-    :outlined="(false)"
+    :outlined="(true)"
   >
     <IconTimeshift
       :size="(48)"

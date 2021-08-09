@@ -103,6 +103,16 @@ class ScheduleView(APIView):
             time_start__lte=time_until,
         )
 
+        qs = qs.select_related(
+            "playlist",
+            "playlist__editor",
+        )
+
+        qs = qs.prefetch_related(
+            "playlist__editor__images",
+            "playlist__editor__playlists",
+        )
+
         flatten = itertools.chain.from_iterable
 
         all_media = flatten([e.get_media_set() for e in qs])

@@ -139,6 +139,9 @@ class ScheduleEmissionSerializer(CatalogMediaSerializer):
 
 
 class SchedulePlaylistSerializer(CatalogMediaSerializer):
+
+    editor = EditorSerializer()
+
     class Meta:
         model = Playlist
         fields = [
@@ -147,6 +150,7 @@ class SchedulePlaylistSerializer(CatalogMediaSerializer):
             "uid",
             "name",
             "duration",
+            "editor",
         ]
 
 

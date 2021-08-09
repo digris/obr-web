@@ -9,9 +9,14 @@ class SortableImageInlineMixin(SortableInlineAdminMixin):
     extra = 0
     max_num = 10
 
+    readonly_fields = [
+        "colors",
+    ]
+
     fields = [
         "file",
         "position",
+        "colors",
     ]
 
     # formfield_overrides = {

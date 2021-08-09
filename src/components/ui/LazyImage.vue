@@ -15,11 +15,14 @@ export default {
       required: false,
       default: null,
     },
+    size: {
+      type: Number,
+      default: 800,
+    },
   },
   setup(props) {
     const isLoading = ref(false);
     const isLoaded = ref(false);
-    const size = ref(800);
     const imageSrc = ref(PLACEHOLDER_SRC);
 
     const color = computed(() => {
@@ -27,7 +30,7 @@ export default {
     });
 
     const src = computed(() => {
-      return getImageSrc(props.image, size.value);
+      return getImageSrc(props.image, props.size);
     });
 
     const loadImage = async () => {

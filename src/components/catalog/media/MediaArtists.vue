@@ -28,6 +28,10 @@ export default {
       >
         {{ artist.joinPhrase }}
       </span>
+      <span
+        v-else-if="(index > 0)"
+        class="artist__join artist__join--spaceless"
+      >, </span>
       <router-link
         :to="`/discover/artists/${artist.uid}/`"
         class="artist__name"
@@ -49,6 +53,10 @@ export default {
     margin-right: 0.25rem;
     margin-left: 0.25rem;
     opacity: 0.5;
+    &--spaceless {
+      margin-right: 0;
+      margin-left: 0;
+    }
   }
   &__name {
     white-space: nowrap;

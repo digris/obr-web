@@ -179,6 +179,10 @@ export default defineComponent({
 }
 .lead {
   @include typo.large;
+  a {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 .subscribe {
   color: inherit;

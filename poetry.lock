@@ -491,6 +491,17 @@ python-versions = "*"
 flake8 = "*"
 
 [[package]]
+name = "freezegun"
+version = "1.1.0"
+description = "Let your Python tests travel through time"
+category = "dev"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+python-dateutil = ">=2.7"
+
+[[package]]
 name = "frosted"
 version = "1.4.1"
 description = "A passive Python syntax checker"
@@ -1576,7 +1587,7 @@ h11 = ">=0.9.0,<1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "b2d95f586dd30abf1812921e1b1a892a354de92699d54c1c379848cc54e82729"
+content-hash = "1c272f7f6a75d8abcaba21b86a78ca50b2b637430424604c363058b5aa44422c"
 
 [metadata.files]
 algoliasearch = [
@@ -1845,6 +1856,10 @@ flake8 = [
 flake8-polyfill = [
     {file = "flake8-polyfill-1.0.2.tar.gz", hash = "sha256:e44b087597f6da52ec6393a709e7108b2905317d0c0b744cdca6208e670d8eda"},
     {file = "flake8_polyfill-1.0.2-py2.py3-none-any.whl", hash = "sha256:12be6a34ee3ab795b19ca73505e7b55826d5f6ad7230d31b18e106400169b9e9"},
+]
+freezegun = [
+    {file = "freezegun-1.1.0-py2.py3-none-any.whl", hash = "sha256:2ae695f7eb96c62529f03a038461afe3c692db3465e215355e1bb4b0ab408712"},
+    {file = "freezegun-1.1.0.tar.gz", hash = "sha256:177f9dd59861d871e27a484c3332f35a6e3f5d14626f2bf91be37891f18927f3"},
 ]
 frosted = [
     {file = "frosted-1.4.1-py2.py3-none-any.whl", hash = "sha256:c6a30ad502ea373f6fe4cafbcd896ece66948406b04365d14a3eb764cc529b07"},

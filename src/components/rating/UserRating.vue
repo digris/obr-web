@@ -1,8 +1,7 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-// import IconPlay from '@/components/ui/icon/IconPlay.vue';
 import IconHeart from '@/components/ui/icon/IconHeart.vue';
 
 export default defineComponent({
@@ -23,11 +22,9 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const userRating = computed(() => {
-      const rating = store.getters['rating/ratingByKey'](props.objKey);
-      return rating;
+      return store.getters['rating/ratingByKey'](props.objKey);
     });
     const rate = async (value: number) => {
-      console.debug('vote', value);
       const vote = {
         key: props.objKey,
         value,

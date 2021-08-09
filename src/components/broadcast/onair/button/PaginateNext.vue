@@ -37,8 +37,7 @@ export default defineComponent({
   <CircleButton
     :size="size"
     :disabled="disabled"
-    :outline-opacity="(1)"
-    :outline-width="(3)"
+    :outlined="(!disabled)"
   >
     <IconSkip
       :size="iconSize"

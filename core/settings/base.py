@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "api_extra",
     "sync",
     "account",
+    "user_identity",
     "subscription",
     "identifier",
     "rating",

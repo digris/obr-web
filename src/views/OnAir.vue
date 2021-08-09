@@ -13,6 +13,7 @@ import Schedule from '@/components/broadcast/onair/Schedule.vue';
 import FocusedEmission from '@/components/broadcast/onair/FocusedEmission.vue';
 import FocusedMedia from '@/components/broadcast/onair/FocusedMedia.vue';
 import PaginateButton from '@/components/broadcast/onair/button/PaginateNext.vue';
+import Rating from '@/components/broadcast/onair/rating/Rating.vue';
 
 export default defineComponent({
   components: {
@@ -21,6 +22,7 @@ export default defineComponent({
     FocusedEmission,
     FocusedMedia,
     PaginateButton,
+    Rating,
   },
   setup() {
     const route = useRoute();
@@ -45,7 +47,6 @@ export default defineComponent({
       '--size': `${itemSize.value}px`,
       '--item-size': `${itemSize.value}px`,
       '--item-offset': `${itemSize.value * 0.12}px`,
-      // '--item-size': '600px',
     }));
     const focusKey = ref('');
     const calculatedOffset = computed(() => {
@@ -194,7 +195,10 @@ export default defineComponent({
     <div
       class="actions"
     >
-      (( ACTIONS ))
+      <Rating
+        v-if="focused && focused.media"
+        :media="focused.media"
+      />
     </div>
     <Schedule
       :current="current"
