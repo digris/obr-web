@@ -109,7 +109,7 @@ class PaymentView(APIView):
             {
                 "name": "Credit Card",
                 "key": "stripe",
-                "endpoint": reverse(f"api:subscription:stripe:endpoint"),
+                "endpoint": reverse("api:subscription:stripe:endpoint"),
             },
         ]
 

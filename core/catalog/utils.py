@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db.models import Q
+
 from base.utils.qs import next_in_order, prev_in_order
 
 
@@ -25,17 +26,18 @@ def get_surounding_media(media):
 
         pm = qs.get(position=playlist_media.position)
         previous = prev_in_order(pm, qs=qs)
-        next = next_in_order(pm, qs=qs)
+        next_pm = next_in_order(pm, qs=qs)
 
-        if previous and not previous.media in preceding:
+        if previous and previous.media not in preceding:
             preceding.append(previous.media)
 
-        if next and not next.media in succeeding:
-            succeeding.append(next.media)
+        if next_pm and next_pm.media not in succeeding:
+            succeeding.append(next_pm.media)
 
     return preceding, succeeding
 
 
+# pylint: disable=pointless-string-statement
 """
 from catalog.models import Media
 from broadcast.utils import get_current_media

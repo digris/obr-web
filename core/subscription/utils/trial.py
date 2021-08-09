@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import logging
 
-from django.utils import timezone
 from datetime import timedelta
 
+from django.utils import timezone
+
 from subscription.models import Subscription, SubscriptionType
-
 from . import get_subscription
-
 
 NUM_DAYS_TRIAL = 3
 

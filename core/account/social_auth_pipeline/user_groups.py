@@ -35,3 +35,5 @@ def add_user_to_team(strategy, user=None, *args, **kwargs):
 
     if changed:
         strategy.storage.user.changed(user)
+
+    return None

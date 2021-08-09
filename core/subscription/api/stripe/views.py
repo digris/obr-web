@@ -38,10 +38,9 @@ class PaymentView(APIView):
 
         serializer = PaymentSerializer(data=request.data)
         user = request.user
-        user_uid = str(user.uid)
         sku = request.data.get("sku")
         donation = request.data.get("donation", 0)
-        next = request.data.get("next")
+        next_url = request.data.get("next")
 
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -76,7 +75,7 @@ class PaymentView(APIView):
                 "sku": plan["sku"],
                 "num_days": plan["num_days"],
             },
-            "next": next,
+            "next": next_url,
         }
 
         payment = Payment.objects.create(
@@ -104,20 +103,12 @@ class PaymentView(APIView):
                 "uid": payment.uid,
             }
         )
-        # order = request.data.get("order")
-        # order_uuid = order.get("uuid")
-        # order = Order.objects.get(uuid=order_uuid)
-        # session = create_checkout_session(request=request, order=order)
-        # return Response({"id": session.id})
 
 
 class PaymentSuccessView(APIView):
     def get(self, request, signed_payment_uid):
         payment_uid = timestamp_signer.unsign(signed_payment_uid)
         payment = Payment.objects.get(uid=payment_uid)
-
-        # print("payment_uid", payment_uid)
-        # print("payment", payment)
 
         checkout_session = get_checkout_session(request)
 
@@ -129,6 +120,7 @@ class PaymentSuccessView(APIView):
 
 
 class PaymentWebhookView(APIView):
+    # pylint: disable=unused-argument
     def post(self, request, *args, **kwargs):
         return Response()
         # payload = request.body

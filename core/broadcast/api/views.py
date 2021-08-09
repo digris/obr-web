@@ -3,10 +3,10 @@ import itertools
 import logging
 from datetime import timedelta
 
+from django.db.models import Count
+from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from django.db.models import Count, Max, Q
-from django.db.models.functions import Lower
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response

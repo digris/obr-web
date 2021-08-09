@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
-from decimal import Decimal
-from django.utils import timezone
 from datetime import timedelta
+from decimal import Decimal
+
+from django.utils import timezone
 
 from subscription.models import Subscription, SubscriptionType
 from subscription.utils import get_subscription
@@ -78,3 +79,5 @@ def extend_subscription(user, num_days):
 
     subscription.type = SubscriptionType.PLAN
     subscription.save()
+
+    return subscription

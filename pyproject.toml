@@ -5,9 +5,7 @@ description = "openbroadcast.ch - next"
 authors = ["Jonas Ohrstrom <jonas.ohrstrom@digris.ch>"]
 license = "MIT"
 
-packages = [
-    {include="core", from="."}
-]
+packages = [{include="core", from="."}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -52,7 +50,20 @@ pytest-django = "*"
 pytest-cov = "*"
 django-querycount = "*"
 Faker = "^7.0.1"
+django-stubs = "^1.8.0"
+djangorestframework-stubs = "^1.4.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-p no:warnings"
+python_files = ["test_*.py"]
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+
+[mypy.plugins.django-stubs]
+django_settings_module = "core.settings.test"

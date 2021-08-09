@@ -72,7 +72,7 @@ class PlaylistAdmin(admin.ModelAdmin):
     def series_display(self, obj):
         if obj.series and obj.series_episode:
             return f"{obj.series.name} #{obj.series_episode}"
-        elif obj.series:
+        if obj.series:
             return obj.series.name
         return None
 

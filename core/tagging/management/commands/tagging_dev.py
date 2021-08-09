@@ -1,6 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models import Count, Q
 from django.contrib.contenttypes.models import ContentType
+from django.core.management.base import BaseCommand
+from django.db.models import Count, Q
 
 from catalog.models import Media
 from tagging.models import Tag
@@ -26,8 +26,8 @@ class Command(BaseCommand):
         print("mc count", mc_qs.count())
 
         # most common
-        relname = Media.tags.through.tag_relname()
-        relname = "tagging_taggeditem_items"
+        # relname = Media.tags.through.tag_relname()
+        # relname = "tagging_taggeditem_items"
         mc2_qs = Media.tags.get_queryset(extra_filters=extra_filters)
         # mc2_qs = mc2_qs.annotate(num_times=Count(Media.tags.through.tag_relname()))
         ct = ContentType.objects.get_for_model(media_qs.model)

@@ -26,5 +26,5 @@ def email_preview(request):
     if request.GET.get("plain"):
         text = "Subject: %s\n\n%s" % (message.subject, message.plain)
         return HttpResponse(text, content_type="text/plain")
-    else:
-        return HttpResponse(message.html)
+
+    return HttpResponse(message.html)

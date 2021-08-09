@@ -3,9 +3,9 @@ import hashlib
 
 
 def get_sha1(value):
-    hash = hashlib.sha1()
-    hash.update(value.encode("ascii"))
-    return hash.hexdigest()
+    hashed_value = hashlib.sha1()
+    hashed_value.update(value.encode("ascii"))
+    return hashed_value.hexdigest()
 
 
 def get_base64(value):
