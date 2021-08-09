@@ -1,9 +1,6 @@
 from django.core.management.base import BaseCommand
-from django.db.models import Count, Q
-from django.contrib.contenttypes.models import ContentType
 
 from catalog.models import Media
-from tagging.models import Tag
 from tagging.utils import get_usage_for_qs
 
 

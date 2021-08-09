@@ -3,8 +3,9 @@ import logging
 
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
-from sync import api_client
+
 from rating.models import Vote
+from sync import api_client
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ def sync_user_votes(user):
             "email": user.email,
             # "email": "jonas@digris.ch",
         }
-        data = api_client.get(f"votes/", params=params)
+        data = api_client.get("votes/", params=params)
     except api_client.APIClientException as e:
         logger.error(f"unable to get user: {user} - {e}")
         return None
@@ -74,14 +75,11 @@ def sync_user_votes(user):
             vote.save()
         # print(f"// {value}", content_object)
 
+    return None
 
+
+# pylint: disable=unused-argument
 def sync_user(user, force=False):
-
-    # try:
-    #     data = api_client.get(f"profiles/{user.uuid}/")
-    # except api_client.APIClientException as e:
-    #     logger.error(f"unable to get user: {user} - {e}")
-    #     return None
 
     update = {}
 

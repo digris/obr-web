@@ -11,9 +11,9 @@ from django.utils.translation import gettext_lazy as _
 
 from account import signals as account_signals
 from account import token_login
+from account.sync.user import sync_user
 from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
-from account.sync.user import sync_user
 
 
 class UserManager(BaseUserManager):
@@ -100,7 +100,7 @@ class User(
     def full_name(self):
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}"
-        elif self.first_name:
+        if self.first_name:
             return self.first_name
         return self.email
 
@@ -160,6 +160,7 @@ class LoginToken(
 
     def save(self, *args, **kwargs):
         if not self.value:
+            # pylint: disable=unused-variable
             for i in itertools.count(1):
                 token = token_login.generate_token()
                 if not LoginToken.objects.filter(value=token).exists():

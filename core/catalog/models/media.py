@@ -9,10 +9,10 @@ from django.utils.functional import cached_property
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin, CTModelMixin
 from catalog.sync.media import sync_media, sync_master
 from sync.models.mixins import SyncModelMixin
+from tagging.managers import TaggableManager
 
 # from rating.mixins import RatingModelMixin
 from tagging.models import TaggedItem
-from tagging.managers import TaggableManager
 
 
 class Media(

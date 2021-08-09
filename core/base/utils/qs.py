@@ -51,10 +51,12 @@ def next_or_prev_in_order(instance, qs=None, prev=False, loop=False):
 
     for field in ordering:
         if field[0] == "-":
+            # pylint: disable=consider-using-ternary
             this_lookup = lookup == "gt" and "lt" or "gt"
             field = field[1:]
         else:
             this_lookup = lookup
+        # pylint: disable=consider-using-dict-comprehension
         q_kwargs = dict([(f, get_model_attr(instance, f)) for f in prev_fields])
         key = "%s__%s" % (field, this_lookup)
         q_kwargs[key] = get_model_attr(instance, field)

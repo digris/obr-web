@@ -20,7 +20,7 @@ fix:
 	black ./core/
 
 test:
-	pytest --ds core.settings.test --cov=core term-missing
+	pytest --ds core.settings.test --cov=core
 
 build-docker:
 	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain

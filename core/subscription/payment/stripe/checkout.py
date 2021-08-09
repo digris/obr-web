@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
-import stripe
-
 from decimal import Decimal
-from django.urls import reverse
+
+import stripe
 from django.conf import settings
-from base.utils.urls import get_absolute_url
+from django.urls import reverse
 
 from base.utils.signer import timestamp_signer
+from base.utils.urls import get_absolute_url
 
 logger = logging.getLogger(__name__)
 
@@ -22,8 +22,6 @@ def create_checkout_session(request, user, items, payment):
 
     user_uid = str(user.uid)
     payment_uid = str(payment.uid)
-
-    signed_user_uid = timestamp_signer.sign(user_uid)
     signed_payment_uid = timestamp_signer.sign(payment_uid)
 
     success_url = (

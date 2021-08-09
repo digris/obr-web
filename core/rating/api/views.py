@@ -19,26 +19,6 @@ log = logging.getLogger(__name__)
 
 class ObjectRatingView(APIView):
     def get_object(self, obj_ct, obj_uid):
-        # print("**", obj_ct, obj_uid)
-
-        qs = apps.get_model(*obj_ct.split("."))
-
-        # # annotate with request user's rating
-        # if self.request.user.is_authenticated:
-        #     qs = qs.annotate(
-        #         user_rating=Max(
-        #             "votes__value", filter=Q(votes__user=self.request.user)
-        #         ),
-        #     )
-        # # annotate with anonymous user 'identity'
-        # else:
-        #     qs = qs.annotate(
-        #         user_rating=Max(
-        #             "votes__value",
-        #             filter=Q(votes__user_identity=self.request.user_identity),
-        #         ),
-        #     )
-
         try:
             obj = (
                 apps.get_model(*obj_ct.split("."))
@@ -128,22 +108,3 @@ class ObjectRatingView(APIView):
         serializer = VoteSerializer(vote)
 
         return Response(serializer.data)
-
-    # def delete(self, request, pk):
-    #     vote = self.get_object(pk)
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-"""
-from django.apps import apps
-obj_ct = 'catalog.media'
-from rating.models import Vote
-from django.contrib.contenttypes.models import ContentType
-app_label, model = obj_ct.split(".")
-ct = ContentType.objects.get(app_label=app_label, model=model)
-Vote.objects.filter(content_type=ct)
-from account.models import User
-u = User.objects.get(id=1)
-Vote.objects.filter(content_type=ct, media__uid='F2B68907', user=u)
-Vote.objects.get(content_type=ct, media__uid='F2B68907', user=u)
-"""

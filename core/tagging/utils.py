@@ -1,6 +1,7 @@
-from django.db.models import Count, Q
-from tagging.models import Tag
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Count, Q
+
+from tagging.models import Tag
 
 
 def get_usage_for_qs(qs, min_count=None):

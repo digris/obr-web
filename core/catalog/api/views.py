@@ -8,8 +8,9 @@ from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
+from rest_framework.response import Response
+
 from tagging import utils as tagging_utils
 from . import serializers
 from ..models import Mood, Media, Artist, Release, Playlist
@@ -122,7 +123,7 @@ class MediaFilter(filters.FilterSet):
     # pylint: disable=unused-argument
     def user_rating_filter(self, queryset, name, value):
         query = {
-            f"user_rating__gte": value,
+            "user_rating__gte": value,
         }
         return queryset.filter(**query)
 
@@ -219,6 +220,7 @@ class MediaViewSet(
         return obj
 
     @action(url_path="tags", detail=False, methods=["get"])
+    # pylint: disable=unused-argument
     def get_tags(self, request, **kwargs):
         qs_filter = MediaFilter(request.GET, queryset=self.get_queryset())
         qs = qs_filter.qs
@@ -301,7 +303,7 @@ class PlaylistFilter(filters.FilterSet):
     # pylint: disable=unused-argument
     def user_rating_filter(self, queryset, name, value):
         query = {
-            f"user_rating__gte": value,
+            "user_rating__gte": value,
         }
         return queryset.filter(**query)
 

@@ -7,12 +7,11 @@ from django.dispatch import receiver
 
 from .models import Vote
 
-# from django_elasticsearch_dsl.registries import registry
-
 log = logging.getLogger(__name__)
 
 
 @receiver(post_save, sender=Vote)
+# pylint: disable=unused-argument
 def rating_post_save(sender, instance, created, **kwargs):
 
     log.debug("rating saved - {} - {}".format(instance.value, instance.content_object))
