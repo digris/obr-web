@@ -1,4 +1,7 @@
+@use "@/style/base/typo";
+
 @mixin default($height: 3rem) {
+  @include typo.bold;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,6 +1,6 @@
 import datetime
+
 import pytest
-from http.cookies import SimpleCookie
 from freezegun import freeze_time
 
 from account.cdn_credentials.cookie import get_signed_cookie, get_cdn_policy

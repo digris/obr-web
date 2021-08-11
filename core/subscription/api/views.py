@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
-from subscription.api.serializers import serializers
-from subscription.utils import trial, plan
+from subscription.api import serializers
+from subscription.utils import trial, plan, voucher
 
 logger = logging.getLogger(__name__)
 
@@ -121,3 +121,41 @@ class PaymentView(APIView):
     #     provider = request.data.get("provider")
     #
     #     return Response()
+
+
+class SubscriptionVoucherView(APIView):
+
+    permission_classes = [
+        # permissions.IsAuthenticated,
+        permissions.IsAuthenticatedOrReadOnly,
+    ]
+
+    @staticmethod
+    def get(request):
+        code = request.GET.get("code", "")
+        code = "".join(code.split("-")).upper()
+        # if not code:
+        #     return Response(
+        #         {
+        #             "message": "Missing code",
+        #         },
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
+        try:
+            serializer = serializers.VoucherSerializer(
+                voucher.get_voucher(
+                    user=request.user,
+                    code=code,
+                ),
+                context={
+                    "request": request,
+                },
+            )
+            return Response(serializer.data)
+        except voucher.VoucherValidationException as e:
+            return Response(
+                {
+                    "message": str(e),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )

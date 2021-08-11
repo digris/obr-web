@@ -75,8 +75,8 @@ class Media(
         return latest.time_start if latest else None
         # return timezone.now()
 
-    def sync_data(self):
-        return sync_media(self)
+    def sync_data(self, *args, **kwargs):
+        return sync_media(self, *args, **kwargs)
 
 
 class Master(

@@ -29,7 +29,7 @@ def get_playlist_media(items):
 
 
 # pylint: disable=too-many-locals
-def sync_playlist(playlist):
+def sync_playlist(playlist, skip_media, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models.media import Media
 
@@ -53,7 +53,9 @@ def sync_playlist(playlist):
     type(playlist).objects.filter(id=playlist.id).update(**update)
 
     update_tags(playlist, data.get("tags", []))
-    update_image(playlist, data.get("image"), PlaylistImage)
+
+    if not skip_media:
+        update_image(playlist, data.get("image"), PlaylistImage)
 
     media_list = get_playlist_media(data.get("items", []))
 

@@ -10,7 +10,7 @@ from sync.utils import update_tags, update_image
 logger = logging.getLogger(__name__)
 
 
-def sync_editor(editor):
+def sync_editor(editor, **kwargs):
     # pylint: disable=import-outside-toplevel
     from broadcast.models import EditorImage
 

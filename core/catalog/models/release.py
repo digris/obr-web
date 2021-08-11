@@ -73,8 +73,8 @@ class Release(
     def num_media(self):
         return self.media.count()
 
-    def sync_data(self):
-        return sync_release(self)
+    def sync_data(self, *args, **kwargs):
+        return sync_release(self, *args, **kwargs)
 
 
 class ReleaseMedia(models.Model):

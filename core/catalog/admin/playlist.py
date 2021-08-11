@@ -18,7 +18,16 @@ class PlaylistImageInline(SortableImageInlineMixin, admin.TabularInline):
 
 @admin.register(Series)
 class SeriesAdmin(admin.ModelAdmin):
-    pass
+    save_on_top = True
+    list_display = [
+        "name",
+        "num_playlists",
+        "sync_state",
+    ]
+    list_filter = [
+        "updated",
+        "sync_state",
+    ]
 
 
 @admin.register(Playlist)

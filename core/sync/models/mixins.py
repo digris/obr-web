@@ -29,5 +29,5 @@ class SyncModelMixin(models.Model):
     class Meta:
         abstract = True
 
-    def sync_data(self):
+    def sync_data(self, *args, **kwargs):
         raise NotImplementedError("sync_data not implemented")

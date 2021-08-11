@@ -10,7 +10,7 @@ from sync.utils import update_relations, update_tags, update_image
 logger = logging.getLogger(__name__)
 
 
-def sync_artist(artist):
+def sync_artist(artist, skip_media, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models.artist import ArtistImage
 
@@ -32,7 +32,9 @@ def sync_artist(artist):
 
     update_relations(artist, data.get("relations", []))
     update_tags(artist, data.get("tags", []))
-    update_image(artist, data.get("image"), ArtistImage)
+
+    if not skip_media:
+        update_image(artist, data.get("image"), ArtistImage)
 
     logger.info(f"sync completed for {artist.ct}:{artist.uid}")
 

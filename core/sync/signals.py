@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from django.conf import settings
 from django.db.models.functions import Now
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -9,6 +10,9 @@ from django.utils import timezone
 from broadcast import signals as broadcast_signals
 from catalog.sync.airplay import sync_airplays
 from .models.mixins import SyncModelMixin, SyncState
+
+SKIP_MEDIA = getattr(settings, "SYNC_SKIP_MEDIA", False)
+
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +29,7 @@ def sync_model_post_save(sender, instance, **kwargs):
         qs.update(sync_state=SyncState.RUNNING)
         logger.debug(f'sync pending for {instance.ct}:{instance.uid} "{instance}"')
 
-        result = instance.sync_data()
+        result = instance.sync_data(skip_media=SKIP_MEDIA)
 
         sync_state = SyncState.COMPLETED if result else SyncState.FAILED
         qs.update(

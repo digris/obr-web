@@ -36,6 +36,15 @@ async function createStripeCheckoutSession(sku: string, next: string) {
   return response.data;
 }
 
+async function getVoucher(code: string) {
+  const url = `${SUBSCRIPTION_ENDPOINT}voucher/`;
+  const params = {
+    code,
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
+
 export {
   getCurrentSubscription,
   getTrialOptions,
@@ -43,4 +52,6 @@ export {
   getPlanOptions,
   // payment
   createStripeCheckoutSession,
+  // voucher
+  getVoucher,
 };

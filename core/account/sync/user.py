@@ -79,7 +79,7 @@ def sync_user_votes(user):
 
 
 # pylint: disable=unused-argument
-def sync_user(user, force=False):
+def sync_user(user, **kwargs):
 
     update = {}
 

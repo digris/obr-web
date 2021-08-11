@@ -192,8 +192,8 @@ class Editor(
     def num_playlists(self):
         return self.playlists.count()
 
-    def sync_data(self):
-        return sync_editor(self)
+    def sync_data(self, *args, **kwargs):
+        return sync_editor(self, *args, **kwargs)
 
 
 class EditorImage(BaseSortableImage):
