@@ -33,10 +33,16 @@ export default defineComponent({
         {{ error.data.message }}
       </p>
       <p
+        v-else-if="(error.data && error.data.detail)"
+        class="error__message"
+      >
+        {{ error.data.detail }}
+      </p>
+      <p
         v-else
         class="error__message"
       >
-        An error occured. Sorry.
+        An error occurred. Sorry.
       </p>
       <code
         class="error__status"
@@ -52,24 +58,25 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .errors {
-  padding: 0.5rem 1rem 0.5rem calc(1rem - 4px);
-  background: rgba(var(--c-error), 0.1);
-  border-left: 4px solid rgb(var(--c-error));
+  padding: 1rem;
+  color: rgb(var(--c-white));
+  background: rgb(var(--c-error));
 }
 .error {
   position: relative;
   &__message {
+    @include typo.bold;
     &:not(:first-child) {
       padding-top: 0.5rem;
     }
   }
   &__status {
+    @include typo.dim;
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 90%;
-    opacity: 0.75;
   }
 }
 .error:not(:last-child) {

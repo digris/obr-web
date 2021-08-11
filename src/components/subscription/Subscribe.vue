@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import eventBus from '@/eventBus';
+import notify from '@/utils/notification';
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 
 import SubscribeTrial from '@/components/subscription/SubscribeTrial.vue';
@@ -15,6 +17,7 @@ export default defineComponent({
     SubscribeVoucher,
   },
   setup() {
+    const router = useRouter();
     const isVisible = ref(false);
     const intent = ref('plan');
     const next = ref(null);
@@ -34,15 +37,31 @@ export default defineComponent({
       next.value = event.next || null;
       message.value = event.message || null;
     });
-    const showSuccess = () => {
-      successVisible.value = true;
+    const subscriptionUpdated = () => {
+      console.debug('show success');
+      // successVisible.value = true;
+      close();
+      notify({
+        level: 'success',
+        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+        // action: {
+        //   label: 'More',
+        //   url: '/foo/bar/',
+        // },
+      });
+      // store.dispatch('notification/addMessage', msg);
+      if (next.value) {
+        // @ts-ignore
+        router.push(next.value);
+      }
+      console.debug('next:', next.value);
     };
     return {
       close,
       isVisible,
       intent,
       setIntent,
-      showSuccess,
+      subscriptionUpdated,
       successVisible,
       next,
       message,
@@ -94,6 +113,7 @@ export default defineComponent({
         <br>
         Die von uns gespielten Inhalte zu jederzeit hören für CHF 1.– pro Monat.
       </p>
+      <!--
       <p
         class="current-subscription-text"
       >
@@ -102,6 +122,10 @@ export default defineComponent({
         Noch 3 Tage
         <br>
         Gültig bis am: 12.04.2021
+      </p>
+      -->
+      <p>
+        &nbsp;
       </p>
       <p
         v-if="(intent === 'plan')"
@@ -113,7 +137,8 @@ export default defineComponent({
         v-if="(intent === 'voucher')"
         class="lead"
       >
-        <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>
+        Keinen Code?
+        <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>.
       </p>
     </div>
     <div
@@ -123,7 +148,7 @@ export default defineComponent({
         <transition name="fade" mode="out-in" appear>
           <SubscribeTrial
             v-if="(intent === 'trial')"
-            @subscription-created="showSuccess"
+            @subscription-created="subscriptionUpdated"
           />
           <SubscribePlan
             v-else-if="(intent === 'plan')"
@@ -132,6 +157,7 @@ export default defineComponent({
           <SubscribeVoucher
             v-else-if="(intent === 'voucher')"
             :next="next"
+            @subscription-extended="subscriptionUpdated"
           />
         </transition>
       </section>

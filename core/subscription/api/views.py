@@ -130,17 +130,12 @@ class SubscriptionVoucherView(APIView):
         permissions.IsAuthenticatedOrReadOnly,
     ]
 
+    throttle_scope = "subscription.voucher"
+
     @staticmethod
     def get(request):
         code = request.GET.get("code", "")
         code = "".join(code.split("-")).upper()
-        # if not code:
-        #     return Response(
-        #         {
-        #             "message": "Missing code",
-        #         },
-        #         status=status.HTTP_400_BAD_REQUEST,
-        #     )
         try:
             serializer = serializers.VoucherSerializer(
                 voucher.get_voucher(
@@ -152,6 +147,24 @@ class SubscriptionVoucherView(APIView):
                 },
             )
             return Response(serializer.data)
+        except voucher.VoucherValidationException as e:
+            return Response(
+                {
+                    "message": str(e),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    @staticmethod
+    def post(request):
+        code = request.data.get("code")
+        code = "".join(code.split("-")).upper()
+        try:
+            data = voucher.redeem_voucher(
+                user=request.user,
+                code=code,
+            )
+            return Response(data, status.HTTP_201_CREATED)
         except voucher.VoucherValidationException as e:
             return Response(
                 {

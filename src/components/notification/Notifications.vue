@@ -2,7 +2,12 @@
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
+import CloseButton from './CloseButton.vue';
+
 export default defineComponent({
+  components: {
+    CloseButton,
+  },
   setup() {
     const store = useStore();
     const messages = computed(() => store.getters['notification/messages']);
@@ -31,7 +36,7 @@ export default defineComponent({
         @click="setSeen(message)"
         class="close"
       >
-        <span>-</span>
+        <CloseButton />
       </div>
       <div
         class="body"
@@ -56,13 +61,14 @@ export default defineComponent({
 @use "@/style/elements/button";
 .notifications {
   position: fixed;
-  top: 60px;
-  right: 50px;
+  top: 100px;
+  right: 24px;
 }
 
 .message {
   position: relative;
   min-width: 300px;
+  max-width: 300px;
   min-height: 3rem;
   margin-bottom: 0.5rem;
   padding: 0.5rem;
@@ -78,9 +84,12 @@ export default defineComponent({
     cursor: pointer;
   }
   .body {
-    padding-bottom: 1rem;
+    max-width: 270px;
+    padding-top: 2px;
+    padding-bottom: 0;
   }
   .action {
+    padding-top: 1rem;
     .button {
       @include button.default(2rem);
     }

@@ -6,6 +6,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 import { checkLoginEmail, sendLoginEmail } from '@/api/account';
+import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
 import Message from '@/components/ui/Message.vue';
 import TokenInput from '@/components/account/TokenInput.vue';
@@ -22,21 +23,27 @@ export enum Flow {
 
 export default defineComponent({
   components: {
+    AsyncButton,
     APIErrors,
     Message,
     TokenInput,
   },
-  setup() {
+  emits: [
+    'emailSent',
+  ],
+  setup(props, { emit }) {
     const store = useStore();
     const email = ref('');
     const password = ref('');
     const token = ref('');
+    const emailValid = ref(false);
     const emailExists = ref(false);
     const emailSent = ref(false);
     const promptPassword = ref(false);
-    const buttonText = ref(CREATE_ACCOUNT);
+    const buttonText = ref(LOGIN);
     const message = ref({});
     const errors = ref<Array<string>>([]);
+    const tokenInputRef = ref(null);
     const flow = computed(() => {
       if (emailExists.value && promptPassword.value) {
         return Flow.Password;
@@ -62,7 +69,7 @@ export default defineComponent({
         } else {
           message.value = {
             level: 'info',
-            body: 'Konto bereits vorhanden. Klicke auf ***',
+            body: 'Konto bereits vorhanden. Klicke auf "Code senden"',
           };
           buttonText.value = SEND_TOKEN;
         }
@@ -74,11 +81,22 @@ export default defineComponent({
     };
     const handleEmailInput = debounce(async (e: any) => {
       const { value } = e.target;
+      errors.value = [];
       emailExists.value = false;
       promptPassword.value = false;
       if (EmailValidator.validate(value)) {
-        const account = await checkLoginEmail(value);
-        updateAccount(account);
+        emailValid.value = true;
+        try {
+          const account = await checkLoginEmail(value);
+          updateAccount(account);
+        } catch (err: any) {
+          console.warn(err);
+          errors.value = [err.response];
+          // throw err;
+        }
+      } else {
+        emailValid.value = false;
+        buttonText.value = LOGIN;
       }
     }, 200);
     const submitForm = async () => {
@@ -124,6 +142,7 @@ export default defineComponent({
           const response = await sendLoginEmail(email.value);
           console.debug(response);
           emailSent.value = true;
+          emit('emailSent');
           buttonText.value = LOGIN;
           message.value = {
             level: 'info',
@@ -143,6 +162,7 @@ export default defineComponent({
           const response = await sendLoginEmail(email.value);
           console.debug(response);
           emailSent.value = true;
+          emit('emailSent');
           buttonText.value = LOGIN;
           message.value = {
             level: 'info',
@@ -158,6 +178,7 @@ export default defineComponent({
     return {
       flow,
       email,
+      emailValid,
       password,
       token,
       emailExists,
@@ -167,6 +188,7 @@ export default defineComponent({
       message,
       errors,
       handleEmailInput,
+      tokenInputRef,
       submitForm,
     };
   },
@@ -174,23 +196,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="form-errors"
-    v-if="errors.length"
-  >
-    <APIErrors
-      :errors="errors"
-    />
-  </div>
-  <div
-    class="form-messages"
-    v-if="(message && message.body)"
-  >
-    <Message
-      :level="message.level"
-      :body="message.body"
-    />
-  </div>
   <form
     class="form"
     @submit.prevent="submitForm"
@@ -237,45 +242,46 @@ export default defineComponent({
     </div>
     <div
       v-if="promptToken"
-      class="input-container token-input"
     >
-      <p>
-        Code aus E-Mail...
-      </p>
       <TokenInput
+        ref="tokenInputRef"
         :token="token"
         @input="token = $event"
       />
-      <!--
-      <input
-        class="input"
-        v-model="token"
-        required
-        id="token-1625"
-        name="token"
-        type="text"
-        placeholder="Code"
-      >
-      <label
-        for="token-1625"
-      >
-        Code
-      </label>
-      -->
+    </div>
+    <div
+      class="form-messages"
+      v-if="(message && message.body)"
+    >
+      <Message
+        :level="message.level"
+        :body="message.body"
+      />
+    </div>
+    <div
+      class="form-errors"
+      v-if="errors.length"
+    >
+      <APIErrors
+        :errors="errors"
+      />
     </div>
     <div
       class="input-container submit"
     >
-      <button
+      <AsyncButton
         class="button"
         type="submit"
-        v-text="buttonText"
-      />
+        :disabled="(!emailValid)"
+      >
+        {{ buttonText }}
+      </AsyncButton>
     </div>
   </form>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/elements/form";
 .form {
   @include form.default;
@@ -284,6 +290,9 @@ export default defineComponent({
   .input-container {
     @include form.float-label;
     width: 100%;
+    .input {
+      @include typo.large;
+    }
     &.submit {
       padding-top: 2rem;
       .button {
@@ -294,9 +303,9 @@ export default defineComponent({
   .token-input {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    //align-items: center;
+    //justify-content: center;
+    padding: 1rem 0;
   }
 }
 .form-messages,

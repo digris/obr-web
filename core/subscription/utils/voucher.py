@@ -4,9 +4,10 @@ import re
 from datetime import timedelta
 
 from django.utils import timezone
+from django.db import transaction
 
 from subscription.models import Voucher, Redemption
-from subscription.utils import get_subscription
+from subscription.utils import get_subscription, extend_subscription
 
 
 class VoucherValidationException(Exception):
@@ -55,16 +56,11 @@ def get_voucher(user, code):
 
     return voucher
 
-    num_days = 7
 
-    subscription = get_subscription(user=user)
-
-    until_date = get_until_date(subscription=subscription, num_days=num_days)
-
-    voucher = {
-        "code": code,
-        "num_days": num_days,
-        "until_date": until_date,
-    }
-
-    return voucher
+@transaction.atomic
+def redeem_voucher(user, code):
+    voucher = get_voucher(user, code)
+    redemption = Redemption(voucher=voucher, user=user)
+    # redemption.save()
+    extend_subscription(user=user, num_days=voucher.num_days)
+    return True

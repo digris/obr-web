@@ -69,6 +69,9 @@ class LoginView(APIView):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class SendEmailLoginView(APIView):
+
+    throttle_scope = "account.login_email"
+
     @staticmethod
     def get(request):
         email = request.GET.get("email", None)

@@ -1,10 +1,17 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 
+export interface Action {
+  label: string,
+  url: string,
+}
+
 export interface Message {
-  key: string,
+  level: string,
   body: string,
-  seen: boolean,
-  ttl: number | null,
+  key?: string,
+  seen?: boolean,
+  ttl?: number,
+  action?: Action,
 }
 
 export interface State {
