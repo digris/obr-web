@@ -26,5 +26,13 @@ urlpatterns = [
         views.PaymentView.as_view(),
         name="payment",
     ),
-    path("payment/stripe/", include(stripe_urls)),
+    path(
+        "payment/stripe/",
+        include(stripe_urls),
+    ),
+    path(
+        "voucher/",
+        views.SubscriptionVoucherView.as_view(),
+        name="subscription-voucher",
+    ),
 ]

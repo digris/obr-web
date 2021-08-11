@@ -1,4 +1,5 @@
 from django.apps import apps
+
 from user_identity.apps import UserIdentConfig
 
 

@@ -47,7 +47,7 @@ class MasterDownloadException(Exception):
 
 
 # pylint: disable=too-many-locals
-def sync_media(media):
+def sync_media(media, skip_media, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models import Artist, MediaArtists, Release, ReleaseMedia, Master
 
@@ -146,7 +146,7 @@ def download_master(media_uuid):
     return r.content, filename
 
 
-def sync_master(master, force=False):
+def sync_master(master, force=False, skip_media=False, **kwargs):
 
     client = storage.Client()
     bucket = client.bucket("obr-master")
@@ -155,6 +155,10 @@ def sync_master(master, force=False):
         # NOTE: implement re-sync
         if bucket.blob(master.path).exists():
             return master
+
+    if skip_media:
+        logger.info(f"sync skipping master download {master.ct}:{master.uid}")
+        return master
 
     content, filename = download_master(media_uuid=master.uuid)
     encoding = filename.split(".")[-1].lower()

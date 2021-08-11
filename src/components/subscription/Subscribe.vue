@@ -5,12 +5,14 @@ import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 
 import SubscribeTrial from '@/components/subscription/SubscribeTrial.vue';
 import SubscribePlan from '@/components/subscription/SubscribePlan.vue';
+import SubscribeVoucher from '@/components/subscription/SubscribeVoucher.vue';
 
 export default defineComponent({
   components: {
     OverlayPanel,
     SubscribeTrial,
     SubscribePlan,
+    SubscribeVoucher,
   },
   setup() {
     const isVisible = ref(false);
@@ -102,9 +104,16 @@ export default defineComponent({
         Gültig bis am: 12.04.2021
       </p>
       <p
+        v-if="(intent === 'plan')"
         class="lead"
       >
         Hast du einen <a @click.prevent="setIntent('voucher')">Gratis-Code</a>?
+      </p>
+      <p
+        v-if="(intent === 'voucher')"
+        class="lead"
+      >
+        <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>
       </p>
     </div>
     <div
@@ -118,6 +127,10 @@ export default defineComponent({
           />
           <SubscribePlan
             v-else-if="(intent === 'plan')"
+            :next="next"
+          />
+          <SubscribeVoucher
+            v-else-if="(intent === 'voucher')"
             :next="next"
           />
         </transition>
@@ -137,8 +150,7 @@ export default defineComponent({
         <p
           class="message"
         >
-          In cases like above, when only the default slot is provided content,
-          the component's tags can be used as the slot's template.
+          (( message ))
         </p>
         <div
           class="cta"

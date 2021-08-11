@@ -69,6 +69,8 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
         ordering = ["-created"]
 
     def __str__(self):
+        if self.series:
+            return f"{self.series.name} {self.series_episode or '-'}"
         return str(self.name or self.uid)
 
     def get_absolute_url(self):
@@ -78,8 +80,8 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
     def image(self):
         return self.images.first()
 
-    def sync_data(self):
-        return sync_playlist(self)
+    def sync_data(self, *args, **kwargs):
+        return sync_playlist(self, *args, **kwargs)
 
 
 class Series(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
@@ -97,14 +99,15 @@ class Series(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mode
         ordering = ["name"]
 
     def __str__(self):
-        if not self.name:
-            return str(self.uid)
-        num_playlists = self.playlists.count()
-        return f"{self.name} ({num_playlists})"
+        return str(self.name or self.uid)
 
-    def sync_data(self):
+    def sync_data(self, *args, **kwargs):
         pass
-        # return sync_playlist(self)
+        # return sync_playlist(self, *args, **kwargs)
+
+    @property
+    def num_playlists(self):
+        return self.playlists.count()
 
 
 class PlaylistMedia(CTUIDModelMixin, models.Model):

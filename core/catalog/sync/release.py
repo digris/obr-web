@@ -10,7 +10,7 @@ from sync.utils import update_relations, update_tags, update_image
 logger = logging.getLogger(__name__)
 
 
-def sync_release(release):
+def sync_release(release, skip_media, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models.release import ReleaseImage
 
@@ -31,7 +31,9 @@ def sync_release(release):
 
     update_relations(release, data.get("relations", []))
     update_tags(release, data.get("tags", []))
-    update_image(release, data.get("image"), ReleaseImage)
+
+    if not skip_media:
+        update_image(release, data.get("image"), ReleaseImage)
 
     logger.info(f"sync completed for {release.ct}:{release.uid}")
 

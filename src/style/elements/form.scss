@@ -1,13 +1,18 @@
+@use "@/style/base/typo";
 @use "@/style/elements/button";
 
 @mixin input {
+  @include typo.bold;
   border: 3px solid rgba(var(--c-black), 1);
   border-radius: 3px;
   transition: border 200ms, background 200ms;
   &:focus,
   &:focus-visible {
-    background: rgba(var(--c-black), .1);
-    border-color: rgba(var(--c-black), .1);
+    //background: rgba(var(--c-black), .1);
+    //border-color: rgba(var(--c-black), .1);
+    color: rgb(var(--c-black));
+    background: rgb(var(--c-gray-100));
+    border-color: rgb(var(--c-gray-100));
     outline: none;
   }
 }

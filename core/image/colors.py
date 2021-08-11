@@ -25,15 +25,11 @@ def resize_image(img, size=100):
 
 def image_as_fp(img):
     fp = io.BytesIO()
-    print("fp", fp)
     try:
-        print("img", img)
         img.save(fp, "png")
-        print("img x", img)
         fp.seek(0)
         return fp
     except OSError as e:
-        print("e", e)
         return None
 
 

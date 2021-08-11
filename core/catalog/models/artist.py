@@ -67,8 +67,8 @@ class Artist(
     def image(self):
         return self.images.first()
 
-    def sync_data(self):
-        return sync_artist(self)
+    def sync_data(self, *args, **kwargs):
+        return sync_artist(self, *args, **kwargs)
 
 
 class ArtistImage(BaseSortableImage):

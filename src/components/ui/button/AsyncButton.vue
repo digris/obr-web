@@ -162,7 +162,7 @@ export default defineComponent({
     box-shadow: 0 0 1px 3px rgba(var(--c-cta-active), 0.1);
   }
   &.is-disabled {
-    cursor: wait !important;
+    cursor: not-allowed !important;
     opacity: 0.7;
   }
   .loading-spinner {
