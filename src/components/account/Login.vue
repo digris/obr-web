@@ -1,25 +1,28 @@
 <script lang="ts">
-import SocialLogin from '@/components/account/SocialLogin.vue';
-import LoginForm from '@/components/account/LoginForm.vue';
+
+import eventBus from '@/eventBus';
 
 export default {
-  components: {
-    SocialLogin,
-    LoginForm,
+  setup() {
+    const login = () => {
+      const event = {
+        intent: 'login',
+      };
+      eventBus.emit('account:authenticate', event);
+    };
+    return {
+      login,
+    };
   },
 };
 </script>
 <template>
-  <h1>Login</h1>
   <section
     class="section"
   >
-    <SocialLogin />
-  </section>
-  <section
-    class="section"
-  >
-    <LoginForm />
+    <button
+      @click.prevent="login"
+    >Login</button>
   </section>
 </template>
 

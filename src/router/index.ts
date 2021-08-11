@@ -198,6 +198,9 @@ const routes = [
     path: '/account/',
     name: 'Account',
     component: Account,
+    redirect: {
+      name: 'accountSettings',
+    },
     children: [
       {
         path: 'login/',

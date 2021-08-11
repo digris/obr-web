@@ -1,5 +1,9 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import {
+  defineComponent,
+  onMounted,
+  ref,
+} from 'vue';
 
 const tokenRegex = new RegExp('^([A-Za-z0-9]{3})-([A-Za-z0-9]{3})$');
 
@@ -14,6 +18,7 @@ export default defineComponent({
     'input',
   ],
   setup(props, { emit }) {
+    const inputEl = ref(null);
     const inputValue = ref('');
     const inputValid = ref(false);
     const parseInput = (value: string) => {
@@ -28,7 +33,12 @@ export default defineComponent({
       inputValue.value = value;
       emit('input', value);
     };
+    onMounted(() => {
+      // @ts-ignore
+      inputEl.value.focus();
+    });
     return {
+      inputEl,
       inputValue,
       inputValid,
       handleInput,
@@ -42,14 +52,25 @@ export default defineComponent({
     class="token-input"
     :class="{'is-valid': inputValid}"
   >
-    <input
-      class="input"
-      @keyup="handleInput"
-      :value="inputValue"
-      maxlength="7"
-      placeholder="___-___"
-      autocomplete="one-time-code"
+    <div
+      class="input-container token-input"
     >
+      <input
+        ref="inputEl"
+        id="ti-1298"
+        class="input"
+        @keyup="handleInput"
+        :value="inputValue"
+        maxlength="7"
+        placeholder="Login-Code"
+        autocomplete="one-time-code"
+      >
+      <label
+        for="ti-1298"
+      >
+        Login-Code
+      </label>
+    </div>
   </div>
 </template>
 
@@ -57,11 +78,14 @@ export default defineComponent({
 @use "@/style/elements/form";
 .token-input {
   @include form.default;
+  .input-container {
+    @include form.float-label;
+  }
   //width: 100%;
   .input {
     @include form.input;
     font-size: 200%;
-    text-align: center;
+    //text-align: center;
     transition: background 200ms;
   }
   &.is-valid {

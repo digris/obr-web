@@ -38,21 +38,20 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .message {
-  padding: 0.5rem 1rem 0.5rem calc(1rem - 4px);
-  background: rgba(var(--c-black), 0.05);
-  border-left: 4px solid rgb(var(--c-black));
+  @include typo.bold;
+  padding: 1rem;
+  color: rgb(var(--c-white));
+  background: rgb(var(--c-black));
   &--info {
-    background: rgba(var(--c-info), 0.075);
-    border-color: rgb(var(--c-info));
+    background: rgb(var(--c-info));
   }
   &--warning {
-    background: rgba(var(--c-warning), 0.075);
-    border-color: rgb(var(--c-warning));
+    background: rgb(var(--c-warning));
   }
   &--success {
-    background: rgba(var(--c-success), 0.075);
-    border-color: rgb(var(--c-success));
+    background: rgb(var(--c-success));
   }
 }
 </style>

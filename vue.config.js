@@ -8,7 +8,7 @@ module.exports = {
   // publicPath: 'http://local.next.openbroadcast.ch:3000/static/',
   publicPath: process.env.NODE_ENV === 'production'
     ? '/'
-    : 'http://mbp15.local:3000/static/',
+    : 'http://local.next.openbroadcast.ch:3000/static/',
   chainWebpack: (config) => {
     config.module
       .rule('images')
@@ -36,7 +36,7 @@ module.exports = {
     inline: true,
     host: '0.0.0.0',
     port: 3000,
-    public: 'MBP15.local:3000',
+    public: 'local.next.openbroadcast.ch:3000',
     // public: 'local.next.openbroadcast.ch:3000',
     disableHostCheck: true,
     headers: {

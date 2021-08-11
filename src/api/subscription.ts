@@ -45,6 +45,15 @@ async function getVoucher(code: string) {
   return response.data;
 }
 
+async function redeemVoucher(code: string) {
+  const url = `${SUBSCRIPTION_ENDPOINT}voucher/`;
+  const payload = {
+    code,
+  };
+  const response = await APIClient.post(url, payload);
+  return response.data;
+}
+
 export {
   getCurrentSubscription,
   getTrialOptions,
@@ -54,4 +63,5 @@ export {
   createStripeCheckoutSession,
   // voucher
   getVoucher,
+  redeemVoucher,
 };

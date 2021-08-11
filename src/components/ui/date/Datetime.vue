@@ -19,7 +19,6 @@ export default defineComponent({
   },
   setup(props) {
     const parsedValue = computed(() => {
-      console.debug(props.value, typeof props.value);
       if (typeof props.value === 'string') {
         return DateTime.fromISO(props.value);
       }

@@ -18,7 +18,7 @@ payment_completed = dispatch.Signal(
 # pylint: disable=unused-argument
 def handle_payment_completed(sender, payment, *args, **kwargs):
     # pylint: disable=import-outside-toplevel
-    from subscription.utils.plan import extend_subscription
+    from subscription.utils import extend_subscription
 
     logger.info(f"Payment paid signal received: {payment}")
 

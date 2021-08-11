@@ -1,6 +1,7 @@
 <script lang="ts">
 import {
-  defineComponent, onMounted,
+  defineComponent,
+  onMounted,
   ref,
 } from 'vue';
 
@@ -37,6 +38,7 @@ export default defineComponent({
           value: inputValue.value,
         },
       });
+      // @ts-ignore
       inputEl.value.focus();
     });
     return {

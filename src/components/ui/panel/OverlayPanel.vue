@@ -60,6 +60,13 @@ export default defineComponent({
         />
       </div>
       <div
+        class="ovelay-panel__success"
+      >
+        <slot
+          name="success"
+        />
+      </div>
+      <div
         class="ovelay-panel__footer"
       >
         <slot

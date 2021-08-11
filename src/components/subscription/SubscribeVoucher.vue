@@ -4,10 +4,11 @@ import {
   computed,
   ref,
 } from 'vue';
+import { useStore } from 'vuex';
 import { debounce } from 'lodash-es';
 import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
-import { getVoucher } from '@/api/subscription';
+import { getVoucher, redeemVoucher } from '@/api/subscription';
 import Datetime from '@/components/ui/date/Datetime.vue';
 import CodeInput from './voucher/CodeInput.vue';
 
@@ -30,7 +31,11 @@ export default defineComponent({
       default: null,
     },
   },
-  setup(props) {
+  emits: [
+    'subscriptionExtended',
+  ],
+  setup(props, { emit }) {
+    const store = useStore();
     const errors = ref<Array<string>>([]);
     const codeInput = ref(props.code);
     const voucher = ref(null);
@@ -64,7 +69,17 @@ export default defineComponent({
         return;
       }
       errors.value = [];
-      console.debug('redeem', code);
+      try {
+        const response = await redeemVoucher(code);
+        console.debug(response);
+        await store.dispatch('account/getUser');
+        emit('subscriptionExtended');
+      } catch (err: any) {
+        console.warn(err);
+        console.warn(err.response);
+        errors.value = [err.response];
+        throw err;
+      }
     };
     return {
       errors,
@@ -82,11 +97,13 @@ export default defineComponent({
   <div
     class="subscribe-voucher"
   >
+    <!---->
     <section
       class="section info"
     >
-      <p>(( text ))</p>
+      <p>.</p>
     </section>
+
     <section
       class="section input"
     >
@@ -121,7 +138,7 @@ export default defineComponent({
           + {{ voucher.numDays }} Tage
         </p>
         <p>
-          Gültig bis am
+          Guthaben bis am
           <Datetime
             :value="voucher.untilDate"
             :display-time="(false)"
