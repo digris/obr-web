@@ -5,14 +5,12 @@ import eventBus from '@/eventBus';
 import notify from '@/utils/notification';
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 
-import SubscribeTrial from '@/components/subscription/SubscribeTrial.vue';
 import SubscribePlan from '@/components/subscription/SubscribePlan.vue';
 import SubscribeVoucher from '@/components/subscription/SubscribeVoucher.vue';
 
 export default defineComponent({
   components: {
     OverlayPanel,
-    SubscribeTrial,
     SubscribePlan,
     SubscribeVoucher,
   },
@@ -84,13 +82,6 @@ export default defineComponent({
     >
       <div
         class="tab-item"
-        @click="setIntent('trial')"
-        :class="{'is-selected': (intent === 'trial')}"
-      >
-        <span>Trial</span>
-      </div>
-      <div
-        class="tab-item"
         @click="setIntent('plan')"
         :class="{'is-selected': (intent === 'plan')}"
       >
@@ -137,7 +128,7 @@ export default defineComponent({
         v-if="(intent === 'voucher')"
         class="lead"
       >
-        Keinen Code?
+        Du hast keinen Code?
         <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>.
       </p>
     </div>
@@ -146,12 +137,8 @@ export default defineComponent({
     >
       <section>
         <transition name="fade" mode="out-in" appear>
-          <SubscribeTrial
-            v-if="(intent === 'trial')"
-            @subscription-created="subscriptionUpdated"
-          />
           <SubscribePlan
-            v-else-if="(intent === 'plan')"
+            v-if="(intent === 'plan')"
             :next="next"
           />
           <SubscribeVoucher

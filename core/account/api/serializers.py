@@ -43,7 +43,6 @@ class UserSerializer(FlexFieldsSerializerMixin, serializers.ModelSerializer):
             "uid",
             "email",
             "date_joined",
-            "signup_completed",
             "first_name",
             "last_name",
             # "full_name",

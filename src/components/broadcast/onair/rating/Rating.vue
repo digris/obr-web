@@ -69,12 +69,13 @@ export default defineComponent({
     <div>
       <CircleButton
         :size="48"
+        :active="(userRatingValue === -1)"
       >
         <IconFlash
           :size="42"
           @click="rate(-1)"
           :outlined="(true)"
-          color="rgb(var(--c-live-fg))"
+          :color="`rgb(var(--c-live-${userRatingValue === -1 ? 'bg' : 'fg'}))`"
         />
       </CircleButton>
     </div>

@@ -53,17 +53,23 @@ async function loginBySignedEmail(signedEmail: string) {
   return response.data;
 }
 
-async function getCurrentUser() {
+async function getUser() {
   const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription`;
   const response = await APIClient.get(url);
   return response.data;
 }
 
-async function refreshCredentials() {
-  const url = `${ACCOUNT_ENDPOINT}refresh-credentials/`;
+async function getSubscription() {
+  const url = `${ACCOUNT_ENDPOINT}users/me/?fields=subscription&expand=subscription`;
   const response = await APIClient.get(url);
-  return response.data;
+  return response.data?.subscription;
 }
+
+// async function refreshCredentials() {
+//   const url = `${ACCOUNT_ENDPOINT}refresh-credentials/`;
+//   const response = await APIClient.get(url);
+//   return response.data;
+// }
 
 async function getSocialBackends() {
   const url = `${ACCOUNT_ENDPOINT}social-backends/`;
@@ -84,8 +90,9 @@ export {
   sendLoginEmail,
   loginByToken,
   loginBySignedEmail,
-  getCurrentUser,
-  refreshCredentials,
+  getUser,
+  getSubscription,
+  // refreshCredentials,
   getSocialBackends,
   disconnectSocialBackend,
 };

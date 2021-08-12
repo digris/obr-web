@@ -88,33 +88,45 @@ export default defineComponent({
         buttonText.value = LOGIN;
       }
     }, 200);
+    const submitEmailLogin = async () => {
+      message.value = {};
+      errors.value = [];
+      try {
+        const response = await sendLoginEmail(email.value);
+        emit('emailSent', response.email);
+      } catch (err: any) {
+        console.warn(err);
+        errors.value = [err.response];
+      }
+    };
+    const submitPasswordLogin = async () => {
+      message.value = {};
+      errors.value = [];
+      const credentials = {
+        email: email.value,
+        password: password.value,
+      };
+      errors.value = [];
+      try {
+        await store.dispatch('account/loginUser', credentials);
+        document.location.reload();
+      } catch (err) {
+        console.warn(err);
+        errors.value = [err.response];
+      }
+    };
     const submitForm = async () => {
       message.value = {};
       errors.value = [];
       if (flow.value === Flow.Register || flow.value === Flow.Token) {
-        try {
-          const response = await sendLoginEmail(email.value);
-          emit('emailSent', response.email);
-        } catch (err: any) {
-          console.warn(err);
-          errors.value = [err.response];
-        }
+        await submitEmailLogin();
       }
       if (flow.value === Flow.Password) {
-        console.debug('submit - password');
-        const credentials = {
-          email: email.value,
-          password: password.value,
-        };
-        errors.value = [];
-        try {
-          await store.dispatch('account/loginUser', credentials);
-          document.location.reload();
-        } catch (err) {
-          console.warn(err);
-          errors.value = [err.response];
-        }
+        await submitPasswordLogin();
       }
+    };
+    const resetPassword = async () => {
+      await submitEmailLogin();
     };
     return {
       flow,
@@ -128,6 +140,7 @@ export default defineComponent({
       errors,
       handleEmailInput,
       submitForm,
+      resetPassword,
     };
   },
 });
@@ -138,13 +151,14 @@ export default defineComponent({
     class="form"
     @submit.prevent="submitForm"
   >
-    <pre
-      v-text="flow"
-      class="debug"
-    ></pre>
     <div
       class="input-container"
     >
+      <label
+        for="email-1625"
+      >
+        Mit deiner E-Mail Adresse:
+      </label>
       <input
         @keyup="handleEmailInput"
         class="input"
@@ -156,16 +170,16 @@ export default defineComponent({
         placeholder="E-Mail"
         autocomplete="email"
       >
-      <label
-        for="email-1625"
-      >
-        E-Mail
-      </label>
     </div>
     <div
       v-if="(flow === 'password')"
       class="input-container"
     >
+      <label
+        for="password-1625"
+      >
+        Passwort:
+      </label>
       <input
         class="input"
         v-model="password"
@@ -176,11 +190,14 @@ export default defineComponent({
         placeholder="Password"
         autocomplete="current-password"
       >
-      <label
-        for="password-1625"
+      <p
+          class="help"
       >
-        Password
-      </label>
+        Passwort vergessen?
+        <a
+          @click.prevent="resetPassword"
+        >Login mit E-Mail-Bestätigung</a>
+      </p>
     </div>
     <div
       class="form-messages"
@@ -221,7 +238,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   .input-container {
-    @include form.float-label;
+    @include form.top-label;
     width: 100%;
     .input {
       @include typo.large;

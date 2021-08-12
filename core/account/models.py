@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import itertools
+from datetime import timedelta
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -14,6 +14,8 @@ from account import token_login
 from account.sync.user import sync_user
 from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
+
+TOKEN_MAX_AGE = 2  # in hours
 
 
 class UserManager(BaseUserManager):
@@ -81,9 +83,6 @@ class User(
     date_joined = models.DateTimeField(
         default=timezone.now,
     )
-    signup_completed = models.BooleanField(
-        default=False,
-    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -103,6 +102,10 @@ class User(
         if self.first_name:
             return self.first_name
         return self.email
+
+    @property
+    def has_active_subscription(self):
+        return hasattr(self, "subscription") and self.subscription.is_active
 
 
 class Settings(models.Model):
@@ -128,6 +131,13 @@ def create_user_settings(sender, instance, created, **kwargs):
         )
 
 
+def get_default_token():
+    token = token_login.generate_token()
+    while LoginToken.objects.filter(value=token).exists():  # pragma: no cover
+        token = token_login.generate_token()
+    return token
+
+
 class LoginToken(
     CTUIDModelMixin,
 ):
@@ -140,6 +150,7 @@ class LoginToken(
     value = models.CharField(
         _("token"),
         max_length=6,
+        default=get_default_token,
         db_index=True,
         unique=True,
         editable=False,
@@ -156,14 +167,16 @@ class LoginToken(
     )
 
     def __str__(self):
-        return f"{self.value[:3]}-{self.value[3:]}"
+        return str(self.token_display)
 
-    def save(self, *args, **kwargs):
-        if not self.value:
-            # pylint: disable=unused-variable
-            for i in itertools.count(1):
-                token = token_login.generate_token()
-                if not LoginToken.objects.filter(value=token).exists():
-                    self.value = token
-                    break
-        return super().save(*args, **kwargs)
+    @property
+    def token_display(self):
+        bits = [
+            self.value[0:3],
+            self.value[3:6],
+        ]
+        return "-".join(bits)
+
+    @property
+    def is_valid(self):
+        return self.created > timezone.now() - timedelta(hours=TOKEN_MAX_AGE)

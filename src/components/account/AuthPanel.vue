@@ -51,7 +51,7 @@ export default defineComponent({
       next.value = event.next || null;
       message.value = event.message || null;
     });
-    store.watch((state: any) => state.account.currentUser, (newUser) => {
+    store.watch((state: any) => state.account.user, (newUser) => {
       if (newUser) {
         isVisible.value = false;
       }
@@ -108,7 +108,6 @@ export default defineComponent({
       v-if="emailLoginVisible"
       class="section email"
     >
-      <p>Mit deiner E-Mail-Adresse:</p>
       <EmailLoginForm
         @email-sent="handleEmailSent"
       />
@@ -127,10 +126,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/elements/section";
-.section {
-  @include section.default;
-}
 .title {
   @include typo.x-large;
   @include typo.bold;
@@ -143,6 +138,7 @@ export default defineComponent({
   justify-content: flex-start;
 }
 .social {
+  margin-top: 2rem;
   > p {
     margin-bottom: 1rem;
   }

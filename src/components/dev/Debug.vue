@@ -23,6 +23,11 @@ const formatJSON = (value: object) => {
 
 export default defineComponent({
   props: {
+    title: {
+      type: String,
+      default: null,
+      required: false,
+    },
     value: {
       type: Object,
       default: () => {
@@ -35,7 +40,11 @@ export default defineComponent({
   },
   setup(props) {
     const formatted = computed(() => {
-      return formatJSON(props.value);
+      const html = formatJSON(props.value);
+      if (props.title) {
+        return `<span class="comment"># ${props.title}</span><br>${html}`;
+      }
+      return html;
     });
     return {
       formatted,
@@ -64,6 +73,9 @@ export default defineComponent({
 
   :deep(pre) {
     color: white;
+    .comment {
+      color: #a09f9f;
+    }
     .string {
       color: #6def6d;
     }
@@ -73,7 +85,7 @@ export default defineComponent({
     }
 
     .boolean {
-      color: blue;
+      color: #f8ff1a;
     }
 
     .null {
