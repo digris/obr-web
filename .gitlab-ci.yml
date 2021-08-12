@@ -6,7 +6,7 @@ stages:
 deploy:
   stage: deploy
   only:
-    - master
+    - main
   image: google/cloud-sdk
   services:
     - docker:dind
