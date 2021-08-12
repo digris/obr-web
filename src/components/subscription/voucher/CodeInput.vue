@@ -57,12 +57,18 @@ export default defineComponent({
   >
     <input
       ref="inputEl"
+        id="ti-1299"
       class="input"
       @keyup="handleInput"
       :value="inputValue"
       maxlength="8"
-      placeholder="code"
+      placeholder="Code"
     >
+      <label
+        for="ti-1299"
+      >
+        Code
+      </label>
   </div>
 </template>
 
@@ -77,9 +83,7 @@ export default defineComponent({
   }
   &.is-valid {
     .input {
-      //color: rgb(var(--c-white));
       background: rgba(var(--c-success), 0.1);
-      //background: rgb(var(--c-success));
       border-color: rgb(var(--c-success));
     }
   }

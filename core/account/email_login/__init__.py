@@ -46,7 +46,7 @@ def send_login_email(email):
         context=context,
     )
 
-    print(message.html)
+    print(context)
 
     try:
         message.send()

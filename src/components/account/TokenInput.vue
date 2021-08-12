@@ -5,13 +5,12 @@ import {
   ref,
 } from 'vue';
 
-const tokenRegex = new RegExp('^([A-Za-z0-9]{3})-([A-Za-z0-9]{3})$');
-
 export default defineComponent({
   props: {
-    token: {
-      type: String,
-      required: true,
+    valid: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   emits: [
@@ -20,16 +19,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const inputEl = ref(null);
     const inputValue = ref('');
-    const inputValid = ref(false);
     const parseInput = (value: string) => {
       return value.toUpperCase();
     };
-    const validateInput = (value: string) => {
-      inputValid.value = tokenRegex.test(value);
-    };
     const handleInput = (e: any) => {
       const value = parseInput(e.target.value);
-      validateInput(value);
       inputValue.value = value;
       emit('input', value);
     };
@@ -40,7 +34,6 @@ export default defineComponent({
     return {
       inputEl,
       inputValue,
-      inputValid,
       handleInput,
     };
   },
@@ -50,7 +43,7 @@ export default defineComponent({
 <template>
   <div
     class="token-input"
-    :class="{'is-valid': inputValid}"
+    :class="{'is-valid': valid}"
   >
     <div
       class="input-container token-input"
@@ -81,18 +74,15 @@ export default defineComponent({
   .input-container {
     @include form.float-label;
   }
-  //width: 100%;
   .input {
     @include form.input;
     font-size: 200%;
-    //text-align: center;
     transition: background 200ms;
   }
   &.is-valid {
     .input {
-      color: rgb(var(--c-black));
-      //border-color: rgb(var(--c-success));
       background: rgba(var(--c-success), 0.1);
+      border-color: rgb(var(--c-success));
     }
   }
 }

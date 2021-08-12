@@ -2,12 +2,8 @@
 import { defineComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import EmailLoginForm from '@/components/account/EmailLoginForm.vue';
 
 export default defineComponent({
-  components: {
-    EmailLoginForm,
-  },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -34,15 +30,10 @@ export default defineComponent({
 });
 </script>
 <template>
-  <h1>Email Login</h1>
   <div
     class="form-errors"
     v-if="errors.length"
   >
     <pre v-text="errors" />
-  </div>
-  <EmailLoginForm />
-  <div>
-    <p>{{ signedEmail }}</p>
   </div>
 </template>

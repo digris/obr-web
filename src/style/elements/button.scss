@@ -15,11 +15,13 @@
   border-radius: $height / 12;
   cursor: pointer;
   transition: background 250ms, border-radius 100ms;
-  &:hover {
-    background: rgba(var(--c-black), 0.9);
-    //background: rgb(var(--c-cta));
-    border-radius: $height / 2;
-    transition: background 100ms, border-radius 100ms;
+  &:not(:disabled) {
+    &:hover {
+      background: rgba(var(--c-black), 0.9);
+      //background: rgb(var(--c-cta));
+      border-radius: $height / 2;
+      transition: background 100ms, border-radius 100ms;
+    }
   }
 }
 
