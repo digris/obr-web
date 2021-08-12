@@ -9,6 +9,7 @@ import { checkLoginEmail, sendLoginEmail } from '@/api/account';
 import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
 import Message from '@/components/ui/Message.vue';
+import TokenInput from '@/components/account/TokenInput.vue';
 
 const CREATE_ACCOUNT = 'Konto erstellen';
 const SEND_TOKEN = 'Code senden';
@@ -25,6 +26,7 @@ export default defineComponent({
     AsyncButton,
     APIErrors,
     Message,
+    TokenInput,
   },
   emits: [
     'emailSent',
@@ -33,12 +35,15 @@ export default defineComponent({
     const store = useStore();
     const email = ref('');
     const password = ref('');
+    const token = ref('');
     const emailValid = ref(false);
     const emailExists = ref(false);
+    const emailSent = ref(false);
     const promptPassword = ref(false);
     const buttonText = ref(LOGIN);
     const message = ref({});
     const errors = ref<Array<string>>([]);
+    const tokenInputRef = ref(null);
     const flow = computed(() => {
       if (emailExists.value && promptPassword.value) {
         return Flow.Password;
@@ -47,6 +52,12 @@ export default defineComponent({
         return Flow.Token;
       }
       return Flow.Register;
+    });
+    const promptToken = computed(() => {
+      if (flow.value === Flow.Password) {
+        return false;
+      }
+      return emailSent.value;
     });
     const updateAccount = (account: any | null) => {
       message.value = '';
@@ -91,14 +102,22 @@ export default defineComponent({
     const submitForm = async () => {
       message.value = {};
       errors.value = [];
-      if (flow.value === Flow.Register || flow.value === Flow.Token) {
+      console.debug(email.value, promptToken.value);
+      if (email.value && promptToken.value) {
+        console.debug('submit - token login');
+        const credentials = {
+          email: email.value,
+          token: token.value,
+        };
+        errors.value = [];
         try {
-          const response = await sendLoginEmail(email.value);
-          emit('emailSent', response.email);
-        } catch (err: any) {
+          await store.dispatch('account/loginUserByToken', credentials);
+          document.location.reload();
+        } catch (err) {
           console.warn(err);
           errors.value = [err.response];
         }
+        return;
       }
       if (flow.value === Flow.Password) {
         console.debug('submit - password');
@@ -114,6 +133,46 @@ export default defineComponent({
           console.warn(err);
           errors.value = [err.response];
         }
+        return;
+      }
+      if (flow.value === Flow.Token) {
+        console.debug('submit - token');
+        emailSent.value = false;
+        try {
+          const response = await sendLoginEmail(email.value);
+          console.debug(response);
+          emailSent.value = true;
+          emit('emailSent', email.value);
+          buttonText.value = LOGIN;
+          message.value = {
+            level: 'info',
+            body: response.message,
+          };
+        } catch (err: any) {
+          console.warn(err);
+          emailSent.value = false;
+          errors.value = [err.response];
+        }
+        return;
+      }
+      if (flow.value === Flow.Register) {
+        console.debug('submit - register');
+        emailSent.value = false;
+        try {
+          const response = await sendLoginEmail(email.value);
+          console.debug(response);
+          emailSent.value = true;
+          emit('emailSent', email.value);
+          buttonText.value = LOGIN;
+          message.value = {
+            level: 'info',
+            body: response.message,
+          };
+        } catch (err: any) {
+          console.warn(err);
+          emailSent.value = false;
+          errors.value = [err.response];
+        }
       }
     };
     return {
@@ -121,12 +180,15 @@ export default defineComponent({
       email,
       emailValid,
       password,
+      token,
       emailExists,
       promptPassword,
+      promptToken,
       buttonText,
       message,
       errors,
       handleEmailInput,
+      tokenInputRef,
       submitForm,
     };
   },
@@ -138,10 +200,6 @@ export default defineComponent({
     class="form"
     @submit.prevent="submitForm"
   >
-    <pre
-      v-text="flow"
-      class="debug"
-    ></pre>
     <div
       class="input-container"
     >
@@ -183,6 +241,15 @@ export default defineComponent({
       </label>
     </div>
     <div
+      v-if="promptToken"
+    >
+      <TokenInput
+        ref="tokenInputRef"
+        :token="token"
+        @input="token = $event"
+      />
+    </div>
+    <div
       class="form-messages"
       v-if="(message && message.body)"
     >
@@ -204,7 +271,7 @@ export default defineComponent({
     >
       <AsyncButton
         class="button"
-        @click.prevent="submitForm"
+        type="submit"
         :disabled="(!emailValid)"
       >
         {{ buttonText }}
@@ -232,6 +299,13 @@ export default defineComponent({
         max-width: 33%;
       }
     }
+  }
+  .token-input {
+    display: flex;
+    flex-direction: column;
+    //align-items: center;
+    //justify-content: center;
+    padding: 1rem 0;
   }
 }
 .form-messages,

@@ -2,7 +2,7 @@
   <div class="account">
     <div class="header">
       <div class="title">
-        Einstellungen
+        Konto
       </div>
     </div>
     <div class="body">

@@ -113,6 +113,7 @@ class SendEmailLoginView(APIView):
             )
 
         data = {
+            "email": email,
             "message": f"Sent login information to {email}",
         }
         response = Response(

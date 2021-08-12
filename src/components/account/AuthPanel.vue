@@ -24,18 +24,24 @@ export default defineComponent({
     const intent = ref('login');
     const next = ref(null);
     const message = ref(null);
-    const emailSent = ref(false);
+    const emailSentTo = ref('');
     const close = () => {
       isVisible.value = false;
     };
     const setIntent = (value: string) => {
       intent.value = value;
     };
-    const handleEmailSent = () => {
-      emailSent.value = true;
+    const handleEmailSent = (email: string) => {
+      emailSentTo.value = email;
       socialLoginVisible.value = false;
       emailLoginVisible.value = false;
       emailLoginVerifyVisible.value = true;
+    };
+    const reset = () => {
+      emailSentTo.value = '';
+      socialLoginVisible.value = true;
+      emailLoginVisible.value = true;
+      emailLoginVerifyVisible.value = false;
     };
     eventBus.on('account:authenticate', (event) => {
       isVisible.value = true;
@@ -61,6 +67,8 @@ export default defineComponent({
       setIntent,
       message,
       handleEmailSent,
+      emailSentTo,
+      reset,
     };
   },
 });
@@ -109,7 +117,10 @@ export default defineComponent({
       v-if="emailLoginVerifyVisible"
       class="section email"
     >
-      <EmailLoginVerify />
+      <EmailLoginVerify
+        :email="emailSentTo"
+        @reset="reset"
+      />
     </section>
   </SidePanel>
 </template>
