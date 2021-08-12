@@ -118,7 +118,8 @@ class MediaFilter(filters.FilterSet):
         query = {
             f"{obj_ct[8:]}s__uid": obj_uid,
         }
-        return queryset.filter(**query)
+        qs = queryset.filter(**query)
+        return qs
 
     # pylint: disable=unused-argument
     def user_rating_filter(self, queryset, name, value):
@@ -201,8 +202,6 @@ class MediaViewSet(
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)
 
-        # qs = qs.filter(user_rating__gte=1)
-
         qs = qs.order_by("-latest_airplay")
 
         return qs
@@ -218,6 +217,10 @@ class MediaViewSet(
         obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
         return obj
+
+    def list(self, request, *args, **kwargs):
+        # TODO: implement "playlist case"
+        return super().list(request, *args, **kwargs)
 
     @action(url_path="tags", detail=False, methods=["get"])
     # pylint: disable=unused-argument

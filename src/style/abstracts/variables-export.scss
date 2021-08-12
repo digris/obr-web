@@ -21,6 +21,14 @@
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    @each $name, $color in $color-palette-dark {
+      --c-#{"" + $name}: #{$color};
+    }
+  }
+}
+
 @include bp-small {
   :root {
     --font-size: #{$base-font-size * 1.25};

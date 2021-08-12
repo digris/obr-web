@@ -83,9 +83,6 @@ class User(
     date_joined = models.DateTimeField(
         default=timezone.now,
     )
-    signup_completed = models.BooleanField(
-        default=False,
-    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -106,6 +103,10 @@ class User(
             return self.first_name
         return self.email
 
+    @property
+    def has_active_subscription(self):
+        return hasattr(self, "subscription") and self.subscription.is_active
+
 
 class Settings(models.Model):
 
@@ -114,17 +115,6 @@ class Settings(models.Model):
         on_delete=models.CASCADE,
         related_name="settings",
     )
-
-
-    # def save(self, *args, **kwargs):
-    #     if not self.value:
-    #         # pylint: disable=unused-variable
-    #         for i in itertools.count(1):
-    #             token = token_login.generate_token()
-    #             if not LoginToken.objects.filter(value=token).exists():
-    #                 self.value = token
-    #                 break
-    #     return super().save(*args, **kwargs)
 
 
 @receiver(post_save, sender=User)

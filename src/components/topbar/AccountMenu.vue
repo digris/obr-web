@@ -12,15 +12,15 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const currentUser = computed(() => store.getters['account/currentUser']);
+    const user = computed(() => store.getters['account/user']);
     const initials = computed(() => {
-      if (!currentUser.value) {
+      if (!user.value) {
         return '?';
       }
-      if (currentUser.value.firstName) {
-        return currentUser.value.firstName.substr(0, 1).toUpperCase();
+      if (user.value.firstName) {
+        return user.value.firstName.substr(0, 1).toUpperCase();
       }
-      return currentUser.value.email.substr(0, 1).toUpperCase();
+      return user.value.email.substr(0, 1).toUpperCase();
     });
     const submenuVisible = ref(false);
     const login = () => {
@@ -45,7 +45,7 @@ export default defineComponent({
       submenuVisible.value = false;
     };
     return {
-      currentUser,
+      user,
       initials,
       submenuVisible,
       login,
@@ -61,7 +61,7 @@ export default defineComponent({
   <div>
     <div
       class="account-menu"
-      v-if="currentUser"
+      v-if="user"
       @mouseenter="showSubmenu"
       @mouseleave="hideSubmenu"
     >

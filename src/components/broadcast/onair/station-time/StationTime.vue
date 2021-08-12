@@ -84,13 +84,14 @@ export default defineComponent({
         <span
           class="minute"
         >{{ minute }}</span>
-        <!---->
+        <!--
         <span
           class="separator separator--second"
         >:</span>
         <span
           class="second"
         >{{ second }}</span>
+        -->
       </div>
       <div
         v-if="isTimeshifted"
@@ -116,7 +117,13 @@ export default defineComponent({
     </div>
   </div>
 </template>
-
+<style lang="scss">
+@keyframes pulsate {
+  50% {
+    opacity: 0;
+  }
+}
+</style>
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
 @use "@/style/elements/container";
@@ -146,7 +153,8 @@ $height: 48px;
   .time {
     display: grid;
     flex-grow: 1;
-    grid-template-columns: 64px 32px 64px 32px 64px;
+    //grid-template-columns: 64px 32px 64px 32px 64px;
+    grid-template-columns: 64px 32px 64px;
     align-items: center;
     justify-content: center;
 
@@ -162,6 +170,7 @@ $height: 48px;
     }
     .separator {
       font-size: 32px;
+      animation: pulsate 2s linear infinite;
     }
   }
   .time-shift {

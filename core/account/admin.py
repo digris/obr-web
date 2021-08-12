@@ -41,14 +41,12 @@ class UserAdmin(AuthUserAdmin):
         "uid",
         "is_active",
         # "is_superuser",
-        "signup_completed",
     ]
     list_filter = [
         "email",
         "is_staff",
         "is_active",
         "is_superuser",
-        "signup_completed",
     ]
     readonly_fields = [
         "last_login",
@@ -86,7 +84,6 @@ class UserAdmin(AuthUserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
-                    "signup_completed",
                     "groups",
                     "user_permissions",
                 ),
@@ -105,7 +102,6 @@ class UserAdmin(AuthUserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
-                    "signup_completed",
                 ),
             },
         ),

@@ -7,13 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0008_user_sync_last_update'),
+        ("account", "0008_user_sync_last_update"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='logintoken',
-            name='value',
-            field=models.CharField(db_index=True, default=account.models.get_default_token, editable=False, max_length=6, unique=True, verbose_name='token'),
+            model_name="logintoken",
+            name="value",
+            field=models.CharField(
+                db_index=True,
+                default=account.models.get_default_token,
+                editable=False,
+                max_length=6,
+                unique=True,
+                verbose_name="token",
+            ),
         ),
     ]

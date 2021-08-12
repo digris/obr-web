@@ -12,11 +12,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const currentUser = computed(() => store.getters['account/currentUser']);
+    const subscription = computed(() => store.getters['account/subscription']);
     const now = ref(DateTime.now());
-    const subscription = computed(() => {
-      return (currentUser.value) ? currentUser.value.subscription : null;
-    });
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {
         return null;
@@ -28,7 +25,7 @@ export default defineComponent({
     const isActive = computed(() => (subscription.value && subscription.value.isActive));
     const title = computed(() => {
       if (isActive.value) {
-        return 'Active Subscription';
+        return 'Guthaben';
       }
       return 'Guthaben abgelaufen';
     });
@@ -39,7 +36,6 @@ export default defineComponent({
       eventBus.emit('subscription:subscribe', event);
     };
     return {
-      currentUser,
       subscription,
       isActive,
       numDaysRemaining,
