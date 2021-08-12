@@ -220,7 +220,24 @@ class MediaViewSet(
 
     def list(self, request, *args, **kwargs):
         # TODO: implement "playlist case"
+        try:
+            obj_ct, obj_uid = request.GET.get('obj_key', '').split(":")
+            if obj_ct == 'catalog.playlist':
+                return self.list_for_playlist(request, obj_uid, *args, **kwargs)
+        except ValueError:
+            pass
         return super().list(request, *args, **kwargs)
+
+    def list_for_playlist(self, request, uid, *args, **kwargs):
+        playlist = Playlist.objects.get(uid=uid)
+        media = []
+        for playlist_media in playlist.playlist_media.all():
+            media.append(playlist_media.media)
+        serializer = self.get_serializer(media, many=True)
+        data = {
+            'results': serializer.data,
+        }
+        return Response(data)
 
     @action(url_path="tags", detail=False, methods=["get"])
     # pylint: disable=unused-argument
