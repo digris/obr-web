@@ -23,8 +23,8 @@ export default {
     this.queue = new Queue();
   },
   computed: {
-    currentUser() {
-      return this.$store.getters['account/currentUser'];
+    user() {
+      return this.$store.getters['account/user'];
     },
   },
 };

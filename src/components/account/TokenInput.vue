@@ -48,6 +48,11 @@ export default defineComponent({
     <div
       class="input-container token-input"
     >
+      <label
+        for="ti-1298"
+      >
+        Login-Code:
+      </label>
       <input
         ref="inputEl"
         id="ti-1298"
@@ -58,11 +63,6 @@ export default defineComponent({
         placeholder="Login-Code"
         autocomplete="one-time-code"
       >
-      <label
-        for="ti-1298"
-      >
-        Login-Code
-      </label>
     </div>
   </div>
 </template>
@@ -72,7 +72,7 @@ export default defineComponent({
 .token-input {
   @include form.default;
   .input-container {
-    @include form.float-label;
+    @include form.top-label;
   }
   .input {
     @include form.input;

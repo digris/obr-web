@@ -41,14 +41,12 @@ class UserAdmin(AuthUserAdmin):
         "uid",
         "is_active",
         # "is_superuser",
-        "signup_completed",
     ]
     list_filter = [
         "email",
         "is_staff",
         "is_active",
         "is_superuser",
-        "signup_completed",
     ]
     readonly_fields = [
         "last_login",
@@ -86,7 +84,6 @@ class UserAdmin(AuthUserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
-                    "signup_completed",
                     "groups",
                     "user_permissions",
                 ),
@@ -105,7 +102,6 @@ class UserAdmin(AuthUserAdmin):
                     "is_staff",
                     "is_active",
                     "is_superuser",
-                    "signup_completed",
                 ),
             },
         ),
@@ -119,11 +115,21 @@ class LoginTokenAdmin(admin.ModelAdmin):
 
     save_on_top = True
     list_display = [
-        "__str__",
+        "uid",
+        "token_display",
         "email",
         "created",
         "claimed",
+        "is_valid_display",
     ]
     readonly_fields = [
         "value",
     ]
+    date_hierarchy = "created"
+
+    @admin.display(
+        boolean=True,
+        description="Valid",
+    )
+    def is_valid_display(self, obj):
+        return obj.is_valid

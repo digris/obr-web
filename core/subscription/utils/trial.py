@@ -1,30 +1,11 @@
 # -*- coding: utf-8 -*-
-
 from datetime import timedelta
 
 from django.utils import timezone
 
 from subscription.models import Subscription, SubscriptionType
-from . import get_subscription
 
 NUM_DAYS_TRIAL = 3
-
-
-def get_options(user, num_days=NUM_DAYS_TRIAL):
-
-    subscription = get_subscription(user=user)
-
-    if subscription:
-        return []
-
-    options = [
-        {
-            "num_days": num_days,
-            "until_date": timezone.now().date() + timedelta(days=num_days),
-        },
-    ]
-
-    return options
 
 
 def start_trial(user, num_days=NUM_DAYS_TRIAL):

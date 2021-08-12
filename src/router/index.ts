@@ -17,10 +17,10 @@ import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
 import Filterbar from '@/components/filter/Filterbar.vue';
 
-import { getCurrentUser } from '@/api/account';
+import { getUser } from '@/api/account';
 
 const isAuthenticated = async () => {
-  const user = await getCurrentUser();
+  const user = await getUser();
   return user;
 };
 
@@ -146,6 +146,16 @@ const routes = [
     path: '/collection/',
     name: 'collection',
     component: Collection,
+    /*
+    beforeEnter: async (to: object, from: object, next: any) => {
+      const authenticated = await isAuthenticated();
+      if (!authenticated) {
+        next({ name: 'accountLogin' });
+      } else {
+        next();
+      }
+    },
+    */
     redirect: {
       name: 'collectionMedia',
     },

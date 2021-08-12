@@ -3,6 +3,8 @@ import logging
 import random
 import string
 
+from django.db.models.functions import Now
+
 logger = logging.getLogger(__name__)
 
 
@@ -25,16 +27,22 @@ def create_token_for_email(email):
     return token
 
 
-# pylint: disable=unused-argument
-def validate_token(email, token, max_age=None):
+def claim_token(email, token):
     # pylint: disable=import-outside-toplevel
     from account.models import LoginToken
 
     value = token.upper().replace("-", "")
     logger.debug(f"validate: {value} - {email}")
-    # TODO: implement `max_age`
-    qs = LoginToken.objects.filter(email=email, value=value)
-    if not qs.exists():
+    try:
+        token = LoginToken.objects.get(email=email, value=value)
+    except LoginToken.DoesNotExist:
         raise TokenValidationException("Invalid Token")
 
-    return qs.first().email
+    if not token.is_valid:
+        raise TokenValidationException("Expired Token")
+
+    LoginToken.objects.filter(id=token.id).update(
+        claimed=Now(),
+    )
+
+    return token.email
