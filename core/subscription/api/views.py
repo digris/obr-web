@@ -12,24 +12,24 @@ from subscription.utils import trial, plan, voucher
 logger = logging.getLogger(__name__)
 
 
-class SubscriptionView(APIView):
-    @staticmethod
-    def get(request):
-        user = request.user
-        if user.is_authenticated and hasattr(user, "subscription"):
-            subscription = request.user.subscription
-            serializer = serializers.SubscriptionSerializer(
-                subscription,
-                context={
-                    "request": request,
-                },
-            )
-            response = Response(serializer.data)
-
-        else:
-            response = Response(status=status.HTTP_204_NO_CONTENT)
-
-        return response
+# class SubscriptionView(APIView):
+#     @staticmethod
+#     def get(request):
+#         user = request.user
+#         if user.is_authenticated and hasattr(user, "subscription"):
+#             subscription = request.user.subscription
+#             serializer = serializers.SubscriptionSerializer(
+#                 subscription,
+#                 context={
+#                     "request": request,
+#                 },
+#             )
+#             response = Response(serializer.data)
+#
+#         else:
+#             response = Response(status=status.HTTP_204_NO_CONTENT)
+#
+#         return response
 
 
 class SubscriptionTrialView(APIView):

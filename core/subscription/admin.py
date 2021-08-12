@@ -83,7 +83,7 @@ class VoucherAdmin(admin.ModelAdmin):
 
     @admin.display(
         boolean=True,
-        description="Is valid",
+        description="Valid",
     )
     def is_valid_display(self, obj):
         return obj.is_valid

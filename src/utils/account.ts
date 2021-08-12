@@ -1,5 +1,9 @@
+import scheduler from 'node-schedule';
 import store from '@/store';
 import eventBus from '@/eventBus';
+import { getCurrentSubscription } from '@/api/account';
+
+const JOB_MAX_AGE = 300;
 
 class AccountHandler {
   constructor() {
@@ -8,6 +12,15 @@ class AccountHandler {
         await store.dispatch('rating/clearRatings');
       }
     });
+    const job = scheduler.scheduleJob('* * * * * ', async (scheduledDate: Date) => {
+      // @ts-ignore
+      if (scheduledDate && (new Date() - scheduledDate) > JOB_MAX_AGE * 1000) {
+        return;
+      }
+      const subscription = await getCurrentSubscription();
+      console.debug('subscription', subscription);
+    });
+    job.invoke();
   }
 }
 

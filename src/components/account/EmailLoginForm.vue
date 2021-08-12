@@ -138,10 +138,6 @@ export default defineComponent({
     class="form"
     @submit.prevent="submitForm"
   >
-    <pre
-      v-text="flow"
-      class="debug"
-    ></pre>
     <div
       class="input-container"
     >
