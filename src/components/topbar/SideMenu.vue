@@ -58,7 +58,7 @@ export default defineComponent({
             name: 'home',
           })"
         >
-          On Air
+          Radio
         </router-link>
         <router-link
           to="/discover/"

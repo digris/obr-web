@@ -12,11 +12,6 @@ urlpatterns = [
     #     name="subscription",
     # ),
     path(
-        "trial/",
-        views.SubscriptionTrialView.as_view(),
-        name="subscription-trial",
-    ),
-    path(
         "plan/",
         views.SubscriptionPlanView.as_view(),
         name="subscription-plan",

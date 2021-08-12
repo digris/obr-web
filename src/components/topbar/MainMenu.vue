@@ -5,7 +5,7 @@
     <router-link
       to="/"
     >
-      On Air
+      Radio
     </router-link>
     <router-link
       to="/discover/"

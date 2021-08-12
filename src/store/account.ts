@@ -6,11 +6,13 @@ import {
   logout,
   loginByToken,
   loginBySignedEmail,
-  getCurrentUser,
+  getUser,
 } from '@/api/account';
 
 export interface State {
-  currentUser: any | null,
+  user: any | null,
+  subscription: any | null,
+  settings: any | null,
 }
 export interface Credentials {
   email: string,
@@ -22,17 +24,33 @@ export interface TokenCredentials {
 }
 
 const state: State = {
-  currentUser: null,
+  user: null,
+  subscription: null,
+  settings: null,
 };
 
 const getters = {
-  currentUser: (state: State) => state.currentUser,
+  user: (state: State) => state.user,
+  subscription: (state: State) => state.subscription,
+  settings: (state: State) => state.settings,
 };
 
 const mutations = {
   SET_USER: (state: State, user: any | null) => {
-    state.currentUser = user;
+    // @ts-ignore
+    const { subscription, settings, ...bareUser } = { ...user };
+    state.user = Object.keys(bareUser).length ? bareUser : null;
+    state.subscription = subscription;
+    state.settings = settings;
   },
+  /*
+  SET_SUBSCRIPTION: (state: State, subscription: any | null) => {
+    state.subscription = subscription;
+  },
+  SET_SETTINGS: (state: State, settings: any | null) => {
+    state.settings = settings;
+  },
+  */
 };
 
 const actions = {
@@ -80,12 +98,19 @@ const actions = {
   getUser: async (context: any) => {
     let user: any | null;
     try {
-      user = await getCurrentUser();
+      user = await getUser();
     } catch (err) {
       console.warn(err);
       user = null;
     }
     context.commit('SET_USER', user);
+
+    /*
+    const { subscription, settings, ...user } = { ...fullUser };
+    context.commit('SET_USER', Object.keys(user).length ? user : null);
+    context.commit('SET_SUBSCRIPTION', subscription);
+    context.commit('SET_SETTINGS', settings);
+    */
   },
 };
 

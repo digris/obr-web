@@ -3,21 +3,27 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 import SocialLogin from '@/components/account/SocialLogin.vue';
-import Subscription from '@/components/account/settings/SettingsSubscription.vue';
 import Section from '@/components/account/settings/SettingsSection.vue';
+import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
+import Debug from '@/components/dev/Debug.vue';
 
 export default defineComponent({
   components: {
     Section,
     SocialLogin,
-    Subscription,
+    CurrentSubscription,
+    Debug,
   },
   setup() {
     const store = useStore();
-    const currentUser = computed(() => store.getters['account/currentUser']);
+    const user = computed(() => store.getters['account/user']);
+    const subscription = computed(() => store.getters['account/subscription']);
+    const settings = computed(() => store.getters['account/settings']);
     const socialNext = window.location.pathname;
     return {
-      currentUser,
+      user,
+      subscription,
+      settings,
       socialNext,
     };
   },
@@ -26,45 +32,60 @@ export default defineComponent({
 
 <template>
   <Section
-    v-if="currentUser"
+    v-if="user"
     title="Guthaben für kostenpflichtige Inhalte"
   >
-    <Subscription
-      :user="currentUser"
-    />
+    <CurrentSubscription />
   </Section>
   <Section
-    v-if="currentUser"
+    v-if="user"
     title="Persönliche Angaben"
   >
     <div
       class="user-details"
     >
       <p
-        v-text="currentUser.email"
+        v-text="user.email"
       />
       <p>
         <span
-          v-if="currentUser.firstName"
-          v-text="currentUser.firstName"
+          v-if="user.firstName"
+          v-text="user.firstName"
         />
         <span
-          v-if="currentUser.lastName"
-          v-text="currentUser.lastName"
+          v-if="user.lastName"
+          v-text="user.lastName"
         />
       </p>
       <p
-        v-text="`ID: ${currentUser.uid}`"
+        v-text="`ID: ${user.uid}`"
       />
     </div>
   </Section>
   <Section
-    v-if="currentUser"
+    v-if="user"
     title="Verbundene Accounts"
     :outlined="(false)"
   >
     <SocialLogin
       :next="socialNext"
+    />
+  </Section>
+  <Section
+    title="Debug"
+    :outlined="(false)"
+  >
+    <Debug
+      title="user"
+      :value="user"
+    />
+    <Debug
+      title="subscription"
+      :value="subscription"
+    />
+    <Debug
+      title="settings"
+      :value="settings"
     />
   </Section>
 </template>

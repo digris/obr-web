@@ -26,13 +26,12 @@ urlpatterns = [
         name="signed-email-login",
     ),
     path("logout/", views.LogoutView.as_view(), name="logout"),
-    path("users/me/", views.CurrentUserView.as_view(), name="current-user"),
-    path(
-        "refresh-credentials/",
-        views.CredentialsView.as_view(),
-        name="refresh-credentials",
-    ),
-    # path("", include(router.urls)),
+    path("users/me/", views.UserView.as_view(), name="current-user"),
+    # path(
+    #     "refresh-credentials/",
+    #     views.CredentialsView.as_view(),
+    #     name="refresh-credentials",
+    # ),
     path(
         "social-backends/",
         views.SocialBackendListView.as_view(),

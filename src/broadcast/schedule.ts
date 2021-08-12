@@ -1,8 +1,6 @@
 import scheduler from 'node-schedule';
 import store from '@/store';
 
-const JOB_MAX_AGE = 60;
-
 class Schedule {
   timeout: ReturnType<typeof setTimeout> | undefined;
 
@@ -13,9 +11,10 @@ class Schedule {
     this.jobs = [];
     // add load interval & run immediately
     const rule = `${new Date().getSeconds()} * * * * *`;
+    const maxJobAge = 61;
     // const rule = '*/10 * * * * *';
     const loadScheduleJob = scheduler.scheduleJob(rule, (scheduledDate: Date) => {
-      if (scheduledDate && (+new Date() - +scheduledDate) > JOB_MAX_AGE * 1000) {
+      if (scheduledDate && (+new Date() - +scheduledDate) > maxJobAge * 1000) {
         return;
       }
       Schedule.loadSchedule();

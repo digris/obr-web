@@ -69,15 +69,8 @@ export default defineComponent({
   <div
     class="social-login"
   >
-    <pre
-      class="_debug"
-      v-text="disconnectedBackends"
-    />
-    <pre
-      class="_debug"
-      v-text="connectedBackends"
-    />
     <section
+      v-if="(disconnectedBackends.length)"
       class="backends backends--disconnected"
     >
       <div
@@ -97,6 +90,7 @@ export default defineComponent({
       </div>
     </section>
     <section
+      v-if="(connectedBackends.length)"
       class="backends backends--connected"
     >
       <div

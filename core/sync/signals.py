@@ -11,7 +11,7 @@ from broadcast import signals as broadcast_signals
 from catalog.sync.airplay import sync_airplays
 from .models.mixins import SyncModelMixin, SyncState
 
-SKIP_MEDIA = getattr(settings, "SYNC_SKIP_MEDIA", False)
+SKIP_MEDIA = getattr(settings, "OBP_SYNC_SKIP_MEDIA", False)
 
 
 logger = logging.getLogger(__name__)

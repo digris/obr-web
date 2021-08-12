@@ -124,7 +124,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   .input-container {
-    @include form.float-label;
     width: 100%;
     .input {
       @include typo.large;

@@ -12,11 +12,8 @@ export default defineComponent({
   setup() {
     const detailsVisible = ref(false);
     const store = useStore();
-    const currentUser = computed(() => store.getters['account/currentUser']);
+    const subscription = computed(() => store.getters['account/subscription']);
     const now = ref(DateTime.now());
-    const subscription = computed(() => {
-      return (currentUser.value) ? currentUser.value.subscription : null;
-    });
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {
         return null;
@@ -33,7 +30,6 @@ export default defineComponent({
       detailsVisible.value = false;
     };
     return {
-      currentUser,
       subscription,
       isActive,
       numDaysRemaining,
@@ -48,7 +44,7 @@ export default defineComponent({
 <template>
   <div>
     <div
-      v-if="currentUser"
+      v-if="subscription"
       @mouseenter="showDetails"
       @mouseleave="hideDetails"
       class="subscription-status"
@@ -72,7 +68,7 @@ export default defineComponent({
         </span>
       </router-link>
       <div
-        v-if="(subscription && currentUser && detailsVisible)"
+        v-if="(subscription && detailsVisible)"
         class="subscription"
         :class="{'is-active': isActive, 'is-expired': !isActive}"
       >
@@ -80,11 +76,6 @@ export default defineComponent({
           class="title"
         >
           <span>Guthaben</span>
-          <span
-            v-if="subscription.isTrial"
-          >
-            (Trial)
-          </span>
         </div>
         <div
           class="details"

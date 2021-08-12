@@ -1,26 +1,23 @@
 import scheduler from 'node-schedule';
 import store from '@/store';
 import eventBus from '@/eventBus';
-import { getCurrentSubscription } from '@/api/account';
-
-const JOB_MAX_AGE = 300;
 
 class AccountHandler {
   constructor() {
-    store.watch((state: any) => state.account.currentUser, async (newUser, oldUser) => {
+    store.watch((state: any) => state.account.user, async (newUser, oldUser) => {
       if (newUser !== oldUser) {
         await store.dispatch('rating/clearRatings');
       }
     });
-    const job = scheduler.scheduleJob('* * * * * ', async (scheduledDate: Date) => {
+    const rule = `${new Date().getSeconds()} * * * * *`;
+    const maxJobAge = 61;
+    scheduler.scheduleJob(rule, async (scheduledDate: Date) => {
       // @ts-ignore
-      if (scheduledDate && (new Date() - scheduledDate) > JOB_MAX_AGE * 1000) {
+      if (scheduledDate && (new Date() - scheduledDate) > maxJobAge * 1000) {
         return;
       }
-      const subscription = await getCurrentSubscription();
-      console.debug('subscription', subscription);
+      await store.dispatch('account/getUser');
     });
-    job.invoke();
   }
 }
 
@@ -32,8 +29,8 @@ export default function () {
 const requireLogin = (fn: Function, message: string) => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
-    const currentUser = store.getters['account/currentUser'];
-    if (!currentUser) {
+    const user = store.getters['account/user'];
+    if (!user) {
       const event = {
         intent: 'login',
         next: window.location.pathname,
@@ -51,8 +48,9 @@ const requireLogin = (fn: Function, message: string) => {
 const requireSubscription = (fn: Function, message: string) => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
-    const currentUser = store.getters['account/currentUser'];
-    if (!currentUser) {
+    const user = store.getters['account/user'];
+    const subscription = store.getters['account/subscription'];
+    if (!user) {
       const event = {
         intent: 'login',
         next: window.location.pathname,
@@ -61,16 +59,16 @@ const requireSubscription = (fn: Function, message: string) => {
       eventBus.emit('account:authenticate', event);
       return false;
     }
-    if (!currentUser.subscription) {
+    if (!subscription) {
       const event = {
-        intent: 'trial',
+        intent: 'plan',
         next: window.location.pathname,
         message,
       };
       eventBus.emit('subscription:subscribe', event);
       return false;
     }
-    if (!currentUser.subscription.isActive) {
+    if (!subscription.isActive) {
       const event = {
         intent: 'plan',
         next: window.location.pathname,
@@ -84,4 +82,7 @@ const requireSubscription = (fn: Function, message: string) => {
   };
 };
 
-export { requireLogin, requireSubscription };
+export {
+  requireLogin,
+  requireSubscription,
+};

@@ -3,18 +3,6 @@ import settings from '@/settings';
 
 const SUBSCRIPTION_ENDPOINT = `${settings.API_BASE_URL}subscription/`;
 
-async function getTrialOptions() {
-  const url = `${SUBSCRIPTION_ENDPOINT}trial/`;
-  const response = await APIClient.get(url);
-  return response.data;
-}
-
-async function startTrial() {
-  const url = `${SUBSCRIPTION_ENDPOINT}trial/`;
-  const response = await APIClient.put(url);
-  return response.data;
-}
-
 async function getPlanOptions() {
   const url = `${SUBSCRIPTION_ENDPOINT}plan/`;
   const response = await APIClient.get(url);
@@ -50,8 +38,6 @@ async function redeemVoucher(code: string) {
 }
 
 export {
-  getTrialOptions,
-  startTrial,
   getPlanOptions,
   // payment
   createStripeCheckoutSession,
