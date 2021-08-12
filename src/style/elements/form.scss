@@ -21,19 +21,19 @@
   display: flex;
   flex-direction: column;
   label {
-    color: inherit;
-    height: 3rem;
     display: flex;
     align-items: center;
+    height: 3rem;
+    color: inherit;
   }
   .help {
-    color: inherit;
-    height: 3rem;
     display: flex;
     align-items: center;
+    height: 3rem;
+    color: inherit;
     a {
-      cursor: pointer;
       text-decoration: underline;
+      cursor: pointer;
     }
   }
 }

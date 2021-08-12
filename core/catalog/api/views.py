@@ -221,8 +221,8 @@ class MediaViewSet(
     def list(self, request, *args, **kwargs):
         # TODO: implement "playlist case"
         try:
-            obj_ct, obj_uid = request.GET.get('obj_key', '').split(":")
-            if obj_ct == 'catalog.playlist':
+            obj_ct, obj_uid = request.GET.get("obj_key", "").split(":")
+            if obj_ct == "catalog.playlist":
                 return self.list_for_playlist(request, obj_uid, *args, **kwargs)
         except ValueError:
             pass
@@ -235,7 +235,7 @@ class MediaViewSet(
             media.append(playlist_media.media)
         serializer = self.get_serializer(media, many=True)
         data = {
-            'results': serializer.data,
+            "results": serializer.data,
         }
         return Response(data)
 
