@@ -61,6 +61,6 @@ def get_voucher(user, code):
 def redeem_voucher(user, code):
     voucher = get_voucher(user, code)
     redemption = Redemption(voucher=voucher, user=user)
-    # redemption.save()
+    redemption.save()
     extend_subscription(user=user, num_days=voucher.num_days)
     return True
