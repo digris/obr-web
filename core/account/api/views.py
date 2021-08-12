@@ -132,10 +132,9 @@ class TokenLoginView(APIView):
         token = request.data.get("token")
 
         try:
-            email = token_login.validate_token(
+            email = token_login.claim_token(
                 email=email,
                 token=token,
-                max_age=60 * 60,
             )
         except token_login.TokenValidationException as e:
             return Response(

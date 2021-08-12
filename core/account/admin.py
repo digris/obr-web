@@ -119,11 +119,21 @@ class LoginTokenAdmin(admin.ModelAdmin):
 
     save_on_top = True
     list_display = [
-        "__str__",
+        "uid",
+        "token_display",
         "email",
         "created",
         "claimed",
+        "is_valid_display",
     ]
     readonly_fields = [
         "value",
     ]
+    date_hierarchy = "created"
+
+    @admin.display(
+        boolean=True,
+        description="Valid",
+    )
+    def is_valid_display(self, obj):
+        return obj.is_valid

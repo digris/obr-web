@@ -6,11 +6,11 @@ from .stripe import urls as stripe_urls
 
 app_name = "subscription"
 urlpatterns = [
-    path(
-        "",
-        views.SubscriptionView.as_view(),
-        name="subscription",
-    ),
+    # path(
+    #     "",
+    #     views.SubscriptionView.as_view(),
+    #     name="subscription",
+    # ),
     path(
         "trial/",
         views.SubscriptionTrialView.as_view(),
