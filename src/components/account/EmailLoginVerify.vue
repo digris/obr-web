@@ -50,7 +50,7 @@ export default defineComponent({
       try {
         await store.dispatch('account/loginUserByToken', credentials);
         await store.dispatch('account/getUser');
-        // document.location.reload();
+        document.location.reload();
       } catch (err) {
         console.warn(err);
         errors.value = [err.response];

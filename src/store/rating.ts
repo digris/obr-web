@@ -51,7 +51,8 @@ const actions = {
     context.commit('SET_RATING', { key, rating: newRating });
   },
   clearRatings: async (context: any) => {
-    context.commit('SET_RATINGS', []);
+    console.debug('clearRatings', context);
+    // context.commit('SET_RATINGS', []);
   },
 };
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import eventBus from '@/eventBus';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
@@ -10,7 +10,7 @@ export default defineComponent({
     CircleButton,
   },
   setup() {
-    const router = useRouter();
+    // const router = useRouter();
     const store = useStore();
     const user = computed(() => store.getters['account/user']);
     const initials = computed(() => {
@@ -33,7 +33,8 @@ export default defineComponent({
     const logout = async () => {
       try {
         await store.dispatch('account/logoutUser');
-        await router.push({ name: 'home' });
+        // await router.push({ name: 'home' });
+        document.location.href = '/';
       } catch (err) {
         console.debug('err', err);
       }

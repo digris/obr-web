@@ -6,7 +6,8 @@ class AccountHandler {
   constructor() {
     store.watch((state: any) => state.account.user, async (newUser, oldUser) => {
       if (newUser !== oldUser) {
-        await store.dispatch('rating/clearRatings');
+        console.debug('user changed:', newUser, oldUser);
+        // await store.dispatch('rating/clearRatings');
       }
     });
     const rule = `${new Date().getSeconds()} * * * * *`;

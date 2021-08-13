@@ -10,7 +10,6 @@ import store from './store';
 import router from './router';
 
 // directives
-// import { loginRequired } from './directives/account';
 import { TooltipDirective } from './directives/tooltip';
 
 createStationTimeHandler();
@@ -25,3 +24,9 @@ createApp(App)
   .use(store)
   .directive('tooltip', TooltipDirective)
   .mount('#app');
+
+// @ts-ignore
+window.router = router;
+
+// @ts-ignore
+window.store = store;
