@@ -160,29 +160,6 @@ export default {
         userFilter.value = newValue;
       },
     );
-    /*
-    watch(
-      () => route.query,
-      async (newValue, oldValue) => {
-        // @ts-ignore
-        if (!['discoverMedia', 'collectionMedia'].includes(route.name)) {
-          console.debug('ignored route:', route.name);
-          return;
-        }
-        if (isEqual(newValue, oldValue)) {
-          console.debug('query unchanged - ignore');
-          return;
-        }
-        const filter = parseFilterQuery(newValue);
-        if (isEqual(filter, lastFilter.value)) {
-          console.debug('filter unchanged');
-          return;
-        }
-        lastFilter.value = filter;
-        // userFilter.value = filter;
-      },
-    );
-    */
     return {
       combinedFilter,
       tagList,

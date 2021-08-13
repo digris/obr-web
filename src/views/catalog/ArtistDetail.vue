@@ -42,8 +42,6 @@ export default defineComponent({
       options: {},
     }));
     onActivated(() => {
-      // console.debug('activated', route.params.uid);
-      // store.dispatch('catalog/loadArtist', props.uid);
       if (!artist.value) {
         store.dispatch('catalog/loadArtist', props.uid);
       }
