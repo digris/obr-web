@@ -18,6 +18,7 @@ import AccountSettings from '@/components/account/settings/Settings.vue';
 import Filterbar from '@/components/filter/Filterbar.vue';
 
 import { getUser } from '@/api/account';
+import { setBodyColorTheme } from '@/utils/color';
 
 const isAuthenticated = async () => {
   const user = await getUser();
@@ -29,6 +30,9 @@ const routes = [
     path: '/',
     name: 'home',
     component: OnAir,
+    meta: {
+      colorTheme: 'live',
+    },
   },
   {
     path: '/discover/',
@@ -42,9 +46,6 @@ const routes = [
         path: 'moods/',
         name: 'discoverMoods',
         component: MoodList,
-        props: {
-          primaryColor: [255, 255, 255],
-        },
       },
       {
         path: 'playlists/',
@@ -54,29 +55,13 @@ const routes = [
           default: PlaylistList,
           filterbar: Filterbar,
         },
-        props: {
-          default: {
-            primaryColor: [255, 255, 255],
-          },
-          primaryColor: [255, 255, 255],
-        },
       },
       {
         path: 'artists/',
         name: 'discoverArtists',
-        // component: ArtistList,
-        // props: {
-        //   primaryColor: [255, 255, 255],
-        // },
         components: {
           default: ArtistList,
           filterbar: Filterbar,
-        },
-        props: {
-          default: {
-            primaryColor: [255, 255, 255],
-          },
-          primaryColor: [255, 255, 255],
         },
       },
       {
@@ -86,29 +71,16 @@ const routes = [
           default: MediaList,
           filterbar: Filterbar,
         },
-        // props: (route: any) => ({
-        //   default: {
-        //     query: route.query,
-        //     primaryColor: [255, 255, 255],
-        //   },
-        //   query: route.query,
-        //   primaryColor: [255, 255, 255],
-        // }),
         props: {
           default: (route: any) => ({
             query: route.query,
-            primaryColor: [102, 102, 102],
           }),
-          primaryColor: [255, 255, 255],
         },
       },
       {
         path: 'editors/',
         name: 'discoverEditors',
         component: EditorList,
-        props: {
-          primaryColor: [255, 255, 255],
-        },
       },
     ],
   },
@@ -118,8 +90,10 @@ const routes = [
     component: PlaylistDetail,
     props: (route: any) => ({
       uid: route.params.uid,
-      primaryColor: [102, 102, 102],
     }),
+    meta: {
+      colorTheme: 'dark',
+    },
   },
   {
     path: '/discover/artists/:uid/',
@@ -127,8 +101,10 @@ const routes = [
     component: ArtistDetail,
     props: (route: any) => ({
       uid: route.params.uid,
-      primaryColor: [102, 102, 102],
     }),
+    meta: {
+      colorTheme: 'dark',
+    },
   },
   {
     path: '/discover/tracks/:uid/',
@@ -136,12 +112,10 @@ const routes = [
     component: MediaDetail,
     props: (route: any) => ({
       uid: route.params.uid,
-      primaryColor: [102, 102, 102],
     }),
-    // props: {
-    //   route => ({ query: route.query.q }),
-    //   primaryColor: [102, 102, 102],
-    // },
+    meta: {
+      colorTheme: 'dark',
+    },
   },
   {
     path: '/collection/',
@@ -172,9 +146,7 @@ const routes = [
           default: (route: any) => ({
             scope: 'collection',
             query: route.query,
-            primaryColor: [102, 102, 102],
           }),
-          primaryColor: [255, 255, 255],
         },
       },
       {
@@ -189,9 +161,7 @@ const routes = [
           default: (route: any) => ({
             scope: 'collection',
             query: route.query,
-            primaryColor: [102, 102, 102],
           }),
-          primaryColor: [255, 255, 255],
         },
       },
     ],
@@ -202,7 +172,6 @@ const routes = [
     component: ArtistDetail,
     props: (route: any) => ({
       uid: route.params.uid,
-      primaryColor: [102, 102, 102],
     }),
   },
   {
@@ -259,6 +228,13 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || { left: 0, top: 0 };
   },
+});
+
+router.beforeEach((to, from, next) => {
+  const theme = to.meta?.colorTheme ?? 'light';
+  // @ts-ignore
+  setBodyColorTheme(theme);
+  next();
 });
 
 // router.beforeEach((to, from, next) => {

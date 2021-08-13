@@ -12,12 +12,6 @@ export default defineComponent({
   components: {
     MoodCard,
   },
-  props: {
-    primaryColor: {
-      type: Array,
-      default: null,
-    },
-  },
   setup() {
     const moods = ref([]);
     const fetchMoods = async (limit = 16, offset = 0) => {

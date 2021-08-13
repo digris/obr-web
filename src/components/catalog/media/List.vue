@@ -59,10 +59,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    primaryColor: {
-      type: Array,
-      default: () => null,
-    },
   },
   setup(props:any) {
     const store = useStore();

@@ -42,7 +42,7 @@ export default defineComponent({
     <IconSkip
       :size="iconSize"
       :rotate="rotate"
-      color="rgb(var(--c-live-fg))"
+      color="rgb(var(--c-page-fg))"
     />
   </CircleButton>
 </template>

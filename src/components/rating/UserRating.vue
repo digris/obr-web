@@ -51,14 +51,14 @@ export default defineComponent({
       v-if="(userRating.value === 1)"
       :size="iconSize"
       @click="rate(null)"
-      color="rgba(var(--c-live-fg), 0.8)"
+      color="rgba(var(--c-page-fg), 0.8)"
     />
     <IconHeart
       v-if="(userRating.value === null)"
       :size="iconSize"
       :outlined="(true)"
       @click="rate(1)"
-      color="rgba(var(--c-live-fg), 0.5)"
+      color="rgba(var(--c-page-fg), 0.5)"
     />
     <span
       v-if="(userRating.value === -1)"

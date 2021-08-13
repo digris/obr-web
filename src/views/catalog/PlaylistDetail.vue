@@ -24,10 +24,6 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    primaryColor: {
-      type: Array,
-      default: null,
-    },
   },
   setup(props) {
     const store = useStore();
@@ -47,9 +43,6 @@ export default defineComponent({
     onActivated(() => {
       if (!playlist.value) {
         store.dispatch('catalog/loadPlaylist', props.uid);
-      }
-      if (props.primaryColor) {
-        store.dispatch('ui/setPrimaryColor', props.primaryColor);
       }
     });
     return {

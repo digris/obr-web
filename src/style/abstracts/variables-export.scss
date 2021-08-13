@@ -11,7 +11,6 @@
   --font-family: #{$base-font-family};
   --container-width: #{$container-width};
   --image-filter: brightness(0.95) grayscale(0.1);
-  //--image-filter: brightness(1.2) grayscale(1) contrast(1.5);
 }
 
 /* stylelint-disable-next-line no-duplicate-selectors */
@@ -26,6 +25,26 @@
     @each $name, $color in $color-palette-dark {
       --c-#{"" + $name}: #{$color};
     }
+  }
+}
+
+[data-page-color="live"] {
+  --c-page-bg: var(--c-live-bg);
+  --c-page-fg: var(--c-live-fg);
+  --c-page-fg-inverse: var(--c-live-fg-inverse);
+}
+
+[data-page-color="light"] {
+  //--c-page-bg: var(--c-white) !important;
+  @each $name, $color in $page-color-light {
+    --c-#{"" + $name}: #{$color};
+  }
+}
+
+[data-page-color="dark"] {
+  //--c-page-bg: var(--c-black) !important;
+  @each $name, $color in $page-color-dark {
+    --c-#{"" + $name}: #{$color};
   }
 }
 

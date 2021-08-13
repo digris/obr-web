@@ -46,7 +46,7 @@ export default defineComponent({
   >
     <IconPlay
       :size="iconSize"
-      color="rgb(var(--c-live-fg))"
+      color="rgb(var(--c-page-fg))"
     />
   </CircleButton>
 </template>

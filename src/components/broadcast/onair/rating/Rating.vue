@@ -62,7 +62,7 @@ export default defineComponent({
         <IconHeart
           :size="28"
           :outlined="(userRatingValue !== 1)"
-          color="rgb(var(--c-live-fg))"
+          color="rgb(var(--c-page-fg))"
         />
       </CircleButton>
     </div>

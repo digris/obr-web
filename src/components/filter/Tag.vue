@@ -54,7 +54,7 @@ export default defineComponent({
   color: rgb(var(--c-black));
   text-transform: lowercase;
   background: rgb(var(--c-white));
-  border: 1px solid rgba(var(--c-live-fg), 0.2);
+  border: 1px solid rgba(var(--c-page-fg), 0.2);
   border-radius: 1rem;
   cursor: pointer;
   &:hover {

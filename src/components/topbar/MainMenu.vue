@@ -35,12 +35,12 @@
     transition: color, background-color 10ms;
     &:hover {
       color: rgb(var(--c-black));
-      background: rgba(var(--c-live-fg), 0.1);
+      background: rgba(var(--c-page-fg), 0.1);
       transition: color, background-color 200ms;
     }
     &.router-link-active {
-      //color: rgb(var(--c-live-bg));
-      //background: rgb(var(--c-live-fg));
+      //color: rgb(var(--c-page-bg));
+      //background: rgb(var(--c-page-fg));
       color: #fff;
       background: black;
       transition: color, background-color 200ms;

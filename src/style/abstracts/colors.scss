@@ -35,11 +35,23 @@ $color-palette: (
   gray-900: (30, 30, 30),
 
   //initial values - controlled via js later on
-  live-fg: (0, 0, 0),
-  live-bg: (255, 255, 255),
-  live-fg-inverse: (255, 255, 255),
+  page-fg: (0, 0, 0),
+  page-bg: (255, 255, 255),
+  page-fg-inverse: (255, 255, 255),
 );
 
 $color-palette-dark: (
 
+);
+
+$page-color-light: (
+  page-fg: (0, 0, 0),
+  page-bg: (255, 255, 255),
+  page-fg-inverse: (255, 255, 255),
+);
+
+$page-color-dark: (
+  page-fg: (0, 0, 0),
+  page-bg: (128, 128, 128),
+  page-fg-inverse: (255, 255, 255),
 );

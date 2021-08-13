@@ -17,7 +17,11 @@
     {% if color %}document.settings.COLOR = {{ color }}{% endif %}
   </script>
 </head>
-<body id="body">
+<body
+  id="body"
+  data-page-color="live"
+  {% if color %}style="--c-live-bg: {{ color|join:',' }}"{% endif %}
+>
   <div id="app"></div>
   <script src="{% static 'chunk-vendors.js' %}"></script>
   <script src="{% static 'app.js' %}"></script>

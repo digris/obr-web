@@ -66,8 +66,8 @@ export default defineComponent({
   grid-template-columns: 272px 1fr 200px 72px;
   width: 100%;
   height: 78px;
-  background: rgba(var(--c-live-bg), 0.9);
-  border-bottom: 7px solid rgb(var(--c-live-fg));
+  background: rgba(var(--c-page-bg), 0.9);
+  border-bottom: 7px solid rgb(var(--c-page-fg));
   //backdrop-filter: blur(2px);
   transition: background 1000ms;
   @include responsive.bp-small {

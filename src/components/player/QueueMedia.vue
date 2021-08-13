@@ -101,7 +101,7 @@ export default {
     grid-area: rating;
   }
   &.is-current {
-    background: rgba(var(--c-live-bg), 0.1);
+    background: rgba(var(--c-page-bg), 0.1);
   }
 }
 </style>

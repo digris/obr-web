@@ -119,7 +119,7 @@ $player-height: 72px;
   height: $player-height;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
-  border-top: 1px solid rgba(var(--c-live-fg), .2);
+  border-top: 1px solid rgba(var(--c-page-fg), .2);
   transition: background 1000ms;
 }
 

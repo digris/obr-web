@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      default: 'rgb(var(--c-live-bg))',
+      default: 'rgb(var(--c-page-bg))',
     },
     size: {
       type: Number,
