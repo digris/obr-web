@@ -55,20 +55,24 @@ export default defineComponent({
     class="code-input"
     :class="{'is-valid': valid}"
   >
-    <input
-      ref="inputEl"
-        id="ti-1299"
-      class="input"
-      @keyup="handleInput"
-      :value="inputValue"
-      maxlength="8"
-      placeholder="Code"
+    <div
+      class="input-container"
     >
       <label
         for="ti-1299"
       >
-        Code
+        Gratis-Code:
       </label>
+      <input
+        ref="inputEl"
+          id="ti-1299"
+        class="input"
+        @keyup="handleInput"
+        :value="inputValue"
+        maxlength="8"
+        placeholder="Code"
+      >
+    </div>
   </div>
 </template>
 
@@ -76,6 +80,9 @@ export default defineComponent({
 @use "@/style/elements/form";
 .code-input {
   @include form.default;
+  .input-container {
+    @include form.top-label;
+  }
   .input {
     @include form.input;
     font-size: 200%;
