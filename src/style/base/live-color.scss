@@ -1,30 +1,27 @@
 @mixin transition {
-  //transition: background-color 3000ms, color 200ms 1400ms;
   transition: background-color 1000ms, color 100ms 400ms;
 }
 
 @mixin transition-inverse {
-  //transition: color 3000ms, background-color 200ms 1400ms;
   transition: color 1000ms, background-color 100ms 400ms;
 }
 
 @mixin fg($alpha: 1) {
   @include transition;
-  color: rgba(var(--c-live-fg), $alpha);
-  //border-color: rgba(var(--c-live-fg), $alpha);
+  color: rgba(var(--c-page-fg), $alpha);
 }
 
 @mixin fg-inverse($alpha: 1) {
   @include transition-inverse;
-  color: rgba(var(--c-live-fg-inverse), $alpha);
+  color: rgba(var(--c-page-fg-inverse), $alpha);
 }
 
 @mixin bg($alpha: 1) {
   @include transition;
-  background-color: rgba(var(--c-live-bg), $alpha);
+  background-color: rgba(var(--c-page-bg), $alpha);
 }
 
 @mixin bg-inverse($alpha: 1) {
   @include transition-inverse;
-  background-color: rgba(var(--c-live-fg), $alpha);
+  background-color: rgba(var(--c-page-fg), $alpha);
 }

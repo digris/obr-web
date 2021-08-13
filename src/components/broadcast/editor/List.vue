@@ -12,12 +12,6 @@ export default defineComponent({
   components: {
     EditorCard,
   },
-  props: {
-    primaryColor: {
-      type: Array,
-      default: null,
-    },
-  },
   setup() {
     const editors = ref([]);
     const fetchEditors = async (limit = 16, offset = 0) => {

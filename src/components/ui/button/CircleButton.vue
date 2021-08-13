@@ -9,7 +9,7 @@ export default defineComponent({
     },
     backgroundColor: {
       type: String,
-      default: 'rgb(var(--c-live-fg))',
+      default: 'rgb(var(--c-page-fg))',
     },
     outlined: {
       type: Boolean,
@@ -90,21 +90,21 @@ export default defineComponent({
   cursor: pointer;
   transition: background 200ms, color 200ms, border 200ms;
   &.is-outlined {
-    border-color: rgba(var(--c-live-fg), var(--outline-opacity));
+    border-color: rgba(var(--c-page-fg), var(--outline-opacity));
   }
   &.has-shadow {
-    box-shadow: rgba(var(--c-live-fg), 0.2) 0 0 3px 0;
+    box-shadow: rgba(var(--c-page-fg), 0.2) 0 0 3px 0;
   }
   &.is-active {
-    color: rgb(var(--c-live-fg-inverse));
-    background: rgb(var(--c-live-fg));
+    color: rgb(var(--c-page-fg-inverse));
+    background: rgb(var(--c-page-fg));
   }
   &.is-disabled {
     opacity: 0.2;
     pointer-events: none;
   }
   &:hover {
-    background: rgba(var(--c-live-fg), 0.1);
+    background: rgba(var(--c-page-fg), 0.1);
     border-color: transparent;
   }
 }

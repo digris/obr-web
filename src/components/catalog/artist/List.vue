@@ -9,12 +9,6 @@ export default {
     LoadingMore,
     ArtistCard,
   },
-  props: {
-    primaryColor: {
-      type: Array,
-      default: null,
-    },
-  },
   data() {
     return {
       artists: [],
@@ -49,10 +43,6 @@ export default {
   beforeMount() {
     this.artists = [];
     this.fetchArtists();
-  },
-  activated() {
-    console.debug(this.primaryColor);
-    this.$store.dispatch('ui/setPrimaryColor', this.primaryColor);
   },
 };
 </script>

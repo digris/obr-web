@@ -43,7 +43,7 @@ export default defineComponent({
     >
       <IconSearch
         :size="(48)"
-        :color="`rgb(var(--c-live-fg))`"
+        :color="`rgb(var(--c-page-fg))`"
       />
     </CircleButton>
     <CircleButton
@@ -54,7 +54,7 @@ export default defineComponent({
     >
       <IconHashtag
         :size="(48)"
-        :color="(isExpanded ? `rgb(var(--c-live-bg))` : `rgb(var(--c-live-fg))`)"
+        :color="(isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`)"
       />
     </CircleButton>
   </div>
@@ -72,12 +72,12 @@ export default defineComponent({
     @include typo.default;
     box-sizing: content-box;
     height: 100%;
-    color: rgb(var(--c-live-fg));
+    color: rgb(var(--c-page-fg));
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgba(var(--c-live-fg), 0.2);
+    border-bottom: 1px solid rgba(var(--c-page-fg), 0.2);
     &:focus {
-      border-bottom: 3px solid rgb(var(--c-live-fg));
+      border-bottom: 3px solid rgb(var(--c-page-fg));
       outline: none;
     }
   }

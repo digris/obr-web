@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-live-bg))',
+      default: 'rgb(var(--c-page-bg))',
     },
   },
   setup(props) {
