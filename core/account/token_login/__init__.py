@@ -46,3 +46,11 @@ def claim_token(email, token):
     )
 
     return token.email
+
+
+def delete_expired_tokens():
+    # pylint: disable=import-outside-toplevel
+    from account.models import LoginToken
+
+    qs = LoginToken.objects.expired()
+    qs.delete()

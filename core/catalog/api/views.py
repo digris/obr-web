@@ -229,15 +229,31 @@ class MediaViewSet(
         return super().list(request, *args, **kwargs)
 
     def list_for_playlist(self, request, uid, *args, **kwargs):
+        qs = self.filter_queryset(self.get_queryset())
         playlist = Playlist.objects.get(uid=uid)
-        media = []
+        media_ids = []
         for playlist_media in playlist.playlist_media.all():
-            media.append(playlist_media.media)
+            media_ids.append(playlist_media.media.id)
+
+        d = dict([(obj.id, obj) for obj in qs])
+        media = [d[index] for index in media_ids]
+
         serializer = self.get_serializer(media, many=True)
         data = {
             "results": serializer.data,
         }
         return Response(data)
+
+    # def list_for_playlist(self, request, uid, *args, **kwargs):
+    #     playlist = Playlist.objects.get(uid=uid)
+    #     media = []
+    #     for playlist_media in playlist.playlist_media.all():
+    #         media.append(playlist_media.media)
+    #     serializer = self.get_serializer(media, many=True)
+    #     data = {
+    #         "results": serializer.data,
+    #     }
+    #     return Response(data)
 
     @action(url_path="tags", detail=False, methods=["get"])
     # pylint: disable=unused-argument

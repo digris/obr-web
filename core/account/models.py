@@ -11,11 +11,10 @@ from django.utils.translation import gettext_lazy as _
 
 from account import signals as account_signals
 from account import token_login
+from account.settings import LOGIN_TOKEN_MAX_AGE
 from account.sync.user import sync_user
 from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
-
-TOKEN_MAX_AGE = 2  # in hours
 
 
 class UserManager(BaseUserManager):
@@ -138,6 +137,18 @@ def get_default_token():
     return token
 
 
+class LoginTokenQuerySet(models.QuerySet):
+    def valid(self):
+        return self.filter(
+            created__gt=timezone.now() - timedelta(hours=LOGIN_TOKEN_MAX_AGE),
+        )
+
+    def expired(self):
+        return self.exclude(
+            created__gt=timezone.now() - timedelta(hours=LOGIN_TOKEN_MAX_AGE),
+        )
+
+
 class LoginToken(
     CTUIDModelMixin,
 ):
@@ -166,6 +177,8 @@ class LoginToken(
         blank=True,
     )
 
+    objects = LoginTokenQuerySet.as_manager()
+
     def __str__(self):
         return str(self.token_display)
 
@@ -179,4 +192,4 @@ class LoginToken(
 
     @property
     def is_valid(self):
-        return self.created > timezone.now() - timedelta(hours=TOKEN_MAX_AGE)
+        return self.created > timezone.now() - timedelta(hours=LOGIN_TOKEN_MAX_AGE)

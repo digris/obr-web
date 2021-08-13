@@ -118,6 +118,7 @@ const routes = [
     component: PlaylistDetail,
     props: (route: any) => ({
       uid: route.params.uid,
+      primaryColor: [102, 102, 102],
     }),
   },
   {

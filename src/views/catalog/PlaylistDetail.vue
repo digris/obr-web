@@ -1,27 +1,32 @@
-<script>
+<script lang="ts">
 import {
   computed,
   ref,
   onActivated,
+  defineComponent,
 } from 'vue';
 import { useStore } from 'vuex';
 
 import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
-import MediaRow from '@/components/catalog/media/Row.vue';
+import MediaList from '@/components/catalog/media/List.vue';
 
-export default {
+export default defineComponent({
   components: {
     DetailHeader,
     LazyImage,
     PlayIcon,
-    MediaRow,
+    MediaList,
   },
   props: {
     uid: {
       type: String,
       required: true,
+    },
+    primaryColor: {
+      type: Array,
+      default: null,
     },
   },
   setup(props) {
@@ -30,20 +35,23 @@ export default {
     const playlist = computed(() => store.getters['catalog/playlistByUid'](props.uid));
     const objKey = computed(() => `${playlist.value.ct}:${playlist.value.uid}`);
     const mediaList = computed(() => {
-      return playlist.value.mediaSet.reduce((a, b) => a.concat({ ...b.media, ...b }), []);
+      return playlist.value.mediaSet.reduce((a: any, b: any) => a.concat({ ...b.media, ...b }), []);
     });
+    const query = computed(() => ({
+      filter: {
+        obj_key: objKey.value,
+      },
+      search: [],
+      options: {},
+    }));
     onActivated(() => {
       if (!playlist.value) {
         store.dispatch('catalog/loadPlaylist', props.uid);
       }
+      if (props.primaryColor) {
+        store.dispatch('ui/setPrimaryColor', props.primaryColor);
+      }
     });
-    const query = {
-      filter: {
-        playlist: '39E730FC',
-      },
-      search: [],
-      options: {},
-    };
     return {
       objKey,
       isLoaded,
@@ -52,7 +60,7 @@ export default {
       query,
     };
   },
-};
+});
 </script>
 
 <template>
@@ -100,13 +108,13 @@ export default {
       <div
         class="media-list"
       >
-        <MediaRow
-          v-for="(media, index) in mediaList"
-          :key="`media-row-${index}-${media.uid}-${media.position}`"
-          :media="media"
+        <MediaList
+          :initial-filter="query.filter"
+          :disable-user-filter="(true)"
+          :disable-play-all="(true)"
         />
       </div>
-    </section>
+    </section>>
   </div>
 </template>
 
