@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     # "taggit",
     "rest_framework",
     "rest_framework.authtoken",
-    "drf_yasg",
+    "drf_spectacular",
     "django_filters",
     "social_django",
     "adminsortable2",
@@ -242,19 +242,44 @@ REST_FRAMEWORK = {
         "subscription.voucher": "10/hour",
         "account.login_email": "20/hour",
     },
+    # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "api_extra.schema.AutoSchema",
 }
 
-SWAGGER_SETTINGS = {
-    "DEFAULT_AUTO_SCHEMA_CLASS": "api_extra.schema.AutoSchema",
-    "SECURITY_DEFINITIONS": {
-        "Token": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
-            "description": "`Authorization: Token <api_token>`",
-        },
+SPECTACULAR_SETTINGS = {
+    "TITLE": "OBR API",
+    "DESCRIPTION": "open broadcast radio",
+    "VERSION": "0.0.1",
+    'SCHEMA_PATH_PREFIX': '/api/v[0-9]',
+    # 'CAMELIZE_NAMES': True,
+'DEFAULT_GENERATOR_CLASS': 'drf_spectacular.generators.SchemaGenerator',
+    'SERVERS': [
+        {
+            'url': 'https://next.openbroadcast.ch',
+        }
+    ],
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": False,
+        "persistAuthorization": True,
+        "displayOperationId": False,
+        "defaultModelsExpandDepth": 100,
+        "defaultModelExpandDepth": 100,
+        "docExpansion": 'full',
     },
+    "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.35.1",
 }
+
+# SWAGGER_SETTINGS = {
+#     "DEFAULT_AUTO_SCHEMA_CLASS": "api_extra.schema.AutoSchema",
+#     "SECURITY_DEFINITIONS": {
+#         "Token": {
+#             "type": "apiKey",
+#             "name": "Authorization",
+#             "in": "header",
+#             "description": "`Authorization: Token <api_token>`",
+#         },
+#     },
+# }
 
 # CORS_ORIGIN_ALLOW_ALL = True
 # CORS_URLS_REGEX = r"^/api/.*$"
