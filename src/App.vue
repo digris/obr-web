@@ -1,6 +1,6 @@
 <script>
 import { AudioPlayer } from '@/player/audioPlayer';
-import { Queue } from '@/player/queue';
+import queue from '@/player/queue';
 import Topbar from '@/components/topbar/Topbar.vue';
 import SideMenu from '@/components/topbar/SideMenu.vue';
 import AuthPanel from '@/components/account/AuthPanel.vue';
@@ -22,7 +22,8 @@ export default {
   created() {
     this.$store.dispatch('account/getUser');
     this.audioPlayer = new AudioPlayer();
-    this.queue = new Queue();
+    // this.queue = new Queue();
+    this.queue = queue;
   },
   computed: {
     user() {

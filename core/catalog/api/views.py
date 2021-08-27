@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from datetime import timedelta
 from django.core.exceptions import FieldError
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
@@ -14,6 +15,9 @@ from rest_framework.response import Response
 from tagging import utils as tagging_utils
 from . import serializers
 from ..models import Mood, Media, Artist, Release, Playlist
+
+
+MEDIA_MIN_DURATION = 10
 
 logger = logging.getLogger(__name__)
 
@@ -202,6 +206,8 @@ class MediaViewSet(
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)
 
+        qs = qs.filter(duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),)
+
         qs = qs.order_by("-latest_airplay")
 
         return qs
@@ -231,8 +237,11 @@ class MediaViewSet(
     def list_for_playlist(self, request, uid, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset())
         playlist = Playlist.objects.get(uid=uid)
+        qs_media_ids = qs.values_list('id', flat=True)
         media_ids = []
         for playlist_media in playlist.playlist_media.all():
+            if playlist_media.media.id not in qs_media_ids:
+                continue
             media_ids.append(playlist_media.media.id)
 
         d = dict([(obj.id, obj) for obj in qs])

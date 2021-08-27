@@ -1,15 +1,11 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
     size: {
       type: Number,
       default: 24,
-    },
-    backgroundColor: {
-      type: String,
-      default: 'rgb(var(--c-page-fg))',
     },
     outlined: {
       type: Boolean,
@@ -35,28 +31,14 @@ export default defineComponent({
       type: Number,
       default: 1,
     },
-  },
-  setup(props) {
-    const style = computed(() => {
-      return {
-        height: `${props.size}px`,
-        width: `${props.size}px`,
-        borderRadius: `${props.size / 2}px`,
-      };
-      // backgroundColor: props.backgroundColor,
-    });
-    const cssVars = computed(() => {
-      return {
-        '--size': `${props.size}px`,
-        '--outline-opacity': props.outlineOpacity,
-        '--outline-width': `${props.outlineWidth}px`,
-      };
-      // backgroundColor: props.backgroundColor,
-    });
-    return {
-      style,
-      cssVars,
-    };
+    colorVar: {
+      type: String,
+      default: '--c-page-fg',
+    },
+    activeColorVar: {
+      type: String,
+      default: '--c-page-fg-inverse',
+    },
   },
 });
 </script>
@@ -64,7 +46,13 @@ export default defineComponent({
 <template>
   <div
     class="circle-button"
-    :style="cssVars"
+    :style="{
+      '--size': `${size}px`,
+      '--c-main': `var(${colorVar})`,
+      '--c-active': `var(${activeColorVar})`,
+      '--outline-opacity': outlineOpacity,
+      '--outline-width': `${outlineWidth}px`,
+    }"
     :class="{
       'is-outlined': outlined,
       'has-shadow': hasShadow,
@@ -90,21 +78,21 @@ export default defineComponent({
   cursor: pointer;
   transition: background 200ms, color 200ms, border 200ms;
   &.is-outlined {
-    border-color: rgba(var(--c-page-fg), var(--outline-opacity));
+    border-color: rgba(var(--c-main), var(--outline-opacity));
   }
   &.has-shadow {
-    box-shadow: rgba(var(--c-page-fg), 0.2) 0 0 3px 0;
+    box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;
   }
   &.is-active {
-    color: rgb(var(--c-page-fg-inverse));
-    background: rgb(var(--c-page-fg));
+    color: rgb(var(--c-active));
+    background: rgba(var(--c-main), 0.9);
   }
   &.is-disabled {
     opacity: 0.2;
     pointer-events: none;
   }
   &:hover {
-    background: rgba(var(--c-page-fg), 0.1);
+    background: rgba(var(--c-main), 0.1);
     border-color: transparent;
   }
 }

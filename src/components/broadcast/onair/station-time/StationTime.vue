@@ -34,9 +34,6 @@ export default defineComponent({
     const second = computed(() => {
       return zeroPad(time.value.second);
     });
-    // const formattedTime = computed(() => {
-    //   return time.value.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
-    // });
     const offset = computed(() => {
       return store.getters['time/offset'];
     });
@@ -67,6 +64,11 @@ export default defineComponent({
   <div
     class="station-time"
   >
+    <div
+      class="actions"
+    >
+      <ToggleTimeshiftButton />
+    </div>
     <div
       class="container"
     >

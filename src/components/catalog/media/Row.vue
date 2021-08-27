@@ -158,7 +158,9 @@ export default defineComponent({
     <div
       class="container"
     >
-      <div class="play">
+      <div
+        class="play"
+      >
         <ButtonPlay
           @play="play(media)"
           @pause="pause"
@@ -171,16 +173,14 @@ export default defineComponent({
         <div
           class="state"
         >
-          <div>
-            <span
-              v-if="isOnair"
-            >A</span>
-          </div>
-          <div>
-            <span
-              v-if="isQueued"
-            >Q</span>
-          </div>
+          <div
+            class="state__on-air"
+            v-if="isOnair"
+          >R</div>
+          <div
+            class="state__queued"
+            v-if="isQueued"
+          >Q</div>
         </div>
       </div>
       <div
@@ -197,27 +197,37 @@ export default defineComponent({
           {{ media.name }}
         </router-link>
       </div>
-      <div class="artist">
+      <div
+        class="artist"
+      >
         <MediaArtists
           :artists="media.artists"
         />
       </div>
-      <div class="release">
+      <div
+        class="release"
+      >
         <MediaReleases
           :releases="media.releases"
         />
       </div>
-      <div class="airplays">
+      <div
+        class="airplays"
+      >
         <RelativeDateTime
           v-if="latestAirplay"
           :date-time="latestAirplay"
           v-tooltip="`Total airplays: ${media.numAirplays}`"
         />
       </div>
-      <div class="duration">
+      <div
+        class="duration"
+      >
         {{ duration }}
       </div>
-      <div class="actions">
+      <div
+        class="actions"
+      >
         <CircleButton
           :size="(48)"
           :outlined="(false)"
@@ -280,13 +290,21 @@ export default defineComponent({
   .play {
     grid-area: play;
     padding-left: 0.5rem;
+    position: relative;
 
     .state {
-      display: grid;
-      grid-template-columns: 12px 12px;
-      margin-left: 0.5rem;
-      font-size: 90%;
-      opacity: 0.5;
+      position: absolute;
+      top: 1px;
+      right: 0;
+      font-size: 8px;
+      font-family: monospace;
+      -webkit-font-smoothing: none;
+      &__onair {
+        color: red;
+      }
+      &__queued {
+        color: black;
+      }
     }
   }
 
