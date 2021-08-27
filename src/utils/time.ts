@@ -1,5 +1,5 @@
-import store from '@/store';
 import { DateTime } from 'luxon';
+import store from '@/store';
 
 class StationTimeHandler {
   constructor() {

@@ -1,7 +1,7 @@
+import { computed } from 'vue';
 import eventBus from '@/eventBus';
 import store from '@/store';
 import settings from '@/settings';
-import { computed } from 'vue';
 import { getMediaUrl } from '@/player/media';
 import createMediaSessionHandler from '@/player/mediaSession';
 
@@ -38,6 +38,32 @@ class Queue {
     });
 
     // 'queue' events
+    eventBus.on('queue:controls:enqueue', async (payload) => {
+      // @ts-ignore
+      const { mode, media } = { ...payload };
+      console.debug('queue:controls:enqueue', mode, media);
+      switch (mode) {
+        case 'replace': {
+          console.debug('replace');
+          await store.dispatch('queue/replaceQueue', media);
+          await this.startPlayCurrent();
+          break;
+        }
+        default: {
+          console.debug('default');
+          await store.dispatch('queue/replaceQueue', media);
+          await this.startPlayCurrent();
+          break;
+        }
+      }
+    });
+    eventBus.on('queue:controls:playFromIndex', async (index) => {
+      try {
+        await this.playFromIndex(index);
+      } catch (err) {
+        console.warn(err);
+      }
+    });
     eventBus.on('queue:controls:playNext', async () => {
       try {
         await this.playNext();
@@ -59,6 +85,11 @@ class Queue {
         console.warn(err);
       }
     });
+  }
+
+  async playFromIndex(index: number) {
+    await store.dispatch('queue/setIndex', index);
+    this.startPlayCurrent();
   }
 
   async playPrevious() {

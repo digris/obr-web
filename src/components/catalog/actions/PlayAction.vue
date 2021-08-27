@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 import { requireSubscription } from '@/utils/account';
 import { getMedia } from '@/api/catalog';
 import eventBus from '@/eventBus';
@@ -19,7 +19,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
+    // const store = useStore();
     const isLoading = ref(false);
     const play = requireSubscription(async () => {
       isLoading.value = true;
@@ -33,8 +33,9 @@ export default defineComponent({
         media: results,
       };
       // NOTE: hm - this is not very nice...
-      await store.dispatch('queue/updateQueue', payload);
-      eventBus.emit('queue:controls:startPlayCurrent');
+      // await store.dispatch('queue/updateQueue', payload);
+      // eventBus.emit('queue:controls:startPlayCurrent');
+      eventBus.emit('queue:controls:enqueue', payload);
       isLoading.value = false;
     }, 'Subscription required.');
     return {

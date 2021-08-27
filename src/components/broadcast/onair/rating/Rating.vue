@@ -1,5 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import {
+  computed,
+  defineComponent,
+  watch,
+  onMounted,
+} from 'vue';
 import { useStore } from 'vuex';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
@@ -36,6 +41,21 @@ export default defineComponent({
       };
       await store.dispatch('rating/updateRating', vote);
     };
+    const fetchRating = async (key: string) => {
+      if (!key) {
+        return;
+      }
+      if (userRating.value) {
+        return;
+      }
+      await store.dispatch('rating/loadRating', key);
+    };
+    onMounted(() => {
+      fetchRating(objKey.value);
+    });
+    watch(objKey, async (key) => {
+      await fetchRating(key);
+    });
     return {
       userRating,
       userRatingValue,

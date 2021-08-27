@@ -112,12 +112,9 @@ export default defineComponent({
     });
     const play = requireSubscription((media: object) => {
       const payload = {
-        mode: 'replace',
         media: [media],
       };
-      // NOTE: hm - this is not very nice...
-      store.dispatch('queue/updateQueue', payload);
-      eventBus.emit('queue:controls:startPlayCurrent');
+      eventBus.emit('queue:controls:enqueue', payload);
     }, 'A subscription is required...');
     const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });

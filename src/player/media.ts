@@ -20,18 +20,13 @@ const getSuffix = (format: string) => {
 
 const getMediaUrl = (media: object) => {
   const mediaFormat = getMediaFormat();
-  console.debug('mediaFormat', mediaFormat);
   const suffix = getSuffix(mediaFormat);
-  console.debug('suffix', suffix);
   if (DEBUG) {
     const dummyUuids: Array<string> = ['F001', 'F001'];
     const uid = dummyUuids[Math.floor(Math.random() * dummyUuids.length)];
-    // return `${MEDIA_ENDPOINTS.dash}${uid}/dash/manifest.mpd`;
     return `${MEDIA_ENDPOINTS.dash}${uid}${suffix}`;
   }
   // @ts-ignore
-  // const dummyUuids: Array = ['F001', 'F002', 'F003'];
-  // const uid = dummyUuids[Math.floor(Math.random() * dummyUuids.length)];
   const { uid } = media;
   return `${MEDIA_ENDPOINTS.dash}${uid}${suffix}`;
 };

@@ -36,6 +36,7 @@ export default defineComponent({
       emit('onFocus', key);
     };
     const play = () => {
+      // TODO: not needed without time-shift
       setTimeout(() => {
         emit('onFocus', '');
       }, 2000);

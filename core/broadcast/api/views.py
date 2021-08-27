@@ -124,11 +124,6 @@ class ScheduleView(APIView):
 
         media_in_range.sort(key=lambda i: i["time_start"], reverse=True)
 
-        # print(len(media_set))
-        #
-        # for m in media_in_range:
-        #     print(m["time_start"])
-
         serializer = serializers.ScheduleSerializer(
             media_in_range,
             many=True,

@@ -54,17 +54,10 @@ export default defineComponent({
       <div
         class="container"
       >
-        <!--
-        <div>
-          ci: {{ currentIndex }}
-        </div>
-        <pre
-          v-text="currentMedia"
-        ></pre>
-        -->
         <QueueMedia
           v-for="(media, index) in mediaList"
           :key="`media-row-${index}`"
+          :index="index"
           :media="media"
           :is-current="(media === currentMedia)"
         />

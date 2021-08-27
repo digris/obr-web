@@ -1,8 +1,7 @@
 <script lang="ts">
+import { defineComponent, computed } from 'vue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconPlay from '@/components/ui/icon/IconPlay.vue';
-
-import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   components: {

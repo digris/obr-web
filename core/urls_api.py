@@ -7,7 +7,11 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 
 app_name = "api"
@@ -39,10 +43,18 @@ def api_root(request, format=None):
 
 urlpatterns = [
     path("", api_root, name="base"),
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path("schema/", SpectacularAPIView.as_view(), name="schema"),
     # Optional UI:
-    path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='api:schema'), name='swagger-ui'),
-    path('schema/redoc/', SpectacularRedocView.as_view(url_name='api:schema'), name='redoc'),
+    path(
+        "schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="api:schema"),
+        name="swagger-ui",
+    ),
+    path(
+        "schema/redoc/",
+        SpectacularRedocView.as_view(url_name="api:schema"),
+        name="redoc",
+    ),
     # path(
     #     "schema/",
     #     schema_view.without_ui(cache_timeout=0),

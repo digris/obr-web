@@ -250,12 +250,12 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "OBR API",
     "DESCRIPTION": "open broadcast radio",
     "VERSION": "0.0.1",
-    'SCHEMA_PATH_PREFIX': '/api/v[0-9]',
+    "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
     # 'CAMELIZE_NAMES': True,
-'DEFAULT_GENERATOR_CLASS': 'drf_spectacular.generators.SchemaGenerator',
-    'SERVERS': [
+    "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
+    "SERVERS": [
         {
-            'url': 'https://next.openbroadcast.ch',
+            "url": "https://next.openbroadcast.ch",
         }
     ],
     "SWAGGER_UI_SETTINGS": {
@@ -264,7 +264,7 @@ SPECTACULAR_SETTINGS = {
         "displayOperationId": False,
         "defaultModelsExpandDepth": 100,
         "defaultModelExpandDepth": 100,
-        "docExpansion": 'full',
+        "docExpansion": "full",
     },
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.35.1",
 }
@@ -300,8 +300,8 @@ IMAGE_RESIZER_URL = "https://next.openbroadcast.ch/images/"
 GOOGLE_TAG_ID = ""
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",
-    "hls": "",
-    "icecast": "",
+    "hls": "https://stream-abr.next.openbroadcast.ch/manifest.m3u8",
+    "icecast": "https://stream.next.openbroadcast.ch/256.mp3",
 }
 MEDIA_ENDPOINTS = {
     "dash": "https://media.next.openbroadcast.ch/encoded/",

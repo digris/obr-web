@@ -15,6 +15,7 @@ class TagType(models.TextChoices):
     INSTRUMENT = "instrument", "Instrument"
     PROFESSION = "profession", "Profession"
     EVENT = "event", "Event"
+    LANGUAGE = "language", "Language"
 
 
 class Tag(

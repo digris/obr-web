@@ -35,14 +35,12 @@
 }
 
 [data-page-color="light"] {
-  //--c-page-bg: var(--c-white) !important;
   @each $name, $color in $page-color-light {
     --c-#{"" + $name}: #{$color};
   }
 }
 
 [data-page-color="dark"] {
-  //--c-page-bg: var(--c-black) !important;
   @each $name, $color in $page-color-dark {
     --c-#{"" + $name}: #{$color};
   }
