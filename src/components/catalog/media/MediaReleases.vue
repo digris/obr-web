@@ -1,12 +1,18 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     releases: {
       type: Array,
       default: () => [],
     },
+    link: {
+      type: Boolean,
+      default: true,
+    },
   },
-};
+});
 </script>
 
 <template>
@@ -21,9 +27,8 @@ export default {
     >
       <span
         class="releaset__name"
-      >
-        {{ release.name }}
-      </span>
+        v-text="release.name"
+      />
     </span>
   </div>
 </template>

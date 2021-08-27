@@ -23,7 +23,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const mediaList = computed(() => store.getters['queue/media']);
-    const currentIndex = computed(() => store.getters['queue/currentIndex']);
+    // const currentIndex = computed(() => store.getters['queue/currentIndex']);
     const currentMedia = computed(() => store.getters['queue/currentMedia']);
     const close = () => {
       emit('close');
@@ -39,7 +39,7 @@ export default defineComponent({
     return {
       close,
       mediaList,
-      currentIndex,
+      // currentIndex,
       currentMedia,
     };
   },
@@ -54,13 +54,18 @@ export default defineComponent({
       <div
         class="container"
       >
-        <QueueMedia
-          v-for="(media, index) in mediaList"
-          :key="`media-row-${index}`"
-          :index="index"
-          :media="media"
-          :is-current="(media === currentMedia)"
-        />
+        <transition-group
+          name="queue"
+          mode="out-in"
+        >
+          <QueueMedia
+            v-for="(media, index) in mediaList"
+            :key="`media-row-${media.uid}`"
+            :index="index"
+            :media="media"
+            :is-current="(media === currentMedia)"
+          />
+        </transition-group>
       </div>
     </div>
   </transition>
@@ -81,7 +86,8 @@ $player-height: 72px;
   bottom: $player-height;
   width: 100%;
   min-height: 100px;
-  max-height: 75%;
+  //max-height: calc(100% - 148px);
+  max-height: calc(100% - 72px);
   overflow-y: auto;
   color: rgb(var(--c-white));
   background: rgb(var(--c-black));
@@ -90,6 +96,7 @@ $player-height: 72px;
   }
 }
 
+//queue panel transition
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
@@ -100,5 +107,16 @@ $player-height: 72px;
 }
 .slide-leave-to {
   transform: translate(0, 100%);
+}
+
+// queue item list transition
+.queue-enter-active,
+.queue-leave-active {
+  transition: opacity 300ms, transform 100ms;
+}
+//.queue-enter-from,
+.queue-leave-to {
+  opacity: 0;
+  //transform: translateY(2rem);
 }
 </style>

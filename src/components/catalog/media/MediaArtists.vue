@@ -1,16 +1,18 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   props: {
     artists: {
       type: Array,
       default: () => [],
     },
+    link: {
+      type: Boolean,
+      default: true,
+    },
   },
-  setup() {
-    const link = `/discover/artists/${123}/`;
-    return { link };
-  },
-};
+});
 </script>
 
 <template>
@@ -33,11 +35,15 @@ export default {
         class="artist__join artist__join--spaceless"
       >, </span>
       <router-link
+        v-if="link"
         :to="`/discover/artists/${artist.uid}/`"
         class="artist__name"
-      >
-        {{ artist.name }}
-      </router-link>
+        v-text="artist.name"
+      />
+      <span
+        v-else
+        v-text="artist.name"
+      />
     </span>
   </div>
 </template>

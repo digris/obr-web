@@ -85,8 +85,8 @@ export default defineComponent({
   &.is-disabled {
     opacity: 0.8;
     pointer-events: none;
-    > :deep(svg) {
-      opacity: 0.2;
+    > :deep(*) {
+      opacity: 0.4;
     }
   }
 }

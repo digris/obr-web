@@ -37,18 +37,24 @@ const getters = {
 };
 
 const mutations = {
+  SET_CURRENT_INDEX: (state:any, index: number) => {
+    state.currentIndex = index;
+  },
+  REMOVE_INDEX: (state:any, index: number) => {
+    state.media.splice(index, 1);
+  },
   REPLACE_MEDIA: (state:any, media:Array<object>) => {
     state.media = media;
     state.currentIndex = (media.length) ? 0 : -1;
-  },
-  SET_CURRENT_INDEX: (state:any, index: number) => {
-    state.currentIndex = index;
   },
 };
 
 const actions = {
   setIndex: async (context:any, index: number) => {
     context.commit('SET_CURRENT_INDEX', index);
+  },
+  removeIndex: async (context:any, index: number) => {
+    context.commit('REMOVE_INDEX', index);
   },
   replaceQueue: async (context:any, media: Array<object>) => {
     context.commit('REPLACE_MEDIA', media);

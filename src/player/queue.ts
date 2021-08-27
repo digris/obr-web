@@ -40,7 +40,7 @@ class Queue {
     // 'queue' events
     eventBus.on('queue:controls:enqueue', async (payload) => {
       // @ts-ignore
-      const { mode, media } = { ...payload };
+      const { media, mode } = { ...payload };
       console.debug('queue:controls:enqueue', mode, media);
       switch (mode) {
         case 'replace': {
@@ -51,6 +51,17 @@ class Queue {
         }
         default: {
           console.debug('default');
+          // check if single mdeia, and if already in queue.
+          // if so we start the queue from the media's position instead of replacing.
+          if (media.length === 1) {
+            // @ts-ignore
+            const index = this.media.value.findIndex((obj) => obj.uid === media[0].uid);
+            if (index > -1) {
+              console.debug('existing single media', index);
+              await this.playFromIndex(index);
+              return;
+            }
+          }
           await store.dispatch('queue/replaceQueue', media);
           await this.startPlayCurrent();
           break;
@@ -85,11 +96,24 @@ class Queue {
         console.warn(err);
       }
     });
+    eventBus.on('queue:controls:removeAtIndex', async (index) => {
+      console.debug('queue:controls:removeAtIndex', index);
+      try {
+        await this.removeAtIndex(index);
+      } catch (err) {
+        console.warn(err);
+      }
+    });
   }
 
   async playFromIndex(index: number) {
     await store.dispatch('queue/setIndex', index);
     this.startPlayCurrent();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async removeAtIndex(index: number) {
+    await store.dispatch('queue/removeIndex', index);
   }
 
   async playPrevious() {
@@ -136,4 +160,6 @@ class Queue {
   }
 }
 
-export { Queue };
+const queue = new Queue();
+
+export default queue;

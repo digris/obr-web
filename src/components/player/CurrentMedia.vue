@@ -38,24 +38,34 @@ export default defineComponent({
   <div
     class="current-media"
   >
-    <div
+    <router-link
       v-if="media"
       class="visual"
+      :to="{
+        name: 'mediaDetail',
+        params: {
+          uid: media.uid,
+        },
+      }"
     >
       <LazyImage
         :image="image"
       />
-    </div>
+    </router-link>
     <div
       v-if="media"
       class="metadata"
     >
-      <div
+      <router-link
         class="metadata--primary"
-        :title="media.name"
-      >
-        {{ media.name }}
-      </div>
+        :to="{
+          name: 'mediaDetail',
+          params: {
+            uid: media.uid,
+          },
+        }"
+        v-text="media.name"
+      />
       <div
         class="metadata--secondary"
       >

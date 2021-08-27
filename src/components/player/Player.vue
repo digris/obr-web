@@ -4,32 +4,35 @@ import { useStore } from 'vuex';
 import { getContrastColor } from '@/utils/color';
 import CurrentMedia from './CurrentMedia.vue';
 import Playhead from './Playhead.vue';
+import Radio from './Radio.vue';
 import Queue from './Queue.vue';
 import Circle from './button/Circle.vue';
+import UserRating from '@/components/rating/UserRating.vue';
 import Debug from '@/components/dev/Debug.vue';
 
 export default defineComponent({
   components: {
     CurrentMedia,
     Playhead,
+    Radio,
     Circle,
     Queue,
+    UserRating,
     Debug,
   },
   setup() {
     const store = useStore();
     const liveTimeOffset = ref(-10);
     const playerState = computed(() => store.getters['player/playerState']);
-    // const isLive = computed(() => playerState.value && playerState.value.isLive);
-    // const currentMedia = computed(() => {
-    //   if (isLive.value) {
-    //     return store.getters['schedule/currentMedia'];
-    //   }
-    //   return store.getters['queue/currentMedia'];
-    // });
     const isLive = computed(() => store.getters['player/isLive']);
     const currentMedia = computed(() => store.getters['player/currentMedia']);
     const isVisible = computed(() => !!currentMedia.value);
+    const objKey = computed(() => {
+      if (!currentMedia.value) {
+        return null;
+      }
+      return `${currentMedia.value?.ct}:${currentMedia.value?.uid}`;
+    });
     const cssVars = computed(() => {
       try {
         const bg = currentMedia.value.releases[0].image.rgb;
@@ -64,6 +67,7 @@ export default defineComponent({
       liveTimeOffset,
       playerState,
       currentMedia,
+      objKey,
       cssVars,
       queueVisible,
       queueNumMedia,
@@ -84,7 +88,7 @@ export default defineComponent({
     }"
   />
   <Queue
-    :is-visible="queueVisible"
+    :is-visible="(queueVisible && queueNumMedia > 0)"
     @close="hideQueue"
   />
   <transition name="slide">
@@ -100,18 +104,37 @@ export default defineComponent({
           />
         </div>
         <div class="center">
-          <Playhead />
+          <Radio
+            v-if="isLive"
+          />
+          <Playhead
+            v-else
+          />
         </div>
         <div class="right">
           <Circle
             :size="(48)"
+            :outlined="(false)"
+          >
+            <UserRating
+              color-var="--c-fg"
+              v-if="currentMedia"
+              :obj-key="objKey"
+            />
+          </Circle>
+          <Circle
+            :size="(48)"
             :active="queueVisible"
+            :disabled="(queueNumMedia < 1)"
             @click.prevent="toggleQueue"
-            v-text="queueNumMedia"
             :style="{
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
             }"
-          />
+          >
+            <span
+              v-text="queueNumMedia"
+            />
+          </Circle>
         </div>
       </div>
     </div>
@@ -156,6 +179,11 @@ $player-height: 72px;
   }
   .center {
     justify-content: center;
+    .on-air {
+      padding: 12px 24px;
+      color: rgb(var(--c-white));
+      background: rgb(var(--c-red));
+    }
   }
   .right {
     justify-content: flex-end;
