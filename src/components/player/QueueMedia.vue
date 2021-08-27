@@ -1,37 +1,41 @@
-<script>
+<script lang="ts">
+import { computed, defineComponent } from 'vue';
+import eventBus from '@/eventBus';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 
-export default {
+export default defineComponent({
+  components: {
+    MediaArtists,
+  },
   props: {
     media: {
       type: Object,
+    },
+    index: {
+      type: Number,
     },
     isCurrent: {
       type: Boolean,
       default: false,
     },
   },
-  components: {
-    MediaArtists,
+  setup(props) {
+    const objKey = computed(() => {
+      return `${props.media.ct}:${props.media.uid}`;
+    });
+    const duration = computed(() => {
+      return new Date(props.media.duration * 1000).toISOString().substr(11, 8);
+    });
+    const play = () => {
+      eventBus.emit('queue:controls:playFromIndex', props.index);
+    };
+    return {
+      objKey,
+      duration,
+      play,
+    };
   },
-  computed: {
-    objKey() {
-      return `${this.media.ct}:${this.media.uid}`;
-    },
-    duration() {
-      return new Date(this.media.duration * 1000).toISOString().substr(11, 8);
-    },
-    // currentMedia() {
-    //   return this.$store.getters['player/currentMedia'];
-    // },
-    // playerState() {
-    //   return this.isCurrent ? this.$store.getters['player/playerState'] : null;
-    // },
-    // isCurrent() {
-    //   return this.currentMedia && (this.media.uid === this.currentMedia.uid);
-    // },
-  },
-};
+});
 </script>
 
 <template>
@@ -39,7 +43,7 @@ export default {
     class="media-row"
     :class="{'is-current': isCurrent}"
   >
-    <div class="play">
+    <div class="play" @click="play">
       (P)
     </div>
     <div class="name">

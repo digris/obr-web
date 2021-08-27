@@ -6,6 +6,7 @@ import CurrentMedia from './CurrentMedia.vue';
 import Playhead from './Playhead.vue';
 import Queue from './Queue.vue';
 import Circle from './button/Circle.vue';
+import Debug from '@/components/dev/Debug.vue';
 
 export default defineComponent({
   components: {
@@ -13,18 +14,22 @@ export default defineComponent({
     Playhead,
     Circle,
     Queue,
+    Debug,
   },
   setup() {
     const store = useStore();
     const liveTimeOffset = ref(-10);
     const playerState = computed(() => store.getters['player/playerState']);
-    const isLive = computed(() => playerState.value && playerState.value.isLive);
-    const currentMedia = computed(() => {
-      if (isLive.value) {
-        return store.getters['schedule/currentMedia'];
-      }
-      return store.getters['queue/currentMedia'];
-    });
+    // const isLive = computed(() => playerState.value && playerState.value.isLive);
+    // const currentMedia = computed(() => {
+    //   if (isLive.value) {
+    //     return store.getters['schedule/currentMedia'];
+    //   }
+    //   return store.getters['queue/currentMedia'];
+    // });
+    const isLive = computed(() => store.getters['player/isLive']);
+    const currentMedia = computed(() => store.getters['player/currentMedia']);
+    const isVisible = computed(() => !!currentMedia.value);
     const cssVars = computed(() => {
       try {
         const bg = currentMedia.value.releases[0].image.rgb;
@@ -45,7 +50,6 @@ export default defineComponent({
         '--c-fg-inverse': isLive.value ? '255, 255, 255' : '0, 0, 0',
       };
     });
-
     const queueVisible = ref(false);
     const queueNumMedia = computed(() => store.getters['queue/numMedia']);
     const hideQueue = () => {
@@ -55,6 +59,7 @@ export default defineComponent({
       queueVisible.value = !queueVisible.value;
     };
     return {
+      isVisible,
       isLive,
       liveTimeOffset,
       playerState,
@@ -70,36 +75,47 @@ export default defineComponent({
 </script>
 
 <template>
+  <Debug
+    :visible="(false)"
+    :value="{
+      isVisible,
+      isLive,
+      currentMedia,
+    }"
+  />
   <Queue
     :is-visible="queueVisible"
     @close="hideQueue"
   />
-  <div
-    class="player"
-    :style="cssVars"
-  >
-    <div class="container">
-      <div class="left">
-        <CurrentMedia
-          :media="currentMedia"
-        />
-      </div>
-      <div class="center">
-        <Playhead />
-      </div>
-      <div class="right">
-        <Circle
-          :size="(48)"
-          :active="queueVisible"
-          @click.prevent="toggleQueue"
-          v-text="queueNumMedia"
-          :style="{
-            color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
-          }"
-        />
+  <transition name="slide">
+    <div
+      v-if="isVisible"
+      class="player"
+      :style="cssVars"
+    >
+      <div class="container">
+        <div class="left">
+          <CurrentMedia
+            :media="currentMedia"
+          />
+        </div>
+        <div class="center">
+          <Playhead />
+        </div>
+        <div class="right">
+          <Circle
+            :size="(48)"
+            :active="queueVisible"
+            @click.prevent="toggleQueue"
+            v-text="queueNumMedia"
+            :style="{
+              color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
+            }"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -161,5 +177,17 @@ $player-height: 72px;
   width: 100%;
   max-width: 600px;
   background: #000;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 200ms, opacity 200ms;
+}
+.slide-enter-from {
+  transform: translate(0, 100%);
+  opacity: 0;
+}
+.slide-leave-to {
+  transform: translate(0, 100%);
 }
 </style>

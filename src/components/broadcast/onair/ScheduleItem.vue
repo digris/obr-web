@@ -1,8 +1,11 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+// import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
+import eventBus from '@/eventBus';
 import { playStream } from '@/player/stream';
 import LazyImage from '@/components/ui/LazyImage.vue';
+import { requireSubscription } from '@/utils/account';
 import PlayButton from './button/Play.vue';
 
 export default defineComponent({
@@ -29,6 +32,7 @@ export default defineComponent({
     'play',
   ],
   setup(props, { emit }) {
+    // const store = useStore();
     // eslint-disable-next-line arrow-body-style
     const isPlaceholder = computed(() => {
       return props.scheduleItem === null;
@@ -47,17 +51,34 @@ export default defineComponent({
       return (release.value && release.value.image) ? release.value.image : null;
     });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const playMedia = requireSubscription((media: object) => {
+      const payload = {
+        media: [media],
+      };
+      // TODO: hm - this is not very nice...
+      // store.dispatch('queue/updateQueue', payload);
+      // eventBus.emit('queue:controls:startPlayCurrent');
+      eventBus.emit('queue:controls:enqueue', payload);
+    }, 'foo');
     const play = () => {
-      let startTime = -10;
-      if (!props.isCurrent) {
-        const now = DateTime.now();
-        const { timeStart } = props.scheduleItem;
-        const diffDt = timeStart.diff(now, 'seconds');
-        const diffSeconds = diffDt.seconds;
-        startTime = diffSeconds + 10;
+      if (props.isCurrent) {
+        const startTime = -10;
+        playStream(startTime);
+        emit('play');
+      } else {
+        playMedia(props.scheduleItem.media);
       }
-      playStream(startTime);
-      emit('play');
+      // let startTime = -10;
+      // if (!props.isCurrent) {
+      //   const now = DateTime.now();
+      //   const { timeStart } = props.scheduleItem;
+      //   const diffDt = timeStart.diff(now, 'seconds');
+      //   const diffSeconds = diffDt.seconds;
+      //   startTime = diffSeconds + 10;
+      // }
+      // playStream(startTime);
+      // emit('play');
     };
     return {
       isPlaceholder,

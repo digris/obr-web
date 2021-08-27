@@ -171,7 +171,7 @@ class AudioPlayer {
     }
     // @ts-ignore
     this.playerState = playerState;
-    store.dispatch('player/updatePlayerState', { playerState });
+    store.dispatch('player/updatePlayerState', playerState);
   }
 
   play(url: string, startTime = 0) {

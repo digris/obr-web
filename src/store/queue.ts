@@ -47,14 +47,18 @@ const mutations = {
 };
 
 const actions = {
+  setIndex: async (context:any, index: number) => {
+    context.commit('SET_CURRENT_INDEX', index);
+  },
+  replaceQueue: async (context:any, media: Array<object>) => {
+    context.commit('REPLACE_MEDIA', media);
+  },
+  // TODO: should be removed when not in use anymore
   updateQueue: async (context:any, queue: Queue) => {
     const { media, mode } = queue;
     if (mode === 'replace') {
       context.commit('REPLACE_MEDIA', media);
     }
-  },
-  setIndex: async (context:any, index: number) => {
-    context.commit('SET_CURRENT_INDEX', index);
   },
 };
 

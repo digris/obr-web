@@ -17,35 +17,6 @@ class MasterDownloadException(Exception):
     pass
 
 
-# def sync_master_to_gcs(media_uuid):
-#     try:
-#         r = api_client.get(f"media/{media_uuid}/download-master/", raw=True)
-#     except api_client.APIClientException as e:
-#         raise MasterDownloadException(f"unable to download master: {media_uuid} - {e}")
-#
-#     filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]
-#     ext = filename.split(".")[-1]
-#     path = f"{media_uuid[0:8].upper()}/master.{ext}"
-#
-#     client = storage.Client()
-#     bucket = client.bucket("obr-master")
-#     blob = bucket.blob(path)
-#
-#     if blob.exists():
-#         return path
-#
-#     with NamedTemporaryFile(delete=True, suffix=f".{ext}") as f:
-#         f.write(r.content)
-#         f.flush()
-#
-#         # blob.upload_from_file(f, rewind=True)
-#         # NOTE: we upload via name instead of file object to 'detect' content type
-#         # (else it is set to application/octet-stream)
-#         blob.upload_from_filename(f.name)
-#
-#     return path
-
-
 # pylint: disable=too-many-locals
 def sync_media(media, skip_media, **kwargs):
     # pylint: disable=import-outside-toplevel
@@ -65,13 +36,10 @@ def sync_media(media, skip_media, **kwargs):
     type(media).objects.filter(id=media.id).update(**update)
 
     update_relations(media, data.get("relations", []))
-    update_tags(media, data.get("tags", []))
 
-    # try:
-    #     sync_master_to_gcs(uuid=str(media.uuid))
-    # except MasterDownloadException as e:
-    #     logger.error(f"unable to download master: {e}")
-    #     return None
+    tags = data.get("tags", [])
+
+    update_tags(media, tags)
 
     try:
         master = Master.objects.get(media=media)
