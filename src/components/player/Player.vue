@@ -165,7 +165,7 @@ $player-height: 72px;
 .container {
   @include container.default;
   display: grid;
-  grid-template-columns: 3fr 6fr 3fr;
+  grid-template-columns: 4fr 6fr 4fr;
   .left,
   .center,
   .right {

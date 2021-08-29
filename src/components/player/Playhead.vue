@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
@@ -52,7 +52,8 @@ export default defineComponent({
     });
 
     const hasPrevious = computed(() => store.getters['queue/previousIndex'] !== null);
-    const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
+    // const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
+    const hasNext = ref(true);
 
     const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });
@@ -115,11 +116,9 @@ export default defineComponent({
       <div class="time time--current">
         <span>{{ strCurrentTime }}</span>
       </div>
-      <!--
       <div class="time time--total">
         <span>{{ strTotalTime }}</span>
       </div>
-      -->
       <Progress
         :is-live="isLive"
         :is-playing="isPlaying"
@@ -136,27 +135,12 @@ export default defineComponent({
         @click.prevent="playNext"
       />
     </div>
-    <!--
-    <div
-      class="info"
-    >
-      <span
-        class="bandwidth"
-      >{{ strBandwidth }}</span>
-    </div>
-    -->
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 @use "@/style/base/typo";
-
-@mixin time {
-  padding: 0 0.5rem;
-  color: rgba(var(--c-fg), 0.5);
-  font-size: 0.9rem;
-}
 
 @mixin actions {
   //display: grid;
@@ -197,14 +181,20 @@ export default defineComponent({
     position: relative;
     margin: 0 1rem;
     .time {
-      @include time;
+      @include typo.small;
+      @include typo.bold;
       position: absolute;
-      top: -4px;
+      top: 0;
       display: flex;
       justify-content: center;
-      width: 100%;
-      //min-width: 84px;
-      //max-width: 84px;
+      padding: 0 1px;
+      &--current {
+        left: 0;
+      }
+      &--total {
+        @include typo.dim;
+        right: 0;
+      }
     }
   }
   .info {

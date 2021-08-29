@@ -91,6 +91,7 @@ $player-height: 72px;
   overflow-y: auto;
   color: rgb(var(--c-white));
   background: rgb(var(--c-black));
+  overscroll-behavior: contain;
   &::-webkit-scrollbar {
     display: none;
   }
