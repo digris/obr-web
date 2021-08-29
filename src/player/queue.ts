@@ -132,7 +132,9 @@ class Queue {
       await store.dispatch('queue/setIndex', nextIndex);
       this.startPlayCurrent();
     } else {
-      throw new Error('no next media');
+      // throw new Error('no next media');
+      console.info('no next media - switch to live');
+      this.startPlayLive();
     }
   }
 

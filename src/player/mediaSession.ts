@@ -9,28 +9,39 @@ class MediaSessionHandler {
     if ('mediaSession' in navigator) {
       // @ts-ignore
       this.session = navigator.mediaSession;
-      this.setupBindings();
+      this.setupBindings(true);
       store.watch((state: any, getters: any) => {
-        return getters['queue/currentMedia'];
+        return getters['player/currentMedia'];
       }, (media) => {
+        console.debug('player/currentMedia', media);
         this.setMetadata(media);
+        const isLive = store.getters['player/isLive'];
+        console.debug('player/isLive', isLive);
+        this.setupBindings(isLive);
       });
     }
   }
 
-  setupBindings() {
-    // @ts-ignore
-    this.session.setActionHandler('previoustrack', () => {
-      eventBus.emit('queue:controls:playPrevious');
-    });
-    // @ts-ignore
-    this.session.setActionHandler('nexttrack', () => {
-      eventBus.emit('queue:controls:playNext');
-    });
+  setupBindings(isLive: boolean) {
     // @ts-ignore
     this.session.setActionHandler('pause', () => {
       eventBus.emit('player:controls', { do: 'pause' });
     });
+    if (isLive) {
+      // @ts-ignore
+      this.session.setActionHandler('previoustrack', null);
+      // @ts-ignore
+      this.session.setActionHandler('nexttrack', null);
+    } else {
+      // @ts-ignore
+      this.session.setActionHandler('previoustrack', () => {
+        eventBus.emit('queue:controls:playPrevious');
+      });
+      // @ts-ignore
+      this.session.setActionHandler('nexttrack', () => {
+        eventBus.emit('queue:controls:playNext');
+      });
+    }
   }
 
   setMetadata(media: any) {
