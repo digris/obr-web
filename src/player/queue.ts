@@ -1,13 +1,11 @@
 import { computed } from 'vue';
 import eventBus from '@/eventBus';
 import store from '@/store';
-import settings from '@/settings';
 import { getMediaUrl } from '@/player/media';
+import { playStream } from '@/player/stream';
 import createMediaSessionHandler from '@/player/mediaSession';
 
 createMediaSessionHandler();
-
-const streamUrl = settings.STREAM_ENDPOINTS.dash;
 
 class Queue {
   media: any;
@@ -33,7 +31,7 @@ class Queue {
         await this.playNext();
       } catch {
         console.info('no next track.. starting live stream');
-        this.startPlayLive();
+        playStream();
       }
     });
 
@@ -134,7 +132,7 @@ class Queue {
     } else {
       // throw new Error('no next media');
       console.info('no next media - switch to live');
-      this.startPlayLive();
+      playStream();
     }
   }
 
@@ -146,17 +144,6 @@ class Queue {
       do: 'play',
       url,
       startTime: 0,
-    };
-    eventBus.emit('player:controls', event);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  startPlayLive() {
-    // NOTE: not sure if there is no better way.. ;)
-    const event = {
-      do: 'play',
-      url: `${streamUrl}?${Date.now()}`,
-      startTime: -10,
     };
     eventBus.emit('player:controls', event);
   }

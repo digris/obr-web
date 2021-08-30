@@ -47,8 +47,12 @@ export default {
 };
 </script>
 <template>
-  <div class="artist-list">
-    <div class="grid">
+  <div
+    class="artist-list"
+  >
+    <div
+      class="grid"
+    >
       <ArtistCard
         v-for="artist in artists"
         :key="artist.uid"

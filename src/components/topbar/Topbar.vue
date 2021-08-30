@@ -25,8 +25,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="topbar">
-    <div class="brand">
+  <div
+    class="topbar"
+  >
+    <div
+      class="brand"
+    >
       <router-link
         to="/"
       >

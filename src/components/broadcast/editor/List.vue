@@ -29,8 +29,12 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="editor-list">
-    <div class="grid">
+  <div
+    class="editor-list"
+  >
+    <div
+      class="grid"
+    >
       <EditorCard
         v-for="editor in editors"
         :key="editor.uid"

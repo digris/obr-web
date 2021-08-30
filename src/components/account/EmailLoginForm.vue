@@ -191,7 +191,7 @@ export default defineComponent({
         autocomplete="current-password"
       >
       <p
-          class="help"
+        class="help"
       >
         Passwort vergessen?
         <a

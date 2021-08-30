@@ -48,8 +48,12 @@
       </div>
     </div>
     -->
-    <div class="list-body">
-      <router-view v-slot="{ Component }">
+    <div
+      class="list-body"
+    >
+      <router-view
+        v-slot="{ Component }"
+      >
         <keep-alive>
           <component
             :is="Component"

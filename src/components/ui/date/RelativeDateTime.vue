@@ -47,7 +47,9 @@ export default defineComponent({
   <span
     class="date-or-time"
   >
-    <slot name="default"></slot>
+    <slot
+      name="default"
+    ></slot>
     {{ timeDisplay }}
   </span>
 </template>

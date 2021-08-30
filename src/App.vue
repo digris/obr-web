@@ -38,9 +38,13 @@ export default {
   <SideMenu />
   <Notifications />
   <ColorChooser />
-  <router-view v-slot="{ Component }">
+  <router-view
+    v-slot="{ Component }"
+  >
     <keep-alive>
-      <component :is="Component" />
+      <component
+        :is="Component"
+      />
     </keep-alive>
   </router-view>
   <AuthPanel />

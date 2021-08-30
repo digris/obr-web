@@ -38,7 +38,9 @@ export default defineComponent({
     <div
       class="container"
     >
-      <div class="play">
+      <div
+        class="play"
+      >
         <ButtonPlay
           :is-buffering="isLoading"
         />
@@ -52,7 +54,9 @@ export default defineComponent({
           Alle {{ numTotal }} Tracks spielen
         </div>
       </div>
-      <div class="actions">
+      <div
+        class="actions"
+      >
         <CircleButton
           :size="(48)"
           :outlined="(false)"

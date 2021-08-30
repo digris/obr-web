@@ -65,7 +65,9 @@ export default defineComponent({
       scope="playlist"
       :title="playlist.name"
     >
-      <template #visual>
+      <template
+        #visual
+      >
         <div
           class="visual"
         >
@@ -82,16 +84,26 @@ export default defineComponent({
           />
         </div>
       </template>
-      <template #info-panel>
+      <template
+        #info-panel
+      >
         <div
           class="tags"
         >
-          <span class="tag">#Electronic</span>
-          <span class="tag">#Rock</span>
-          <span class="tag">#Techno</span>
+          <span
+            class="tag"
+          >#Electronic</span>
+          <span
+            class="tag"
+          >#Rock</span>
+          <span
+            class="tag"
+          >#Techno</span>
         </div>
       </template>
-      <template #meta-panel>
+      <template
+        #meta-panel
+      >
         <span>1h 25m</span>
       </template>
     </DetailHeader>

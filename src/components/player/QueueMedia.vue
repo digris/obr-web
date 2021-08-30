@@ -76,6 +76,12 @@ export default defineComponent({
     const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });
     };
+    const canRemove = computed(() => {
+      if (props.isCurrent) {
+        return false;
+      }
+      return true;
+    });
     const remove = async () => {
       await queue.removeAtIndex(props.index);
     };
@@ -88,6 +94,7 @@ export default defineComponent({
       contrastColor,
       play,
       pause,
+      canRemove,
       remove,
     };
   },
@@ -156,7 +163,7 @@ export default defineComponent({
       <CircleButton
         color-var="--c-fg"
         @click="remove"
-        :disabled="isCurrent"
+        :disabled="(!canRemove)"
         :size="(48)"
         :outlined="(true)"
       >

@@ -103,8 +103,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="playhead">
-    <div class="actions">
+  <div
+    class="playhead"
+  >
+    <div
+      class="actions"
+    >
       <ButtonPlay
         :is-playing="isPlaying"
         :is-buffering="isBuffering"
@@ -112,11 +116,17 @@ export default defineComponent({
         @play="play"
       />
     </div>
-    <div class="progress">
-      <div class="time time--current">
+    <div
+      class="progress"
+    >
+      <div
+        class="time time--current"
+      >
         <span>{{ strCurrentTime }}</span>
       </div>
-      <div class="time time--total">
+      <div
+        class="time time--total"
+      >
         <span>{{ strTotalTime }}</span>
       </div>
       <Progress
@@ -127,7 +137,9 @@ export default defineComponent({
         @seek="seek"
       />
     </div>
-    <div class="actions">
+    <div
+      class="actions"
+    >
       <ButtonSkip
         v-if="(!isLive)"
         :size="(48)"

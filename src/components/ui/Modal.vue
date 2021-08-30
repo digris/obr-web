@@ -49,7 +49,9 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition name="fade">
+  <transition
+    name="fade"
+  >
     <div
       v-if="isVisible"
       class="mask"
@@ -90,7 +92,9 @@ export default defineComponent({
           />
         </div>
         <!-- full-screen overlay for feedback (errors / success / info) -->
-        <transition name="fade">
+        <transition
+          name="fade"
+        >
           <div
             v-if="hasFeedback"
             class="modal__feedback"

@@ -189,17 +189,23 @@ export default {
     v-if="(!disablePlayAll && numResults > 0)"
     :filter="combinedFilter"
   >
-    <template #default="{
-      isLoading,
-    }">
+    <template
+      #default="{
+        isLoading,
+      }"
+    >
       <PlayAll
         :is-loading="isLoading"
         :num-total="numResults"
       />
     </template>
   </PlayAction>
-  <div class="media-list">
-    <div class="table">
+  <div
+    class="media-list"
+  >
+    <div
+      class="table"
+    >
       <MediaRow
         v-for="(media, index) in mediaList"
         :key="`media-row-${index}`"

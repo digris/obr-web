@@ -5,7 +5,8 @@ import eventBus from '@/eventBus';
 class AccountHandler {
   constructor() {
     store.watch((state: any) => state.account.user, async (newUser, oldUser) => {
-      if (newUser !== oldUser) {
+      // if (newUser !== oldUser) {
+      if (JSON.stringify(newUser) === JSON.stringify(oldUser)) {
         console.debug('user changed:', newUser, oldUser);
         // await store.dispatch('rating/clearRatings');
       }

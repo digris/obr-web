@@ -35,8 +35,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="radio">
-    <div class="actions">
+  <div
+    class="radio"
+  >
+    <div
+      class="actions"
+    >
       <ButtonPlay
         :is-playing="isPlaying"
         :is-buffering="isBuffering"

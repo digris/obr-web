@@ -46,7 +46,9 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition name="slide">
+  <transition
+    name="slide"
+  >
     <div
       v-if="isVisible"
       class="queue"

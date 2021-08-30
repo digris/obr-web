@@ -29,8 +29,12 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="mood-list">
-    <div class="grid">
+  <div
+    class="mood-list"
+  >
+    <div
+      class="grid"
+    >
       <MoodCard
         v-for="mood in moods"
         :key="mood.uid"

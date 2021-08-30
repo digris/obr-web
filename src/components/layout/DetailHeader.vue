@@ -46,7 +46,9 @@ export default defineComponent({
       <div
         class="t-visual"
       >
-        <slot name="visual" />
+        <slot
+          name="visual"
+        />
       </div>
       <div
         class="body"
@@ -54,7 +56,9 @@ export default defineComponent({
         <h1
           v-text="title"
         />
-        <slot name="info-panel" />
+        <slot
+          name="info-panel"
+        />
       </div>
     </div>
     <div
@@ -68,7 +72,9 @@ export default defineComponent({
       <div
         class="meta"
       >
-        <slot name="meta-panel" />
+        <slot
+          name="meta-panel"
+        />
       </div>
       <div
         class="actions"

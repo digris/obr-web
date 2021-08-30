@@ -80,8 +80,12 @@ export default {
 </script>
 
 <template>
-  <div class="playlist-list">
-    <div class="grid">
+  <div
+    class="playlist-list"
+  >
+    <div
+      class="grid"
+    >
       <PlaylistCard
         v-for="playlist in playlists"
         :key="playlist.uid"

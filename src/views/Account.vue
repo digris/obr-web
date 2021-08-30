@@ -1,11 +1,19 @@
 <template>
-  <div class="account">
-    <div class="header">
-      <div class="title">
+  <div
+    class="account"
+  >
+    <div
+      class="header"
+    >
+      <div
+        class="title"
+      >
         Konto
       </div>
     </div>
-    <div class="body">
+    <div
+      class="body"
+    >
       <router-view></router-view>
     </div>
   </div>
