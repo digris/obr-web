@@ -57,13 +57,17 @@ export default defineComponent({
         <span
           v-if="isActive"
         >
-          <span v-text="numDaysRemaining" />
+          <span
+            v-text="numDaysRemaining"
+          />
           Tage
         </span>
         <span
           v-else
         >
-          <span v-text="numDaysRemaining" />
+          <span
+            v-text="numDaysRemaining"
+          />
           Tage
         </span>
       </router-link>

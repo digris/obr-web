@@ -31,7 +31,9 @@ export default defineComponent({
     <div
       class="panel"
     >
-      <slot name="default" />
+      <slot
+        name="default"
+      />
     </div>
   </section>
 </template>

@@ -119,7 +119,9 @@ export default defineComponent({
               cy="18"
               r="18"
             />
-            <path d="M36 18c0-9.94-8.06-18-18-18">
+            <path
+              d="M36 18c0-9.94-8.06-18-18-18"
+            >
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -145,7 +147,9 @@ export default defineComponent({
     >
       Error
     </slot>
-    <slot v-else />
+    <slot
+      v-else
+    />
   </button>
 </template>
 

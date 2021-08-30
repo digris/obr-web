@@ -91,19 +91,27 @@ export default defineComponent({
     :is-visible="(queueVisible && queueNumMedia > 0)"
     @close="hideQueue"
   />
-  <transition name="slide">
+  <transition
+    name="slide"
+  >
     <div
       v-if="isVisible"
       class="player"
       :style="cssVars"
     >
-      <div class="container">
-        <div class="left">
+      <div
+        class="container"
+      >
+        <div
+          class="left"
+        >
           <CurrentMedia
             :media="currentMedia"
           />
         </div>
-        <div class="center">
+        <div
+          class="center"
+        >
           <Radio
             v-if="isLive"
           />
@@ -111,7 +119,9 @@ export default defineComponent({
             v-else
           />
         </div>
-        <div class="right">
+        <div
+          class="right"
+        >
           <Circle
             :size="(48)"
             :outlined="(false)"

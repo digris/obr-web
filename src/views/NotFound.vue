@@ -20,13 +20,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="not-found">
-    <div class="header">
-      <div class="title">
+  <div
+    class="not-found"
+  >
+    <div
+      class="header"
+    >
+      <div
+        class="title"
+      >
         <h1>Page does not exist</h1>
       </div>
     </div>
-    <div class="body">
+    <div
+      class="body"
+    >
       <p>{{ path }}</p>
     </div>
   </div>

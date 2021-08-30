@@ -60,7 +60,9 @@ export default defineComponent({
       'is-disabled': disabled,
     }"
   >
-    <slot name="default" />
+    <slot
+      name="default"
+    />
   </div>
 </template>
 

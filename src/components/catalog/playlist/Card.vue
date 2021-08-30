@@ -97,7 +97,9 @@ export default {
             v-text="subtitle"
           />
         </div>
-        <div class="actions">
+        <div
+          class="actions"
+        >
           <UserRating
             :obj-key="objKey"
           />

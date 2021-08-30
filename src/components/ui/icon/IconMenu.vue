@@ -35,23 +35,23 @@ export default defineComponent({
     viewBox="0 0 24 24"
     :style="style"
   >
-        <rect
-          x="4"
-          y="6"
-          width="16"
-          height="1.5"
-        />
-        <rect
-          x="4"
-          y="11"
-          width="16"
-          height="1.5"
-        />
-        <rect
-          x="4"
-          y="16"
-          width="16"
-          height="1.5"
-        />
+    <rect
+      x="4"
+      y="6"
+      width="16"
+      height="1.5"
+    />
+    <rect
+      x="4"
+      y="11"
+      width="16"
+      height="1.5"
+    />
+    <rect
+      x="4"
+      y="16"
+      width="16"
+      height="1.5"
+    />
   </svg>
 </template>

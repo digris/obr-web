@@ -23,6 +23,27 @@ module.exports = {
     '@typescript-eslint/no-shadow': ['error'],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
+    'vue/max-attributes-per-line': ['error', {
+      singleline: {
+        max: 1,
+        allowFirstLine: false,
+      },
+      multiline: {
+        max: 1,
+        allowFirstLine: false,
+      },
+    }],
+    'vue/html-closing-bracket-newline': ['error', {
+      singleline: 'never',
+      multiline: 'always',
+    }],
+    'vue/html-indent': ['error', 2, {
+      attribute: 1,
+      baseIndent: 1,
+      closeBracket: 0,
+      alignAttributesVertically: true,
+      ignores: [],
+    }],
   },
 
   plugins: [

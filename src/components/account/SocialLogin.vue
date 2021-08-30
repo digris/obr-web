@@ -108,7 +108,9 @@ export default defineComponent({
         >
           {{ backend.provider }}
           <br>
-          <small class="uid">{{ backend.uid }}</small>
+          <small
+            class="uid"
+          >{{ backend.uid }}</small>
         </p>
         <div
           class="disconnect"

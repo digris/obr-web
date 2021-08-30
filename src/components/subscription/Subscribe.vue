@@ -73,7 +73,9 @@ export default defineComponent({
     :is-visible="isVisible"
     @close="close"
   >
-    <template #title>
+    <template
+      #title
+    >
       Guthaben
     </template>
     <!--
@@ -122,21 +124,29 @@ export default defineComponent({
         v-if="(intent === 'plan')"
         class="lead"
       >
-        Hast du einen <a @click.prevent="setIntent('voucher')">Gratis-Code</a>?
+        Hast du einen <a
+          @click.prevent="setIntent('voucher')"
+        >Gratis-Code</a>?
       </p>
       <p
         v-if="(intent === 'voucher')"
         class="lead"
       >
         Du hast keinen Code?
-        <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>.
+        <a
+          @click.prevent="setIntent('plan')"
+        >Guthaben kaufen</a>.
       </p>
     </div>
     <div
       class="subscribe"
     >
       <section>
-        <transition name="fade" mode="out-in" appear>
+        <transition
+          name="fade"
+          mode="out-in"
+          appear
+        >
           <SubscribePlan
             v-if="(intent === 'plan')"
             :next="next"
@@ -175,7 +185,9 @@ export default defineComponent({
         </div>
       </div>
     </template>
-    <template #footer>
+    <template
+      #footer
+    >
       <div
         class="legal"
       >

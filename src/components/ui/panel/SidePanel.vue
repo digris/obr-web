@@ -34,13 +34,17 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition name="fade">
+  <transition
+    name="fade"
+  >
     <div
       v-if="isVisible"
       class="mask"
     />
   </transition>
-  <transition name="slide">
+  <transition
+    name="slide"
+  >
     <div
       v-if="isVisible"
       class="side-panel"

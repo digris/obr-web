@@ -34,6 +34,8 @@ export default defineComponent({
     class="form-errors"
     v-if="errors.length"
   >
-    <pre v-text="errors" />
+    <pre
+      v-text="errors"
+    />
   </div>
 </template>

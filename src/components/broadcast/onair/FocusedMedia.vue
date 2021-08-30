@@ -48,7 +48,9 @@ export default defineComponent({
     <div
       class="title"
     >
-      <a href="#">
+      <a
+        href="#"
+      >
         {{ title }}
       </a>
     </div>

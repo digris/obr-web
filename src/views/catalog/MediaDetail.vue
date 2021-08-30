@@ -74,7 +74,9 @@ export default defineComponent({
       scope="media"
       :title="media.name"
     >
-      <template #visual>
+      <template
+        #visual
+      >
         <div
           class="visual"
         >
@@ -91,13 +93,19 @@ export default defineComponent({
           />
         </div>
       </template>
-      <template #info-panel>
-        <div class="artists">
+      <template
+        #info-panel
+      >
+        <div
+          class="artists"
+        >
           <MediaArtists
             :artists="media.artists"
           />
         </div>
-        <div class="releases">
+        <div
+          class="releases"
+        >
           <MediaReleases
             :releases="media.releases"
           />
@@ -105,12 +113,20 @@ export default defineComponent({
         <div
           class="tags"
         >
-          <span class="tag">#Electronic</span>
-          <span class="tag">#Rock</span>
-          <span class="tag">#Techno</span>
+          <span
+            class="tag"
+          >#Electronic</span>
+          <span
+            class="tag"
+          >#Rock</span>
+          <span
+            class="tag"
+          >#Techno</span>
         </div>
       </template>
-      <template #meta-panel>
+      <template
+        #meta-panel
+      >
         <span
           v-if="media"
         >

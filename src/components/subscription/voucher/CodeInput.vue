@@ -65,7 +65,7 @@ export default defineComponent({
       </label>
       <input
         ref="inputEl"
-          id="ti-1299"
+        id="ti-1299"
         class="input"
         @keyup="handleInput"
         :value="inputValue"
