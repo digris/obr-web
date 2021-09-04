@@ -127,6 +127,7 @@ export default defineComponent({
 }
 </style>
 <style lang="scss" scoped>
+@use "sass:math";
 @use "@/style/base/live-color";
 @use "@/style/elements/container";
 $width: 200px;
@@ -185,7 +186,7 @@ $height: 48px;
     height: 3rem;
     border: 3px solid transparent;
     border-color: inherit;
-    border-radius: $height / 2;
+    border-radius: math.div($height, 2);
     .offset {
       grid-column-start: 2;
       justify-self: center;
