@@ -80,6 +80,14 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
     def image(self):
         return self.images.first()
 
+    @cached_property
+    def series_display(self):
+        if self.series and self.series_episode:
+            return f"{self.series.name} #{self.series_episode}"
+        if self.series:
+            return self.series.name
+        return None
+
     def sync_data(self, *args, **kwargs):
         return sync_playlist(self, *args, **kwargs)
 

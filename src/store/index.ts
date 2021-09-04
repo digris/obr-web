@@ -7,6 +7,7 @@ import rating from './rating';
 import catalog from './catalog';
 import player from './player';
 import queue from './queue';
+import program from './program';
 import schedule from './schedule';
 import notification from './notification';
 
@@ -20,6 +21,7 @@ export default createStore({
     catalog,
     player,
     queue,
+    program,
     schedule,
     notification,
   },

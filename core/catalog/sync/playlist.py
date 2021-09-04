@@ -29,7 +29,7 @@ def get_playlist_media(items):
 
 
 # pylint: disable=too-many-locals
-def sync_playlist(playlist, skip_media, **kwargs):
+def sync_playlist(playlist, skip_media=False, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models.media import Media
 

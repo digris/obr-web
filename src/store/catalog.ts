@@ -7,6 +7,8 @@ const state = {
   media: [],
   artists: [],
   playlists: [],
+  //
+  loading: {},
 };
 
 const getters = {
@@ -55,6 +57,10 @@ const mutations = {
       state.playlists.push(playlist);
     }
   },
+  // @ts-ignore
+  SET_LOADING: (state, { objKey, promise }) => {
+    state.loading[objKey] = promise;
+  },
 };
 
 const actions = {
@@ -65,8 +71,18 @@ const actions = {
   },
   // @ts-ignore
   loadArtist: async (context, uid: string) => {
-    const artist = await getArtist(uid);
-    context.commit('SET_ARTIST', { artist });
+    if (context.getters.artistByUid(uid)) {
+      return null;
+    }
+    const objKey = `artist-${uid}`;
+    if (context.state.loading[objKey]) {
+      return context.state.loading[objKey];
+    }
+    const promise = getArtist(uid).then((artist) => {
+      context.commit('SET_ARTIST', { artist });
+    });
+    context.commit('SET_LOADING', { objKey, promise });
+    return promise;
   },
   // @ts-ignore
   loadPlaylist: async (context, uid: string) => {

@@ -167,3 +167,31 @@ class ScheduleSerializer(serializers.Serializer):
     media = ScheduleMediaSerializer()
     emission = ScheduleEmissionSerializer()
     playlist = SchedulePlaylistSerializer(source="emission.playlist")
+
+
+class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="api:broadcast:emission-detail",
+        lookup_field="uid",
+    )
+
+    name = serializers.CharField(source="playlist.name")
+    series = serializers.CharField(source="playlist.series_display", allow_null=True)
+    editor = serializers.CharField(source="playlist.editor")
+    tags = serializers.StringRelatedField(source="playlist.tags", many=True)
+
+    class Meta:
+        model = Emission
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "name",
+            "series",
+            "editor",
+            "tags",
+            "duration",
+            "time_start",
+            "time_end",
+        ]

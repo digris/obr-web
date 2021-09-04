@@ -13,4 +13,5 @@ app_name = "broadcast"
 urlpatterns = [
     path("", include(router.urls)),
     path("schedule/", views.ScheduleView.as_view()),
+    path("program/", views.ProgramView.as_view()),
 ]

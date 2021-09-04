@@ -173,14 +173,6 @@ const routes = [
     ],
   },
   {
-    path: '/collection/artists/:uid/',
-    name: 'Artist Detail (Collection)',
-    component: ArtistDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-  },
-  {
     path: '/account/',
     name: 'Account',
     component: Account,

@@ -4,6 +4,8 @@ import {
   defineComponent,
   ref,
   onActivated,
+  //
+  onBeforeUpdate,
 } from 'vue';
 import { useStore } from 'vuex';
 
@@ -37,7 +39,18 @@ export default defineComponent({
       search: [],
       options: {},
     }));
+    // this is kind of bad. don't know yet how to improve..
+    // onActivated is called when component is already in keep-alive router,
+    // onBefore is needed to switch between different objects in the already active component.
+    // it also needs some ugly bits in the store (see catalog/loadArtist):
+    // when the component is in keep-alive, and routing to here from another place both
+    // onActivated and onBeforeUpdate will fire ;(
     onActivated(() => {
+      if (!artist.value) {
+        store.dispatch('catalog/loadArtist', props.uid);
+      }
+    });
+    onBeforeUpdate(() => {
       if (!artist.value) {
         store.dispatch('catalog/loadArtist', props.uid);
       }
