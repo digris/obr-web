@@ -82,16 +82,19 @@ export default defineComponent({
       >
         <div
           class="title"
-        >Empfang</div>
+        >Das Radio:</div>
         <router-link
-          to="/"
+          to="/program/"
+          @click.prevent="navigate({
+            name: 'program',
+          })"
         >
-          dab+
+          Programm
         </router-link>
         <router-link
           to="/discover/"
         >
-          Webstream
+          Empfang
         </router-link>
       </section>
       <section
@@ -125,9 +128,6 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     margin-bottom: 1.5rem;
-    .title {
-      @include typo.dim;
-    }
     &--primary {
       > a {
         font-size: 4rem;

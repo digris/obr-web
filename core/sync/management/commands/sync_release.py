@@ -19,6 +19,6 @@ class Command(BaseCommand):
             # poll.opened = False
             # poll.save()
 
-            release.sync_data()
+            release.sync_data(skip_media=False)
 
             self.stdout.write(f"sync completed for release: {uid}")

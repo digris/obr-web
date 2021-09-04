@@ -288,9 +288,9 @@ export default defineComponent({
   }
 
   .play {
+    position: relative;
     grid-area: play;
     padding-left: 0.5rem;
-    position: relative;
 
     .state {
       position: absolute;

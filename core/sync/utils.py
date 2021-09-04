@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
+import pathlib
+import filetype
+
+from urllib.parse import urlparse
 from urllib.request import urlopen
 
 from django.contrib.contenttypes.models import ContentType
@@ -90,8 +94,16 @@ def update_image(obj, image_url, image_class, clear=True):
     if clear:
         obj.images.all().delete()
 
-    ext = image_url.split(".")[-1] or "jpg"  # NOTE: maybe dangerous...
-    filename = f"downloaded-image.{ext}"
+    # image urls can have missing extensions (blame OBP) - so we try to fix this...
+    image_path = pathlib.Path(urlparse(image_url).path)
+    ext = image_path.suffix
+    if not ext:
+        with urlopen(image_url) as r:
+            f_type = filetype.guess(r)
+            ext = f".{f_type.extension}"
+        logger.debug(f"detected extension: {ext} - {f_type.mime}")
+
+    filename = f"downloaded-image{ext}"
 
     img_temp = NamedTemporaryFile(delete=True)
     img_temp.write(urlopen(image_url).read())

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "broadcast",
     "catalog",
     "electronic_mail",
-    # "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
+    "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
 ]
 
 MIDDLEWARE = [
