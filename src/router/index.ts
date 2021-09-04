@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NotFound from '@/views/NotFound.vue';
 import OnAir from '@/views/OnAir.vue';
+import Program from '@/views/Program.vue';
 import Discover from '@/views/Discover.vue';
 import Collection from '@/views/Collection.vue';
 import Account from '@/views/Account.vue';
@@ -33,6 +34,11 @@ const routes = [
     meta: {
       colorTheme: 'live',
     },
+  },
+  {
+    path: '/program/',
+    name: 'program',
+    component: Program,
   },
   {
     path: '/discover/',

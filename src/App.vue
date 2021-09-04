@@ -7,7 +7,7 @@ import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
 import Notifications from '@/components/notification/Notifications.vue';
-import ColorChooser from '@/components/colors/ColorChooser.vue';
+// import ColorChooser from '@/components/colors/ColorChooser.vue';
 
 export default {
   components: {
@@ -17,7 +17,7 @@ export default {
     AuthPanel,
     Subscribe,
     Player,
-    ColorChooser,
+    // ColorChooser,
   },
   created() {
     this.$store.dispatch('account/getUser');
@@ -37,7 +37,6 @@ export default {
   <Topbar />
   <SideMenu />
   <Notifications />
-  <ColorChooser />
   <router-view
     v-slot="{ Component }"
   >

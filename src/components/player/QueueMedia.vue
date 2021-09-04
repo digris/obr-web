@@ -1,5 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import {
+  ref,
+  computed,
+  defineComponent,
+  onMounted,
+} from 'vue';
 import { useStore } from 'vuex';
 import { getContrastColor, getMediaColor } from '@/utils/color';
 import eventBus from '@/eventBus';
@@ -34,6 +39,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const root = ref(null);
     const store = useStore();
     const objKey = computed(() => {
       return `${props.media?.ct}:${props.media?.uid}`;
@@ -70,6 +76,12 @@ export default defineComponent({
         '--c-fg': '0,0,0',
       };
     });
+    onMounted(() => {
+      if (props.isCurrent) {
+        // @ts-ignore
+        root.value.scrollIntoViewIfNeeded();
+      }
+    });
     const play = async () => {
       await queue.playFromIndex(props.index);
     };
@@ -77,15 +89,13 @@ export default defineComponent({
       eventBus.emit('player:controls', { do: 'pause' });
     };
     const canRemove = computed(() => {
-      if (props.isCurrent) {
-        return false;
-      }
-      return true;
+      return !props.isCurrent;
     });
     const remove = async () => {
       await queue.removeAtIndex(props.index);
     };
     return {
+      root,
       objKey,
       playerState,
       isPlaying,
@@ -103,6 +113,7 @@ export default defineComponent({
 
 <template>
   <div
+    ref="root"
     class="media-row"
     :style="{
       '--c-fg': 'var(--c-white)',
