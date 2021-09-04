@@ -36,8 +36,12 @@ class EditorSerializer(serializers.HyperlinkedModelSerializer):
         lookup_field="uid",
     )
 
-    name = serializers.CharField(source="display_name")
-    image = ImageSerializer(read_only=True)
+    name = serializers.CharField(
+        source="display_name",
+    )
+    image = ImageSerializer(
+        read_only=True,
+    )
 
     class Meta:
         model = Editor
@@ -92,9 +96,16 @@ class EmissionSerializer(
         lookup_field="uid",
     )
 
-    duration = serializers.DurationField(read_only=True)
-    playlist = PlaylistSerializer(read_only=True)
-    media_set = EmissionMediaSerializer(source="get_media_set", many=True)
+    duration = serializers.DurationField(
+        read_only=True,
+    )
+    playlist = PlaylistSerializer(
+        read_only=True,
+    )
+    media_set = EmissionMediaSerializer(
+        source="get_media_set",
+        many=True,
+    )
 
     class Meta:
         model = Emission
@@ -166,7 +177,9 @@ class ScheduleSerializer(serializers.Serializer):
 
     media = ScheduleMediaSerializer()
     emission = ScheduleEmissionSerializer()
-    playlist = SchedulePlaylistSerializer(source="emission.playlist")
+    playlist = SchedulePlaylistSerializer(
+        source="emission.playlist",
+    )
 
 
 class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
@@ -176,10 +189,23 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
         lookup_field="uid",
     )
 
-    name = serializers.CharField(source="playlist.name")
-    series = serializers.CharField(source="playlist.series_display", allow_null=True)
-    editor = serializers.CharField(source="playlist.editor")
-    tags = serializers.StringRelatedField(source="playlist.tags", many=True)
+    playlist_uid = serializers.CharField(
+        source="playlist.uid",
+    )
+    name = serializers.CharField(
+        source="playlist.name",
+    )
+    series = serializers.CharField(
+        source="playlist.series_display",
+        allow_null=True,
+    )
+    editor = serializers.CharField(
+        source="playlist.editor",
+    )
+    tags = serializers.StringRelatedField(
+        source="playlist.tags",
+        many=True,
+    )
 
     class Meta:
         model = Emission
@@ -187,6 +213,7 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
             "url",
             "ct",
             "uid",
+            "playlist_uid",
             "name",
             "series",
             "editor",
