@@ -5,6 +5,7 @@ import {
   ref,
   onMounted,
   onUnmounted,
+  watch,
 } from 'vue';
 import { DateTime } from 'luxon';
 
@@ -16,6 +17,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const root = ref(null);
     const now = ref(DateTime.now());
     const timer = ref(null);
     const isPast = computed(() => {
@@ -45,7 +47,17 @@ export default defineComponent({
         '--c-bg': 'var(--c-white)',
       };
     });
+    const scrollIntoView = () => {
+      // @ts-ignore
+      root.value.scrollIntoViewIfNeeded({
+        block: 'end',
+        behavior: 'smooth',
+      });
+    };
     onMounted(() => {
+      if (isCurrent.value) {
+        scrollIntoView();
+      }
       // @ts-ignore
       timer.value = setInterval(() => {
         now.value = DateTime.now();
@@ -54,6 +66,30 @@ export default defineComponent({
     onUnmounted(() => {
       // @ts-ignore
       clearInterval(timer.value);
+    });
+    watch(
+      () => isCurrent.value,
+      async () => {
+        if (isCurrent.value) {
+          scrollIntoView();
+        }
+      },
+    );
+    const routeTo = computed(() => {
+      if (isCurrent.value) {
+        return {
+          path: '/',
+        };
+      }
+      if (isPast.value) {
+        return {
+          name: 'playlistDetail',
+          params: {
+            uid: props.emission.playlistUid,
+          },
+        };
+      }
+      return {};
     });
     const tagsDisplay = computed(() => {
       return props.emission.tags.slice(0, 4).join(', ');
@@ -65,10 +101,12 @@ export default defineComponent({
       return props.emission.timeStart.setLocale('de-ch').toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     return {
+      root,
       cssVars,
       isPast,
       isCurrent,
       isUpcoming,
+      routeTo,
       tagsDisplay,
       timeStartDisplay,
     };
@@ -78,6 +116,7 @@ export default defineComponent({
 
 <template>
   <div
+    ref="root"
     class="emission-row"
     :style="cssVars"
     :class="{
@@ -98,12 +137,12 @@ export default defineComponent({
         class="name"
       >
         <router-link
-          :to="{
-            name: 'playlistDetail',
-            params: {
-              uid: emission.uid,
-            },
-          }"
+          v-if="(!isUpcoming)"
+          :to="routeTo"
+          v-text="(emission.series || emission.name)"
+        />
+        <span
+          v-else
           v-text="(emission.series || emission.name)"
         />
       </div>
@@ -131,10 +170,10 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .emission-row {
-  border-bottom: 1px solid rgb(var(--c-gray-200));
-  transition: background 200ms;
   color: rgb(var(--c-fg));
   background-color: rgb(var(--c-bg));
+  border-bottom: 1px solid rgb(var(--c-gray-200));
+  transition: background 200ms;
 
   &:first-child {
     border-top: 1px solid rgb(var(--c-gray-200));

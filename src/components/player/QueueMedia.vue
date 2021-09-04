@@ -3,7 +3,7 @@ import {
   ref,
   computed,
   defineComponent,
-  onMounted,
+  onMounted, watch,
 } from 'vue';
 import { useStore } from 'vuex';
 import { getContrastColor, getMediaColor } from '@/utils/color';
@@ -76,12 +76,26 @@ export default defineComponent({
         '--c-fg': '0,0,0',
       };
     });
+    const scrollIntoView = () => {
+      // @ts-ignore
+      root.value.scrollIntoViewIfNeeded({
+        block: 'end',
+        behavior: 'smooth',
+      });
+    };
     onMounted(() => {
       if (props.isCurrent) {
-        // @ts-ignore
-        root.value.scrollIntoViewIfNeeded();
+        scrollIntoView();
       }
     });
+    watch(
+      () => props.isCurrent,
+      async () => {
+        if (props.isCurrent) {
+          scrollIntoView();
+        }
+      },
+    );
     const play = async () => {
       await queue.playFromIndex(props.index);
     };
