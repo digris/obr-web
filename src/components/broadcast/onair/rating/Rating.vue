@@ -1,4 +1,5 @@
 <script lang="ts">
+import { debounce } from 'lodash-es';
 import {
   computed,
   defineComponent,
@@ -34,13 +35,13 @@ export default defineComponent({
     const userRatingValue = computed(() => {
       return userRating.value?.value;
     });
-    const rate = async (value: number) => {
+    const rate = debounce(async (value: number) => {
       const vote = {
         key: objKey.value,
         value: userRatingValue.value === value ? null : value,
       };
       await store.dispatch('rating/updateRating', vote);
-    };
+    }, 200);
     const fetchRating = async (key: string) => {
       if (!key) {
         return;

@@ -1,23 +1,36 @@
+<script lang="ts">
+// NOTE: the naming here is kind of confusing and maybe should be changed.
+// this view (views/Program.view) is used as top-level view bound to /program/
+// the actual program data is handled by components/broadcast/program/Program.vue
+import { defineComponent } from 'vue';
+import Program from '@/components/broadcast/program/Program.vue';
+
+export default defineComponent({
+  components: {
+    Program,
+  },
+});
+</script>
 <template>
   <div
-    class="program"
+    class="program-view"
   >
     <div
       class="title"
     >
-      Programm
+      Heute
     </div>
     <div
       class="body"
     >
-      (( Program Component ))
+      <Program />
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/container";
-.program {
+.program-view {
   margin-bottom: 12rem;
 }
 .title {
@@ -27,10 +40,8 @@
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   text-align: center;
-  background: #00e6ff;
 }
 .body {
-  @include container.default;
-  background: #6def6d;
+  background: rgb(var(--white));
 }
 </style>

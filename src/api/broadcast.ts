@@ -1,12 +1,17 @@
 import { APIClient } from '@/api/Client';
 import settings from '@/settings';
 
-const EDITOR_ENDPOINT = `${settings.API_BASE_URL}broadcast/editors/`;
 const SCHEDULE_ENDPOINT = `${settings.API_BASE_URL}broadcast/schedule/`;
+const PROGRAM_ENDPOINT = `${settings.API_BASE_URL}broadcast/program/`;
+const EDITOR_ENDPOINT = `${settings.API_BASE_URL}broadcast/editors/`;
 
 async function getSchedule(params: Object = {}) {
-  const url = SCHEDULE_ENDPOINT;
-  const response = await APIClient.get(url, { params });
+  const response = await APIClient.get(SCHEDULE_ENDPOINT, { params });
+  return response.data;
+}
+
+async function getProgram() {
+  const response = await APIClient.get(PROGRAM_ENDPOINT);
   return response.data;
 }
 
@@ -27,6 +32,7 @@ async function getEditor(uid: string) {
 
 export {
   getSchedule,
+  getProgram,
   getEditors,
   getEditor,
 };

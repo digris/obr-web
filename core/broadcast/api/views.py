@@ -3,7 +3,7 @@ import itertools
 import logging
 from datetime import timedelta
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -92,12 +92,11 @@ class ScheduleView(APIView):
     def get(request):
         seconds_ahead = int(request.GET.get("seconds_ahead", 60 * 15))
         seconds_back = int(request.GET.get("seconds_back", 60 * 15))
-        # NOTE: for the moment we just use a static "window"
+
         now = timezone.now()
         time_from = now - timedelta(seconds=seconds_ahead)
         time_until = now + timedelta(seconds=seconds_back)
 
-        # get emissions within window
         qs = Emission.objects.filter(
             time_end__gte=time_from,
             time_start__lte=time_until,
@@ -128,7 +127,47 @@ class ScheduleView(APIView):
             media_in_range,
             many=True,
             read_only=True,
-            context={"request": request},
+            context={
+                "request": request,
+            },
+        )
+
+        return Response(serializer.data)
+
+
+class ProgramView(APIView):
+    @staticmethod
+    def get(request):
+
+        now = timezone.now()  # UTC
+        # we want to set start / end in naive / local time
+        naive = timezone.make_naive(now)
+        naive_time_from = naive.replace(hour=6, minute=0, second=0, microsecond=0)
+        time_from = timezone.make_aware(naive_time_from)  # now with timezone - CE(S)T)
+        time_until = time_from + timedelta(seconds=60 * 60 * 24 - 1)  # 24h - 1s
+
+        qs = Emission.objects.filter(
+            Q(time_start__gte=time_from) & Q(time_start__lte=time_until)
+        )
+        qs = qs.select_related(
+            "playlist",
+            "playlist__editor",
+            "playlist__series",
+        )
+        qs = qs.prefetch_related(
+            "playlist__tags",
+        )
+        qs = qs.order_by(
+            "time_start",
+        )
+
+        serializer = serializers.ProgramEmissionSerializer(
+            qs[:500],
+            many=True,
+            read_only=True,
+            context={
+                "request": request,
+            },
         )
 
         return Response(serializer.data)

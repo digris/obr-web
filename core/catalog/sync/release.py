@@ -10,7 +10,7 @@ from sync.utils import update_relations, update_tags, update_image
 logger = logging.getLogger(__name__)
 
 
-def sync_release(release, skip_media, **kwargs):
+def sync_release(release, skip_media=False, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models.release import ReleaseImage
 
