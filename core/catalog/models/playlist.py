@@ -12,7 +12,12 @@ from sync.models.mixins import SyncModelMixin
 from tagging.models import TaggedItem, TaggableManager
 
 
-class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
+class Playlist(
+    TimestampedModelMixin,
+    CTUIDModelMixin,
+    SyncModelMixin,
+    models.Model,
+):
 
     name = models.CharField(
         max_length=256,
@@ -81,18 +86,26 @@ class Playlist(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mo
         return self.images.first()
 
     @cached_property
-    def series_display(self):
-        if self.series and self.series_episode:
-            return f"{self.series.name} #{self.series_episode}"
+    def series_dict(self):
+        # NOTE: maybe this could be handled in a more elegant way.
         if self.series:
-            return self.series.name
+            return {
+                "uid": self.series.uid,
+                "name": self.series.name,
+                "episode": self.series_episode,
+            }
         return None
 
     def sync_data(self, *args, **kwargs):
         return sync_playlist(self, *args, **kwargs)
 
 
-class Series(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Model):
+class Series(
+    TimestampedModelMixin,
+    CTUIDModelMixin,
+    SyncModelMixin,
+    models.Model,
+):
 
     name = models.CharField(
         max_length=256,
@@ -118,7 +131,10 @@ class Series(TimestampedModelMixin, CTUIDModelMixin, SyncModelMixin, models.Mode
         return self.playlists.count()
 
 
-class PlaylistMedia(CTUIDModelMixin, models.Model):
+class PlaylistMedia(
+    CTUIDModelMixin,
+    models.Model,
+):
 
     playlist = models.ForeignKey(
         Playlist,
@@ -162,7 +178,9 @@ class PlaylistMedia(CTUIDModelMixin, models.Model):
         return self.media.duration - timedelta(seconds=diff_s)
 
 
-class PlaylistImage(BaseSortableImage):
+class PlaylistImage(
+    BaseSortableImage,
+):
 
     playlist = models.ForeignKey(
         Playlist,

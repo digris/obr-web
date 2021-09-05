@@ -7,7 +7,7 @@ from django.db.models import Count, Q
 from django.db.models.functions import Lower
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, status
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,13 +17,14 @@ from ..models import Editor, Emission
 
 logger = logging.getLogger(__name__)
 
+PROGRAM_MAX_EMISSIONS = 100
+
 
 class EditorViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-
     queryset = Editor.objects.all()
     serializer_class = serializers.EditorSerializer
     lookup_field = "uid"
@@ -64,7 +65,6 @@ class EmissionViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-
     queryset = Emission.objects.all()
     serializer_class = serializers.EmissionSerializer
     lookup_field = "uid"
@@ -138,7 +138,6 @@ class ScheduleView(APIView):
 class ProgramView(APIView):
     @staticmethod
     def get(request):
-
         now = timezone.now()  # UTC
         # we want to set start / end in naive / local time
         naive = timezone.make_naive(now)
@@ -161,10 +160,20 @@ class ProgramView(APIView):
             "time_start",
         )
 
-        serializer = serializers.ProgramEmissionSerializer(
-            qs[:500],
-            many=True,
-            read_only=True,
+        if qs.count() > PROGRAM_MAX_EMISSIONS:
+            return Response(
+                {
+                    "message": f"Too many emissions in range. Count: {qs.count()} - max: {PROGRAM_MAX_EMISSIONS}",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        serializer = serializers.ProgramSerializer(
+            {
+                "time_from": time_from,
+                "time_until": time_until,
+                "emissions": qs,
+            },
             context={
                 "request": request,
             },

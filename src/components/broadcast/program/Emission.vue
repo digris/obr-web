@@ -8,9 +8,16 @@ import {
   onActivated,
   watch,
 } from 'vue';
+import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
+import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
+import ObjectTags from '@/components/tagging/ObjectTags.vue';
 
 export default defineComponent({
+  components: {
+    ButtonPlay,
+    ObjectTags,
+  },
   props: {
     emission: {
       type: Object,
@@ -19,6 +26,7 @@ export default defineComponent({
   },
   setup(props) {
     const root = ref(null);
+    const store = useStore();
     const now = ref(DateTime.now());
     const timer = ref(null);
     const isPast = computed(() => {
@@ -30,6 +38,9 @@ export default defineComponent({
     const isCurrent = computed(() => {
       return props.emission.timeStart < now.value && props.emission.timeEnd > now.value;
     });
+    // player
+    const currentMedia = computed(() => store.getters['player/currentMedia']);
+
     const scrollIntoView = () => {
       // @ts-ignore
       root.value.scrollIntoViewIfNeeded({
@@ -38,13 +49,11 @@ export default defineComponent({
       });
     };
     onActivated(() => {
-      console.debug('onActivated');
       if (isCurrent.value) {
         scrollIntoView();
       }
     });
     onMounted(() => {
-      console.debug('onMounted');
       if (isCurrent.value) {
         scrollIntoView();
       }
@@ -81,6 +90,12 @@ export default defineComponent({
       }
       return {};
     });
+    const title = computed(() => {
+      return {
+        name: props.emission.series ? props.emission.series.name : props.emission.name,
+        appendix: props.emission.series ? props.emission.series.episode : null,
+      };
+    });
     const tagsDisplay = computed(() => {
       return props.emission.tags.slice(0, 4).join(', ');
     });
@@ -90,14 +105,27 @@ export default defineComponent({
       }
       return props.emission.timeStart.setLocale('de-ch').toLocaleString(DateTime.TIME_24_SIMPLE);
     });
+    const buttonCssVars = computed(() => {
+      if (isCurrent.value) {
+        return {
+          '--c-fg': 'var(--c-white)',
+        };
+      }
+      return {
+        '--c-fg': 'var(--c-black)',
+      };
+    });
     return {
       root,
       isPast,
       isCurrent,
       isUpcoming,
+      currentMedia,
       routeTo,
+      title,
       tagsDisplay,
       timeStartDisplay,
+      buttonCssVars,
     };
   },
 });
@@ -119,7 +147,10 @@ export default defineComponent({
       <div
         class="play"
       >
-        ( P )
+        <ButtonPlay
+          :style="buttonCssVars"
+          :disabled="isUpcoming"
+        />
       </div>
       <div
         class="name"
@@ -128,36 +159,32 @@ export default defineComponent({
           v-if="(!isUpcoming)"
           :to="routeTo"
         >
-          <span
-            v-if="emission.series"
-          >
-            {{ emission.series }}
-            <small
-              v-if="emission.seriesEpisode"
-              v-text="`#${emission.seriesEpisode}`"
-            />
-          </span>
-          <span
-            v-else
-          >
-            {{ emission.name }}
-          </span>
+          {{ title.name }}
+          <small
+            v-if="title.appendix"
+            v-text="`#${title.appendix}`"
+          />
         </router-link>
         <span
           v-else
-          v-text="(emission.series || emission.name)"
-        />
+        >
+          {{ title.name }}
+          <small
+            v-if="title.appendix"
+            v-text="`#${title.appendix}`"
+          />
+        </span>
       </div>
       <div
         class="editor"
-      >
-        {{ emission.editor }}
-      </div>
-      <div
+        v-if="emission.editor"
+        v-text="emission.editor.name"
+      />
+      <ObjectTags
         class="tags"
-      >
-        {{ tagsDisplay }}
-      </div>
+        :obj="emission"
+        :limit="(4)"
+      />
       <div
         class="time-start"
       >
@@ -204,7 +231,7 @@ export default defineComponent({
   &.is-upcoming {
     color: rgb(var(--c-black));
     background-color: rgb(var(--c-white));
-    cursor: not-allowed;
+    cursor: wait;
   }
 }
 

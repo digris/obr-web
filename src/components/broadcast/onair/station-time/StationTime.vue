@@ -19,6 +19,7 @@ export default defineComponent({
   },
   emits: [
     'releaseFocus',
+    'toggleProgram',
   ],
   setup(props, { emit }) {
     const store = useStore();
@@ -43,6 +44,9 @@ export default defineComponent({
     const releaseFocus = () => {
       emit('releaseFocus');
     };
+    const toggleProgram = () => {
+      emit('toggleProgram');
+    };
     const resetTimeshift = () => {
       playStream();
     };
@@ -53,6 +57,7 @@ export default defineComponent({
       second,
       isTimeshifted,
       offset,
+      toggleProgram,
       releaseFocus,
       resetTimeshift,
     };
@@ -67,7 +72,9 @@ export default defineComponent({
     <div
       class="actions"
     >
-      <ToggleTimeshiftButton />
+      <ToggleTimeshiftButton
+        @click.prevent="toggleProgram"
+      />
     </div>
     <div
       class="container"
