@@ -49,7 +49,8 @@ export default defineComponent({
       <div
         class="subtitle"
       >
-        {{ editor.numPlaylists }} Shows
+        <!-- {{ editor.role }} -->
+        Musikredaktor
       </div>
     </div>
   </router-link>

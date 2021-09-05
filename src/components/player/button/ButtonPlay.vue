@@ -34,6 +34,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'pause',
@@ -85,6 +89,7 @@ export default defineComponent({
     @mouseleave="onHout"
     @click.prevent="handleClick"
     :size="size"
+    :disabled="disabled"
     :active="isActive"
     :class="{
       'is-playing': isPlaying,

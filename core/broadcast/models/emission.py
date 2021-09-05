@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 
-from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils import timezone
-from django.utils.functional import cached_property
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
-from broadcast.sync.editor import sync_editor
-from image.models import BaseSortableImage
-from sync.models.mixins import SyncModelMixin
-from tagging.models import TaggedItem, TaggableManager
 
 
 class EmissionQuerySet(models.QuerySet):
@@ -28,7 +22,6 @@ class EmissionQuerySet(models.QuerySet):
 
 
 class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
-
     # holds a string based reference to the object:
     # <ct>:<uuid>
     # e.g.
@@ -87,11 +80,17 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         now = timezone.now()
         return self.time_start <= now <= self.time_end
 
+    @property
+    def name(self):
+        return self.playlist.name if self.playlist else None
+
+    @property
+    def series(self):
+        return self.playlist.series if self.playlist else None
+
     def get_media_set(self):
         if not self.playlist:
             return []
-
-        # print(f"playlist", self.playlist)
 
         media_set = []
         time_base = self.time_start
@@ -134,83 +133,3 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
             time_offset += playlist_media.effective_duration
 
         return media_set
-
-
-class Editor(
-    TimestampedModelMixin,
-    CTUIDModelMixin,
-    SyncModelMixin,
-    models.Model,
-):
-
-    display_name = models.CharField(
-        verbose_name="Display name",
-        max_length=256,
-        null=True,
-        blank=True,
-    )
-
-    user = models.OneToOneField(
-        to="account.User",
-        verbose_name="User account",
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT,
-    )
-
-    tags = TaggableManager(
-        through=TaggedItem,
-        blank=True,
-    )
-
-    votes = GenericRelation(
-        "rating.Vote",
-        related_query_name="editor",
-    )
-
-    identifiers = GenericRelation(
-        "identifier.Identifier",
-        related_name="editor",
-    )
-
-    class Meta:
-        app_label = "broadcast"
-        verbose_name = "Editor"
-        verbose_name_plural = "Editors"
-        ordering = [
-            "display_name",
-        ]
-
-    def __str__(self):
-        return str(self.display_name or self.uid)
-
-    @cached_property
-    def image(self):
-        return self.images.first()
-
-    @cached_property
-    def num_playlists(self):
-        return self.playlists.count()
-
-    def sync_data(self, *args, **kwargs):
-        return sync_editor(self, *args, **kwargs)
-
-
-class EditorImage(BaseSortableImage):
-
-    editor = models.ForeignKey(
-        Editor,
-        null=True,
-        blank=False,
-        related_name="images",
-        on_delete=models.CASCADE,
-    )
-
-    class Meta:
-        app_label = "broadcast"
-        verbose_name = "Image"
-        verbose_name_plural = "Images"
-        ordering = ["position"]
-
-    def __str__(self):
-        return "{}".format(self.pk)

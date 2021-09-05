@@ -47,31 +47,31 @@ export default defineComponent({
   >
     <div
       v-if="isVisible"
-      class="ovelay-panel"
+      class="overlay-panel"
     >
       <div
-        class="ovelay-panel__header"
+        class="overlay-panel__header"
       >
         <CloseButton
           @click.prevent="close"
         />
       </div>
       <div
-        class="ovelay-panel__body"
+        class="overlay-panel__body"
       >
         <slot
           name="default"
         />
       </div>
       <div
-        class="ovelay-panel__success"
+        class="overlay-panel__success"
       >
         <slot
           name="success"
         />
       </div>
       <div
-        class="ovelay-panel__footer"
+        class="overlay-panel__footer"
       >
         <slot
           name="footer"
@@ -94,7 +94,7 @@ export default defineComponent({
   background: rgba(var(--c-black), 0.9);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
-.ovelay-panel {
+.overlay-panel {
   position: fixed;
   top: 0;
   //right: 0;

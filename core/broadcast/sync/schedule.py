@@ -63,7 +63,6 @@ def fetch_emissions(start=None, end=None):
 
 def create_emission_objects(emission_list):
     for emission_dict in [e for e in emission_list if e.get("co")]:
-
         time_start = parse_datetime(emission_dict["time_start"])
         time_end = round_datetime(parse_datetime(emission_dict["time_end"]), 60 * 5)
 
@@ -82,7 +81,6 @@ def create_emission_objects(emission_list):
 
 
 def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):
-
     if force:
         if not date_start:
             raise Exception("required 'date_start' when using 'force'")

@@ -14,6 +14,7 @@ import FocusedEmission from '@/components/broadcast/onair/FocusedEmission.vue';
 import FocusedMedia from '@/components/broadcast/onair/FocusedMedia.vue';
 import PaginateButton from '@/components/broadcast/onair/button/PaginateNext.vue';
 import Rating from '@/components/broadcast/onair/rating/Rating.vue';
+import Today from '@/components/broadcast/onair/Today.vue';
 
 export default defineComponent({
   components: {
@@ -23,6 +24,7 @@ export default defineComponent({
     FocusedMedia,
     PaginateButton,
     Rating,
+    Today,
   },
   setup() {
     const route = useRoute();
@@ -81,32 +83,23 @@ export default defineComponent({
     const setFocus = (key:string) => {
       focusKey.value = key;
     };
-    // eslint-disable-next-line arrow-body-style
     const paginatedItems = computed(() => {
       const numItems = 10;
       return items.value.slice(calculatedOffset.value, calculatedOffset.value + numItems);
     });
     const hasPrevious = computed(() => {
       return items.value[calculatedOffset.value + 2] !== undefined;
-      // console.debug(calculatedOffset.value);
-      // console.table(items.value);
-      // return false;
     });
     const hasNext = computed(() => {
       return items.value[calculatedOffset.value - 1] !== undefined;
-      // console.debug(calculatedOffset.value);
-      // console.table(items.value);
-      // return false;
     });
-    // live-colors
-    // watch(current, (item) => {
-    //   if (item.media.releases && item.media.releases.length) {
-    //     const { image } = item.media.releases[0];
-    //     if (image && image.rgb) {
-    //       store.dispatch('ui/setPrimaryColor', image.rgb);
-    //     }
-    //   }
-    // });
+    const programVisible = ref(false);
+    const toggleProgram = () => {
+      programVisible.value = !programVisible.value;
+    };
+    const hideProgram = () => {
+      programVisible.value = false;
+    };
     watch(
       () => route.name,
       async (newName) => {
@@ -146,6 +139,11 @@ export default defineComponent({
       hasPrevious,
       hasNext,
       setFocus,
+      //
+      Today,
+      programVisible,
+      toggleProgram,
+      hideProgram,
     };
   },
 });
@@ -158,6 +156,7 @@ export default defineComponent({
   >
     <StationTime
       @release-focus="setFocus('')"
+      @toggle-program="toggleProgram"
     />
     <div
       class="left"
@@ -207,6 +206,10 @@ export default defineComponent({
       @on-focus="setFocus"
     />
   </div>
+  <Today
+    :is-visible="programVisible"
+    @close="hideProgram"
+  />
 </template>
 
 <style lang="scss" scoped>

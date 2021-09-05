@@ -20,7 +20,7 @@ const getters = {
 };
 
 const mutations = {
-  SET_PROGRAM: (state: State, emissions:Array<any>) => {
+  SET_EMISSIONS: (state: State, emissions:Array<any>) => {
     const parsedEmissions:Array<Emission> = [];
     emissions.forEach((el) => {
       const emission = { ...el };
@@ -36,7 +36,7 @@ const actions = {
   loadProgram: async (context: any) => {
     console.debug('program store - loadProgram');
     const program = await getProgram();
-    context.commit('SET_PROGRAM', program);
+    context.commit('SET_EMISSIONS', program.emissions);
   },
 };
 
