@@ -196,7 +196,15 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
         source="playlist.name",
     )
     series = serializers.CharField(
-        source="playlist.series_display",
+        source="playlist.series",
+        allow_null=True,
+    )
+    series = serializers.CharField(
+        source="playlist.series",
+        allow_null=True,
+    )
+    series_episode = serializers.CharField(
+        source="playlist.series_episode",
         allow_null=True,
     )
     editor = serializers.CharField(
@@ -216,6 +224,7 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
             "playlist_uid",
             "name",
             "series",
+            "series_episode",
             "editor",
             "tags",
             "duration",

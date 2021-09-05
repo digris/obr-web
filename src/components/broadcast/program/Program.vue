@@ -2,7 +2,7 @@
 import {
   defineComponent,
   computed,
-  onMounted,
+  onActivated,
 } from 'vue';
 import { useStore } from 'vuex';
 import Emission from '@/components/broadcast/program/EmissionRow.vue';
@@ -14,7 +14,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const emissions = computed(() => store.getters['program/emissions']);
-    onMounted(() => {
+    onActivated(() => {
       store.dispatch('program/loadProgram');
     });
     return {
