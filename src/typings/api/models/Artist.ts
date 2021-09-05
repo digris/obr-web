@@ -3,10 +3,10 @@
 /* eslint-disable */
 
 export type Artist = {
-    readonly url: string;
-    readonly ct: string;
-    readonly uid: string;
+    readonly url?: string;
+    readonly ct?: string;
+    readonly uid?: string;
     name: string;
     numMedia: number;
-    readonly userRating: number | null;
+    readonly userRating?: number | null;
 }

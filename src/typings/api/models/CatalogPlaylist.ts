@@ -9,13 +9,13 @@
  * values with complex, nested serializations
  */
 export type CatalogPlaylist = {
-    readonly url: string;
-    readonly ct: string;
-    readonly uid: string;
+    readonly url?: string;
+    readonly ct?: string;
+    readonly uid?: string;
     name: string;
-    readonly series: string;
-    readonly latestEmission: string;
-    readonly numMedia: number;
-    readonly numEmissions: number;
-    readonly userRating: number | null;
+    readonly series?: string;
+    readonly latestEmission?: string;
+    readonly numMedia?: number;
+    readonly numEmissions?: number;
+    readonly userRating?: number | null;
 }

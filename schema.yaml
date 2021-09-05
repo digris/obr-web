@@ -1,0 +1,1678 @@
+openapi: 3.0.3
+info:
+  title: OBR API
+  version: 0.0.1
+  description: open broadcast radio
+paths:
+  /api/v1/:
+    get:
+      operationId: root_retrieve
+      description: ''
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/login/:
+    post:
+      operationId: account_login_create
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/logout/:
+    post:
+      operationId: account_logout_create
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/send-email-login/:
+    get:
+      operationId: account_send_email_login_retrieve
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: account_send_email_login_create
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/signed-email-login/:
+    post:
+      operationId: account_signed_email_login_create
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/social-backends/:
+    get:
+      operationId: account_social_backends_retrieve
+      description: |-
+        returns all connected and disconnected social backends.
+        (based on requests current user)
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/social-backends/{provider}/{uid}/:
+    delete:
+      operationId: account_social_backends_destroy
+      description: |-
+        single backend association.
+        (based on requests current user)
+        this resource is only used to "disconnect" from a backend.
+      parameters:
+      - in: path
+        name: provider
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/v1/account/token-login/:
+    post:
+      operationId: account_token_login_create
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/account/users/me/:
+    get:
+      operationId: account_users_me_retrieve
+      description: ''
+      tags:
+      - account
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/broadcast/editors/:
+    get:
+      operationId: broadcast_editors_list
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - broadcast
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEditorList'
+          description: ''
+  /api/v1/broadcast/editors/{uid}/:
+    get:
+      operationId: broadcast_editors_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - broadcast
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Editor'
+          description: ''
+  /api/v1/broadcast/emissions/:
+    get:
+      operationId: broadcast_emissions_list
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - broadcast
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEmissionList'
+          description: ''
+  /api/v1/broadcast/emissions/{uid}/:
+    get:
+      operationId: broadcast_emissions_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - broadcast
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Emission'
+          description: ''
+  /api/v1/broadcast/program/:
+    get:
+      operationId: broadcast_program_retrieve
+      description: ''
+      tags:
+      - broadcast
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Program'
+          description: ''
+  /api/v1/broadcast/schedule/:
+    get:
+      operationId: broadcast_schedule_retrieve
+      description: ''
+      tags:
+      - broadcast
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+          description: ''
+  /api/v1/catalog/artists/:
+    get:
+      operationId: catalog_artists_list
+      description: Artist endpoint.
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedArtistList'
+          description: ''
+  /api/v1/catalog/artists/{uid}/:
+    get:
+      operationId: catalog_artists_retrieve
+      description: Artist endpoint.
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
+          description: ''
+  /api/v1/catalog/media/:
+    get:
+      operationId: catalog_media_list
+      description: |-
+        Media endpoint.
+
+        retrieve:
+        Returns a media instance.
+
+        list:
+        Returns all a list of media...
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_key
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: user_rating
+        schema:
+          type: number
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMediaList'
+          description: ''
+  /api/v1/catalog/media/{uid}/:
+    get:
+      operationId: catalog_media_retrieve
+      description: |-
+        Media endpoint.
+
+        retrieve:
+        Returns a media instance.
+
+        list:
+        Returns all a list of media...
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+          description: ''
+  /api/v1/catalog/media/tags/:
+    get:
+      operationId: catalog_media_tags_retrieve
+      description: |-
+        Media endpoint.
+
+        retrieve:
+        Returns a media instance.
+
+        list:
+        Returns all a list of media...
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+          description: ''
+  /api/v1/catalog/moods/:
+    get:
+      operationId: catalog_moods_list
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMoodList'
+          description: ''
+  /api/v1/catalog/moods/{uid}/:
+    get:
+      operationId: catalog_moods_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mood'
+          description: ''
+  /api/v1/catalog/playlists/:
+    get:
+      operationId: catalog_playlists_list
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: obj_key
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: user_rating
+        schema:
+          type: number
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCatalogPlaylistList'
+          description: ''
+  /api/v1/catalog/playlists/{uid}/:
+    get:
+      operationId: catalog_playlists_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogPlaylist'
+          description: ''
+  /api/v1/catalog/releases/:
+    get:
+      operationId: catalog_releases_list
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReleaseList'
+          description: ''
+  /api/v1/catalog/releases/{uid}/:
+    get:
+      operationId: catalog_releases_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - catalog
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+          description: ''
+  /api/v1/pub-sub-bridge/:
+    post:
+      operationId: pub_sub_bridge_create
+      description: ''
+      tags:
+      - pub-sub-bridge
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/rating/{obj_ct}:{obj_uid}/:
+    get:
+      operationId: rating_:_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: obj_ct
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: obj_uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - rating
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: rating_:_create
+      description: ''
+      parameters:
+      - in: path
+        name: obj_ct
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: obj_uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - rating
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/schema-json/:
+    get:
+      operationId: schema_json_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema-json
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/subscription/payment/:
+    get:
+      operationId: subscription_payment_retrieve
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/subscription/payment/stripe/:
+    get:
+      operationId: subscription_payment_stripe_retrieve
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: subscription_payment_stripe_create
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/subscription/payment/stripe/success/{signed_payment_uid}/:
+    get:
+      operationId: subscription_payment_stripe_success_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: signed_payment_uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/subscription/payment/stripe/webhook/:
+    post:
+      operationId: subscription_payment_stripe_webhook_create
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/subscription/plan/:
+    get:
+      operationId: subscription_plan_retrieve
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/subscription/voucher/:
+    get:
+      operationId: subscription_voucher_retrieve
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: subscription_voucher_create
+      description: ''
+      tags:
+      - subscription
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /manifest.json:
+    get:
+      operationId: manifest.json_retrieve
+      description: ''
+      tags:
+      - manifest.json
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Artist:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        numMedia:
+          type: integer
+        userRating:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - name
+      - numMedia
+    CatalogPlaylist:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields", "omit" and "expand" in order to
+        control which fields are displayed, and whether to replace simple
+        values with complex, nested serializations
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        series:
+          type: string
+          readOnly: true
+        latestEmission:
+          type: string
+          format: date-time
+          readOnly: true
+        numMedia:
+          type: integer
+          readOnly: true
+        numEmissions:
+          type: integer
+          readOnly: true
+        userRating:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - name
+    Editor:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+      required:
+      - name
+    Emission:
+      type: object
+      description: |-
+        A ModelSerializer that takes additional arguments for
+        "fields", "omit" and "expand" in order to
+        control which fields are displayed, and whether to replace simple
+        values with complex, nested serializations
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        playlist:
+          allOf:
+          - $ref: '#/components/schemas/EmissionPlaylist'
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        timeStart:
+          type: string
+          format: date-time
+          nullable: true
+        timeEnd:
+          type: string
+          format: date-time
+          nullable: true
+        duration:
+          type: string
+          readOnly: true
+        mediaSet:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmissionMedia'
+      required:
+      - mediaSet
+    EmissionMedia:
+      type: object
+      properties:
+        uid:
+          type: string
+        cueIn:
+          type: integer
+        cueOut:
+          type: integer
+        fadeIn:
+          type: integer
+        fadeOut:
+          type: integer
+        fadeCross:
+          type: integer
+        timeStart:
+          type: string
+          format: date-time
+        timeEnd:
+          type: string
+          format: date-time
+      required:
+      - cueIn
+      - cueOut
+      - fadeCross
+      - fadeIn
+      - fadeOut
+      - timeEnd
+      - timeStart
+      - uid
+    EmissionPlaylist:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 256
+    Media:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        artistDisplay:
+          type: string
+          readOnly: true
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaArtist'
+          readOnly: true
+        releases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Release'
+          readOnly: true
+        latestAirplay:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        numAirplays:
+          type: integer
+          readOnly: true
+          nullable: true
+        userRating:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - name
+    MediaArtist:
+      type: object
+      properties:
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        joinPhrase:
+          type: string
+          nullable: true
+          maxLength: 36
+    Mood:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 36
+        teaser:
+          type: string
+          nullable: true
+          maxLength: 256
+      required:
+      - name
+    PaginatedArtistList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artist'
+    PaginatedCatalogPlaylistList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogPlaylist'
+    PaginatedEditorList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Editor'
+    PaginatedEmissionList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Emission'
+    PaginatedMediaList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+    PaginatedMoodList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mood'
+    PaginatedReleaseList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Release'
+    Program:
+      type: object
+      properties:
+        timeFrom:
+          type: string
+          format: date-time
+        timeUntil:
+          type: string
+          format: date-time
+        emissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProgramEmission'
+      required:
+      - emissions
+      - timeFrom
+      - timeUntil
+    ProgramEmission:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        playlistUid:
+          type: string
+        name:
+          type: string
+        series:
+          type: object
+          additionalProperties: {}
+          nullable: true
+        editor:
+          $ref: '#/components/schemas/Editor'
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        duration:
+          type: string
+          readOnly: true
+        timeStart:
+          type: string
+          format: date-time
+          nullable: true
+        timeEnd:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - editor
+      - name
+      - playlistUid
+      - series
+      - tags
+    Release:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        numMedia:
+          type: integer
+          readOnly: true
+      required:
+      - name
+    Schedule:
+      type: object
+      properties:
+        key:
+          type: string
+        cueIn:
+          type: integer
+        cueOut:
+          type: integer
+        fadeIn:
+          type: integer
+        fadeOut:
+          type: integer
+        fadeCross:
+          type: integer
+        timeStart:
+          type: string
+          format: date-time
+        timeEnd:
+          type: string
+          format: date-time
+        media:
+          $ref: '#/components/schemas/ScheduleMedia'
+        emission:
+          $ref: '#/components/schemas/ScheduleEmission'
+        playlist:
+          $ref: '#/components/schemas/SchedulePlaylist'
+      required:
+      - cueIn
+      - cueOut
+      - emission
+      - fadeCross
+      - fadeIn
+      - fadeOut
+      - key
+      - media
+      - playlist
+      - timeEnd
+      - timeStart
+    ScheduleEmission:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        timeStart:
+          type: string
+          format: date-time
+          nullable: true
+        timeEnd:
+          type: string
+          format: date-time
+          nullable: true
+    ScheduleMedia:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          maxLength: 256
+        artistDisplay:
+          type: string
+          readOnly: true
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaArtist'
+          readOnly: true
+        releases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Release'
+          readOnly: true
+      required:
+      - name
+    SchedulePlaylist:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          readOnly: true
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 256
+        editor:
+          $ref: '#/components/schemas/Editor'
+      required:
+      - editor
+    Tag:
+      type: object
+      properties:
+        ct:
+          type: string
+          readOnly: true
+        uid:
+          type: string
+          readOnly: true
+        type:
+          $ref: '#/components/schemas/TypeEnum'
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - name
+    TypeEnum:
+      enum:
+      - genre
+      - mood
+      - descriptive
+      - instrument
+      - profession
+      - event
+      - language
+      type: string
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: Session
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
+servers:
+- url: https://next.openbroadcast.ch
