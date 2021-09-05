@@ -5,8 +5,8 @@
 import type { TypeEnum } from './TypeEnum';
 
 export type Tag = {
-    readonly ct: string;
-    readonly uid: string;
+    readonly ct?: string;
+    readonly uid?: string;
     type?: TypeEnum;
     name: string;
 }

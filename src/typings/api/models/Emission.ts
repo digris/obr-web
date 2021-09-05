@@ -12,12 +12,12 @@ import type { EmissionPlaylist } from './EmissionPlaylist';
  * values with complex, nested serializations
  */
 export type Emission = {
-    readonly url: string;
-    readonly playlist: EmissionPlaylist;
-    readonly ct: string;
-    readonly uid: string;
+    readonly url?: string;
+    readonly playlist?: EmissionPlaylist;
+    readonly ct?: string;
+    readonly uid?: string;
     timeStart?: string | null;
     timeEnd?: string | null;
-    readonly duration: string;
+    readonly duration?: string;
     mediaSet: Array<EmissionMedia>;
 }

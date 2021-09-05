@@ -119,7 +119,7 @@ export default defineComponent({
           :disable-play-all="(true)"
         />
       </div>
-    </section>>
+    </section>
   </div>
 </template>
 

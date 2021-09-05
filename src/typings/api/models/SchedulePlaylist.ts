@@ -5,9 +5,9 @@
 import type { Editor } from './Editor';
 
 export type SchedulePlaylist = {
-    readonly url: string;
-    readonly ct: string;
-    readonly uid: string;
+    readonly url?: string;
+    readonly ct?: string;
+    readonly uid?: string;
     name?: string | null;
     editor: Editor;
 }

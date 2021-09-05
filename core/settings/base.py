@@ -263,6 +263,7 @@ SPECTACULAR_SETTINGS = {
     # 'CAMELIZE_NAMES': True,
     "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
     "COMPONENT_SPLIT_REQUEST": True,
+    "COMPONENT_NO_READ_ONLY_REQUIRED": True,
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
