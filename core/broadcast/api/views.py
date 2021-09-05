@@ -11,6 +11,7 @@ from rest_framework import mixins, viewsets, status
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 
 from . import serializers
 from ..models import Editor, Emission
@@ -87,9 +88,11 @@ class EmissionViewSet(
         return obj
 
 
-class ScheduleView(APIView):
-    @staticmethod
-    def get(request):
+class ScheduleView(GenericAPIView):
+
+    serializer_class = serializers.ScheduleSerializer
+
+    def get(self, request):
         seconds_ahead = int(request.GET.get("seconds_ahead", 60 * 15))
         seconds_back = int(request.GET.get("seconds_back", 60 * 15))
 
@@ -123,7 +126,7 @@ class ScheduleView(APIView):
 
         media_in_range.sort(key=lambda i: i["time_start"], reverse=True)
 
-        serializer = serializers.ScheduleSerializer(
+        serializer = self.serializer_class(
             media_in_range,
             many=True,
             read_only=True,
@@ -135,9 +138,25 @@ class ScheduleView(APIView):
         return Response(serializer.data)
 
 
-class ProgramView(APIView):
-    @staticmethod
-    def get(request):
+class ProgramView(GenericAPIView):
+
+    serializer_class = serializers.ProgramSerializer
+
+    def get_queryset(self):
+        qs = (
+            Emission.objects.all()
+            .select_related(
+                "playlist",
+                "playlist__editor",
+                "playlist__series",
+            )
+            .prefetch_related(
+                "playlist__tags",
+            )
+        )
+        return qs
+
+    def get(self, request):
         now = timezone.now()  # UTC
         # we want to set start / end in naive / local time
         naive = timezone.make_naive(now)
@@ -145,19 +164,12 @@ class ProgramView(APIView):
         time_from = timezone.make_aware(naive_time_from)  # now with timezone - CE(S)T)
         time_until = time_from + timedelta(seconds=60 * 60 * 24 - 1)  # 24h - 1s
 
-        qs = Emission.objects.filter(
-            Q(time_start__gte=time_from) & Q(time_start__lte=time_until)
-        )
-        qs = qs.select_related(
-            "playlist",
-            "playlist__editor",
-            "playlist__series",
-        )
-        qs = qs.prefetch_related(
-            "playlist__tags",
-        )
-        qs = qs.order_by(
-            "time_start",
+        qs = (
+            self.get_queryset()
+            .filter(Q(time_start__gte=time_from) & Q(time_start__lte=time_until))
+            .order_by(
+                "time_start",
+            )
         )
 
         if qs.count() > PROGRAM_MAX_EMISSIONS:
@@ -168,7 +180,7 @@ class ProgramView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        serializer = serializers.ProgramSerializer(
+        serializer = self.serializer_class(
             {
                 "time_from": time_from,
                 "time_until": time_until,

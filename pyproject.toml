@@ -36,6 +36,7 @@ django-taggit = "^1.4.0"
 algoliasearch-django = ">=2.0,<3.0"
 drf-spectacular = "^0.17.3"
 filetype = "^1.0.7"
+djangorestframework-camel-case = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
