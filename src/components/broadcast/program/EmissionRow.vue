@@ -5,6 +5,7 @@ import {
   ref,
   onMounted,
   onUnmounted,
+  onActivated,
   watch,
 } from 'vue';
 import { DateTime } from 'luxon';
@@ -29,24 +30,6 @@ export default defineComponent({
     const isCurrent = computed(() => {
       return props.emission.timeStart < now.value && props.emission.timeEnd > now.value;
     });
-    const cssVars = computed(() => {
-      if (isCurrent.value) {
-        return {
-          '--c-fg': 'var(--c-white)',
-          '--c-bg': 'var(--c-black)',
-        };
-      }
-      if (isPast.value) {
-        return {
-          '--c-fg': 'var(--c-black)',
-          '--c-bg': 'var(--c-gray-50)',
-        };
-      }
-      return {
-        '--c-fg': 'var(--c-black)',
-        '--c-bg': 'var(--c-white)',
-      };
-    });
     const scrollIntoView = () => {
       // @ts-ignore
       root.value.scrollIntoViewIfNeeded({
@@ -54,7 +37,14 @@ export default defineComponent({
         behavior: 'smooth',
       });
     };
+    onActivated(() => {
+      console.debug('onActivated');
+      if (isCurrent.value) {
+        scrollIntoView();
+      }
+    });
     onMounted(() => {
+      console.debug('onMounted');
       if (isCurrent.value) {
         scrollIntoView();
       }
@@ -102,7 +92,6 @@ export default defineComponent({
     });
     return {
       root,
-      cssVars,
       isPast,
       isCurrent,
       isUpcoming,
@@ -118,7 +107,6 @@ export default defineComponent({
   <div
     ref="root"
     class="emission-row"
-    :style="cssVars"
     :class="{
       'is-past': isPast,
       'is-current': isCurrent,
@@ -139,8 +127,22 @@ export default defineComponent({
         <router-link
           v-if="(!isUpcoming)"
           :to="routeTo"
-          v-text="(emission.series || emission.name)"
-        />
+        >
+          <span
+            v-if="emission.series"
+          >
+            {{ emission.series }}
+            <small
+              v-if="emission.seriesEpisode"
+              v-text="`#${emission.seriesEpisode}`"
+            />
+          </span>
+          <span
+            v-else
+          >
+            {{ emission.name }}
+          </span>
+        </router-link>
         <span
           v-else
           v-text="(emission.series || emission.name)"
@@ -182,6 +184,28 @@ export default defineComponent({
   &:hover {
     background: rgb(var(--c-gray-100));
   }
+
+  &.is-past {
+    color: rgb(var(--c-black));
+    background-color: rgb(var(--c-gray-100));
+    &:hover {
+      background-color: rgb(var(--c-gray-200));
+    }
+  }
+
+  &.is-current {
+    color: rgb(var(--c-white));
+    background-color: rgb(var(--c-black));
+    &:hover {
+      background-color: rgb(var(--c-gray-900));
+    }
+  }
+
+  &.is-upcoming {
+    color: rgb(var(--c-black));
+    background-color: rgb(var(--c-white));
+    cursor: not-allowed;
+  }
 }
 
 .container {
@@ -209,10 +233,14 @@ export default defineComponent({
     grid-area: name;
     @include typo.large;
     min-width: 0;
-    > a {
+    > a,
+    > span {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+    small {
+      @include typo.dim;
     }
   }
 
