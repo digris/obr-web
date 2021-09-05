@@ -8,6 +8,7 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r"editors", views.EditorViewSet)
 router.register(r"emissions", views.EmissionViewSet)
+# router.register(r"program", views.ProgramView)
 
 app_name = "broadcast"
 urlpatterns = [

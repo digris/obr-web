@@ -1,5 +1,4 @@
 import store from '@/store';
-// import { UIState } from '@/types';
 import settings from '@/settings';
 import { getContrastColor } from '@/utils/color';
 

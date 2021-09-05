@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from drf_spectacular.views import (
     SpectacularAPIView,
+    SpectacularJSONAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
@@ -44,6 +45,7 @@ def api_root(request, format=None):
 urlpatterns = [
     path("", api_root, name="base"),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("schema-json/", SpectacularJSONAPIView.as_view(), name="schema-json"),
     # Optional UI:
     path(
         "schema/swagger-ui/",

@@ -1,4 +1,4 @@
-import { APIClient } from '@/api/Client';
+import { APIClient } from '@/api/client';
 import settings from '@/settings';
 
 const SCHEDULE_ENDPOINT = `${settings.API_BASE_URL}broadcast/schedule/`;

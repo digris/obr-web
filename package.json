@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --no-fix",
-    "fix": "vue-cli-service lint"
+    "fix": "vue-cli-service lint",
+    "schema:generate": "openapi --input http://local.next.openbroadcast.ch:8080/api/v1/schema-json/ --output ./src/typings/api/"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.15.0",
@@ -48,6 +49,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^7.0.0-0",
+    "openapi-typescript-codegen": "^0.9.3",
     "sass-migrator": "^1.5.2",
     "stylelint": "^13.12.0",
     "stylelint-config-rational-order": "^0.1.2",
