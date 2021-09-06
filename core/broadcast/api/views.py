@@ -92,6 +92,20 @@ class ScheduleView(GenericAPIView):
 
     serializer_class = serializers.ScheduleSerializer
 
+    def get_queryset(self):
+        qs = (
+            Emission.objects.all()
+            .select_related(
+                "playlist",
+                "playlist__editor",
+            )
+            .prefetch_related(
+                "playlist__editor__images",
+                "playlist__editor__playlists",
+            )
+        )
+        return qs
+
     def get(self, request):
         seconds_ahead = int(request.GET.get("seconds_ahead", 60 * 15))
         seconds_back = int(request.GET.get("seconds_back", 60 * 15))
@@ -100,19 +114,9 @@ class ScheduleView(GenericAPIView):
         time_from = now - timedelta(seconds=seconds_ahead)
         time_until = now + timedelta(seconds=seconds_back)
 
-        qs = Emission.objects.filter(
+        qs = self.get_queryset().filter(
             time_end__gte=time_from,
             time_start__lte=time_until,
-        )
-
-        qs = qs.select_related(
-            "playlist",
-            "playlist__editor",
-        )
-
-        qs = qs.prefetch_related(
-            "playlist__editor__images",
-            "playlist__editor__playlists",
         )
 
         flatten = itertools.chain.from_iterable

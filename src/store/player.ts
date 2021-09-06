@@ -1,4 +1,4 @@
-/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state", "getters"] }] */
 import { DateTime } from 'luxon';
 
 const state = {
@@ -12,10 +12,25 @@ const state = {
 };
 
 const getters = {
-  playheadTime: (state:any) => state.playheadTime,
-  playerState: (state:any) => state.playerState,
-  isLive: (state:any) => state.isLive,
-  currentMedia: (state:any) => state.currentMedia,
+  playheadTime: (state: any) => state.playheadTime,
+  playerState: (state: any) => state.playerState,
+  playerPlayState: (state: any, getters: any) => {
+    if (getters.playerState.isPlaying) {
+      return 'playing';
+    }
+    if (getters.playerState.isPaused) {
+      return 'paused';
+    }
+    if (getters.playerState.isBuffering) {
+      return 'buffering';
+    }
+    return 'stopped';
+  },
+  isLive: (state: any) => state.isLive,
+  currentMedia: (state: any) => state.currentMedia,
+  currentScope: (state: any, getters: any) => {
+    return getters.currentMedia ? getters.currentMedia.scope : [];
+  },
 };
 
 const mutations = {

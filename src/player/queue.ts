@@ -38,12 +38,11 @@ class Queue {
     // 'queue' events
     eventBus.on('queue:controls:enqueue', async (payload) => {
       // @ts-ignore
-      const { media, mode } = { ...payload };
-      console.debug('queue:controls:enqueue', mode, media);
+      const { media, mode, scope } = { ...payload };
       switch (mode) {
         case 'replace': {
           console.debug('replace');
-          await store.dispatch('queue/replaceQueue', media);
+          await store.dispatch('queue/replaceQueue', { media, scope });
           await this.startPlayCurrent();
           break;
         }
@@ -60,7 +59,7 @@ class Queue {
               return;
             }
           }
-          await store.dispatch('queue/replaceQueue', media);
+          await store.dispatch('queue/replaceQueue', { media, scope });
           await this.startPlayCurrent();
           break;
         }

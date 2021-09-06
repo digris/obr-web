@@ -2,6 +2,7 @@
 from rest_framework import serializers
 
 from tagging.api.serializers import TagSerializer
+from catalog.api.serializers import PlaylistSerializer
 from broadcast.api.serializers import EditorSerializer
 from broadcast.models import Emission
 
@@ -11,15 +12,16 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
         view_name="api:broadcast:emission-detail",
         lookup_field="uid",
     )
-
-    playlist_uid = serializers.CharField(
-        source="playlist.uid",
+    playlist = PlaylistSerializer(
+        fields=[
+            "ct",
+            "uid",
+            "url",
+            "name",
+            "image",
+        ]
     )
     name = serializers.CharField()
-    # series = serializers.CharField(
-    #     source="playlist.series",
-    #     allow_null=True,
-    # )
     series = serializers.DictField(
         source="playlist.series_dict",
         allow_null=True,
@@ -38,7 +40,7 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
             "url",
             "ct",
             "uid",
-            "playlist_uid",
+            "playlist",
             "name",
             "series",
             "editor",

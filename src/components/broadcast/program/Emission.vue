@@ -10,12 +10,19 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
+import { playStream } from '@/player/stream';
+// ButtonPlay for livestream
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
+// PlayAction for on-demand
+import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+// import IconPlay from '@/components/ui/icon/IconPlay.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 
 export default defineComponent({
   components: {
     ButtonPlay,
+    PlayAction,
+    // IconPlay,
     ObjectTags,
   },
   props: {
@@ -84,12 +91,23 @@ export default defineComponent({
         return {
           name: 'playlistDetail',
           params: {
-            uid: props.emission.playlistUid,
+            uid: props.emission.playlist?.uid,
           },
         };
       }
       return {};
     });
+    const play = () => {
+      console.debug('play');
+      if (isCurrent.value) {
+        playStream();
+      } else if (isPast.value) {
+        console.debug('on-demand');
+      }
+    };
+    const pause = () => {
+      console.debug('pause');
+    };
     const title = computed(() => {
       return {
         name: props.emission.series ? props.emission.series.name : props.emission.name,
@@ -122,6 +140,8 @@ export default defineComponent({
       isUpcoming,
       currentMedia,
       routeTo,
+      play,
+      pause,
       title,
       tagsDisplay,
       timeStartDisplay,
@@ -148,9 +168,20 @@ export default defineComponent({
         class="play"
       >
         <ButtonPlay
+          v-if="(isCurrent || isUpcoming)"
+          @play="play"
+          @pause="pause"
           :style="buttonCssVars"
           :disabled="isUpcoming"
         />
+        <PlayAction
+          v-if="isPast"
+          :obj-key="`${emission.playlist.ct}:${emission.playlist.uid}`"
+        >
+          <ButtonPlay
+            :style="buttonCssVars"
+          />
+        </PlayAction>
       </div>
       <div
         class="name"
