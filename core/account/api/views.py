@@ -9,6 +9,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from drf_spectacular.utils import extend_schema
+
 from account import email_login, token_login
 from account.cdn_credentials.utils import (
     set_credentials,
@@ -296,6 +298,11 @@ class SocialBackendListView(APIView):
     """
 
     @staticmethod
+    @extend_schema(
+        parameters=[
+            serializers.SocialBackendsSerializer,
+        ],
+    )
     # pylint: disable=unused-argument
     def get(request, *args, **kwargs):
         # logger.debug("headers", request.headers)
