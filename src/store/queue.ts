@@ -1,8 +1,8 @@
-/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
+/* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state", "getters"] }] */
 
 export interface Queue {
-  mode: string,
   media: Array<object>,
+  scope: Array<string>,
 }
 
 export interface State {
@@ -33,7 +33,11 @@ const getters = {
     }
     return null;
   },
-  currentMedia: (state:any) => state.media[state.currentIndex],
+  currentMedia: (state: State) => state.media[state.currentIndex],
+  // currentScope is implemented in store/player.ts
+  // currentScope: (state: State, getters: any) => {
+  //   return getters.currentMedia ? getters.currentMedia.scope : [];
+  // },
 };
 
 const mutations = {
@@ -43,8 +47,12 @@ const mutations = {
   REMOVE_INDEX: (state:any, index: number) => {
     state.media.splice(index, 1);
   },
-  REPLACE_MEDIA: (state:any, media:Array<object>) => {
-    state.media = media;
+  REPLACE_MEDIA: (state:any, queue: Queue) => {
+    const { media, scope } = queue;
+    const mappedMedia = media.map((el) => {
+      return { ...el, scope };
+    });
+    state.media = mappedMedia;
     state.currentIndex = (media.length) ? 0 : -1;
   },
 };
@@ -56,15 +64,8 @@ const actions = {
   removeIndex: async (context:any, index: number) => {
     context.commit('REMOVE_INDEX', index);
   },
-  replaceQueue: async (context:any, media: Array<object>) => {
-    context.commit('REPLACE_MEDIA', media);
-  },
-  // TODO: should be removed when not in use anymore
-  updateQueue: async (context:any, queue: Queue) => {
-    const { media, mode } = queue;
-    if (mode === 'replace') {
-      context.commit('REPLACE_MEDIA', media);
-    }
+  replaceQueue: async (context:any, queue: Queue) => {
+    context.commit('REPLACE_MEDIA', queue);
   },
 };
 

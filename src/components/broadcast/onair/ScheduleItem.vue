@@ -56,9 +56,6 @@ export default defineComponent({
       const payload = {
         media: [media],
       };
-      // TODO: hm - this is not very nice...
-      // store.dispatch('queue/updateQueue', payload);
-      // eventBus.emit('queue:controls:startPlayCurrent');
       eventBus.emit('queue:controls:enqueue', payload);
     }, 'foo');
     const play = () => {

@@ -26,6 +26,7 @@ export default defineComponent({
     const playerState = computed(() => store.getters['player/playerState']);
     const isLive = computed(() => store.getters['player/isLive']);
     const currentMedia = computed(() => store.getters['player/currentMedia']);
+    const currentScope = computed(() => store.getters['player/currentScope']);
     const isVisible = computed(() => !!currentMedia.value);
     const objKey = computed(() => {
       if (!currentMedia.value) {
@@ -67,6 +68,7 @@ export default defineComponent({
       liveTimeOffset,
       playerState,
       currentMedia,
+      currentScope,
       objKey,
       cssVars,
       queueVisible,
@@ -82,9 +84,9 @@ export default defineComponent({
   <Debug
     :visible="(false)"
     :value="{
-      isVisible,
       isLive,
-      currentMedia,
+      currentScope,
+      playerState,
     }"
   />
   <Queue
@@ -163,7 +165,7 @@ $player-height: 72px;
 .player {
   position: fixed;
   bottom: 0;
-  z-index: 31;
+  z-index: 110;
   width: 100%;
   height: $player-height;
   color: rgba(var(--c-fg));
