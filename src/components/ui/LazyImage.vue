@@ -94,28 +94,55 @@ export default {
   <Intersect
     @enter="onEnter"
   >
-    <img
-      :alt="imageSrc"
-      :src="imageSrc"
-      :style="cssVars"
-      :class="{'is-pending': !isLoaded, 'is-loading': isLoading}"
-    />
+    <div
+      class="lazy-image"
+    >
+      <img
+        :alt="imageSrc"
+        :src="imageSrc"
+        :style="cssVars"
+        :class="{'is-pending': !isLoaded, 'is-loading': isLoading}"
+      />
+      <div
+        class="overlay"
+      >
+        <slot
+          name="default"
+        ></slot>
+      </div>
+    </div>
   </Intersect>
 </template>
 
 <style lang="scss" scoped>
-img {
+.lazy-image {
+  position: relative;
   min-width: 100%;
   max-width: 100%;
   height: 100%;
-  background: rgb(var(--c-color));
-  opacity: 1;
-  filter: var(--image-filter);
-  transition: opacity 100ms;
-  image-rendering: pixelated;
-  &.is-pending,
-  &.is-loading {
-    opacity: 0.9;
+  img {
+    min-width: 100%;
+    max-width: 100%;
+    height: 100%;
+    background: rgb(var(--c-color));
+    opacity: 1;
+    filter: var(--image-filter);
+    transition: opacity 100ms;
+    image-rendering: pixelated;
+    &.is-pending,
+    &.is-loading {
+      opacity: 0.9;
+    }
+  }
+  .overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
   }
 }
 </style>

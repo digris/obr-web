@@ -8,21 +8,18 @@ import {
   onActivated,
   watch,
 } from 'vue';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
 import { playStream } from '@/player/stream';
-// ButtonPlay for livestream
+// ButtonPlay for livestream, PlayAction for on-demand
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
-// PlayAction for on-demand
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-// import IconPlay from '@/components/ui/icon/IconPlay.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 
 export default defineComponent({
   components: {
     ButtonPlay,
     PlayAction,
-    // IconPlay,
     ObjectTags,
   },
   props: {
@@ -33,7 +30,7 @@ export default defineComponent({
   },
   setup(props) {
     const root = ref(null);
-    const store = useStore();
+    // const store = useStore();
     const now = ref(DateTime.now());
     const timer = ref(null);
     const isPast = computed(() => {
@@ -45,8 +42,6 @@ export default defineComponent({
     const isCurrent = computed(() => {
       return props.emission.timeStart < now.value && props.emission.timeEnd > now.value;
     });
-    // player
-    const currentMedia = computed(() => store.getters['player/currentMedia']);
 
     const scrollIntoView = () => {
       // @ts-ignore
@@ -98,15 +93,16 @@ export default defineComponent({
       return {};
     });
     const play = () => {
-      console.debug('play');
       if (isCurrent.value) {
         playStream();
-      } else if (isPast.value) {
-        console.debug('on-demand');
       }
+      return null;
     };
     const pause = () => {
       console.debug('pause');
+    };
+    const navigate = () => {
+      console.debug('navigate');
     };
     const title = computed(() => {
       return {
@@ -123,29 +119,18 @@ export default defineComponent({
       }
       return props.emission.timeStart.setLocale('de-ch').toLocaleString(DateTime.TIME_24_SIMPLE);
     });
-    const buttonCssVars = computed(() => {
-      if (isCurrent.value) {
-        return {
-          '--c-fg': 'var(--c-white)',
-        };
-      }
-      return {
-        '--c-fg': 'var(--c-black)',
-      };
-    });
     return {
       root,
       isPast,
       isCurrent,
       isUpcoming,
-      currentMedia,
       routeTo,
       play,
       pause,
+      navigate,
       title,
       tagsDisplay,
       timeStartDisplay,
-      buttonCssVars,
     };
   },
 });
@@ -167,21 +152,31 @@ export default defineComponent({
       <div
         class="play"
       >
-        <ButtonPlay
-          v-if="(isCurrent || isUpcoming)"
-          @play="play"
-          @pause="pause"
-          :style="buttonCssVars"
-          :disabled="isUpcoming"
-        />
         <PlayAction
           v-if="isPast"
+          :style="{
+            '--c-fg': 'var(--c-black)',
+            '--c-bg': 'var(--c-white)',
+          }"
           :obj-key="`${emission.playlist.ct}:${emission.playlist.uid}`"
-        >
-          <ButtonPlay
-            :style="buttonCssVars"
-          />
-        </PlayAction>
+        />
+        <ButtonPlay
+          v-if="isCurrent"
+          :style="{
+            '--c-fg': 'var(--c-white)',
+            '--c-bg': 'var(--c-black)',
+          }"
+          @play="play"
+          @pause="pause"
+        />
+        <ButtonPlay
+          v-if="isUpcoming"
+          :style="{
+            '--c-fg': 'var(--c-black)',
+            '--c-bg': 'var(--c-white)',
+          }"
+          :disabled="(true)"
+        />
       </div>
       <div
         class="name"
@@ -189,6 +184,7 @@ export default defineComponent({
         <router-link
           v-if="(!isUpcoming)"
           :to="routeTo"
+          @click="navigate"
         >
           {{ title.name }}
           <small
@@ -227,6 +223,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 
 .emission-row {
@@ -315,6 +312,42 @@ export default defineComponent({
     grid-area: time-start;
     @include typo.large;
     justify-content: flex-end;
+  }
+
+  // TODO: responsive styles have to be cleaned up
+  @include responsive.bp-small {
+    grid-template-areas:
+      "play name   time-start"
+      "play editor time-start";
+    grid-template-columns: 48px 1fr 96px;
+    padding: 0.375rem 0;
+    .play {
+      padding-left: 0.5rem;
+    }
+    .name {
+      @include typo.default;
+    }
+    .editor {
+      @include typo.default;
+      @include typo.dim;
+      @include typo.light;
+      min-width: 0;
+      margin-top: -4px; //TODO: just a quick fix
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .time-start {
+      @include typo.large;
+      padding-right: 1rem;
+    }
+    //TODO: just a quick fix
+    .play,
+    .actions {
+      transform: scale(calc(40 / 48));
+    }
+    .tags {
+      display: none;
+    }
   }
 }
 </style>

@@ -22,6 +22,12 @@ export default defineComponent({
       type: String,
       default: 'rgb(var(--c-fg))',
     },
+    // backgroundColor:
+    // default is transparent, using 'color' if isActive
+    backgroundColor: {
+      type: String,
+      default: null,
+    },
     isPlaying: {
       type: Boolean,
       default: false,
@@ -33,6 +39,10 @@ export default defineComponent({
     isActive: {
       type: Boolean,
       default: false,
+    },
+    outlined: {
+      type: Boolean,
+      default: true,
     },
     disabled: {
       type: Boolean,
@@ -89,8 +99,10 @@ export default defineComponent({
     @mouseleave="onHout"
     @click.prevent="handleClick"
     :size="size"
+    :outlined="outlined"
     :disabled="disabled"
     :active="isActive"
+    :background-color="backgroundColor"
     :class="{
       'is-playing': isPlaying,
       'is-buffering': isBuffering,

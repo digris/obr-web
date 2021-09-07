@@ -3,14 +3,15 @@ import { computed } from 'vue';
 import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
+import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+// import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 
 export default {
   components: {
     LazyImage,
-    PlayIcon,
+    PlayAction,
     UserRating,
     RelativeDateTime,
   },
@@ -61,12 +62,15 @@ export default {
       >
         <LazyImage
           :image="playlist.image"
-        />
+        >
+          <PlayAction
+            :obj-key="objKey"
+            :size="(64)"
+            :outlined="(false)"
+            background-color="rgb(var(--c-white))"
+          />
+        </LazyImage>
       </div>
-      <PlayIcon
-        class="visual__play"
-        :obj-key="objKey"
-      />
     </div>
     <div
       class="meta"
@@ -127,11 +131,22 @@ export default {
       position: relative;
       width: 100%;
       padding-bottom: 100%;
+      .lazy-image {
+        position: absolute;
+        width: 100%;
+      }
+      /*
       img {
         position: absolute;
         width: 100%;
       }
+      */
     }
+    /*
+    &__play-action {
+      position: absolute;
+    }
+    */
   }
   .meta {
     padding: 0.5rem 0 0 0;

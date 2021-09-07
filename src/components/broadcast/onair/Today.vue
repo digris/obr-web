@@ -37,26 +37,30 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="today"
-    v-if="isVisible"
+  <transition
+    name="slide"
   >
     <div
-      class="title"
+      class="today"
+      v-if="isVisible"
     >
-      <CloseButton
-        @click="close"
-      />
-      <span>
-        Heute
-      </span>
+      <div
+        class="title"
+      >
+        <CloseButton
+          @click="close"
+        />
+        <span>
+          Heute
+        </span>
+      </div>
+      <div
+        class="body"
+      >
+        <Program />
+      </div>
     </div>
-    <div
-      class="body"
-    >
-      <Program />
-    </div>
-  </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -64,7 +68,7 @@ export default defineComponent({
 .today {
   position: fixed;
   top: 78px;
-  z-index: 101;
+  z-index: 25;
   width: 100%;
   height: calc(100vh - 78px);
   max-height: calc(100vh - 78px);
@@ -86,5 +90,15 @@ export default defineComponent({
       display: none;
     }
   }
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 200ms;
+}
+.slide-enter-from {
+  opacity: 0;
+}
+.slide-leave-to {
+  opacity: 0;
 }
 </style>

@@ -35,15 +35,11 @@ export default defineComponent({
     const past = computed(() => store.getters['schedule/past']);
     const items = computed(() => [next.value || null, current.value || null, ...past.value]);
     const itemSize = computed(() => {
-      const { width } = viewport.value;
-      // console.debug('width, height', width, height);
-      // const innerWidth = width - 60 * 2;
-      // const innerHeight = height - 150 - 60 - 60;
-      // const maxSize = (innerWidth < innerHeight) ? innerWidth : innerHeight;
-      // const maxSize = width * 0.3;
-      let maxSize = width * 0.4;
-      maxSize = (maxSize > 240) ? maxSize : 240;
-      return (maxSize < 720) ? maxSize : 720;
+      const { width, height } = viewport.value;
+      const maxForWidth = width * 0.4; // 3/4/3 grid
+      const maxForHeight = height - 320; // height - navigation, spacing, player etc.
+      const size = Math.max(Math.min(maxForWidth, maxForHeight, 720), 240);
+      return Math.round(size);
     });
     const cssVars = computed(() => ({
       '--size': `${itemSize.value}px`,

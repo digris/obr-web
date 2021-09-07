@@ -60,7 +60,7 @@ export default defineComponent({
       // @ts-ignore
       return getMediaColor(props.media);
     });
-    const contrastColor = computed(() => {
+    const buttonColor = computed(() => {
       if (color.value && props.isCurrent && !isLive.value) {
         return getContrastColor(color.value);
       }
@@ -115,7 +115,7 @@ export default defineComponent({
       isPlaying,
       isBuffering,
       buttonCssVars,
-      contrastColor,
+      buttonColor,
       play,
       pause,
       canRemove,
@@ -147,7 +147,7 @@ export default defineComponent({
         :is-playing="isPlaying"
         :is-buffering="isBuffering"
         :style="buttonCssVars"
-        :color="`rgb(${contrastColor.join(',')})`"
+        :color="`rgb(${buttonColor.join(',')})`"
       />
     </div>
     <div

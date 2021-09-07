@@ -25,8 +25,8 @@ export default defineComponent({
     const liveTimeOffset = ref(-10);
     const playerState = computed(() => store.getters['player/playerState']);
     const isLive = computed(() => store.getters['player/isLive']);
-    const currentMedia = computed(() => store.getters['player/currentMedia']);
-    const currentScope = computed(() => store.getters['player/currentScope']);
+    const currentMedia = computed(() => store.getters['player/media']);
+    const currentScope = computed(() => store.getters['player/scope']);
     const isVisible = computed(() => !!currentMedia.value);
     const objKey = computed(() => {
       if (!currentMedia.value) {

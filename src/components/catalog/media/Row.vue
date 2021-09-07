@@ -346,6 +346,7 @@ export default defineComponent({
     grid-area: actions;
     justify-self: flex-end;
   }
+  // TODO: responsive styles have to be cleaned up
   @include responsive.bp-small {
     grid-template-areas:
       "play name   actions"

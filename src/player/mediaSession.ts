@@ -11,12 +11,12 @@ class MediaSessionHandler {
       this.session = navigator.mediaSession;
       this.setupBindings(true);
       store.watch((state: any, getters: any) => {
-        return getters['player/currentMedia'];
+        return getters['player/media'];
       }, (media) => {
-        console.debug('player/currentMedia', media);
+        // console.debug('player/media', media);
         this.setMetadata(media);
         const isLive = store.getters['player/isLive'];
-        console.debug('player/isLive', isLive);
+        // console.debug('player/isLive', isLive);
         this.setupBindings(isLive);
       });
     }
