@@ -8,13 +8,15 @@ const state = {
   playheadTime: null,
   playerState: null,
   isLive: false,
-  currentMedia: null,
+  media: null,
 };
 
 const getters = {
   playheadTime: (state: any) => state.playheadTime,
   playerState: (state: any) => state.playerState,
-  playerPlayState: (state: any, getters: any) => {
+  isLive: (state: any) => state.isLive,
+  media: (state: any) => state.media,
+  playState: (state: any, getters: any) => {
     if (getters.playerState.isPlaying) {
       return 'playing';
     }
@@ -26,10 +28,15 @@ const getters = {
     }
     return 'stopped';
   },
-  isLive: (state: any) => state.isLive,
-  currentMedia: (state: any) => state.currentMedia,
-  currentScope: (state: any, getters: any) => {
-    return getters.currentMedia ? getters.currentMedia.scope : [];
+  release: (state: any, getters: any) => {
+    return getters.media?.releases?.length ? getters.media.releases[0] : null;
+  },
+  scope: (state: any, getters: any) => {
+    return getters.media?.scope ?? [];
+    // return (getters.media && getters.media.scope) ? getters.media.scope : [];
+  },
+  color: (state: any, getters: any) => {
+    return getters.release?.image?.rgb ?? [0, 0, 0];
   },
 };
 
@@ -49,7 +56,7 @@ const mutations = {
     // @ts-ignore
     const { isLive, media } = { ...item };
     state.isLive = isLive;
-    state.currentMedia = media;
+    state.media = media;
   },
 };
 

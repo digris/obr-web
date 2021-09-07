@@ -47,12 +47,8 @@ const mutations = {
   REMOVE_INDEX: (state:any, index: number) => {
     state.media.splice(index, 1);
   },
-  REPLACE_MEDIA: (state:any, queue: Queue) => {
-    const { media, scope } = queue;
-    const mappedMedia = media.map((el) => {
-      return { ...el, scope };
-    });
-    state.media = mappedMedia;
+  REPLACE_MEDIA: (state:any, media: Array<object>) => {
+    state.media = media;
     state.currentIndex = (media.length) ? 0 : -1;
   },
 };
@@ -65,7 +61,16 @@ const actions = {
     context.commit('REMOVE_INDEX', index);
   },
   replaceQueue: async (context:any, queue: Queue) => {
-    context.commit('REPLACE_MEDIA', queue);
+    const { media, scope } = queue;
+    const mappedMedia = media.map((mediaObj) => {
+      // @ts-ignore
+      const artistKeys = mediaObj.artists.map((artistObj) => {
+        return `${artistObj.ct}:${artistObj.uid}`;
+      });
+      const mappedScope = scope ? [...scope, ...artistKeys] : artistKeys;
+      return { ...mediaObj, scope: mappedScope };
+    });
+    context.commit('REPLACE_MEDIA', mappedMedia);
   },
 };
 

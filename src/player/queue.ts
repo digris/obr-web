@@ -41,13 +41,13 @@ class Queue {
       const { media, mode, scope } = { ...payload };
       switch (mode) {
         case 'replace': {
-          console.debug('replace');
+          // console.debug('replace');
           await store.dispatch('queue/replaceQueue', { media, scope });
           await this.startPlayCurrent();
           break;
         }
         default: {
-          console.debug('default');
+          // console.debug('default');
           // check if single mdeia, and if already in queue.
           // if so we start the queue from the media's position instead of replacing.
           if (media.length === 1) {

@@ -54,7 +54,10 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const playMedia = requireSubscription((media: object) => {
       const payload = {
+        mode: 'replace',
         media: [media],
+        // TODO: annotate scope with corresponding playlist
+        scope: [],
       };
       eventBus.emit('queue:controls:enqueue', payload);
     }, 'foo');

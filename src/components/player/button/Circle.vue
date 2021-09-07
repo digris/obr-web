@@ -23,6 +23,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    backgroundColor: {
+      type: String,
+      default: null,
+    },
   },
   setup(props) {
     const style = computed(() => {
@@ -35,6 +39,7 @@ export default defineComponent({
     const cssVars = computed(() => {
       return {
         '--size': `${props.size}px`,
+        '--c-circle-bg-color': props.backgroundColor,
       };
     });
     return {
@@ -53,6 +58,7 @@ export default defineComponent({
       'is-outlined': outlined,
       'is-active': active,
       'is-disabled': disabled,
+      'has-bg-color': backgroundColor,
     }"
   >
     <slot
@@ -77,6 +83,10 @@ export default defineComponent({
   &:hover {
     background: rgba(var(--c-fg), 0.1);
     border-color: transparent;
+  }
+  &.has-bg-color {
+    /* TODO: likley this could be implemented in a nicer way.. */
+    background: var(--c-circle-bg-color);
   }
   &.is-outlined {
     border-color: rgba(var(--c-fg), 0.15);
