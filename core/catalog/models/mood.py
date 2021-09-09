@@ -2,6 +2,7 @@
 from django.db import models
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from tagging.models import TaggedItem, TaggableManager
 
 
 class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
@@ -15,6 +16,11 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     teaser = models.CharField(
         max_length=256,
         null=True,
+        blank=True,
+    )
+
+    tags = TaggableManager(
+        through=TaggedItem,
         blank=True,
     )
 

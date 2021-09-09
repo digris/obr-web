@@ -7,6 +7,7 @@ import Collection from '@/views/Collection.vue';
 import Account from '@/views/Account.vue';
 import EditorList from '@/components/broadcast/editor/List.vue';
 import MoodList from '@/components/catalog/mood/List.vue';
+import MoodDetail from '@/views/catalog/MoodDetail.vue';
 import ArtistList from '@/components/catalog/artist/List.vue';
 import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
@@ -94,6 +95,17 @@ const routes = [
     path: '/discover/playlists/:uid/',
     name: 'playlistDetail',
     component: PlaylistDetail,
+    props: (route: any) => ({
+      uid: route.params.uid,
+    }),
+    meta: {
+      colorTheme: 'dark',
+    },
+  },
+  {
+    path: '/discover/moods/:uid/',
+    name: 'moodDetail',
+    component: MoodDetail,
     props: (route: any) => ({
       uid: route.params.uid,
     }),

@@ -1,10 +1,16 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
-import { getMediaDetail, getArtist, getPlaylist } from '@/api/catalog';
+import {
+  getMediaDetail,
+  getMood,
+  getArtist,
+  getPlaylist,
+} from '@/api/catalog';
 
 const state = {
   media: [],
+  moods: [],
   artists: [],
   playlists: [],
   //
@@ -16,6 +22,10 @@ const getters = {
   media: (state) => state.media,
   // @ts-ignore
   mediaByUid: (state) => (uid: string) => state.media.find((obj) => obj.uid === uid),
+  // @ts-ignore
+  moods: (state) => state.moods,
+  // @ts-ignore
+  moodByUid: (state) => (uid: string) => state.moods.find((obj) => obj.uid === uid),
   // @ts-ignore
   artists: (state) => state.artists,
   // @ts-ignore
@@ -35,6 +45,16 @@ const mutations = {
       state.media[index] = media;
     } else {
       state.media.push(media);
+    }
+  },
+  // @ts-ignore
+  SET_MOOD: (state, { mood }) => {
+    // @ts-ignore
+    const index = state.moods.findIndex((obj) => obj.uid === mood.uid);
+    if (index > -1) {
+      state.moods[index] = mood;
+    } else {
+      state.moods.push(mood);
     }
   },
   // @ts-ignore
@@ -68,6 +88,11 @@ const actions = {
   loadMedia: async (context, uid: string) => {
     const media = await getMediaDetail(uid);
     context.commit('SET_MEDIA', { media });
+  },
+  // @ts-ignore
+  loadMood: async (context, uid: string) => {
+    const mood = await getMood(uid);
+    context.commit('SET_MOOD', { mood });
   },
   // @ts-ignore
   loadArtist: async (context, uid: string) => {

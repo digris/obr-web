@@ -1,13 +1,16 @@
-<script>
-import { computed } from 'vue';
+<script lang="ts">
+import {
+  computed,
+  defineComponent,
+} from 'vue';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
+import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 
-export default {
+export default defineComponent({
   components: {
     LazyImage,
-    PlayIcon,
+    PlayAction,
   },
   props: {
     artist: {
@@ -23,7 +26,7 @@ export default {
       link,
     };
   },
-};
+});
 </script>
 <template>
   <div
@@ -37,12 +40,15 @@ export default {
       >
         <LazyImage
           :image="artist.image"
-        />
+        >
+          <PlayAction
+            :obj-key="objKey"
+            :size="(64)"
+            :outlined="(false)"
+            background-color="rgb(var(--c-white))"
+          />
+        </LazyImage>
       </div>
-      <PlayIcon
-        class="visual__play"
-        :obj-key="objKey"
-      />
     </div>
     <div
       class="meta"
@@ -78,7 +84,7 @@ export default {
       padding-bottom: 100%;
       //filter: grayscale(100%);
       transition: opacity 200ms;
-      img {
+      .lazy-image {
         position: absolute;
         width: 100%;
       }
@@ -102,10 +108,14 @@ export default {
   &:hover {
     .visual {
       background: rgba(var(--c-black), 0.2);
-      &__image {
-        //filter: grayscale(0);
+      :deep(img) {
         opacity: 0.5;
       }
+      /*
+      &__image {
+        opacity: 0.5;
+      }
+      */
     }
   }
 }

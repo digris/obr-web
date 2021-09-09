@@ -8,7 +8,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { isEqual } from 'lodash-es';
+import { isEqual, merge } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
@@ -82,10 +82,13 @@ export default {
           user_rating: 1,
         };
       }
-      return {
-        ...props.initialFilter,
-        ...userFilter.value,
-      };
+      const merged = {};
+      merge(merged, props.initialFilter, userFilter.value);
+      return merged;
+      // return {
+      //   ...props.initialFilter,
+      //   ...userFilter.value,
+      // };
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchMedia = async (limit = 16, offset = 0) => {
@@ -185,6 +188,14 @@ export default {
       @change="updateUserFilter"
     />
   </div>
+  <pre
+    class="_debug"
+    v-text="{
+      initial: initialFilter,
+      user: userFilter,
+      combined: combinedFilter,
+    }"
+  ></pre>
   <PlayAction
     v-if="(!disablePlayAll && numResults > 0)"
     :filter="combinedFilter"

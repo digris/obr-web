@@ -55,6 +55,20 @@ export default defineComponent({
       // @ts-ignore
       return queuedMedia.value.findIndex((i: object) => i.uid === props.media.uid) > -1;
     });
+    const queuedIndex = computed(() => {
+      return store.getters['queue/currentIndex'];
+    });
+    const queuePosition = computed(() => {
+      if (queuedIndex.value < 0) {
+        return null;
+      }
+      // @ts-ignore
+      const index = queuedMedia.value.findIndex((i: object) => i.uid === props.media.uid);
+      if (index < 0) {
+        return null;
+      }
+      return index - queuedIndex.value;
+    });
     const playerState = computed(() => {
       return isCurrent.value ? store.getters['player/playerState'] : null;
     });
@@ -133,6 +147,7 @@ export default defineComponent({
       isCurrent,
       isLive,
       isQueued,
+      queuePosition,
       isOnair,
       latestAirplay,
       play,
@@ -180,7 +195,7 @@ export default defineComponent({
           <div
             class="state__queued"
             v-if="isQueued"
-          >Q</div>
+          >{{ queuePosition }}</div>
         </div>
       </div>
       <div

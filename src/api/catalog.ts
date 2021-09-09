@@ -15,6 +15,12 @@ async function getMoods(limit: number, offset: number) {
   return response.data;
 }
 
+async function getMood(uid: string) {
+  const url = `${MOOD_ENDPOINT}${uid}/`;
+  const response = await APIClient.get(url);
+  return response.data;
+}
+
 async function getArtists(limit: number, offset: number) {
   const url = ARTIST_ENDPOINT;
   const params = {
@@ -76,6 +82,7 @@ async function getPlaylist(uid: string) {
 
 export {
   getMoods,
+  getMood,
   getArtists,
   getArtist,
   getMedia,

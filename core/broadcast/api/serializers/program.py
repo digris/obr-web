@@ -28,10 +28,12 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
     )
     editor = EditorSerializer(
         source="playlist.editor",
+        allow_null=True,
     )
     tags = TagSerializer(
         source="playlist.tags",
         many=True,
+        allow_null=True,
     )
 
     class Meta:

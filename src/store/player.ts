@@ -32,8 +32,8 @@ const getters = {
     return getters.media?.releases?.length ? getters.media.releases[0] : null;
   },
   scope: (state: any, getters: any) => {
-    return getters.media?.scope ?? [];
-    // return (getters.media && getters.media.scope) ? getters.media.scope : [];
+    return [...getters.media?.scope ?? [], `${getters.media?.ct}:${getters.media?.uid}`];
+    // return getters.media?.scope ?? [];
   },
   color: (state: any, getters: any) => {
     return getters.release?.image?.rgb ?? [0, 0, 0];

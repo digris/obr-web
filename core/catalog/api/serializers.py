@@ -5,6 +5,8 @@ from django.conf import settings
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
+from image.api.serializers import ImageSerializer as BaseImageSerializer
+from tagging.api.serializers import TagSerializer
 from ..models import Mood, Artist, Media, MediaArtists, PlaylistMedia
 
 SITE_URL = getattr(settings, "SITE_URL")
@@ -20,20 +22,7 @@ class DurationInSecondsSerializer(serializers.Serializer):
         return instance.seconds
 
 
-class ImageSerializer(serializers.Serializer):
-    def to_representation(self, instance):
-        if not instance:
-            return None
-
-        data = {
-            "file": instance.file.name,
-            "path": instance.path,
-            "url": instance.url,
-            "rgb": instance.rgb,
-        }
-
-        return data
-
+class ImageSerializer(BaseImageSerializer):
     class Meta:
         ref_name = "CatalogImageSerializer"
 
@@ -45,6 +34,8 @@ class MoodSerializer(serializers.HyperlinkedModelSerializer):
         lookup_field="uid",
     )
 
+    tags = TagSerializer(many=True)
+
     class Meta:
         model = Mood
         fields = [
@@ -53,6 +44,7 @@ class MoodSerializer(serializers.HyperlinkedModelSerializer):
             "uid",
             "name",
             "teaser",
+            "tags",
         ]
 
 

@@ -1,14 +1,16 @@
-<script>
-import { computed } from 'vue';
+<script lang="ts">
+import {
+  computed,
+  defineComponent,
+} from 'vue';
 import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-// import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 
-export default {
+export default defineComponent({
   components: {
     LazyImage,
     PlayAction,
@@ -47,7 +49,7 @@ export default {
       latestEmission,
     };
   },
-};
+});
 </script>
 
 <template>
@@ -135,18 +137,7 @@ export default {
         position: absolute;
         width: 100%;
       }
-      /*
-      img {
-        position: absolute;
-        width: 100%;
-      }
-      */
     }
-    /*
-    &__play-action {
-      position: absolute;
-    }
-    */
   }
   .meta {
     padding: 0.5rem 0 0 0;
