@@ -62,7 +62,7 @@ export default defineComponent({
     class="playlist-detail"
   >
     <DetailHeader
-      scope="playlist"
+      title-scope="Show"
       :title="playlist.name"
     >
       <template

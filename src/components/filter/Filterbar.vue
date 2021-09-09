@@ -75,7 +75,7 @@ export default defineComponent({
     color: rgb(var(--c-page-fg));
     background: transparent;
     border: 0;
-    border-bottom: 1px solid rgba(var(--c-page-fg), 0.2);
+    border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
     &:focus {
       border-bottom: 3px solid rgb(var(--c-page-fg));
       outline: none;

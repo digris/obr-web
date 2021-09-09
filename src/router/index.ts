@@ -108,6 +108,7 @@ const routes = [
     component: MoodDetail,
     props: (route: any) => ({
       uid: route.params.uid,
+      query: route.query,
     }),
     meta: {
       colorTheme: 'dark',

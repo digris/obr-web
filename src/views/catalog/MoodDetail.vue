@@ -8,19 +8,27 @@ import {
 import { useStore } from 'vuex';
 
 import DetailHeader from '@/components/layout/DetailHeader.vue';
+import Filterbar from '@/components/filter/Filterbar.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import MediaList from '@/components/catalog/media/List.vue';
+import Animation from '@/components/animation/Animation.vue';
 
 export default defineComponent({
   components: {
     DetailHeader,
+    Filterbar,
     PlayAction,
     MediaList,
+    Animation,
   },
   props: {
     uid: {
       type: String,
       required: true,
+    },
+    query: {
+      type: Object,
+      default: () => {},
     },
   },
   setup(props) {
@@ -28,7 +36,7 @@ export default defineComponent({
     const isLoaded = ref(false);
     const mood = computed(() => store.getters['catalog/moodByUid'](props.uid));
     const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
-    const query = computed(() => ({
+    const initialQuery = computed(() => ({
       filter: {
         // obj_key: objKey.value,
         tags: [
@@ -48,7 +56,7 @@ export default defineComponent({
       objKey,
       isLoaded,
       mood,
-      query,
+      initialQuery,
     };
   },
 });
@@ -60,7 +68,7 @@ export default defineComponent({
     class="mood-detail"
   >
     <DetailHeader
-      scope="mood"
+      title-scope="Stimmung"
       :title="mood.name"
     >
       <template
@@ -81,7 +89,17 @@ export default defineComponent({
       <template
         #meta-panel
       >
-        (( META ))
+        ...
+      </template>
+      <template
+        #appendix
+      >
+        <Filterbar />
+      </template>
+      <template
+        #background
+      >
+        <Animation />
       </template>
     </DetailHeader>
     <section
@@ -91,7 +109,8 @@ export default defineComponent({
         class="media-list"
       >
         <MediaList
-          :initial-filter="query.filter"
+          :initial-filter="initialQuery.filter"
+          :query="query"
           :disable-user-filter="(false)"
           :disable-play-all="(false)"
         />
@@ -110,6 +129,11 @@ export default defineComponent({
   .detail-header {
     // TODO: find / define appropriate value...
     min-height: 60vh;
+  }
+  .filterbar {
+    flex-grow: 1;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
   }
 }
 .media-list {
