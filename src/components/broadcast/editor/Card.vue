@@ -67,7 +67,7 @@ export default defineComponent({
       width: 100%;
       padding-bottom: 100%;
       transition: opacity 200ms;
-      img {
+      .lazy-image {
         position: absolute;
         width: 100%;
       }

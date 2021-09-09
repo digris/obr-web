@@ -82,6 +82,9 @@ export default defineComponent({
 
       </div>
     </div>
+    <div
+      class="background"
+    ></div>
   </div>
 </template>
 
@@ -101,16 +104,19 @@ export default defineComponent({
 }
 
 .detail-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   .top,
   .main,
   .bottom {
     @include container.default;
+    z-index: 3;
   }
   .top {
     position: sticky;
     top: 78px;
   }
-  //background: #efefef;
   .top,
   .bottom {
     display: grid;
@@ -125,6 +131,10 @@ export default defineComponent({
   }
   .main {
     position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     .t-visual {
       display: flex;
       align-items: center;
@@ -140,6 +150,13 @@ export default defineComponent({
         @include typo.x-large;
       }
     }
+  }
+  .background {
+    position: absolute;
+    z-index: 2;
+    background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+    width: 100%;
+    height: 100%;
   }
 }
 </style>

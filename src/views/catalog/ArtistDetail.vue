@@ -11,14 +11,14 @@ import { useStore } from 'vuex';
 
 import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayIcon from '@/components/catalog/actions/PlayIcon.vue';
+import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
 export default defineComponent({
   components: {
     DetailHeader,
     LazyImage,
-    PlayIcon,
+    PlayAction,
     MediaList,
   },
   props: {
@@ -85,12 +85,15 @@ export default defineComponent({
           >
             <LazyImage
               :image="artist.image"
-            />
+            >
+              <PlayAction
+                :obj-key="objKey"
+                :size="(64)"
+                :outlined="(false)"
+                background-color="rgb(var(--c-white))"
+              />
+            </LazyImage>
           </div>
-          <PlayIcon
-            class="visual__play"
-            :obj-key="objKey"
-          />
         </div>
       </template>
       <template

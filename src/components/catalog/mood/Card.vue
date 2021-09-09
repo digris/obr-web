@@ -8,9 +8,9 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    // const link = `/discover/moods/${props.mood.uid}/`;
-    const link = '/discover/tracks/?tags=D78E9E87&tags=83F07540';
+  setup(props) {
+    const link = `/discover/moods/${props.mood.uid}/`;
+    // const link = '/discover/tracks/?tags=D78E9E87&tags=83F07540';
     return {
       link,
     };

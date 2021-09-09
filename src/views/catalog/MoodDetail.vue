@@ -8,14 +8,12 @@ import {
 import { useStore } from 'vuex';
 
 import DetailHeader from '@/components/layout/DetailHeader.vue';
-import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
 export default defineComponent({
   components: {
     DetailHeader,
-    LazyImage,
     PlayAction,
     MediaList,
   },
@@ -28,28 +26,28 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const isLoaded = ref(false);
-    const playlist = computed(() => store.getters['catalog/playlistByUid'](props.uid));
-    const objKey = computed(() => `${playlist.value.ct}:${playlist.value.uid}`);
-    const mediaList = computed(() => {
-      return playlist.value.mediaSet.reduce((a: any, b: any) => a.concat({ ...b.media, ...b }), []);
-    });
+    const mood = computed(() => store.getters['catalog/moodByUid'](props.uid));
+    const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
     const query = computed(() => ({
       filter: {
-        obj_key: objKey.value,
+        // obj_key: objKey.value,
+        tags: [
+          '15918360',
+          '097413BA',
+        ],
       },
       search: [],
       options: {},
     }));
     onActivated(() => {
-      if (!playlist.value) {
-        store.dispatch('catalog/loadPlaylist', props.uid);
+      if (!mood.value) {
+        store.dispatch('catalog/loadMood', props.uid);
       }
     });
     return {
       objKey,
       isLoaded,
-      playlist,
-      mediaList,
+      mood,
       query,
     };
   },
@@ -58,56 +56,32 @@ export default defineComponent({
 
 <template>
   <div
-    v-if="playlist"
-    class="playlist-detail"
+    v-if="mood"
+    class="mood-detail"
   >
     <DetailHeader
-      scope="playlist"
-      :title="playlist.name"
+      scope="mood"
+      :title="mood.name"
     >
       <template
         #visual
       >
-        <div
-          class="visual"
-        >
-          <div
-            class="image"
-          >
-            <LazyImage
-              :image="playlist.image"
-            >
-              <PlayAction
-                :obj-key="objKey"
-                :size="(64)"
-                :outlined="(false)"
-                background-color="rgb(var(--c-white))"
-              />
-            </LazyImage>
-          </div>
-        </div>
+        <PlayAction
+          :obj-key="objKey"
+          :size="(96)"
+          :outlined="(false)"
+          background-color="rgb(var(--c-white))"
+        />
       </template>
       <template
         #info-panel
       >
-        <div
-          class="tags"
-        >
-          <span
-            class="tag"
-          >#Electronic</span>
-          <span
-            class="tag"
-          >#Rock</span>
-          <span
-            class="tag"
-          >#Techno</span>
-        </div>
+        (( PANEL ))
       </template>
       <template
         #meta-panel
       >
-        <span>1h 25m</span>
+        (( META ))
       </template>
     </DetailHeader>
     <section
@@ -118,8 +92,8 @@ export default defineComponent({
       >
         <MediaList
           :initial-filter="query.filter"
-          :disable-user-filter="(true)"
-          :disable-play-all="(true)"
+          :disable-user-filter="(false)"
+          :disable-play-all="(false)"
         />
       </div>
     </section>
@@ -131,8 +105,12 @@ export default defineComponent({
 .section {
   @include container.section;
 }
-.playlist-detail {
+.mood-detail {
   margin-bottom: 12rem;
+  .detail-header {
+    // TODO: find / define appropriate value...
+    min-height: 60vh;
+  }
 }
 .media-list {
   background: rgb(var(--c-white));
