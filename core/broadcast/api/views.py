@@ -107,8 +107,8 @@ class ScheduleView(GenericAPIView):
         return qs
 
     def get(self, request):
-        seconds_ahead = int(request.GET.get("seconds_ahead", 60 * 15))
-        seconds_back = int(request.GET.get("seconds_back", 60 * 15))
+        seconds_ahead = int(request.GET.get("secondsAhead", 60 * 15))
+        seconds_back = int(request.GET.get("secondsBack", 60 * 15))
 
         now = timezone.now()
         time_from = now - timedelta(seconds=seconds_ahead)

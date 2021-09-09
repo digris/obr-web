@@ -292,7 +292,8 @@ export default defineComponent({
     "play name artist  duration actions"
     "play name release airplays actions";
   grid-template-columns: 1fr 8fr 5fr 2fr 2fr;
-  padding: 0.75rem 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   color: rgb(var(--c-black));
   //TODO: find a modular way to handle color / ui transitions
   transition: border-bottom 200ms 1400ms, color 200ms, background 200ms;
@@ -305,7 +306,7 @@ export default defineComponent({
   .play {
     position: relative;
     grid-area: play;
-    padding-left: 0.5rem;
+    //padding-left: 0.5rem;
 
     .state {
       position: absolute;

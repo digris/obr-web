@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true;
 // }));
 
 const APIClient = axios.create({
-  timeout: 5000,
+  timeout: 12000,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },

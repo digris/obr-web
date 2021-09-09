@@ -63,8 +63,8 @@ const mutations = {
 const actions = {
   loadSchedule: async (context: any) => {
     const params = {
-      secondsAhead: 30 * 60,
-      secondsBack: 15 * 60,
+      secondsAhead: 120 * 60,
+      secondsBack: 120 * 60,
     };
     // NOTE: not sure if this should go here. so just for now...
     const isInitial = !context.getters.schedule.length;

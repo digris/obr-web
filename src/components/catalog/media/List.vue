@@ -8,7 +8,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { isEqual, merge } from 'lodash-es';
+import { isEqual } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
@@ -17,7 +17,7 @@ import PlayAll from '@/components/catalog/media/PlayAll.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
 import { getMedia, getMediaTags } from '@/api/catalog';
 
-const parseFilterQuery = (query:any) => {
+const parseFilterQuery = (query: any) => {
   let tags = query.tags || [];
   if (typeof (tags) === 'string') {
     tags = [tags];
@@ -25,8 +25,6 @@ const parseFilterQuery = (query:any) => {
   const filter = {
     tags,
   };
-  // console.debug('query', query);
-  // console.debug('parsed', filter);
   return filter;
 };
 
@@ -75,16 +73,23 @@ export default {
     // const lastFilter = ref({});
     const userFilter = ref({});
     const combinedFilter = computed(() => {
+      // @ts-ignore
+      const tags = [...props.initialFilter?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const merged = { ...props.initialFilter, ...userFilter.value };
+      // @ts-ignore
+      merged.tags = tags;
       if (props.scope === 'collection') {
-        return {
-          ...props.initialFilter,
-          ...userFilter.value,
-          user_rating: 1,
-        };
+        // @ts-ignore
+        merged.user_rating = 1;
       }
-      const merged = {};
-      merge(merged, props.initialFilter, userFilter.value);
       return merged;
+      // if (props.scope === 'collection') {
+      //   return {
+      //     ...props.initialFilter,
+      //     ...userFilter.value,
+      //     user_rating: 1,
+      //   };
+      // }
       // return {
       //   ...props.initialFilter,
       //   ...userFilter.value,
@@ -153,7 +158,6 @@ export default {
       () => props.query,
       async (newValue, oldValue) => {
         if (isEqual(newValue, oldValue)) {
-          console.debug('query unchanged');
           return;
         }
         userFilter.value = newValue;
@@ -188,14 +192,16 @@ export default {
       @change="updateUserFilter"
     />
   </div>
+  <!--
   <pre
-    class="_debug"
+    class="debug"
     v-text="{
       initial: initialFilter,
       user: userFilter,
       combined: combinedFilter,
     }"
   ></pre>
+  -->
   <PlayAction
     v-if="(!disablePlayAll && numResults > 0)"
     :filter="combinedFilter"

@@ -71,7 +71,7 @@ export default defineComponent({
     class="artist-detail"
   >
     <DetailHeader
-      scope="artist"
+      title-scope="Künstler*in"
       :title="artist.name"
     >
       <template
@@ -99,6 +99,10 @@ export default defineComponent({
       <template
         #info-panel
       >
+        <div>
+          USA (1995)
+        </div>
+        <!--
         <div
           class="tags"
         >
@@ -112,6 +116,7 @@ export default defineComponent({
             class="tag"
           >#Techno</span>
         </div>
+        -->
       </template>
       <template
         #meta-panel
@@ -119,6 +124,7 @@ export default defineComponent({
         <span
           v-if="artist"
         >{{ artist.numMedia }} Tracks</span>
+        <span>•</span>
         <span>1h 25m</span>
       </template>
     </DetailHeader>

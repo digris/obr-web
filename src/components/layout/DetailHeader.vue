@@ -1,9 +1,24 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {
+  defineComponent,
+  ref,
+  onMounted,
+} from 'vue';
+import { useRouter } from 'vue-router';
+
+import BackButton from '@/components/ui/button/BackButton.vue';
 
 export default defineComponent({
+  components: {
+    BackButton,
+  },
   props: {
-    scope: {
+    // scope: {
+    //   type: String,
+    //   required: false,
+    //   default: null,
+    // },
+    titleScope: {
       type: String,
       required: false,
       default: null,
@@ -13,6 +28,24 @@ export default defineComponent({
       required: false,
       default: null,
     },
+  },
+  setup() {
+    const router = useRouter();
+    const canNavigateBack = ref(false);
+    const back = () => {
+      if (canNavigateBack.value) {
+        router.back();
+      }
+    };
+    onMounted(() => {
+      if (window?.history?.length > 2) {
+        canNavigateBack.value = true;
+      }
+    });
+    return {
+      canNavigateBack,
+      back,
+    };
   },
 });
 </script>
@@ -27,17 +60,19 @@ export default defineComponent({
       <div
         class="back"
       >
-        (( back ))
+        <BackButton
+          v-if="canNavigateBack"
+          @click="back"
+        />
       </div>
       <div
         class="title"
-      >
-        (( title ))
-      </div>
+        v-text="title"
+      />
       <div
         class="actions"
       >
-        (( actions ))
+        ...
       </div>
     </div>
     <div
@@ -53,7 +88,13 @@ export default defineComponent({
       <div
         class="body"
       >
+        <div
+          class="title-scope"
+          v-if="titleScope"
+          v-text="titleScope"
+        />
         <h1
+          class="title"
           v-text="title"
         />
         <slot
@@ -79,12 +120,23 @@ export default defineComponent({
       <div
         class="actions"
       >
-
+        ...
       </div>
     </div>
     <div
+      class="appendix"
+    >
+      <slot
+        name="appendix"
+      />
+    </div>
+    <div
       class="background"
-    ></div>
+    >
+      <slot
+        name="background"
+      />
+    </div>
   </div>
 </template>
 
@@ -93,8 +145,8 @@ export default defineComponent({
 @use "@/style/elements/container";
 @mixin visual {
   height: 50vh;
-  min-height: 240px;
-  max-height: 500px;
+  min-height: 280px;
+  max-height: 620px;
   .image {
     height: 100%;
   }
@@ -109,7 +161,8 @@ export default defineComponent({
   flex-direction: column;
   .top,
   .main,
-  .bottom {
+  .bottom,
+  .appendix {
     @include container.default;
     z-index: 3;
   }
@@ -123,17 +176,17 @@ export default defineComponent({
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     height: 4rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     .actions {
       justify-self: flex-end;
     }
   }
   .main {
     position: relative;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     justify-content: center;
     .t-visual {
       display: flex;
@@ -146,15 +199,21 @@ export default defineComponent({
     .body {
       position: absolute;
       top: 0;
-      h1 {
+      .title-scope {
         @include typo.x-large;
       }
+      .title {
+        @include typo.x-large;
+        @include typo.bold;
+      }
     }
+  }
+  .appendix {
+    display: flex;
   }
   .background {
     position: absolute;
     z-index: 2;
-    background: linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
     width: 100%;
     height: 100%;
   }
