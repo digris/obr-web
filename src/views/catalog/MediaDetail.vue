@@ -8,7 +8,9 @@ import { useStore } from 'vuex';
 
 import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
+import Duration from '@/components/ui/time/Duration.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
@@ -17,7 +19,9 @@ export default defineComponent({
   components: {
     DetailHeader,
     LazyImage,
+    Duration,
     PlayAction,
+    ObjectTags,
     MediaArtists,
     MediaReleases,
     PlaylistList,
@@ -71,7 +75,7 @@ export default defineComponent({
     class="media-detail"
   >
     <DetailHeader
-      scope="media"
+      title-scope="Track"
       :title="media.name"
     >
       <template
@@ -113,19 +117,11 @@ export default defineComponent({
             :releases="media.releases"
           />
         </div>
-        <div
+        <ObjectTags
           class="tags"
-        >
-          <span
-            class="tag"
-          >#Electronic</span>
-          <span
-            class="tag"
-          >#Rock</span>
-          <span
-            class="tag"
-          >#Techno</span>
-        </div>
+          :obj="media"
+          :limit="(4)"
+        />
       </template>
       <template
         #meta-panel
@@ -138,7 +134,9 @@ export default defineComponent({
         <span>
           •
         </span>
-        <span>{{ media.duration }}s</span>
+        <Duration
+          :seconds="media.duration"
+        />
       </template>
     </DetailHeader>
     <section

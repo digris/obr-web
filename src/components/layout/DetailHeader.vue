@@ -67,7 +67,6 @@ export default defineComponent({
       </div>
       <div
         class="title"
-        v-text="title"
       />
       <div
         class="actions"
@@ -89,14 +88,18 @@ export default defineComponent({
         class="body"
       >
         <div
-          class="title-scope"
-          v-if="titleScope"
-          v-text="titleScope"
-        />
-        <h1
           class="title"
-          v-text="title"
-        />
+        >
+          <div
+            class="title--scope"
+            v-if="titleScope"
+            v-text="titleScope"
+          />
+          <h1
+            class="title--primary"
+            v-text="title"
+          />
+        </div>
         <slot
           name="info-panel"
         />
@@ -199,12 +202,17 @@ export default defineComponent({
     .body {
       position: absolute;
       top: 0;
-      .title-scope {
-        @include typo.x-large;
-      }
       .title {
-        @include typo.x-large;
-        @include typo.bold;
+        margin-bottom: 0.5rem;
+        line-height: 4rem;
+        &--scope {
+          @include typo.x-large;
+          @include typo.light;
+        }
+        &--primary {
+          @include typo.x-large;
+          @include typo.bold;
+        }
       }
     }
   }

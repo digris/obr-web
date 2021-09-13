@@ -6,20 +6,25 @@ import {
   defineComponent,
 } from 'vue';
 import { useStore } from 'vuex';
+import { Tag } from '@/typings/api/models/Tag';
 
 import DetailHeader from '@/components/layout/DetailHeader.vue';
 import Filterbar from '@/components/filter/Filterbar.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 import Animation from '@/components/animation/Animation.vue';
+import Space from '@/components/animation/Space.vue';
 
 export default defineComponent({
   components: {
     DetailHeader,
     Filterbar,
     PlayAction,
+    ObjectTags,
     MediaList,
     Animation,
+    Space,
   },
   props: {
     uid: {
@@ -35,18 +40,25 @@ export default defineComponent({
     const store = useStore();
     const isLoaded = ref(false);
     const mood = computed(() => store.getters['catalog/moodByUid'](props.uid));
+    const mediaColor = computed(() => store.getters['player/color']);
     const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
-    const initialQuery = computed(() => ({
-      filter: {
-        // obj_key: objKey.value,
-        tags: [
-          '15918360',
-          '097413BA',
-        ],
-      },
-      search: [],
-      options: {},
-    }));
+    const initialFilter = computed(() => {
+      return {
+        tags: mood.value.tags.map((t: Tag) => t.uid),
+      };
+    });
+    const userFilter = computed(() => {
+      return props.query;
+    });
+    // combinedQuery is needed for the 'play action'
+    const combinedFilter = computed(() => {
+      // @ts-ignore
+      const tags = [...initialFilter.value?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const merged = { ...initialFilter.value, ...userFilter.value };
+      // @ts-ignore
+      merged.tags = tags;
+      return merged;
+    });
     onActivated(() => {
       if (!mood.value) {
         store.dispatch('catalog/loadMood', props.uid);
@@ -56,7 +68,10 @@ export default defineComponent({
       objKey,
       isLoaded,
       mood,
-      initialQuery,
+      initialFilter,
+      userFilter,
+      combinedFilter,
+      mediaColor,
     };
   },
 });
@@ -76,15 +91,31 @@ export default defineComponent({
       >
         <PlayAction
           :obj-key="objKey"
+          :filter="combinedFilter"
           :size="(96)"
           :outlined="(false)"
           background-color="rgb(var(--c-white))"
         />
+        <!--
+        <pre
+          class="debug"
+          v-text="{
+            initialFilter: initialFilter,
+            query: query,
+            userFilter: userFilter,
+            combinedFilter: combinedFilter,
+          }"
+        ></pre>
+        -->
       </template>
       <template
         #info-panel
       >
-        (( PANEL ))
+        <ObjectTags
+          class="tags"
+          :obj="mood"
+          :limit="(4)"
+        />
       </template>
       <template
         #meta-panel
@@ -99,7 +130,13 @@ export default defineComponent({
       <template
         #background
       >
-        <Animation />
+        <Animation
+          v-if="mood.name === 'Focus'"
+        />
+        <Space
+          v-if="mood.name === 'Cocktail'"
+          :color="mediaColor"
+        />
       </template>
     </DetailHeader>
     <section
@@ -109,7 +146,7 @@ export default defineComponent({
         class="media-list"
       >
         <MediaList
-          :initial-filter="initialQuery.filter"
+          :initial-filter="initialFilter"
           :query="query"
           :disable-user-filter="(false)"
           :disable-play-all="(false)"

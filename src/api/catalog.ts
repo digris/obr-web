@@ -32,7 +32,13 @@ async function getArtists(limit: number, offset: number) {
 
 async function getArtist(uid: string) {
   const url = `${ARTIST_ENDPOINT}${uid}/`;
-  const response = await APIClient.get(url);
+  const params = {
+    expand: [
+      'tags',
+      'identifiers', // TODO: implement in serializer
+    ],
+  };
+  const response = await APIClient.get(url, { params });
   return response.data;
 }
 
@@ -56,7 +62,12 @@ async function getMediaTags(filter: any) {
 
 async function getMediaDetail(uid: string) {
   const url = `${MEDIA_ENDPOINT}${uid}/`;
-  const response = await APIClient.get(url);
+  const params = {
+    expand: [
+      'tags',
+    ],
+  };
+  const response = await APIClient.get(url, { params });
   return response.data;
 }
 

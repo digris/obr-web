@@ -2,7 +2,10 @@ import io
 
 import environ
 import google.auth
+import sentry_sdk
+
 from google.cloud import secretmanager
+from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *  # NOQA
 
@@ -52,5 +55,14 @@ STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 OBP_SYNC_ENDPOINT = env("OBP_SYNC_ENDPOINT")
 OBP_SYNC_TOKEN = env("OBP_SYNC_TOKEN")
 
+SENTRY_DSN = env("SENTRY_DSN")
 
 from .gcp_logging import LOGGING  # NOQA
+
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
+        send_default_pii=True,
+    )

@@ -7,7 +7,6 @@ import { getContrastColor } from '@/utils/color';
 import { requireSubscription } from '@/utils/account';
 
 import Debug from '@/components/dev/Debug.vue';
-// import PlayerControlIcon from '@/components/player/PlayerControlIcon.vue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
@@ -15,6 +14,7 @@ import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
+import Duration from '@/components/ui/time/Duration.vue';
 
 export default defineComponent({
   props: {
@@ -33,6 +33,7 @@ export default defineComponent({
     MediaReleases,
     UserRating,
     RelativeDateTime,
+    Duration,
   },
   setup(props) {
     const store = useStore();
@@ -78,9 +79,6 @@ export default defineComponent({
     });
     const isBuffering = computed(() => {
       return playerState.value && playerState.value.isBuffering && !isLive.value;
-    });
-    const duration = computed(() => {
-      return new Date(props.media.duration * 1000).toISOString().substr(11, 8);
     });
     const latestAirplay = computed(() => {
       if (!props.media.latestAirplay) {
@@ -140,7 +138,6 @@ export default defineComponent({
       contrastColor,
       cssVars,
       buttonCssVars,
-      duration,
       // playerState,
       isPlaying,
       isBuffering,
@@ -235,11 +232,10 @@ export default defineComponent({
           v-tooltip="`Total airplays: ${media.numAirplays}`"
         />
       </div>
-      <div
+      <Duration
         class="duration"
-      >
-        {{ duration }}
-      </div>
+        :seconds="media.duration"
+      />
       <div
         class="actions"
       >

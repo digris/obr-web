@@ -16,17 +16,7 @@ import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import PlayAll from '@/components/catalog/media/PlayAll.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
 import { getMedia, getMediaTags } from '@/api/catalog';
-
-const parseFilterQuery = (query: any) => {
-  let tags = query.tags || [];
-  if (typeof (tags) === 'string') {
-    tags = [tags];
-  }
-  const filter = {
-    tags,
-  };
-  return filter;
-};
+// import { parseFilterQuery } from '@/utils/filter';
 
 export default {
   components: {
@@ -71,7 +61,10 @@ export default {
     const tagListLoading = ref(false);
     const hasNext = ref(false);
     // const lastFilter = ref({});
-    const userFilter = ref({});
+    // const userFilter = ref({});
+    const userFilter = computed(() => {
+      return props.query;
+    });
     const combinedFilter = computed(() => {
       // @ts-ignore
       const tags = [...props.initialFilter?.tags ?? [], ...userFilter.value?.tags ?? []];
@@ -83,17 +76,6 @@ export default {
         merged.user_rating = 1;
       }
       return merged;
-      // if (props.scope === 'collection') {
-      //   return {
-      //     ...props.initialFilter,
-      //     ...userFilter.value,
-      //     user_rating: 1,
-      //   };
-      // }
-      // return {
-      //   ...props.initialFilter,
-      //   ...userFilter.value,
-      // };
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchMedia = async (limit = 16, offset = 0) => {
@@ -130,19 +112,22 @@ export default {
       router.push({ name: routeName, query });
     };
     onMounted(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      /*
       const filter = parseFilterQuery(route.query);
       userFilter.value = filter;
-      // fetchMedia();
-      // fetchTags();
       if (props.primaryColor) {
         store.dispatch('ui/setPrimaryColor', props.primaryColor);
       }
+      */
+      fetchMedia(limit, 0).then(() => {});
+      fetchTags().then(() => {});
     });
     onActivated(() => {
+      /*
       if (props.primaryColor) {
         store.dispatch('ui/setPrimaryColor', props.primaryColor);
       }
+      */
     });
     watch(
       () => combinedFilter.value,
@@ -158,9 +143,9 @@ export default {
       () => props.query,
       async (newValue, oldValue) => {
         if (isEqual(newValue, oldValue)) {
-          return;
+          console.debug('unchanged');
         }
-        userFilter.value = newValue;
+        // userFilter.value = newValue;
       },
     );
     return {
@@ -196,9 +181,9 @@ export default {
   <pre
     class="debug"
     v-text="{
-      initial: initialFilter,
-      user: userFilter,
-      combined: combinedFilter,
+      initialFilter: initialFilter,
+      userFilter: userFilter,
+      combinedFilter: combinedFilter,
     }"
   ></pre>
   -->

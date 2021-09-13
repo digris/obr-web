@@ -19,7 +19,7 @@ body {
   opacity: 1 * $r;
 }
 
-@mixin light($w: 400) {
+@mixin light($w: 300) {
   font-weight: $w;
 }
 

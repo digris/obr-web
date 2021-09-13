@@ -1,6 +1,8 @@
 GCP_PROJECT = open-broadcast
 DOCKER_TAG = ch-openbroadcast-next
 PORT = 8080
+COMMIT_HASH = $(shell git rev-parse --short HEAD)
+
 
 run:
 	poetry run ./manage.py runserver 0.0.0.0:$(PORT)
@@ -24,7 +26,7 @@ test:
 
 build-docker:
 	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
-	docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
+	docker build --build-arg COMMIT=$(COMMIT_HASH) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
 deploy:
 	gcloud builds submit --project $(GCP_PROJECT)

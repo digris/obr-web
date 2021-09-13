@@ -341,6 +341,7 @@ SETTINGS_EXPORT = [
     "IMAGE_RESIZER_URL",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",
+    "SENTRY_DSN",
     "STRIPE_PUBLISHABLE_KEY",
 ]
 
@@ -350,6 +351,12 @@ SETTINGS_EXPORT = [
 ##################################################################
 OBP_SYNC_ENDPOINT = "https://www.openbroadcast.org/api/v2/obr-sync/"
 OBP_SYNC_TOKEN = "0dbea6aeb52acc8f71ed33611b51ded4f0b5bdda"
+
+
+##################################################################
+# error reporting
+##################################################################
+SENTRY_DSN = None
 
 
 ##################################################################

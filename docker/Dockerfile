@@ -24,15 +24,13 @@ ADD ./src/assets/ ./build/assets/
 # python base image
 #######################################################################
 FROM python:3.9-slim as python-base
-ARG BRANCH="master"
 ARG COMMIT=""
-LABEL branch=${BRANCH}
-
 WORKDIR /root/
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    GIT_COMMIT=$COMMIT
 
 RUN set -ex \
     && apt-get update \
