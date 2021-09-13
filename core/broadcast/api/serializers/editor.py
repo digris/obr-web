@@ -1,15 +1,41 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
-
-from broadcast.models import Editor
+from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
+from base.api.serializers import CTUIDModelSerializer
+from broadcast.models.editor import Editor, EditorImage
 from image.api.serializers import BaseImageSerializer
 
 
 class ImageSerializer(BaseImageSerializer):
-    pass
+    class Meta(BaseImageSerializer.Meta):
+        model = EditorImage
 
 
-class EditorSerializer(serializers.HyperlinkedModelSerializer):
+@extend_schema_serializer(
+    exclude_fields=("single",),  # schema ignore these fields
+    examples=[
+        OpenApiExample(
+            "Example",
+            value={
+                "url": "/api/v1/broadcast/editors/3144C75B/",
+                "ct": "broadcast.editor",
+                "uid": "3144C75B",
+                "name": "bang Goes",
+                "image": {
+                    "uid": "60D49C10",
+                    "file": "broadcast/editor/234B03E6/60D49C10.jpeg",
+                    "path": "ch-openbroadcast-media/broadcast/editor/234B03E6/60D49C10.jpeg",
+                    "rgb": [134, 116, 66],
+                },
+            },
+            response_only=True,
+        ),
+    ],
+)
+class EditorSerializer(
+    CTUIDModelSerializer,
+    serializers.HyperlinkedModelSerializer,
+):
     url = serializers.HyperlinkedIdentityField(
         view_name="api:broadcast:editor-detail",
         lookup_field="uid",
@@ -17,9 +43,12 @@ class EditorSerializer(serializers.HyperlinkedModelSerializer):
 
     name = serializers.CharField(
         source="display_name",
+        label="The Name...",
+        help_text="me the help text",
     )
     image = ImageSerializer(
         read_only=True,
+        allow_null=True,
     )
 
     class Meta:

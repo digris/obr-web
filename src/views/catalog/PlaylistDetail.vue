@@ -62,6 +62,8 @@ export default defineComponent({
     class="playlist-detail"
   >
     <DetailHeader
+      :obj-key="objKey"
+      :enable-rating="(true)"
       title-scope="Show"
       :title="playlist.name"
     >

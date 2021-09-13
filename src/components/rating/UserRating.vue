@@ -1,5 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+} from 'vue';
 import { useStore } from 'vuex';
 
 import IconHeart from '@/components/ui/icon/IconHeart.vue';
@@ -10,6 +14,10 @@ export default defineComponent({
       type: String,
       required: false,
       default: null,
+    },
+    autoload: {
+      type: Boolean,
+      default: false,
     },
     iconSize: {
       type: Number,
@@ -35,6 +43,12 @@ export default defineComponent({
       };
       await store.dispatch('rating/updateRating', vote);
     };
+    onMounted(() => {
+      if (props.autoload) {
+        console.debug('autoloat object rating');
+        store.dispatch('rating/loadRating', props.objKey);
+      }
+    });
     return {
       userRating,
       rate,

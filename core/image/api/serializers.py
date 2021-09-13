@@ -1,17 +1,42 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from image.models import BaseImage
+from drf_spectacular.utils import extend_schema_field, OpenApiTypes
 
+
+# @extend_schema_field(serializers.ListField())
+@extend_schema_field(
+    {
+        "type": "integer",
+    }
+)
+class RGBValueField(serializers.IntegerField):
+    min_value = 0
+    max_value = 255
 
 
 class BaseImageSerializer(serializers.ModelSerializer):
 
+    file = serializers.CharField(
+        source="file.name",
+        read_only=True,
+        allow_null=True,
+    )
+
+    rgb = serializers.ListField(
+        child=RGBValueField(),
+        min_length=3,
+        max_length=3,
+        read_only=True,
+    )
+
     class Meta:
         fields = [
-            "ct",
+            # "ct",
             "uid",
-            "url",
+            # "url",
             "path",
+            "file",
             "rgb",
         ]
         abstract = True

@@ -75,6 +75,8 @@ export default defineComponent({
     class="media-detail"
   >
     <DetailHeader
+      :obj-key="objKey"
+      :enable-rating="(true)"
       title-scope="Track"
       :title="media.name"
     >

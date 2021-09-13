@@ -73,6 +73,7 @@ export default defineComponent({
     class="artist-detail"
   >
     <DetailHeader
+      :obj-key="objKey"
       title-scope="Künstler*in"
       :title="artist.name"
     >

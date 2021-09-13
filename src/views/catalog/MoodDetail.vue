@@ -83,6 +83,7 @@ export default defineComponent({
     class="mood-detail"
   >
     <DetailHeader
+      :obj-key="objKey"
       title-scope="Stimmung"
       :title="mood.name"
     >
