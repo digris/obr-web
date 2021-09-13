@@ -1,5 +1,20 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+from image.models import BaseImage
+
+
+
+class BaseImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        fields = [
+            "ct",
+            "uid",
+            "url",
+            "path",
+            "rgb",
+        ]
+        abstract = True
 
 
 class ImageSerializer(serializers.Serializer):

@@ -2,7 +2,11 @@
 from rest_framework import serializers
 
 from broadcast.models import Editor
-from image.api.serializers import ImageSerializer
+from image.api.serializers import BaseImageSerializer
+
+
+class ImageSerializer(BaseImageSerializer):
+    pass
 
 
 class EditorSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,3 +31,4 @@ class EditorSerializer(serializers.HyperlinkedModelSerializer):
             "name",
             "image",
         ]
+        depth = 2
