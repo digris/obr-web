@@ -7,10 +7,12 @@ import {
 import { useRouter } from 'vue-router';
 
 import BackButton from '@/components/ui/button/BackButton.vue';
+import UserRating from '@/components/rating/UserRating.vue';
 
 export default defineComponent({
   components: {
     BackButton,
+    UserRating,
   },
   props: {
     // scope: {
@@ -18,6 +20,10 @@ export default defineComponent({
     //   required: false,
     //   default: null,
     // },
+    objKey: {
+      type: String,
+      required: true,
+    },
     titleScope: {
       type: String,
       required: false,
@@ -27,6 +33,10 @@ export default defineComponent({
       type: String,
       required: false,
       default: null,
+    },
+    enableRating: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -71,7 +81,11 @@ export default defineComponent({
       <div
         class="actions"
       >
-        ...
+        <UserRating
+          v-if="enableRating"
+          :obj-key="objKey"
+          :autoload="(true)"
+        />
       </div>
     </div>
     <div
