@@ -21,6 +21,7 @@ import Filterbar from '@/components/filter/Filterbar.vue';
 
 import { getUser } from '@/api/account';
 import { setBodyColorTheme } from '@/utils/color';
+import { parseFilterQuery } from '@/utils/filter';
 
 const isAuthenticated = async () => {
   const user = await getUser();
@@ -108,7 +109,7 @@ const routes = [
     component: MoodDetail,
     props: (route: any) => ({
       uid: route.params.uid,
-      query: route.query,
+      query: parseFilterQuery(route.query),
     }),
     meta: {
       colorTheme: 'dark',

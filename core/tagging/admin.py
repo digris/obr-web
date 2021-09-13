@@ -10,6 +10,7 @@ class Tagdmin(admin.ModelAdmin):
 
     list_display = [
         "name",
+        "uid",
         "type",
         "num_tagged_items",
     ]
@@ -18,7 +19,10 @@ class Tagdmin(admin.ModelAdmin):
         "type",
     ]
 
-    search_fields = ["name"]
+    search_fields = [
+        "name",
+        "uid",
+    ]
 
     @admin.display(
         description="Num. items",

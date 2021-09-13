@@ -1,6 +1,9 @@
 import './style/main.scss';
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
+import * as Sentry from '@sentry/vue';
+import { Integrations } from '@sentry/tracing';
+import settings from '@/settings';
 import createUIStateHandler from '@/utils/ui';
 import createStationTimeHandler from '@/utils/time';
 import createAccountHandler from '@/utils/account';
@@ -33,8 +36,26 @@ const app = createApp(App)
   .use(i18n)
   .use(router)
   .use(store)
-  .directive('tooltip', TooltipDirective)
-  .mount('#app');
+  .directive('tooltip', TooltipDirective);
+
+Sentry.init({
+  app,
+  dsn: settings.SENTRY_DSN,
+  integrations: [
+    new Integrations.BrowserTracing({
+      routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      tracingOrigins: [
+        'local.next.openbroadcast.ch',
+        'next.openbroadcast.ch',
+        'openbroadcast.ch',
+        /^\//,
+      ],
+    }),
+  ],
+  tracesSampleRate: 1.0,
+});
+
+app.mount('#app');
 
 // @ts-ignore
 window.app = app;

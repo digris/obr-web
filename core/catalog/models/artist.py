@@ -17,8 +17,9 @@ class Artist(
     models.Model,
 ):
 
-    name = models.CharField(max_length=256)
-
+    name = models.CharField(
+        max_length=256,
+    )
     country_code = models.CharField(
         verbose_name="Country",
         max_length=2,
@@ -26,29 +27,24 @@ class Artist(
         blank=True,
         db_index=True,
     )
-
     date_start = models.DateField(
         null=True,
         blank=True,
         db_index=True,
     )
-
     date_end = models.DateField(
         null=True,
         blank=True,
         db_index=True,
     )
-
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
     )
-
     votes = GenericRelation(
         "rating.Vote",
         related_query_name="artist",
     )
-
     identifiers = GenericRelation(
         "identifier.Identifier",
         related_name="artist",

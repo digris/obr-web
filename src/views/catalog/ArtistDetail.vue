@@ -12,6 +12,7 @@ import { useStore } from 'vuex';
 import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 
 export default defineComponent({
@@ -19,6 +20,7 @@ export default defineComponent({
     DetailHeader,
     LazyImage,
     PlayAction,
+    ObjectTags,
     MediaList,
   },
   props: {
@@ -99,24 +101,23 @@ export default defineComponent({
       <template
         #info-panel
       >
-        <div>
-          USA (1995)
-        </div>
-        <!--
-        <div
+        <ObjectTags
           class="tags"
+          :obj="artist"
+          :limit="(4)"
+        />
+        <div
+          v-if="artist.countryCode"
         >
           <span
-            class="tag"
-          >#Electronic</span>
+            v-text="artist.countryCode"
+          />
           <span
-            class="tag"
-          >#Rock</span>
-          <span
-            class="tag"
-          >#Techno</span>
+            v-if="artist.dateStart"
+          >
+            ({{ artist.dateStart.substr(0,4) }})
+          </span>
         </div>
-        -->
       </template>
       <template
         #meta-panel

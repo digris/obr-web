@@ -6,6 +6,7 @@ import logging
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
@@ -30,6 +31,7 @@ class ObjectRatingView(APIView):
         except ObjectDoesNotExist:
             raise Http404
 
+    @transaction.atomic
     def get_vote(self, request, obj_ct, obj_uid):
 
         app_label, model = obj_ct.split(".")
@@ -57,6 +59,7 @@ class ObjectRatingView(APIView):
         except Vote.DoesNotExist:
             return None
 
+    @transaction.atomic
     def create_vote(self, request, obj_ct, obj_uid, value):
 
         content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
@@ -88,6 +91,7 @@ class ObjectRatingView(APIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @transaction.atomic
     def post(self, request, obj_ct, obj_uid):
 
         serializer = VoteSerializer(data=request.data)

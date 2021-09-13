@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-import logging
-
-from django.conf import settings
 from django.urls import reverse
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
@@ -10,12 +7,10 @@ from social_django.models import UserSocialAuth
 from account.models import User, Settings
 from subscription.models import Subscription
 
-SITE_URL = getattr(settings, "SITE_URL")
 
-logger = logging.getLogger(__name__)
-
-
-class SettingsSerializer(serializers.ModelSerializer):
+class SettingsSerializer(
+    serializers.ModelSerializer,
+):
     class Meta:
         model = Settings
         fields = [
@@ -23,7 +18,9 @@ class SettingsSerializer(serializers.ModelSerializer):
         ]
 
 
-class SubscriptionSerializer(serializers.ModelSerializer):
+class SubscriptionSerializer(
+    serializers.ModelSerializer,
+):
     class Meta:
         model = Subscription
         fields = [
@@ -35,7 +32,10 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserSerializer(FlexFieldsSerializerMixin, serializers.ModelSerializer):
+class UserSerializer(
+    FlexFieldsSerializerMixin,
+    serializers.ModelSerializer,
+):
     class Meta:
         model = User
         fields = [
@@ -53,7 +53,9 @@ class UserSerializer(FlexFieldsSerializerMixin, serializers.ModelSerializer):
         }
 
 
-class SocialBackendSerializer(serializers.Serializer):
+class SocialBackendSerializer(
+    serializers.Serializer,
+):
     def to_representation(self, instance):
         return {
             "provider": instance,
@@ -66,7 +68,9 @@ class SocialBackendSerializer(serializers.Serializer):
         }
 
 
-class ConnectedSocialBackendSerializer(serializers.ModelSerializer):
+class ConnectedSocialBackendSerializer(
+    serializers.ModelSerializer,
+):
     can_disconnect = serializers.SerializerMethodField()
     disconnect_url = serializers.SerializerMethodField()
 
@@ -97,7 +101,9 @@ class ConnectedSocialBackendSerializer(serializers.ModelSerializer):
         )
 
 
-class SocialBackendsSerializer(serializers.Serializer):
+class SocialBackendsSerializer(
+    serializers.Serializer,
+):
     connected = ConnectedSocialBackendSerializer(
         many=True,
         read_only=True,

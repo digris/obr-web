@@ -107,6 +107,11 @@ class ArtistViewSet(
 
         return obj
 
+    def get_serializer(self, *args, **kwargs):
+        serializer = super().get_serializer(*args, **kwargs)
+        print("serializer", serializer)
+        return serializer
+
 
 class MediaFilter(filters.FilterSet):
     obj_key = filters.CharFilter(method="obj_key_filter")
@@ -126,6 +131,9 @@ class MediaFilter(filters.FilterSet):
             return {
                 "uid": obj_uid,
             }
+
+        if ct == "mood":
+            return {}
 
         return {
             f"{ct}s__uid": obj_uid,

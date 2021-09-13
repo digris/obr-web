@@ -10,6 +10,8 @@
     "schema:generate": "openapi --input http://local.next.openbroadcast.ch:8080/api/v1/schema-json/ --output ./src/typings/api/"
   },
   "dependencies": {
+    "@sentry/tracing": "^6.12.0",
+    "@sentry/vue": "^6.12.0",
     "@stripe/stripe-js": "^1.15.0",
     "axios": "^0.21.1",
     "axios-case-converter": "^0.7.0",
@@ -24,6 +26,7 @@
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "shaka-player": "3.2.0",
+    "three": "^0.132.2",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
     "vue-i18n": "^9.1.7",
@@ -34,6 +37,7 @@
     "@types/lodash-es": "^4.17.4",
     "@types/luxon": "^1.26.3",
     "@types/node-schedule": "^1.3.1",
+    "@types/three": "^0.131.0",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",

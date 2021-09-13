@@ -102,6 +102,9 @@ class ReleaseMedia(models.Model):
             "release",
             "media",
         ]
+        ordering = [
+            "position",
+        ]
 
 
 class ReleaseImage(BaseSortableImage):

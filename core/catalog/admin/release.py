@@ -24,8 +24,9 @@ class ReleaseAdmin(admin.ModelAdmin):
         "image_display",
         "__str__",
         "uid",
-        "created",
-        "updated",
+        "num_media",
+        # "created",
+        # "updated",
         "sync_state",
     ]
     list_filter = [
@@ -55,3 +56,9 @@ class ReleaseAdmin(admin.ModelAdmin):
     )
     def image_display(self, obj):
         return get_admin_inline_image(obj)
+
+    @admin.display(
+        description="Num. tracks",
+    )
+    def num_media(self, obj):
+        return obj.num_media

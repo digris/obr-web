@@ -8,7 +8,7 @@ import {
   // nextTick,
 } from 'vue';
 
-import { Starfield } from './playground';
+import { Starfield } from './starfield-gl';
 
 export default defineComponent({
   setup() {
@@ -37,7 +37,7 @@ export default defineComponent({
       // @ts-ignore
       gl.value = new Starfield(canvas.value);
       // @ts-ignore
-      window.g = gl.value;
+      window.gl = gl.value;
     };
     const cleanCanvas = () => {
       console.debug('destroyCanvas: destroyed');

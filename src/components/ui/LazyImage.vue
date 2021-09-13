@@ -98,7 +98,7 @@ export default {
       class="lazy-image"
     >
       <img
-        :alt="imageSrc"
+        alt="Image"
         :src="imageSrc"
         :style="cssVars"
         :class="{'is-pending': !isLoaded, 'is-loading': isLoading}"
