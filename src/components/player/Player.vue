@@ -9,6 +9,7 @@ import Queue from './Queue.vue';
 import Circle from './button/Circle.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import Debug from '@/components/dev/Debug.vue';
+import PlayerStreamInfo from './PlayerStreamInfo.vue';
 
 export default defineComponent({
   components: {
@@ -19,6 +20,7 @@ export default defineComponent({
     Queue,
     UserRating,
     Debug,
+    PlayerStreamInfo,
   },
   setup() {
     const store = useStore();
@@ -62,6 +64,10 @@ export default defineComponent({
     const toggleQueue = () => {
       queueVisible.value = !queueVisible.value;
     };
+    const streamInfoVisible = ref(false);
+    const toggleStreamInfo = () => {
+      streamInfoVisible.value = !streamInfoVisible.value;
+    };
     return {
       isVisible,
       isLive,
@@ -75,6 +81,8 @@ export default defineComponent({
       queueNumMedia,
       hideQueue,
       toggleQueue,
+      streamInfoVisible,
+      toggleStreamInfo,
     };
   },
 });
@@ -93,6 +101,9 @@ export default defineComponent({
     :is-visible="(queueVisible && queueNumMedia > 0)"
     @close="hideQueue"
   />
+  <PlayerStreamInfo
+    v-if="(isVisible && streamInfoVisible)"
+  />
   <transition
     name="slide"
   >
@@ -101,6 +112,12 @@ export default defineComponent({
       class="player"
       :style="cssVars"
     >
+      <a
+        class="stream-info-toggle"
+        @click.prevent="toggleStreamInfo"
+      >
+        S
+      </a>
       <div
         class="container"
       >
@@ -202,12 +219,18 @@ $player-height: 72px;
   }
 }
 
-.player-dummy-controls {
+.stream-info-toggle {
   position: fixed;
-  bottom: 70px;
-  left: 10px;
-  max-width: 600px;
-  background: #000;
+  bottom: 56px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  background: rgba(0,0,0,0.25);
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 .player-debug {
