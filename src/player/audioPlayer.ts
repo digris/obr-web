@@ -15,6 +15,10 @@ const SHAKA_CONFIG = {
     defaultBandwidthEstimate: (1000000), // 10 Mbit/s
     bandwidthDowngradeTarget: 0.4,
     bandwidthUpgradeTarget: 0.2,
+    // NOTE: testing bw limitations
+    restrictions: {
+      maxBandwidth: 128000,
+    },
   },
   streaming: {
     bufferingGoal: 30,
