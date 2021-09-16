@@ -39,43 +39,32 @@ export default defineComponent({
   >
     <div
       v-if="isVisible"
-      class="mask"
-    />
-  </transition>
-  <transition
-    name="slide"
-  >
-    <div
-      v-if="isVisible"
       class="overlay-panel"
     >
       <div
-        class="overlay-panel__header"
+        class="container"
       >
-        <CloseButton
-          @click.prevent="close"
-        />
-      </div>
-      <div
-        class="overlay-panel__body"
-      >
-        <slot
-          name="default"
-        />
-      </div>
-      <div
-        class="overlay-panel__success"
-      >
-        <slot
-          name="success"
-        />
-      </div>
-      <div
-        class="overlay-panel__footer"
-      >
-        <slot
-          name="footer"
-        />
+        <div
+          class="overlay-panel__header"
+        >
+          <CloseButton
+            @click.prevent="close"
+          />
+        </div>
+        <div
+          class="overlay-panel__body"
+        >
+          <slot
+            name="default"
+          />
+        </div>
+        <div
+          class="overlay-panel__success"
+        >
+          <slot
+            name="success"
+          />
+        </div>
       </div>
     </div>
   </transition>
@@ -84,50 +73,46 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
-.mask {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  background: rgba(var(--c-black), 0.9);
-  backdrop-filter: grayscale(70%) brightness(80%);
-}
 .overlay-panel {
   position: fixed;
   top: 0;
-  //right: 0;
+  left: 0;
   z-index: 101;
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  //overflow: hidden;
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
+
+  .container {
+    @include container.small;
+    //height: 100%;
+  }
 
   @include responsive.bp-small {
     max-width: unset;
   }
 
   &__header {
-    @include container.small;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 75px;
+    height: 72px;
     margin-top: 0;
-    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(var(--c-gray-100));
   }
   &__body {
-    @include container.small;
-    flex-grow: 1;
-    padding: 0 4rem 1rem;
+    //flex-grow: 1;
+    padding-top: 2rem;
+    //padding: 0 4rem 1rem;
+    //max-height: calc(100% - 172px);
+    //overflow-y: auto;
   }
   &__footer {
-    @include container.small;
-    padding: 1rem 4rem;
+    //padding: 1rem 4rem;
   }
 }
 
@@ -139,19 +124,6 @@ export default defineComponent({
   opacity: 0;
 }
 .fade-leave-to {
-  opacity: 0;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 300ms;
-}
-.slide-enter-from {
-  //transform: translate(0, -100%);
-  opacity: 0;
-}
-.slide-leave-to {
-  //transform: translate(0, -100%);
   opacity: 0;
 }
 </style>

@@ -39,6 +39,9 @@ def create_checkout_session(request, user, items, payment):
 
     cancel_url = get_absolute_url(request, "/account/settings/")
 
+    print(success_url)
+    print(cancel_url)
+
     line_items = []
     for item in items:
         line_items.append(

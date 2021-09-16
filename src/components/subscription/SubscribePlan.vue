@@ -121,13 +121,6 @@ export default defineComponent({
             class="option"
             :class="{'is-selected': option.sku === selectedOption.sku}"
           >
-            <!--
-            <div
-              class="num-days"
-            >
-              {{ option.numDays }} days
-            </div>
-            -->
             <div
               class="price"
             >
@@ -239,12 +232,6 @@ export default defineComponent({
     color: rgb(var(--c-white));
     background: rgb(var(--c-black));
   }
-  /*
-  .num-days {
-    padding: 0.5rem 0;
-    opacity: 0.75;
-  }
-  */
   .price {
     font-size: 200%;
   }

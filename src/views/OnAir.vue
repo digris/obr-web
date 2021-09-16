@@ -14,7 +14,8 @@ import FocusedEmission from '@/components/broadcast/onair/FocusedEmission.vue';
 import FocusedMedia from '@/components/broadcast/onair/FocusedMedia.vue';
 import PaginateButton from '@/components/broadcast/onair/button/PaginateNext.vue';
 import Rating from '@/components/broadcast/onair/rating/Rating.vue';
-import Today from '@/components/broadcast/onair/Today.vue';
+import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
+import Program from '@/components/broadcast/program/Program.vue';
 
 export default defineComponent({
   components: {
@@ -24,7 +25,8 @@ export default defineComponent({
     FocusedMedia,
     PaginateButton,
     Rating,
-    Today,
+    OverlayPanel,
+    Program,
   },
   setup() {
     const route = useRoute();
@@ -136,7 +138,6 @@ export default defineComponent({
       hasNext,
       setFocus,
       //
-      Today,
       programVisible,
       toggleProgram,
       hideProgram,
@@ -202,10 +203,12 @@ export default defineComponent({
       @on-focus="setFocus"
     />
   </div>
-  <Today
+  <OverlayPanel
     :is-visible="programVisible"
     @close="hideProgram"
-  />
+  >
+    <Program />
+  </OverlayPanel>
 </template>
 
 <style lang="scss" scoped>

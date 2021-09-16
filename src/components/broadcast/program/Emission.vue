@@ -242,9 +242,9 @@ export default defineComponent({
 
   &.is-past {
     color: rgb(var(--c-black));
-    background-color: rgb(var(--c-gray-100));
+    //background-color: rgb(var(--c-gray-100));
     &:hover {
-      background-color: rgb(var(--c-gray-200));
+      background-color: rgb(var(--c-gray-100));
     }
   }
 
@@ -260,6 +260,7 @@ export default defineComponent({
     color: rgb(var(--c-black));
     background-color: rgb(var(--c-white));
     cursor: wait;
+    opacity: 0.75;
   }
 }
 
@@ -272,7 +273,7 @@ export default defineComponent({
     "play name editor  time-start"
     "play name tags    time-start";
   grid-template-columns: 1fr 9fr 8fr 2fr;
-  padding: 0.75rem 0;
+  padding: 0.75rem 0.5rem;
 
   > div {
     display: flex;

@@ -6,9 +6,17 @@
   padding: 0 1.5rem;
 }
 
-@mixin small {
+@mixin medium {
   width: 100%;
   max-width: calc(var(--container-width) * 0.75);
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0 1rem;
+}
+
+@mixin small {
+  width: 100%;
+  max-width: calc(var(--container-width) * 0.5);
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;

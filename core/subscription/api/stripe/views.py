@@ -114,7 +114,10 @@ class PaymentSuccessView(APIView):
 
         complete_checkout_session(session=checkout_session, payment=payment)
 
-        redirect_url = payment.extra_data.get("next", "/account/settings/")
+        if payment.extra_data.get("next"):
+            redirect_url = payment.extra_data.get("next")
+        else:
+            redirect_url = "/account/settings/"
 
         return HttpResponseRedirect(redirect_url)
 

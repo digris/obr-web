@@ -73,32 +73,12 @@ export default defineComponent({
     :is-visible="isVisible"
     @close="close"
   >
-    <template
-      #title
-    >
-      Guthaben
-    </template>
-    <!--
-    <nav
-      class="subscribe-menu"
-    >
-      <div
-        class="tab-item"
-        @click="setIntent('plan')"
-        :class="{'is-selected': (intent === 'plan')}"
-      >
-        <span>Paid Plan</span>
-      </div>
-      <div
-        class="tab-item tab-item--text"
-        @click="setIntent('voucher')"
-        :class="{'is-selected': (intent === 'voucher')}"
-      >
-        <span>Hast du einen Gratis-Code?</span>
-      </div>
-    </nav>
-    -->
     <div>
+      <div
+        class="title"
+      >
+        Guthaben
+      </div>
       <p
         class="lead"
       >
@@ -213,6 +193,10 @@ export default defineComponent({
 }
 .current-subscription-text {
   margin: 2rem 0;
+}
+.title {
+  @include typo.x-large;
+  @include typo.bold;
 }
 .lead {
   @include typo.large;
