@@ -1,15 +1,18 @@
 #######################################################################
 # node based builder to build front end / vue.js
 #######################################################################
-FROM node:lts-alpine as node-builder
+#FROM node:lts-alpine as node-builder
+FROM node:14-slim as node-builder
 
 WORKDIR /root/
 
-COPY ["yarn.lock", "package.json", "./"]
 RUN set -ex \
-    && apk add \
-        git \
-    && yarn install
+    && apt-get update \
+    && apt-get install -y \
+        git
+
+COPY ["yarn.lock", "package.json", "./"]
+RUN yarn install
 
 ENV NODE_ENV=production
 

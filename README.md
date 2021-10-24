@@ -1,12 +1,21 @@
 # open broadcast - radio
 
+"Next-gen" version of openbroadcast.ch website to be launched in 2022.
 
-## Run for Development
+
+## Project setup
+
+Application runs on GCP. 
+
+| GCP Organisation | digris.ch      |
+|------------------|----------------|
+| Project ID       | open-broadcast |
+| Project No       | 888119763922   |
+
+[GCP project dashboard](https://console.cloud.google.com/home/dashboard?project=open-broadcast)
 
 ```shell
-pyenv install 3.9.1
-
-poetry env use python3.9
-
-poetry install
+gcloud projects describe open-broadcast
 ```
+
+
