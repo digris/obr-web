@@ -1,3 +1,10 @@
+SHELL := bash
+.ONESHELL:
+.SHELLFLAGS := -eu -o pipefail -c
+.DELETE_ON_ERROR:
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
+
 GCP_PROJECT = open-broadcast
 DOCKER_TAG = ch-openbroadcast-next
 PORT = 8080
@@ -24,7 +31,7 @@ fix:
 test:
 	pytest --ds core.settings.test --cov=core --cov-report term-missing
 
-build-docker:
+docker-image:
 	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
 	docker build --build-arg COMMIT=$(COMMIT_HASH) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
