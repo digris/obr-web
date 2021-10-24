@@ -32,4 +32,6 @@ pnpm-debug.log*
 .idea
 .vscode
 
+/fixtures
+
 /docs/terraform
