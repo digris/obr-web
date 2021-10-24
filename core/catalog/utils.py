@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.db.models import Q
+from django.db.models import Q  # pragma: no cover
 
-from base.utils.qs import next_in_order, prev_in_order
+from base.utils.qs import next_in_order, prev_in_order  # pragma: no cover
 
 
-def get_surounding_media(media):
+def get_surounding_media(media):  # pragma: no cover
     preceding = []
     succeeding = []
     qs_pm = media.playlist_media.all()
@@ -35,23 +35,3 @@ def get_surounding_media(media):
             succeeding.append(next_pm.media)
 
     return preceding, succeeding
-
-
-# pylint: disable=pointless-string-statement
-"""
-from catalog.models import Media
-from broadcast.utils import get_current_media
-from catalog.utils import get_surounding_media
-media = get_current_media()
-media = Media.objects.get(name__iexact="slow dance (voilaa remix)")
-get_surounding_media(media)
-
-
-mqs = Media.objects.all()
-for media in mqs[0:1000]:
-    get_surounding_media(media)
-    
-for media in mqs[0:1000]:
-    preceding, succeeding = get_surounding_media(media)
-    print(f'p: {len(preceding)} - s: {len(succeeding)}')
-"""

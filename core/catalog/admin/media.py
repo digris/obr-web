@@ -49,7 +49,7 @@ class MediaAdmin(admin.ModelAdmin):
         sync_qs_action,
     ]
 
-    def get_queryset(self, request):
+    def get_queryset(self, request):  # pragma: no cover
         qs = super().get_queryset(request)
         qs = qs.prefetch_related(
             "airplays",
@@ -62,7 +62,7 @@ class MediaAdmin(admin.ModelAdmin):
     # def get_ordering(self, request):
     #     return ["-latest_airplay"]
 
-    def latest_airplay(self, obj):
+    def latest_airplay(self, obj):  # pragma: no cover
         return obj.latest_airplay
 
     latest_airplay.admin_order_field = "latest_airplay"

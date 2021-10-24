@@ -54,11 +54,11 @@ class ReleaseAdmin(admin.ModelAdmin):
     @admin.display(
         description="Image",
     )
-    def image_display(self, obj):
+    def image_display(self, obj):  # pragma: no cover
         return get_admin_inline_image(obj)
 
     @admin.display(
         description="Num. tracks",
     )
-    def num_media(self, obj):
+    def num_media(self, obj):  # pragma: no cover
         return obj.num_media
