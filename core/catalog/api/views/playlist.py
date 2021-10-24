@@ -81,7 +81,7 @@ class PlaylistViewSet(
                 ),
             )
         # annotate with anonymous user 'identity'
-        else:
+        elif hasattr(self.request, "user_identity"):
             qs = qs.annotate(
                 user_rating=Max(
                     "votes__value",
@@ -98,7 +98,7 @@ class PlaylistViewSet(
         try:
             obj_uid = self.kwargs["uid"]
             assert len(obj_uid) == 8
-        except AssertionError:
+        except AssertionError:  # pragma: no cover
             raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
 
         obj = get_object_or_404(self.get_queryset(), uid=obj_uid)

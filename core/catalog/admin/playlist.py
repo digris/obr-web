@@ -82,7 +82,7 @@ class PlaylistAdmin(admin.ModelAdmin):
         ordering="series__name",
         description="Series",
     )
-    def series_display(self, obj):
+    def series_display(self, obj):  # pragma: no cover
         if obj.series and obj.series_episode:
             return f"{obj.series.name} #{obj.series_episode}"
         if obj.series:
@@ -92,5 +92,5 @@ class PlaylistAdmin(admin.ModelAdmin):
     @admin.display(
         description="Image",
     )
-    def image_display(self, obj):
+    def image_display(self, obj):  # pragma: no cover
         return get_admin_inline_image(obj)
