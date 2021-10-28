@@ -3,4 +3,6 @@ branch = True
 omit =
     *migrations*
     *tests*
-    *catalog/sync*
+    core/settings/*
+    core/sync/*
+    *catalog/sync/*

@@ -131,5 +131,5 @@ class LoginTokenAdmin(admin.ModelAdmin):
         boolean=True,
         description="Valid",
     )
-    def is_valid_display(self, obj):
+    def is_valid_display(self, obj):  # pragma: no cover
         return obj.is_valid

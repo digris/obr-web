@@ -74,7 +74,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-p no:warnings --ds core.settings.test --cov-report term-missing"  # term:skip-covered / term-missing
+addopts = "-p no:warnings --ds core.settings.test --cov-report term:skip-covered"  # term:skip-covered / term-missing
 python_files = ["test_*.py"]
 
 [tool.mypy]
