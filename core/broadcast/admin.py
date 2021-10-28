@@ -33,7 +33,7 @@ class EmissionAdmin(admin.ModelAdmin):
         "playlist",
     ]
 
-    def is_current(self, obj):
+    def is_current(self, obj):  # pragma: no cover
         return obj.is_current
 
     is_current.boolean = True
@@ -74,5 +74,5 @@ class EditorAdmin(admin.ModelAdmin):
     @admin.display(
         description="Image",
     )
-    def image_display(self, obj):
+    def image_display(self, obj):  # pragma: no cover
         return get_admin_inline_image(obj)
