@@ -88,6 +88,7 @@ class SendEmailLoginView(APIView):
     @staticmethod
     def get(request):
         email = request.GET.get("email", None)
+
         if not email:
             return Response(
                 {
@@ -97,7 +98,7 @@ class SendEmailLoginView(APIView):
             )
 
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(email=email.replace(' ', '+'))
             return Response(
                 {
                     "ct": user.ct,

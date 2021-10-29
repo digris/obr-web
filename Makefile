@@ -29,7 +29,7 @@ fix:
 	black ./core/
 
 test:
-	pytest --ds core.settings.test --cov=core --cov-report term-missing
+	pytest --ds core.settings.test ./core/
 
 docker-image:
 	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain

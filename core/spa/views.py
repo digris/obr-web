@@ -19,17 +19,22 @@ class SPAIndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         current_media = get_current_media()
+
+        color = [220, 220, 220]
+
         if current_media:
             try:
                 color = current_media.releases.first().image.rgb
-                context.update(
-                    {
-                        "color": color,
-                    }
-                )
+
             # pylint: disable=bare-except
             except:
                 pass
+
+        context.update(
+            {
+                "color": color,
+            }
+        )
 
         return context
 
