@@ -13,7 +13,7 @@ import Filterbar from '@/components/filter/Filterbar.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
-import Animation from '@/components/animation/Animation.vue';
+// import Animation from '@/components/animation/Animation.vue';
 import Space from '@/components/animation/Space.vue';
 
 export default defineComponent({
@@ -23,7 +23,7 @@ export default defineComponent({
     PlayAction,
     ObjectTags,
     MediaList,
-    Animation,
+    // Animation,
     Space,
   },
   props: {
@@ -131,9 +131,11 @@ export default defineComponent({
       <template
         #background
       >
+        <!--
         <Animation
           v-if="mood.name === 'Focus'"
         />
+        -->
         <Space
           v-if="mood.name === 'Cocktail'"
           :color="mediaColor"

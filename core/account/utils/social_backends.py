@@ -1,6 +1,9 @@
+from django.conf import settings
 from social_core.backends.utils import user_backends_data
 from social_django.models import UserSocialAuth
-from social_django.utils import Storage, BACKENDS
+from social_django.utils import Storage
+
+BACKENDS = settings.AUTHENTICATION_BACKENDS
 
 
 def get_backends_for_user(user):

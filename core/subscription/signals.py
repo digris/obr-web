@@ -7,11 +7,7 @@ from account.signals import user_registered
 
 logger = logging.getLogger(__name__)
 
-payment_completed = dispatch.Signal(
-    providing_args=[
-        "payment",
-    ]
-)
+payment_completed = dispatch.Signal()
 
 
 @dispatch.receiver(payment_completed)

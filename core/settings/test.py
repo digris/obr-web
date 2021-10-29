@@ -15,3 +15,4 @@ DATABASES = {
         "NAME": PROJECT_ROOT / "db-test.sqlite3",
     },
 }
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'

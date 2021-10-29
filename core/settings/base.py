@@ -247,7 +247,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_THROTTLE_RATES": {
         "anon": "60/minute",
-        "user": "60/minute",
+        "user": "120/minute",
         "subscription.voucher": "10/hour",
         "account.login_email": "20/hour",
     },

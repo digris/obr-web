@@ -15,4 +15,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("schedule/", views.ScheduleView.as_view()),
     path("program/", views.ProgramView.as_view()),
+    path("station-time/", views.ProgramView.as_view()),
 ]
