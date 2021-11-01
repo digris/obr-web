@@ -10,6 +10,7 @@ uses:
 ignore-paths:
   - core/settings/
   - core/dev/
+  - core/sync/management/
 
 ignore-patterns:
   - (^|/)migrations?(/|$)
@@ -27,6 +28,9 @@ frosted:
 pyflakes:
   run: true
 
+vulture:
+  run: false
+
 pylint:
   run: true
   disable:
@@ -35,6 +39,7 @@ pylint:
     - logging-fstring-interpolation
     - logging-too-many-args
     - relative-beyond-top-level # TODO: check
+    - useless-suppression # TODO: check
 
 pep8:
   run: false

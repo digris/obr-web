@@ -46,12 +46,10 @@ def send_login_email(email):
         context=context,
     )
 
-    print(context)
-
     try:
         message.send()
     except SendMessageException as e:
-        raise SendLoginEmailException(e)
+        raise SendLoginEmailException(e) from e
 
     # print(url)
 
@@ -60,7 +58,7 @@ def validate_signed_email(signed_email, max_age=None):
     try:
         email = timestamp_signer.unsign(signed_email, max_age=max_age)
         return email
-    except SignatureExpired:
-        raise SignedEmailValidationException("Signature expired")
-    except BadSignature:
-        raise SignedEmailValidationException("Invalid signature")
+    except SignatureExpired as e:
+        raise SignedEmailValidationException("Signature expired") from e
+    except BadSignature as e:
+        raise SignedEmailValidationException("Invalid signature") from e

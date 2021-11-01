@@ -80,7 +80,7 @@ class CTModelMixin(models.Model):
 
     @property
     def ct_app(self):
-        return self.get_ct().split(".")[0]
+        return self.get_ct().split('.', maxsplit=1)[0]
 
     @property
     def ct_model(self):

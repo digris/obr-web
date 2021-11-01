@@ -80,6 +80,7 @@ def create_emission_objects(emission_list):
         yield obj
 
 
+# pylint: disable=unused-argument
 def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):
     if force:
         if not date_start:

@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
-from django_filters import rest_framework as filters
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
 
 from catalog.api import serializers
-from catalog.models import Media, Artist
+from catalog.models import Artist
 
 MEDIA_MIN_DURATION = 12
 
@@ -75,8 +73,8 @@ class ArtistViewSet(
         try:
             obj_uid = self.kwargs["uid"]
             assert len(obj_uid) == 8
-        except AssertionError:  # pragma: no cover
-            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+        except AssertionError as e:  # pragma: no cover
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}") from e
 
         obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
@@ -100,55 +98,3 @@ class ArtistViewSet(
     )
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
-
-    # def get_serializer(self, *args, **kwargs):
-    #     serializer = super().get_serializer(*args, **kwargs)
-    #     return serializer
-
-
-# class MediaFilter(filters.FilterSet):
-#     obj_key = filters.CharFilter(
-#         method="obj_key_filter",
-#     )
-#     user_rating = filters.NumberFilter(
-#         method="user_rating_filter",
-#     )
-#
-#     class Meta:
-#         model = Media
-#         fields = ["obj_key"]
-#
-#     @staticmethod
-#     def get_obj_query(obj_ct, obj_uid):
-#
-#         # Not so nice... striping fixed "catalog."
-#         ct = obj_ct[8:]
-#
-#         if ct == "media":
-#             return {
-#                 "uid": obj_uid,
-#             }
-#
-#         if ct == "mood":
-#             return {}
-#
-#         return {
-#             f"{ct}s__uid": obj_uid,
-#         }
-#
-#     # pylint: disable=unused-argument
-#     def obj_key_filter(self, queryset, name, value):
-#         obj_ct, obj_uid = value.split(":")
-#         # query = {
-#         #     f"{obj_ct[8:]}s__uid": obj_uid,
-#         # }
-#         query = self.get_obj_query(obj_ct, obj_uid)
-#         qs = queryset.filter(**query)
-#         return qs
-#
-#     # pylint: disable=unused-argument
-#     def user_rating_filter(self, queryset, name, value):
-#         query = {
-#             "user_rating__gte": value,
-#         }
-#         return queryset.filter(**query)

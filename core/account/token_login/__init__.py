@@ -35,8 +35,8 @@ def claim_token(email, token):
     logger.debug(f"validate: {value} - {email}")
     try:
         token = LoginToken.objects.get(email=email, value=value)
-    except LoginToken.DoesNotExist:
-        raise TokenValidationException("Invalid Token")
+    except LoginToken.DoesNotExist as e:
+        raise TokenValidationException("Invalid Token") from e
 
     if not token.is_valid:
         raise TokenValidationException("Expired Token")

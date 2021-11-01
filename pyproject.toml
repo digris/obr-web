@@ -58,6 +58,7 @@ freezegun = "^1.1.0"
 mixer = "^7.2.0"
 selenium = "^4.0.0"
 libfaketime = "^2.0.0"
+vulture = "^2.3"
 
 [build-system]
 requires = ["poetry>=0.12"]
