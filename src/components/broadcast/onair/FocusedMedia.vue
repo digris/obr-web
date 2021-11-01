@@ -48,14 +48,13 @@ export default defineComponent({
     <div
       class="title"
     >
-      <a
-        href="#"
-      >
-        {{ title }}
-      </a>
+      <router-link
+        :to="`/discover/tracks/${media.uid}/`"
+        v-text="title"
+      />
     </div>
     <div
-      class="subtitle"
+      class="subtitle subtitle--artists"
     >
       <MediaArtists
         :artists="media.artists"
@@ -76,14 +75,17 @@ export default defineComponent({
 @use "@/style/base/live-color";
 @use "@/style/abstracts/responsive";
 .context {
-  @include typo.large;
-  @include typo.dim;
+  @include typo.default;
+  @include typo.underlined;
 }
 .title {
   @include typo.large;
 }
 .subtitle {
-  margin-top: 0.75rem;
+  margin-top: 0;
+  &--artists {
+    margin-top: 0.75rem;
+  }
 }
 a {
   @include responsive.hover-supported {

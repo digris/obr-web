@@ -90,8 +90,8 @@ export default defineComponent({
 @use "@/style/base/live-color";
 @use "@/style/abstracts/responsive";
 .context {
-  @include typo.large;
-  @include typo.dim;
+  @include typo.default;
+  @include typo.underlined;
 }
 .title {
   @include typo.large;
@@ -116,6 +116,9 @@ export default defineComponent({
       border-radius: 50%;
       filter: grayscale(1);
       transition: width 100ms, height 100ms;
+      :deep(> img) {
+        border-radius: 50%;
+      }
     }
   }
   .name {

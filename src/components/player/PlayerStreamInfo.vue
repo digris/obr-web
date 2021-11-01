@@ -31,9 +31,9 @@ export default defineComponent({
   position: fixed;
   bottom: 76px;
   left: 4px;
-  background: black;
   padding: 0.5rem;
   color: white;
   font-size: 13px;
+  background: black;
 }
 </style>

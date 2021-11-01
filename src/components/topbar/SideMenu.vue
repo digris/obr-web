@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import eventBus from '@/eventBus';
@@ -13,6 +13,7 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const isVisible = ref(false);
+    const user = computed(() => store.getters['account/user']);
     const close = () => {
       isVisible.value = false;
     };
@@ -23,6 +24,13 @@ export default defineComponent({
     eventBus.on('side-menu:show', () => {
       isVisible.value = true;
     });
+    const login = () => {
+      const event = {
+        intent: 'login',
+        next: window.location.pathname,
+      };
+      eventBus.emit('account:authenticate', event);
+    };
     const logout = async () => {
       try {
         await store.dispatch('account/logoutUser');
@@ -35,7 +43,9 @@ export default defineComponent({
     return {
       close,
       isVisible,
+      user,
       navigate,
+      login,
       logout,
     };
   },
@@ -49,6 +59,36 @@ export default defineComponent({
     <div
       class="side-menu"
     >
+      <section
+        class="section"
+        v-if="user"
+      >
+        <router-link
+          to="/"
+          @click.prevent="navigate({
+            name: 'accountSettings',
+          })"
+        >
+          Konto Einstellungen
+        </router-link>
+        <a
+          href="#"
+          @click.prevent="logout"
+        >
+          Abmelden
+        </a>
+      </section>
+      <section
+        class="section"
+        v-else
+      >
+        <a
+          href="#"
+          @click.prevent="login"
+        >
+          Login
+        </a>
+      </section>
       <section
         class="section section--primary"
       >
@@ -80,9 +120,6 @@ export default defineComponent({
       <section
         class="section section--primary"
       >
-        <div
-          class="title"
-        >Das Radio:</div>
         <router-link
           to="/program/"
           @click.prevent="navigate({
@@ -110,11 +147,6 @@ export default defineComponent({
         >
           Jobs
         </a>
-        <a
-          @click.prevent="logout"
-        >
-          Logout
-        </a>
       </section>
     </div>
   </SidePanel>
@@ -127,16 +159,25 @@ export default defineComponent({
   .section {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.5rem;
+    //margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+    &:first-child {
+      padding-top: 0;
+    }
+    &:not(:last-child) {
+      border-bottom: 1px solid rgb(var(--c-gray-200));
+    }
     &--primary {
       > a {
+        @include typo.bold;
         font-size: 4rem;
-        line-height: 4.5rem;
+        line-height: 4rem !important;
       }
     }
     > a {
+      line-height: 1.5rem;
       &:hover {
-        text-decoration: underline;
+        opacity: 0.5;
       }
     }
   }

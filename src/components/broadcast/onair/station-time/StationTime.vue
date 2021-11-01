@@ -3,6 +3,7 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { playStream } from '@/player/stream';
 
+import ToggleProgramButton from './ToggleProgramButton.vue';
 import ToggleTimeshiftButton from './ToggleTimeshiftButton.vue';
 import ResetTimeshiftButton from './ResetTimeshiftButton.vue';
 
@@ -14,6 +15,7 @@ const zeroPad = (n:number) => {
 
 export default defineComponent({
   components: {
+    ToggleProgramButton,
     ToggleTimeshiftButton,
     ResetTimeshiftButton,
   },
@@ -72,7 +74,7 @@ export default defineComponent({
     <div
       class="actions"
     >
-      <ToggleTimeshiftButton
+      <ToggleProgramButton
         @click.prevent="toggleProgram"
       />
     </div>
@@ -148,7 +150,7 @@ $height: 48px;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1.5rem 0 1rem;
 }
 .container {
   @include live-color.fg;

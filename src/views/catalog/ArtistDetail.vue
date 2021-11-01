@@ -14,6 +14,7 @@ import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
+import SocialMediaLinks from '@/components/social-media/SocialMediaLinks.vue';
 
 export default defineComponent({
   components: {
@@ -22,6 +23,7 @@ export default defineComponent({
     PlayAction,
     ObjectTags,
     MediaList,
+    SocialMediaLinks,
   },
   props: {
     uid: {
@@ -131,17 +133,18 @@ export default defineComponent({
       </template>
     </DetailHeader>
     <section
-      class="section section--light"
+      class="section section--light body"
     >
-      <div
-        class="media-list"
-      >
-        <MediaList
-          :initial-filter="query.filter"
-          :disable-user-filter="(true)"
-          :disable-play-all="(true)"
-        />
-      </div>
+      <MediaList
+        :initial-filter="query.filter"
+        :disable-user-filter="(true)"
+        :disable-play-all="(true)"
+      />
+    </section>
+    <section
+      class="section section--light appendix"
+    >
+      <SocialMediaLinks />
     </section>
   </div>
 </template>
@@ -152,30 +155,14 @@ export default defineComponent({
   @include container.section;
 }
 .artist-detail {
-  margin-bottom: 12rem;
-}
-.header {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 78px);
   .body {
-    display: flex;
-    flex-direction: column;
-    padding-top: 1rem;
-    .title {
-      margin-top: 2rem;
-    }
-    .tags,
-    .summary {
-      margin-top: 1rem;
-    }
-    .summary {
-      display: flex;
-      flex-grow: 1;
-      align-items: flex-end;
-    }
+    flex-grow: 1;
   }
-  .actions {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+  .appendix {
+    padding-bottom: 4rem;
   }
 }
 </style>

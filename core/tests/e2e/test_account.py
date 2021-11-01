@@ -67,33 +67,39 @@ class TestAccount:
             ],
         )
 
-        self.driver.find_element(By.XPATH, "//button[normalize-space()='Konto erstellen']").click()
+        self.driver.find_element(
+            By.XPATH, "//button[normalize-space()='Konto erstellen']"
+        ).click()
         time.sleep(2)
 
         assert len(mailoutbox) == 1
 
         login_mail = mailoutbox[0]
-        login_code = login_mail.subject.replace('Login Code: ', '')
+        login_code = login_mail.subject.replace("Login Code: ", "")
 
         assert len(login_code) == 7
 
-        self.driver.find_element(By.CSS_SELECTOR, '.token-input > input').send_keys(login_code)
+        self.driver.find_element(By.CSS_SELECTOR, ".token-input > input").send_keys(
+            login_code
+        )
 
-        self.driver.find_element(By.XPATH, "//button[normalize-space()='Anmelden']").click()
+        self.driver.find_element(
+            By.XPATH, "//button[normalize-space()='Anmelden']"
+        ).click()
 
         time.sleep(2)
 
-        account_button = self.driver.find_element(By.CSS_SELECTOR, '.account-menu > a')
+        account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
         assert account_button.text == USER_DATA["email"][0].upper()
 
-        self.driver.find_element(By.CSS_SELECTOR, '.menu-toggle').click()
+        self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle").click()
         time.sleep(1)
         self.driver.find_element(By.XPATH, "//a[normalize-space()='Logout']").click()
 
         time.sleep(2)
 
-        account_button = self.driver.find_element(By.CSS_SELECTOR, '.account-menu > a')
-        assert account_button.text == 'Login'
+        account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
+        assert account_button.text == "Login"
 
         # re-login with created account
 
@@ -107,25 +113,30 @@ class TestAccount:
         )
         time.sleep(2)
 
-        self.driver.find_element(By.XPATH, "//button[normalize-space()='Code senden']").click()
+        self.driver.find_element(
+            By.XPATH, "//button[normalize-space()='Code senden']"
+        ).click()
         time.sleep(2)
 
         assert len(mailoutbox) == 2
 
         login_mail = mailoutbox[1]
-        login_code = login_mail.subject.replace('Login Code: ', '')
+        login_code = login_mail.subject.replace("Login Code: ", "")
 
         assert len(login_code) == 7
 
-        self.driver.find_element(By.CSS_SELECTOR, '.token-input > input').send_keys(login_code)
+        self.driver.find_element(By.CSS_SELECTOR, ".token-input > input").send_keys(
+            login_code
+        )
 
-        self.driver.find_element(By.XPATH, "//button[normalize-space()='Anmelden']").click()
+        self.driver.find_element(
+            By.XPATH, "//button[normalize-space()='Anmelden']"
+        ).click()
 
         time.sleep(2)
 
-        account_button = self.driver.find_element(By.CSS_SELECTOR, '.account-menu > a')
+        account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
         assert account_button.text == USER_DATA["email"][0].upper()
 
-        for entry in self.driver.get_log('browser'):
-            print('// LOG', entry)
-
+        for entry in self.driver.get_log("browser"):
+            print("// LOG", entry)

@@ -64,8 +64,8 @@ class PlaylistViewSet(
         qs = qs.annotate(
             num_media=Count("media"),
             latest_emission=Max(
-                "emissions__time_end",
-                filter=Q(emissions__time_end__lte=Now()),
+                "emissions__time_start",
+                filter=Q(emissions__time_start__lte=Now()),
             ),
             num_emissions=Count(
                 "emissions",

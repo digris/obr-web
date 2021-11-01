@@ -28,8 +28,8 @@ export default defineComponent({
   <div
     class="play-all"
     :style="{
-      '--c-fg': '255,255,255',
-      '--c-bg': '0,0,0',
+      '--c-fg': '0,0,0',
+      '--c-bg': '128,128,128',
     }"
     :class="{
       'is-loading': isLoading,
@@ -62,7 +62,7 @@ export default defineComponent({
           :outlined="(false)"
         >
           <IconContext
-            :color="'rgb(var(--c-white))'"
+            :color="'rgb(var(--c-black))'"
             :size="36"
           />
         </CircleButton>
@@ -75,8 +75,8 @@ export default defineComponent({
 @use "@/style/elements/button";
 @use "@/style/elements/container";
 .play-all {
-  color: rgb(var(--c-white));
-  background: rgb(var(--c-black));
+  color: rgb(var(--c-black));
+  background: rgb(var(--c-gray-500));
   &.is-loading {
     cursor: wait;
   }
@@ -87,13 +87,15 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-columns: 1fr 16fr 1fr;
-  padding: 0.75rem 0;
+  //padding: 0.75rem 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   > div {
     display: flex;
     align-items: center;
   }
   .play {
-    padding-left: 0.5rem;
+    padding-left: 0;
   }
   .info {
     justify-self: center;

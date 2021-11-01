@@ -64,7 +64,7 @@ class ArtistViewSet(
             )
 
         # NOTE: make dynamic...
-        # qs = qs.filter(num_media__gt=0)
+        qs = qs.filter(num_media__gt=0)
         qs = qs.order_by("-created")
 
         return qs
