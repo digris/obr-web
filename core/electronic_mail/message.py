@@ -48,4 +48,4 @@ class BaseMessage:
         try:
             return mail.send()
         except (SMTPException, ConnectionError) as e:
-            raise SendMessageException(e)
+            raise SendMessageException(e) from e

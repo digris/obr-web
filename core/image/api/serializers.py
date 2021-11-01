@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
-from image.models import BaseImage
-from drf_spectacular.utils import extend_schema_field, OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 
 
-# @extend_schema_field(serializers.ListField())
 @extend_schema_field(
     {
         "type": "integer",
@@ -32,9 +30,7 @@ class BaseImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = [
-            # "ct",
             "uid",
-            # "url",
             "path",
             "file",
             "rgb",

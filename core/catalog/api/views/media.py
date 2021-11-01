@@ -148,8 +148,8 @@ class MediaViewSet(
         try:
             obj_uid = self.kwargs["uid"]
             assert len(obj_uid) == 8
-        except AssertionError:
-            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+        except AssertionError as e:
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}") from e
 
         obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
@@ -175,6 +175,7 @@ class MediaViewSet(
                 continue
             media_ids.append(playlist_media.media.id)
 
+        # pylint: disable=consider-using-dict-comprehension
         d = dict([(obj.id, obj) for obj in qs])
         media = [d[index] for index in media_ids]
 

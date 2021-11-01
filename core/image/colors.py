@@ -29,7 +29,7 @@ def image_as_fp(img):
         img.save(fp, "png")
         fp.seek(0)
         return fp
-    except OSError as e:
+    except OSError:
         return None
 
 

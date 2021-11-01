@@ -2,7 +2,6 @@ from drf_spectacular.openapi import AutoSchema as OpenAPIAutoSchema
 
 
 class AutoSchema(OpenAPIAutoSchema):
-    pass
 
     def get_operation_id(self):
         operation_id = super().get_operation_id()

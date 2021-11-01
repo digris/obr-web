@@ -28,8 +28,8 @@ class ObjectRatingView(APIView):
             )
             return obj
 
-        except ObjectDoesNotExist:
-            raise Http404
+        except ObjectDoesNotExist as e:
+            raise Http404 from e
 
     @transaction.atomic
     def get_vote(self, request, obj_ct, obj_uid):

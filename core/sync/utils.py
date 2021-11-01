@@ -105,17 +105,29 @@ def update_image(obj, image_url, image_class, clear=True):
 
     filename = f"downloaded-image{ext}"
 
-    img_temp = NamedTemporaryFile(delete=True)
-    img_temp.write(urlopen(image_url).read())
-    img_temp.flush()
+    with NamedTemporaryFile(delete=True) as img_temp:
+        # pylint: disable=consider-using-with
+        img_temp.write(urlopen(image_url).read())
+        img_temp.flush()
 
-    # NOTE: hm - what to do here...
-    kwargs = {
-        f"{obj.ct_model}": obj,
-    }
+        kwargs = {
+            f"{obj.ct_model}": obj,
+        }
 
-    i = image_class(**kwargs)
-    i.save()
-    i.file.save(filename, File(img_temp))
+        i = image_class(**kwargs)
+        i.save()
+        i.file.save(filename, File(img_temp))
+
+    # img_temp = NamedTemporaryFile(delete=True)
+    # img_temp.write(urlopen(image_url).read())
+    # img_temp.flush()
+    #
+    # kwargs = {
+    #     f"{obj.ct_model}": obj,
+    # }
+    #
+    # i = image_class(**kwargs)
+    # i.save()
+    # i.file.save(filename, File(img_temp))
 
     logger.debug(f"updated image for {obj.ct}:{obj.uid}")

@@ -37,7 +37,7 @@ def get(path, params=None, raw=False):
     try:
         r = requests.get(url, params=params, headers=HEADERS)
     except requests.exceptions.RequestException as e:
-        raise APIClientException(f"error connecting: {e}")
+        raise APIClientException(f"error connecting: {e}") from e
 
     if not r.status_code == 200:
         raise APIClientException(f"invalid status-code returned: {r.status_code}")
@@ -49,7 +49,7 @@ def get(path, params=None, raw=False):
     try:
         result = r.json()
     except json.JSONDecodeError as e:
-        raise APIClientException(f"error decoding JSON response: {e}")
+        raise APIClientException(f"error decoding JSON response: {e}") from e
 
     if SYNC_DEBUG:
         print(

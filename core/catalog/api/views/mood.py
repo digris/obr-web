@@ -22,8 +22,8 @@ class MoodViewSet(
         try:
             obj_uid = self.kwargs["uid"]
             assert len(obj_uid) == 8
-        except AssertionError:  # pragma: no cover
-            raise ParseError(f"Invalid UID: {self.kwargs['uid']}")
+        except AssertionError as e:  # pragma: no cover
+            raise ParseError(f"Invalid UID: {self.kwargs['uid']}") from e
 
         obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 

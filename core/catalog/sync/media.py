@@ -17,7 +17,7 @@ class MasterDownloadException(Exception):
     pass
 
 
-# pylint: disable=too-many-locals
+# pylint: disable=too-many-locals, unused-argument
 def sync_media(media, skip_media=False, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models import Artist, MediaArtists, Release, ReleaseMedia, Master
@@ -107,7 +107,7 @@ def download_master(media_uuid):
     try:
         r = api_client.get(f"media/{media_uuid}/download-master/", raw=True)
     except api_client.APIClientException as e:
-        raise MasterDownloadException(f"unable to download master: {media_uuid} - {e}")
+        raise MasterDownloadException(f"unable to download master: {media_uuid} - {e}") from e
 
     filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]
 
