@@ -98,7 +98,7 @@ class SendEmailLoginView(APIView):
             )
 
         try:
-            user = User.objects.get(email=email.replace(' ', '+'))
+            user = User.objects.get(email=email.replace(" ", "+"))
             return Response(
                 {
                     "ct": user.ct,

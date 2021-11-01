@@ -229,7 +229,7 @@ export default {
   @include container.default;
 }
 .media-list {
-  margin: 0 0 8rem;
+  //margin: 0 0 8rem;
   background: rgb(var(--c-white));
 }
 .grid {

@@ -218,14 +218,15 @@ export default defineComponent({
       top: 0;
       .title {
         margin-bottom: 0.5rem;
-        line-height: 4rem;
         &--scope {
-          @include typo.x-large;
-          @include typo.light;
+          @include typo.default;
+          @include typo.bold;
+          line-height: 1.5rem;
         }
         &--primary {
           @include typo.x-large;
           @include typo.bold;
+          line-height: 4rem;
         }
       }
     }

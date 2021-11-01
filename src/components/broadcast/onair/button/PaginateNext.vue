@@ -2,15 +2,15 @@
 import { defineComponent, ref } from 'vue';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconSkip from '@/components/ui/icon/IconSkip.vue';
+import IconPaginate from '@/components/ui/icon/IconPaginate.vue';
 
 const SIZE = 120;
-const ICON_SIZE = 80;
+const ICON_SIZE = 120;
 
 export default defineComponent({
   components: {
     CircleButton,
-    IconSkip,
+    IconPaginate,
   },
   props: {
     disabled: {
@@ -37,9 +37,9 @@ export default defineComponent({
   <CircleButton
     :size="size"
     :disabled="disabled"
-    :outlined="(!disabled)"
+    :outlined="(false)"
   >
-    <IconSkip
+    <IconPaginate
       :size="iconSize"
       :rotate="rotate"
       color="rgb(var(--c-page-fg))"

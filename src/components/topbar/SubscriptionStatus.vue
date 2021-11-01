@@ -52,24 +52,24 @@ export default defineComponent({
       <router-link
         :to="{ name: 'accountSettings' }"
         class="status"
-        :class="{'is-active': isActive, 'is-expired': !isActive}"
+        :class="{
+          'is-active': isActive,
+          'is-expired': !isActive,
+        }"
       >
         <span
           v-if="isActive"
         >
-          <span
-            v-text="numDaysRemaining"
-          />
-          Tage
+          Free access
         </span>
         <span
           v-else
         >
-          <span
-            v-text="numDaysRemaining"
-          />
-          Tage
+          Expired
         </span>
+        <span
+          v-text="`${numDaysRemaining} Tage`"
+        />
       </router-link>
       <div
         v-if="(subscription && detailsVisible)"
@@ -107,6 +107,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .subscription-status {
   display: flex;
   align-items: center;
@@ -114,14 +115,21 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   .status {
+    @include typo.tiny;
+    @include typo.uppercase;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
+    //align-items: center;
+    //justify-content: center;
     width: 100%;
     height: 100%;
+    line-height: 14px;
+    /*
     &.is-active {
       color: rgb(var(--c-success));
     }
+    */
     &.is-expired {
       color: rgb(var(--c-warning));
     }

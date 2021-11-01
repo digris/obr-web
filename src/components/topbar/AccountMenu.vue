@@ -1,16 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-// import { useRouter } from 'vue-router';
+import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import eventBus from '@/eventBus';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
 
 export default defineComponent({
-  components: {
-    CircleButton,
-  },
   setup() {
-    // const router = useRouter();
     const store = useStore();
     const user = computed(() => store.getters['account/user']);
     const initials = computed(() => {
@@ -22,7 +16,6 @@ export default defineComponent({
       }
       return user.value.email.substr(0, 1).toUpperCase();
     });
-    const submenuVisible = ref(false);
     const login = () => {
       const event = {
         intent: 'login',
@@ -30,29 +23,10 @@ export default defineComponent({
       };
       eventBus.emit('account:authenticate', event);
     };
-    const logout = async () => {
-      try {
-        await store.dispatch('account/logoutUser');
-        // await router.push({ name: 'home' });
-        document.location.href = '/';
-      } catch (err) {
-        console.debug('err', err);
-      }
-    };
-    const showSubmenu = () => {
-      submenuVisible.value = true;
-    };
-    const hideSubmenu = () => {
-      submenuVisible.value = false;
-    };
     return {
       user,
       initials,
-      submenuVisible,
       login,
-      logout,
-      showSubmenu,
-      hideSubmenu,
     };
   },
 });
@@ -60,11 +34,10 @@ export default defineComponent({
 
 <template>
   <div>
+    <!--
     <div
       class="account-menu"
       v-if="user"
-      @mouseenter="showSubmenu"
-      @mouseleave="hideSubmenu"
     >
       <router-link
         :to="{ name: 'accountSettings' }"
@@ -77,23 +50,11 @@ export default defineComponent({
           {{ initials }}
         </CircleButton>
       </router-link>
-      <!--
-      <div
-        v-if="submenuVisible"
-        class="submenu"
-      >
-        <a
-          href="#"
-          @click.prevent="logout"
-        >
-          Logout
-        </a>
-      </div>
-      -->
     </div>
+    -->
     <div
       class="account-menu"
-      v-else
+      v-if="(!user)"
     >
       <a
         href="#"
@@ -102,13 +63,6 @@ export default defineComponent({
       >
         Login
       </a>
-      <!--
-      <router-link
-        :to="{ name: 'accountLogin' }"
-      >
-        Login
-      </router-link>
-      -->
     </div>
   </div>
 </template>
@@ -145,13 +99,6 @@ export default defineComponent({
     @include live-color.bg-inverse(0.1);
     transition: color, background-color 200ms;
   }
-  /*
-  &.router-link-active {
-    color: #fff;
-    background: black;
-    transition: color, background-color 200ms;
-  }
-  */
 }
 
 .account-menu {

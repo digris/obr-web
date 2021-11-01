@@ -46,3 +46,11 @@ body {
 @mixin bold {
   font-weight: 600;
 }
+
+@mixin underlined {
+  text-decoration: underline;
+}
+
+@mixin uppercase {
+  text-transform: uppercase;
+}

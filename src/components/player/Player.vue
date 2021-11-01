@@ -223,14 +223,14 @@ $player-height: 72px;
   position: fixed;
   bottom: 56px;
   left: 4px;
-  width: 12px;
-  height: 12px;
-  background: rgba(0,0,0,0.25);
-  font-size: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 12px;
+  height: 12px;
   color: white;
+  font-size: 8px;
+  background: rgba(0,0,0,0.25);
 }
 
 .player-debug {
