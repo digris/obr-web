@@ -13,6 +13,7 @@ import DetailHeader from '@/components/layout/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
+import ObjectIdentifiers from '@/components/identifier/ObjectIdentifiers.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 import SocialMediaLinks from '@/components/social-media/SocialMediaLinks.vue';
 
@@ -22,6 +23,7 @@ export default defineComponent({
     LazyImage,
     PlayAction,
     ObjectTags,
+    ObjectIdentifiers,
     MediaList,
     SocialMediaLinks,
   },
@@ -121,6 +123,11 @@ export default defineComponent({
             ({{ artist.dateStart.substr(0,4) }})
           </span>
         </div>
+        <ObjectIdentifiers
+          class="identifiers"
+          :obj="artist"
+          :limit="(4)"
+        />
       </template>
       <template
         #meta-panel
@@ -158,6 +165,10 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 78px);
+  .tags,
+  .identifiers {
+    margin: .5rem 0;
+  }
   .body {
     flex-grow: 1;
   }
