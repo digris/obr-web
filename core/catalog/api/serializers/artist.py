@@ -5,6 +5,7 @@ from rest_framework import serializers
 from catalog.models import Artist
 from image.api.serializers import ImageSerializer
 from tagging.api.serializers import TagSerializer
+from identifier.api.serializers import IdentifierSerializer
 
 
 class ArtistSerializer(
@@ -43,6 +44,14 @@ class ArtistSerializer(
         expandable_fields = {
             "tags": (
                 TagSerializer,
+                {
+                    "many": True,
+                    "required": False,
+                    "allow_null": True,
+                },
+            ),
+            "identifiers": (
+                IdentifierSerializer,
                 {
                     "many": True,
                     "required": False,

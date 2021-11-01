@@ -1,19 +1,15 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import Tag from './Tag.vue';
+import Identifier from './Identifier.vue';
 
 export default defineComponent({
   components: {
-    Tag,
+    Identifier,
   },
   props: {
     obj: {
       type: Object,
       required: true,
-    },
-    prefix: {
-      type: String,
-      default: '#',
     },
     limit: {
       type: Number,
@@ -32,12 +28,13 @@ export default defineComponent({
     const keyPrefix = computed(() => {
       return props.obj?.uid;
     });
-    const tags = computed(() => {
-      return (props.obj && props.obj.tags) ? props.obj.tags.slice(0, props.limit) : [];
+    const identifiers = computed(() => {
+      // eslint-disable-next-line max-len
+      return (props.obj && props.obj.identifiers) ? props.obj.identifiers.slice(0, props.limit) : [];
     });
     return {
       keyPrefix,
-      tags,
+      identifiers,
     };
   },
 });
@@ -45,25 +42,24 @@ export default defineComponent({
 
 <template>
   <div
-    class="tags"
+    class="identifiers"
     :style="{
       '--spacing': spacing,
     }"
   >
-    <Tag
-      class="tags__tag"
-      v-for="tag in tags"
-      :key="`obj-tag-${keyPrefix}-${tag.uid}`"
-      :tag="tag"
-      :prefix="prefix"
-      suffix=""
+    <Identifier
+      class="identifiers__identifier"
+      v-for="identifier in identifiers"
+      :key="`obj-identifier-${keyPrefix}-${identifier.uid}`"
+      :scope="identifier.scope"
+      :value="identifier.value"
     />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.tags {
-  &__tag {
+.identifiers {
+  &__identifier {
     &:not(:last-child) {
       margin-right: var(--spacing);
     }

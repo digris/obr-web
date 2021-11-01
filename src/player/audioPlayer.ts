@@ -17,7 +17,7 @@ const SHAKA_CONFIG = {
     bandwidthUpgradeTarget: 0.2,
     // NOTE: testing bw limitations
     restrictions: {
-      maxBandwidth: 128000,
+      maxBandwidth: 512000,
     },
   },
   streaming: {
