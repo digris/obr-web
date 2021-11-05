@@ -1,20 +1,15 @@
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  setup() {
-    const route = useRoute();
-    const path = ref(route.path);
-    watch(
-      () => route.path,
-      async (newPath) => {
-        path.value = newPath;
-      },
-    );
-    return {
-      path,
-    };
+  props: {
+    path: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    console.debug('props', props);
   },
 });
 </script>

@@ -8,7 +8,7 @@ import {
 import { useStore } from 'vuex';
 import { Tag } from '@/typings/api/models/Tag';
 
-import DetailHeader from '@/components/layout/DetailHeader.vue';
+import DetailHeader from '@/layouts/DetailHeader.vue';
 import Filterbar from '@/components/filter/Filterbar.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';

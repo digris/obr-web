@@ -7,7 +7,8 @@ import { useStore } from 'vuex';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
 import PlaylistCard from '@/components/catalog/playlist/Card.vue';
-import { getWTFPlaylists } from '@/api/catalog';
+import PlaylistRow from '@/components/catalog/playlist/Row.vue';
+import { getPlaylists } from '@/api/catalog';
 
 export default {
   components: {
@@ -27,6 +28,10 @@ export default {
       type: Object,
       default: () => null,
     },
+    layout: {
+      type: String,
+      default: 'grid',
+    },
   },
   setup(props:any) {
     const store = useStore();
@@ -37,6 +42,9 @@ export default {
     const playlists = ref([]);
     const hasNext = ref(false);
     const userFilter = ref({});
+    const playlistComponent = computed(() => {
+      return (props.layout === 'grid') ? PlaylistCard : PlaylistRow;
+    });
     const combinedFilter = computed(() => {
       if (props.scope === 'collection') {
         return {
@@ -51,8 +59,14 @@ export default {
       };
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const fetchMedia = async (limit = 16, offset = 0) => {
-      const { count, next, results } = await getWTFPlaylists(limit, offset, combinedFilter.value);
+    const fetchPlaylists = async (limit = 16, offset = 0) => {
+      // NOTE: depending on the layout we need different data / expands
+      const expand = (props.layout === 'grid') ? [] : ['tags', 'editor'];
+      const {
+        count,
+        next,
+        results,
+      } = await getPlaylists(limit, offset, combinedFilter.value, expand);
       hasNext.value = !!next;
       numResults.value = count;
       // @ts-ignore
@@ -62,15 +76,16 @@ export default {
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
-      await fetchMedia(limit, offset);
+      await fetchPlaylists(limit, offset);
       lastOffset.value = offset;
     };
     onMounted(() => {
-      fetchMedia();
+      fetchPlaylists();
     });
     return {
       isLoaded,
       playlists,
+      playlistComponent,
       hasNext,
       numResults,
       fetchNextPage,
@@ -84,12 +99,14 @@ export default {
     class="playlist-list"
   >
     <div
-      class="grid"
+      class="list-container"
+      :class="`layout--${layout}`"
     >
-      <PlaylistCard
+      <component
         v-for="playlist in playlists"
         :key="playlist.uid"
         :playlist="playlist"
+        :is="playlistComponent"
       />
     </div>
     <LoadingMore
@@ -103,17 +120,31 @@ export default {
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
-.playlist-list {
-  @include container.default;
-  margin-bottom: 8rem;
-}
-.grid {
+
+@mixin grid {
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: repeat(4, 1fr);
   @include responsive.bp-small {
     grid-gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@mixin table {
+  // background: red;
+}
+
+.playlist-list {
+  // @include container.default;
+  .list-container {
+    &.layout--grid {
+      @include container.default;
+      @include grid;
+    }
+    &.layout--table {
+      @include table;
+    }
   }
 }
 </style>

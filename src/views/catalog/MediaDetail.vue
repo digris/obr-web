@@ -6,7 +6,8 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 
-import DetailHeader from '@/components/layout/DetailHeader.vue';
+import DetailPage from '@/layouts/DetailPage.vue';
+import DetailHeader from '@/layouts/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import Duration from '@/components/ui/time/Duration.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
@@ -17,6 +18,7 @@ import PlaylistList from '@/components/catalog/playlist/List.vue';
 
 export default defineComponent({
   components: {
+    DetailPage,
     DetailHeader,
     LazyImage,
     Duration,
@@ -70,89 +72,83 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    v-if="media"
-    class="media-detail"
-  >
-    <DetailHeader
-      :obj-key="objKey"
-      :enable-rating="(true)"
-      title-scope="Track"
-      :title="media.name"
+  <DetailPage>
+    <template
+      #header
     >
-      <template
-        #visual
+      <DetailHeader
+        :obj-key="objKey"
+        :enable-rating="(true)"
+        title-scope="Track"
+        :title="media.name"
       >
-        <div
-          class="visual"
+        <template
+          #visual
+        >
+          <LazyImage
+            class="image"
+            :image="image"
+          >
+            <PlayAction
+              :obj-key="objKey"
+              :size="(64)"
+              :outlined="(false)"
+              background-color="rgb(var(--c-white))"
+            />
+          </LazyImage>
+        </template>
+        <template
+          #info-panel
         >
           <div
-            class="image"
+            class="artists"
           >
-            <LazyImage
-              :image="image"
-            >
-              <PlayAction
-                :obj-key="objKey"
-                :size="(64)"
-                :outlined="(false)"
-                background-color="rgb(var(--c-white))"
-              />
-            </LazyImage>
+            <MediaArtists
+              :artists="media.artists"
+            />
           </div>
-        </div>
-      </template>
-      <template
-        #info-panel
-      >
-        <div
-          class="artists"
-        >
-          <MediaArtists
-            :artists="media.artists"
+          <div
+            class="releases"
+          >
+            <MediaReleases
+              :releases="media.releases"
+            />
+          </div>
+          <ObjectTags
+            class="tags"
+            :obj="media"
+            :limit="(4)"
           />
-        </div>
-        <div
-          class="releases"
+        </template>
+        <template
+          #meta-panel
         >
-          <MediaReleases
-            :releases="media.releases"
+          <span
+            v-if="media"
+          >
+            {{ media.numAirplays }} Airplays
+          </span>
+          <span>
+            •
+          </span>
+          <Duration
+            :seconds="media.duration"
           />
-        </div>
-        <ObjectTags
-          class="tags"
-          :obj="media"
-          :limit="(4)"
-        />
-      </template>
-      <template
-        #meta-panel
-      >
-        <span
-          v-if="media"
-        >
-          {{ media.numAirplays }} Airplays
-        </span>
-        <span>
-          •
-        </span>
-        <Duration
-          :seconds="media.duration"
-        />
-      </template>
-    </DetailHeader>
-    <section
-      class="section section--light"
-    >
-      <div
-        class="playlist-list"
-      >
-        <PlaylistList
-          :initial-filter="query.filter"
-          :disable-user-filter="(true)"
-          :disable-play-all="(true)"
-        />
-      </div>
-    </section>
-  </div>
+        </template>
+      </DetailHeader>
+    </template>
+    <PlaylistList
+      :initial-filter="query.filter"
+      :disable-user-filter="(true)"
+      :disable-play-all="(true)"
+      layout="table"
+    />
+  </DetailPage>
 </template>
+
+<style lang="scss" scoped>
+.tags,
+.identifiers {
+  margin: .5rem 0;
+}
+</style>

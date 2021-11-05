@@ -5,6 +5,7 @@ import Program from '@/views/Program.vue';
 import Discover from '@/views/Discover.vue';
 import Collection from '@/views/Collection.vue';
 import Account from '@/views/Account.vue';
+import Page from '@/views/cms/Page.vue';
 import EditorList from '@/components/broadcast/editor/List.vue';
 import MoodList from '@/components/catalog/mood/List.vue';
 import MoodDetail from '@/views/catalog/MoodDetail.vue';
@@ -226,6 +227,14 @@ const routes = [
         component: AccountEmailLogin,
       },
     ],
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'page',
+    component: Page,
+    props: (route: any) => ({
+      path: route.path,
+    }),
   },
   {
     path: '/:pathMatch(.*)*',

@@ -36,7 +36,7 @@ docker-image:
 	docker build --build-arg COMMIT=$(COMMIT_HASH) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
 deploy:
-	gcloud builds submit --project $(GCP_PROJECT)
+	gcloud builds submit --project $(GCP_PROJECT) --timeout=1200
 
 update-settings:
 	gcloud --project $(GCP_PROJECT) \
