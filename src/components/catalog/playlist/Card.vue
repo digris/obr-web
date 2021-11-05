@@ -9,6 +9,7 @@ import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
+import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
   components: {
@@ -16,6 +17,7 @@ export default defineComponent({
     PlayAction,
     UserRating,
     RelativeDateTime,
+    PlaylistName,
   },
   props: {
     playlist: {
@@ -86,13 +88,8 @@ export default defineComponent({
           <router-link
             :to="link"
           >
-            <span
-              v-text="title.name"
-            />
-            <span
-              v-if="title.appendix"
-              v-text="`#${title.appendix}`"
-              class="appendix"
+            <PlaylistName
+              :playlist="playlist"
             />
           </router-link>
         </div>

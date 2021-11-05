@@ -1,0 +1,37 @@
+@use "@/style/base/typo";
+
+@mixin block-spacing($r: 1) {
+  margin-bottom: 0.5rem * $r;
+  padding-bottom: 0.5rem * $r;
+}
+
+@mixin content {
+  > h1,
+  > h2,
+  > h3 {
+    @include typo.large;
+    @include typo.bold;
+    @include block-spacing(0.5);
+  }
+  > h4,
+  > h5,
+  > h6 {
+    @include typo.bold;
+    @include block-spacing(0.5);
+  }
+  > p {
+    @include block-spacing;
+  }
+  > ol,
+  > ul {
+    @include block-spacing;
+    margin-bottom: 0.75rem;
+    margin-left: 1.5rem;
+    padding-bottom: 0.75rem;
+    list-style-position: outside;
+  }
+  > hr {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgb(var(--c-gray-200));
+  }
+}

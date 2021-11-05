@@ -25,7 +25,7 @@ export default defineComponent({
     },
     spacing: {
       type: String,
-      default: '0.5rem',
+      default: '0.25rem',
     },
   },
   setup(props) {
@@ -35,9 +35,18 @@ export default defineComponent({
     const tags = computed(() => {
       return (props.obj && props.obj.tags) ? props.obj.tags.slice(0, props.limit) : [];
     });
+    const discoverLinkTo = computed(() => {
+      return {
+        name: 'discoverMedia',
+        query: {
+          tags: tags.value.map((t: any) => t.uid),
+        },
+      };
+    });
     return {
       keyPrefix,
       tags,
+      discoverLinkTo,
     };
   },
 });
@@ -50,6 +59,9 @@ export default defineComponent({
       '--spacing': spacing,
     }"
   >
+    <!-- <router-link
+      :to="discoverLinkTo"
+    > -->
     <Tag
       class="tags__tag"
       v-for="tag in tags"
@@ -58,6 +70,7 @@ export default defineComponent({
       :prefix="prefix"
       suffix=""
     />
+    <!-- </router-link> -->
   </div>
 </template>
 

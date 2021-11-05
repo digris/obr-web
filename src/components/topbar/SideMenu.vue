@@ -137,16 +137,20 @@ export default defineComponent({
       <section
         class="section"
       >
-        <a
-          href="#"
-        >
-          History
-        </a>
-        <a
-          href="#"
-        >
-          Jobs
-        </a>
+        <router-link
+          to="/history/"
+          @click.prevent="navigate({
+            path: '/history/',
+          })"
+          v-text="`History`"
+        />
+        <router-link
+          to="/jobs/"
+          @click.prevent="navigate({
+            path: '/jobs/',
+          })"
+          v-text="`Jobs`"
+        />
       </section>
     </div>
   </SidePanel>

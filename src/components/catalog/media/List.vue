@@ -232,7 +232,7 @@ export default {
   //margin: 0 0 8rem;
   background: rgb(var(--c-white));
 }
-.grid {
+.grid__ {
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: repeat(4, 1fr);

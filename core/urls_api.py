@@ -73,5 +73,6 @@ urlpatterns = [
     path("rating/", include("rating.api.urls", "rating")),
     path("catalog/", include("catalog.api.urls", "catalog")),
     path("broadcast/", include("broadcast.api.urls", "broadcast")),
+    path("cms/", include("cms.api.urls", "cms")),
     path("pub-sub-bridge/", include("pub_sub_bridge.api.urls", "pub_sub_bridge")),
 ]

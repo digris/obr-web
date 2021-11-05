@@ -15,11 +15,6 @@ export default defineComponent({
     UserRating,
   },
   props: {
-    // scope: {
-    //   type: String,
-    //   required: false,
-    //   default: null,
-    // },
     objKey: {
       type: String,
       required: true,
@@ -92,7 +87,7 @@ export default defineComponent({
       class="main"
     >
       <div
-        class="t-visual"
+        class="visual"
       >
         <slot
           name="visual"
@@ -160,7 +155,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/container";
-@mixin visual {
+@mixin visual-image {
   height: 50vh;
   min-height: 280px;
   max-height: 620px;
@@ -205,17 +200,18 @@ export default defineComponent({
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
-    .t-visual {
+    .visual {
       display: flex;
       align-items: center;
       justify-content: center;
-      :deep(.visual) {
-        @include visual;
+      :deep(.image) {
+        @include visual-image;
       }
     }
     .body {
       position: absolute;
       top: 0;
+      width: calc(50% - 48px); // TODO: width calculation
       .title {
         margin-bottom: 0.5rem;
         &--scope {

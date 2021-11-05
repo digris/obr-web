@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
-
+from base.api.serializers import CTUIDModelSerializer
 from catalog.api.serializers import MediaSerializer
+from broadcast.models.editor import Editor
 from catalog.models import Media, PlaylistMedia
 from image.api.serializers import ImageSerializer
+from tagging.api.serializers import TagSerializer
 
 
 class PlaylistMediaSerializer(
@@ -24,6 +26,30 @@ class PlaylistMediaSerializer(
             "fade_in",
             "fade_out",
             "fade_cross",
+        ]
+
+
+# TODO: find a better way to handle editor
+class PlaylistEditorSerializer(
+    CTUIDModelSerializer,
+    serializers.HyperlinkedModelSerializer,
+):
+    url = serializers.HyperlinkedIdentityField(
+        view_name="api:broadcast:editor-detail",
+        lookup_field="uid",
+    )
+
+    name = serializers.CharField(
+        source="display_name",
+    )
+
+    class Meta:
+        model = Editor
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "name",
         ]
 
 
@@ -86,5 +112,12 @@ class PlaylistSerializer(
                     "source": "playlist_media",
                     "many": True,
                 },
-            )
+            ),
+            "tags": (
+                TagSerializer,
+                {
+                    "many": True,
+                },
+            ),
+            "editor": (PlaylistEditorSerializer,),
         }

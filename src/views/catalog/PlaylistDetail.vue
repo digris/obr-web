@@ -7,17 +7,26 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 
-import DetailHeader from '@/components/layout/DetailHeader.vue';
+import { playlistTitle } from '@/utils/catalog';
+
+import DetailPage from '@/layouts/DetailPage.vue';
+// eslint-disable-next-line import/no-unresolved
+import DetailHeader from '@/layouts/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
+// import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
   components: {
+    DetailPage,
     DetailHeader,
     LazyImage,
     PlayAction,
+    ObjectTags,
     MediaList,
+    // PlaylistName,
   },
   props: {
     uid: {
@@ -29,6 +38,7 @@ export default defineComponent({
     const store = useStore();
     const isLoaded = ref(false);
     const playlist = computed(() => store.getters['catalog/playlistByUid'](props.uid));
+    const title = computed(() => playlistTitle(playlist.value));
     const objKey = computed(() => `${playlist.value.ct}:${playlist.value.uid}`);
     const mediaList = computed(() => {
       return playlist.value.mediaSet.reduce((a: any, b: any) => a.concat({ ...b.media, ...b }), []);
@@ -49,6 +59,7 @@ export default defineComponent({
       objKey,
       isLoaded,
       playlist,
+      title,
       mediaList,
       query,
     };
@@ -57,86 +68,58 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    v-if="playlist"
-    class="playlist-detail"
-  >
-    <DetailHeader
-      :obj-key="objKey"
-      :enable-rating="(true)"
-      title-scope="Show"
-      :title="playlist.name"
+  <DetailPage>
+    <template
+      #header
     >
-      <template
-        #visual
+      <DetailHeader
+        :obj-key="objKey"
+        :enable-rating="(true)"
+        title-scope="Show"
+        :title="title"
       >
-        <div
-          class="visual"
+        <template
+          #visual
         >
-          <div
+          <LazyImage
             class="image"
+            :image="playlist.image"
           >
-            <LazyImage
-              :image="playlist.image"
-            >
-              <PlayAction
-                :obj-key="objKey"
-                :size="(64)"
-                :outlined="(false)"
-                background-color="rgb(var(--c-white))"
-              />
-            </LazyImage>
-          </div>
-        </div>
-      </template>
-      <template
-        #info-panel
-      >
-        <div
-          class="tags"
+            <PlayAction
+              :obj-key="objKey"
+              :size="(64)"
+              :outlined="(false)"
+              background-color="rgb(var(--c-white))"
+            />
+          </LazyImage>
+        </template>
+        <template
+          #info-panel
         >
-          <span
-            class="tag"
-          >#Electronic</span>
-          <span
-            class="tag"
-          >#Rock</span>
-          <span
-            class="tag"
-          >#Techno</span>
-        </div>
-      </template>
-      <template
-        #meta-panel
-      >
-        <span>1h 25m</span>
-      </template>
-    </DetailHeader>
-    <section
-      class="section section--light"
-    >
-      <div
-        class="media-list"
-      >
-        <MediaList
-          :initial-filter="query.filter"
-          :disable-user-filter="(true)"
-          :disable-play-all="(true)"
-        />
-      </div>
-    </section>
-  </div>
+          <ObjectTags
+            class="tags"
+            :obj="playlist"
+            :limit="(4)"
+          />
+        </template>
+        <template
+          #meta-panel
+        >
+          <span>1h 25m</span>
+        </template>
+      </DetailHeader>
+    </template>
+    <MediaList
+      :initial-filter="query.filter"
+      :disable-user-filter="(true)"
+      :disable-play-all="(true)"
+    />
+  </DetailPage>
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/elements/container";
-.section {
-  @include container.section;
-}
-.playlist-detail {
-  margin-bottom: 12rem;
-}
-.media-list {
-  background: rgb(var(--c-white));
+.tags,
+.identifiers {
+  margin: .5rem 0;
 }
 </style>

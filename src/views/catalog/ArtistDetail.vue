@@ -4,28 +4,27 @@ import {
   defineComponent,
   ref,
   onActivated,
-  //
   onBeforeUpdate,
 } from 'vue';
 import { useStore } from 'vuex';
 
-import DetailHeader from '@/components/layout/DetailHeader.vue';
+import DetailPage from '@/layouts/DetailPage.vue';
+import DetailHeader from '@/layouts/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import ObjectIdentifiers from '@/components/identifier/ObjectIdentifiers.vue';
 import MediaList from '@/components/catalog/media/List.vue';
-import SocialMediaLinks from '@/components/social-media/SocialMediaLinks.vue';
 
 export default defineComponent({
   components: {
+    DetailPage,
     DetailHeader,
     LazyImage,
     PlayAction,
     ObjectTags,
     ObjectIdentifiers,
     MediaList,
-    SocialMediaLinks,
   },
   props: {
     uid: {
@@ -72,108 +71,78 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    v-if="artist"
-    class="artist-detail"
-  >
-    <DetailHeader
-      :obj-key="objKey"
-      title-scope="Künstler*in"
-      :title="artist.name"
+  <DetailPage>
+    <template
+      #header
     >
-      <template
-        #visual
+      <DetailHeader
+        :obj-key="objKey"
+        title-scope="Künstler*in"
+        :title="artist.name"
       >
-        <div
-          class="visual"
+        <template
+          #visual
         >
-          <div
+          <LazyImage
             class="image"
+            :image="artist.image"
           >
-            <LazyImage
-              :image="artist.image"
+            <PlayAction
+              :obj-key="objKey"
+              :size="(64)"
+              :outlined="(false)"
+              background-color="rgb(var(--c-white))"
+            />
+          </LazyImage>
+        </template>
+        <template
+          #info-panel
+        >
+          <ObjectTags
+            class="tags"
+            :obj="artist"
+            :limit="(4)"
+          />
+          <div
+            v-if="artist.countryCode"
+          >
+            <span
+              v-text="artist.countryCode"
+            />
+            <span
+              v-if="artist.dateStart"
             >
-              <PlayAction
-                :obj-key="objKey"
-                :size="(64)"
-                :outlined="(false)"
-                background-color="rgb(var(--c-white))"
-              />
-            </LazyImage>
+              ({{ artist.dateStart.substr(0,4) }})
+            </span>
           </div>
-        </div>
-      </template>
-      <template
-        #info-panel
-      >
-        <ObjectTags
-          class="tags"
-          :obj="artist"
-          :limit="(4)"
-        />
-        <div
-          v-if="artist.countryCode"
+          <ObjectIdentifiers
+            class="identifiers"
+            :obj="artist"
+            :limit="(4)"
+          />
+        </template>
+        <template
+          #meta-panel
         >
           <span
-            v-text="artist.countryCode"
-          />
-          <span
-            v-if="artist.dateStart"
-          >
-            ({{ artist.dateStart.substr(0,4) }})
-          </span>
-        </div>
-        <ObjectIdentifiers
-          class="identifiers"
-          :obj="artist"
-          :limit="(4)"
-        />
-      </template>
-      <template
-        #meta-panel
-      >
-        <span
-          v-if="artist"
-        >{{ artist.numMedia }} Tracks</span>
-        <span>•</span>
-        <span>1h 25m</span>
-      </template>
-    </DetailHeader>
-    <section
-      class="section section--light body"
-    >
+            v-if="artist"
+          >{{ artist.numMedia }} Tracks</span>
+          <span>•</span>
+          <span>1h 25m</span>
+        </template>
+      </DetailHeader>
       <MediaList
         :initial-filter="query.filter"
         :disable-user-filter="(true)"
         :disable-play-all="(true)"
       />
-    </section>
-    <section
-      class="section section--light appendix"
-    >
-      <SocialMediaLinks />
-    </section>
-  </div>
+    </template>
+  </DetailPage>
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/elements/container";
-.section {
-  @include container.section;
-}
-.artist-detail {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 78px);
-  .tags,
-  .identifiers {
-    margin: .5rem 0;
-  }
-  .body {
-    flex-grow: 1;
-  }
-  .appendix {
-    padding-bottom: 4rem;
-  }
+.tags,
+.identifiers {
+  margin: .5rem 0;
 }
 </style>

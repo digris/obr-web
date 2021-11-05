@@ -1,6 +1,16 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import {
+  computed,
+  defineComponent,
+  ref,
+  onMounted,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
+} from 'vue';
 import { DateTime } from 'luxon';
+
+const TIME_UPDATE_INTERVAL = 60000;
 
 export default defineComponent({
   props: {
@@ -14,28 +24,27 @@ export default defineComponent({
     const isToday = computed(() => {
       return (props.dateTime.hasSame(now.value, 'day'));
     });
-    /*
-    const timeFormat = computed(() => {
-      const dt = props.dateTime;
-      if (dt.hasSame(now.value, 'day')) {
-        return 'HH:mm';
-      }
-      if (dt.hasSame(now.value, 'month')) {
-        console.debug(dt.toRelativeCalendar());
-        return 'yyyy-LL-dd';
-      }
-      return 'yyyy-LL-dd';
-    });
-    */
     const timeDisplay = computed(() => {
       if (isToday.value) {
         return `Heute ${props.dateTime.toFormat('HH:mm')}`;
       }
       return props.dateTime.setLocale('de-CH').toRelativeCalendar();
     });
-    setInterval(() => {
-      now.value = DateTime.now();
-    }, 5000);
+    let interval: ReturnType<typeof setInterval>;
+    const startInterval = () => {
+      interval = setInterval(() => {
+        now.value = DateTime.now();
+      }, TIME_UPDATE_INTERVAL);
+    };
+    const stopInterval = () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+    onMounted(() => startInterval());
+    onActivated(() => startInterval());
+    onUnmounted(() => stopInterval());
+    onDeactivated(() => stopInterval());
     return {
       timeDisplay,
     };
