@@ -8,23 +8,23 @@ import {
 import { useStore } from 'vuex';
 import { Tag } from '@/typings/api/models/Tag';
 
+import DetailPage from '@/layouts/DetailPage.vue';
 import DetailHeader from '@/layouts/DetailHeader.vue';
-import Filterbar from '@/components/filter/Filterbar.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 // import Animation from '@/components/animation/Animation.vue';
-import Space from '@/components/animation/Space.vue';
+import Lottie from '@/components/animation/Lottie.vue';
 
 export default defineComponent({
   components: {
+    DetailPage,
     DetailHeader,
-    Filterbar,
     PlayAction,
     ObjectTags,
     MediaList,
     // Animation,
-    Space,
+    Lottie,
   },
   props: {
     uid: {
@@ -78,85 +78,67 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    v-if="mood"
-    class="mood-detail"
-  >
-    <DetailHeader
-      :obj-key="objKey"
-      title-scope="Stimmung"
-      :title="mood.name"
+  <DetailPage>
+    <template
+      #header
     >
-      <template
-        #visual
+      <DetailHeader
+        :obj-key="objKey"
+        title-scope="Stimmung"
+        :title="mood.name"
       >
-        <PlayAction
-          :obj-key="objKey"
-          :filter="combinedFilter"
-          :size="(96)"
-          :outlined="(false)"
-          background-color="rgb(var(--c-white))"
-        />
-        <!--
-        <pre
-          class="debug"
-          v-text="{
-            initialFilter: initialFilter,
-            query: query,
-            userFilter: userFilter,
-            combinedFilter: combinedFilter,
-          }"
-        ></pre>
-        -->
-      </template>
-      <template
-        #info-panel
-      >
-        <ObjectTags
-          class="tags"
-          :obj="mood"
-          :limit="(4)"
-        />
-      </template>
-      <template
-        #meta-panel
-      >
-        ...
-      </template>
-      <template
-        #appendix
-      >
-        <Filterbar />
-      </template>
-      <template
-        #background
-      >
-        <!--
-        <Animation
-          v-if="mood.name === 'Focus'"
-        />
-        -->
-        <Space
-          v-if="mood.name === 'Cocktail'"
-          :color="mediaColor"
-        />
-      </template>
-    </DetailHeader>
-    <section
-      class="section section--light"
-    >
-      <div
-        class="media-list"
-      >
-        <MediaList
-          :initial-filter="initialFilter"
-          :query="query"
-          :disable-user-filter="(false)"
-          :disable-play-all="(false)"
-        />
-      </div>
-    </section>
-  </div>
+        <template
+          #visual
+        >
+          <div
+            class="image"
+          >
+            <PlayAction
+              :obj-key="objKey"
+              :filter="combinedFilter"
+              :size="(96)"
+              :outlined="(false)"
+              background-color="rgb(var(--c-white))"
+            />
+          </div>
+        </template>
+        <template
+          #info-panel
+        >
+          <ObjectTags
+            class="tags"
+            :obj="mood"
+            :limit="(4)"
+          />
+        </template>
+        <template
+          #meta-panel
+        >
+          <span>1h 25m</span>
+        </template>
+        <template
+          #searchbar
+        >
+          (( SB ))
+        </template>
+        <template
+          #background
+        >
+          <Lottie
+            v-if="mood.animationUrl"
+            :src="mood.animationUrl"
+            :color="mediaColor"
+          />
+        </template>
+      </DetailHeader>
+      <MediaList
+        :initial-filter="initialFilter"
+        :query="query"
+        :disable-user-filter="(false)"
+        :disable-play-all="(true)"
+      />
+    </template>
+  </DetailPage>
 </template>
 
 <style lang="scss" scoped>
@@ -170,7 +152,7 @@ export default defineComponent({
     // TODO: find / define appropriate value...
     min-height: 60vh;
   }
-  .filterbar {
+  .--disabled--searchbar {
     flex-grow: 1;
     justify-content: flex-end;
     margin-bottom: 1rem;

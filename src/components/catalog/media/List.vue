@@ -11,6 +11,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { isEqual } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
+import Searchbar from '@/components/filter/Searchbar.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import PlayAll from '@/components/catalog/media/PlayAll.vue';
@@ -20,6 +21,7 @@ import { getMedia, getMediaTags } from '@/api/catalog';
 
 export default {
   components: {
+    Searchbar,
     ListFilter,
     PlayAction,
     PlayAll,
@@ -100,6 +102,9 @@ export default {
       tagList.value = await getMediaTags(combinedFilter.value);
       tagListLoading.value = false;
     };
+    const showSearchBar = computed(() => {
+      return !props.disableUserFilter;
+    });
     const showUserFilter = computed(() => {
       if (props.disableUserFilter) {
         return false;
@@ -157,6 +162,7 @@ export default {
       hasNext,
       numResults,
       fetchNextPage,
+      showSearchBar,
       showUserFilter,
       userFilter,
       updateUserFilter,
@@ -169,6 +175,11 @@ export default {
   <div
     class="list-filter-container"
   >
+    <Searchbar
+      v-if="showSearchBar"
+      :filter="userFilter"
+      @change="updateUserFilter"
+    />
     <ListFilter
       v-if="showUserFilter"
       :filter="userFilter"

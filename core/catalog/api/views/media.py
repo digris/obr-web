@@ -62,6 +62,15 @@ class MediaFilter(filters.FilterSet):
         return queryset.filter(**query)
 
 
+def get_search_qs(qs, q):
+    qs = qs.filter(
+        Q(name__icontains=q)
+        | Q(artists__name__icontains=q)
+        | Q(releases__name__icontains=q)
+    )
+    return qs
+
+
 class MediaViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
@@ -131,6 +140,9 @@ class MediaViewSet(
         tag_uids = self.request.GET.getlist(
             "tags[]", self.request.GET.getlist("tags", [])
         )
+
+        if q := self.request.GET.get("q", None):
+            qs = get_search_qs(qs, q)
 
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)

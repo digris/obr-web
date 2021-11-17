@@ -24,6 +24,10 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         blank=True,
     )
 
+    animation_url = models.URLField(
+        blank=True,
+    )
+
     class Meta:
         app_label = "catalog"
         verbose_name = "Mood"

@@ -88,6 +88,9 @@ export default defineComponent({
   &.is-active {
     color: rgb(var(--c-active));
     background: rgba(var(--c-main), 0.9);
+    &:hover {
+      background: rgba(var(--c-main), 0.7);
+    }
   }
   &.is-disabled {
     opacity: 0.2;
