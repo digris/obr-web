@@ -25,4 +25,5 @@ class MoodSerializer(
             "name",
             "teaser",
             "tags",
+            "animation_url",
         ]

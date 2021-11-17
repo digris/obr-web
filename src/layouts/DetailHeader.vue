@@ -130,17 +130,12 @@ export default defineComponent({
         />
       </div>
       <div
-        class="actions"
+        class="searchbar"
       >
-        ...
+        <div
+          id="searchbar"
+        />
       </div>
-    </div>
-    <div
-      class="appendix"
-    >
-      <slot
-        name="appendix"
-      />
     </div>
     <div
       class="background"
@@ -181,6 +176,14 @@ export default defineComponent({
   .top {
     position: sticky;
     top: 78px;
+    > .actions {
+      justify-self: flex-end;
+    }
+  }
+  .bottom {
+    > .filterbar {
+      background: transparent;
+    }
   }
   .top,
   .bottom {
@@ -188,11 +191,8 @@ export default defineComponent({
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     height: 4rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    .actions {
-      justify-self: flex-end;
-    }
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
   .main {
     position: relative;
@@ -226,9 +226,6 @@ export default defineComponent({
         }
       }
     }
-  }
-  .appendix {
-    display: flex;
   }
   .background {
     position: absolute;

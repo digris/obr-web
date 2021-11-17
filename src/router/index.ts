@@ -18,7 +18,7 @@ import MediaDetail from '@/views/catalog/MediaDetail.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
-import Filterbar from '@/components/filter/Filterbar.vue';
+import Searchbar from '@/components/filter/Searchbar.vue';
 
 import { getUser } from '@/api/account';
 import { setBodyColorTheme } from '@/utils/color';
@@ -62,7 +62,7 @@ const routes = [
         // component: PlaylistList,
         components: {
           default: PlaylistList,
-          filterbar: Filterbar,
+          searchbar: Searchbar,
         },
       },
       {
@@ -70,7 +70,7 @@ const routes = [
         name: 'discoverArtists',
         components: {
           default: ArtistList,
-          filterbar: Filterbar,
+          searchbar: Searchbar,
         },
       },
       {
@@ -78,7 +78,7 @@ const routes = [
         name: 'discoverMedia',
         components: {
           default: MediaList,
-          filterbar: Filterbar,
+          searchbar: Searchbar,
         },
         props: {
           default: (route: any) => ({
@@ -161,7 +161,7 @@ const routes = [
         name: 'collectionMedia',
         components: {
           default: MediaList,
-          filterbar: Filterbar,
+          searchbar: Searchbar,
         },
         props: {
           default: (route: any) => ({
@@ -176,7 +176,7 @@ const routes = [
         // component: PlaylistList,
         components: {
           default: PlaylistList,
-          filterbar: Filterbar,
+          searchbar: Searchbar,
         },
         props: {
           default: (route: any) => ({

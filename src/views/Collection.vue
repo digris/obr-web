@@ -28,7 +28,7 @@
         class="menu menu--secondary"
       >
         <router-view
-          name="filterbar"
+          name="searchbar"
         />
       </div>
     </div>

@@ -125,3 +125,4 @@ gcloud projects add-iam-policy-binding open-broadcast \
 gcloud iam service-accounts keys create \
   ~/.keys/open-broadcast/gcp-service-account-dev.json \
   --iam-account=development@open-broadcast.iam.gserviceaccount.com
+```

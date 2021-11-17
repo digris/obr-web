@@ -1,5 +1,5 @@
 <script type="ts">
-import { computed, defineComponent } from 'vue';
+import { ref, computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconSearch from '@/components/ui/icon/IconSearch.vue';
@@ -11,7 +11,17 @@ export default defineComponent({
     IconSearch,
     IconHashtag,
   },
-  setup() {
+  props: {
+    filter: {
+      type: Object,
+      required: true,
+      default: () => {},
+    },
+  },
+  emits: [
+    'change',
+  ],
+  setup(props, { emit }) {
     const store = useStore();
     const isExpanded = computed(() => store.getters['ui/filterExpanded']);
     const toggleFilter = () => {
@@ -21,25 +31,41 @@ export default defineComponent({
         store.dispatch('ui/expandFilter');
       }
     };
+    const query = ref('');
+    const searchInput = (e) => {
+      query.value = e.target.value;
+    };
+    const updateSearchQuery = () => {
+      const filter = { ...props.filter };
+      filter.q = query.value;
+      emit('change', filter);
+    };
     return {
       isExpanded,
       toggleFilter,
+      query,
+      searchInput,
+      updateSearchQuery,
     };
   },
 });
 </script>
 <template>
   <div
-    class="filterbar"
+    class="searchbar"
   >
     <div
       class="searchinput"
     >
-      <input />
+      <input
+        :value="filter.q"
+        @keyup="searchInput"
+      />
     </div>
     <CircleButton
       :size="(48)"
       :outlined="(false)"
+      @click="updateSearchQuery"
     >
       <IconSearch
         :size="(48)"
@@ -49,12 +75,13 @@ export default defineComponent({
     <CircleButton
       :size="(48)"
       :outlined="(false)"
-      :active="isExpanded"
+      :active="(!isExpanded)"
+      :color-var="`--c-black`"
       @click="toggleFilter"
     >
       <IconHashtag
         :size="(48)"
-        :color="(isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`)"
+        :color="(isExpanded ? `rgb(var(--c-page-fg))` : `rgb(var(--c-page-bg))`)"
       />
     </CircleButton>
   </div>
@@ -62,9 +89,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-.filterbar {
+.searchbar {
   display: flex;
+  flex-grow: 1;
   align-items: center;
+  justify-content: flex-end;
 }
 .searchinput {
   height: 40px;
