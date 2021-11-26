@@ -7,6 +7,7 @@ import {
 import { useStore } from 'vuex';
 
 import IconHeart from '@/components/ui/icon/IconHeart.vue';
+import IconFlash from '@/components/ui/icon/IconFlash.vue';
 
 export default defineComponent({
   props: {
@@ -34,6 +35,7 @@ export default defineComponent({
   },
   components: {
     IconHeart,
+    IconFlash,
   },
   setup(props) {
     const store = useStore();
@@ -86,12 +88,11 @@ export default defineComponent({
       @click="rate(1)"
       :color="`rgba(var(${colorVar}), 0.5)`"
     />
-    <span
+    <IconFlash
       v-if="(userRating.value === -1)"
+      :size="iconSize"
       @click="rate(null)"
-    >
-      -
-    </span>
+    />
   </div>
 </template>
 
