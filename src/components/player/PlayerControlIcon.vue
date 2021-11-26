@@ -52,12 +52,12 @@ export default defineComponent({
     >
       <IconPlay
         v-if="(state === 'playing')"
-        :size="20"
+        :size="24"
         color="#0ff"
       />
       <IconPlay
         v-else
-        :size="20"
+        :size="24"
       />
     </CircleButton>
   </div>

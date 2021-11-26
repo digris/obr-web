@@ -245,7 +245,7 @@ export default defineComponent({
         >
           <UserRating
             :obj-key="objKey"
-            :icon-size="24"
+            :icon-size="48"
           />
         </CircleButton>
         <CircleButton
@@ -253,7 +253,7 @@ export default defineComponent({
           :outlined="(false)"
         >
           <IconContext
-            :size="36"
+            :size="48"
           />
         </CircleButton>
       </div>

@@ -111,7 +111,7 @@ export default defineComponent({
   >
     <component
       :is="icon"
-      :size="(size * 0.75)"
+      :size="size"
       :color="color"
     />
   </Circle>
