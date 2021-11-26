@@ -27,6 +27,10 @@ export default defineComponent({
       type: String,
       default: '--c-black',
     },
+    hideIfUnset: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     IconHeart,
@@ -43,15 +47,21 @@ export default defineComponent({
       };
       await store.dispatch('rating/updateRating', vote);
     };
+    const style = computed(() => {
+      return {
+        height: `${props.iconSize}px`,
+        opacity: (props.hideIfUnset && userRating.value.value === null) ? 0 : 1,
+      };
+    });
     onMounted(() => {
       if (props.autoload) {
-        console.debug('autoloat object rating');
         store.dispatch('rating/loadRating', props.objKey);
       }
     });
     return {
       userRating,
       rate,
+      style,
     };
   },
 });
@@ -61,9 +71,7 @@ export default defineComponent({
   <div
     v-if="userRating"
     class="user-rating"
-    :style="{
-      height: `${iconSize}px`,
-    }"
+    :style="style"
   >
     <IconHeart
       v-if="(userRating.value === 1)"
@@ -89,6 +97,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .user-rating {
-  //background: red;
+  transition: opacity 200ms ease-in-out;
 }
 </style>
