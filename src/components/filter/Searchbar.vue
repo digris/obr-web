@@ -14,7 +14,7 @@ export default defineComponent({
   props: {
     filter: {
       type: Object,
-      required: true,
+      required: false,
       default: () => {},
     },
   },

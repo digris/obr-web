@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
@@ -25,7 +25,6 @@ export default defineComponent({
   },
   components: {
     Debug,
-    // PlayerControlIcon,
     CircleButton,
     IconContext,
     ButtonPlay,
@@ -40,6 +39,7 @@ export default defineComponent({
     const objKey = computed(() => {
       return `${props.media.ct}:${props.media.uid}`;
     });
+    const isHover = ref(false);
     const release = computed(() => {
       return (props.media.releases && props.media.releases.length) ? props.media.releases[0] : null;
     });
@@ -133,6 +133,7 @@ export default defineComponent({
     };
     return {
       objKey,
+      isHover,
       release,
       color,
       contrastColor,
@@ -162,6 +163,8 @@ export default defineComponent({
       'is-current': isCurrent,
       'is-onair': isOnair,
     }"
+    @mouseenter="isHover=true"
+    @mouseleave="isHover=false"
   >
     <Debug
       :visible="(false)"
@@ -246,6 +249,7 @@ export default defineComponent({
           <UserRating
             :obj-key="objKey"
             :icon-size="48"
+            :hide-if-unset="(!isHover)"
           />
         </CircleButton>
         <CircleButton
