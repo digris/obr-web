@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-const BASE_SIZE = 24;
+const BASE_SIZE = 48;
 
 export default defineComponent({
   props: {
@@ -18,7 +18,6 @@ export default defineComponent({
     const style = computed(() => {
       return {
         fill: props.color,
-        stroke: props.color,
         transform: `scale(${props.size / BASE_SIZE})`,
       };
     });
@@ -29,32 +28,26 @@ export default defineComponent({
 });
 </script>
 <template>
+  <!-- eslint-disable max-len -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    width="24px"
-    viewBox="0 0 24 24"
+    x="0"
+    y="0"
+    viewBox="0 0 48 48"
     :style="style"
   >
-    <line
-      x1="12"
-      y1="7.5"
-      x2="12"
-      y2="12"
-    />
-    <line
-      x1="15.5"
-      y1="12"
-      x2="11.5"
-      y2="12"
+    <path
+      d="M22.5,13.6v8.9v3v0h8v-3h-5v-8.9c-0.5-0.1-1-0.1-1.5-0.1S23,13.5,22.5,13.6z"
     />
     <path
-      d="M12,18 C8.7,18 6,15.3 6,12 C6,8.7 8.7,6 12,6 C15.3,6 18,8.7 18,12"
-      fill="none"
+      d="M10.5,24c0,7.4,6.1,13.5,13.5,13.5c0.5,0,1,0,1.5-0.1v-3c-0.5,0.1-1,0.1-1.5,0.1c-5.8,0-10.5-4.7-10.5-10.5c0-5.3,3.9-9.6,9-10.4v-3C15.8,11.3,10.5,17.1,10.5,24z"
     />
-    <polyline
-      fill-rule="nonzero"
-      points="11.45 15.9 13.55 18 11.45 20.1"
+    <path
+      d="M25.5,10.6v3c5.1,0.7,9,5.1,9,10.4c0,0.5,0,1-0.1,1.5h3c0.1-0.5,0.1-1,0.1-1.5C37.5,17.1,32.2,11.3,25.5,10.6z"
+    />
+    <polygon
+      points="22.5,41 22.5,31 27.5,36 "
     />
   </svg>
+  <!-- eslint-enable max-len -->
 </template>

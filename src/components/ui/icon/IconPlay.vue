@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-const BASE_SIZE = 24;
+const BASE_SIZE = 48;
 
 export default defineComponent({
   props: {
@@ -30,17 +30,13 @@ export default defineComponent({
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    width="24px"
-    viewBox="0 0 24 24"
+    height="48px"
+    width="48px"
+    viewBox="0 0 48 48"
     :style="style"
   >
-    <path
-      d="M0 0h24v24H0z"
-      fill="none"
-    />
-    <path
-      d="M8 5v14l11-7z"
+    <polygon
+      points="34.1,24 19.1,15 19.1,33"
     />
   </svg>
 </template>

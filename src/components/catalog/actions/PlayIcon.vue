@@ -32,7 +32,7 @@ export default defineComponent({
       :filter="filter"
     >
       <IconPlay
-        :size="40"
+        :size="48"
         color="rgb(var(--c-white))"
       />
     </PlayAction>

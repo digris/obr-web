@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-const BASE_SIZE = 24;
+const BASE_SIZE = 48;
 
 export default defineComponent({
   props: {
@@ -18,6 +18,8 @@ export default defineComponent({
     const style = computed(() => {
       return {
         stroke: props.color,
+        strokeWidth: 3,
+        strokeMiterlimit: 10,
         fill: 'transparent',
         transform: `scale(${props.size / BASE_SIZE})`,
       };
@@ -31,21 +33,21 @@ export default defineComponent({
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    width="24px"
-    viewBox="0 0 24 24"
+    height="48px"
+    width="48px"
+    viewBox="0 0 48 48"
     :style="style"
   >
     <circle
-      cx="11.75"
-      cy="11.5"
-      r="3.5"
+      cx="23.5"
+      cy="23"
+      r="7"
     />
     <line
-      x1="13.75"
-      y1="14"
-      x2="16.75"
-      y2="17"
+      x1="27.5"
+      y1="28"
+      x2="33.5"
+      y2="34"
     />
   </svg>
 </template>

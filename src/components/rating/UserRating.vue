@@ -21,7 +21,7 @@ export default defineComponent({
     },
     iconSize: {
       type: Number,
-      default: 24,
+      default: 48,
     },
     colorVar: {
       type: String,

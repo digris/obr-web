@@ -81,7 +81,7 @@ export default defineComponent({
         @click="rate(1)"
       >
         <IconHeart
-          :size="28"
+          :size="48"
           :outlined="(userRatingValue !== 1)"
           color="rgb(var(--c-page-fg))"
         />
@@ -90,13 +90,13 @@ export default defineComponent({
     <div>
       <CircleButton
         :size="48"
-        :active="(userRatingValue === -1)"
+        @click="rate(-1)"
       >
         <IconFlash
-          :size="42"
+          :size="48"
           @click="rate(-1)"
-          :outlined="(true)"
-          :color="`rgb(var(--c-live-${userRatingValue === -1 ? 'bg' : 'fg'}))`"
+          :outlined="(userRatingValue !== -1)"
+          color="rgb(var(--c-page-fg))"
         />
       </CircleButton>
     </div>

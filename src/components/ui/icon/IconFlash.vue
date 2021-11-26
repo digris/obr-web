@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-const BASE_SIZE = 24;
+const BASE_SIZE = 48;
 
 export default defineComponent({
   props: {
@@ -24,13 +24,17 @@ export default defineComponent({
         return {
           stroke: props.color,
           fill: 'transparent',
+          strokeMiterlimit: 10,
           transform: `scale(${props.size / BASE_SIZE})`,
-          strokeWidth: (2 * BASE_SIZE) / props.size,
+          strokeWidth: (3 * BASE_SIZE) / props.size,
         };
       }
       return {
+        stroke: props.color,
         fill: props.color,
+        strokeMiterlimit: 10,
         transform: `scale(${props.size / BASE_SIZE})`,
+        strokeWidth: (3 * BASE_SIZE) / props.size,
       };
     });
     return {
@@ -43,13 +47,13 @@ export default defineComponent({
   <!-- eslint-disable max-len -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    width="24px"
-    viewBox="0 0 24 24"
+    height="48px"
+    width="48px"
+    viewBox="0 0 48 48"
     :style="style"
   >
-    <polyline
-      points="13.45,6 7.6,12 16.4,12 10.55,18"
+    <polygon
+      points="35,21 24,21 24,13 13,26 24,26 24,35"
     />
   </svg>
   <!-- eslint-enable max-len -->

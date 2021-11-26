@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-const BASE_SIZE = 24;
+const BASE_SIZE = 48;
 
 export default defineComponent({
   props: {
@@ -22,10 +22,8 @@ export default defineComponent({
     const style = computed(() => {
       if (props.outlined) {
         return {
-          stroke: props.color,
-          fill: 'transparent',
+          fill: props.color,
           transform: `scale(${props.size / BASE_SIZE})`,
-          strokeWidth: (2 * BASE_SIZE) / props.size,
         };
       }
       return {
@@ -43,14 +41,28 @@ export default defineComponent({
   <!-- eslint-disable max-len -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    width="24px"
-    viewBox="0 0 24 24"
+    height="48px"
+    width="48px"
+    viewBox="0 0 48 48"
     :style="style"
   >
-    <path
-      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-    />
+    <transition
+      name="fade"
+    >
+      <path
+        v-if="outlined"
+        d="M35.3,15.2c-3-3.1-7.8-3.2-10.9-0.1l-0.1,0.1c-0.1,0.1-0.2,0.2-0.2,0.2c-0.1-0.1-0.1-0.2-0.2-0.2c-3-3.1-7.8-3.2-10.9-0.1
+        l-0.1,0.1c-1.5,1.5-2.3,3.5-2.3,5.6s0.8,4.1,2.3,5.6L24,37.8l11.3-11.5c1.5-1.5,2.3-3.5,2.3-5.6S36.8,16.6,35.3,15.2z M33.1,24.2
+        L24,33.6l-9.1-9.3c-1.9-1.9-1.9-5.1,0-7l0.1-0.1c1-0.9,2.1-1.4,3.3-1.4c1.2,0,2.4,0.5,3.4,1.5c0.4,0.4,0.7,0.9,1,1.4l0.3,0.8h2
+        l0.3-0.8c0.2-0.5,0.5-1,1-1.4l0.1-0.1c1.9-1.9,4.9-1.8,6.7,0.1C35.1,19.2,35.1,22.3,33.1,24.2z"
+      />
+      <path
+        v-else
+        d="M35.3,15.2c-3-3.1-7.8-3.2-10.9-0.1l-0.1,0.1c-0.1,0.1-0.2,0.2-0.2,0.2c-0.1-0.1-0.1-0.2-0.2-0.2
+        c-3-3.1-7.8-3.2-10.9-0.1l-0.1,0.1c-1.5,1.5-2.3,3.5-2.3,5.6s0.8,4.1,2.3,5.6L24,37.8l11.3-11.5c1.5-1.5,2.3-3.5,2.3-5.6
+        S36.8,16.6,35.3,15.2z"
+      />
+    </transition>
   </svg>
   <!-- eslint-enable max-len -->
 </template>
@@ -60,5 +72,32 @@ svg {
   path {
     shape-rendering: geometricprecision;
   }
+}
+
+/*
+@keyframes bounce-in {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+*/
+
+.fade-enter-active {
+  transition: opacity 200ms;
+}
+.fade-leave-active {
+  transition: opacity 200ms;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

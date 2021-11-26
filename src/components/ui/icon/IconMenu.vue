@@ -4,7 +4,7 @@ import {
   computed,
 } from 'vue';
 
-const BASE_SIZE = 24;
+const BASE_SIZE = 48;
 
 export default defineComponent({
   props: {
@@ -21,6 +21,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         fill: props.color,
+        stroke: 'none',
         transform: `scale(${props.size / BASE_SIZE})`,
       };
     });
@@ -31,30 +32,30 @@ export default defineComponent({
 });
 </script>
 <template>
+  <!-- eslint-disable max-len -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    width="24px"
-    viewBox="0 0 24 24"
+    viewBox="0 0 48 48"
     :style="style"
   >
     <rect
-      x="4"
-      y="6"
-      width="16"
-      height="1.5"
+      x="8"
+      y="22.5"
+      width="32"
+      height="3"
     />
     <rect
-      x="4"
-      y="11"
-      width="16"
-      height="1.5"
+      x="8"
+      y="13.5"
+      width="32"
+      height="3"
     />
     <rect
-      x="4"
-      y="16"
-      width="16"
-      height="1.5"
+      x="8"
+      y="31.5"
+      width="32"
+      height="3"
     />
   </svg>
+  <!-- eslint-enable max-len -->
 </template>
