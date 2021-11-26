@@ -10,7 +10,7 @@ import { getContrastColor, getMediaColor } from '@/utils/color';
 import eventBus from '@/eventBus';
 import queue from '@/player/queue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconClose from '@/components/ui/icon/IconClose.vue';
+import IconRemove from '@/components/ui/icon/IconRemove.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
@@ -23,7 +23,7 @@ export default defineComponent({
     MediaArtists,
     MediaReleases,
     UserRating,
-    IconClose,
+    IconRemove,
   },
   props: {
     media: {
@@ -192,7 +192,7 @@ export default defineComponent({
         :size="(48)"
         :outlined="(true)"
       >
-        <IconClose
+        <IconRemove
           color="rgb(var(--c-fg))"
           :size="36"
         />

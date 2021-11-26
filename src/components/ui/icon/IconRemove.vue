@@ -18,7 +18,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         stroke: props.color,
-        strokeWidth: (2 * BASE_SIZE) / props.size,
+        strokeWidth: (3 * BASE_SIZE) / props.size,
         strokeMiterlimit: 10,
         transform: `scale(${props.size / BASE_SIZE})`,
       };

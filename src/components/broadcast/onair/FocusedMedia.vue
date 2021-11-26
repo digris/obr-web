@@ -76,7 +76,6 @@ export default defineComponent({
 @use "@/style/abstracts/responsive";
 .context {
   @include typo.default;
-  @include typo.underlined;
 }
 .title {
   @include typo.large;

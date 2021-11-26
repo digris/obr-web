@@ -32,7 +32,8 @@ export default defineComponent({
   <div
     class="card card--artist"
   >
-    <div
+    <router-link
+      :to="link"
       class="visual"
     >
       <div
@@ -49,7 +50,7 @@ export default defineComponent({
           />
         </LazyImage>
       </div>
-    </div>
+    </router-link>
     <div
       class="meta"
     >
