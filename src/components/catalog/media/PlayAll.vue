@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconContext from '@/components/ui/icon/IconContext.vue';
+// import CircleButton from '@/components/ui/button/CircleButton.vue';
+// import IconContext from '@/components/ui/icon/IconContext.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 
 export default defineComponent({
   components: {
-    CircleButton,
-    IconContext,
+    // CircleButton,
+    // IconContext,
     ButtonPlay,
   },
   props: {
@@ -57,6 +57,7 @@ export default defineComponent({
       <div
         class="actions"
       >
+        <!--
         <CircleButton
           :size="(48)"
           :outlined="(false)"
@@ -66,6 +67,7 @@ export default defineComponent({
             :size="36"
           />
         </CircleButton>
+        -->
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconPlay from '@/components/ui/icon/IconPlay.vue';
 
 const SIZE = 120;
-const ICON_SIZE = 80;
+const ICON_SIZE = 96;
 
 export default defineComponent({
   components: {
@@ -42,6 +42,7 @@ export default defineComponent({
     :disabled="disabled"
     :outline-opacity="(1)"
     :outline-width="(6)"
+    :outline-on-hover="(true)"
     @click="play"
   >
     <IconPlay

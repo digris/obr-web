@@ -13,6 +13,7 @@ import ArtistList from '@/components/catalog/artist/List.vue';
 import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
 import PlaylistList from '@/components/catalog/playlist/List.vue';
 import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
+import EditorDetail from '@/views/broadcast/EditorDetail.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 import MediaDetail from '@/views/catalog/MediaDetail.vue';
 import AccountLogin from '@/components/account/Login.vue';
@@ -131,6 +132,17 @@ const routes = [
     path: '/discover/tracks/:uid/',
     name: 'mediaDetail',
     component: MediaDetail,
+    props: (route: any) => ({
+      uid: route.params.uid,
+    }),
+    meta: {
+      colorTheme: 'dark',
+    },
+  },
+  {
+    path: '/discover/editors/:uid/',
+    name: 'editorDetail',
+    component: EditorDetail,
     props: (route: any) => ({
       uid: route.params.uid,
     }),
