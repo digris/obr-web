@@ -5,6 +5,7 @@ import account from './account';
 import ui from './ui';
 import rating from './rating';
 import catalog from './catalog';
+import broadcast from './broadcast';
 import player from './player';
 import queue from './queue';
 import program from './program';
@@ -19,6 +20,7 @@ export default createStore({
     ui,
     rating,
     catalog,
+    broadcast,
     player,
     queue,
     program,

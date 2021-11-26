@@ -31,6 +31,10 @@ export default defineComponent({
       type: Number,
       default: 1,
     },
+    outlineOnHover: {
+      type: Boolean,
+      default: false,
+    },
     colorVar: {
       type: String,
       default: '--c-page-fg',
@@ -52,6 +56,7 @@ export default defineComponent({
       '--c-active': `var(${activeColorVar})`,
       '--outline-opacity': outlineOpacity,
       '--outline-width': `${outlineWidth}px`,
+      '--outline-hover-color': outlineOnHover ? 'rgba(var(--c-main)': 'transparent',
     }"
     :class="{
       'is-outlined': outlined,
@@ -98,7 +103,7 @@ export default defineComponent({
   }
   &:hover {
     background: rgba(var(--c-main), 0.1);
-    border-color: transparent;
+    border-color: var(--outline-hover-color);
   }
 }
 </style>

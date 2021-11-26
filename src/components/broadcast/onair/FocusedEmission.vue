@@ -61,9 +61,7 @@ export default defineComponent({
       <router-link
         v-if="editor"
         class="editor"
-        :to="{
-          name: 'discoverEditors',
-        }"
+        :to="`/discover/editors/${editor.uid}/`"
       >
         <div
           class="visual"
