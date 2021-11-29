@@ -117,13 +117,6 @@ export default {
       router.push({ name: routeName, query });
     };
     onMounted(() => {
-      /*
-      const filter = parseFilterQuery(route.query);
-      userFilter.value = filter;
-      if (props.primaryColor) {
-        store.dispatch('ui/setPrimaryColor', props.primaryColor);
-      }
-      */
       fetchMedia(limit, 0).then(() => {});
       fetchTags().then(() => {});
     });
@@ -172,6 +165,16 @@ export default {
 </script>
 
 <template>
+  <!--
+  <pre
+    class="debug"
+    v-text="{
+      initialFilter: initialFilter,
+      userFilter: userFilter,
+      combinedFilter: combinedFilter,
+    }"
+  ></pre>
+  -->
   <div
     class="list-filter-container"
   >
@@ -238,6 +241,7 @@ export default {
 @use "@/style/elements/container";
 .list-filter-container {
   @include container.default;
+  margin-bottom: 1rem;
 }
 .media-list {
   //margin: 0 0 8rem;
@@ -245,7 +249,7 @@ export default {
 }
 .grid__ {
   display: grid;
-  grid-gap: 2rem;
+  grid-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   @include responsive.bp-small {
     grid-gap: 1rem;

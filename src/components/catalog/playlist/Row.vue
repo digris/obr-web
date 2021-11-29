@@ -1,26 +1,28 @@
 <script lang="ts">
 import {
   computed,
-  defineComponent,
+  defineComponent, ref,
 } from 'vue';
 import { DateTime } from 'luxon';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
+import IconContext from '@/components/ui/icon/IconContext.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
-import Duration from '@/components/ui/time/Duration.vue';
+// import Duration from '@/components/ui/time/Duration.vue';
 import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
   components: {
     CircleButton,
+    IconContext,
     PlayAction,
     ObjectTags,
     UserRating,
     RelativeDateTime,
-    Duration,
+    // Duration,
     PlaylistName,
   },
   props: {
@@ -31,6 +33,7 @@ export default defineComponent({
   },
   setup(props) {
     const objKey = computed(() => `${props.playlist.ct}:${props.playlist.uid}`);
+    const isHover = ref(false);
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const title = computed(() => {
       return {
@@ -49,6 +52,7 @@ export default defineComponent({
     });
     return {
       objKey,
+      isHover,
       title,
       subtitle,
       link,
@@ -61,6 +65,8 @@ export default defineComponent({
 <template>
   <div
     class="playlist-row"
+    @mouseenter="isHover=true"
+    @mouseleave="isHover=false"
   >
     <div
       class="container"
@@ -110,15 +116,22 @@ export default defineComponent({
         :obj="playlist"
         :limit="(4)"
       />
+      <!--
+      <Duration
+        class="duration"
+        :seconds="playlist.numEmissions"
+      />
+      -->
       <RelativeDateTime
         class="airplays"
         v-if="latestEmission"
         :date-time="latestEmission"
       />
-      <Duration
-        class="duration"
-        :seconds="playlist.numMedia"
-      />
+      <div
+        class="emissions"
+      >
+        {{ playlist.numEmissions }} Emissions
+      </div>
       <div
         class="actions"
       >
@@ -128,7 +141,16 @@ export default defineComponent({
         >
           <UserRating
             :obj-key="objKey"
-            :icon-size="24"
+            :icon-size="48"
+            :hide-if-unset="(!isHover)"
+          />
+        </CircleButton>
+        <CircleButton
+          :size="(48)"
+          :outlined="(false)"
+        >
+          <IconContext
+            :size="48"
           />
         </CircleButton>
       </div>
@@ -160,8 +182,8 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-areas:
-    "play name editor duration actions"
-    "play name tags   airplays actions";
+    "play name editor airplays  actions"
+    "play name tags   emissions actions";
   grid-template-columns: 48px 8fr 5fr 3fr 48px;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -204,6 +226,10 @@ export default defineComponent({
 
   .airplays {
     grid-area: airplays;
+  }
+
+  .emissions {
+    grid-area: emissions;
   }
 
   .duration {

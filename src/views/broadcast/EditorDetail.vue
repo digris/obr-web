@@ -13,6 +13,7 @@ import DetailHeader from '@/layouts/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import ObjectIdentifiers from '@/components/identifier/ObjectIdentifiers.vue';
+import PlaylistList from '@/components/catalog/playlist/List.vue';
 
 export default defineComponent({
   components: {
@@ -21,6 +22,7 @@ export default defineComponent({
     LazyImage,
     ObjectTags,
     ObjectIdentifiers,
+    PlaylistList,
   },
   props: {
     uid: {
@@ -73,8 +75,8 @@ export default defineComponent({
     >
       <DetailHeader
         :obj-key="objKey"
-        title-scope="Künstler*in"
         :title="editor.name"
+        title-scope="Editor*in"
       >
         <template
           #visual
@@ -87,6 +89,10 @@ export default defineComponent({
         <template
           #info-panel
         >
+          <div
+            class="role"
+            v-text="editor.role"
+          />
           <ObjectTags
             class="tags"
             :obj="editor"
@@ -101,10 +107,17 @@ export default defineComponent({
         <template
           #meta-panel
         >
-          <span>1h 25m</span>
+          <span>
+            {{ editor.numPlaylists }}
+            Shows
+          </span>
         </template>
       </DetailHeader>
     </template>
+    <PlaylistList
+      :initial-filter="query.filter"
+      layout="table"
+    />
   </DetailPage>
 </template>
 

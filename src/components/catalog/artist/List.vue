@@ -76,7 +76,8 @@ export default {
 }
 .grid {
   display: grid;
-  grid-gap: 2rem;
+  grid-row-gap: 2rem;
+  grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   @include responsive.bp-small {
     grid-gap: 1rem;
