@@ -7,7 +7,6 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
-import Searchbar from '@/components/filter/Searchbar.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
 import PlaylistCard from '@/components/catalog/playlist/Card.vue';
 import PlaylistRow from '@/components/catalog/playlist/Row.vue';
@@ -15,7 +14,6 @@ import { getPlaylists, getPlaylistsTags } from '@/api/catalog';
 
 export default {
   components: {
-    Searchbar,
     ListFilter,
     LoadingMore,
     PlaylistCard,
@@ -139,7 +137,6 @@ export default {
     watch(
       () => combinedFilter.value,
       async () => {
-        console.debug('combinedFilter.value', combinedFilter.value);
         lastOffset.value = 0;
         playlists.value = [];
         fetchPlaylists(limit, 0).then(() => {});
@@ -168,11 +165,6 @@ export default {
   <div
     class="list-filter-container"
   >
-    <Searchbar
-      v-if="showSearchBar"
-      :filter="userFilter"
-      @change="updateUserFilter"
-    />
     <ListFilter
       v-if="showUserFilter"
       :filter="userFilter"
