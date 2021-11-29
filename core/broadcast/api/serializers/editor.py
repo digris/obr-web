@@ -40,11 +40,14 @@ class EditorSerializer(
         view_name="api:broadcast:editor-detail",
         lookup_field="uid",
     )
-
     name = serializers.CharField(
         source="display_name",
         label="The Name...",
         help_text="me the help text",
+    )
+    role = serializers.SerializerMethodField()
+    num_playlists = serializers.IntegerField(
+        read_only=True,
     )
     image = ImageSerializer(
         read_only=True,
@@ -58,6 +61,12 @@ class EditorSerializer(
             "ct",
             "uid",
             "name",
+            "role",
+            "num_playlists",
             "image",
         ]
         depth = 2
+
+    @staticmethod
+    def get_role(obj):
+        return obj.get_role_display()

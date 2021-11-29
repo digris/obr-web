@@ -24,14 +24,14 @@
           Tracks
         </router-link>
         <router-link
-          :to="{ name: 'discoverArtists' }"
-        >
-          Künstler*innen
-        </router-link>
-        <router-link
           :to="{ name: 'discoverPlaylists' }"
         >
           Shows
+        </router-link>
+        <router-link
+          :to="{ name: 'discoverArtists' }"
+        >
+          Künstler*innen
         </router-link>
         <router-link
           :to="{ name: 'discoverEditors' }"

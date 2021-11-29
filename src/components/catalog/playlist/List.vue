@@ -1,17 +1,22 @@
 <script lang="ts">
 import {
   ref,
-  onMounted, computed,
+  onMounted, computed, watch,
 } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
+import Searchbar from '@/components/filter/Searchbar.vue';
+import ListFilter from '@/components/filter/ListFilter.vue';
 import PlaylistCard from '@/components/catalog/playlist/Card.vue';
 import PlaylistRow from '@/components/catalog/playlist/Row.vue';
-import { getPlaylists } from '@/api/catalog';
+import { getPlaylists, getPlaylistsTags } from '@/api/catalog';
 
 export default {
   components: {
+    Searchbar,
+    ListFilter,
     LoadingMore,
     PlaylistCard,
   },
@@ -24,9 +29,17 @@ export default {
       type: String,
       default: null,
     },
+    query: {
+      type: Object,
+      default: () => {},
+    },
     initialFilter: {
       type: Object,
       default: () => null,
+    },
+    disableUserFilter: {
+      type: Boolean,
+      default: false,
     },
     layout: {
       type: String,
@@ -35,16 +48,35 @@ export default {
   },
   setup(props:any) {
     const store = useStore();
-    const isLoaded = ref(false);
+    const route = useRoute();
+    const router = useRouter();
     const numResults = ref(0);
     const limit = 16;
     const lastOffset = ref(0);
     const playlists = ref([]);
+    const tagList = ref([]);
+    const tagListLoading = ref(false);
     const hasNext = ref(false);
-    const userFilter = ref({});
+    const userFilter = computed(() => {
+      return props.query;
+    });
+    const combinedFilter = computed(() => {
+      // @ts-ignore
+      const tags = [...props.initialFilter?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const merged = { ...props.initialFilter, ...userFilter.value };
+      // @ts-ignore
+      merged.tags = tags;
+      if (props.scope === 'collection') {
+        // @ts-ignore
+        merged.user_rating = 1;
+      }
+      return merged;
+    });
     const playlistComponent = computed(() => {
       return (props.layout === 'grid') ? PlaylistCard : PlaylistRow;
     });
+    /*
+    const userFilter = ref({});
     const combinedFilter = computed(() => {
       if (props.scope === 'collection') {
         return {
@@ -58,6 +90,7 @@ export default {
         ...userFilter.value,
       };
     });
+    */
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchPlaylists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
@@ -71,6 +104,7 @@ export default {
       numResults.value = count;
       // @ts-ignore
       playlists.value.push(...results);
+
       // TODO: this kind of smells...
       await store.dispatch('rating/updateObjectRatings', results);
     };
@@ -79,22 +113,74 @@ export default {
       await fetchPlaylists(limit, offset);
       lastOffset.value = offset;
     };
+    const fetchTags = async () => {
+      tagListLoading.value = true;
+      tagList.value = await getPlaylistsTags(combinedFilter.value);
+      tagListLoading.value = false;
+    };
+    const showSearchBar = computed(() => {
+      return !props.disableUserFilter;
+    });
+    const showUserFilter = computed(() => {
+      if (props.disableUserFilter) {
+        return false;
+      }
+      return store.getters['ui/filterExpanded'];
+    });
+    const updateUserFilter = (filter: any) => {
+      const query = filter;
+      const routeName = route.name || 'discoverPlaylists';
+      router.push({ name: routeName, query });
+    };
     onMounted(() => {
       fetchPlaylists();
+      fetchTags().then(() => {});
     });
+    watch(
+      () => combinedFilter.value,
+      async () => {
+        console.debug('combinedFilter.value', combinedFilter.value);
+        lastOffset.value = 0;
+        playlists.value = [];
+        fetchPlaylists(limit, 0).then(() => {});
+        fetchTags().then(() => {});
+      },
+    );
     return {
-      isLoaded,
+      combinedFilter,
+      tagList,
+      tagListLoading,
       playlists,
       playlistComponent,
       hasNext,
       numResults,
       fetchNextPage,
+      showSearchBar,
+      showUserFilter,
+      userFilter,
+      updateUserFilter,
     };
   },
 };
 </script>
 
 <template>
+  <div
+    class="list-filter-container"
+  >
+    <Searchbar
+      v-if="showSearchBar"
+      :filter="userFilter"
+      @change="updateUserFilter"
+    />
+    <ListFilter
+      v-if="showUserFilter"
+      :filter="userFilter"
+      :tag-list="tagList"
+      :is-loading="tagListLoading"
+      @change="updateUserFilter"
+    />
+  </div>
   <div
     class="playlist-list"
   >
@@ -120,10 +206,15 @@ export default {
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
+.list-filter-container {
+  @include container.default;
+  margin-bottom: 1rem;
+}
 
 @mixin grid {
   display: grid;
-  grid-gap: 2rem;
+  grid-row-gap: 2rem;
+  grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   @include responsive.bp-small {
     grid-gap: 1rem;

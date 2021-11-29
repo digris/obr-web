@@ -175,7 +175,7 @@ export default defineComponent({
   }
   .top {
     position: sticky;
-    top: 78px;
+    top: 0;
     > .actions {
       justify-self: flex-end;
     }
