@@ -1,5 +1,6 @@
 <script lang="js">
 import { computed, defineComponent } from 'vue';
+import Query from './Query.vue';
 import Tag from './Tag.vue';
 
 const addOrRemove = (arr, item) => {
@@ -11,6 +12,7 @@ const addOrRemove = (arr, item) => {
 
 export default defineComponent({
   components: {
+    Query,
     Tag,
   },
   props: {
@@ -36,6 +38,9 @@ export default defineComponent({
     const selectedTags = computed(() => {
       return props.filter.tags || [];
     });
+    const searchQuery = computed(() => {
+      return props.filter.q;
+    });
     const moodTags = computed(() => {
       return props.tagList.filter((t) => {
         return t.type === 'mood';
@@ -50,8 +55,13 @@ export default defineComponent({
         return (selectedTags.value.includes(t.uid) ? -1 : 1);
       });
     });
+    const clearSearchQuery = () => {
+      const filter = { ...props.filter };
+      filter.q = '';
+      emit('change', filter);
+    };
     const toggleTag = (tag) => {
-      const { tags, other } = { ...props.filter };
+      const { tags, ...other } = { ...props.filter };
       const filter = {
         tags: addOrRemove(tags, tag.uid),
         ...other,
@@ -60,9 +70,11 @@ export default defineComponent({
     };
     return {
       selectedTags,
+      searchQuery,
       moodTags,
       otherTags,
       toggleTag,
+      clearSearchQuery,
     };
   },
 });
@@ -77,6 +89,11 @@ export default defineComponent({
       :class="{'is-loading': isLoading}"
     >
       <div>
+        <Query
+          v-if="searchQuery"
+          :q="searchQuery"
+          @click="clearSearchQuery"
+        />
         <Tag
           v-for="tag in moodTags"
           :key="`tag-list-tag-${tag.uid}`"
@@ -100,6 +117,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .tag-list {
+  .query {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
   .tag {
     margin-bottom: 0.5rem;
     &:not(:last-child) {

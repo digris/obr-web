@@ -32,13 +32,19 @@ export default defineComponent({
       }
     };
     const query = ref('');
-    const searchInput = (e) => {
-      query.value = e.target.value;
-    };
     const updateSearchQuery = () => {
       const filter = { ...props.filter };
       filter.q = query.value;
       emit('change', filter);
+    };
+    const searchInput = (e) => {
+      if (e.code === 'Escape') {
+        e.target.value = '';
+        query.value = '';
+        updateSearchQuery();
+        return;
+      }
+      query.value = e.target.value;
     };
     return {
       isExpanded,
@@ -54,14 +60,15 @@ export default defineComponent({
   <div
     class="searchbar"
   >
-    <div
+    <form
       class="searchinput"
+      @submit.prevent="updateSearchQuery"
     >
       <input
         :value="filter.q"
         @keyup="searchInput"
       />
-    </div>
+    </form>
     <CircleButton
       :size="(48)"
       :outlined="(false)"

@@ -7,7 +7,8 @@ import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import UserRating from '@/components/rating/UserRating.vue';
+import CircleButton from '@/components/ui/button/CircleButton.vue';
+import IconContext from '@/components/ui/icon/IconContext.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
@@ -15,7 +16,8 @@ export default defineComponent({
   components: {
     LazyImage,
     PlayAction,
-    UserRating,
+    CircleButton,
+    IconContext,
     RelativeDateTime,
     PlaylistName,
   },
@@ -83,39 +85,30 @@ export default defineComponent({
       <div
         class="title"
       >
-        <div
+        <router-link
           class="primary"
+          :to="link"
         >
-          <router-link
-            :to="link"
-          >
-            <PlaylistName
-              :playlist="playlist"
-            />
-          </router-link>
-        </div>
-        <div
-          class="secondary"
-        >
-          <div
-            v-text="subtitle"
+          <PlaylistName
+            :playlist="playlist"
           />
-        </div>
-        <div
-          class="actions"
-        >
-          <UserRating
-            :obj-key="objKey"
-          />
-        </div>
-      </div>
-      <div
-        class="subtitle"
-      >
-        <!--<small>{{ latestEmission }}</small>-->
+        </router-link>
         <RelativeDateTime
+          class="secondary"
           :date-time="latestEmission"
         />
+      </div>
+      <div
+        class="actions"
+      >
+        <CircleButton
+          :size="36"
+          :outlined="(false)"
+        >
+          <IconContext
+            :size="36"
+          />
+        </CircleButton>
       </div>
     </div>
   </div>
@@ -138,40 +131,24 @@ export default defineComponent({
     }
   }
   .meta {
-    padding: 0.5rem 0 0 0;
+    display: flex;
     line-height: 1.25rem;
     .title {
-      display: grid;
-      grid-row-gap: 0.25rem;
-      grid-column-gap: 1rem;
-      grid-template-areas:
-        "primary   actions"
-        "secondary actions";
-      grid-template-columns: 1fr auto;
-      margin-bottom: 0.25rem;
-      overflow-wrap: anywhere;
-      a {
-        flex-grow: 1;
-      }
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      padding: 4px 1rem 0 0;
       .primary {
-        grid-area: primary;
-        font-weight: 600;
-        .appendix {
-          margin-left: 0.5rem;
-        }
+        font-weight: 500;
       }
       .secondary {
-        display: none;
-        grid-area: secondary;
-      }
-      .actions {
-        grid-area: actions;
+        @include typo.dim;
+        @include typo.light;
+        text-transform: capitalize;
       }
     }
-    .subtitle {
-      @include typo.dim;
-      @include typo.light;
-      text-transform: capitalize;
+    .actions {
+      height: 36px;
     }
   }
 }

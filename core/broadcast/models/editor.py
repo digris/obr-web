@@ -10,6 +10,10 @@ from sync.models.mixins import SyncModelMixin
 from tagging.models import TaggedItem, TaggableManager
 
 
+class Role(models.TextChoices):
+    MUSIC_EDITOR = "music-editor", "Musikredaktion"
+
+
 class Editor(
     TimestampedModelMixin,
     CTUIDModelMixin,
@@ -34,6 +38,12 @@ class Editor(
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
+    )
+
+    role = models.CharField(
+        max_length=32,
+        choices=Role.choices,
+        default=Role.MUSIC_EDITOR,
     )
 
     votes = GenericRelation(
