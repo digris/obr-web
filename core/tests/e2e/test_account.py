@@ -89,12 +89,12 @@ class TestAccount:
 
         time.sleep(2)
 
-        account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
+        account_button = self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle")
         assert account_button.text == USER_DATA["email"][0].upper()
 
         self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle").click()
         time.sleep(1)
-        self.driver.find_element(By.XPATH, "//a[normalize-space()='Logout']").click()
+        self.driver.find_element(By.XPATH, "//a[normalize-space()='Abmelden']").click()
 
         time.sleep(2)
 
@@ -135,7 +135,8 @@ class TestAccount:
 
         time.sleep(2)
 
-        account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
+        # account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
+        account_button = self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle")
         assert account_button.text == USER_DATA["email"][0].upper()
 
         for entry in self.driver.get_log("browser"):

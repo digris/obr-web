@@ -29,7 +29,8 @@ fix:
 	black ./core/
 
 test:
-	pytest --ds core.settings.test ./core/
+# 	pytest --ds core.settings.test ./core/
+	pytest -m "e2e" -s ./core/tests/
 
 docker-image:
 	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain

@@ -19,7 +19,8 @@ import MediaDetail from '@/views/catalog/MediaDetail.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
-// import Searchbar from '@/components/filter/Searchbar.vue';
+// eslint-disable-next-line import/no-unresolved
+import SearchbarAlt from '@/components/filter/SearchbarAlt.vue';
 
 import { getUser } from '@/api/account';
 import { setBodyColorTheme } from '@/utils/color';
@@ -62,11 +63,14 @@ const routes = [
         name: 'discoverPlaylists',
         components: {
           default: PlaylistList,
-          // searchbar: Searchbar,
+          searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
             query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
           }),
         },
       },
@@ -75,7 +79,15 @@ const routes = [
         name: 'discoverArtists',
         components: {
           default: ArtistList,
-          // searchbar: Searchbar,
+          searchbar: SearchbarAlt,
+        },
+        props: {
+          default: (route: any) => ({
+            query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
+          }),
         },
       },
       {
@@ -83,11 +95,14 @@ const routes = [
         name: 'discoverMedia',
         components: {
           default: MediaList,
-          // searchbar: Searchbar,
+          searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
             query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
           }),
         },
       },
@@ -177,12 +192,15 @@ const routes = [
         name: 'collectionMedia',
         components: {
           default: MediaList,
-          // searchbar: Searchbar,
+          searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
             scope: 'collection',
             query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
           }),
         },
       },
@@ -192,12 +210,15 @@ const routes = [
         // component: PlaylistList,
         components: {
           default: PlaylistList,
-          // searchbar: Searchbar,
+          searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
             scope: 'collection',
             query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
           }),
         },
       },
@@ -261,6 +282,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory('/'),
+  // @ts-ignore
   routes,
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || { left: 0, top: 0 };

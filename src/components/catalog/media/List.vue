@@ -11,17 +11,14 @@ import { useRoute, useRouter } from 'vue-router';
 import { isEqual } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/LoadingMore.vue';
-import Searchbar from '@/components/filter/Searchbar.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import PlayAll from '@/components/catalog/media/PlayAll.vue';
 import MediaRow from '@/components/catalog/media/Row.vue';
 import { getMedia, getMediaTags } from '@/api/catalog';
-// import { parseFilterQuery } from '@/utils/filter';
 
 export default {
   components: {
-    Searchbar,
     ListFilter,
     PlayAction,
     PlayAll,
@@ -178,11 +175,6 @@ export default {
   <div
     class="list-filter-container"
   >
-    <Searchbar
-      v-if="showSearchBar"
-      :filter="userFilter"
-      @change="updateUserFilter"
-    />
     <ListFilter
       v-if="showUserFilter"
       :filter="userFilter"
@@ -191,16 +183,6 @@ export default {
       @change="updateUserFilter"
     />
   </div>
-  <!--
-  <pre
-    class="debug"
-    v-text="{
-      initialFilter: initialFilter,
-      userFilter: userFilter,
-      combinedFilter: combinedFilter,
-    }"
-  ></pre>
-  -->
   <PlayAction
     v-if="(!disablePlayAll && numResults > 0)"
     :filter="combinedFilter"

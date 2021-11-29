@@ -71,7 +71,6 @@ class PlaylistFilter(filters.FilterSet):
 
 
 def get_search_qs(qs, q):
-    print(qs, q)
     qs = qs.filter(Q(name__icontains=q) | Q(series__name__icontains=q))
     return qs
 

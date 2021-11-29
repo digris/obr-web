@@ -1,16 +1,25 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import FieldError
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework import mixins, viewsets
+from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
+from rest_framework.response import Response
 
 from catalog.api import serializers
 from catalog.models import Artist
+from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
+
+
+def get_search_qs(qs, q):
+    qs = qs.filter(Q(name__icontains=q))
+    return qs
 
 
 class ArtistViewSet(
@@ -63,6 +72,9 @@ class ArtistViewSet(
                 ),
             )
 
+        if q := self.request.GET.get("q", None):
+            qs = get_search_qs(qs, q)
+
         # NOTE: make dynamic...
         qs = qs.filter(num_media__gt=0)
         qs = qs.order_by("-created")
@@ -79,6 +91,39 @@ class ArtistViewSet(
         obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
         return obj
+
+    @action(url_path="tags", detail=False, methods=["get"])
+    # pylint: disable=unused-argument
+    def get_tags(self, request, **kwargs):
+        qs = self.get_queryset()
+        tags = tagging_utils.get_usage_for_qs(qs)
+
+        tags = tags.exclude(
+            type="descriptive",
+        )
+
+        try:
+            tags = tags.order_by("-num_times")
+        except FieldError:
+            pass
+
+        # mood_tags = sorted(tags.filter(type="mood")[:6], key=lambda x: x.name)
+        mood_tags = []
+        other_tags = sorted(tags.exclude(type="mood")[:12], key=lambda x: x.name)
+
+        data = []
+        # for t in sorted(tags[:30], key=lambda x: x.name):
+        for t in mood_tags + other_tags:
+            data.append(
+                {
+                    "uid": t.uid,
+                    "type": t.type,
+                    "name": t.name,
+                    "count": t.num_times,
+                }
+            )
+
+        return Response(data)
 
     @extend_schema(
         parameters=[
