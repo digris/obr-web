@@ -15,12 +15,17 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const size = computed(() => {
+      return props.size || BASE_SIZE;
+    });
     const style = computed(() => {
       return {
         stroke: props.color,
         strokeWidth: (3 * BASE_SIZE) / props.size,
         strokeMiterlimit: 10,
-        transform: `scale(${props.size / BASE_SIZE})`,
+        // transform: `scale(${props.size / BASE_SIZE})`,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {
@@ -32,8 +37,6 @@ export default defineComponent({
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="48px"
-    width="48px"
     viewBox="0 0 48 48"
     :style="style"
   >

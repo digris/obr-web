@@ -28,7 +28,6 @@ class MediaFilter(filters.FilterSet):
 
     @staticmethod
     def get_obj_query(obj_ct, obj_uid):
-
         # Not so nice... striping fixed "catalog."
         ct = obj_ct[8:]
 
@@ -47,9 +46,6 @@ class MediaFilter(filters.FilterSet):
     # pylint: disable=unused-argument
     def obj_key_filter(self, queryset, name, value):
         obj_ct, obj_uid = value.split(":")
-        # query = {
-        #     f"{obj_ct[8:]}s__uid": obj_uid,
-        # }
         query = self.get_obj_query(obj_ct, obj_uid)
         qs = queryset.filter(**query)
         return qs

@@ -87,6 +87,15 @@ async function getPlaylists(
   return response.data;
 }
 
+async function getPlaylistsTags(filter: any) {
+  const url = `${PLAYLIST_ENDPOINT}tags/`;
+  const params = {
+    ...filter,
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
+
 async function getPlaylist(uid: string) {
   const url = `${PLAYLIST_ENDPOINT}${uid}/`;
   const params = {
@@ -108,5 +117,6 @@ export {
   getMediaTags,
   getMediaDetail,
   getPlaylists,
+  getPlaylistsTags,
   getPlaylist,
 };

@@ -48,10 +48,8 @@ export default defineComponent({
       </div>
       <div
         class="subtitle"
-      >
-        <!-- {{ editor.role }} -->
-        Musikredaktor
-      </div>
+        v-text="editor.role"
+      />
     </div>
   </router-link>
 </template>
