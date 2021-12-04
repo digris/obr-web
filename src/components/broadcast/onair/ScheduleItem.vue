@@ -1,11 +1,10 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-// import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
 import { playStream } from '@/player/stream';
-import LazyImage from '@/components/ui/LazyImage.vue';
 import { requireSubscription } from '@/utils/account';
+import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayButton from './button/Play.vue';
 
 export default defineComponent({
@@ -109,18 +108,6 @@ export default defineComponent({
       <LazyImage
         :image="image"
       />
-      <div
-        v-if="scheduleItem"
-        class="info"
-      >
-        <div
-          class="timing"
-        >
-          {{ scheduleItem.timeStart.toLocaleString(timeFormat) }}
-          -
-          {{ scheduleItem.timeEnd.toLocaleString(timeFormat) }}
-        </div>
-      </div>
     </div>
     <div
       class="actions"
@@ -154,32 +141,8 @@ export default defineComponent({
       //transform: scale(0.95);
     }
   }
-  .info {
-    position: absolute;
-    bottom: 0;
-    .meta {
-      @include typo.small;
-      padding: 0.25rem;
-      color: black;
-      background: white;
-    }
-    .timing {
-      @include typo.small;
-      padding: 0.25rem;
-      color: black;
-      background: white;
-    }
-  }
   .actions {
     position: absolute;
   }
-  /*
-  &:not(.has-focus) {
-    .actions {
-      left: 0;
-      transform: scale(0.5);
-    }
-  }
-  */
 }
 </style>

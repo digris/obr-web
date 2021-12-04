@@ -39,7 +39,7 @@ export default defineComponent({
     const itemSize = computed(() => {
       const { width, height } = viewport.value;
       const maxForWidth = width * 0.4; // 3/4/3 grid
-      const maxForHeight = height - 320; // height - navigation, spacing, player etc.
+      const maxForHeight = height - 360; // height - navigation, spacing, player etc.
       const size = Math.max(Math.min(maxForWidth, maxForHeight, 720), 240);
       return Math.round(size);
     });

@@ -32,9 +32,15 @@ FIXTURE_SCOPES = [
     {
         "key": "apps",
         "include": [
+            "broadcast",
             "catalog",
         ],
-        "exclude": [],
+        "exclude": [
+            'broadcast.editorimage',
+            'catalog.artistimage',
+            'catalog.releaseimage',
+            'catalog.playlistimage',
+        ],
     },
 ]
 
@@ -72,7 +78,7 @@ class Command(BaseCommand):
 
         for scope in FIXTURE_SCOPES:
 
-            path = os.path.join(FIXTURE_PATH, f"{scope['key']}.yaml")
+            path = os.path.join(FIXTURE_PATH, f"{scope['key']}.json")
 
             excludes = []
             for exclude in scope.get("exclude", []):
@@ -87,7 +93,7 @@ class Command(BaseCommand):
                 database,
                 *scope.get("options", []),
                 "--format",
-                "yaml",
+                "json",
                 "--indent",
                 2,
                 "--output",
@@ -114,7 +120,7 @@ class Command(BaseCommand):
 
         for scope in FIXTURE_SCOPES:
 
-            path = os.path.join(FIXTURE_PATH, f"{scope['key']}.yaml")
+            path = os.path.join(FIXTURE_PATH, f"{scope['key']}.json")
 
             call_command(
                 "loaddata",
