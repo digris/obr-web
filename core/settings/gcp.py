@@ -34,7 +34,6 @@ SECURE_SSL_REDIRECT = True
 # storage via django-storages[google]
 GS_BUCKET_NAME = env("GS_BUCKET_NAME")
 DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-# STATICFILES_STORAGE = "base.storage.StaticGCPStorage"
 GS_DEFAULT_ACL = "publicRead"
 
 
