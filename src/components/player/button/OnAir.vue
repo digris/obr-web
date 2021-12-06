@@ -94,7 +94,6 @@ export default defineComponent({
     align-items: center;
     height: 48px;
     color: rgb(var(--c-fg));
-    background: whitesmoke;
     border: 3px solid rgb(var(--c-fg));
     border-radius: 24px;
     cursor: pointer;
