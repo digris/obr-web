@@ -163,10 +163,10 @@ export default {
 
 <template>
   <div
+    v-if="showUserFilter"
     class="list-filter-container"
   >
     <ListFilter
-      v-if="showUserFilter"
       :filter="userFilter"
       :tag-list="tagList"
       :is-loading="tagListLoading"
