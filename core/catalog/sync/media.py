@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
+import os
 import re
+import hashlib
+import mimetypes
+import shutil
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 from google.cloud import storage
@@ -118,40 +123,69 @@ def download_master(media_uuid):
 
 def sync_master(master, force=False, skip_media=False, **kwargs):
 
-    client = storage.Client()
-    bucket = client.bucket("obr-master")
-
-    if master.path and not force:
-        # NOTE: implement re-sync
-        if bucket.blob(master.path).exists():
-            return master
-
     if skip_media:
         logger.info(f"sync skipping master download {master.ct}:{master.uid}")
         return master
 
+    if settings.DEFAULT_FILE_STORAGE == "storages.backends.gcloud.GoogleCloudStorage":
+        mode = "gs"
+    else:
+        mode = "fs"
+
+    # if master.path and not force:
+    #     # NOTE: implement re-sync
+    #     # if bucket.blob(master.path).exists():
+    #     #     return master
+    #     return master
+
     content, filename = download_master(media_uuid=master.uuid)
     encoding = filename.split(".")[-1].lower()
     path = f"{master.uid}/master.{encoding}"
-    blob = bucket.blob(path)
+
+    update = {}
 
     with NamedTemporaryFile(delete=True, suffix=f".{encoding}") as f:
         f.write(content)
         f.flush()
 
-        # blob.upload_from_file(f, rewind=True)
-        # NOTE: we upload via name instead of file object to 'detect' content type
-        # (else it is set to application/octet-stream)
-        blob.upload_from_filename(f.name)
+        if mode == "gs":
+            client = storage.Client()
+            bucket = client.bucket("obr-master")
+            blob = bucket.blob(path)
+            # NOTE: we upload via name instead of file object to 'detect' content type
+            blob.upload_from_filename(f.name)
 
-    update = {
-        "encoding": encoding,
-        "size": blob.size,
-        # "content_type": blob._properties.get("contentType", ""),
-        # "md5_hash": blob._properties.get("md5Hash", ""),
-        "content_type": blob.content_type,
-        "md5_hash": blob.md5_hash,
-    }
+            update = {
+                "encoding": encoding,
+                "size": blob.size,
+                "content_type": blob.content_type,
+                "md5_hash": blob.md5_hash,
+            }
+
+        if mode == "fs":
+            master_dir = settings.PROJECT_ROOT / "data" / "master" / f"{master.uid}"
+            filename = master_dir / f"master.{encoding}"
+
+            os.makedirs(master_dir, exist_ok=True)
+
+            shutil.copy(f.name, filename)
+
+            print("FS MODE", master_dir, filename)
+
+            update = {
+                "encoding": encoding,
+                "size": os.path.getsize(f.name),
+                "md5_hash": hashlib.md5(f.read()).hexdigest(),
+            }
+
+            try:
+                update.update(
+                    {
+                        "content_type": mimetypes.guess_type(f.name)[0],
+                    }
+                )
+            except KeyError:
+                pass
 
     type(master).objects.filter(id=master.id).update(**update)
 

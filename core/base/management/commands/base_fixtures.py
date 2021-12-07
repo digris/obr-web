@@ -36,10 +36,10 @@ FIXTURE_SCOPES = [
             "catalog",
         ],
         "exclude": [
-            'broadcast.editorimage',
-            'catalog.artistimage',
-            'catalog.releaseimage',
-            'catalog.playlistimage',
+            "broadcast.editorimage",
+            "catalog.artistimage",
+            "catalog.releaseimage",
+            "catalog.playlistimage",
         ],
     },
 ]

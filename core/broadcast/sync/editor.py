@@ -10,7 +10,7 @@ from sync.utils import update_tags, update_image
 logger = logging.getLogger(__name__)
 
 
-def sync_editor(editor, **kwargs):
+def sync_editor(editor, skip_images=False, **kwargs):
     # pylint: disable=import-outside-toplevel
     from broadcast.models import EditorImage
 
@@ -30,7 +30,9 @@ def sync_editor(editor, **kwargs):
 
     # update_relations(editor, data.get("relations", []))
     update_tags(editor, data.get("tags", []))
-    update_image(editor, data.get("image"), EditorImage)
+
+    if not skip_images:
+        update_image(editor, data.get("image"), EditorImage)
 
     logger.info(f"sync completed for {editor.ct}{editor.uid}")
 

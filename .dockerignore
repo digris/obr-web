@@ -14,6 +14,6 @@ dist/*
 playground
 media
 data
-functions
+#functions
 services
 gcp

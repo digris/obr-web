@@ -1,19 +1,47 @@
 version: "3"
 services:
-  core:
-    container_name: core
+  nginx:
+    container_name: nginx
+    build:
+      context: ${PWD}/docker/nginx/
+      dockerfile: ${PWD}/docker/nginx/Dockerfile
+    ports:
+      - "8888:80"
+    volumes:
+      - ${PWD}/data:/data
+    restart: always
+    networks:
+      - obr
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  image-resizer:
+    container_name: image-resizer
     build:
       context: ${PWD}
-      dockerfile: docker/Dockerfile
+      dockerfile: ${PWD}/docker/image-resizer/Dockerfile
     ports:
-      - "9999:8000"
+      - "8180:8000"
     volumes:
-      - data:/data
+      - ${PWD}/data:/data
+    environment:
+      SOURCE: fs:///data/media
+    restart: always
     networks:
-      - network
+      - obr
+#  core:
+#    container_name: core
+#    build:
+#      context: ${PWD}
+#      dockerfile: docker/Dockerfile
+#    ports:
+#      - "9999:8000"
+#    volumes:
+#      - data:/data
+#    networks:
+#      - obr
 
 volumes:
-  data:
+  obr:
 
 networks:
-  network:
+  obr:

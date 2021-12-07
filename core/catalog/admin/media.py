@@ -91,6 +91,13 @@ class MasterAdmin(admin.ModelAdmin):
         "media__uid",
         "md5_hash",
     ]
+    readonly_fields = [
+        "uid",
+        "encoding",
+        "md5_hash",
+        "size",
+        "content_type",
+    ]
     raw_id_fields = [
         "media",
     ]
