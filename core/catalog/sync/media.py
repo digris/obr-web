@@ -170,8 +170,6 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
 
             shutil.copy(f.name, filename)
 
-            print("FS MODE", master_dir, filename)
-
             update = {
                 "encoding": encoding,
                 "size": os.path.getsize(f.name),
