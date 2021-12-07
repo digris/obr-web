@@ -182,7 +182,7 @@ export default defineComponent({
         <UserRating
           color-var="--c-fg"
           :obj-key="objKey"
-          :icon-size="24"
+          :icon-size="48"
         />
       </CircleButton>
       <CircleButton

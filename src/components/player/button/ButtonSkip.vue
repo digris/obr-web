@@ -35,7 +35,7 @@ export default defineComponent({
     :disabled="disabled"
   >
     <IconSkip
-      :size="(size * 0.75)"
+      :size="size"
       :rotate="rotate"
       :color="color"
     />
