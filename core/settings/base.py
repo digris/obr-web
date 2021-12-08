@@ -1,3 +1,4 @@
+import environ
 import os
 import sys
 from pathlib import Path
@@ -7,11 +8,19 @@ APP_ROOT = os.path.join(PROJECT_ROOT, "core")
 
 sys.path.insert(0, APP_ROOT)
 
+env = environ.Env(
+    DEBUG=(bool, False),
+    OBP_SYNC_SKIP_MEDIA=(bool, False),
+    OBP_SYNC_SKIP_IMAGES=(bool, False),
+)
 
-DEBUG = False
+DEBUG = env("DEBUG")
+SECRET_KEY = env(
+    "SECRET_KEY",
+    default="---secret-key---",
+)
 
 ALLOWED_HOSTS = ["*"]
-SECRET_KEY = "-$0%!u7!*wouhr*-ofna8-zmswjp8l%q1(%1l9-n=&7z36@352"
 SESSION_COOKIE_NAME = "sid"
 
 SITE_URL = ""
@@ -89,17 +98,43 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 
+##################################################################
+# db
+##################################################################
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": PROJECT_ROOT / "db.sqlite3",
-    }
+    "default": env.db(
+        default="postgres://obr:obr@db:5432/obr",
+    ),
+    "sync": env.db_url(
+        "SYNC_DATABASE_URL",
+        default="sqlite:////dev/null",
+    ),
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
+##################################################################
+# cache
+##################################################################
+CACHES = {
+    "default": env.cache(
+        default="dummycache://",
+    ),
+}
+
+
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+
+##################################################################
+# email
+##################################################################
+EMAIL_CONFIG = env.email(
+    "EMAIL_URL",
+    default="consolemail://",
+)
+vars().update(EMAIL_CONFIG)
 
 
 ##################################################################
@@ -176,7 +211,6 @@ DATE_FORMAT = "Y-m-d"
 ##################################################################
 # static files
 ##################################################################
-# STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # `build` -> webpack output
@@ -195,7 +229,10 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 )
 
-GS_BUCKET_NAME = ""
+GS_BUCKET_NAME = env(
+    "GS_BUCKET_NAME",
+    default="",
+)
 
 
 ##################################################################
@@ -255,7 +292,6 @@ REST_FRAMEWORK = {
         "account.login_email": "20/hour",
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # "DEFAULT_SCHEMA_CLASS": "api_extra.schema.AutoSchema",
 }
 
 SPECTACULAR_SETTINGS = {
@@ -287,29 +323,6 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.35.1",
 }
 
-# SWAGGER_SETTINGS = {
-#     "DEFAULT_AUTO_SCHEMA_CLASS": "api_extra.schema.AutoSchema",
-#     "SECURITY_DEFINITIONS": {
-#         "Token": {
-#             "type": "apiKey",
-#             "name": "Authorization",
-#             "in": "header",
-#             "description": "`Authorization: Token <api_token>`",
-#         },
-#     },
-# }
-
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_URLS_REGEX = r"^/api/.*$"
-# CORS_ALLOW_METHODS = [
-#     "OPTIONS",
-#     "GET",
-# ]
-
-GRAPHENE = {
-    "SCHEMA": "core.schema.schema",
-}
-
 
 ##################################################################
 # services
@@ -330,8 +343,14 @@ MEDIA_ENDPOINTS = {
 ##################################################################
 # payment providers
 ##################################################################
-STRIPE_PUBLISHABLE_KEY = ""
-STRIPE_SECRET_KEY = ""
+STRIPE_PUBLISHABLE_KEY = env(
+    "STRIPE_PUBLISHABLE_KEY",
+    default="",
+)
+STRIPE_SECRET_KEY = env(
+    "STRIPE_SECRET_KEY",
+    default="",
+)
 
 
 ##################################################################
@@ -352,15 +371,23 @@ SETTINGS_EXPORT = [
 ##################################################################
 # OBP API
 ##################################################################
-OBP_SYNC_ENDPOINT = "https://www.openbroadcast.org/api/v2/obr-sync/"
-OBP_SYNC_TOKEN = "0dbea6aeb52acc8f71ed33611b51ded4f0b5bdda"
+OBP_SYNC_ENDPOINT = env(
+    "OBP_SYNC_ENDPOINT",
+    default="https://www.openbroadcast.org/api/v2/obr-sync/",
+)
+OBP_SYNC_TOKEN = env(
+    "OBP_SYNC_TOKEN",
+    default="",
+)
 
 
 ##################################################################
-# CMS
+# "CMS"
 ##################################################################
-CMS_PAGES_DIR = "/home/ohrstrom/Desktop/obr-pages"
-# CMS_PAGES_DIR = os.path.join(PROJECT_ROOT, "data", 'pages')
+CMS_PAGES_DIR = env(
+    "OBP_SYNC_TOKEN",
+    default=str(PROJECT_ROOT / "data" / "pages"),
+)
 
 
 ##################################################################
