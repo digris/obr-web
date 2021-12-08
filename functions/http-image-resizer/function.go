@@ -45,8 +45,6 @@ func init() {
 		log.Fatalf("unable to parse source: %v", err)
 	}
 
-	fmt.Println("sourceOptions:", sourceOptions)
-
 	log.WithFields(log.Fields{
 		"source": source,
 	}).Info("init")

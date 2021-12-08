@@ -1,0 +1,6 @@
+#!/bin/bash
+
+./manage.py migrate && \
+./manage.py sync_schedule -s $(date '+%Y-%m-%d') -i 300
+
+exit $?
