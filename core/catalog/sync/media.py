@@ -177,11 +177,8 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
             }
 
             try:
-                update.update(
-                    {
-                        "content_type": mimetypes.guess_type(f.name)[0],
-                    }
-                )
+                if content_type := mimetypes.guess_type(f.name)[0]:
+                    update["content_type"] = content_type
             except KeyError:
                 pass
 
