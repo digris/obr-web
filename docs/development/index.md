@@ -64,7 +64,7 @@ To simplify the development there is a `docker-compose` configuration to run the
 | image-resizer  |              - |                                   |
 | media-encoder  |              - |                                   |
 | sync-schedule  |              - |                                   |
-| mailhog        |     1025, 5025 | http://localhost:5025             |
+| mailhog        |     1025, 5025 | http://localhost:5025/            |
 
 
 ### Nginx Service
@@ -78,7 +78,7 @@ See `compose/nginx/default.conf.template` as a reference.
 
 NOTE: Nginx and the other backing services use the (bind-)mounted `./data/` directory.
 
-#### `/images/`
+#### `http://local.obr-next:5000/images/`
 
 Reverse proxy to `image-resizer` service.
 
@@ -88,12 +88,12 @@ See `functions/http-image-resizer/`.
    default: `image-resizer:8000`
 
 
-#### `/encoded/`
+#### `http://local.obr-next:5000/encoded/`
 
 Serves (DASH-)encoded media files from mounted `data/encoded/`.
 
 
-#### `/static/`
+#### `http://local.obr-next:5000/static/`
 
 Reverse proxy to front-end APP.
 
@@ -115,7 +115,7 @@ yarn build && \
 ``` 
 
 
-#### `/`
+#### `http://local.obr-next:5000/`
 
 Reverse proxy to back-end / "core" APP.
 

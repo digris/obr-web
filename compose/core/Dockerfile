@@ -60,7 +60,7 @@ COPY ["manage.py", "./"]
 ADD ./core/ ./core/
 
 # additional entry-points
-COPY docker/core/sync-schedule ./
+COPY compose/core/sync-schedule ./
 
 ENV PATH="/venv/bin:$PATH"
 
