@@ -35,7 +35,7 @@ server {
     expires 1h;
     # access_log off;
     add_header Cache-Control "public";
-    alias /data/encoded/
+    alias /data/encoded/;
   }
 
   location /static/ {
