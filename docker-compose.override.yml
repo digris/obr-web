@@ -1,7 +1,7 @@
 version: "3"
 services:
   core:
-    command: echo "disabled"
+    command: echo "core disabled by default - run locally."
 #    profiles:
 #      - donotstart
   sync-schedule:

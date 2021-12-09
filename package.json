@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint --no-fix",
     "fix": "vue-cli-service lint",
-    "schema:generate": "openapi --input http://local.next.openbroadcast.ch:8080/api/v1/schema-json/ --output ./src/typings/api/"
+    "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./src/typings/api/"
   },
   "engines": {
     "node": "^14 || ^16",
