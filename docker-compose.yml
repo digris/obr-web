@@ -61,7 +61,7 @@ services:
       dockerfile: ${PWD}/compose/core/Dockerfile
     image: obr/core:lateest
     volumes:
-      - ${PWD}/data:/data
+      - ${PWD}/data:/app/data
     environment:
       DEBUG: "yes"
       DATABASE_URL: psql://obr:obr@db:5432/obr
@@ -72,10 +72,11 @@ services:
   sync-schedule:
     container_name: obr-sync-schedule
     user: 1000:1000
+#    user: 501:20
     command: ./sync-schedule
     image: obr/core:lateest
     volumes:
-      - ${PWD}/data:/data
+      - ${PWD}/data:/app/data
     environment:
       DATABASE_URL: psql://obr:obr@db:5432/obr
       OBP_SYNC_TOKEN: "${OBP_SYNC_TOKEN}"
