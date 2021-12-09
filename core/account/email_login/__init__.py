@@ -34,6 +34,7 @@ def send_login_email(email):
 
     context = {
         "subject": f"Login Code: {login_token}",
+        "title": "Code",
         "login_url": url,
         "login_token": login_token,
     }

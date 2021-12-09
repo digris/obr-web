@@ -3,25 +3,38 @@ services:
   nginx:
     container_name: obr-nginx
     build:
-      context: ${PWD}/docker/nginx/
-      dockerfile: ${PWD}/docker/nginx/Dockerfile
+      context: ${PWD}/compose/nginx/
+      dockerfile: ${PWD}/compose/nginx/Dockerfile
     ports:
-      - "8888:80"
+      - "5000:80"
     volumes:
       - ${PWD}/data:/data
-    environment:
-      IMAGE_RESIZER: 127.0.0.1:8000
+      - ${PWD}/dist:/var/www/static
+#    environment:
+#      IMAGE_RESIZER: image-resizer:8000
 #      CORE: core:8000
 #      STATIC: core:8000
     networks:
       - obr
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  db:
+    container_name: obr-db
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: obr
+      POSTGRES_PASSWORD: obr
+    ports:
+      - "5434:5432"
+    volumes:
+      - obr-db:/var/lib/postgresql/data
+    networks:
+      - obr
   image-resizer:
     container_name: obr-image-resizer
     build:
       context: ${PWD}
-      dockerfile: ${PWD}/docker/image-resizer/Dockerfile
+      dockerfile: ${PWD}/compose/image-resizer/Dockerfile
     ports:
       - "8180:8000"
     volumes:
@@ -35,28 +48,17 @@ services:
     user: 1000:1000
     build:
       context: ${PWD}
-      dockerfile: ${PWD}/docker/media-encoder/Dockerfile
+      dockerfile: ${PWD}/compose/media-encoder/Dockerfile
     volumes:
       - ${PWD}/data:/data
-  db:
-    container_name: obr-db
-    image: postgres:14-alpine
-    environment:
-      POSTGRES_USER: obr
-      POSTGRES_PASSWORD: obr
-    ports:
-      - "5434:5432"
-    volumes:
-      - obr-db:/var/lib/postgresql/data
-    networks:
-      - obr
   core:
     container_name: obr-core
     user: 1000:1000
-    command: ./manage.py runserver 0.0.0.0:8000
+    command: echo "core disabled by default - run locally."
+#    command: ./manage.py runserver 0.0.0.0:8000
     build:
       context: ${PWD}
-      dockerfile: ${PWD}/docker/core/Dockerfile
+      dockerfile: ${PWD}/compose/core/Dockerfile
     image: obr/core:lateest
     volumes:
       - ${PWD}/data:/data
@@ -76,6 +78,7 @@ services:
       - ${PWD}/data:/data
     environment:
       DATABASE_URL: psql://obr:obr@db:5432/obr
+      OBP_SYNC_TOKEN: "${OBP_SYNC_TOKEN}"
     networks:
       - obr
     depends_on:
@@ -88,20 +91,9 @@ services:
       driver: "none"
     ports:
       - "1025:1025" # smtp
-      - "8025:8025" # ui
+      - "5025:8025" # ui
     networks:
       - obr
-#  core:
-#    container_name: obr-core
-#    build:
-#      context: ${PWD}
-#      dockerfile: docker/Dockerfile
-#    ports:
-#      - "9999:8000"
-#    volumes:
-#      - data:/data
-#    networks:
-#      - obr
 
 volumes:
   obr:

@@ -27,7 +27,7 @@ class PlaylistFilter(filters.FilterSet):
     @staticmethod
     def get_obj_query(obj_ct, obj_uid):
         # Not so nice... striping fixed "catalog."
-        app, model = obj_ct.split(".")
+        _, model = obj_ct.split(".")
 
         if model == "media":
             return {
