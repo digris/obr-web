@@ -8,7 +8,7 @@ RUN set -ex \
 
 ENV APP_HOME /app
 WORKDIR $APP_HOME
-COPY docker/media-encoder/ ./
+COPY compose/media-encoder/ ./
 COPY services/media-encoder/encoder.py ./
 
 CMD exec python main.py /data/master /data/encoded --interval 60
