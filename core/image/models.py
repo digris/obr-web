@@ -2,7 +2,6 @@
 import logging
 import os
 import time
-from urllib.parse import urlparse
 
 from django.db import models
 from django.db.models.signals import pre_delete, pre_save

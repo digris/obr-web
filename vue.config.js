@@ -5,10 +5,10 @@ const DEVSERVER_HEADER = 'X-WEBPACK-DEVSERVER';
 
 module.exports = {
   outputDir: './build/',
-  // publicPath: 'http://local.next.openbroadcast.ch:3000/static/',
+  // publicPath: 'http://local.obr-next:3000/static/',
   publicPath: process.env.NODE_ENV === 'production'
     ? '/'
-    : 'http://local.next.openbroadcast.ch:3000/static/',
+    : 'http://local.obr-next:3000/static/',
   chainWebpack: (config) => {
     config.module
       .rule('images')
@@ -36,15 +36,15 @@ module.exports = {
     inline: true,
     host: '0.0.0.0',
     port: 3000,
-    public: 'local.next.openbroadcast.ch:3000',
-    // public: 'local.next.openbroadcast.ch:3000',
+    public: 'local.obr-next:3000',
+    // public: 'local.obr-next:3000',
     disableHostCheck: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
     proxy: {
       '/': {
-        target: 'http://local.next.openbroadcast.ch:8080',
+        target: 'http://local.obr-next:8080',
         onProxyReq: (proxyReq) => {
           // add header to let django know about getting a devserver request
           proxyReq.setHeader(DEVSERVER_HEADER, 'on');
@@ -53,7 +53,7 @@ module.exports = {
     },
     // proxy: {
     //   '^/api': {
-    //     target: 'http://local.next.openbroadcast.ch:8080',
+    //     target: 'http://local.obr-next:8080',
     //     changeOrigin: true,
     //     logLevel: 'debug',
     //     // pathRewrite: { "^/api": "/" }

@@ -1,15 +1,23 @@
 [
-    {
-      "origin": [
-        "http://next.openbroadcast.ch",
-        "https://next.openbroadcast.ch",
-        "http://next.openbroadcast.ch:3000",
-        "http://next.openbroadcast.ch:8080",
-        "http://mbp15.local:3000",
-        "http://mbp15.local:8080"
-      ],
-      "method": ["HEAD", "GET", "OPTIONS"],
-      "maxAgeSeconds": 1,
-      "responseHeader": ["Authorization", "Content-Range", "Accept", "Content-Type", "Origin", "Range"]
-    }
+  {
+    "origin": [
+      "http://next.openbroadcast.ch",
+      "https://next.openbroadcast.ch",
+      "http://mbp15.local:5000"
+    ],
+    "method": [
+      "HEAD",
+      "GET",
+      "OPTIONS"
+    ],
+    "maxAgeSeconds": 1,
+    "responseHeader": [
+      "Authorization",
+      "Content-Range",
+      "Accept",
+      "Content-Type",
+      "Origin",
+      "Range"
+    ]
+  }
 ]

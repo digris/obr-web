@@ -1,7 +1,7 @@
 import environ
 from .base import *
 
-SITE_URL = "http://local.next.openbroadcast.ch:3000"
+SITE_URL = "http://local.obr-next:3000"
 
 
 ##################################################################
@@ -24,7 +24,7 @@ LOGGING = {
     },
     "formatters": {
         "default": {
-            "format": "%(levelname)-8s %(name)s\t%(message)s",
+            "format": "%(levelname)-8s %(name)s %(message)s",
         },
     },
     "handlers": {

@@ -17,7 +17,7 @@ type Config = {
 }
 
 export const OpenAPI: Config = {
-    BASE: 'http://local.next.openbroadcast.ch:3000',
+    BASE: 'http://local.obr-next:3000',
     VERSION: '0.0.1',
     WITH_CREDENTIALS: false,
     TOKEN: undefined,

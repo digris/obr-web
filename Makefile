@@ -10,13 +10,6 @@ DOCKER_TAG = ch-openbroadcast-next
 PORT = 8080
 COMMIT_HASH = $(shell git rev-parse --short HEAD)
 
-
-run:
-	poetry run ./manage.py runserver 0.0.0.0:$(PORT)
-
-shell:
-	poetry run ./manage.py shell
-
 lint:
 	npx stylelint "./src/**/*.(scss|js|vue)"
 	yarn lint
