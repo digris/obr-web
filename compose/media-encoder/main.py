@@ -77,7 +77,9 @@ if __name__ == "__main__":
 
     while args.interval:
         num_encoded, num_skipped = run(master_dir, encoded_dir, force)
-        sys.stdout.write(f"files encoded: {num_encoded} - skipped: {num_skipped} - re-scan in {args.interval} seconds\n")
+        sys.stdout.write(
+            f"files encoded: {num_encoded} - skipped: {num_skipped} - re-scan in {args.interval} seconds\n"
+        )
         time.sleep(args.interval)
     else:
         run(master_dir, encoded_dir, force)

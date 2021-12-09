@@ -2,10 +2,14 @@
 
 "Next-gen" version of openbroadcast.ch website to be launched in 2022.
 
+ - [GitLab Project](https://gitlab.com/digris/open-broadcast/openbroadcast.ch)
+ - [next.openbroadcast.ch](https://next.openbroadcast.ch/)
+ - [next.openbroadcast.ch/admin/](https://next.openbroadcast.ch/admin/)
+
 
 ## Project setup
 
-Application runs on GCP. 
+Application runs on GCP:
 
 | GCP Organisation | digris.ch      |
 |------------------|----------------|
@@ -18,4 +22,7 @@ Application runs on GCP.
 gcloud projects describe open-broadcast
 ```
 
+## Documentation
 
+ - [GCP](docs/gcp)
+ - [Development](docs/development)
