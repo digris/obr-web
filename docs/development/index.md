@@ -133,6 +133,13 @@ fetching the schedule data for the current date / day, and also
 encodes all synced media to DASH. So this could take a while...
 
 ```shell
+# ensure data directories exist
+mkdir -p data/media && \
+  mkdir -p data/master && \
+  mkdir -p data/encoded
+```
+
+```shell
 docker compose build
 docker compose up
 ```
