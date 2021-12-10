@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
@@ -91,4 +90,4 @@ class EditorImage(BaseSortableImage):
         ordering = ["position"]
 
     def __str__(self):
-        return "{}".format(self.pk)
+        return f"{self.pk}"
