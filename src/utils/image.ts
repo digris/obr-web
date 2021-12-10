@@ -1,12 +1,12 @@
 import settings from '@/settings';
 
-const { IMAGE_RESIZER_URL } = settings;
+const { IMAGE_RESIZER_ENDPOINT } = settings;
 
 const getImageSrc = (image: object, size = 800) => {
   // @ts-ignore
   if (image && image.path) {
     // @ts-ignore
-    return `${IMAGE_RESIZER_URL}crop/${size}x${size}/${image.path}`;
+    return `${IMAGE_RESIZER_ENDPOINT}crop/${size}x${size}/${image.path}`;
   }
   return null;
 };

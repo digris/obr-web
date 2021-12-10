@@ -21,15 +21,13 @@ def add_user_to_team(strategy, user=None, *args, **kwargs):
         WHITELISTED_DOMAINS
         and user.email.split("@")[-1].strip() not in WHITELISTED_DOMAINS
     ):
-        log.warning(
-            "authentication denied. {} not in allowed domains".format(user.email)
-        )
+        log.warning(f"authentication denied. {user.email} not in allowed domains")
         return None
 
     changed = False
 
     if WHITELISTED_DOMAINS and not user.is_staff:
-        log.info("adding {} to staff".format(user))
+        log.info(f"adding {user} to staff")
         setattr(user, "is_staff", True)
         changed = True
 

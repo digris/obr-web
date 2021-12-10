@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -53,7 +52,7 @@ class Vote(TimestampedModelMixin, models.Model):
         ]
 
     def __str__(self):
-        return "{}".format(self.pk)
+        return f"{self.pk}"
 
     @property
     def key(self):

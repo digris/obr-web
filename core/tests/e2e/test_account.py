@@ -54,7 +54,7 @@ class TestAccount:
         settings.SITE_URL = live_server.url
         self.driver.get(live_server.url)
 
-        assert "open broadcast" == self.driver.title
+        assert "open broadcast radio" == self.driver.title
         # body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body
 
@@ -139,5 +139,5 @@ class TestAccount:
         account_button = self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle")
         assert account_button.text == USER_DATA["email"][0].upper()
 
-        for entry in self.driver.get_log("browser"):
-            print("// LOG", entry)
+        # for entry in self.driver.get_log("browser"):
+        #     print("// LOG", entry)

@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from django.core.exceptions import FieldError
+from django.conf import settings
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
@@ -14,7 +14,8 @@ from catalog.api import serializers
 from catalog.models import Artist
 from tagging import utils as tagging_utils
 
-MEDIA_MIN_DURATION = 12
+
+ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
 
 
 def get_search_qs(qs, q):
@@ -76,7 +77,7 @@ class ArtistViewSet(
             qs = get_search_qs(qs, q)
 
         # NOTE: make dynamic...
-        qs = qs.filter(num_media__gt=0)
+        qs = qs.filter(num_media__gte=ARTIST_MIN_NUM_MEDIA)
         qs = qs.order_by("-created")
 
         return qs

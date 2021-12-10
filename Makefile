@@ -19,6 +19,7 @@ lint:
 fix:
 	npx stylelint "./src/**/*.(scss|js|vue)" --fix
 	yarn fix
+	find ./core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
 	black ./core/
 
 test:
@@ -42,3 +43,6 @@ translations:
 	  -l fr \
 	  -i 'core/base/*'
 	poetry run ./manage.py compilemessages
+
+run-hypercorn:
+	hypercorn core.asgi:application --bind :${PORT} --access-logfile - --error-logfile - --reload

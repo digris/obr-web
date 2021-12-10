@@ -78,7 +78,11 @@ See `compose/nginx/default.conf.template` as a reference.
 
 NOTE: Nginx and the other backing services use the (bind-)mounted `./data/` directory.
 
-#### `http://local.obr-next:5000/images/`
+---
+
+#### Image Resizer
+
+ * `/images/`
 
 Reverse proxy to `image-resizer` service.
 
@@ -86,15 +90,21 @@ See `functions/http-image-resizer/`.
 
  - env:     `IMAGE_RESIZER`  
    default: `image-resizer:8000`
+ 
+---
+   
+#### Encoded Media
 
-
-#### `http://local.obr-next:5000/encoded/`
-
+ * `/encoded/`
+ 
 Serves (DASH-)encoded media files from mounted `data/encoded/`.
 
+---
 
-#### `http://local.obr-next:5000/static/`
+#### Compiled Front-End
 
+ * `/static/`
+ 
 Reverse proxy to front-end APP.
 
 Tries first to proxy requests to the Vue.js development server running
@@ -114,8 +124,11 @@ yarn build && \
   ./manage.py collectstatic
 ``` 
 
+---
 
-#### `http://local.obr-next:5000/`
+#### Back-End
+
+ * `/`
 
 Reverse proxy to back-end / "core" APP.
 
@@ -126,7 +139,7 @@ Reverse proxy to back-end / "core" APP.
 
 ## Run Services
 
-### Backing Services (dockerized)
+### Backing Services - dockerized
 
 NOTE: Assuming you provide a valid `OBP_SYNC_TOKEN` this will start
 fetching the schedule data for the current date / day, and also 
@@ -144,7 +157,7 @@ docker compose build
 docker compose up
 ```
 
-### Front-end / Core ("local")
+### Front-end / Core - locally
 
 ```shell
 ./manage.py runserver 0.0.0.0:8080
