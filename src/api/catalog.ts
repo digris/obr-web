@@ -21,10 +21,23 @@ async function getMood(uid: string) {
   return response.data;
 }
 
-async function getArtists(limit: number, offset: number) {
+async function getArtists(
+  limit: number,
+  offset: number,
+  filter: any,
+) {
   const url = ARTIST_ENDPOINT;
   const params = {
-    limit, offset,
+    limit, offset, ...filter,
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
+
+async function getArtistsTags(filter: any) {
+  const url = `${ARTIST_ENDPOINT}tags/`;
+  const params = {
+    ...filter,
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -112,6 +125,7 @@ export {
   getMoods,
   getMood,
   getArtists,
+  getArtistsTags,
   getArtist,
   getMedia,
   getMediaTags,

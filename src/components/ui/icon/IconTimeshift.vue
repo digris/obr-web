@@ -15,10 +15,15 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const size = computed(() => {
+      return props.size || BASE_SIZE;
+    });
     const style = computed(() => {
       return {
         fill: props.color,
-        transform: `scale(${props.size / BASE_SIZE})`,
+        // transform: `scale(${props.size / BASE_SIZE})`,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {
@@ -31,7 +36,7 @@ export default defineComponent({
   <!-- eslint-disable max-len -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    x="0"
+    x="10"
     y="0"
     viewBox="0 0 48 48"
     :style="style"

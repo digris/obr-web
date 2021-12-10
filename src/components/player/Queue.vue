@@ -80,7 +80,9 @@ $player-height: 72px;
 
 .container {
   @include container.default;
-  padding: 2rem 0;
+  //padding: 2rem 0;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .queue {

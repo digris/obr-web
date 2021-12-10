@@ -118,16 +118,4 @@ def update_image(obj, image_url, image_class, clear=True):
         i.save()
         i.file.save(filename, File(img_temp))
 
-    # img_temp = NamedTemporaryFile(delete=True)
-    # img_temp.write(urlopen(image_url).read())
-    # img_temp.flush()
-    #
-    # kwargs = {
-    #     f"{obj.ct_model}": obj,
-    # }
-    #
-    # i = image_class(**kwargs)
-    # i.save()
-    # i.file.save(filename, File(img_temp))
-
     logger.debug(f"updated image for {obj.ct}:{obj.uid}")

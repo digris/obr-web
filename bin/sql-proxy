@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cloud_sql_proxy \
+  -instances=open-broadcast:europe-west6:open-broadcast-db=tcp:5433

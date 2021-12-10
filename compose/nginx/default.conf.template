@@ -1,0 +1,60 @@
+upstream core {
+  server ${CORE};
+}
+upstream static {
+  server ${STATIC};
+}
+upstream image-resizer {
+  server ${IMAGE_RESIZER};
+}
+
+server {
+  listen 80 default_server;
+  server_name ${SERVER_NAME};
+
+  gzip  on;
+  gzip_comp_level 2;
+  gzip_proxied any;
+  gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript text/json;
+
+  sendfile        on;
+  client_max_body_size 1024M;
+
+  root /var/www/;
+
+  location /images/ {
+    expires 1h;
+    # access_log off;
+    add_header Cache-Control "public";
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    proxy_pass http://image-resizer/;
+  }
+
+  location /encoded/ {
+    expires 1h;
+    # access_log off;
+    add_header Cache-Control "public";
+    alias /data/encoded/;
+  }
+
+  location /static/ {
+    proxy_pass http://static/static/;
+    proxy_set_header Host $host:3000;
+    error_page 502 = @static-fallback;
+  }
+
+  location @static-fallback {
+    root /var/www/;
+  }
+
+  location / {
+    proxy_pass http://core/;
+    proxy_set_header Host $host:3000;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Client-Geo-Location-Region "CH";
+    proxy_set_header X-Client-Geo-Location-City "Zurich";
+  }
+}

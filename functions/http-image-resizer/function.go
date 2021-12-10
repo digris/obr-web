@@ -9,10 +9,11 @@ import (
 	_ "image/gif"
 	"image/jpeg"
 	"image/png"
-	"math"
-    "github.com/harukasan/go-libwebp/webp"
 	"io"
+	"math"
 	"net/http"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strconv"
 
@@ -26,6 +27,7 @@ import (
 
 var (
 	storageClient *storage.Client
+	sourceOptions *SourceOptions
 )
 
 func init() {
@@ -34,10 +36,56 @@ func init() {
 	log.SetLevel(log.DebugLevel)
 	log.SetFormatter(&log.JSONFormatter{})
 
-	storageClient, err = storage.NewClient(context.Background())
+	var source = Getenv("SOURCE", "gs")
+
+	fmt.Println("source:", source)
+
+	sourceOptions, err = ParseSource(source)
 	if err != nil {
-		log.Fatalf("gcp storage: %v", err)
+		log.Fatalf("unable to parse source: %v", err)
 	}
+
+	log.WithFields(log.Fields{
+		"source": source,
+	}).Info("init")
+
+	if sourceOptions.mode == "gs" {
+		storageClient, err = storage.NewClient(context.Background())
+		if err != nil {
+			log.Fatalf("gcp storage: %v", err)
+		}
+	}
+	if sourceOptions.mode == "fs" {
+		fmt.Println("serving from:", sourceOptions.path)
+	}
+}
+
+type SourceOptions struct {
+	mode string
+	path string
+}
+
+func ParseSource(source string) (*SourceOptions, error) {
+	re := regexp.MustCompile(`^(gs|fs)\:\/\/([a-zA-Z0-9\-\/.]+)$`)
+
+	match := re.MatchString(source)
+	if !match {
+		panic("invalid source")
+	}
+	res := re.FindStringSubmatch(source)
+	mode := res[1]
+	path := res[2]
+
+	var o = SourceOptions{mode, path}
+	return &o, nil
+}
+
+func Getenv(key, fallback string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		value = fallback
+	}
+	return value
 }
 
 func ResizeImage(w http.ResponseWriter, r *http.Request) {
@@ -52,8 +100,19 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// get decoded image from storage
-	img, err := ReadImage(ctx, o.bucket, o.file)
+	// get decoded image from storage (gs ore filesystem)
+
+	var img image.Image
+	var format = ""
+
+	switch sourceOptions.mode {
+	case "gs":
+		img, format, err = ReadImageGS(ctx, sourceOptions.path, o.file)
+	default:
+		img, format, err = ReadImageFS(sourceOptions.path, o.file)
+	}
+
+	// img, format, err := ReadImageGS(ctx, sourceOptions.path, o.file)
 	if err != nil {
 		log.Warningf("unable to load image: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -61,18 +120,26 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch o.kind {
-        case "crop":
-            img = CropImage(img, o.width, o.height, true)
-        default:
-            img = ScaleImage(img, o.width, o.height, true)
+	case "crop":
+		img = CropImage(img, o.width, o.height, true)
+	default:
+		img = ScaleImage(img, o.width, o.height, true)
 	}
 
-
-	// encode result to jpg
+	// encode result depending on original type
 	encoded := &bytes.Buffer{}
-// 	encoded, err = EncodeImageToJpg(img)
-	encoded, err = EncodeImageToPNG(img)
-// 	encoded, err = EncodeImageToWEBP(img)
+	contentType := ""
+
+	if format == "png" {
+		encoded, err = EncodeImageToPNG(img)
+		contentType = "image/png"
+	} else {
+		encoded, err = EncodeImageToJpg(img)
+		contentType = "image/jpeg"
+	}
+
+	fmt.Println(contentType)
+
 	if err != nil {
 		log.Warningf("unable to encode image: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -80,9 +147,17 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// set Content-Type and Content-Length headers
-	w.Header().Set("Content-Type", "image/png")
+	w.Header().Set("Content-Type", contentType)
 	w.Header().Set("Content-Length", strconv.Itoa(encoded.Len()))
-	// 	w.Header().Set("X-Resizer-Options", fmt.Sprintf("%#v", o))
+
+	// writer, err := gzip.NewWriterLevel(w, gzip.BestCompression)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
+
+	// defer writer.Close()
+	// writer.Write(encoded.Bytes())
 
 	// write the output image to http response body
 	_, err = io.Copy(w, encoded)
@@ -96,12 +171,11 @@ type ResizerOptions struct {
 	kind   string
 	width  int
 	height int
-	bucket string
 	file   string
 }
 
-func NewResizerOptions(kind string, height int, width int, bucket string, file string) ResizerOptions {
-	return ResizerOptions{kind, width, height, bucket, file}
+func NewResizerOptions(kind string, height int, width int, file string) ResizerOptions {
+	return ResizerOptions{kind, width, height, file}
 }
 
 func ParsePath(r *http.Request) (*ResizerOptions, error) {
@@ -112,7 +186,7 @@ func ParsePath(r *http.Request) (*ResizerOptions, error) {
 		"path": path,
 	}).Debug("parse path")
 
-	re := regexp.MustCompile(`^\/(crop|scale)\/(\d{1,5})x(\d{1,5})\/([a-z\-]+)\/([a-zA-Z0-9\-\/.]+)$`)
+	re := regexp.MustCompile(`^\/(crop|scale)\/(\d{1,5})x(\d{1,5})\/([a-zA-Z0-9\-\/.]+)$`)
 
 	match := re.MatchString(path)
 	if !match {
@@ -122,32 +196,30 @@ func ParsePath(r *http.Request) (*ResizerOptions, error) {
 	kind := res[1]
 	width, _ := strconv.Atoi(res[2])
 	height, _ := strconv.Atoi(res[3])
+	file := res[4]
 
-	bucket := res[4]
-	file := res[5]
-
-	o = NewResizerOptions(kind, height, width, bucket, file)
+	o = NewResizerOptions(kind, height, width, file)
 
 	log.WithFields(log.Fields{
 		"kind":   o.kind,
 		"width":  o.width,
 		"height": o.height,
-		"bucket": o.bucket,
 		"file":   o.file,
 	}).Debug("parsed resizer options")
 
 	return &o, nil
 }
 
-func ReadImage(ctx context.Context, bucket string, file string) (image.Image, error) {
+func ReadImageGS(ctx context.Context, bucket string, file string) (image.Image, string, error) {
 
 	var dst image.Image
+	var format = ""
 
 	blob := storageClient.Bucket(bucket).Object(file)
 	aclList, err := blob.ACL().List(ctx)
 	if err != nil {
 		fmt.Printf("unable to get ACL: %v", err)
-		return dst, err
+		return dst, format, err
 	}
 	isPublic := false
 	for _, acl := range aclList {
@@ -156,21 +228,41 @@ func ReadImage(ctx context.Context, bucket string, file string) (image.Image, er
 		}
 	}
 	if !isPublic {
-		return dst, errors.New("access forbidden")
+		return dst, format, errors.New("access forbidden")
 	}
 
 	r, err := blob.NewReader(ctx)
 	if err != nil {
 		fmt.Printf("error reading blob: %v", err)
-		return dst, err
+		return dst, format, err
 	}
 
-	dst, _, err = image.Decode(r)
+	dst, format, err = image.Decode(r)
 	if err != nil {
-		return dst, err
+		return dst, format, err
 	}
 
-	return dst, nil
+	return dst, format, nil
+}
+
+func ReadImageFS(path string, file string) (image.Image, string, error) {
+
+	var err error
+	var dst image.Image
+	var format = ""
+
+	f, err := os.Open(filepath.Join(path, file))
+	if err != nil {
+		return dst, format, err
+	}
+	defer f.Close()
+
+	dst, format, err = image.Decode(f)
+	if err != nil {
+		return dst, format, err
+	}
+
+	return dst, format, nil
 }
 
 func CropImage(img image.Image, w, h int, resize bool) image.Image {
@@ -207,7 +299,7 @@ func GetCropDimensions(img image.Image, width, height int) (int, int) {
 }
 
 func ScaleImage(img image.Image, w, h int, fill bool) image.Image {
-    width, height := GetScaleDimensions(img, w, h)
+	width, height := GetScaleDimensions(img, w, h)
 	resizer := nfnt.NewDefaultResizer()
 
 	img = resizer.Resize(img, uint(width), uint(height))
@@ -217,33 +309,28 @@ func ScaleImage(img image.Image, w, h int, fill bool) image.Image {
 
 func GetScaleDimensions(img image.Image, width, height int) (int, int) {
 
-    bounds := img.Bounds()
-    x := bounds.Dx()
-    y := bounds.Dy()
+	bounds := img.Bounds()
+	x := bounds.Dx()
+	y := bounds.Dy()
 
-    ratio := float64(width) / float64(x)
+	ratio := float64(width) / float64(x)
 
-    width = int(math.Round(float64(x) * ratio))
-    height = int(math.Round(float64(y) * ratio))
+	width = int(math.Round(float64(x) * ratio))
+	height = int(math.Round(float64(y) * ratio))
 
 	return width, height
 }
 
 func EncodeImageToJpg(img image.Image) (*bytes.Buffer, error) {
+	var opt jpeg.Options
+	opt.Quality = 75
 	encoded := &bytes.Buffer{}
-	err := jpeg.Encode(encoded, img, nil)
+	err := jpeg.Encode(encoded, img, &opt)
 	return encoded, err
 }
 
 func EncodeImageToPNG(img image.Image) (*bytes.Buffer, error) {
 	encoded := &bytes.Buffer{}
 	err := png.Encode(encoded, img)
-	return encoded, err
-}
-
-func EncodeImageToWEBP(img image.Image) (*bytes.Buffer, error) {
-	encoded := &bytes.Buffer{}
-	config, _ := webp.ConfigPreset(webp.PresetDefault, 90)
-	err := webp.EncodeRGBA(encoded, img, config)
 	return encoded, err
 }

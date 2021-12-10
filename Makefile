@@ -10,13 +10,6 @@ DOCKER_TAG = ch-openbroadcast-next
 PORT = 8080
 COMMIT_HASH = $(shell git rev-parse --short HEAD)
 
-
-run:
-	poetry run ./manage.py runserver 0.0.0.0:$(PORT)
-
-shell:
-	poetry run ./manage.py shell
-
 lint:
 	npx stylelint "./src/**/*.(scss|js|vue)"
 	yarn lint
@@ -29,7 +22,8 @@ fix:
 	black ./core/
 
 test:
-	pytest --ds core.settings.test ./core/
+# 	pytest --ds core.settings.test ./core/
+	pytest -m "e2e" -s ./core/tests/
 
 docker-image:
 	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
