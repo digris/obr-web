@@ -10,4 +10,5 @@ class AutoSchema(OpenAPIAutoSchema):
 
         _keys = operation_keys[:-1]
         _action = operation_keys[-1]
+        # pylint: disable=consider-using-f-string
         return "{} - {}".format(" ".join(_keys), _action)

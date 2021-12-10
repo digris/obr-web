@@ -19,6 +19,7 @@ def get_resized_url(
     if not URL:
         return file.url
 
+    # pylint: disable=consider-using-f-string
     url = "{endpoint}{kind}/{width}x{height}/{bucket}/{filename}".format(
         endpoint=URL,
         bucket=BUCKET,

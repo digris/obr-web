@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import uuid
 
 from django.db import models
@@ -72,7 +71,7 @@ class CTModelMixin(models.Model):
     """
 
     def get_ct(self):
-        return "{}.{}".format(self._meta.app_label, self.__class__.__name__).lower()
+        return f"{self._meta.app_label}.{self.__class__.__name__}".lower()
 
     @property
     def ct(self):
