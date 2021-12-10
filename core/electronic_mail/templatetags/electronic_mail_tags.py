@@ -11,7 +11,7 @@ styles = {
     ".dim": "color:  #a0a0a0",
     ".cta": "color: red; height: 17px",
     ".button": "background: white",
-    ".login-token": "background: white; font-size: 48px;",
+    ".login-token": "background: white; font-size: 48px; line-height: 48px",
 }
 
 

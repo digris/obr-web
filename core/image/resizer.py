@@ -9,7 +9,12 @@ IMAGE_WIDTH_SET = [120, 240, 360, 600, 900, 1200, 1800, 2400]
 DEFAULT_RATIO = 16 / 10
 
 
-def get_resized_url(file, width, height, kind):
+def get_resized_url(
+    file,
+    width,
+    height,
+    kind,
+):
 
     if not URL:
         return file.url
@@ -26,7 +31,11 @@ def get_resized_url(file, width, height, kind):
     return url
 
 
-def get_image_set(file, ratio=None, kind=None):
+def get_image_set(
+    file,
+    ratio=None,
+    kind=None,
+):
     ratio = ratio or DEFAULT_RATIO
     kind = kind or DEFAULT_RESIZE_KIND
     for width in IMAGE_WIDTH_SET:

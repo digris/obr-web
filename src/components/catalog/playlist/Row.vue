@@ -103,7 +103,7 @@ export default defineComponent({
       >
         <router-link
           :to="{
-            name: 'playlistDetail',
+            name: 'editorDetail',
             params: {
               uid: playlist.editor.uid,
             },

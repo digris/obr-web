@@ -45,7 +45,7 @@ Sentry.init({
     new Integrations.BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
       tracingOrigins: [
-        'local.next.openbroadcast.ch',
+        'local.obr-next',
         'next.openbroadcast.ch',
         'openbroadcast.ch',
         /^\//,

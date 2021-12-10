@@ -16,3 +16,4 @@ DATABASES = {
     },
 }
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
+OBP_SYNC_SKIP_ALL = True

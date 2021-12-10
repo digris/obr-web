@@ -16,9 +16,6 @@ class BaseMessage:
     static_url = settings.STATIC_URL
     site_url = settings.SITE_URL
 
-    # template_plain = "electronic_mail/messages/default.txt"
-    # template_html = "electronic_mail/messages/default.html"
-
     def __init__(self, from_email, to_email, template_dir, context):
 
         self.template_plain = os.path.join(template_dir, "message.txt")

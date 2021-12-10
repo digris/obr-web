@@ -52,10 +52,9 @@ export default defineComponent({
     </div>
     <div
       class="menu-toggle"
+      @click.prevent="showSideMenu"
     >
-      <ToggleMenuButton
-        @click.prevent="showSideMenu"
-      />
+      <ToggleMenuButton />
     </div>
   </div>
 </template>

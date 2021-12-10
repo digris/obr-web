@@ -4,10 +4,11 @@ import { useStore } from 'vuex';
 import { getContrastColor } from '@/utils/color';
 import CurrentMedia from './CurrentMedia.vue';
 import Playhead from './Playhead.vue';
-import Radio from './Radio.vue';
+import OnAir from './button/OnAir.vue';
 import Queue from './Queue.vue';
 import Circle from './button/Circle.vue';
 import UserRating from '@/components/rating/UserRating.vue';
+import IconQueue from '@/components/ui/icon/IconQueue.vue';
 import Debug from '@/components/dev/Debug.vue';
 import PlayerStreamInfo from './PlayerStreamInfo.vue';
 
@@ -15,10 +16,11 @@ export default defineComponent({
   components: {
     CurrentMedia,
     Playhead,
-    Radio,
+    OnAir,
     Circle,
     Queue,
     UserRating,
+    IconQueue,
     Debug,
     PlayerStreamInfo,
   },
@@ -131,7 +133,7 @@ export default defineComponent({
         <div
           class="center"
         >
-          <Radio
+          <OnAir
             v-if="isLive"
           />
           <Playhead
@@ -160,9 +162,15 @@ export default defineComponent({
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
             }"
           >
+            <IconQueue
+              :size="(48)"
+              :color="(queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))')"
+            />
+            <!--
             <span
               v-text="queueNumMedia"
             />
+            -->
           </Circle>
         </div>
       </div>
@@ -208,10 +216,9 @@ $player-height: 72px;
   }
   .center {
     justify-content: center;
-    .on-air {
+    .on-air__ {
       padding: 12px 24px;
       color: rgb(var(--c-white));
-      background: rgb(var(--c-red));
     }
   }
   .right {

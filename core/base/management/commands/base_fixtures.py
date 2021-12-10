@@ -1,9 +1,9 @@
 import os
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
+from pathlib import Path
 
 
-FIXTURE_PATH = "./fixtures/"
 FIXTURE_SCOPES = [
     {
         "key": "auth",
@@ -32,9 +32,15 @@ FIXTURE_SCOPES = [
     {
         "key": "apps",
         "include": [
+            "broadcast",
             "catalog",
         ],
-        "exclude": [],
+        "exclude": [
+            "broadcast.editorimage",
+            "catalog.artistimage",
+            "catalog.releaseimage",
+            "catalog.playlistimage",
+        ],
     },
 ]
 
@@ -51,6 +57,12 @@ class Command(BaseCommand):
                 "import",
                 "export",
             ],
+        )
+        parser.add_argument(
+            "--directory",
+            type=Path,
+            required=True,
+            help="fixtures data directory",
         )
         parser.add_argument(
             "--database",
@@ -72,7 +84,7 @@ class Command(BaseCommand):
 
         for scope in FIXTURE_SCOPES:
 
-            path = os.path.join(FIXTURE_PATH, f"{scope['key']}.yaml")
+            path = os.path.join(options["directory"], f"{scope['key']}.json")
 
             excludes = []
             for exclude in scope.get("exclude", []):
@@ -87,7 +99,7 @@ class Command(BaseCommand):
                 database,
                 *scope.get("options", []),
                 "--format",
-                "yaml",
+                "json",
                 "--indent",
                 2,
                 "--output",
@@ -114,7 +126,7 @@ class Command(BaseCommand):
 
         for scope in FIXTURE_SCOPES:
 
-            path = os.path.join(FIXTURE_PATH, f"{scope['key']}.yaml")
+            path = os.path.join(options["directory"], f"{scope['key']}.json")
 
             call_command(
                 "loaddata",

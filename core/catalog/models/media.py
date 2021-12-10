@@ -104,7 +104,7 @@ class Master(
     )
 
     md5_hash = models.CharField(
-        max_length=24,
+        max_length=32,
         default="",
     )
 
