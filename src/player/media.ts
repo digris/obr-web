@@ -22,7 +22,7 @@ const getMediaUrl = (media: object) => {
   const mediaFormat = getMediaFormat();
   const suffix = getSuffix(mediaFormat);
   if (DEBUG) {
-    const dummyUuids: Array<string> = ['F001', 'F001'];
+    const dummyUuids: Array<string> = ['556CCC59', '556CCC59', '556CCC59'];
     const uid = dummyUuids[Math.floor(Math.random() * dummyUuids.length)];
     return `${MEDIA_ENDPOINTS.dash}${uid}${suffix}`;
   }

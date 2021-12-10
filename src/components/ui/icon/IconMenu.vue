@@ -18,11 +18,16 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const size = computed(() => {
+      return props.size || BASE_SIZE;
+    });
     const style = computed(() => {
       return {
         fill: props.color,
         stroke: 'none',
-        transform: `scale(${props.size / BASE_SIZE})`,
+        // transform: `scale(${props.size / BASE_SIZE})`,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {

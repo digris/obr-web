@@ -24,7 +24,7 @@ def encode_dash(src, dst):
         dst,
     ]
 
-    print(" ".join(cmd))
+    # print(" ".join(cmd))
     out = subprocess.check_output(" ".join(cmd), shell=True).decode("utf-8")
     print(out)
 

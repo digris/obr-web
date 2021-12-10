@@ -2,7 +2,6 @@
 import logging
 import os
 import time
-from urllib.parse import urlparse
 
 from django.db import models
 from django.db.models.signals import pre_delete, pre_save
@@ -63,11 +62,8 @@ class BaseImage(
 
     @cached_property
     def path(self):
-        # filename does not include bucket in cloud storage
-        # so we have to get it out of the url. sorry.
-        if not self.url:
-            return None
-        return urlparse(self.url).path[1:]
+        return str(self.file) if self.file else None
+        # return urlparse(self.url).path[1:]
 
     @cached_property
     def url(self):

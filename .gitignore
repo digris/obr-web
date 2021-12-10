@@ -22,6 +22,9 @@ gcp/terraform
 .env.*.local
 .env.live
 
+# compose
+docker-compose.override.yml
+
 # Log files
 npm-debug.log*
 yarn-debug.log*
