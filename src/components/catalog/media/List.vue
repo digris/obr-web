@@ -10,7 +10,7 @@ import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { isEqual } from 'lodash-es';
 
-import LoadingMore from '@/components/ui/LoadingMore.vue';
+import LoadingMore from '@/components/ui/loading/Loading.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import PlayAll from '@/components/catalog/media/PlayAll.vue';

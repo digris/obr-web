@@ -43,6 +43,10 @@ export default defineComponent({
       type: String,
       default: '--c-page-fg-inverse',
     },
+    progress: {
+      type: Number,
+      default: null,
+    },
   },
 });
 </script>
@@ -63,6 +67,7 @@ export default defineComponent({
       'has-shadow': hasShadow,
       'is-active': active,
       'is-disabled': disabled,
+      'is-progress': progress !== null,
     }"
   >
     <slot
@@ -86,6 +91,10 @@ export default defineComponent({
   transition: background 200ms, color 200ms, border 200ms;
   &.is-outlined {
     border-color: rgba(var(--c-main), var(--outline-opacity));
+    //&.is-progress {
+    //  background: red;
+    //  clip: rect(0px, 150px, 150px, 75px);
+    //}
   }
   &.has-shadow {
     box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;

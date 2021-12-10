@@ -6,7 +6,7 @@ import {
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
-import LoadingMore from '@/components/ui/LoadingMore.vue';
+import LoadingMore from '@/components/ui/loading/Loading.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
 import PlaylistCard from '@/components/catalog/playlist/Card.vue';
 import PlaylistRow from '@/components/catalog/playlist/Row.vue';
