@@ -21,6 +21,7 @@ urlpatterns = [
     # avoid serving SPA view for admin & API
     re_path(r"^api/v1/", SPA404View.as_view()),
     re_path(r"^admin/", SPA404View.as_view()),
+    re_path(r"^static/", SPA404View.as_view()),
     # use SPA view for all other routes
     path("", SPAIndexView.as_view()),
     re_path(r"^(?P<path>.*)/$", SPAIndexView.as_view()),

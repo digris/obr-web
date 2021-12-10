@@ -42,3 +42,6 @@ translations:
 	  -l fr \
 	  -i 'core/base/*'
 	poetry run ./manage.py compilemessages
+
+run-hypercorn:
+	hypercorn core.asgi:application --bind :${PORT} --access-logfile - --error-logfile - --reload

@@ -2,7 +2,7 @@ from django.conf import settings
 
 
 BUCKET = getattr(settings, "GS_BUCKET_NAME")
-URL = getattr(settings, "IMAGE_RESIZER_URL", None)
+URL = getattr(settings, "IMAGE_RESIZER_ENDPOINT", None)
 DEFAULT_RESIZE_KIND = "scale"
 
 IMAGE_WIDTH_SET = [120, 240, 360, 600, 900, 1200, 1800, 2400]
