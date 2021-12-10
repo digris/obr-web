@@ -33,14 +33,6 @@ if settings.DEBUG:
             "electronic-mail/",
             include("electronic_mail.urls", namespace="electronic_mail"),
         ),
-        re_path(
-            r"^encoded/(?P<path>.*)$",
-            serve,
-            {
-                "document_root": "data/encoded/",
-                "show_indexes": True,
-            },
-        ),
     ] + urlpatterns
 
 if not settings.DEBUG:
