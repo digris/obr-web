@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 from base.api.serializers import CTUIDModelSerializer

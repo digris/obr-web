@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 COUNTRY_HEADER = "X-Client-Geo-Location-Region"
 CITY_HEADER = "X-Client-Geo-Location-City"
 COORDINATES_HEADER = "X-Client-Geo-Location-Coordinates"
