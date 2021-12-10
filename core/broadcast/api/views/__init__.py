@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from .editor import EditorViewSet  # NOQA
 from .emission import EmissionViewSet  # NOQA
 from .program import ProgramView  # NOQA

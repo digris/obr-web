@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 from django.core.exceptions import FieldError
@@ -184,7 +183,7 @@ class MediaViewSet(
             media_ids.append(playlist_media.media.id)
 
         # pylint: disable=consider-using-dict-comprehension
-        d = dict([(obj.id, obj) for obj in qs])
+        d = {obj.id: obj for obj in qs}
         media = [d[index] for index in media_ids]
 
         serializer = self.get_serializer(media, many=True)

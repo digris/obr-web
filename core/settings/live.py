@@ -7,8 +7,6 @@ import sentry_sdk
 from google.cloud import secretmanager
 from sentry_sdk.integrations.django import DjangoIntegration
 
-from .base import *  # NOQA
-
 SITE_URL = "https://next.openbroadcast.ch"
 SETTINGS_NAME = "ch-openbroadcast-settings"
 
@@ -17,10 +15,15 @@ client = secretmanager.SecretManagerServiceClient()
 name = f"projects/{project}/secrets/{SETTINGS_NAME}/versions/latest"
 payload = client.access_secret_version(name=name).payload.data.decode("UTF-8")
 
-env = environ.Env(
-    DEBUG=(bool, False),
-)
+env = environ.Env()
 env.read_env(io.StringIO(payload))
+
+from .base import *  # NOQA
+
+##################################################################
+# make sure to add further setting overrides *after*
+# importing .base
+##################################################################
 
 
 SECRET_KEY = env("SECRET_KEY")

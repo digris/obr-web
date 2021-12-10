@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx:
-    container_name: obr-nginx
+    container_name: nginx
     build:
       context: ${PWD}/compose/nginx/
       dockerfile: ${PWD}/compose/nginx/Dockerfile
@@ -19,7 +19,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   db:
-    container_name: obr-db
+    container_name: db
     image: postgres:14-alpine
     environment:
       POSTGRES_USER: obr
@@ -31,7 +31,7 @@ services:
     networks:
       - obr
   image-resizer:
-    container_name: obr-image-resizer
+    container_name: image-resizer
     build:
       context: ${PWD}
       dockerfile: ${PWD}/compose/image-resizer/Dockerfile
@@ -44,7 +44,7 @@ services:
     networks:
       - obr
   media-encoder:
-    container_name: obr-media-encoder
+    container_name: media-encoder
     user: 1000:1000
     build:
       context: ${PWD}
@@ -52,7 +52,7 @@ services:
     volumes:
       - ${PWD}/data:/data
   core:
-    container_name: obr-core
+    container_name: core
     user: 1000:1000
     command: echo "core disabled by default - run locally."
 #    command: ./manage.py runserver 0.0.0.0:8000
@@ -70,7 +70,7 @@ services:
     depends_on:
       - db
   sync-schedule:
-    container_name: obr-sync-schedule
+    container_name: sync-schedule
     user: 1000:1000
 #    user: 501:20
     command: ./sync-schedule
@@ -86,7 +86,7 @@ services:
       - db
       - core
   mailhog:
-    container_name: obr-mailhog
+    container_name: mailhog
     image: mailhog/mailhog
     logging:
       driver: "none"

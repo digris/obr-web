@@ -11,6 +11,11 @@ DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
 MEDIA_ROOT = PROJECT_ROOT / "data" / "media"
 MEDIA_URL = ""
 
+MEDIA_ENDPOINTS = {
+    "dash": "/encoded/",
+    "hls": "/encoded/",
+}
+
 INSTALLED_APPS += []
 
 MIDDLEWARE += []

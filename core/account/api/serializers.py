@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.urls import reverse
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers

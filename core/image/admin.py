@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
-from adminsortable2.admin import SortableInlineAdminMixin
+from django.contrib import admin
 
-# from base.forms.widgets import ReadOnlyImageInput
+# sortable disabled for the moment. (wait for django 4 support)
+# from adminsortable2.admin import SortableInlineAdminMixin
 
 
-class SortableImageInlineMixin(SortableInlineAdminMixin):
+class SortableImageInlineMixin(admin.TabularInline):
 
     extra = 0
     max_num = 10

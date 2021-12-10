@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.db.models import Q  # pragma: no cover
 
 from base.utils.qs import next_in_order, prev_in_order  # pragma: no cover

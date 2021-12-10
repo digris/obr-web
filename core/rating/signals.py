@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import logging
 
 from django.db.models.signals import post_save
@@ -14,5 +12,5 @@ log = logging.getLogger(__name__)
 # pylint: disable=unused-argument
 def rating_post_save(sender, instance, created, **kwargs):
 
-    log.debug("rating saved - {} - {}".format(instance.value, instance.content_object))
+    log.debug(f"rating saved - {instance.value} - {instance.content_object}")
     # registry.update(instance.content_object)

@@ -14,7 +14,7 @@ import Datetime from '@/components/ui/date/Datetime.vue';
 import Money from '@/components/ui/Money.vue';
 
 const { STRIPE_PUBLISHABLE_KEY } = settings;
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
+// const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 export default defineComponent({
   components: {
@@ -56,6 +56,7 @@ export default defineComponent({
       }
       return options.value.find((o: any) => o.sku === selectedKey.value);
     });
+    const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
     const startStripePayment = async () => {
       const stripe = await stripePromise;
       // @ts-ignore

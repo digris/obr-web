@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_filters",
     "social_django",
-    "adminsortable2",
+    # "adminsortable2",  # disabled for the moment. (wait for django 4 support)
     "base",
     "tagging",
     "api_extra",
@@ -327,7 +327,6 @@ SPECTACULAR_SETTINGS = {
 ##################################################################
 # services
 ##################################################################
-IMAGE_RESIZER_URL = "https://next.openbroadcast.ch/images/"
 GOOGLE_TAG_ID = ""
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",
@@ -339,6 +338,10 @@ MEDIA_ENDPOINTS = {
     "hls": "",
 }
 
+IMAGE_RESIZER_ENDPOINT = env(
+    "IMAGE_RESIZER_ENDPOINT",
+    default="https://next.openbroadcast.ch/images/",
+)
 
 ##################################################################
 # payment providers
@@ -360,7 +363,7 @@ SETTINGS_EXPORT = [
     "DEBUG",
     "SITE_URL",
     "STATIC_URL",
-    "IMAGE_RESIZER_URL",
+    "IMAGE_RESIZER_ENDPOINT",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",
     "SENTRY_DSN",
