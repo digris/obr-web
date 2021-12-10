@@ -1,0 +1,104 @@
+version: "3"
+services:
+  nginx:
+    container_name: obr-nginx
+    build:
+      context: ${PWD}/compose/nginx/
+      dockerfile: ${PWD}/compose/nginx/Dockerfile
+    ports:
+      - "5000:80"
+    volumes:
+      - ${PWD}/data:/data
+      - ${PWD}/dist:/var/www/static
+#    environment:
+#      IMAGE_RESIZER: image-resizer:8000
+#      CORE: core:8000
+#      STATIC: core:8000
+    networks:
+      - obr
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  db:
+    container_name: obr-db
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: obr
+      POSTGRES_PASSWORD: obr
+    ports:
+      - "5434:5432"
+    volumes:
+      - obr-db:/var/lib/postgresql/data
+    networks:
+      - obr
+  image-resizer:
+    container_name: obr-image-resizer
+    build:
+      context: ${PWD}
+      dockerfile: ${PWD}/compose/image-resizer/Dockerfile
+    ports:
+      - "8180:8000"
+    volumes:
+      - ${PWD}/data:/data
+    environment:
+      SOURCE: fs:///data/media
+    networks:
+      - obr
+  media-encoder:
+    container_name: obr-media-encoder
+    user: 1000:1000
+    build:
+      context: ${PWD}
+      dockerfile: ${PWD}/compose/media-encoder/Dockerfile
+    volumes:
+      - ${PWD}/data:/data
+  core:
+    container_name: obr-core
+    user: 1000:1000
+    command: echo "core disabled by default - run locally."
+#    command: ./manage.py runserver 0.0.0.0:8000
+    build:
+      context: ${PWD}
+      dockerfile: ${PWD}/compose/core/Dockerfile
+    image: obr/core:lateest
+    volumes:
+      - ${PWD}/data:/app/data
+    environment:
+      DEBUG: "yes"
+      DATABASE_URL: psql://obr:obr@db:5432/obr
+    networks:
+      - obr
+    depends_on:
+      - db
+  sync-schedule:
+    container_name: obr-sync-schedule
+    user: 1000:1000
+#    user: 501:20
+    command: ./sync-schedule
+    image: obr/core:lateest
+    volumes:
+      - ${PWD}/data:/app/data
+    environment:
+      DATABASE_URL: psql://obr:obr@db:5432/obr
+      OBP_SYNC_TOKEN: "${OBP_SYNC_TOKEN}"
+    networks:
+      - obr
+    depends_on:
+      - db
+      - core
+  mailhog:
+    container_name: obr-mailhog
+    image: mailhog/mailhog
+    logging:
+      driver: "none"
+    ports:
+      - "1025:1025" # smtp
+      - "5025:8025" # ui
+    networks:
+      - obr
+
+volumes:
+  obr:
+  obr-db:
+
+networks:
+  obr:

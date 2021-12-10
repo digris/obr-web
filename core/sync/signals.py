@@ -11,7 +11,9 @@ from broadcast import signals as broadcast_signals
 from catalog.sync.airplay import sync_airplays
 from .models.mixins import SyncModelMixin, SyncState
 
+SKIP_ALL = getattr(settings, "OBP_SYNC_SKIP_ALL", False)
 SKIP_MEDIA = getattr(settings, "OBP_SYNC_SKIP_MEDIA", False)
+SKIP_IMAGES = getattr(settings, "OBP_SYNC_SKIP_IMAGES", False)
 
 
 logger = logging.getLogger(__name__)
@@ -20,6 +22,10 @@ logger = logging.getLogger(__name__)
 @receiver(post_save)
 # pylint: disable=unused-argument
 def sync_model_post_save(sender, instance, **kwargs):
+
+    if SKIP_ALL:
+        return
+
     if not issubclass(sender, SyncModelMixin):
         return
 
@@ -29,7 +35,10 @@ def sync_model_post_save(sender, instance, **kwargs):
         qs.update(sync_state=SyncState.RUNNING)
         logger.debug(f'sync pending for {instance.ct}:{instance.uid} "{instance}"')
 
-        result = instance.sync_data(skip_media=SKIP_MEDIA)
+        result = instance.sync_data(
+            skip_media=SKIP_MEDIA,
+            skip_images=SKIP_IMAGES,
+        )
 
         sync_state = SyncState.COMPLETED if result else SyncState.FAILED
         qs.update(

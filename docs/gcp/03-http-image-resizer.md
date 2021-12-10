@@ -43,6 +43,7 @@ gcloud functions deploy \
   --runtime go113 \
   --region europe-west6 \
   --source ./functions/http-image-resizer/ \
+  --set-env-vars SOURCE=gs://ch-openbroadcast-media \
   --allow-unauthenticated \
   --trigger-http
 ```
