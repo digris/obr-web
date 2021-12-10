@@ -6,8 +6,8 @@ stages:
 
 preflight-fe:
   stage: preflight
-  tags:
-    - node
+#  tags:
+#    - node
   image: node:14-slim
   before_script:
     - yarn config set cache-folder .yarn
