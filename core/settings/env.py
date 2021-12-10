@@ -18,8 +18,8 @@ from .development import *  # NOQA
 # importing .development
 ##################################################################
 
-from django.conf import settings
-
-print("DEBUG", settings.DEBUG)
-print("DATABASES", settings.DATABASES)
-print("EMAIL_BACKEND", settings.EMAIL_BACKEND)
+# from django.conf import settings
+#
+# print("DEBUG", settings.DEBUG)
+# print("DATABASES", settings.DATABASES)
+# print("EMAIL_BACKEND", settings.EMAIL_BACKEND)
