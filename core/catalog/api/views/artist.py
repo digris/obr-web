@@ -41,7 +41,6 @@ class ArtistViewSet(
     lookup_field = "uid"
 
     def get_queryset(self):
-        # time.sleep(2)
         qs = self.queryset
         qs = qs.prefetch_related(
             "media",
