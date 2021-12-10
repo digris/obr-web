@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.core.exceptions import FieldError
 from django.conf import settings
 from django.db.models import Count, Max, Q

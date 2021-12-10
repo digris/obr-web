@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 
 # sortable disabled for the moment. (wait for django 4 support)

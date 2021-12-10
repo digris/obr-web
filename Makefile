@@ -19,6 +19,7 @@ lint:
 fix:
 	npx stylelint "./src/**/*.(scss|js|vue)" --fix
 	yarn fix
+	find ./core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
 	black ./core/
 
 test:
