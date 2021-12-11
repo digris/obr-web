@@ -1,8 +1,9 @@
 <script lang="ts">
 import { debounce } from 'lodash-es';
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 // @ts-ignore
 import Intersect from '@/components/utils/intersect';
+import LoadingGrid from './LoadingGrid.vue';
 
 const DEBOUNCE_FOR = 100;
 
@@ -23,8 +24,12 @@ export default defineComponent({
     const onEnter = debounce(async () => {
       emit('onEnter');
     }, DEBOUNCE_FOR, { leading: true });
+    const placeholder = computed(() => {
+      return LoadingGrid;
+    });
     return {
       onEnter,
+      placeholder,
     };
   },
 });
@@ -34,10 +39,17 @@ export default defineComponent({
     @enter="onEnter"
     class="loading-more"
   >
-    <span>loading</span>
+    <div>
+      <slot
+        name="default"
+      >
+        <component
+          :is="placeholder"
+        />
+      </slot>
+    </div>
   </intersect>
 </template>
-
 <style lang="scss" scoped>
 .loading-more {
   display: flex;

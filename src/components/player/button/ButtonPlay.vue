@@ -50,8 +50,8 @@ export default defineComponent({
     },
   },
   emits: [
-    'pause',
     'play',
+    'pause',
   ],
   setup(props, { emit }) {
     const isHover = ref(false);
