@@ -29,6 +29,7 @@ export default defineComponent({
   },
   emits: [
     'play',
+    'pause',
   ],
   setup(props, { emit }) {
     // const store = useStore();
@@ -39,6 +40,9 @@ export default defineComponent({
     // eslint-disable-next-line arrow-body-style
     const media = computed(() => {
       return props.scheduleItem ? props.scheduleItem.media : null;
+    });
+    const objKey = computed(() => {
+      return (media.value) ? `${media.value.ct}:${media.value.uid}` : null;
     });
     const release = computed(() => {
       if (media.value && media.value.releases.length) {
@@ -68,24 +72,20 @@ export default defineComponent({
       } else {
         playMedia(props.scheduleItem.media);
       }
-      // let startTime = -10;
-      // if (!props.isCurrent) {
-      //   const now = DateTime.now();
-      //   const { timeStart } = props.scheduleItem;
-      //   const diffDt = timeStart.diff(now, 'seconds');
-      //   const diffSeconds = diffDt.seconds;
-      //   startTime = diffSeconds + 10;
-      // }
-      // playStream(startTime);
-      // emit('play');
+    };
+    const pause = () => {
+      eventBus.emit('player:controls', { do: 'pause' });
+      emit('pause');
     };
     return {
       isPlaceholder,
+      objKey,
       media,
       release,
       image,
       timeFormat,
       play,
+      pause,
     };
   },
 });
@@ -94,7 +94,10 @@ export default defineComponent({
 <template>
   <div
     class="schedule-item"
-    :class="{'has-focus': hasFocus, 'is-placeholder': isPlaceholder}"
+    :class="{
+      'has-focus': hasFocus,
+      'is-placeholder': isPlaceholder,
+    }"
   >
     <div
       v-if="isPlaceholder"
@@ -113,7 +116,9 @@ export default defineComponent({
       class="actions"
     >
       <PlayButton
+        :media="media"
         @play="play"
+        @pause="pause"
       />
     </div>
   </div>
