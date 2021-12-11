@@ -81,6 +81,16 @@ export default defineComponent({
     const setFocus = (key:string) => {
       focusKey.value = key;
     };
+    const releaseFocus = () => {
+      console.debug('releaseFocus');
+      console.debug('calculatedOffset', calculatedOffset.value);
+      for (let i = 0; i < calculatedOffset.value; i += 1) {
+        setTimeout(() => {
+          paginate(-1);
+        }, i * 10);
+      }
+      // setFocus('');
+    };
     const paginatedItems = computed(() => {
       const numItems = 10;
       return items.value.slice(calculatedOffset.value, calculatedOffset.value + numItems);
@@ -137,6 +147,7 @@ export default defineComponent({
       hasPrevious,
       hasNext,
       setFocus,
+      releaseFocus,
       //
       programVisible,
       toggleProgram,
@@ -152,7 +163,7 @@ export default defineComponent({
     :style="cssVars"
   >
     <StationTime
-      @release-focus="setFocus('')"
+      @release-focus="releaseFocus"
       @toggle-program="toggleProgram"
     />
     <div
