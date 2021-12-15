@@ -26,7 +26,7 @@ ADD ./src/assets/ ./build/assets/
 #######################################################################
 # python base image
 #######################################################################
-FROM python:3.9-slim as python-base
+FROM python:3.10-slim as python-base
 ARG COMMIT=""
 WORKDIR /root/
 
