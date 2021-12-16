@@ -11,7 +11,7 @@ packages = [{include="core", from="."}]
 python = "^3.9"
 Django = "^3.2"
 gunicorn = "^20.0.4"
-psycopg2-binary = "^2.8.6"
+psycopg2-binary = "^2.9"
 google-cloud-secret-manager = "^2.3.0"
 google-auth = "^1.28.0"
 django-environ = "^0.4.5"
@@ -84,6 +84,7 @@ filterwarnings = [
     "ignore::django.utils.deprecation.RemovedInDjango40Warning:django",
     "ignore::django.utils.deprecation.RemovedInDjango41Warning:django",
     "ignore::DeprecationWarning:future",
+    "ignore::DeprecationWarning:google",
 ]
 
 [tool.mypy]
