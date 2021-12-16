@@ -24,6 +24,7 @@ services:
     environment:
       POSTGRES_USER: obr
       POSTGRES_PASSWORD: obr
+      POSTGRES_HOST_AUTH_METHOD: password
     ports:
       - "5434:5432"
     volumes:
@@ -87,7 +88,10 @@ services:
       - core
   mailhog:
     container_name: mailhog
-    image: mailhog/mailhog
+    build:
+      context: ${PWD}
+      dockerfile: ${PWD}/compose/mailhog/Dockerfile
+#    image: mailhog/mailhog
     logging:
       driver: "none"
     ports:
