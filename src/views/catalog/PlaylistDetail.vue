@@ -13,6 +13,7 @@ import DetailPage from '@/layouts/DetailPage.vue';
 // eslint-disable-next-line import/no-unresolved
 import DetailHeader from '@/layouts/DetailHeader.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
+import Duration from '@/components/ui/time/Duration.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
@@ -24,6 +25,7 @@ export default defineComponent({
     DetailPage,
     DetailHeader,
     LazyImage,
+    Duration,
     PlayAction,
     ObjectTags,
     MediaList,
@@ -111,14 +113,30 @@ export default defineComponent({
         <template
           #meta-panel
         >
-          <span>1h 25m</span>
+          <span
+            v-if="(playlist && playlist.numMedia)"
+          >
+            {{ playlist.numMedia }} Tracks
+          </span>
+          <span>
+            •
+          </span>
+          <Duration
+            v-if="(playlist && playlist.duration)"
+            :seconds="playlist.duration"
+          />
         </template>
       </DetailHeader>
+      <pre
+        class="debug"
+        v-text="playlist.latestEmission"
+      />
     </template>
     <MediaList
       :initial-filter="query.filter"
       :disable-user-filter="(true)"
       :disable-play-all="(true)"
+      :hide-upcoming="true"
     />
   </DetailPage>
 </template>
