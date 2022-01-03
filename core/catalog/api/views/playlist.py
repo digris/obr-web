@@ -103,7 +103,8 @@ class PlaylistViewSet(
             ),
             num_emissions=Count(
                 "emissions",
-                filter=Q(emissions__time_end__lte=Now()),
+                filter=Q(emissions__time_start__lte=Now()),
+                distinct=True,
             ),
         )
 

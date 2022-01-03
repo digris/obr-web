@@ -31,6 +31,7 @@ class PlaylistMediaSerializer(
 # TODO: find a better way to handle editor
 class PlaylistEditorSerializer(
     CTUIDModelSerializer,
+    FlexFieldsSerializerMixin,
     serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
@@ -50,6 +51,9 @@ class PlaylistEditorSerializer(
             "uid",
             "name",
         ]
+        expandable_fields = {
+            "image": (ImageSerializer),
+        }
 
 
 class PlaylistSerializer(

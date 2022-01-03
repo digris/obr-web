@@ -16,6 +16,7 @@ import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
+import EditorInline from '@/components/broadcast/editor/Inline.vue';
 // import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
@@ -26,6 +27,7 @@ export default defineComponent({
     PlayAction,
     ObjectTags,
     MediaList,
+    EditorInline,
     // PlaylistName,
   },
   props: {
@@ -100,6 +102,10 @@ export default defineComponent({
             class="tags"
             :obj="playlist"
             :limit="(4)"
+          />
+          <EditorInline
+            v-if="(playlist && playlist.editor)"
+            :editor="playlist.editor"
           />
         </template>
         <template
