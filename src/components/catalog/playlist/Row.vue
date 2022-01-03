@@ -48,7 +48,7 @@ export default defineComponent({
       return '-';
     });
     const latestEmission = computed(() => {
-      return DateTime.fromISO(props.playlist.latestEmission);
+      return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
     });
     return {
       objKey,
