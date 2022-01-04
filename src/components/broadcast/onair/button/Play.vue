@@ -5,7 +5,7 @@ import { useStore } from 'vuex';
 import CircleProgressButton from '@/components/ui/button/CircleProgressButton.vue';
 import IconPlay from '@/components/ui/icon/IconPlay.vue';
 import IconBuffering from '@/components/ui/icon/IconBuffering.vue';
-import IconPause from '@/components/ui/icon/IconPause.vue';
+// import IconPause from '@/components/ui/icon/IconPause.vue';
 import IconPlaying from '@/components/ui/icon/IconPlaying.vue';
 
 const SIZE = 120;
@@ -62,7 +62,8 @@ export default defineComponent({
         return IconBuffering;
       }
       if (isPlaying.value && isHover.value) {
-        return IconPause;
+        // return IconPause;
+        return IconPlaying;
       }
       if (isPlaying.value) {
         return IconPlaying;
@@ -110,6 +111,7 @@ export default defineComponent({
       :is="icon"
       :size="iconSize"
       :color="(isFilled) ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
+      :pause="(isPlaying && isHover)"
     />
   </CircleProgressButton>
 </template>
