@@ -69,7 +69,7 @@ class ObjectRatingView(APIView):
             "comment": comment,
         }
 
-        print('kwargs', kwargs)
+        print("kwargs", kwargs)
 
         if self.request.user.is_authenticated:
             kwargs.update(
@@ -105,9 +105,9 @@ class ObjectRatingView(APIView):
         comment = strip_tags(request.data.get("comment"))
         vote = self.get_vote(request, obj_ct, obj_uid)
 
-        print('value', value)
-        print('scope', scope)
-        print('comment', comment)
+        print("value", value)
+        print("scope", scope)
+        print("comment", comment)
 
         if vote and value:
             vote.value = value
