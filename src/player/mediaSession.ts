@@ -45,6 +45,9 @@ class MediaSessionHandler {
   }
 
   setMetadata(media: any) {
+    if (!media) {
+      return;
+    }
     const release = (media.releases.length) ? media.releases[0] : null;
     const artwork: { src: string | null; sizes: string; type: string; }[] = [];
     if (release && release.image) {
