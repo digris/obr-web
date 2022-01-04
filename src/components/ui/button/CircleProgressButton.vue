@@ -121,8 +121,6 @@ export default defineComponent({
           strokeDasharray: `${segment} 1000`,
         }"
       />
-      -->
-      <!--
       <circle
         class="ring ring--current"
         cx="80"
@@ -153,8 +151,8 @@ export default defineComponent({
   display: inline-flex;
   width: var(--size);
   height: var(--size);
-  transition: background 200ms;
   border-radius: 50%;
+  transition: background 200ms;
   &:hover {
     background: rgba(var(--c-page-fg), 0.1);
   }
@@ -171,13 +169,13 @@ export default defineComponent({
     }
   }
   .inner {
-    display: flex;
-    overflow: hidden;
     position: absolute;
-    width: 100%;
-    height: 100%;
+    display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     border-radius: 50%;
   }
   .fill {

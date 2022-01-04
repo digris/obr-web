@@ -97,13 +97,11 @@ class Playlist(
             ),
         )
         qs = qs.filter(latest_airplay__gte=self.emissions.latest().time_start)
-        return qs.order_by('position')
+        return qs.order_by("position")
 
     @property
     def latest_emission(self):
-        return self.emissions.filter(
-                time_start__lte=Now()
-            ).latest()
+        return self.emissions.filter(time_start__lte=Now()).latest()
 
     @cached_property
     def duration(self):

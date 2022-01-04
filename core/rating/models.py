@@ -11,11 +11,34 @@ class VoteValue(models.IntegerChoices):
     UP = 1, "+"
 
 
+class VoteScope(models.TextChoices):
+    UNDEFINED = None, "not classified"
+    TRACK = "track", "track"
+    EMISSION = "emission", "emission"
+    DAYTIME = "daytime", "daytime"
+    REPETITION = "repetition", "repetition"
+
+
 class Vote(TimestampedModelMixin, models.Model):
 
     value = models.SmallIntegerField(
         blank=False,
         choices=VoteValue.choices,
+        db_index=True,
+    )
+
+    scope = models.CharField(
+        max_length=16,
+        null=True,
+        choices=VoteScope.choices,
+        default=VoteScope.UNDEFINED,
+        db_index=True,
+    )
+
+    comment = models.TextField(
+        max_length=256,
+        blank=True,
+        default="",
     )
 
     user = models.ForeignKey(

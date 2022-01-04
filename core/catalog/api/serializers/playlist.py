@@ -66,11 +66,11 @@ class PlaylistEditorSerializer(
             "image": (ImageSerializer),
         }
 
+
 class PlaylistEmissionSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
-
     class Meta:
         model = Emission
         fields = [
@@ -79,7 +79,6 @@ class PlaylistEmissionSerializer(
             "time_start",
             "time_end",
         ]
-
 
 
 class PlaylistSerializer(
@@ -156,7 +155,5 @@ class PlaylistSerializer(
                     "expand": ["image"],
                 },
             ),
-            "latest_emission": (
-                PlaylistEmissionSerializer,
-            ),
+            "latest_emission": (PlaylistEmissionSerializer,),
         }

@@ -188,12 +188,12 @@ class MediaViewSet(
 
         qs = self.filter_queryset(self.get_queryset(include_upcoming=True))
 
-        print('list_for_playlist', qs.count())
+        print("list_for_playlist", qs.count())
         playlist = Playlist.objects.get(uid=uid)
         qs_media_ids = qs.values_list("id", flat=True)
         media_ids = []
         for playlist_media in playlist.playlist_media.all():
-        # for playlist_media in playlist.airplayed_playlist_media:
+            # for playlist_media in playlist.airplayed_playlist_media:
             if playlist_media.media.id not in qs_media_ids:
                 continue
             media_ids.append(playlist_media.media.id)
