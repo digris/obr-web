@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.http import Http404
+from django.utils.html import strip_tags
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -57,14 +58,19 @@ class ObjectRatingView(APIView):
             return None
 
     @transaction.atomic
-    def create_vote(self, request, obj_ct, obj_uid, value):
+    def create_vote(self, request, obj_ct, obj_uid, value, scope=None, comment=""):
 
         content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
 
         kwargs = {
             "content_object": content_object,
             "value": value,
+            "scope": scope,
+            "comment": comment,
         }
+
+        print('kwargs', kwargs)
+
         if self.request.user.is_authenticated:
             kwargs.update(
                 {
@@ -95,16 +101,26 @@ class ObjectRatingView(APIView):
         serializer.is_valid(raise_exception=True)
 
         value = request.data.get("value")
+        scope = strip_tags(request.data.get("scope"))
+        comment = strip_tags(request.data.get("comment"))
         vote = self.get_vote(request, obj_ct, obj_uid)
+
+        print('value', value)
+        print('scope', scope)
+        print('comment', comment)
 
         if vote and value:
             vote.value = value
+            if scope:
+                vote.scope = scope
+            if comment:
+                vote.comment = comment
             vote.save()
         elif vote:
             vote.delete()
             vote = None
         elif value:
-            vote = self.create_vote(request, obj_ct, obj_uid, value)
+            vote = self.create_vote(request, obj_ct, obj_uid, value, scope, comment)
 
         serializer = VoteSerializer(vote)
 

@@ -10,6 +10,7 @@ class VoteAdmin(admin.ModelAdmin):
         "__str__",
         "user",
         "value",
+        "scope",
         "content_type",
         "content_object",
         # "created",

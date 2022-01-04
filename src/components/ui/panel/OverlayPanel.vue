@@ -1,5 +1,8 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import {
+  defineComponent,
+  onMounted,
+} from 'vue';
 
 import CloseButton from './CloseButton.vue';
 
@@ -11,6 +14,10 @@ export default defineComponent({
     isVisible: {
       type: Boolean,
       default: false,
+    },
+    title: {
+      type: String,
+      default: '',
     },
   },
   emits: [
@@ -52,6 +59,14 @@ export default defineComponent({
           />
         </div>
         <div
+          v-if="title"
+          class="overlay-panel__title"
+        >
+          <div
+            v-text="title"
+          />
+        </div>
+        <div
           class="overlay-panel__body"
         >
           <slot
@@ -71,13 +86,14 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 .overlay-panel {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 101;
+  z-index: 29;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -104,12 +120,18 @@ export default defineComponent({
     margin-top: 0;
     border-bottom: 1px solid rgb(var(--c-gray-100));
   }
+  &__title {
+    @include typo.x-large;
+    @include typo.bold;
+    padding: 0.5rem 0 1.5rem;
+  }
   &__body {
     //flex-grow: 1;
-    padding-top: 2rem;
+    //padding-top: 2rem;
     //padding: 0 4rem 1rem;
     //max-height: calc(100% - 172px);
     //overflow-y: auto;
+    background: transparent;
   }
   &__footer {
     //padding: 1rem 4rem;
