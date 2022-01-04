@@ -24,7 +24,11 @@ class Media(
 
     name = models.CharField(max_length=256)
 
-    duration = models.DurationField(default=timedelta())
+    duration = models.DurationField(
+        default=timedelta(),
+        db_index=True,
+
+    )
 
     artists = models.ManyToManyField(
         "catalog.Artist",
