@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0027_alter_master_md5_hash'),
+        ("catalog", "0027_alter_master_md5_hash"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='media',
-            name='duration',
+            model_name="media",
+            name="duration",
             field=models.DurationField(db_index=True, default=datetime.timedelta(0)),
         ),
     ]

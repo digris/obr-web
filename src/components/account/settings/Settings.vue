@@ -19,11 +19,24 @@ export default defineComponent({
     const user = computed(() => store.getters['account/user']);
     const subscription = computed(() => store.getters['account/subscription']);
     const settings = computed(() => store.getters['account/settings']);
+    const fullName = computed(() => {
+      if (user.value?.firstName && user.value?.lastName) {
+        return `${user.value.firstName} ${user.value.lastName}`;
+      }
+      if (user.value?.firstName) {
+        return user.value.firstName;
+      }
+      if (user.value?.lastName) {
+        return user.value.lastName;
+      }
+      return null;
+    });
     const socialNext = window.location.pathname;
     return {
       user,
       subscription,
       settings,
+      fullName,
       socialNext,
     };
   },
@@ -39,27 +52,37 @@ export default defineComponent({
   </Section>
   <Section
     v-if="user"
+    title="E-Mail"
+  >
+    <p
+      class="user-details"
+      v-text="user.email"
+    />
+  </Section>
+  <Section
+    v-if="user"
+    title="Passwort"
+  >
+    <p
+      class="user-details"
+      v-text="`********`"
+    />
+  </Section>
+  <Section
+    v-if="user"
     title="Persönliche Angaben"
   >
     <div
       class="user-details"
     >
       <p
-        v-text="user.email"
+        v-text="fullName || '-'"
       />
-      <p>
-        <span
-          v-if="user.firstName"
-          v-text="user.firstName"
-        />
-        <span
-          v-if="user.lastName"
-          v-text="user.lastName"
-        />
-      </p>
       <p
-        v-text="`ID: ${user.uid}`"
-      />
+        v-if="user.address"
+      >
+        (( address ))
+      </p>
     </div>
   </Section>
   <Section
@@ -72,9 +95,14 @@ export default defineComponent({
     />
   </Section>
   <Section
+    v-if="(true)"
     title="Debug"
     :outlined="(false)"
   >
+    <Debug
+      title="user"
+      :value="user"
+    />
     <Debug
       title="user"
       :value="user"

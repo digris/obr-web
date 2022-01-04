@@ -9,10 +9,14 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 
+import notify from '@/utils/notification';
+
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconHeart from '@/components/ui/icon/IconHeart.vue';
 import IconFlash from '@/components/ui/icon/IconFlash.vue';
+import RadioInput from '@/components/ui/form/RadioInput.vue';
+import TextareaInput from '@/components/ui/form/TextareaInput.vue';
 
 const REASONS = [
   {
@@ -45,6 +49,8 @@ export default defineComponent({
     CircleButton,
     IconHeart,
     IconFlash,
+    RadioInput,
+    TextareaInput,
   },
   setup(props) {
     const store = useStore();
@@ -61,29 +67,38 @@ export default defineComponent({
     const scopes = computed(() => REASONS);
     const scope = ref('track');
     const comment = ref('');
+    const showPrompt = () => {
+      promptVisible.value = true;
+    };
+    const hidePrompt = () => {
+      comment.value = '';
+      promptVisible.value = false;
+    };
     const rate = debounce(async (value: number) => {
       const vote = {
         key: objKey.value,
         value: userRatingValue.value === value ? null : value,
       };
       if (vote.value === -1) {
-        promptVisible.value = true;
+        showPrompt();
       } else {
         await store.dispatch('rating/updateRating', vote);
       }
     }, 200);
     const downvote = async () => {
-      promptVisible.value = false;
       const vote = {
         key: objKey.value,
         value: -1,
         scope: scope.value,
         comment: comment.value,
       };
-      console.debug('vote', vote);
+      hidePrompt();
       await store.dispatch('rating/updateRating', vote);
-      // scope.value = 'A';
-      comment.value = '';
+      notify({
+        level: 'success',
+        ttl: 5,
+        body: 'Vielen Dank für dein feedback!',
+      });
     };
     const fetchRating = async (key: string) => {
       if (!key) {
@@ -108,6 +123,7 @@ export default defineComponent({
       scopes,
       scope,
       comment,
+      hidePrompt,
       downvote,
     };
   },
@@ -155,7 +171,7 @@ export default defineComponent({
   </div>
   <OverlayPanel
     :is-visible="promptVisible"
-    @close="promptVisible = false"
+    @close="hidePrompt"
     title="Was stört dich?"
   >
     <div
@@ -164,34 +180,28 @@ export default defineComponent({
       <div
         class="prompt__lead"
       >
-        <p>Um das Radioprogramm ständig zu verbessern sind wir froh um jedes Feedback!</p>
+        <p>Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!</p>
       </div>
       <div
         class="prompt__scopes"
       >
-        <div
-          v-for="r in scopes"
-          :key="`scope-${r.value}`"
+        <RadioInput
+          v-for="s in scopes"
+          v-model="scope"
+          name="scope"
+          :key="`scope-${s.value}`"
+          :value="s.value"
+          :label="s.label"
           class="scope"
-        >
-          <input
-            type="radio"
-            :id="`scope_${r.value}`"
-            name="scope"
-            v-model="scope"
-            :value="r.value"
-          >
-          <label
-            :for="`scope_${r.value}`"
-            v-text="r.label"
-          />
-        </div>
+        />
       </div>
       <div
         class="prompt__comment"
       >
-        <textarea
+        <TextareaInput
           v-model="comment"
+          :maxlength="(256)"
+          label="Kommentar"
         />
       </div>
       <div
@@ -205,6 +215,11 @@ export default defineComponent({
         </button>
       </div>
     </div>
+    <template
+      #footer
+    >
+      <div>(( footer content ))</div>
+    </template>
   </OverlayPanel>
 </template>
 

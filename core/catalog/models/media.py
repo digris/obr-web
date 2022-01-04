@@ -27,7 +27,6 @@ class Media(
     duration = models.DurationField(
         default=timedelta(),
         db_index=True,
-
     )
 
     artists = models.ManyToManyField(

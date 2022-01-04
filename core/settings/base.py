@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_filters",
     "social_django",
+    "django_countries",
     # "adminsortable2",  # disabled for the moment. (wait for django 4 support)
     "base",
     "tagging",
@@ -391,6 +392,18 @@ CMS_PAGES_DIR = env(
     "OBP_SYNC_TOKEN",
     default=str(PROJECT_ROOT / "data" / "pages"),
 )
+
+
+##################################################################
+# Address / Countries
+##################################################################
+COUNTRIES_FIRST = [
+    'CH',
+    'DE',
+    'FR',
+]
+COUNTRIES_FIRST_SORT = True
+COUNTRIES_FIRST_BREAK = '--'
 
 
 ##################################################################
