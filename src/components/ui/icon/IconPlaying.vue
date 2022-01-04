@@ -76,31 +76,31 @@ export default defineComponent({
   width: 16px;
   height: 14px;
 
-  &.pause {
-    .bar {
-      animation: unset;
-      height: 100%;
-      &--2 {
-        opacity: 0;
-      }
-    }
-  }
-
   .bar {
     width: 4px;
     height: 10px;
     background: var(--color);
-    animation: eq 1200ms infinite;
     transition: height 200ms;
+    animation: eq 1200ms infinite;
     &--1 {
       animation-delay: -550ms;
     }
     &--2 {
-      animation-delay: -700ms;
       transition: opacity 100ms;
+      animation-delay: -700ms;
     }
     &--3 {
       animation-delay: -350ms;
+    }
+  }
+
+  &.pause {
+    .bar {
+      height: 100%;
+      animation: unset;
+      &--2 {
+        opacity: 0;
+      }
     }
   }
 }

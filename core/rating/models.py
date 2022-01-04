@@ -12,7 +12,7 @@ class VoteValue(models.IntegerChoices):
 
 
 class VoteScope(models.TextChoices):
-    UNDEFINED = None, "not classified"
+    UNDEFINED = None, "not specified"
     TRACK = "track", "track"
     EMISSION = "emission", "emission"
     DAYTIME = "daytime", "daytime"
@@ -75,7 +75,7 @@ class Vote(TimestampedModelMixin, models.Model):
         ]
 
     def __str__(self):
-        return f"{self.pk}"
+        return f"{self.key}"
 
     @property
     def key(self):

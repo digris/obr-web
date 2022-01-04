@@ -1,7 +1,9 @@
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   onMounted,
+  watch,
 } from 'vue';
 
 import CloseButton from './CloseButton.vue';
@@ -23,18 +25,33 @@ export default defineComponent({
   emits: [
     'close',
   ],
-  setup(props, { emit }) {
+  setup(props, { slots, emit }) {
+    const hasFooter = computed(() => !!slots.footer);
+    const hasSuccess = computed(() => !!slots.success);
     const close = () => {
       emit('close');
     };
     onMounted(() => {
+      console.debug('panel mounted');
       document.addEventListener('keydown', (e) => {
         if (props.isVisible && e.code === 'Escape') {
           close();
         }
       });
     });
+    watch(
+      () => props.isVisible,
+      (visible) => {
+        if (visible) {
+          document.body.style.overflowY = 'hidden';
+        } else {
+          document.body.style.overflowY = '';
+        }
+      },
+    );
     return {
+      hasFooter,
+      hasSuccess,
       close,
     };
   },
@@ -59,21 +76,36 @@ export default defineComponent({
           />
         </div>
         <div
-          v-if="title"
-          class="overlay-panel__title"
+          class="overlay-panel__content"
         >
           <div
-            v-text="title"
-          />
+            v-if="title"
+            class="overlay-panel__content__title"
+          >
+            <div
+              v-text="title"
+            />
+          </div>
+          <div
+            class="overlay-panel__content__body"
+          >
+            <slot
+              name="default"
+            />
+          </div>
         </div>
+        <!--
         <div
-          class="overlay-panel__body"
+          v-if="hasFooter"
+          class="overlay-panel__footer"
         >
           <slot
-            name="default"
+            name="footer"
           />
         </div>
+        -->
         <div
+          v-if="hasSuccess"
           class="overlay-panel__success"
         >
           <slot
@@ -97,7 +129,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   //overflow: hidden;
   color: rgb(var(--c-black));
   font-weight: 500;
@@ -105,7 +137,9 @@ export default defineComponent({
 
   .container {
     @include container.small;
-    //height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
   @include responsive.bp-small {
@@ -116,26 +150,35 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 72px;
+    //height: 72px;
+    height: 78px;
     margin-top: 0;
-    border-bottom: 1px solid rgb(var(--c-gray-100));
+    //border-bottom: 1px solid rgb(var(--c-gray-100));
+    //border-bottom: 1px solid rgb(var(--c-black));
+    border-bottom: 7px solid rgb(var(--c-black));
   }
-  &__title {
-    @include typo.x-large;
-    @include typo.bold;
-    padding: 0.5rem 0 1.5rem;
+  &__content {
+    flex-grow: 1;
+    max-height: calc(100% - 72px - 2rem);
+    overflow-y: auto;
+    /* right padding for scrollbar */
+    padding-right: 0.75rem;
+    overscroll-behavior: contain;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &__title {
+      @include typo.x-large;
+      @include typo.bold;
+      padding: 0.5rem 0 1.5rem;
+    }
   }
-  &__body {
-    //flex-grow: 1;
-    //padding-top: 2rem;
-    //padding: 0 4rem 1rem;
-    //max-height: calc(100% - 172px);
-    //overflow-y: auto;
-    background: transparent;
-  }
+  /*
   &__footer {
-    //padding: 1rem 4rem;
+    padding: 1rem 0;
+    background: red;
   }
+  */
 }
 
 .fade-enter-active,

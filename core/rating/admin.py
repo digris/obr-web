@@ -18,6 +18,8 @@ class VoteAdmin(admin.ModelAdmin):
     ]
     list_filter = [
         "value",
+        "scope",
+        "updated",
     ]
     search_fields = [
         "user__uid",

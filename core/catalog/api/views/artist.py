@@ -54,7 +54,8 @@ class ArtistViewSet(
         qs = qs.annotate(
             num_media=Count(
                 "media",
-                filter=Q(media__airplays__time_start__lte=Now()) & Q(media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION)),
+                filter=Q(media__airplays__time_start__lte=Now())
+                & Q(media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION)),
                 distinct=True,
             )
         )
