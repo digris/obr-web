@@ -13,7 +13,8 @@ class SettingsSerializer(
     class Meta:
         model = Settings
         fields = [
-            "id",
+            "ct",
+            "uid",
         ]
 
 
@@ -23,6 +24,8 @@ class AddressSerializer(
     class Meta:
         model = Address
         fields = [
+            "ct",
+            "uid",
             "line_1",
             "line_2",
             "postal_code",

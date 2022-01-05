@@ -398,12 +398,12 @@ CMS_PAGES_DIR = env(
 # Address / Countries
 ##################################################################
 COUNTRIES_FIRST = [
-    'CH',
-    'DE',
-    'FR',
+    "CH",
+    "DE",
+    "FR",
 ]
 COUNTRIES_FIRST_SORT = True
-COUNTRIES_FIRST_BREAK = '--'
+COUNTRIES_FIRST_BREAK = "--"
 
 
 ##################################################################

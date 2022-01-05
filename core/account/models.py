@@ -108,7 +108,10 @@ class User(
         return hasattr(self, "subscription") and self.subscription.is_active
 
 
-class Settings(models.Model):
+class Settings(
+    CTUIDModelMixin,
+    models.Model,
+):
 
     user = models.OneToOneField(
         to=User,
@@ -117,7 +120,10 @@ class Settings(models.Model):
     )
 
 
-class Address(models.Model):
+class Address(
+    CTUIDModelMixin,
+    models.Model,
+):
 
     user = models.OneToOneField(
         to=User,
@@ -128,25 +134,25 @@ class Address(models.Model):
     line_1 = models.CharField(
         max_length=128,
         blank=True,
-        default='',
+        default="",
     )
 
     line_2 = models.CharField(
         max_length=128,
         blank=True,
-        default='',
+        default="",
     )
 
     postal_code = models.CharField(
         max_length=16,
         blank=True,
-        default='',
+        default="",
     )
 
     city = models.CharField(
         max_length=128,
         blank=True,
-        default='',
+        default="",
     )
 
     country = CountryField(

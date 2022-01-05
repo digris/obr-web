@@ -61,9 +61,9 @@ export default defineComponent({
 @use "@/style/elements/button";
 .notifications {
   position: fixed;
-  z-index: 25;
   top: 100px;
   right: 24px;
+  z-index: 25;
 }
 
 .message {

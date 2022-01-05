@@ -37,9 +37,11 @@ class AddressInline(admin.StackedInline):
             None,
             {
                 "fields": (
-                    "line_1", "line_2",
-                    'postal_code', 'city',
-                    'country',
+                    "line_1",
+                    "line_2",
+                    "postal_code",
+                    "city",
+                    "country",
                 ),
             },
         ),
@@ -71,7 +73,7 @@ class UserAdmin(AuthUserAdmin):
         "uuid",
         "uid",
     ]
-    date_hierarchy = 'date_joined'
+    date_hierarchy = "date_joined"
     inlines = [
         AddressInline,
         SettingsInline,
@@ -141,7 +143,7 @@ class UserAdmin(AuthUserAdmin):
         "address__country",
     ]
     ordering = [
-        '-date_joined',
+        "-date_joined",
     ]
 
 
