@@ -3,24 +3,37 @@ import {
   ref,
   defineComponent,
 } from 'vue';
+import { useStore } from 'vuex';
 
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 import Section from './Section.vue';
-import PasswordForm from './PasswordForm.vue';
+import Form from './EmailForm.vue';
 
 export default defineComponent({
   components: {
     Section,
     OverlayPanel,
-    PasswordForm,
+    Form,
+  },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+      default: () => ({}),
+    },
   },
   setup() {
+    const store = useStore();
     const formVisible = ref(false);
     const showForm = () => {
       formVisible.value = true;
     };
-    const hideForm = () => {
+    const hideForm = async () => {
       formVisible.value = false;
+    };
+    const onUpdated = async () => {
+      await store.dispatch('account/getUser');
+      await hideForm();
     };
     const onEdit = () => {
       showForm();
@@ -29,6 +42,7 @@ export default defineComponent({
       onEdit,
       formVisible,
       hideForm,
+      onUpdated,
     };
   },
 });
@@ -36,21 +50,22 @@ export default defineComponent({
 
 <template>
   <Section
-    title="Passwort"
+    title="E-Mail"
     @edit="onEdit"
   >
     <p
       class="user-details"
-      v-text="`●●●●●●●●`"
+      v-text="user.email"
     />
   </Section>
   <OverlayPanel
     :is-visible="formVisible"
     @close="hideForm"
-    title="Passwort"
+    title="E-Mail"
   >
-    <PasswordForm
-      @updated="hideForm"
+    <Form
+      :current-email="user.email"
+      @updated="onUpdated"
     />
   </OverlayPanel>
 </template>

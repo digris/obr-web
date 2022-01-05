@@ -7,6 +7,19 @@ from account.models import User, Settings, Address
 from subscription.models import Subscription
 
 
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        write_only=True,
+    )
+
+
+class PasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        write_only=True,
+        min_length=8,
+    )
+
+
 class SettingsSerializer(
     serializers.ModelSerializer,
 ):
