@@ -3,8 +3,9 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 import SocialLogin from '@/components/account/SocialLogin.vue';
-import Section from '@/components/account/settings/SettingsSection.vue';
+import Section from '@/components/account/settings/Section.vue';
 import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
+import Password from '@/components/account/settings/Password.vue';
 import Debug from '@/components/dev/Debug.vue';
 
 export default defineComponent({
@@ -12,6 +13,7 @@ export default defineComponent({
     Section,
     SocialLogin,
     CurrentSubscription,
+    Password,
     Debug,
   },
   setup() {
@@ -19,6 +21,7 @@ export default defineComponent({
     const user = computed(() => store.getters['account/user']);
     const subscription = computed(() => store.getters['account/subscription']);
     const settings = computed(() => store.getters['account/settings']);
+    const address = computed(() => store.getters['account/address']);
     const fullName = computed(() => {
       if (user.value?.firstName && user.value?.lastName) {
         return `${user.value.firstName} ${user.value.lastName}`;
@@ -36,6 +39,7 @@ export default defineComponent({
       user,
       subscription,
       settings,
+      address,
       fullName,
       socialNext,
     };
@@ -59,30 +63,61 @@ export default defineComponent({
       v-text="user.email"
     />
   </Section>
+  <Password />
   <Section
     v-if="user"
-    title="Passwort"
-  >
-    <p
-      class="user-details"
-      v-text="`********`"
-    />
-  </Section>
-  <Section
-    v-if="user"
-    title="Persönliche Angaben"
+    title="Name"
   >
     <div
       class="user-details"
     >
       <p
-        v-text="fullName || '-'"
+        v-if="fullName"
+        v-text="fullName"
       />
       <p
-        v-if="user.address"
+        v-else
+        v-text="`---`"
+      />
+    </div>
+  </Section>
+  <Section
+    v-if="user"
+    title="Adresse"
+  >
+    <div
+      class="user-details"
+    >
+      <div
+        v-if="address"
       >
-        (( address ))
-      </p>
+        <p
+          v-if="address.line1"
+          v-text="address.line1"
+        />
+        <p
+          v-if="address.line2"
+          v-text="address.line2"
+        />
+        <p>
+          <span
+            v-if="address.country"
+            v-text="`${address.country}${address.postalCode ? '-' : ''}`"
+          />
+          <span
+            v-if="address.postalCode"
+            v-text="`${address.postalCode}${address.country ? ' ' : ''}`"
+          />
+          <span
+            v-if="address.city"
+            v-text="address.city"
+          />
+        </p>
+      </div>
+      <p
+        v-else
+        v-text="`---`"
+      />
     </div>
   </Section>
   <Section
@@ -95,7 +130,7 @@ export default defineComponent({
     />
   </Section>
   <Section
-    v-if="(true)"
+    v-if="(false)"
     title="Debug"
     :outlined="(false)"
   >
@@ -104,8 +139,8 @@ export default defineComponent({
       :value="user"
     />
     <Debug
-      title="user"
-      :value="user"
+      title="address"
+      :value="address"
     />
     <Debug
       title="subscription"
@@ -127,12 +162,6 @@ export default defineComponent({
   }
   :deep(.panel) {
     padding-top: 0.75rem;
-  }
-  &.is-outlined {
-    :deep(.panel) {
-      padding: 0.75rem;
-      border: 1px solid rgb(var(--c-gray-200));
-    }
   }
 }
 .user-details {

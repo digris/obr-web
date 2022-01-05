@@ -70,15 +70,15 @@ export default defineComponent({
     min-height: 6rem;
     padding: 0.25em 0.5em;
     color: currentColor;
-    border: 3px solid currentColor;
-    border-radius: 3px;
     font-size: 2em;
     font-family: var(--font-family);
+    border: 3px solid currentColor;
+    border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
     &:focus {
-      outline: none;
-      border-color: transparent;
       background: rgba(var(--c-black), 0.1);
+      border-color: transparent;
+      outline: none;
     }
   }
 }

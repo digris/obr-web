@@ -17,7 +17,6 @@ log = logging.getLogger(__name__)
 
 
 class ObjectRatingView(APIView):
-
     @transaction.atomic
     def get_vote(self, request, obj_ct, obj_uid):
 

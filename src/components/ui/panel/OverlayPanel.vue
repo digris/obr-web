@@ -160,9 +160,9 @@ export default defineComponent({
   &__content {
     flex-grow: 1;
     max-height: calc(100% - 72px - 2rem);
-    overflow-y: auto;
     /* right padding for scrollbar */
     padding-right: 0.75rem;
+    overflow-y: auto;
     overscroll-behavior: contain;
     &::-webkit-scrollbar {
       display: none;

@@ -7,33 +7,35 @@ import django_countries.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0011_address'),
+        ("account", "0011_address"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='address',
-            name='city',
-            field=models.CharField(blank=True, default='', max_length=128),
+            model_name="address",
+            name="city",
+            field=models.CharField(blank=True, default="", max_length=128),
         ),
         migrations.AddField(
-            model_name='address',
-            name='country',
-            field=django_countries.fields.CountryField(blank=True, max_length=2, null=True),
+            model_name="address",
+            name="country",
+            field=django_countries.fields.CountryField(
+                blank=True, max_length=2, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='address',
-            name='line_1',
-            field=models.CharField(blank=True, default='', max_length=128),
+            model_name="address",
+            name="line_1",
+            field=models.CharField(blank=True, default="", max_length=128),
         ),
         migrations.AddField(
-            model_name='address',
-            name='line_2',
-            field=models.CharField(blank=True, default='', max_length=128),
+            model_name="address",
+            name="line_2",
+            field=models.CharField(blank=True, default="", max_length=128),
         ),
         migrations.AddField(
-            model_name='address',
-            name='postal_code',
-            field=models.CharField(blank=True, default='', max_length=16),
+            model_name="address",
+            name="postal_code",
+            field=models.CharField(blank=True, default="", max_length=16),
         ),
     ]
