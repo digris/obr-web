@@ -261,34 +261,76 @@ class LogoutView(APIView):
         return response
 
 
-# class CredentialsView(APIView):
-#     @staticmethod
-#     # pylint: disable=unused-argument
-#     def get(request, *args, **kwargs):
-#         # logger.debug("headers", request.headers)
-#         if request.user.is_authenticated:
-#             seconds_valid = 60 * 60
-#             logger.info(
-#                 "refresh credentials",
-#                 {
-#                     "user": str(request.user),
-#                     "seconds_valid": seconds_valid,
-#                 },
-#             )
-#             response = Response(
-#                 {
-#                     "seconds_valid": seconds_valid,
-#                 },
-#                 status=status.HTTP_200_OK,
-#             )
-#             response = set_credentials(response, seconds_valid=seconds_valid)
-#         else:
-#             response = Response(
-#                 None,
-#                 status=status.HTTP_204_NO_CONTENT,
-#             )
-#             response = remove_credentials(response)
-#         return response
+class EmailView(APIView):
+    @staticmethod
+    # pylint: disable=unused-argument
+    def post(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(
+                {
+                    "message": "Not authorized",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = serializers.EmailSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(
+                {
+                    "message": serializer.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        email = serializer.validated_data.get("email")
+        request.user.email = email
+        request.user.save()
+
+        response = Response(
+            None,
+            status=status.HTTP_204_NO_CONTENT,
+        )
+        return response
+
+
+class PasswordView(APIView):
+    @staticmethod
+    # pylint: disable=unused-argument
+    def post(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(
+                {
+                    "message": "Not authorized",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = serializers.PasswordSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(
+                {
+                    "message": serializer.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        password = serializer.validated_data.get("password")
+        request.user.set_password(password)
+        request.user.save()
+
+        login(
+            request,
+            request.user,
+            backend=settings.AUTHENTICATION_BACKENDS[-1],
+        )
+
+        response = Response(
+            None,
+            status=status.HTTP_204_NO_CONTENT,
+        )
+        return response
 
 
 class SocialBackendListView(APIView):

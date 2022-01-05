@@ -25,11 +25,8 @@ urlpatterns = [
     ),
     path("logout/", views.LogoutView.as_view(), name="logout"),
     path("users/me/", views.UserView.as_view(), name="current-user"),
-    # path(
-    #     "refresh-credentials/",
-    #     views.CredentialsView.as_view(),
-    #     name="refresh-credentials",
-    # ),
+    path("email/", views.EmailView.as_view(), name="email"),
+    path("password/", views.PasswordView.as_view(), name="password"),
     path(
         "social-backends/",
         views.SocialBackendListView.as_view(),

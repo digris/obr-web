@@ -71,6 +71,24 @@ async function getSubscription() {
 //   return response.data;
 // }
 
+async function updateEmail(email: string) {
+  const url = `${ACCOUNT_ENDPOINT}email/`;
+  const payload = {
+    email,
+  };
+  const response = await APIClient.post(url, payload);
+  return response.data?.subscription;
+}
+
+async function updatePassword(password: string) {
+  const url = `${ACCOUNT_ENDPOINT}password/`;
+  const payload = {
+    password,
+  };
+  const response = await APIClient.post(url, payload);
+  return response.data?.subscription;
+}
+
 async function getSocialBackends() {
   const url = `${ACCOUNT_ENDPOINT}social-backends/`;
   const response = await APIClient.get(url);
@@ -93,6 +111,8 @@ export {
   getUser,
   getSubscription,
   // refreshCredentials,
+  updateEmail,
+  updatePassword,
   getSocialBackends,
   disconnectSocialBackend,
 };

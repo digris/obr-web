@@ -183,7 +183,7 @@ export default defineComponent({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 300ms;
+  transition: opacity 100ms;
 }
 .fade-enter-from {
   opacity: 0;
