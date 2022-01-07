@@ -4,8 +4,6 @@ import {
   ref,
 } from 'vue';
 
-import * as EmailValidator from 'email-validator';
-
 import { updateUser } from '@/api/account';
 
 import AsyncButton from '@/components/ui/button/AsyncButton.vue';
@@ -19,27 +17,26 @@ export default defineComponent({
     TextInput,
   },
   props: {
-    currentEmail: {
-      type: String,
+    user: {
+      type: Object,
       required: true,
-      default: '',
+      default: () => ({}),
     },
   },
   emits: [
     'updated',
   ],
   setup(props, { emit }) {
-    const email = ref(props.currentEmail);
+    const firstName = ref(props.user.firstName);
+    const lastName = ref(props.user.lastName);
     const formValid = ref(false);
     const errors = ref<Array<string>>([]);
-    const handleInput = () => {
-      formValid.value = EmailValidator.validate(email.value);
-    };
     const submitForm = async () => {
       errors.value = [];
       try {
         await updateUser({
-          email: email.value,
+          firstName: firstName.value,
+          lastName: lastName.value,
         });
         emit('updated');
       } catch (err: any) {
@@ -48,10 +45,10 @@ export default defineComponent({
       }
     };
     return {
-      email,
+      firstName,
+      lastName,
       formValid,
       errors,
-      handleInput,
       submitForm,
     };
   },
@@ -67,12 +64,18 @@ export default defineComponent({
       class="input-container"
     >
       <TextInput
-        v-model="email"
-        @keyup="handleInput"
-        type="email"
-        label="E-Mail Adresse"
-        :minlength="(8)"
-        :maxlength="(64)"
+        v-model="firstName"
+        type="text"
+        label="Name"
+      />
+    </div>
+    <div
+      class="input-container"
+    >
+      <TextInput
+        v-model="lastName"
+        type="text"
+        label="Nachname"
       />
     </div>
     <div
@@ -89,7 +92,6 @@ export default defineComponent({
       <AsyncButton
         class="button"
         @click.prevent="submitForm"
-        :disabled="(!formValid)"
       >
         Speichern
       </AsyncButton>

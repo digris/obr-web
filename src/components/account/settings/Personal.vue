@@ -1,12 +1,13 @@
 <script lang="ts">
 import {
-  ref,
   defineComponent,
+  ref,
+  computed,
 } from 'vue';
 
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 import Section from './Section.vue';
-import Form from './AddressForm.vue';
+import Form from './PersonalForm.vue';
 
 export default defineComponent({
   components: {
@@ -15,8 +16,9 @@ export default defineComponent({
     Form,
   },
   props: {
-    address: {
+    user: {
       type: Object,
+      required: true,
       default: () => ({}),
     },
   },
@@ -24,6 +26,18 @@ export default defineComponent({
     'updated',
   ],
   setup(props, { emit }) {
+    const fullName = computed(() => {
+      if (props.user?.firstName && props.user?.lastName) {
+        return `${props.user.firstName} ${props.user.lastName}`;
+      }
+      if (props.user?.firstName) {
+        return props.user.firstName;
+      }
+      if (props.user?.lastName) {
+        return props.user.lastName;
+      }
+      return null;
+    });
     const formVisible = ref(false);
     const showForm = () => {
       formVisible.value = true;
@@ -39,6 +53,7 @@ export default defineComponent({
       showForm();
     };
     return {
+      fullName,
       onEdit,
       formVisible,
       hideForm,
@@ -50,35 +65,13 @@ export default defineComponent({
 
 <template>
   <Section
-    title="Adresse"
+    title="Persönliche Angaben"
     @edit="onEdit"
   >
-    <div
-      v-if="address"
-    >
-      <p
-        v-if="address.line1"
-        v-text="address.line1"
-      />
-      <p
-        v-if="address.line2"
-        v-text="address.line2"
-      />
-      <p>
-        <span
-          v-if="address.country"
-          v-text="`${address.country}${address.postalCode ? '-' : ''}`"
-        />
-        <span
-          v-if="address.postalCode"
-          v-text="`${address.postalCode}${address.country ? ' ' : ''}`"
-        />
-        <span
-          v-if="address.city"
-          v-text="address.city"
-        />
-      </p>
-    </div>
+    <p
+      v-if="fullName"
+      v-text="fullName"
+    />
     <p
       v-else
       v-text="`---`"
@@ -87,10 +80,10 @@ export default defineComponent({
   <OverlayPanel
     :is-visible="formVisible"
     @close="hideForm"
-    title="Adresse"
+    title="Persönliche Angaben"
   >
     <Form
-      :address="address || {}"
+      :user="user"
       @updated="onUpdated"
     />
   </OverlayPanel>

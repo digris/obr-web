@@ -4,9 +4,7 @@ import {
   ref,
 } from 'vue';
 
-import * as EmailValidator from 'email-validator';
-
-import { updateUser } from '@/api/account';
+import { updateAddress } from '@/api/account';
 
 import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
@@ -19,27 +17,30 @@ export default defineComponent({
     TextInput,
   },
   props: {
-    currentEmail: {
-      type: String,
+    address: {
+      type: Object,
       required: true,
-      default: '',
+      default: () => ({}),
     },
   },
   emits: [
     'updated',
   ],
   setup(props, { emit }) {
-    const email = ref(props.currentEmail);
+    const line1 = ref(props.address.line1);
+    const line2 = ref(props.address.line2);
+    const postalCode = ref(props.address.postalCode);
+    const city = ref(props.address.city);
     const formValid = ref(false);
     const errors = ref<Array<string>>([]);
-    const handleInput = () => {
-      formValid.value = EmailValidator.validate(email.value);
-    };
     const submitForm = async () => {
       errors.value = [];
       try {
-        await updateUser({
-          email: email.value,
+        await updateAddress({
+          line1: line1.value,
+          line2: line2.value,
+          postalCode: postalCode.value,
+          city: city.value,
         });
         emit('updated');
       } catch (err: any) {
@@ -48,10 +49,12 @@ export default defineComponent({
       }
     };
     return {
-      email,
+      line1,
+      line2,
+      postalCode,
+      city,
       formValid,
       errors,
-      handleInput,
       submitForm,
     };
   },
@@ -67,12 +70,32 @@ export default defineComponent({
       class="input-container"
     >
       <TextInput
-        v-model="email"
-        @keyup="handleInput"
-        type="email"
-        label="E-Mail Adresse"
-        :minlength="(8)"
-        :maxlength="(64)"
+        v-model="line1"
+        type="text"
+        label="Adresse"
+      />
+    </div>
+    <div
+      class="input-container"
+    >
+      <TextInput
+        v-model="line2"
+        type="text"
+        label="Zusatz"
+      />
+    </div>
+    <div
+      class="input-container input-container--1-3"
+    >
+      <TextInput
+        v-model="postalCode"
+        type="text"
+        label="PLZ"
+      />
+      <TextInput
+        v-model="city"
+        type="text"
+        label="Ort"
       />
     </div>
     <div
@@ -89,7 +112,6 @@ export default defineComponent({
       <AsyncButton
         class="button"
         @click.prevent="submitForm"
-        :disabled="(!formValid)"
       >
         Speichern
       </AsyncButton>
@@ -103,6 +125,11 @@ export default defineComponent({
   @include form.default;
   .input-container {
     @include form.top-label;
+    &--1-3 {
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: 1fr 3fr;
+    }
   }
 }
 </style>

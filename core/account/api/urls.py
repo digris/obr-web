@@ -7,7 +7,11 @@ from . import views
 
 app_name = "account"
 urlpatterns = [
-    path("login/", views.LoginView.as_view(), name="login"),
+    path(
+        "login/",
+        views.LoginView.as_view(),
+        name="login",
+    ),
     path(
         "send-email-login/",
         views.SendEmailLoginView.as_view(),
@@ -23,10 +27,31 @@ urlpatterns = [
         views.SignedEmailLoginView.as_view(),
         name="signed-email-login",
     ),
-    path("logout/", views.LogoutView.as_view(), name="logout"),
-    path("users/me/", views.UserView.as_view(), name="current-user"),
-    path("email/", views.EmailView.as_view(), name="email"),
-    path("password/", views.PasswordView.as_view(), name="password"),
+    path(
+        "logout/",
+        views.LogoutView.as_view(),
+        name="logout",
+    ),
+    path(
+        "users/me/",
+        views.UserView.as_view(),
+        name="current-user",
+    ),
+    path(
+        "email/",
+        views.EmailView.as_view(),
+        name="email",
+    ),
+    path(
+        "password/",
+        views.PasswordUpdateView.as_view(),
+        name="password",
+    ),
+    path(
+        "address/",
+        views.AddressUpdateView.as_view(),
+        name="address",
+    ),
     path(
         "social-backends/",
         views.SocialBackendListView.as_view(),

@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import Count, Max, Q
+from django.db.models import Max, Q
 from django.db.models.functions import Now
 from django.utils.functional import cached_property
 
@@ -157,7 +157,7 @@ class Series(
 
     def sync_data(self, *args, **kwargs):
         pass
-        # return sync_playlist(self, *args, **kwargs)
+        # return sync_series(self, *args, **kwargs)
 
     @property
     def num_playlists(self):

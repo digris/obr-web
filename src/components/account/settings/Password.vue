@@ -6,13 +6,13 @@ import {
 
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 import Section from './Section.vue';
-import PasswordForm from './PasswordForm.vue';
+import Form from './PasswordForm.vue';
 
 export default defineComponent({
   components: {
     Section,
     OverlayPanel,
-    PasswordForm,
+    Form,
   },
   setup() {
     const formVisible = ref(false);
@@ -49,7 +49,7 @@ export default defineComponent({
     @close="hideForm"
     title="Passwort"
   >
-    <PasswordForm
+    <Form
       @updated="hideForm"
     />
   </OverlayPanel>

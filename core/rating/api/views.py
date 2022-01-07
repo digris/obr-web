@@ -3,9 +3,7 @@ import bleach
 
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -46,7 +44,16 @@ class ObjectRatingView(APIView):
             return None
 
     @transaction.atomic
-    def create_vote(self, request, obj_ct, obj_uid, value, scope=None, comment=""):
+    # pylint: disable=too-many-arguments
+    def create_vote(
+        self,
+        request,
+        obj_ct,
+        obj_uid,
+        value,
+        scope=None,
+        comment="",
+    ):
 
         content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
 

@@ -15,7 +15,7 @@ from account.cdn_credentials.utils import (
     set_credentials,
     remove_credentials,
 )
-from account.models import User
+from account.models import User, Address
 from account.utils import social_backends
 from . import serializers
 
@@ -46,8 +46,37 @@ class UserView(APIView):
             response = remove_credentials(response)
         return response
 
+    @staticmethod
+    # pylint: disable=unused-argument
+    def patch(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(
+                {
+                    "message": "Not authorized",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-@method_decorator(csrf_exempt, name="dispatch")
+        serializer = serializers.UserSerializer(
+            request.user,
+            data=request.data,
+            partial=True,
+        )
+        serializer.is_valid(
+            raise_exception=True,
+        )
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
+
+
+@method_decorator(
+    csrf_exempt,
+    name="dispatch",
+)
 class LoginView(APIView):
     @staticmethod
     def post(request):
@@ -79,7 +108,10 @@ class LoginView(APIView):
         return response
 
 
-@method_decorator(csrf_exempt, name="dispatch")
+@method_decorator(
+    csrf_exempt,
+    name="dispatch",
+)
 class SendEmailLoginView(APIView):
 
     throttle_scope = "account.login_email"
@@ -137,7 +169,10 @@ class SendEmailLoginView(APIView):
         return response
 
 
-@method_decorator(csrf_exempt, name="dispatch")
+@method_decorator(
+    csrf_exempt,
+    name="dispatch",
+)
 class TokenLoginView(APIView):
     @staticmethod
     def post(request):
@@ -192,7 +227,10 @@ class TokenLoginView(APIView):
         return response
 
 
-@method_decorator(csrf_exempt, name="dispatch")
+@method_decorator(
+    csrf_exempt,
+    name="dispatch",
+)
 class SignedEmailLoginView(APIView):
     @staticmethod
     def post(request):
@@ -247,7 +285,10 @@ class SignedEmailLoginView(APIView):
         return response
 
 
-@method_decorator(csrf_exempt, name="dispatch")
+@method_decorator(
+    csrf_exempt,
+    name="dispatch",
+)
 class LogoutView(APIView):
     @staticmethod
     # pylint: disable=unused-argument
@@ -294,7 +335,7 @@ class EmailView(APIView):
         return response
 
 
-class PasswordView(APIView):
+class PasswordUpdateView(APIView):
     @staticmethod
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
@@ -331,6 +372,44 @@ class PasswordView(APIView):
             status=status.HTTP_204_NO_CONTENT,
         )
         return response
+
+
+class AddressUpdateView(APIView):
+    @staticmethod
+    # pylint: disable=unused-argument
+    def patch(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(
+                {
+                    "message": "Not authorized",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        try:
+            address = request.user.address
+        except Address.DoesNotExist:
+            # TODO: implement actual geoip based country
+            address = Address(
+                user=request.user,
+                country="CH",
+            )
+            address.save()
+
+        serializer = serializers.AddressSerializer(
+            address,
+            data=request.data,
+            partial=True,
+        )
+        serializer.is_valid(
+            raise_exception=True,
+        )
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
 
 
 class SocialBackendListView(APIView):
