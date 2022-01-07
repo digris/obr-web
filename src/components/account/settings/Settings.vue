@@ -2,24 +2,22 @@
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import SocialLogin from '@/components/account/SocialLogin.vue';
-import Section from '@/components/account/settings/Section.vue';
-import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
-import Password from '@/components/account/settings/Password.vue';
+import Subscription from '@/components/account/settings/Subscription.vue';
 import Email from '@/components/account/settings/Email.vue';
+import Password from '@/components/account/settings/Password.vue';
 import Personal from '@/components/account/settings/Personal.vue';
 import Address from '@/components/account/settings/Address.vue';
+import Social from '@/components/account/settings/Social.vue';
 // import Debug from '@/components/dev/Debug.vue';
 
 export default defineComponent({
   components: {
-    Section,
-    SocialLogin,
-    CurrentSubscription,
+    Subscription,
     Email,
     Password,
     Personal,
     Address,
+    Social,
   },
   setup() {
     const store = useStore();
@@ -44,12 +42,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section
-    v-if="user"
-    title="Guthaben für kostenpflichtige Inhalte"
-  >
-    <CurrentSubscription />
-  </Section>
+  <Subscription />
   <Email
     v-if="user"
     :user="user"
@@ -64,13 +57,7 @@ export default defineComponent({
     :address="address"
     @updated="reloadUser"
   />
-  <Section
-    v-if="user"
-    title="Verbundene Accounts"
-    :outlined="(false)"
-  >
-    <SocialLogin
-      :next="socialNext"
-    />
-  </Section>
+  <Social
+    :next="socialNext"
+  />
 </template>

@@ -71,12 +71,6 @@ export default defineComponent({
         >
           Konto Einstellungen
         </router-link>
-        <a
-          href="#"
-          @click.prevent="logout"
-        >
-          Abmelden
-        </a>
       </section>
       <section
         class="section"
@@ -151,6 +145,17 @@ export default defineComponent({
           })"
           v-text="`Jobs`"
         />
+      </section>
+      <section
+        class="section"
+        v-if="user"
+      >
+        <a
+          href="#"
+          @click.prevent="logout"
+        >
+          Abmelden
+        </a>
       </section>
     </div>
   </SidePanel>

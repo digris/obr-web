@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
+from django.http import Http404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -377,6 +378,30 @@ class PasswordUpdateView(APIView):
 class AddressUpdateView(APIView):
     @staticmethod
     # pylint: disable=unused-argument
+    def get_serializer_class(**kwargs):
+        return serializers.AddressSerializer
+
+    @staticmethod
+    # pylint: disable=unused-argument
+    def get(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(
+                {
+                    "message": "Not authorized",
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        try:
+            address = request.user.address
+        except Address.DoesNotExist:
+            address = Address()
+
+        serializer = serializers.AddressSerializer(address)
+        return Response(serializer.data)
+
+    @staticmethod
+    # pylint: disable=unused-argument
     def patch(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return Response(
@@ -389,10 +414,9 @@ class AddressUpdateView(APIView):
         try:
             address = request.user.address
         except Address.DoesNotExist:
-            # TODO: implement actual geoip based country
+            # TODO: implement actual geoip based country?
             address = Address(
                 user=request.user,
-                country="CH",
             )
             address.save()
 

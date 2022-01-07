@@ -34,31 +34,6 @@ gcloud compute backend-services add-backend ch-openbroadcast-be \
 From here things are configured via web-interface...
 
 
-### terraformer export GCP state
-
-
-```shell
-brew install terraformer
-```
-
-
-
-https://github.com/GoogleCloudPlatform/terraformer
-
-```shell
-terraformer import google \
-  --resources=addresses \
-  --regions=europe-west6 \
-  --projects=open-broadcast
-```
-
-```shell
-terraformer import google \
-  --resources=globalAddresses,globalForwardingRules,project \
-  --projects=open-broadcast
-```
-
-
 ## Additional request headers
 
 ```shell
