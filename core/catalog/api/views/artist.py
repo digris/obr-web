@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.core.exceptions import FieldError
 from django.conf import settings
 from django.db.models import Count, Max, Q
@@ -15,6 +17,7 @@ from catalog.models import Artist
 from tagging import utils as tagging_utils
 
 
+MEDIA_MIN_DURATION = 12
 ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
 
 
@@ -51,7 +54,8 @@ class ArtistViewSet(
         qs = qs.annotate(
             num_media=Count(
                 "media",
-                filter=Q(media__airplays__time_start__lte=Now()),
+                filter=Q(media__airplays__time_start__lte=Now())
+                & Q(media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION)),
                 distinct=True,
             )
         )

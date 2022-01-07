@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-$x: rgb(224, 248, 255);
+$cp: rgb(0, 170, 120);
 
 $color-palette: (
   black: (0, 0, 0),
@@ -22,7 +22,7 @@ $color-palette: (
   selected: (0, 240, 160),
 
   info: (0, 160, 240),
-  success: (0, 240, 160),
+  success: (0, 170, 120),
   warning: (240, 80, 80),
   error: (240, 20, 20),
 

@@ -50,7 +50,7 @@ export default defineComponent({
         <div
           class="status-code"
         >
-          {{ error.status }}
+          #{{ error.status }}
         </div>
       </code>
     </div>
@@ -73,10 +73,10 @@ export default defineComponent({
     }
   }
   &__status {
-    @include typo.dim;
+    @include typo.small;
     position: absolute;
-    top: 0;
     right: 0;
+    bottom: 0;
   }
 }
 .error:not(:last-child) {

@@ -21,7 +21,7 @@ export default defineComponent({});
         class="link link--facebook"
         href="#"
       >
-        fb
+        FB
       </a>
       <a
         class="link link--youtube"

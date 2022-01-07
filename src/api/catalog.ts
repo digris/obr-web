@@ -115,6 +115,9 @@ async function getPlaylist(uid: string) {
     expand: [
       'media_set',
       'tags',
+      'editor',
+      'duration',
+      'latest_emission',
     ],
   };
   const response = await APIClient.get(url, { params });

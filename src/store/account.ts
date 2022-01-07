@@ -13,6 +13,7 @@ export interface State {
   user: any | null,
   subscription: any | null,
   settings: any | null,
+  address: any | null,
 }
 export interface Credentials {
   email: string,
@@ -27,21 +28,26 @@ const state: State = {
   user: null,
   subscription: null,
   settings: null,
+  address: null,
 };
 
 const getters = {
   user: (state: State) => state.user,
   subscription: (state: State) => state.subscription,
   settings: (state: State) => state.settings,
+  address: (state: State) => state.address,
 };
 
 const mutations = {
   SET_USER: (state: State, user: any | null) => {
-    // @ts-ignore
-    const { subscription, settings, ...bareUser } = { ...user };
+    const {
+      // @ts-ignore
+      subscription, settings, address, ...bareUser
+    } = { ...user };
     state.user = Object.keys(bareUser).length ? bareUser : null;
     state.subscription = subscription;
     state.settings = settings;
+    state.address = address;
   },
   /*
   SET_SUBSCRIPTION: (state: State, subscription: any | null) => {

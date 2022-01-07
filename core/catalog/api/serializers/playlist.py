@@ -3,9 +3,20 @@ from rest_framework import serializers
 from base.api.serializers import CTUIDModelSerializer
 from catalog.api.serializers import MediaSerializer
 from broadcast.models.editor import Editor
-from catalog.models import Media, PlaylistMedia
+from broadcast.models.emission import Emission
+from catalog.models import Playlist, PlaylistMedia
 from image.api.serializers import ImageSerializer
 from tagging.api.serializers import TagSerializer
+
+
+class DurationInSecondsSerializer(
+    serializers.Serializer,
+):
+    def to_representation(self, instance):
+        if not instance:
+            return None
+
+        return instance.seconds
 
 
 class PlaylistMediaSerializer(
@@ -31,6 +42,7 @@ class PlaylistMediaSerializer(
 # TODO: find a better way to handle editor
 class PlaylistEditorSerializer(
     CTUIDModelSerializer,
+    FlexFieldsSerializerMixin,
     serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
@@ -50,6 +62,23 @@ class PlaylistEditorSerializer(
             "uid",
             "name",
         ]
+        expandable_fields = {
+            "image": (ImageSerializer),
+        }
+
+
+class PlaylistEmissionSerializer(
+    CTUIDModelSerializer,
+    serializers.ModelSerializer,
+):
+    class Meta:
+        model = Emission
+        fields = [
+            "ct",
+            "uid",
+            "time_start",
+            "time_end",
+        ]
 
 
 class PlaylistSerializer(
@@ -63,7 +92,7 @@ class PlaylistSerializer(
     image = ImageSerializer(
         read_only=True,
     )
-    latest_emission = serializers.DateTimeField(
+    latest_emission_time_start = serializers.DateTimeField(
         read_only=True,
     )
     num_media = serializers.IntegerField(
@@ -90,7 +119,7 @@ class PlaylistSerializer(
         }
 
     class Meta:
-        model = Media
+        model = Playlist
         ref_name = "CatalogPlaylistSerializer"
         fields = [
             "url",
@@ -98,7 +127,7 @@ class PlaylistSerializer(
             "uid",
             "name",
             "series",
-            "latest_emission",
+            "latest_emission_time_start",
             "num_media",
             "num_emissions",
             "image",
@@ -108,6 +137,7 @@ class PlaylistSerializer(
             "media_set": (
                 PlaylistMediaSerializer,
                 {
+                    # "source": "airplayed_playlist_media",
                     "source": "playlist_media",
                     "many": True,
                 },
@@ -118,5 +148,12 @@ class PlaylistSerializer(
                     "many": True,
                 },
             ),
-            "editor": (PlaylistEditorSerializer,),
+            "duration": (DurationInSecondsSerializer,),
+            "editor": (
+                PlaylistEditorSerializer,
+                {
+                    "expand": ["image"],
+                },
+            ),
+            "latest_emission": (PlaylistEmissionSerializer,),
         }
