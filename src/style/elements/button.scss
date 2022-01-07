@@ -16,6 +16,10 @@
   border-radius: math.div($height, 12);
   cursor: pointer;
   transition: background 250ms, border-radius 100ms;
+  &:focus {
+    outline: 1px solid rgba(var(--c-black), 0.5);
+    outline-offset: 2px;
+  }
   &:not(:disabled) {
     &:hover {
       background: rgba(var(--c-black), 0.9);

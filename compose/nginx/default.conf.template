@@ -32,6 +32,7 @@ server {
   }
 
   location /encoded/ {
+    autoindex on;
     expires 1h;
     # access_log off;
     add_header Cache-Control "public";

@@ -3,8 +3,21 @@ from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 from social_django.models import UserSocialAuth
 
-from account.models import User, Settings
+from account.models import User, Settings, Address
 from subscription.models import Subscription
+
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        write_only=True,
+    )
+
+
+class PasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        write_only=True,
+        min_length=8,
+    )
 
 
 class SettingsSerializer(
@@ -13,7 +26,24 @@ class SettingsSerializer(
     class Meta:
         model = Settings
         fields = [
-            "id",
+            "ct",
+            "uid",
+        ]
+
+
+class AddressSerializer(
+    serializers.ModelSerializer,
+):
+    class Meta:
+        model = Address
+        fields = [
+            "ct",
+            "uid",
+            "line_1",
+            "line_2",
+            "postal_code",
+            "city",
+            "country",
         ]
 
 
@@ -44,10 +74,10 @@ class UserSerializer(
             "date_joined",
             "first_name",
             "last_name",
-            # "full_name",
         ]
         expandable_fields = {
             "settings": SettingsSerializer,
+            "address": AddressSerializer,
             "subscription": SubscriptionSerializer,
         }
 

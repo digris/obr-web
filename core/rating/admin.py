@@ -10,6 +10,7 @@ class VoteAdmin(admin.ModelAdmin):
         "__str__",
         "user",
         "value",
+        "scope",
         "content_type",
         "content_object",
         # "created",
@@ -17,6 +18,8 @@ class VoteAdmin(admin.ModelAdmin):
     ]
     list_filter = [
         "value",
+        "scope",
+        "updated",
     ]
     search_fields = [
         "user__uid",
