@@ -39,7 +39,6 @@ export default defineComponent({
   @include typo.bold;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
-  text-align: center;
 }
 .body {
   background: rgb(var(--white));

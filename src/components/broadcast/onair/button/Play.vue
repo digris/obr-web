@@ -2,10 +2,10 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import CircleButton from '@/components/ui/button/CircleButton.vue';
+import CircleProgressButton from '@/components/ui/button/CircleProgressButton.vue';
 import IconPlay from '@/components/ui/icon/IconPlay.vue';
 import IconBuffering from '@/components/ui/icon/IconBuffering.vue';
-import IconPause from '@/components/ui/icon/IconPause.vue';
+// import IconPause from '@/components/ui/icon/IconPause.vue';
 import IconPlaying from '@/components/ui/icon/IconPlaying.vue';
 
 const SIZE = 120;
@@ -13,7 +13,7 @@ const ICON_SIZE = 96;
 
 export default defineComponent({
   components: {
-    CircleButton,
+    CircleProgressButton,
     IconPlay,
   },
   props: {
@@ -62,12 +62,16 @@ export default defineComponent({
         return IconBuffering;
       }
       if (isPlaying.value && isHover.value) {
-        return IconPause;
+        // return IconPause;
+        return IconPlaying;
       }
       if (isPlaying.value) {
         return IconPlaying;
       }
       return IconPlay;
+    });
+    const isFilled = computed(() => {
+      return (isPlaying.value || isBuffering.value);
     });
     const handleClick = () => {
       if (isBuffering.value || isPlaying.value) {
@@ -85,6 +89,7 @@ export default defineComponent({
       currentMedia,
       isPlaying,
       isBuffering,
+      isFilled,
       progress,
       icon,
     };
@@ -93,21 +98,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleButton
+  <CircleProgressButton
     @mouseover="isHover = true"
     @mouseleave="isHover = false"
     :size="size"
-    :disabled="disabled"
-    :outline-opacity="(1)"
     :outline-width="(6)"
-    :outline-on-hover="(true)"
+    :filled="isFilled"
     :progress="progress"
     @click="handleClick"
   >
     <component
       :is="icon"
       :size="iconSize"
-      color="rgb(var(--c-page-fg))"
+      :color="(isFilled) ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
+      :pause="(isPlaying && isHover)"
     />
-  </CircleButton>
+  </CircleProgressButton>
 </template>

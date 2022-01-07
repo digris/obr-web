@@ -3,28 +3,41 @@ import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 import SocialLogin from '@/components/account/SocialLogin.vue';
-import Section from '@/components/account/settings/SettingsSection.vue';
+import Section from '@/components/account/settings/Section.vue';
 import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
-import Debug from '@/components/dev/Debug.vue';
+import Password from '@/components/account/settings/Password.vue';
+import Email from '@/components/account/settings/Email.vue';
+import Personal from '@/components/account/settings/Personal.vue';
+import Address from '@/components/account/settings/Address.vue';
+// import Debug from '@/components/dev/Debug.vue';
 
 export default defineComponent({
   components: {
     Section,
     SocialLogin,
     CurrentSubscription,
-    Debug,
+    Email,
+    Password,
+    Personal,
+    Address,
   },
   setup() {
     const store = useStore();
     const user = computed(() => store.getters['account/user']);
     const subscription = computed(() => store.getters['account/subscription']);
     const settings = computed(() => store.getters['account/settings']);
+    const address = computed(() => store.getters['account/address']);
     const socialNext = window.location.pathname;
+    const reloadUser = async () => {
+      await store.dispatch('account/getUser');
+    };
     return {
       user,
       subscription,
       settings,
+      address,
       socialNext,
+      reloadUser,
     };
   },
 });
@@ -37,31 +50,20 @@ export default defineComponent({
   >
     <CurrentSubscription />
   </Section>
-  <Section
+  <Email
     v-if="user"
-    title="Persönliche Angaben"
-  >
-    <div
-      class="user-details"
-    >
-      <p
-        v-text="user.email"
-      />
-      <p>
-        <span
-          v-if="user.firstName"
-          v-text="user.firstName"
-        />
-        <span
-          v-if="user.lastName"
-          v-text="user.lastName"
-        />
-      </p>
-      <p
-        v-text="`ID: ${user.uid}`"
-      />
-    </div>
-  </Section>
+    :user="user"
+    @updated="reloadUser"
+  />
+  <Password />
+  <Personal
+    :user="user"
+    @updated="reloadUser"
+  />
+  <Address
+    :address="address"
+    @updated="reloadUser"
+  />
   <Section
     v-if="user"
     title="Verbundene Accounts"
@@ -71,43 +73,4 @@ export default defineComponent({
       :next="socialNext"
     />
   </Section>
-  <Section
-    title="Debug"
-    :outlined="(false)"
-  >
-    <Debug
-      title="user"
-      :value="user"
-    />
-    <Debug
-      title="subscription"
-      :value="subscription"
-    />
-    <Debug
-      title="settings"
-      :value="settings"
-    />
-  </Section>
 </template>
-
-<style lang="scss" scoped>
-@use "@/style/base/typo";
-.section {
-  margin: 2rem 0;
-  :deep(.title) {
-    padding-bottom: 0.4rem;
-  }
-  :deep(.panel) {
-    padding-top: 0.75rem;
-  }
-  &.is-outlined {
-    :deep(.panel) {
-      padding: 0.75rem;
-      border: 1px solid rgb(var(--c-gray-200));
-    }
-  }
-}
-.user-details {
-  @include typo.large;
-}
-</style>

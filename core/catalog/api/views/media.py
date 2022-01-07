@@ -88,7 +88,9 @@ class MediaViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = MediaFilter
 
-    def get_queryset(self):
+    def get_queryset(self, **kwargs):
+
+        include_upcoming = kwargs.get("include_upcoming", False)
 
         qs = self.queryset
         qs = qs.prefetch_related(
@@ -102,16 +104,26 @@ class MediaViewSet(
             "votes__user",
         )
 
-        qs = qs.annotate(
-            latest_airplay=Max(
-                "airplays__time_start",
-                filter=Q(airplays__time_start__lte=Now()),
-            ),
-            num_airplays=Count(
-                "airplays",
-                filter=Q(airplays__time_start__lte=Now()),
-            ),
-        )
+        if include_upcoming:
+            qs = qs.annotate(
+                latest_airplay=Max(
+                    "airplays__time_start",
+                ),
+                num_airplays=Count(
+                    "airplays",
+                ),
+            )
+        else:
+            qs = qs.annotate(
+                latest_airplay=Max(
+                    "airplays__time_start",
+                    # filter=Q(airplays__time_start__lte=Now()),
+                ),
+                num_airplays=Count(
+                    "airplays",
+                    filter=Q(airplays__time_start__lte=Now()),
+                ),
+            )
 
         # annotate with request user's rating
         if self.request.user.is_authenticated:
@@ -129,7 +141,9 @@ class MediaViewSet(
                 ),
             )
 
-        qs = qs.filter(latest_airplay__lte=Now())
+        # qs = qs.filter(latest_airplay__lte=Now())
+        if not include_upcoming:
+            qs = qs.filter(latest_airplay__lte=Now())
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(
@@ -173,11 +187,15 @@ class MediaViewSet(
         return super().list(request, *args, **kwargs)
 
     def list_for_playlist(self, request, uid, *args, **kwargs):
-        qs = self.filter_queryset(self.get_queryset())
+
+        qs = self.filter_queryset(self.get_queryset(include_upcoming=True))
+
+        print("list_for_playlist", qs.count())
         playlist = Playlist.objects.get(uid=uid)
         qs_media_ids = qs.values_list("id", flat=True)
         media_ids = []
         for playlist_media in playlist.playlist_media.all():
+            # for playlist_media in playlist.airplayed_playlist_media:
             if playlist_media.media.id not in qs_media_ids:
                 continue
             media_ids.append(playlist_media.media.id)

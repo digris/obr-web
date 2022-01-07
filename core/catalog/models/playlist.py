@@ -2,6 +2,8 @@ from datetime import timedelta
 
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Max, Q
+from django.db.models.functions import Now
 from django.utils.functional import cached_property
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
@@ -84,6 +86,38 @@ class Playlist(
     def image(self):
         return self.images.first()
 
+    @property
+    # NOTE: rethink this implementation (currently not in use)
+    def airplayed_playlist_media(self):
+        qs = self.playlist_media.all()
+        qs = qs.annotate(
+            latest_airplay=Max(
+                "media__airplays__time_start",
+                filter=Q(media__airplays__time_start__lte=Now()),
+            ),
+        )
+        qs = qs.filter(latest_airplay__gte=self.emissions.latest().time_start)
+        return qs.order_by("position")
+
+    @property
+    def latest_emission(self):
+        return self.emissions.filter(time_start__lte=Now()).latest()
+
+    @cached_property
+    def duration(self):
+        total_duration = sum(
+            (
+                (
+                    pm.media.duration
+                    - timedelta(milliseconds=pm.cue_in)
+                    - timedelta(milliseconds=pm.cue_out)
+                )
+                for pm in self.playlist_media.all()
+            ),
+            timedelta(),
+        )
+        return total_duration
+
     @cached_property
     def series_dict(self):
         # NOTE: maybe this could be handled in a more elegant way.
@@ -123,7 +157,7 @@ class Series(
 
     def sync_data(self, *args, **kwargs):
         pass
-        # return sync_playlist(self, *args, **kwargs)
+        # return sync_series(self, *args, **kwargs)
 
     @property
     def num_playlists(self):
