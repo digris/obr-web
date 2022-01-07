@@ -7,6 +7,7 @@ import Section from '@/components/account/settings/Section.vue';
 import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
 import Password from '@/components/account/settings/Password.vue';
 import Email from '@/components/account/settings/Email.vue';
+import Personal from '@/components/account/settings/Personal.vue';
 import Address from '@/components/account/settings/Address.vue';
 // import Debug from '@/components/dev/Debug.vue';
 
@@ -17,6 +18,7 @@ export default defineComponent({
     CurrentSubscription,
     Email,
     Password,
+    Personal,
     Address,
   },
   setup() {
@@ -25,26 +27,17 @@ export default defineComponent({
     const subscription = computed(() => store.getters['account/subscription']);
     const settings = computed(() => store.getters['account/settings']);
     const address = computed(() => store.getters['account/address']);
-    const fullName = computed(() => {
-      if (user.value?.firstName && user.value?.lastName) {
-        return `${user.value.firstName} ${user.value.lastName}`;
-      }
-      if (user.value?.firstName) {
-        return user.value.firstName;
-      }
-      if (user.value?.lastName) {
-        return user.value.lastName;
-      }
-      return null;
-    });
     const socialNext = window.location.pathname;
+    const reloadUser = async () => {
+      await store.dispatch('account/getUser');
+    };
     return {
       user,
       subscription,
       settings,
       address,
-      fullName,
       socialNext,
+      reloadUser,
     };
   },
 });
@@ -60,27 +53,16 @@ export default defineComponent({
   <Email
     v-if="user"
     :user="user"
+    @updated="reloadUser"
   />
   <Password />
-  <Section
-    v-if="user"
-    title="Name"
-  >
-    <div
-      class="user-details"
-    >
-      <p
-        v-if="fullName"
-        v-text="fullName"
-      />
-      <p
-        v-else
-        v-text="`---`"
-      />
-    </div>
-  </Section>
+  <Personal
+    :user="user"
+    @updated="reloadUser"
+  />
   <Address
     :address="address"
+    @updated="reloadUser"
   />
   <Section
     v-if="user"

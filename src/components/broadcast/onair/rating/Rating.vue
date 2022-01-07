@@ -24,6 +24,10 @@ const REASONS = [
     label: 'Ich mag diesen Track nicht',
   },
   {
+    value: 'genre',
+    label: 'Ich mag diese Art von Musik nicht',
+  },
+  {
     value: 'emission',
     label: 'Ich mag diese Sendung nicht',
   },

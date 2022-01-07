@@ -88,7 +88,9 @@ class MediaViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = MediaFilter
 
-    def get_queryset(self, include_upcoming=False):
+    def get_queryset(self, **kwargs):
+
+        include_upcoming = kwargs.get("include_upcoming", False)
 
         qs = self.queryset
         qs = qs.prefetch_related(

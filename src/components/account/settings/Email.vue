@@ -3,7 +3,6 @@ import {
   ref,
   defineComponent,
 } from 'vue';
-import { useStore } from 'vuex';
 
 import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
 import Section from './Section.vue';
@@ -22,8 +21,10 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  setup() {
-    const store = useStore();
+  emits: [
+    'updated',
+  ],
+  setup(props, { emit }) {
     const formVisible = ref(false);
     const showForm = () => {
       formVisible.value = true;
@@ -32,8 +33,8 @@ export default defineComponent({
       formVisible.value = false;
     };
     const onUpdated = async () => {
-      await store.dispatch('account/getUser');
       await hideForm();
+      emit('updated');
     };
     const onEdit = () => {
       showForm();
@@ -54,7 +55,6 @@ export default defineComponent({
     @edit="onEdit"
   >
     <p
-      class="user-details"
       v-text="user.email"
     />
   </Section>

@@ -74,7 +74,6 @@ class UserSerializer(
             "date_joined",
             "first_name",
             "last_name",
-            # "full_name",
         ]
         expandable_fields = {
             "settings": SettingsSerializer,
