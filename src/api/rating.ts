@@ -11,10 +11,7 @@ async function getRating(key: string) {
 
 async function postRating(key: string, rating: object) {
   const url = `${VOTE_ENDPOINT}${key}/`;
-  const payload = {
-    // @ts-ignore
-    value: rating.value,
-  };
+  const payload = { ...rating };
   const response = await APIClient.post(url, payload);
   return response.data;
 }

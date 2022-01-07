@@ -63,7 +63,7 @@ export default defineComponent({
     background: rgb(var(--c-white));
   }
   &__appendix {
-    padding: 2rem 0;
+    padding: 2rem 0 6rem;
     background: rgb(var(--c-white));
   }
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-import LazyImage from '@/components/ui/LazyImage.vue';
+import EditorInline from '@/components/broadcast/editor/Inline.vue';
 
 export default defineComponent({
   props: {
@@ -17,7 +17,7 @@ export default defineComponent({
     },
   },
   components: {
-    LazyImage,
+    EditorInline,
   },
   setup(props) {
     const title = computed(() => {
@@ -58,27 +58,10 @@ export default defineComponent({
       class="title"
     />
     <div>
-      <router-link
+      <EditorInline
         v-if="editor"
-        class="editor"
-        :to="`/discover/editors/${editor.uid}/`"
-      >
-        <div
-          class="visual"
-        >
-          <LazyImage
-            v-if="editor.image"
-            class="image"
-            :image="editor.image"
-            :size="(128)"
-          />
-        </div>
-        <div
-          class="name"
-        >
-          {{ editor.name }}
-        </div>
-      </router-link>
+        :editor="editor"
+      />
     </div>
   </div>
 </template>
@@ -93,45 +76,6 @@ export default defineComponent({
 }
 .title {
   @include typo.large;
-}
-.editor {
-  display: inline-flex;
-  align-items: center;
-  height: 3rem;
-  margin-top: 0.75rem;
-  border-radius: 1.5rem;
-  .visual {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    .image {
-      width: 3rem;
-      min-width: unset;
-      max-width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      filter: grayscale(1);
-      transition: width 100ms, height 100ms;
-      :deep(> img) {
-        border-radius: 50%;
-      }
-    }
-  }
-  .name {
-    display: flex;
-    align-items: center;
-    height: 3rem;
-    padding: 0 1rem;
-  }
-  &:hover {
-    .image {
-      width: 2.5rem;
-      height: 2.5rem;
-
-    }
-  }
 }
 a {
   @include responsive.hover-supported {

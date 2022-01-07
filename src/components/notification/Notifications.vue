@@ -63,6 +63,7 @@ export default defineComponent({
   position: fixed;
   top: 100px;
   right: 24px;
+  z-index: 25;
 }
 
 .message {

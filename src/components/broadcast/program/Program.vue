@@ -38,3 +38,24 @@ export default defineComponent({
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+@use "@/style/base/typo";
+@use "@/style/elements/container";
+.program {
+  max-height: calc(100vh - 200px);
+  margin-bottom: 2rem;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  .emission-row {
+    &:first-child {
+      border-top: 0;
+    }
+  }
+}
+.body {
+  background: rgb(var(--white));
+}
+</style>

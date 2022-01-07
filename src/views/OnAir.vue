@@ -217,6 +217,7 @@ export default defineComponent({
   <OverlayPanel
     :is-visible="programVisible"
     @close="hideProgram"
+    title="Heute"
   >
     <Program />
   </OverlayPanel>

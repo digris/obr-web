@@ -76,19 +76,8 @@
 }
 
 @mixin default {
-  .input-container {
-    display: flex;
-    align-content: center;
-    //margin: 0.5rem 0;
-    padding: 0.5rem 0;
-  }
-  .input {
-    @include input;
-    display: flex;
-    align-content: center;
-    width: 100%;
-    padding: 0.5rem 0.5rem;
-  }
+  display: flex;
+  flex-direction: column;
   .button {
     @include button.default;
     //@include input;
@@ -97,5 +86,29 @@
     //justify-content: center;
     width: 100%;
     //padding: 0.5rem 0;
+  }
+  .input-container {
+    display: flex;
+    align-content: center;
+    //margin: 0.5rem 0;
+    width: 100%;
+    padding: 0.5rem 0;
+    &.submit {
+      padding-top: 2rem;
+      .button {
+        max-width: 33%;
+      }
+    }
+  }
+  .input {
+    @include input;
+    display: flex;
+    align-content: center;
+    width: 100%;
+    padding: 0.5rem 0.5rem;
+  }
+  .form-messages,
+  .form-errors {
+    margin: 1rem 0;
   }
 }
