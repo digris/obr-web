@@ -92,6 +92,12 @@ async function updatePassword(password: string) {
   return response.data?.subscription;
 }
 
+async function getCountryOptions() {
+  const url = `${ACCOUNT_ENDPOINT}address/`;
+  const response = await APIClient.get(url);
+  return response.data?.countryOptions;
+}
+
 async function getSocialBackends() {
   const url = `${ACCOUNT_ENDPOINT}social-backends/`;
   const response = await APIClient.get(url);
@@ -117,6 +123,7 @@ export {
   updateUser,
   updateAddress,
   updatePassword,
+  getCountryOptions,
   getSocialBackends,
   disconnectSocialBackend,
 };

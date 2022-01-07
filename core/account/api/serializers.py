@@ -1,6 +1,8 @@
 from django.urls import reverse
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
+from django_countries.serializer_fields import CountryField
+from django_countries import countries
 from social_django.models import UserSocialAuth
 
 from account.models import User, Settings, Address
@@ -34,6 +36,10 @@ class SettingsSerializer(
 class AddressSerializer(
     serializers.ModelSerializer,
 ):
+    country = CountryField(required=False, country_dict=True)
+
+    country_options = serializers.SerializerMethodField(read_only=True, allow_null=True)
+
     class Meta:
         model = Address
         fields = [
@@ -44,7 +50,24 @@ class AddressSerializer(
             "postal_code",
             "city",
             "country",
+            "country_options",
         ]
+
+    @staticmethod
+    def get_country_options(*args, **kwargs):
+        for code, name in list(countries):
+            yield {
+                "code": code,
+                "name": name,
+            }
+
+    # def get_country_options(self, obj):
+    #     for code, name in list(countries):
+    #         yield {
+    #             "code": code,
+    #             "name": name,
+    #             "selected": obj.country == code,
+    #         }
 
 
 class SubscriptionSerializer(

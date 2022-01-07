@@ -179,8 +179,16 @@ SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/account/settings/"
 
 # google oauth2
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ""
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env(
+    "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY",
+    default="",
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env(
+    "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET",
+    default="",
+)
+
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     "https://www.googleapis.com/auth/userinfo.email",
@@ -293,6 +301,7 @@ REST_FRAMEWORK = {
         "account.login_email": "20/hour",
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # 'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
 }
 
 SPECTACULAR_SETTINGS = {
