@@ -1,0 +1,9 @@
+{% block body %}{% endblock %}
+
+--
+open broadcast radio
+Renggerstrasse 31
+CH-8038 Zürich
+
+info@openbroadcast.ch
+{{ SITE_URL }}

@@ -2,6 +2,7 @@ import logging
 
 from django.conf import settings
 from django.core.signing import BadSignature, SignatureExpired
+from django.utils.translation import gettext_lazy as _
 
 from account import token_login
 from base.utils.signer import timestamp_signer
@@ -52,14 +53,12 @@ def send_login_email(email):
     except SendMessageException as e:
         raise SendLoginEmailException(e) from e
 
-    # print(url)
-
 
 def validate_signed_email(signed_email, max_age=None):
     try:
         email = timestamp_signer.unsign(signed_email, max_age=max_age)
         return email
     except SignatureExpired as e:
-        raise SignedEmailValidationException("Signature expired") from e
+        raise SignedEmailValidationException(_("Signature expired")) from e
     except BadSignature as e:
-        raise SignedEmailValidationException("Invalid signature") from e
+        raise SignedEmailValidationException(_("Invalid signature")) from e

@@ -11,6 +11,7 @@ db.sqlite3
 __pycache__
 .coverage
 .python-version
+*.mo
 
 core/settings/local_development.py
 gcp/terraform
