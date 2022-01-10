@@ -77,7 +77,7 @@ export default defineComponent({
     padding-bottom: 0.4rem;
   }
   .panel {
-    padding-top: 0.75rem;
+    //padding-top: 0.75rem;
     border-radius: 3px;
   }
   &.is-outlined {

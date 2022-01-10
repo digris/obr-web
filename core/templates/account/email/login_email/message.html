@@ -4,14 +4,16 @@
 {% block body %}
   {% spaceless %}
   <p>
-    (( text ))
+    Your login-code
   </p>
   {% if login_token %}
   <p style="width: 100%; padding: 24px; text-align: center;">
     <span {% style '.login-token' %}>{{ login_token }}</span>
   </p>
   {% endif %}
+  {% comment %}
   <p>
     To login <a {% style '.button' %} href="{{ login_url }}">click here</a>.
-  </p>{% endspaceless %}
+  </p>
+  {% endcomment %}{% endspaceless %}
 {% endblock %}

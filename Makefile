@@ -41,7 +41,7 @@ translations:
 	poetry run ./manage.py makemessages \
 	  -l de \
 	  -l fr \
-	  -i 'core/base/*'
+	  -x 'core/base/*'
 	poetry run ./manage.py compilemessages
 
 run-hypercorn:

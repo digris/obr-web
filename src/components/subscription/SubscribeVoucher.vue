@@ -97,13 +97,6 @@ export default defineComponent({
   <div
     class="subscribe-voucher"
   >
-    <!--
-    <section
-      class="section info"
-    >
-      <p>.</p>
-    </section>
-    -->
     <section
       class="section input"
     >

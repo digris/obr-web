@@ -7,6 +7,7 @@ import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
 import Notifications from '@/components/notification/Notifications.vue';
+import ClaimVoucher from '@/components/subscription/voucher/Claim.vue';
 // import ColorChooser from '@/components/colors/ColorChooser.vue';
 
 export default {
@@ -17,12 +18,11 @@ export default {
     AuthPanel,
     Subscribe,
     Player,
-    // ColorChooser,
+    ClaimVoucher,
   },
   created() {
     this.$store.dispatch('account/getUser');
     this.audioPlayer = new AudioPlayer();
-    // this.queue = new Queue();
     this.queue = queue;
   },
   computed: {
@@ -48,5 +48,6 @@ export default {
   </router-view>
   <AuthPanel />
   <Subscribe />
+  <ClaimVoucher />
   <Player />
 </template>

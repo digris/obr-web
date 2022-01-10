@@ -188,6 +188,7 @@ export default {
       />
     </div>
     <LoadingMore
+      class="loading-more-container"
       v-if="hasNext"
       :has-next="hasNext"
       @on-enter="fetchNextPage"
@@ -201,6 +202,10 @@ export default {
 .list-filter-container {
   @include container.default;
   margin-bottom: 1rem;
+}
+
+.loading-more-container {
+  @include container.default;
 }
 
 @mixin grid {

@@ -109,6 +109,7 @@ export default defineComponent({
       class="section email"
     >
       <EmailLoginForm
+        :next="next"
         @email-sent="handleEmailSent"
       />
     </section>

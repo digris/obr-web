@@ -61,6 +61,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -176,7 +177,8 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/account/settings/"
+
+# SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/account/settings/"
 
 # google oauth2
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env(
@@ -207,6 +209,12 @@ SOCIAL_AUTH_SPOTIFY_SCOPE = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = "en"
+
+LANGUAGES = [
+    ("en", "English"),
+    ("de", "Deutsch"),
+    ("fr", "French"),
+]
 
 TIME_ZONE = "Europe/Zurich"
 USE_I18N = True
@@ -249,6 +257,12 @@ GS_BUCKET_NAME = env(
 ##################################################################
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+
+##################################################################
+# localization & translation
+##################################################################
+LOCALE_PATHS = [os.path.join(APP_ROOT, "locale")]
 
 
 ##################################################################
