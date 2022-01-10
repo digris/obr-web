@@ -142,6 +142,8 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 .backend {
   display: flex;
   align-items: center;
@@ -159,10 +161,14 @@ export default defineComponent({
   }
   .title {
     flex-grow: 1;
+    line-height: 1rem;
     .uid {
+      @include typo.small;
+      @include typo.dim;
       margin-left: 0.5rem;
-      font-size: 0.75rem;
-      opacity: 0.5;
+      @include responsive.bp-small {
+        margin-left: 0;
+      }
     }
   }
   .button {
