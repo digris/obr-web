@@ -2,6 +2,7 @@ import random
 import string
 from datetime import timedelta
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -50,6 +51,15 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
     max_num_use = models.PositiveIntegerField(
         blank=True,
         null=True,
+    )
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name="Owner",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="vouchers",
     )
 
     class Meta:
