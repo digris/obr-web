@@ -7,7 +7,6 @@ class EventHandler {
   queue: Array<Event>;
 
   constructor() {
-    console.debug('event handler');
     this.queue = [];
   }
 }
