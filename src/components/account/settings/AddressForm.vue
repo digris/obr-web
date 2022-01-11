@@ -1,22 +1,20 @@
 <script lang="ts">
 import {
-  defineComponent, onMounted,
+  defineComponent,
   ref,
 } from 'vue';
 
-import { getCountryOptions, updateAddress } from '@/api/account';
+import { updateAddress } from '@/api/account';
 
 import AsyncButton from '@/components/ui/button/AsyncButton.vue';
 import APIErrors from '@/components/ui/error/APIErrors.vue';
 import TextInput from '@/components/ui/form/TextInput.vue';
-import SelectInput from '@/components/ui/form/SelectInput.vue';
 
 export default defineComponent({
   components: {
     AsyncButton,
     APIErrors,
     TextInput,
-    SelectInput,
   },
   props: {
     address: {
@@ -33,15 +31,6 @@ export default defineComponent({
     const line2 = ref(props.address.line2);
     const postalCode = ref(props.address.postalCode);
     const city = ref(props.address.city);
-    const country = ref(props.address.country?.code);
-    const countryOptions = ref<Array<object>>([]);
-    onMounted(async () => {
-      try {
-        countryOptions.value = await getCountryOptions();
-      } catch (err: any) {
-        console.warn(err);
-      }
-    });
     const formValid = ref(false);
     const errors = ref<Array<string>>([]);
     const submitForm = async () => {
@@ -52,7 +41,6 @@ export default defineComponent({
           line2: line2.value,
           postalCode: postalCode.value,
           city: city.value,
-          country: country.value,
         });
         emit('updated');
       } catch (err: any) {
@@ -65,8 +53,6 @@ export default defineComponent({
       line2,
       postalCode,
       city,
-      country,
-      countryOptions,
       formValid,
       errors,
       submitForm,
@@ -110,15 +96,6 @@ export default defineComponent({
         v-model="city"
         type="text"
         label="Ort"
-      />
-    </div>
-    <div
-      class="input-container"
-    >
-      <SelectInput
-        v-model="country"
-        :options="countryOptions"
-        label="Land"
       />
     </div>
     <div
