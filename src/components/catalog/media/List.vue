@@ -4,11 +4,12 @@ import {
   onMounted,
   onActivated,
   ref,
-  watch,
+  watch, onUnmounted,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { isEqual } from 'lodash-es';
+import { DateTime } from 'luxon';
 
 import LoadingMore from '@/components/ui/loading/Loading.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
@@ -46,11 +47,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    hideUpcoming: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props:any) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const now = ref(DateTime.now());
+    const timer = ref(null);
     const numResults = ref(0);
     const limit = 16;
     const lastOffset = ref(0);
@@ -63,6 +70,12 @@ export default {
     // const userFilter = ref({});
     const userFilter = computed(() => {
       return props.query;
+    });
+    const visibleMediaList = computed(() => {
+      if (!props.hideUpcoming) {
+        return mediaList.value;
+      }
+      return mediaList.value.filter((m:any) => DateTime.fromISO(m.latestAirplay) < now.value);
     });
     const combinedFilter = computed(() => {
       // @ts-ignore
@@ -116,6 +129,16 @@ export default {
     onMounted(() => {
       fetchMedia(limit, 0).then(() => {});
       fetchTags().then(() => {});
+      if (props.hideUpcoming) {
+        // @ts-ignore
+        timer.value = setInterval(() => {
+          now.value = DateTime.now();
+        }, 2000);
+      }
+    });
+    onUnmounted(() => {
+      // @ts-ignore
+      clearInterval(timer.value);
     });
     onActivated(() => {
       /*
@@ -147,7 +170,7 @@ export default {
       combinedFilter,
       tagList,
       tagListLoading,
-      mediaList,
+      visibleMediaList,
       mediaListLoading,
       hasNext,
       numResults,
@@ -156,6 +179,7 @@ export default {
       showUserFilter,
       userFilter,
       updateUserFilter,
+      now,
     };
   },
 };
@@ -166,9 +190,7 @@ export default {
   <pre
     class="debug"
     v-text="{
-      initialFilter: initialFilter,
-      userFilter: userFilter,
-      combinedFilter: combinedFilter,
+      now: now,
     }"
   ></pre>
   -->
@@ -205,7 +227,7 @@ export default {
       class="table"
     >
       <MediaRow
-        v-for="(media, index) in mediaList"
+        v-for="(media, index) in visibleMediaList"
         :key="`media-row-${index}`"
         :media="media"
       />

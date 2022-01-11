@@ -8,6 +8,8 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from django_countries.fields import CountryField
+
 from account import signals as account_signals
 from account import token_login
 from account.settings import LOGIN_TOKEN_MAX_AGE
@@ -106,12 +108,56 @@ class User(
         return hasattr(self, "subscription") and self.subscription.is_active
 
 
-class Settings(models.Model):
+class Settings(
+    CTUIDModelMixin,
+    models.Model,
+):
 
     user = models.OneToOneField(
         to=User,
         on_delete=models.CASCADE,
         related_name="settings",
+    )
+
+
+class Address(
+    CTUIDModelMixin,
+    models.Model,
+):
+
+    user = models.OneToOneField(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="address",
+    )
+
+    line_1 = models.CharField(
+        max_length=128,
+        blank=True,
+        default="",
+    )
+
+    line_2 = models.CharField(
+        max_length=128,
+        blank=True,
+        default="",
+    )
+
+    postal_code = models.CharField(
+        max_length=16,
+        blank=True,
+        default="",
+    )
+
+    city = models.CharField(
+        max_length=128,
+        blank=True,
+        default="",
+    )
+
+    country = CountryField(
+        blank=True,
+        null=True,
     )
 
 

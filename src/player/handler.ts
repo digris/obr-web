@@ -3,7 +3,6 @@ import store from '@/store';
 
 class PlayerStateHandler {
   constructor() {
-    console.debug('player state handler');
     const state = computed(() => store.getters['player/playerState']);
     const isLive = computed(() => state.value && state.value.isLive);
     const computedItem = computed(() => {

@@ -34,7 +34,6 @@ export default defineComponent({
     };
     const getProviderText = (provider: string) => {
       const key = provider.split('-')[0];
-      // return key.charAt(0).toUpperCase() + key.slice(1);
       return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = (backend: Backend) => {

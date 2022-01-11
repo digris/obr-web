@@ -4,6 +4,7 @@ import { createI18n } from 'vue-i18n';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
 import settings from '@/settings';
+import createEventHandler from '@/stats/event';
 import createUIStateHandler from '@/utils/ui';
 import createStationTimeHandler from '@/utils/time';
 import createAccountHandler from '@/utils/account';
@@ -18,6 +19,7 @@ import router from './router';
 // directives
 import { TooltipDirective } from './directives/tooltip';
 
+createEventHandler();
 createStationTimeHandler();
 creadeScheduleHandler();
 createAccountHandler();
