@@ -64,8 +64,10 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         get_latest_by = "time_start"
 
     def __str__(self):
-        if self.playlist and self.playlist.name:
-            return str(self.playlist.name)
+        # if self.playlist and self.playlist.name:
+        #     return str(self.playlist.name)
+        if self.playlist:
+            return str(self.playlist)
         return f"<Emission> {self.uid}"
 
     @property

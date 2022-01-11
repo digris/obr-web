@@ -10,7 +10,6 @@ export default defineComponent({
   },
   setup(props) {
     const link = `/discover/moods/${props.mood.uid}/`;
-    // const link = '/discover/tracks/?tags=D78E9E87&tags=83F07540';
     return {
       link,
     };
@@ -40,13 +39,12 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 .card {
   position: relative;
   width: 100%;
-  height: 0;
-  padding-top: 100%;
-  overflow: hidden;
+  aspect-ratio: 1 / 1;
   color: rgb(var(--c-black));
   background: rgb(var(--c-gray-200));
   transition: color 200ms, background 300ms;
@@ -55,18 +53,9 @@ export default defineComponent({
     background: rgb(var(--c-black));
   }
   .panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    display: grid;
     width: 100%;
     height: 100%;
-    //padding: 1rem;
-    //text-align: center;
-    text-transform: lowercase;
     .name {
       @include typo.large;
       display: flex;
@@ -75,25 +64,20 @@ export default defineComponent({
       justify-content: center;
       height: 100%;
       padding: 1rem;
-      transition: height 100ms;
     }
     .teaser {
       @include typo.default;
-      position: absolute;
-      bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      height: 50%;
-      padding: 1rem;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 100ms;
-    }
-    &:hover {
-      .teaser {
-        opacity: 1;
+      @include responsive.bp-small {
+        display: none;
       }
+      position: absolute;
+      bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      height: 50%;
+      padding: 3rem 1rem 1rem;
+      overflow-y: hidden;
+      text-align: center;
     }
   }
 }

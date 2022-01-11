@@ -11,6 +11,9 @@
   <link href="{% static 'app.js' %}" rel="preload" as="script">
   <link href="{% static 'chunk-vendors.js' %}" rel="preload" as="script">
   <link href="{% static 'app.css' %}" rel="stylesheet">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600&display=swap');
+  </style>
   <script>
     document.settings = {% json_settings settings %};
     document.settings.API_BASE_URL = "{% url 'api:base' %}";

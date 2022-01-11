@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from django.utils import timezone
 from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 
 from subscription.models import Voucher, Redemption
 from subscription.utils import get_subscription, extend_subscription
@@ -30,12 +31,12 @@ def get_until_date(subscription, num_days):
 def get_voucher(user, code):
 
     if not validate_code(code):
-        raise VoucherValidationException("Malformatted code")
+        raise VoucherValidationException(_("Malformed voucher-code"))
 
     qs = Voucher.objects.filter(code=code)
 
     if not qs.exists():
-        raise VoucherValidationException("Code does not exist")
+        raise VoucherValidationException(_("Voucher-code does not exist"))
 
     voucher = qs.first()
 
@@ -43,7 +44,7 @@ def get_voucher(user, code):
         user.is_authenticated
         and Redemption.objects.filter(voucher=voucher, user=user).exists()
     ):
-        raise VoucherValidationException("Code already used")
+        raise VoucherValidationException(_("You did already use this voucher-code"))
 
     subscription = get_subscription(user=user)
 

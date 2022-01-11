@@ -67,6 +67,7 @@ class VoucherAdmin(admin.ModelAdmin):
     list_display = [
         "uid",
         "code_display",
+        "user",
         "num_days",
         "num_used",
         "is_valid_display",
@@ -74,6 +75,11 @@ class VoucherAdmin(admin.ModelAdmin):
     search_fields = [
         "uid",
         "code",
+        "user__uid",
+        "user__email",
+    ]
+    raw_id_fields = [
+        "user",
     ]
     date_hierarchy = "created"
 

@@ -4,7 +4,15 @@ from social_django.models import UserSocialAuth
 
 from subscription.models import Subscription
 from .forms import UserCreationForm, UserChangeForm
-from .models import User, Settings, LoginToken
+from .models import User, Settings, Address, LoginToken
+from .email_login import send_login_email
+
+
+@admin.action(description="Send login e-mail")
+# pylint: disable=unused-argument
+def send_login_email_action(modeladmin, request, queryset):
+    for instance in queryset:
+        send_login_email(instance.email)
 
 
 class UserSocialAuthInline(admin.TabularInline):
@@ -29,6 +37,25 @@ class SettingsInline(admin.TabularInline):
     can_delete = False
 
 
+class AddressInline(admin.StackedInline):
+    model = Address
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "line_1",
+                    "line_2",
+                    "postal_code",
+                    "city",
+                    "country",
+                ),
+            },
+        ),
+    )
+
+
 @admin.register(User)
 class UserAdmin(AuthUserAdmin):
     add_form = UserCreationForm
@@ -36,16 +63,17 @@ class UserAdmin(AuthUserAdmin):
     model = User
     list_display = [
         "email",
-        # "is_staff",
         "uid",
         "is_active",
-        # "is_superuser",
+        "is_staff",
+        "is_superuser",
     ]
     list_filter = [
-        "email",
         "is_staff",
         "is_active",
         "is_superuser",
+        "date_joined",
+        "last_login",
     ]
     readonly_fields = [
         "last_login",
@@ -53,16 +81,30 @@ class UserAdmin(AuthUserAdmin):
         "uuid",
         "uid",
     ]
+    date_hierarchy = "date_joined"
     inlines = [
+        AddressInline,
         SettingsInline,
         SubscriptionInline,
         UserSocialAuthInline,
+    ]
+    actions = [
+        send_login_email_action,
     ]
     fieldsets = (
         (
             None,
             {
                 "fields": ("email", "password"),
+            },
+        ),
+        (
+            "User Details",
+            {
+                "fields": (
+                    "first_name",
+                    "last_name",
+                ),
             },
         ),
         (
@@ -105,8 +147,15 @@ class UserAdmin(AuthUserAdmin):
             },
         ),
     )
-    search_fields = ("email",)
-    ordering = ("email",)
+    search_fields = [
+        "email",
+        "first_name",
+        "last_name",
+        "address__country",
+    ]
+    ordering = [
+        "-date_joined",
+    ]
 
 
 @admin.register(LoginToken)

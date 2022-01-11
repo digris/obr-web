@@ -1,6 +1,11 @@
 // @ts-ignore
 const { settings } = document;
 
-// settings.browser = 'foo';
+const userSettings = { ...settings };
 
-export default settings;
+// NOTE: implement language / locale detection
+userSettings.API_BASE_URL = `${userSettings.API_BASE_URL}`;
+
+// console.dir(userSettings);
+
+export default userSettings;

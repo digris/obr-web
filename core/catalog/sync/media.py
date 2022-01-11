@@ -137,7 +137,12 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
     #     #     return master
     #     return master
 
-    content, filename = download_master(media_uuid=master.uuid)
+    try:
+        content, filename = download_master(media_uuid=master.uuid)
+    except MasterDownloadException as e:
+        logger.error(f"unable to download master: {master} - {e}")
+        return None
+
     encoding = filename.split(".")[-1].lower()
     path = f"{master.uid}/master.{encoding}"
 

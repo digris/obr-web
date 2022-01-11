@@ -49,7 +49,11 @@ export default defineComponent({
 <template>
   <div
     class="subscription"
-    :class="{'is-active': isActive, 'is-expired': !isActive}"
+    @click.stop="extendSubscription"
+    :class="{
+      'is-active': isActive,
+      'is-expired': !isActive
+    }"
   >
     <div
       class="details"
@@ -68,41 +72,27 @@ export default defineComponent({
         />
       </p>
     </div>
-    <div
-      class="actions"
-    >
-      <button
-        @click="extendSubscription"
-        class="button"
-      >
-        Guthaben laden
-      </button>
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/elements/button";
 .subscription {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   color: rgb(var(--c-black));
+  cursor: pointer;
   &.is-active {
     color: rgb(var(--c-success));
   }
   &.is-expired {
     color: rgb(var(--c-warning));
   }
+  /*
   .details {
     @include typo.large;
   }
-  .actions {
-    align-self: end;
-    padding-top: 0.5rem;
-    .button {
-      @include button.default;
-    }
-  }
+  */
 }
 </style>

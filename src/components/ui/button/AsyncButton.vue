@@ -167,7 +167,7 @@ export default defineComponent({
   }
   &.is-disabled {
     cursor: not-allowed !important;
-    opacity: 0.7;
+    opacity: 0.5;
   }
   .loading-spinner {
     height: 75%;

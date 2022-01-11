@@ -1,10 +1,9 @@
 import logging
+import bleach
 
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.http import Http404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,18 +15,6 @@ log = logging.getLogger(__name__)
 
 
 class ObjectRatingView(APIView):
-    def get_object(self, obj_ct, obj_uid):
-        try:
-            obj = (
-                apps.get_model(*obj_ct.split("."))
-                .objects.prefetch_related("votes")
-                .get(uid=obj_uid)
-            )
-            return obj
-
-        except ObjectDoesNotExist as e:
-            raise Http404 from e
-
     @transaction.atomic
     def get_vote(self, request, obj_ct, obj_uid):
 
@@ -57,14 +44,26 @@ class ObjectRatingView(APIView):
             return None
 
     @transaction.atomic
-    def create_vote(self, request, obj_ct, obj_uid, value):
+    # pylint: disable=too-many-arguments
+    def create_vote(
+        self,
+        request,
+        obj_ct,
+        obj_uid,
+        value,
+        scope=None,
+        comment="",
+    ):
 
         content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
 
         kwargs = {
             "content_object": content_object,
             "value": value,
+            "scope": scope,
+            "comment": comment,
         }
+
         if self.request.user.is_authenticated:
             kwargs.update(
                 {
@@ -84,6 +83,9 @@ class ObjectRatingView(APIView):
 
         vote = self.get_vote(request, obj_ct, obj_uid)
 
+        # if not vote:
+        #     raise Http404
+
         serializer = VoteSerializer(vote)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -95,16 +97,23 @@ class ObjectRatingView(APIView):
         serializer.is_valid(raise_exception=True)
 
         value = request.data.get("value")
+        scope = request.data.get("scope")
+        comment = bleach.clean(request.data.get("comment", ""))
+
         vote = self.get_vote(request, obj_ct, obj_uid)
 
         if vote and value:
             vote.value = value
+            if scope:
+                vote.scope = scope
+            if comment:
+                vote.comment = comment
             vote.save()
         elif vote:
             vote.delete()
             vote = None
         elif value:
-            vote = self.create_vote(request, obj_ct, obj_uid, value)
+            vote = self.create_vote(request, obj_ct, obj_uid, value, scope, comment)
 
         serializer = VoteSerializer(vote)
 

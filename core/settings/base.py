@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_filters",
     "social_django",
+    "django_countries",
     # "adminsortable2",  # disabled for the moment. (wait for django 4 support)
     "base",
     "tagging",
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -175,11 +177,20 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/account/settings/"
+
+# SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/account/settings/"
 
 # google oauth2
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ""
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env(
+    "SOCIAL_AUTH_GOOGLE_OAUTH2_KEY",
+    default="",
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env(
+    "SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET",
+    default="",
+)
+
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     "https://www.googleapis.com/auth/userinfo.email",
@@ -198,6 +209,12 @@ SOCIAL_AUTH_SPOTIFY_SCOPE = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = "en"
+
+LANGUAGES = [
+    ("en", "English"),
+    ("de", "Deutsch"),
+    ("fr", "French"),
+]
 
 TIME_ZONE = "Europe/Zurich"
 USE_I18N = True
@@ -240,6 +257,12 @@ GS_BUCKET_NAME = env(
 ##################################################################
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+
+##################################################################
+# localization & translation
+##################################################################
+LOCALE_PATHS = [os.path.join(APP_ROOT, "locale")]
 
 
 ##################################################################
@@ -292,6 +315,7 @@ REST_FRAMEWORK = {
         "account.login_email": "20/hour",
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    # 'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
 }
 
 SPECTACULAR_SETTINGS = {
@@ -391,6 +415,18 @@ CMS_PAGES_DIR = env(
     "OBP_SYNC_TOKEN",
     default=str(PROJECT_ROOT / "data" / "pages"),
 )
+
+
+##################################################################
+# Address / Countries
+##################################################################
+COUNTRIES_FIRST = [
+    "CH",
+    "DE",
+    "FR",
+]
+COUNTRIES_FIRST_SORT = True
+COUNTRIES_FIRST_BREAK = "--"
 
 
 ##################################################################

@@ -1,10 +1,25 @@
 from django.urls import reverse
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
+from django_countries.serializer_fields import CountryField
+from django_countries import countries
 from social_django.models import UserSocialAuth
 
-from account.models import User, Settings
+from account.models import User, Settings, Address
 from subscription.models import Subscription
+
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        write_only=True,
+    )
+
+
+class PasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(
+        write_only=True,
+        min_length=8,
+    )
 
 
 class SettingsSerializer(
@@ -13,8 +28,46 @@ class SettingsSerializer(
     class Meta:
         model = Settings
         fields = [
-            "id",
+            "ct",
+            "uid",
         ]
+
+
+class AddressSerializer(
+    serializers.ModelSerializer,
+):
+    country = CountryField(required=False, country_dict=True)
+
+    country_options = serializers.SerializerMethodField(read_only=True, allow_null=True)
+
+    class Meta:
+        model = Address
+        fields = [
+            "ct",
+            "uid",
+            "line_1",
+            "line_2",
+            "postal_code",
+            "city",
+            "country",
+            "country_options",
+        ]
+
+    @staticmethod
+    def get_country_options(*args, **kwargs):
+        for code, name in list(countries):
+            yield {
+                "code": code,
+                "name": name,
+            }
+
+    # def get_country_options(self, obj):
+    #     for code, name in list(countries):
+    #         yield {
+    #             "code": code,
+    #             "name": name,
+    #             "selected": obj.country == code,
+    #         }
 
 
 class SubscriptionSerializer(
@@ -44,10 +97,10 @@ class UserSerializer(
             "date_joined",
             "first_name",
             "last_name",
-            # "full_name",
         ]
         expandable_fields = {
             "settings": SettingsSerializer,
+            "address": AddressSerializer,
             "subscription": SubscriptionSerializer,
         }
 

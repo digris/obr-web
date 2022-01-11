@@ -97,13 +97,14 @@ class PlaylistViewSet(
         )
         qs = qs.annotate(
             num_media=Count("media"),
-            latest_emission=Max(
+            latest_emission_time_start=Max(
                 "emissions__time_start",
                 filter=Q(emissions__time_start__lte=Now()),
             ),
             num_emissions=Count(
                 "emissions",
-                filter=Q(emissions__time_end__lte=Now()),
+                filter=Q(emissions__time_start__lte=Now()),
+                distinct=True,
             ),
         )
 
@@ -123,7 +124,7 @@ class PlaylistViewSet(
                 ),
             )
 
-        qs = qs.filter(latest_emission__lte=Now())
+        qs = qs.filter(latest_emission_time_start__lte=Now())
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(
@@ -136,7 +137,7 @@ class PlaylistViewSet(
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)
 
-        qs = qs.order_by("-latest_emission")
+        qs = qs.order_by("-latest_emission_time_start")
         return qs
 
     def get_object(self):

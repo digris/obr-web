@@ -1,1 +1,3 @@
-(( the message ))
+{% extends 'electronic_mail/base.txt' %}
+
+{% block body %}Your login-code: {{ login_token }}{% endblock %}

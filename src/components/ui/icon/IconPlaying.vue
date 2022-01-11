@@ -13,6 +13,10 @@ export default defineComponent({
       type: String,
       default: 'rgb(var(--c-page-bg))',
     },
+    pause: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const style = computed(() => {
@@ -31,6 +35,9 @@ export default defineComponent({
   <div
     :style="style"
     class="playing"
+    :class="{
+      pause: pause,
+    }"
   >
     <div
       class="bar bar--1"
@@ -73,15 +80,27 @@ export default defineComponent({
     width: 4px;
     height: 10px;
     background: var(--color);
+    transition: height 200ms;
     animation: eq 1200ms infinite;
     &--1 {
       animation-delay: -550ms;
     }
     &--2 {
+      transition: opacity 100ms;
       animation-delay: -700ms;
     }
     &--3 {
       animation-delay: -350ms;
+    }
+  }
+
+  &.pause {
+    .bar {
+      height: 100%;
+      animation: unset;
+      &--2 {
+        opacity: 0;
+      }
     }
   }
 }

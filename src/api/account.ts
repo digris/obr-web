@@ -54,7 +54,7 @@ async function loginBySignedEmail(signedEmail: string) {
 }
 
 async function getUser() {
-  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription`;
+  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription,address`;
   const response = await APIClient.get(url);
   return response.data;
 }
@@ -70,6 +70,33 @@ async function getSubscription() {
 //   const response = await APIClient.get(url);
 //   return response.data;
 // }
+
+async function updateUser(payload: object) {
+  const url = `${ACCOUNT_ENDPOINT}users/me/`;
+  const response = await APIClient.patch(url, payload);
+  return response.data;
+}
+
+async function updateAddress(payload: object) {
+  const url = `${ACCOUNT_ENDPOINT}address/`;
+  const response = await APIClient.patch(url, payload);
+  return response.data;
+}
+
+async function updatePassword(password: string) {
+  const url = `${ACCOUNT_ENDPOINT}password/`;
+  const payload = {
+    password,
+  };
+  const response = await APIClient.post(url, payload);
+  return response.data?.subscription;
+}
+
+async function getCountryOptions() {
+  const url = `${ACCOUNT_ENDPOINT}address/`;
+  const response = await APIClient.get(url);
+  return response.data?.countryOptions;
+}
 
 async function getSocialBackends() {
   const url = `${ACCOUNT_ENDPOINT}social-backends/`;
@@ -93,6 +120,10 @@ export {
   getUser,
   getSubscription,
   // refreshCredentials,
+  updateUser,
+  updateAddress,
+  updatePassword,
+  getCountryOptions,
   getSocialBackends,
   disconnectSocialBackend,
 };
