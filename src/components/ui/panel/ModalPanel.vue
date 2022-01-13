@@ -32,7 +32,6 @@ export default defineComponent({
       emit('close');
     };
     onMounted(() => {
-      console.debug('panel mounted');
       document.addEventListener('keydown', (e) => {
         if (props.isVisible && e.code === 'Escape') {
           close();

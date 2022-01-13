@@ -11,6 +11,7 @@ import ClaimVoucher from '@/components/subscription/voucher/Claim.vue';
 // import ColorChooser from '@/components/colors/ColorChooser.vue';
 
 export default {
+  name: 'App',
   components: {
     Topbar,
     SideMenu,

@@ -3,10 +3,12 @@ import {
   computed,
   defineComponent,
   ref,
+  watchEffect,
   onActivated,
   onBeforeUpdate,
 } from 'vue';
 import { useStore } from 'vuex';
+import { setPageTitle } from '@/utils/page';
 
 import DetailPage from '@/layouts/DetailPage.vue';
 import DetailHeader from '@/layouts/DetailHeader.vue';
@@ -44,7 +46,10 @@ export default defineComponent({
       search: [],
       options: {},
     }));
-    // this is kind of bad. don't know yet how to improve..
+    const title = computed(() => {
+      return artist.value?.name;
+    });
+    // this is kind of bad. don't know yet how to improve...
     // onActivated is called when component is already in keep-alive router,
     // onBefore is needed to switch between different objects in the already active component.
     // it also needs some ugly bits in the store (see catalog/loadArtist):
@@ -53,12 +58,17 @@ export default defineComponent({
     onActivated(() => {
       if (!artist.value) {
         store.dispatch('catalog/loadArtist', props.uid);
+      } else {
+        setPageTitle(title.value);
       }
     });
     onBeforeUpdate(() => {
       if (!artist.value) {
         store.dispatch('catalog/loadArtist', props.uid);
       }
+    });
+    watchEffect(() => {
+      setPageTitle(title.value);
     });
     return {
       objKey,
