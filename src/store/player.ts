@@ -17,6 +17,9 @@ const getters = {
   isLive: (state: any) => state.isLive,
   media: (state: any) => state.media,
   playState: (state: any, getters: any) => {
+    if (!getters.playerState) {
+      return 'stopped';
+    }
     if (getters.playerState.isPlaying) {
       return 'playing';
     }

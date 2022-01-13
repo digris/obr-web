@@ -351,7 +351,6 @@ SPECTACULAR_SETTINGS = {
 ##################################################################
 # services
 ##################################################################
-GOOGLE_TAG_ID = ""
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",
     "hls": "https://stream-abr.next.openbroadcast.ch/manifest.m3u8",
@@ -379,6 +378,14 @@ STRIPE_SECRET_KEY = env(
     default="",
 )
 
+##################################################################
+# analytics
+##################################################################
+GOOGLE_GTM_ID = env(
+    "GOOGLE_GTM_ID",
+    default="GTM-KXBKVVT",
+)
+
 
 ##################################################################
 # exported settings
@@ -390,6 +397,7 @@ SETTINGS_EXPORT = [
     "IMAGE_RESIZER_ENDPOINT",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",
+    "GOOGLE_GTM_ID",
     "SENTRY_DSN",
     "STRIPE_PUBLISHABLE_KEY",
 ]

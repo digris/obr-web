@@ -27,7 +27,7 @@ const SHAKA_CONFIG = {
   },
 };
 
-const POLL_INTERVAL = 200;
+const POLL_INTERVAL = 100;
 
 const PROTECTED_MEDIA = 'https://media.next.openbroadcast.ch/';
 

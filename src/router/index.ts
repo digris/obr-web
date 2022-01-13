@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import store from '@/store';
 import NotFound from '@/views/NotFound.vue';
 import OnAir from '@/views/OnAir.vue';
 import Program from '@/views/Program.vue';
@@ -53,11 +54,17 @@ const routes = [
     redirect: {
       name: 'discoverMoods',
     },
+    meta: {
+      title: 'Discover',
+    },
     children: [
       {
         path: 'moods/',
         name: 'discoverMoods',
         component: MoodList,
+        meta: {
+          title: 'Moods',
+        },
       },
       {
         path: 'playlists/',
@@ -299,6 +306,15 @@ router.beforeEach((to, from, next) => {
   const theme = to.meta?.colorTheme ?? 'light';
   // @ts-ignore
   setBodyColorTheme(theme);
+  next();
+});
+
+router.beforeEach(async (to, from, next) => {
+  const node = to.matched.slice().reverse().find((r) => r.meta && r.meta.title);
+  if (node) {
+    await store.dispatch('ui/setTitle', node?.meta?.title);
+  }
+  // await store.dispatch('ui/setTitle', node?.meta?.title ?? 'open broadcast radio');
   next();
 });
 

@@ -38,7 +38,7 @@ export default defineComponent({
     const store = useStore();
     const media = computed(() => store.getters['catalog/mediaByUid'](props.uid));
     const objKey = computed(() => {
-      return `${media.value.ct}:${media.value.uid}`;
+      return (media.value) ? `${media.value.ct}:${media.value.uid}` : null;
     });
     const query = computed(() => ({
       filter: {

@@ -9,13 +9,19 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('subscription', '0007_alter_redemption_user'),
+        ("subscription", "0007_alter_redemption_user"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='voucher',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='vouchers', to=settings.AUTH_USER_MODEL),
+            model_name="voucher",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="vouchers",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
