@@ -16,6 +16,10 @@ export default defineComponent({
       type: String,
       default: 'rgb(var(--c-page-fg))',
     },
+    numQueued: {
+      type: Number,
+      default: 0,
+    },
   },
   setup(props) {
     const size = computed(() => {
@@ -76,6 +80,24 @@ export default defineComponent({
       cy="32"
       r="2"
     />
+    <!--
+    <g
+      v-if="numQueued"
+    >
+      <circle
+        cx="34"
+        cy="14"
+        r="8"
+      />
+      <text
+        x="28"
+        y="18"
+        font-size="10px"
+        v-html="numQueued"
+        fill="white"
+      />
+    </g>
+    -->
   </svg>
   <!-- eslint-enable max-len -->
 </template>

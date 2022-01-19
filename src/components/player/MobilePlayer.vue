@@ -2,22 +2,24 @@
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { getContrastColor } from '@/utils/color';
-import CurrentMedia from './CurrentMedia.vue';
-import Playhead from './Playhead.vue';
-import OnAir from './button/OnAir.vue';
+// import CurrentMedia from './CurrentMedia.vue';
+// import Playhead from './Playhead.vue';
+// import OnAir from './button/OnAir.vue';
 import Queue from './Queue.vue';
 import Circle from './button/Circle.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import IconQueue from '@/components/ui/icon/IconQueue.vue';
+import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
+import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import eventBus from '@/eventBus';
 
 export default defineComponent({
   components: {
-    CurrentMedia,
-    Playhead,
-    OnAir,
+    ButtonPlay,
     Circle,
     Queue,
     UserRating,
+    MediaArtists,
     IconQueue,
   },
   setup() {
@@ -25,6 +27,8 @@ export default defineComponent({
     const liveTimeOffset = ref(-10);
     const playerState = computed(() => store.getters['player/playerState']);
     const isLive = computed(() => store.getters['player/isLive']);
+    const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
+    const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
     const currentMedia = computed(() => store.getters['player/media']);
     const currentScope = computed(() => store.getters['player/scope']);
     const isVisible = computed(() => !!currentMedia.value);
@@ -54,6 +58,12 @@ export default defineComponent({
         '--c-fg-inverse': isLive.value ? '255, 255, 255' : '0, 0, 0',
       };
     });
+    const pause = () => {
+      eventBus.emit('player:controls', { do: 'pause' });
+    };
+    const play = () => {
+      eventBus.emit('player:controls', { do: 'resume' });
+    };
     const queueVisible = ref(false);
     const queueNumMedia = computed(() => store.getters['queue/numMedia']);
     const hideQueue = () => {
@@ -65,6 +75,8 @@ export default defineComponent({
     return {
       isVisible,
       isLive,
+      isPlaying,
+      isBuffering,
       liveTimeOffset,
       playerState,
       currentMedia,
@@ -73,6 +85,8 @@ export default defineComponent({
       cssVars,
       queueVisible,
       queueNumMedia,
+      pause,
+      play,
       hideQueue,
       toggleQueue,
     };
@@ -83,6 +97,7 @@ export default defineComponent({
 <template>
   <Queue
     :is-visible="(queueVisible && queueNumMedia > 0)"
+    :bottom="(60)"
     @close="hideQueue"
   />
   <transition
@@ -90,7 +105,7 @@ export default defineComponent({
   >
     <div
       v-if="isVisible"
-      class="player"
+      class="mobile-player"
       :style="cssVars"
     >
       <div
@@ -99,25 +114,37 @@ export default defineComponent({
         <div
           class="left"
         >
-          <CurrentMedia
-            :media="currentMedia"
+          <ButtonPlay
+            :size="40"
+            :is-playing="isPlaying"
+            :is-buffering="isBuffering"
+            @pause="pause"
+            @play="play"
           />
         </div>
         <div
           class="center"
         >
-          <OnAir
-            v-if="isLive"
-          />
-          <Playhead
-            v-else
-          />
+          <div
+            v-if="currentMedia"
+            class="current-media"
+          >
+            <div
+              v-text="currentMedia.name"
+              class="title"
+            />
+            <MediaArtists
+              :artists="currentMedia.artists"
+              :link="false"
+              class="artists"
+            />
+          </div>
         </div>
         <div
           class="right"
         >
           <Circle
-            :size="(48)"
+            :size="(40)"
             :outlined="(false)"
           >
             <UserRating
@@ -127,7 +154,7 @@ export default defineComponent({
             />
           </Circle>
           <Circle
-            :size="(48)"
+            :size="(40)"
             :active="queueVisible"
             :disabled="(queueNumMedia < 1)"
             @click.prevent="toggleQueue"
@@ -136,7 +163,7 @@ export default defineComponent({
             }"
           >
             <IconQueue
-              :size="(48)"
+              :size="(40)"
               :color="(queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))')"
               :num-queued="queueNumMedia"
             />
@@ -148,20 +175,22 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/elements/container";
+@use "@/style/base/typo";
+//@use "@/style/elements/container";
 
-$player-height: 72px;
+$player-height: 60px;
 
 .queue {
   z-index: 30;
 }
 
-.player {
+.mobile-player {
   position: fixed;
   bottom: 0;
   z-index: 110;
   width: 100%;
   height: $player-height;
+  padding: 0 0.5rem;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
   border-top: 1px solid rgba(var(--c-page-fg), .2);
@@ -169,29 +198,35 @@ $player-height: 72px;
 }
 
 .container {
-  @include container.default;
   display: grid;
-  grid-template-columns: 4fr 6fr 4fr;
+  grid-column-gap: 1rem;
+  grid-template-columns: 40px 6fr 80px;
   .left,
   .center,
   .right {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     height: $player-height;
   }
   .left {
-    justify-content: flex-start;
+    justify-content: center;
   }
   .center {
-    justify-content: center;
-    .on-air__ {
-      padding: 12px 24px;
-      color: rgb(var(--c-white));
-    }
+    justify-content: flex-start;
   }
   .right {
     justify-content: flex-end;
+  }
+}
+
+.current-media {
+  .title {
+    line-height: 1rem;
+  }
+  .artists {
+    @include typo.dim;
+    @include typo.light;
   }
 }
 

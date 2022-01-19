@@ -16,6 +16,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    bottom: {
+      type: Number,
+      default: 72,
+    },
   },
   emits: [
     'close',
@@ -52,6 +56,9 @@ export default defineComponent({
     <div
       v-if="isVisible"
       class="queue"
+      :style="{
+        bottom: `${bottom}px`,
+      }"
     >
       <div
         class="container"
@@ -76,8 +83,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 
-$player-height: 72px;
-
 .container {
   @include container.default;
   //padding: 2rem 0;
@@ -87,7 +92,6 @@ $player-height: 72px;
 
 .queue {
   position: fixed;
-  bottom: $player-height;
   width: 100%;
   min-height: 100px;
   //max-height: calc(100% - 148px);

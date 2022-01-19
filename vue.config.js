@@ -27,8 +27,8 @@ module.exports = {
       chunkFilename: '[name].js',
     },
     performance: {
-      maxEntrypointSize: 1000000,
-      maxAssetSize: 1000000,
+      maxEntrypointSize: 1500000,
+      maxAssetSize: 1500000,
     },
   },
   devServer: {
