@@ -5,13 +5,14 @@ import { getContrastColor } from '@/utils/color';
 // import CurrentMedia from './CurrentMedia.vue';
 // import Playhead from './Playhead.vue';
 // import OnAir from './button/OnAir.vue';
-import Queue from './Queue.vue';
-import Circle from './button/Circle.vue';
+import eventBus from '@/eventBus';
+import Queue from '@/components/player/Queue.vue';
+import Circle from '@/components/player/button/Circle.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import IconQueue from '@/components/ui/icon/IconQueue.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import eventBus from '@/eventBus';
+import PlayerPanel from './PlayerPanel.vue';
 
 export default defineComponent({
   components: {
@@ -21,6 +22,7 @@ export default defineComponent({
     UserRating,
     MediaArtists,
     IconQueue,
+    PlayerPanel,
   },
   setup() {
     const store = useStore();
@@ -72,6 +74,13 @@ export default defineComponent({
     const toggleQueue = () => {
       queueVisible.value = !queueVisible.value;
     };
+    const playerPanelVisible = ref(false);
+    const hidePlayerPanel = () => {
+      playerPanelVisible.value = false;
+    };
+    const togglePlayerPanel = () => {
+      playerPanelVisible.value = !playerPanelVisible.value;
+    };
     return {
       isVisible,
       isLive,
@@ -89,6 +98,9 @@ export default defineComponent({
       play,
       hideQueue,
       toggleQueue,
+      playerPanelVisible,
+      hidePlayerPanel,
+      togglePlayerPanel,
     };
   },
 });
@@ -99,6 +111,12 @@ export default defineComponent({
     :is-visible="(queueVisible && queueNumMedia > 0)"
     :bottom="(60)"
     @close="hideQueue"
+  />
+  <PlayerPanel
+    :is-visible="playerPanelVisible"
+    :current-media="currentMedia"
+    :style="cssVars"
+    @close="hidePlayerPanel"
   />
   <transition
     name="slide"
@@ -127,6 +145,7 @@ export default defineComponent({
         >
           <div
             v-if="currentMedia"
+            @click="togglePlayerPanel"
             class="current-media"
           >
             <div
@@ -184,6 +203,10 @@ $player-height: 60px;
   z-index: 30;
 }
 
+.player-panel {
+  z-index: 29;
+}
+
 .mobile-player {
   position: fixed;
   bottom: 0;
@@ -213,6 +236,7 @@ $player-height: 60px;
     justify-content: center;
   }
   .center {
+    overflow: hidden;
     justify-content: flex-start;
   }
   .right {
@@ -221,12 +245,18 @@ $player-height: 60px;
 }
 
 .current-media {
+  white-space: nowrap;
+  overflow: hidden;
   .title {
     line-height: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .artists {
     @include typo.dim;
     @include typo.light;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
