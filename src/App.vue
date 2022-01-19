@@ -9,7 +9,7 @@ import SideMenu from '@/components/topbar/SideMenu.vue';
 import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
-import MobilePlayer from '@/components/player/MobilePlayer.vue';
+import MobilePlayer from '@/components/player/mobile/Player.vue';
 import Notifications from '@/components/notification/Notifications.vue';
 import ClaimVoucher from '@/components/subscription/voucher/Claim.vue';
 
