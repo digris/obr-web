@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "broadcast",
     "catalog",
     "electronic_mail",
+    "stats",
     "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
 ]
 
@@ -106,6 +107,10 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": env.db(
         default="postgres://obr:obr@db:5432/obr",
+    ),
+    "event": env.db_url(
+        "EVENT_DATABASE_URL",
+        default="sqlite:////dev/null",
     ),
     "sync": env.db_url(
         "SYNC_DATABASE_URL",
