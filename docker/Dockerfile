@@ -97,7 +97,8 @@ RUN unset DJANGO_SETTINGS_MODULE
 USER app
 
 ENV DJANGO_SETTINGS_MODULE=core.settings.live \
-    PORT=8000
+    PORT=8000 \
+    TZ="Europe/Zurich"
 
 EXPOSE 8000
 
