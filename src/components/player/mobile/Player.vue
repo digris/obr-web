@@ -1,11 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
+import { usePlayerControls, usePlayerState } from '@/composables/player';
+import { useQueueState } from '@/composables/queue';
 import { getContrastColor } from '@/utils/color';
-// import CurrentMedia from './CurrentMedia.vue';
-// import Playhead from './Playhead.vue';
-// import OnAir from './button/OnAir.vue';
-import eventBus from '@/eventBus';
 import Queue from '@/components/player/Queue.vue';
 import Circle from '@/components/player/button/Circle.vue';
 import UserRating from '@/components/rating/UserRating.vue';
@@ -25,15 +22,19 @@ export default defineComponent({
     PlayerPanel,
   },
   setup() {
-    const store = useStore();
     const liveTimeOffset = ref(-10);
-    const playerState = computed(() => store.getters['player/playerState']);
-    const isLive = computed(() => store.getters['player/isLive']);
-    const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
-    const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
-    const currentMedia = computed(() => store.getters['player/media']);
-    const currentScope = computed(() => store.getters['player/scope']);
+    const {
+      isLive,
+      isPlaying,
+      isBuffering,
+      currentMedia,
+      currentScope,
+    } = usePlayerState();
+    const { resume, pause } = usePlayerControls();
+    const { queueLength } = useQueueState();
     const isVisible = computed(() => !!currentMedia.value);
+    const queueVisible = ref(false);
+    const playerPanelVisible = ref(false);
     const objKey = computed(() => {
       if (!currentMedia.value) {
         return null;
@@ -45,12 +46,11 @@ export default defineComponent({
         const bg = currentMedia.value.releases[0].image.rgb;
         const fg = getContrastColor(bg);
         const fgInverse = getContrastColor(fg);
-        const colors = {
+        return {
           '--c-bg': bg.join(','),
           '--c-fg': fg.join(','),
           '--c-fg-inverse': fgInverse.join(','),
         };
-        return colors;
       } catch (e) {
         // console.debug(e);
       }
@@ -60,21 +60,12 @@ export default defineComponent({
         '--c-fg-inverse': isLive.value ? '255, 255, 255' : '0, 0, 0',
       };
     });
-    const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
-    };
-    const play = () => {
-      eventBus.emit('player:controls', { do: 'resume' });
-    };
-    const queueVisible = ref(false);
-    const queueNumMedia = computed(() => store.getters['queue/numMedia']);
     const hideQueue = () => {
       queueVisible.value = false;
     };
     const toggleQueue = () => {
       queueVisible.value = !queueVisible.value;
     };
-    const playerPanelVisible = ref(false);
     const hidePlayerPanel = () => {
       playerPanelVisible.value = false;
     };
@@ -87,15 +78,14 @@ export default defineComponent({
       isPlaying,
       isBuffering,
       liveTimeOffset,
-      playerState,
       currentMedia,
       currentScope,
       objKey,
       cssVars,
       queueVisible,
-      queueNumMedia,
+      queueLength,
       pause,
-      play,
+      play: resume,
       hideQueue,
       toggleQueue,
       playerPanelVisible,
@@ -108,7 +98,7 @@ export default defineComponent({
 
 <template>
   <Queue
-    :is-visible="(queueVisible && queueNumMedia > 0)"
+    :is-visible="(queueVisible && queueLength > 0)"
     :bottom="(60)"
     @close="hideQueue"
   />
@@ -173,10 +163,10 @@ export default defineComponent({
             />
           </Circle>
           <Circle
-            v-if="(queueNumMedia > 0)"
+            v-if="(queueLength > 0)"
             :size="(40)"
             :active="queueVisible"
-            :disabled="(queueNumMedia < 1)"
+            :disabled="(queueLength < 1)"
             @click.prevent="toggleQueue"
             :style="{
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
@@ -185,7 +175,7 @@ export default defineComponent({
             <IconQueue
               :size="(40)"
               :color="(queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))')"
-              :num-queued="queueNumMedia"
+              :num-queued="queueLength"
             />
           </Circle>
         </div>

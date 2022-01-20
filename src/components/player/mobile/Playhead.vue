@@ -1,15 +1,14 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent } from 'vue';
 import { DateTime } from 'luxon';
-import eventBus from '@/eventBus';
-import Progress from '../PlayheadProgress.vue';
+import { usePlayerState, usePlayerControls } from '@/composables/player';
 
-const dt2hhmmss = (dt:any) => dt.toISOString().substr(11, 8);
-const s2hhmmss = (s:number) => dt2hhmmss(new Date(s * 1000));
+import Duration from '@/components/ui/time/Duration.vue';
+import Progress from '../PlayheadProgress.vue';
 
 export default defineComponent({
   components: {
+    Duration,
     Progress,
   },
   props: {
@@ -19,68 +18,28 @@ export default defineComponent({
     },
   },
   setup() {
-    const store = useStore();
-    const playerState = computed(() => store.getters['player/playerState']);
-    const isLive = computed(() => playerState.value && playerState.value.isLive);
-    const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
-    const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
-    const currentTime = computed(() => playerState.value && playerState.value.currentTime);
-    const duration = computed(() => playerState.value && playerState.value.duration);
-    const relPosition = computed(() => playerState.value && playerState.value.relPosition);
-
-    const strCurrentTime = computed(() => {
-      if (!currentTime.value) {
-        return '00:00:00';
-      }
-      if (isLive.value) {
-        const dt = DateTime.fromJSDate(currentTime.value);
-        return dt.toLocaleString({
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        });
-      }
-      return s2hhmmss(currentTime.value);
-    });
-
-    const strTotalTime = computed(() => {
-      if (isLive.value) {
+    const {
+      isLive,
+      isPlaying,
+      isBuffering,
+      duration,
+      currentTime,
+      relPosition,
+    } = usePlayerState();
+    const {
+      seek,
+    } = usePlayerControls();
+    const strLiveTime = computed(() => {
+      if (!isLive.value) {
         return '';
       }
-      if (!duration.value) {
-        return '00:00:00';
-      }
-      return s2hhmmss(duration.value);
+      const dt = DateTime.fromJSDate(currentTime.value);
+      return dt.toLocaleString({
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
     });
-
-    const hasPrevious = computed(() => store.getters['queue/previousIndex'] !== null);
-    // const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
-    const hasNext = ref(true);
-
-    const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
-    };
-
-    const play = () => {
-      eventBus.emit('player:controls', { do: 'resume' });
-    };
-
-    const seek = (pos:number) => {
-      const event = {
-        do: 'seek',
-        relPosition: pos,
-      };
-      eventBus.emit('player:controls', event);
-    };
-
-    const playNext = () => {
-      eventBus.emit('queue:controls:playNext');
-    };
-
-    const playPrevious = () => {
-      eventBus.emit('queue:controls:playPrevious');
-    };
-
     return {
       isLive,
       isPlaying,
@@ -88,17 +47,8 @@ export default defineComponent({
       currentTime,
       duration,
       relPosition,
-      // times
-      strCurrentTime,
-      strTotalTime,
-      // controls
-      hasNext,
-      hasPrevious,
-      pause,
-      play,
+      strLiveTime,
       seek,
-      playNext,
-      playPrevious,
     };
   },
 });
@@ -117,12 +67,22 @@ export default defineComponent({
       <div
         class="time time--current"
       >
-        <span>{{ strCurrentTime }}</span>
+        <span
+          v-if="isLive"
+          v-text="strLiveTime"
+        />
+        <Duration
+          v-else
+          :seconds="currentTime"
+        />
       </div>
       <div
         class="time time--total"
       >
-        <span>{{ strTotalTime }}</span>
+        <Duration
+          v-if="duration"
+          :seconds="duration"
+        />
       </div>
       <Progress
         :is-live="isLive"
@@ -136,7 +96,6 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/elements/container";
 @use "@/style/base/typo";
 
 .playhead {

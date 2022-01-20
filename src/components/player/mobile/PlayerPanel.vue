@@ -3,16 +3,16 @@ import {
   computed,
   defineComponent,
 } from 'vue';
-import { useStore } from 'vuex';
 
-import eventBus from '@/eventBus';
+import { usePlayerState, usePlayerControls } from '@/composables/player';
+import { useQueueControls } from '@/composables/queue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconClose from '@/components/ui/icon/IconClose.vue';
 import LazyImage from '@/components/ui/LazyImage.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import Playhead from './Playhead.vue';
 import ButtonPlay from '../button/ButtonPlay.vue';
 import ButtonSkip from '../button/ButtonSkip.vue';
+import Playhead from './Playhead.vue';
 
 export default defineComponent({
   components: {
@@ -20,9 +20,9 @@ export default defineComponent({
     IconClose,
     LazyImage,
     MediaArtists,
-    Playhead,
     ButtonPlay,
     ButtonSkip,
+    Playhead,
   },
   props: {
     isVisible: {
@@ -37,11 +37,21 @@ export default defineComponent({
     'close',
   ],
   setup(props, { emit }) {
-    const store = useStore();
-    const playerState = computed(() => store.getters['player/playerState']);
-    const isLive = computed(() => playerState.value && playerState.value.isLive);
-    const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
-    const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
+    const {
+      isLive,
+      isPlaying,
+      isBuffering,
+    } = usePlayerState();
+    const {
+      resume,
+      pause,
+    } = usePlayerControls();
+    const {
+      hasPrevious,
+      hasNext,
+      playPrevious,
+      playNext,
+    } = useQueueControls();
     const release = computed(() => {
       if (props.media && props.media.releases.length) {
         return props.media.releases[0];
@@ -54,20 +64,18 @@ export default defineComponent({
     const close = () => {
       emit('close');
     };
-    const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
-    };
-    const play = () => {
-      eventBus.emit('player:controls', { do: 'resume' });
-    };
     return {
       image,
       close,
       pause,
-      play,
+      play: resume,
       isPlaying,
       isBuffering,
       isLive,
+      hasPrevious,
+      hasNext,
+      playPrevious,
+      playNext,
     };
   },
 });
@@ -133,20 +141,23 @@ export default defineComponent({
         class="controls"
       >
         <ButtonSkip
+          :disabled="(!hasPrevious)"
           :rotate="180"
+          @click.prevent="playPrevious"
         />
         <ButtonPlay
           class="play-button"
           :is-playing="isPlaying"
           :is-buffering="isBuffering"
-          @pause="pause"
-          @play="play"
           :size="60"
           :outline-width="2"
           :outline-opacity="1"
+          @pause="pause"
+          @play="play"
         />
         <ButtonSkip
-          :disabled="isLive"
+          :disabled="(!hasNext)"
+          @click.prevent="playNext"
         />
       </div>
     </div>
