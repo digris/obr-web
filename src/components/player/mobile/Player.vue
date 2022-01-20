@@ -114,7 +114,7 @@ export default defineComponent({
   />
   <PlayerPanel
     :is-visible="playerPanelVisible"
-    :current-media="currentMedia"
+    :media="currentMedia"
     :style="cssVars"
     @close="hidePlayerPanel"
   />
@@ -173,6 +173,7 @@ export default defineComponent({
             />
           </Circle>
           <Circle
+            v-if="(queueNumMedia > 0)"
             :size="(40)"
             :active="queueVisible"
             :disabled="(queueNumMedia < 1)"
@@ -236,8 +237,8 @@ $player-height: 60px;
     justify-content: center;
   }
   .center {
-    overflow: hidden;
     justify-content: flex-start;
+    overflow: hidden;
   }
   .right {
     justify-content: flex-end;
@@ -245,11 +246,11 @@ $player-height: 60px;
 }
 
 .current-media {
-  white-space: nowrap;
   overflow: hidden;
+  white-space: nowrap;
   .title {
-    line-height: 1rem;
     overflow: hidden;
+    line-height: 1rem;
     text-overflow: ellipsis;
   }
   .artists {

@@ -12,6 +12,7 @@ import DetailPage from '@/layouts/DetailPage.vue';
 import DetailHeader from '@/layouts/DetailHeader.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
+import Searchbar from '@/components/filter/SearchbarAlt.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 // import Animation from '@/components/animation/Animation.vue';
 import Lottie from '@/components/animation/Lottie.vue';
@@ -22,6 +23,7 @@ export default defineComponent({
     DetailHeader,
     PlayAction,
     ObjectTags,
+    Searchbar,
     MediaList,
     // Animation,
     Lottie,
@@ -119,7 +121,7 @@ export default defineComponent({
         <template
           #searchbar
         >
-          (( SB ))
+          <Searchbar />
         </template>
         <template
           #background

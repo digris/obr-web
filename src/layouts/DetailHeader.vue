@@ -132,8 +132,8 @@ export default defineComponent({
       <div
         class="searchbar"
       >
-        <div
-          id="searchbar"
+        <slot
+          name="searchbar"
         />
       </div>
     </div>

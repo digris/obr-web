@@ -24,10 +24,19 @@ class PlayerEventView(APIView):
             logger.info("player-event", event)
             annotated_events.append(event)
 
-        serializer = self.serializer_class(data=annotated_events, many=True)
+        serializer = self.serializer_class(
+            data=annotated_events,
+            many=True,
+        )
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )

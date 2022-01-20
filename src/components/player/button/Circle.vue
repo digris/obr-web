@@ -7,13 +7,17 @@ export default defineComponent({
       type: Number,
       default: 24,
     },
-    // color: {
-    //   type: String,
-    //   default: 'rgb(var(--c-fg))',
-    // },
     outlined: {
       type: Boolean,
       default: true,
+    },
+    outlineWidth: {
+      type: Number,
+      default: 1,
+    },
+    outlineOpacity: {
+      type: Number,
+      default: 0.15,
     },
     active: {
       type: Boolean,
@@ -40,6 +44,8 @@ export default defineComponent({
       return {
         '--size': `${props.size}px`,
         '--c-circle-bg-color': props.backgroundColor,
+        '--outline-width': `${props.outlineWidth}px`,
+        '--outline-opacity': props.outlineOpacity,
       };
     });
     return {
@@ -76,7 +82,7 @@ export default defineComponent({
   min-width: var(--size);
   height: var(--size);
   min-height: var(--size);
-  border: 1px solid transparent;
+  border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background 200ms, color 200ms, border 200ms;
@@ -89,7 +95,7 @@ export default defineComponent({
     background: var(--c-circle-bg-color);
   }
   &.is-outlined {
-    border-color: rgba(var(--c-fg), 0.15);
+    border-color: rgba(var(--c-fg), var(--outline-opacity));
   }
   &.is-active {
     background: rgb(var(--c-fg));

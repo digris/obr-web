@@ -1,9 +1,14 @@
+@use "@/style/abstracts/responsive";
+
 @mixin default {
   width: 100%;
   max-width: var(--container-width);
   margin-right: auto;
   margin-left: auto;
   padding: 0 1.5rem;
+  @include responsive.bp-small {
+    padding: 0 0.5rem;
+  }
 }
 
 @mixin medium {
@@ -12,6 +17,9 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;
+  @include responsive.bp-small {
+    padding: 0 0.5rem;
+  }
 }
 
 @mixin small {
@@ -20,6 +28,9 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;
+  @include responsive.bp-small {
+    padding: 0 0.5rem;
+  }
 }
 
 @mixin section {

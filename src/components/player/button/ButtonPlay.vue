@@ -44,6 +44,14 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    outlineWidth: {
+      type: Number,
+      default: 1,
+    },
+    outlineOpacity: {
+      type: Number,
+      default: 0.15,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -100,6 +108,8 @@ export default defineComponent({
     @click.prevent="handleClick"
     :size="size"
     :outlined="outlined"
+    :outline-width="outlineWidth"
+    :outline-opacity="outlineOpacity"
     :disabled="disabled"
     :active="isActive"
     :background-color="backgroundColor"
