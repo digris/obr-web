@@ -19,6 +19,10 @@ export default {
       type: Number,
       default: 800,
     },
+    ratio: {
+      type: Number,
+      default: 1,
+    },
   },
   setup(props) {
     const isLoading = ref(false);
@@ -96,12 +100,18 @@ export default {
   >
     <div
       class="lazy-image"
+      :style="{
+        '--ratio': ratio,
+      }"
     >
       <img
         alt="Image"
         :src="imageSrc"
         :style="cssVars"
-        :class="{'is-pending': !isLoaded, 'is-loading': isLoading}"
+        :class="{
+          'is-pending': !isLoaded,
+          'is-loading': isLoading
+        }"
       />
       <div
         class="overlay"
@@ -117,18 +127,18 @@ export default {
 <style lang="scss" scoped>
 .lazy-image {
   position: relative;
-  // min-width: 100%;
   max-width: 100%;
-  height: 100%;
+  aspect-ratio: var(--ratio);
+  overflow: hidden;
   img {
     min-width: 100%;
     max-width: 100%;
-    height: 100%;
     background: rgb(var(--c-color));
     opacity: 1;
     filter: var(--image-filter);
     transition: opacity 100ms;
     image-rendering: pixelated;
+    aspect-ratio: var(--ratio);
     &.is-pending,
     &.is-loading {
       opacity: 0.9;
@@ -142,7 +152,7 @@ export default {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    aspect-ratio: var(--ratio);
   }
 }
 </style>
