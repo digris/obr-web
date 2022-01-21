@@ -1,19 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-
-import CircleProgressButton from '@/components/ui/button/CircleProgressButton.vue';
+import { usePlayerState } from '@/composables/player';
+import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconPlay from '@/components/ui/icon/IconPlay.vue';
 import IconBuffering from '@/components/ui/icon/IconBuffering.vue';
-// import IconPause from '@/components/ui/icon/IconPause.vue';
 import IconPlaying from '@/components/ui/icon/IconPlaying.vue';
-
-const SIZE = 120;
-const ICON_SIZE = 96;
 
 export default defineComponent({
   components: {
-    CircleProgressButton,
+    CircleButton,
     IconPlay,
   },
   props: {
@@ -32,12 +27,11 @@ export default defineComponent({
     'pause',
   ],
   setup(props, { emit }) {
-    const store = useStore();
     const isHover = ref(false);
-    const size = ref(SIZE);
-    const iconSize = ref(ICON_SIZE);
-    const playerState = computed(() => store.getters['player/playerState']);
-    const currentMedia = computed(() => store.getters['player/media']);
+    const {
+      playerState,
+      currentMedia,
+    } = usePlayerState();
     const isCurrent = computed(() => currentMedia.value?.uid === props.media?.uid);
     const isPlaying = computed(() => {
       if (!isCurrent.value) {
@@ -82,13 +76,8 @@ export default defineComponent({
     };
     return {
       isHover,
-      size,
-      iconSize,
       handleClick,
-      isCurrent,
-      currentMedia,
       isPlaying,
-      isBuffering,
       isFilled,
       progress,
       icon,
@@ -98,20 +87,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleProgressButton
-    @mouseover="isHover = true"
-    @mouseleave="isHover = false"
-    :size="size"
+  <CircleButton
+    :size="120"
+    :outline-opacity="(1)"
     :outline-width="(6)"
     :filled="isFilled"
-    :progress="progress"
+    @mouseover="isHover = true"
+    @mouseleave="isHover = false"
     @click="handleClick"
   >
     <component
       :is="icon"
-      :size="iconSize"
+      :size="96"
       :color="(isFilled) ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
       :pause="(isPlaying && isHover)"
     />
-  </CircleProgressButton>
+  </CircleButton>
 </template>

@@ -15,6 +15,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    filled: {
+      type: Boolean,
+      default: false,
+    },
     active: {
       type: Boolean,
       default: false,
@@ -66,6 +70,7 @@ export default defineComponent({
       'is-outlined': outlined,
       'has-shadow': hasShadow,
       'is-active': active,
+      'is-filled': filled,
       'is-disabled': disabled,
       'is-progress': progress !== null,
     }"
@@ -91,13 +96,9 @@ export default defineComponent({
   transition: background 200ms, color 200ms, border 200ms;
   &.is-outlined {
     border-color: rgba(var(--c-main), var(--outline-opacity));
-    //&.is-progress {
-    //  background: red;
-    //  clip: rect(0px, 150px, 150px, 75px);
-    //}
   }
-  &.has-shadow {
-    box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;
+  &.is-filled {
+    background: rgb(var(--c-main));
   }
   &.is-active {
     color: rgb(var(--c-active));
@@ -109,6 +110,9 @@ export default defineComponent({
   &.is-disabled {
     opacity: 0.2;
     pointer-events: none;
+  }
+  &.has-shadow {
+    box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;
   }
   &:hover {
     background: rgba(var(--c-main), 0.1);

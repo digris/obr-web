@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
+import { usePlayerState } from '@/composables/player';
 import { requireSubscription } from '@/utils/account';
 import { getMedia } from '@/api/catalog';
 import { getContrastColor } from '@/utils/color';
@@ -36,15 +36,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
-    const playerState = computed(() => store.getters['player/playerState']);
-    // const playState = computed(() => store.getters['player/playState']);
-    const color = computed(() => store.getters['player/color']);
-    const scope = computed(() => store.getters['player/scope']);
+    const {
+      playerState,
+      currentScope,
+      currentColor,
+    } = usePlayerState();
     const inScope = computed(() => {
-      return scope.value.includes(props.objKey);
+      return currentScope.value.includes(props.objKey);
     });
-    // handle icon / play-state
     const isPlaying = computed(() => {
       return (inScope.value && playerState.value.isPlaying);
     });
@@ -52,9 +51,9 @@ export default defineComponent({
       return (inScope.value && playerState.value.isBuffering);
     });
     const buttonCssVars = computed(() => {
-      if (inScope.value && color.value) {
+      if (inScope.value && currentColor.value) {
         return {
-          '--c-fg': color.value.join(','),
+          '--c-fg': currentColor.value.join(','),
         };
       }
       return {
@@ -62,12 +61,11 @@ export default defineComponent({
       };
     });
     const buttonColor = computed(() => {
-      if (inScope.value && color.value) {
-        return getContrastColor(color.value);
+      if (inScope.value && currentColor.value) {
+        return getContrastColor(currentColor.value);
       }
       return [0, 0, 0];
     });
-    // handle playlist loading
     const isLoading = ref(false);
     const play = requireSubscription(async () => {
       isLoading.value = true;
@@ -109,7 +107,7 @@ export default defineComponent({
         name="default"
       >
         <ButtonPlay
-          :is-active="(inScope)"
+          :is-active="inScope"
           :is-playing="isPlaying"
           :is-buffering="(isLoading || isBuffering)"
           :size="size"
