@@ -14,6 +14,8 @@ const usePlayerState = () => {
 
   const currentMedia = computed(() => store.getters['player/media']);
   const currentScope = computed(() => store.getters['player/scope']);
+  const currentColor = computed(() => store.getters['player/color']);
+
   return {
     playerState,
     isLive,
@@ -25,6 +27,7 @@ const usePlayerState = () => {
 
     currentMedia,
     currentScope,
+    currentColor,
   };
 };
 
