@@ -23,6 +23,9 @@ gcp/terraform
 .env.*.local
 .env.live
 
+# 
+core/settings/sync.py
+
 # compose
 docker-compose.override.yml
 

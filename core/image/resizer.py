@@ -1,7 +1,6 @@
 from django.conf import settings
 
 
-BUCKET = getattr(settings, "GS_BUCKET_NAME")
 URL = getattr(settings, "IMAGE_RESIZER_ENDPOINT", None)
 DEFAULT_RESIZE_KIND = "scale"
 
@@ -20,9 +19,8 @@ def get_resized_url(
         return file.url
 
     # pylint: disable=consider-using-f-string
-    url = "{endpoint}{kind}/{width}x{height}/{bucket}/{filename}".format(
+    url = "{endpoint}{kind}/{width}x{height}/{filename}".format(
         endpoint=URL,
-        bucket=BUCKET,
         kind=kind,
         width=width,
         height=height,

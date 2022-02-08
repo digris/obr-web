@@ -1,5 +1,6 @@
 import logging
 from datetime import timedelta, datetime
+from django.utils import timezone
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -27,7 +28,7 @@ class BridgeView(APIView):
                 # pylint: disable=import-outside-toplevel
                 from broadcast.sync import schedule
 
-                date_start = datetime.now().replace(minute=0, second=0)
+                date_start = datetime.now().replace(minute=0, second=0, microsecond=0)
                 date_end = date_start + timedelta(hours=4)
 
                 updated = list(

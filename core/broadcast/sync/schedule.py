@@ -57,7 +57,8 @@ def fetch_emissions(start=None, end=None):
             logger.error(f"unable to get data: {e}")
             next_page = None
 
-    return emissions
+    return sorted(emissions, key=lambda emission: emission["time_start"])
+    # return emissions
 
 
 def create_emission_objects(emission_list):
@@ -65,16 +66,16 @@ def create_emission_objects(emission_list):
         time_start = parse_datetime(emission_dict["time_start"])
         time_end = round_datetime(parse_datetime(emission_dict["time_end"]), 60 * 5)
 
-        # print(json.dumps(emission_dict, indent=2))
-        duration = emission_dict.get("duration")
-
-        print(time_start, time_end, duration)
-
-        obj, _ = Emission.objects.get_or_create(uuid=emission_dict["uuid"])
+        obj, obj_created = Emission.objects.get_or_create(uuid=emission_dict["uuid"])
         obj.time_start = time_start
         obj.time_end = time_end
         obj.obj_key = f"{emission_dict['co']['ct']}:{emission_dict['co']['uuid']}"
         obj.save()
+
+        verb = 'created' if obj_created else 'updated'
+        logger.info(
+            f"{verb} emission {obj.uid}: {time_start:%Y-%m-%d %H:%M} - {time_end:%Y-%m-%d %H:%M} "
+        )
 
         yield obj
 
@@ -82,8 +83,8 @@ def create_emission_objects(emission_list):
 # pylint: disable=unused-argument
 def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):
     if force:
-        if not date_start:
-            raise Exception("required 'date_start' when using 'force'")
+        if not (date_start and date_end):
+            raise Exception("required 'date_start' and 'date_end' when using 'force'")
         start = date_start
     else:
         try:
@@ -93,7 +94,9 @@ def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False)
         except Emission.DoesNotExist:
             latest_emission = None
         if latest_emission:
-            start = timezone.make_naive(latest_emission.time_start)
+            start = latest_emission.time_start
+            if timezone.is_aware(start):
+                start = timezone.make_naive(start)
             if date_start:
                 start = start if start > date_start else date_start
         elif date_start:

@@ -61,6 +61,10 @@ export default defineComponent({
       merged.tags = tags;
       return merged;
     });
+    const showPlayAll = computed(() => {
+      return (userFilter.value?.tags || []).length || userFilter.value?.q;
+      // return true;
+    });
     onActivated(() => {
       if (!mood.value) {
         store.dispatch('catalog/loadMood', props.uid);
@@ -72,6 +76,7 @@ export default defineComponent({
       mood,
       initialFilter,
       userFilter,
+      showPlayAll,
       combinedFilter,
       mediaColor,
     };
@@ -94,6 +99,10 @@ export default defineComponent({
         >
           <div
             class="image"
+            :style="{
+              display: 'flex',
+              alignItems: 'center',
+            }"
           >
             <PlayAction
               :obj-key="objKey"
@@ -137,7 +146,7 @@ export default defineComponent({
         :initial-filter="initialFilter"
         :query="query"
         :disable-user-filter="(false)"
-        :disable-play-all="(true)"
+        :disable-play-all="(!showPlayAll)"
       />
     </template>
   </DetailPage>
