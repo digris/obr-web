@@ -128,6 +128,7 @@ export default defineComponent({
         </template>
       </DetailHeader>
       <pre
+        v-if="(false)"
         class="debug"
         v-text="playlist.latestEmission"
       />

@@ -59,7 +59,6 @@ export default defineComponent({
     .name {
       @include typo.large;
       display: flex;
-      align-items: flex-start;
       align-items: center;
       justify-content: center;
       height: 100%;
@@ -72,9 +71,10 @@ export default defineComponent({
       }
       position: absolute;
       bottom: 1rem;
-      display: flex;
+      //display: flex;
       align-items: flex-start;
       height: 50%;
+      width: 100%;
       padding: 3rem 1rem 1rem;
       overflow-y: hidden;
       text-align: center;
