@@ -46,7 +46,7 @@ class Editor(
     )
 
     is_active = models.BooleanField(
-        default=True,
+        default=False,
     )
 
     votes = GenericRelation(

@@ -52,6 +52,11 @@ export default defineComponent({
       }
       q.value = e.target.value;
     };
+    const hasSearchQuery = computed(() => {
+      console.debug('filter', props.filter);
+      return (props.filter && props.filter.q);
+      // return true;
+    });
     onMounted(() => {
       q.value = props.filter.q || '';
     });
@@ -67,6 +72,7 @@ export default defineComponent({
       q,
       searchInput,
       submitSearch,
+      hasSearchQuery,
     };
   },
 });
@@ -77,6 +83,9 @@ export default defineComponent({
   >
     <form
       class="searchinput"
+      :class="{
+        'has-query': hasSearchQuery,
+      }"
       @submit.prevent="submitSearch"
     >
       <input
@@ -121,15 +130,26 @@ export default defineComponent({
   height: 40px;
   > input {
     @include typo.default;
-    box-sizing: content-box;
+    //box-sizing: content-box;
+    box-sizing: border-box;
     height: 100%;
     color: rgb(var(--c-page-fg));
     background: transparent;
     border: 0;
     border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
+    padding: 3px 0.5rem 0 1rem;
+    transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
     &:focus {
-      border-bottom: 3px solid rgb(var(--c-page-fg));
+      border-bottom: 3px solid rgba(var(--c-page-fg), 0.0);
+      background: rgba(var(--c-black), 0.1);
       outline: none;
+    }
+  }
+  &.has-query {
+    > input {
+      background: rgb(var(--c-black));
+      color: rgb(var(--c-white));
+      border-radius: 22px;
     }
   }
 }
