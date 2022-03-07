@@ -46,6 +46,10 @@ class PlayerEvent(models.Model):
         max_length=64,
         db_index=True,
     )
+    ingested = models.BooleanField(
+        default=False,
+        db_index=True,
+    )
 
     objects = PlayerEventManager()
 

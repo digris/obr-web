@@ -123,6 +123,7 @@ export default defineComponent({
         <template
           #meta-panel
         >
+          <!--
           <span
             v-if="media"
           >
@@ -131,6 +132,7 @@ export default defineComponent({
           <span>
             •
           </span>
+          -->
           <Duration
             :seconds="media.duration"
           />

@@ -23,7 +23,7 @@ steps:
     '--region', 'europe-west6',
     '--platform', 'managed',
     '--max-instances', '50',
-    '--memory', '512M',
+    '--memory', '2048M',
     '--concurrency', '20',
     '--use-http2',
     '--add-cloudsql-instances', 'open-broadcast:europe-west6:open-broadcast-db',

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PlayerEvent
+from stats.models import PlayerEvent
 
 
 @admin.register(PlayerEvent)
@@ -16,6 +16,7 @@ class PlayerEventAdmin(admin.ModelAdmin):
     list_filter = [
         "time",
         "state",
+        "ingested",
     ]
     date_hierarchy = "time"
     search_fields = [

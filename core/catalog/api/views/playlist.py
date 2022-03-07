@@ -16,8 +16,12 @@ MEDIA_MIN_DURATION = 12
 
 
 class PlaylistFilter(filters.FilterSet):
-    obj_key = filters.CharFilter(method="obj_key_filter")
-    user_rating = filters.NumberFilter(method="user_rating_filter")
+    obj_key = filters.CharFilter(
+        method="obj_key_filter",
+    )
+    user_rating = filters.NumberFilter(
+        method="user_rating_filter",
+    )
 
     class Meta:
         model = Playlist
@@ -70,7 +74,9 @@ class PlaylistFilter(filters.FilterSet):
 
 
 def get_search_qs(qs, q):
-    qs = qs.filter(Q(name__icontains=q) | Q(series__name__icontains=q))
+    qs = qs.filter(
+        Q(name__icontains=q) | Q(series__name__icontains=q),
+    )
     return qs
 
 
@@ -102,20 +108,27 @@ class PlaylistViewSet(
             ),
             latest_emission_time_start=Max(
                 "emissions__time_start",
-                filter=Q(emissions__time_start__lte=Now()),
+                filter=Q(
+                    emissions__time_start__lte=Now(),
+                ),
             ),
-            num_emissions=Count(
-                "emissions",
-                filter=Q(emissions__time_start__lte=Now()),
-                distinct=True,
-            ),
+            # num_emissions=Count(
+            #     "emissions",
+            #     filter=Q(
+            #         emissions__time_start__lte=Now(),
+            #     ),
+            #     distinct=True,
+            # ),
         )
 
         # annotate with request user's rating
         if self.request.user.is_authenticated:
             qs = qs.annotate(
                 user_rating=Max(
-                    "votes__value", filter=Q(votes__user=self.request.user)
+                    "votes__value",
+                    filter=Q(
+                        votes__user=self.request.user,
+                    ),
                 ),
             )
         # annotate with anonymous user 'identity'
@@ -123,11 +136,15 @@ class PlaylistViewSet(
             qs = qs.annotate(
                 user_rating=Max(
                     "votes__value",
-                    filter=Q(votes__user_identity=self.request.user_identity),
+                    filter=Q(
+                        votes__user_identity=self.request.user_identity,
+                    ),
                 ),
             )
 
-        qs = qs.filter(latest_emission_time_start__lte=Now())
+        qs = qs.filter(
+            latest_emission_time_start__lte=Now(),
+        )
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(

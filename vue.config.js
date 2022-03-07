@@ -5,7 +5,6 @@ const DEVSERVER_HEADER = 'X-WEBPACK-DEVSERVER';
 
 module.exports = {
   outputDir: './build/',
-  // publicPath: 'http://local.obr-next:3000/static/',
   publicPath: process.env.NODE_ENV === 'production'
     ? '/'
     : 'http://local.obr-next:3000/static/',
@@ -16,6 +15,13 @@ module.exports = {
       .tap((options) => ({ ...options, name: '[name].[ext]' }));
   },
   css: {
+    // loaderOptions: {
+    //   postcss: {
+    //     plugins: {
+    //       autoprefixer: {},
+    //     },
+    //   },
+    // },
     extract: {
       filename: '[name].css',
       chunkFilename: '[name].css',
@@ -37,7 +43,6 @@ module.exports = {
     host: '0.0.0.0',
     port: 3000,
     public: 'local.obr-next:3000',
-    // public: 'local.obr-next:3000',
     disableHostCheck: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
@@ -51,13 +56,5 @@ module.exports = {
         },
       },
     },
-    // proxy: {
-    //   '^/api': {
-    //     target: 'http://local.obr-next:8080',
-    //     changeOrigin: true,
-    //     logLevel: 'debug',
-    //     // pathRewrite: { "^/api": "/" }
-    //   },
-    // },
   },
 };

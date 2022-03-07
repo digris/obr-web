@@ -22,8 +22,8 @@ class EmissionViewSet(
     lookup_field = "uid"
 
     def get_queryset(self):
-        qs = self.queryset.select_related("playlist").prefetch_related(
-            "playlist__images"
+        qs = self.queryset.select_related("playlist",).prefetch_related(
+            "playlist__images",
         )
         return qs
 
