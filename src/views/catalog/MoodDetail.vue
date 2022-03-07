@@ -130,7 +130,9 @@ export default defineComponent({
         <template
           #searchbar
         >
-          <Searchbar />
+          <Searchbar
+            :filter="combinedFilter"
+          />
         </template>
         <template
           #background

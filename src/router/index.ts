@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { isEqual } from 'lodash-es';
 import store from '@/store';
 import NotFound from '@/views/NotFound.vue';
 import OnAir from '@/views/OnAir.vue';
@@ -298,6 +299,9 @@ const router = createRouter({
   // @ts-ignore
   routes,
   scrollBehavior(to, from, savedPosition) {
+    if (from && to.name === from.name && isEqual(to.params, from.params)) {
+      return false;
+    }
     return savedPosition || { left: 0, top: 0 };
   },
 });

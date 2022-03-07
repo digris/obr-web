@@ -45,7 +45,7 @@ class EditorViewSet(
     def filter_queryset(self, queryset):
         qs = super().filter_queryset(queryset)
         qs = qs.filter(
-            num_playlists__gte=5,
+            num_playlists__gte=1,
         )
         return qs
 
