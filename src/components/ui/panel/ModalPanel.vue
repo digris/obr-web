@@ -3,7 +3,6 @@ import {
   computed,
   defineComponent,
   onMounted,
-  watch,
 } from 'vue';
 
 import CloseButton from './CloseButton.vue';
@@ -38,16 +37,6 @@ export default defineComponent({
         }
       });
     });
-    watch(
-      () => props.isVisible,
-      (visible) => {
-        if (visible) {
-          document.body.style.overflowY = 'hidden';
-        } else {
-          document.body.style.overflowY = '';
-        }
-      },
-    );
     return {
       hasFooter,
       hasSuccess,
@@ -147,7 +136,7 @@ export default defineComponent({
     margin-top: 0;
     //border-bottom: 1px solid rgb(var(--c-gray-100));
     //border-bottom: 1px solid rgb(var(--c-black));
-    border-bottom: 7px solid rgb(var(--c-black));
+    //border-bottom: 7px solid rgb(var(--c-black));
   }
   &__content {
     flex-grow: 1;
