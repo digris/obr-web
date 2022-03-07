@@ -8,7 +8,8 @@ import { requireSubscription } from '@/utils/account';
 
 import Debug from '@/components/dev/Debug.vue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconContext from '@/components/ui/icon/IconContext.vue';
+import ContextMenu from '@/components/context-menu/ContextMenu.vue';
+// import IconContext from '@/components/ui/icon/IconContext.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
@@ -26,7 +27,8 @@ export default defineComponent({
   components: {
     Debug,
     CircleButton,
-    IconContext,
+    ContextMenu,
+    // IconContext,
     ButtonPlay,
     MediaArtists,
     MediaReleases,
@@ -251,6 +253,7 @@ export default defineComponent({
             :hide-if-unset="(!isHover)"
           />
         </CircleButton>
+        <!--
         <CircleButton
           :size="(48)"
           :outlined="(false)"
@@ -259,6 +262,10 @@ export default defineComponent({
             :size="48"
           />
         </CircleButton>
+        -->
+        <ContextMenu
+          :obj-key="objKey"
+        />
       </div>
     </div>
   </div>

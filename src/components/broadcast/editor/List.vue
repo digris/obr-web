@@ -15,7 +15,7 @@ export default defineComponent({
   },
   setup() {
     const editors = ref([]);
-    const fetchEditors = async (limit = 16, offset = 0) => {
+    const fetchEditors = async (limit = 128, offset = 0) => {
       const { results } = await getEditors(limit, offset);
       // @ts-ignore
       editors.value.push(...results);
