@@ -25,6 +25,18 @@ export default defineComponent({
     >
       <Program />
     </div>
+    <div
+      class="lookup"
+    >
+      (( Lookup ))
+      <input
+        type="date"
+        value="2022-02-01"
+      >
+      <input
+        type="time"
+      >
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -32,6 +44,8 @@ export default defineComponent({
 @use "@/style/elements/container";
 .program-view {
   margin-bottom: 12rem;
+  display: flex;
+  flex-direction: column;
 }
 .title {
   @include container.default;
@@ -42,5 +56,11 @@ export default defineComponent({
 }
 .body {
   background: rgb(var(--white));
+  flex-grow: 1;
+}
+.lookup {
+  display: none;
+  background: darkorange;
+  height: 200px;
 }
 </style>

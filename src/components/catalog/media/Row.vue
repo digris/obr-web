@@ -232,7 +232,6 @@ export default defineComponent({
         <RelativeDateTime
           v-if="latestAirplay"
           :date-time="latestAirplay"
-          v-tooltip="`Total airplays: ${media.numAirplays}`"
         />
       </div>
       <Duration

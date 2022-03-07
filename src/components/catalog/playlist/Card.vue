@@ -92,6 +92,11 @@ export default defineComponent({
           <PlaylistName
             :playlist="playlist"
           />
+          <!--
+          <div
+            v-text="playlist.name"
+          />
+          -->
         </router-link>
         <RelativeDateTime
           class="secondary"

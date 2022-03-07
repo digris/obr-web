@@ -27,7 +27,6 @@ test:
 	pytest -m "e2e" -s ./core/tests/
 
 docker-image:
-	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
 	docker build --build-arg COMMIT=$(COMMIT_HASH) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
 deploy:

@@ -54,8 +54,14 @@ class ArtistViewSet(
         qs = qs.annotate(
             num_media=Count(
                 "media",
-                filter=Q(media__airplays__time_start__lte=Now())
-                & Q(media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION)),
+                filter=Q(
+                    media__airplays__time_start__lte=Now(),
+                )
+                & Q(
+                    media__duration__gt=timedelta(
+                        seconds=MEDIA_MIN_DURATION,
+                    ),
+                ),
                 distinct=True,
             )
         )
@@ -64,7 +70,10 @@ class ArtistViewSet(
         if self.request.user.is_authenticated:
             qs = qs.annotate(
                 user_rating=Max(
-                    "votes__value", filter=Q(votes__user=self.request.user)
+                    "votes__value",
+                    filter=Q(
+                        votes__user=self.request.user,
+                    ),
                 ),
             )
         # annotate with anonymous user 'identity'
@@ -72,7 +81,9 @@ class ArtistViewSet(
             qs = qs.annotate(
                 user_rating=Max(
                     "votes__value",
-                    filter=Q(votes__user_identity=self.request.user_identity),
+                    filter=Q(
+                        votes__user_identity=self.request.user_identity,
+                    ),
                 ),
             )
 
@@ -80,7 +91,9 @@ class ArtistViewSet(
             qs = get_search_qs(qs, q)
 
         # NOTE: make dynamic...
-        qs = qs.filter(num_media__gte=ARTIST_MIN_NUM_MEDIA)
+        qs = qs.filter(
+            num_media__gte=ARTIST_MIN_NUM_MEDIA,
+        )
         qs = qs.order_by("-created")
 
         return qs

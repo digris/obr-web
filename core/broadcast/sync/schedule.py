@@ -72,7 +72,7 @@ def create_emission_objects(emission_list):
         obj.obj_key = f"{emission_dict['co']['ct']}:{emission_dict['co']['uuid']}"
         obj.save()
 
-        verb = 'created' if obj_created else 'updated'
+        verb = "created" if obj_created else "updated"
         logger.info(
             f"{verb} emission {obj.uid}: {time_start:%Y-%m-%d %H:%M} - {time_end:%Y-%m-%d %H:%M} "
         )
