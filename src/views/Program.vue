@@ -43,9 +43,9 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/elements/container";
 .program-view {
-  margin-bottom: 12rem;
   display: flex;
   flex-direction: column;
+  margin-bottom: 12rem;
 }
 .title {
   @include container.default;
@@ -55,12 +55,12 @@ export default defineComponent({
   margin-bottom: 1.5rem;
 }
 .body {
-  background: rgb(var(--white));
   flex-grow: 1;
+  background: rgb(var(--white));
 }
 .lookup {
   display: none;
-  background: darkorange;
   height: 200px;
+  background: darkorange;
 }
 </style>

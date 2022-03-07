@@ -73,8 +73,8 @@ export default defineComponent({
       bottom: 1rem;
       //display: flex;
       align-items: flex-start;
-      height: 50%;
       width: 100%;
+      height: 50%;
       padding: 3rem 1rem 1rem;
       overflow-y: hidden;
       text-align: center;

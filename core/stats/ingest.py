@@ -34,6 +34,6 @@ def ingest_player_events():
 
     if len(rows) > 0:
         client.insert_rows_json(table_id, list(rows))
-        res = qs.filter(id__in=ids).update(ingested=True)
+        qs.filter(id__in=ids).update(ingested=True)
 
     return len(rows)
