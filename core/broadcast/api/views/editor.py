@@ -34,11 +34,18 @@ class EditorViewSet(
                 "playlists",
             )
         )
-        qs = qs.filter(
-            num_playlists__gte=5,
-        )
+        # qs = qs.filter(
+        #     num_playlists__gte=5,
+        # )
         qs = qs.order_by(
             Lower("display_name"),
+        )
+        return qs
+
+    def filter_queryset(self, queryset):
+        qs = super().filter_queryset(queryset)
+        qs = qs.filter(
+            num_playlists__gte=5,
         )
         return qs
 

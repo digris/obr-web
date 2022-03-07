@@ -17,6 +17,7 @@ class VoteScope(models.TextChoices):
     EMISSION = "emission", "emission"
     DAYTIME = "daytime", "daytime"
     REPETITION = "repetition", "repetition"
+    GENRE = "genre", "genre"
 
 
 class Vote(TimestampedModelMixin, models.Model):
