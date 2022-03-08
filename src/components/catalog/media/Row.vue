@@ -129,7 +129,7 @@ export default defineComponent({
         media: [media],
       };
       eventBus.emit('queue:controls:enqueue', payload);
-    }, 'A subscription is required...');
+    }, 'A plan is required.');
     const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });
     };
@@ -264,7 +264,7 @@ export default defineComponent({
         </CircleButton>
         -->
         <ContextMenu
-          :obj-key="objKey"
+          :obj="media"
         />
       </div>
     </div>
@@ -284,8 +284,10 @@ export default defineComponent({
     border-top: 1px solid rgb(var(--c-gray-200));
   }
 
-  &:hover {
-    background: rgb(var(--c-gray-100));
+  @include responsive.hover-supported {
+    &:hover {
+      background: rgb(var(--c-gray-100));
+    }
   }
 }
 

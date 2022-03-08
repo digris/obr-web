@@ -82,6 +82,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .circle-button {
   display: inline-flex;
   align-items: center;
@@ -114,9 +115,11 @@ export default defineComponent({
   &.has-shadow {
     box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;
   }
-  &:hover {
-    background: rgba(var(--c-main), 0.1);
-    border-color: var(--outline-hover-color);
+  @include responsive.hover-supported {
+    &:hover {
+      background: rgba(var(--c-main), 0.1);
+      border-color: var(--outline-hover-color);
+    }
   }
 }
 </style>
