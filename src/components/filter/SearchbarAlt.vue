@@ -133,22 +133,22 @@ export default defineComponent({
     //box-sizing: content-box;
     box-sizing: border-box;
     height: 100%;
+    padding: 3px 0.5rem 0 1rem;
     color: rgb(var(--c-page-fg));
     background: transparent;
     border: 0;
     border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
-    padding: 3px 0.5rem 0 1rem;
     transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
     &:focus {
-      border-bottom: 3px solid rgba(var(--c-page-fg), 0.0);
       background: rgba(var(--c-black), 0.1);
+      border-bottom: 3px solid rgba(var(--c-page-fg), 0.0);
       outline: none;
     }
   }
   &.has-query {
     > input {
-      background: rgb(var(--c-black));
       color: rgb(var(--c-white));
+      background: rgb(var(--c-black));
       border-radius: 22px;
     }
   }

@@ -64,7 +64,7 @@ export default defineComponent({
         class="container"
       >
         <transition-group
-          name="queue"
+          name="queue--disabled"
           mode="out-in"
         >
           <QueueMedia

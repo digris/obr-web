@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('broadcast', '0008_editor_role'),
+        ("broadcast", "0008_editor_role"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='editor',
-            name='is_active',
+            model_name="editor",
+            name="is_active",
             field=models.BooleanField(default=True),
         ),
     ]

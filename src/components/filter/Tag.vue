@@ -51,8 +51,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 .tag {
-  display: inline-flex;
   position: relative;
+  display: inline-flex;
   align-items: center;
   height: 2.25rem;
   padding: 0.25rem 1rem;
@@ -62,39 +62,39 @@ export default defineComponent({
   //border: 1px solid rgba(var(--c-page-fg), 0.2);
   border-radius: 1.125rem;
   cursor: pointer;
-  &:hover {
-    background: rgb(var(--c-gray-100));
-    .tag__count {
-      display: flex;
-    }
-  }
   &.is-selected {
     color: rgb(var(--c-white));
     background: rgb(var(--c-black));
   }
   &__type {
     display: none;
+    padding-left: 0.5rem;
     @include typo.tiny;
     @include typo.dim;
-    padding-left: 0.5rem;
   }
   &__count {
     @include typo.tiny;
-    display: none;
     position: absolute;
-    width: calc(100% - 2rem);
     bottom: 2rem;
+    display: none;
     align-items: center;
     justify-content: center;
+    width: calc(100% - 2rem);
     &__value {
-      background: #0004ff;
-      color: #fff;
-      width: 24px;
-      height: 24px;
-      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 24px;
+      height: 24px;
+      color: #fff;
+      background: #0004ff;
+      border-radius: 12px;
+    }
+  }
+  &:hover {
+    background: rgb(var(--c-gray-100));
+    .tag__count {
+      display: flex;
     }
   }
 }

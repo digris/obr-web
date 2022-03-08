@@ -2,7 +2,8 @@
 import {
   defineComponent,
   ref,
-  computed, onMounted,
+  computed,
+  onMounted,
 } from 'vue';
 
 import { onClickOutside } from '@vueuse/core';
@@ -14,10 +15,10 @@ import ObjectActions from './ObjectActions.vue';
 
 export default defineComponent({
   props: {
-    objKey: {
-      type: String,
-      required: false,
-      default: null,
+    obj: {
+      type: Object,
+      required: true,
+      default: () => {},
     },
     iconSize: {
       type: Number,
@@ -55,6 +56,15 @@ export default defineComponent({
       });
     });
     onClickOutside(root, () => hide());
+    const hideTimeout = ref(null);
+    const onMenuMouseleave = () => {
+      hideTimeout.value = setTimeout(() => {
+        hide();
+      }, 300);
+    };
+    const onMenuMouseenter = () => {
+      clearTimeout(hideTimeout.value);
+    };
     const actions = computed(() => {
       return [];
     });
@@ -63,6 +73,8 @@ export default defineComponent({
       isVisible,
       show,
       hide,
+      onMenuMouseleave,
+      onMenuMouseenter,
       actions,
     };
   },
@@ -96,9 +108,11 @@ export default defineComponent({
       <div
         class="context-menu__menu"
         v-if="isVisible"
+        @mouseleave="onMenuMouseleave"
+        @mouseenter="onMenuMouseenter"
       >
         <ObjectActions
-          :obj-key="objKey"
+          :obj="obj"
           @close="hide"
         />
       </div>
@@ -115,13 +129,13 @@ export default defineComponent({
   }
   &__menu {
     position: absolute;
-    z-index: 50;
     top: 0;
     right: 0;
-    background: rgba(255, 255, 255, 1.0);
-    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    z-index: 50;
     min-width: 300px;
+    background: rgba(255, 255, 255, 1.0);
     border-radius: 4px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
   }
 }
 .fade-enter-active,

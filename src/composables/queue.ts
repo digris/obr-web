@@ -19,7 +19,7 @@ const useQueueState = () => {
 };
 
 const useQueueControls = () => {
-  const { isLive } = usePlayerState();
+  const { isLive, isPlaying } = usePlayerState();
   const { previousIndex } = useQueueState();
   const hasPrevious = computed(() => previousIndex.value !== null);
   const hasNext = computed(() => !!isLive);
@@ -36,6 +36,17 @@ const useQueueControls = () => {
   const removeAtIndex = async (index: number) => {
     await queue.removeAtIndex(index);
   };
+  const store = useStore();
+  const startPlayCurrent = async (force = false) => {
+    if (isPlaying.value && !force) {
+      return;
+    }
+    await queue.startPlayCurrent();
+  };
+  const enqueueMedia = async (media: Array<object>, mode = 'append', scope = []) => {
+    await store.dispatch('queue/enqueue', { media, mode, scope });
+    // await queue.startPlayCurrent();
+  };
   return {
     hasPrevious,
     hasNext,
@@ -43,6 +54,9 @@ const useQueueControls = () => {
     playNext,
     playFromIndex,
     removeAtIndex,
+    //
+    enqueueMedia,
+    startPlayCurrent,
   };
 };
 

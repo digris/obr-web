@@ -45,6 +45,7 @@ export default defineComponent({
       isLive,
       isPlaying,
       isBuffering,
+      // currentMedia,
     } = usePlayerState();
     const {
       pause,
@@ -140,8 +141,8 @@ export default defineComponent({
         @click="play"
         @pause="pause"
         :is-active="(isCurrent)"
-        :is-playing="isPlaying"
-        :is-buffering="isBuffering"
+        :is-playing="(isCurrent && isPlaying)"
+        :is-buffering="(isCurrent && isBuffering)"
         :style="buttonCssVars"
         :color="`rgb(${buttonColor.join(',')})`"
       />
