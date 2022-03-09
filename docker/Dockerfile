@@ -85,6 +85,7 @@ COPY --from=python-builder /venv /venv
 
 COPY ["manage.py", "./"]
 ADD ./core/ ./core/
+ADD ./content/ ./content/
 
 ENV PATH="/venv/bin:$PATH"
 

@@ -11,9 +11,6 @@ const setPrimaryColor = (color: Array<number>) => {
   const fg = getContrastColor(bg);
   const fgInverse = getContrastColor(fg);
   const { style } = document.body;
-  // style.setProperty('--c-page-bg', bg.join(','));
-  // style.setProperty('--c-page-fg', fg.join(','));
-  // style.setProperty('--c-page-fg-inverse', fgInverse.join(','));
   style.setProperty('--c-live-bg', bg.join(','));
   style.setProperty('--c-live-fg', fg.join(','));
   style.setProperty('--c-live-fg-inverse', fgInverse.join(','));

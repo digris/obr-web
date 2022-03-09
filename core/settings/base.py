@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "catalog",
     "electronic_mail",
     "stats",
+    #
+    "usersnap",
     "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
 ]
 
@@ -75,6 +77,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
+
+APPEND_SLASH = True
 
 TEMPLATES = [
     {
@@ -422,11 +426,20 @@ OBP_SYNC_TOKEN = env(
 
 
 ##################################################################
+# 3rd party services
+##################################################################
+USERSNAP_API_KEY = env(
+    "USERSNAP_API_KEY",
+    default=None,
+)
+
+
+##################################################################
 # "CMS"
 ##################################################################
 CMS_PAGES_DIR = env(
-    "OBP_SYNC_TOKEN",
-    default=str(PROJECT_ROOT / "data" / "pages"),
+    "CMS_PAGES_DIR",
+    default=str(PROJECT_ROOT / "content" / "pages"),
 )
 
 

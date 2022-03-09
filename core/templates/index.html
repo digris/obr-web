@@ -1,4 +1,4 @@
-{% load i18n static settings_export_tags %}<!doctype html>
+{% load i18n static settings_export_tags usersnap_tags %}<!doctype html>
 <html class="no-js" lang="{{ LANGUAGE }}">
 <head>
   <title>open broadcast radio</title>
@@ -37,6 +37,7 @@
   <div id="app"></div>
   <script src="{% static 'chunk-vendors.js' %}"></script>
   <script src="{% static 'app.js' %}"></script>
+  {% usersnap %}
 </body>
 <!-- v:0.0.1 -->
 <!--

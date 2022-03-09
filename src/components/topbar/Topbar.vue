@@ -101,7 +101,7 @@ export default defineComponent({
     justify-content: flex-end;
     > div {
       &:not(:last-child) {
-        margin-right: 1rem;
+        margin-right: 0.25rem;
       }
     }
   }

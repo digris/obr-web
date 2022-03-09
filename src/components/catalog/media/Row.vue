@@ -393,11 +393,6 @@ export default defineComponent({
         text-overflow: ellipsis;
       }
     }
-    //TODO: just a quick fix
-    .play,
-    .actions {
-      transform: scale(calc(40 / 48));
-    }
     .release,
     .airplays,
     .duration {

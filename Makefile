@@ -36,6 +36,10 @@ update-settings:
 	gcloud --project $(GCP_PROJECT) \
 	  secrets versions add ch-openbroadcast-settings --data-file .env.live
 
+show-settings:
+	gcloud --project $(GCP_PROJECT) \
+	  secrets versions access latest --secret=ch-openbroadcast-settings
+
 translations:
 	poetry run ./manage.py makemessages \
 	  -l de \

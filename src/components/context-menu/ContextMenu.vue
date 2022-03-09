@@ -32,6 +32,7 @@ export default defineComponent({
   },
   setup() {
     const root = ref(null);
+    const menu = ref(null);
     const isVisible = ref(false);
     const show = () => {
       eventBus.emit('contextMenu:show');
@@ -56,6 +57,7 @@ export default defineComponent({
       });
     });
     onClickOutside(root, () => hide());
+    onClickOutside(menu, () => hide());
     const hideTimeout = ref(null);
     const onMenuMouseleave = () => {
       hideTimeout.value = setTimeout(() => {
@@ -70,6 +72,7 @@ export default defineComponent({
     });
     return {
       root,
+      menu,
       isVisible,
       show,
       hide,
@@ -103,39 +106,65 @@ export default defineComponent({
       </CircleButton>
     </div>
     <transition
-      name="fade"
+      name="slide"
     >
       <div
-        class="context-menu__menu"
+        class="menu-container"
         v-if="isVisible"
-        @mouseleave="onMenuMouseleave"
-        @mouseenter="onMenuMouseenter"
       >
-        <ObjectActions
-          :obj="obj"
-          @close="hide"
-        />
+        <div
+          class="menu"
+          ref="menu"
+          @mouseleave="onMenuMouseleave"
+          @mouseenter="onMenuMouseenter"
+        >
+          <ObjectActions
+            :obj="obj"
+            @close="hide"
+          />
+        </div>
       </div>
     </transition>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .context-menu {
-  position: relative;
+  //position: relative;
   &__icon {
     width: 48px;
     height: 48px;
   }
-  &__menu {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 50;
-    min-width: 300px;
-    background: rgba(255, 255, 255, 1.0);
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+  .menu-container {
+    position: relative;
+    .menu {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 50;
+      min-width: 300px;
+      background: rgba(255, 255, 255, 1.0);
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    }
+    @include responsive.bp-small {
+      position: fixed;
+      display: flex;
+      align-items: flex-end;
+      z-index: 120;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(var(--c-black), 0.8);
+      .menu {
+        position: unset;
+        width: 100%;
+        border-radius: unset;
+        box-shadow: unset;
+      }
+    }
   }
 }
 .fade-enter-active,
