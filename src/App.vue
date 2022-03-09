@@ -4,8 +4,8 @@ import { useStore } from 'vuex';
 import { AudioPlayer } from '@/player/audioPlayer';
 
 import queue from '@/player/queue';
-import Topbar from '@/components/topbar/Topbar.vue';
-import SideMenu from '@/components/topbar/SideMenu.vue';
+import Navigation from '@/components/navigation/Navigation.vue';
+import SideMenu from '@/components/navigation/SideMenu.vue';
 import AuthPanel from '@/components/account/AuthPanel.vue';
 import Subscribe from '@/components/subscription/Subscribe.vue';
 import Player from '@/components/player/Player.vue';
@@ -16,7 +16,7 @@ import ClaimVoucher from '@/components/subscription/voucher/Claim.vue';
 export default defineComponent({
   name: 'App',
   components: {
-    Topbar,
+    Navigation,
     SideMenu,
     Notifications,
     AuthPanel,
@@ -45,7 +45,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Topbar />
+  <Navigation />
   <SideMenu />
   <Notifications />
   <router-view
