@@ -145,6 +145,13 @@ export default defineComponent({
           })"
           v-text="`Jobs`"
         />
+        <router-link
+          to="/legal/terms/"
+          @click.prevent="navigate({
+            path: '/legal/terms/',
+          })"
+          v-text="`AGB`"
+        />
       </section>
       <section
         class="section"

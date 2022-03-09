@@ -1,8 +1,44 @@
 @use "@/style/base/typo";
 
-@mixin block-spacing($r: 1) {
-  margin-bottom: 0.5rem * $r;
-  padding-bottom: 0.5rem * $r;
+@mixin block-spacing() {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+@mixin toc {
+  @include block-spacing;
+  > ul,
+  > ol {
+    margin-left: 1.5rem;
+    list-style-position: outside;
+  }
+}
+
+@mixin admonition {
+  @include block-spacing;
+  border: 3px solid rgb(var(--c-black));
+  padding: 1rem;
+  margin: 1rem 0;
+  @include content;
+  .admonition-title {
+    @include block-spacing;
+    @include typo.large;
+  }
+  > * {
+    &:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+@mixin pyembed {
+  > iframe {
+    @include block-spacing;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+  }
 }
 
 @mixin content {
@@ -11,13 +47,15 @@
   > h3 {
     @include typo.large;
     @include typo.bold;
-    @include block-spacing(0.5);
+    margin: 2rem 0;
+    //@include block-spacing(0.5);
   }
   > h4,
   > h5,
   > h6 {
     @include typo.bold;
-    @include block-spacing(0.5);
+    margin-bottom: 1rem;
+    //@include block-spacing(0.5);
   }
   > p {
     @include block-spacing;
@@ -31,7 +69,10 @@
     list-style-position: outside;
   }
   > hr {
-    margin-bottom: 1rem;
+    margin: 2rem 0;
     border-bottom: 1px solid rgb(var(--c-gray-200));
+  }
+  a {
+    text-decoration: underline;
   }
 }
