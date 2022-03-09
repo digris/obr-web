@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import eventBus from '@/eventBus';
-import MainMenu from '@/components/topbar/MainMenu.vue';
-import AccountMenu from '@/components/topbar/AccountMenu.vue';
-import SubscriptionStatus from '@/components/topbar/SubscriptionStatus.vue';
-import ToggleMenuButton from '@/components/topbar/ToggleMenuButton.vue';
+import MainMenu from '@/components/navigation/MainMenu.vue';
+import AccountMenu from '@/components/navigation/AccountMenu.vue';
+import SubscriptionStatus from '@/components/navigation/SubscriptionStatus.vue';
+import ToggleMenuButton from '@/components/navigation/ToggleMenuButton.vue';
 
 export default defineComponent({
   components: {
