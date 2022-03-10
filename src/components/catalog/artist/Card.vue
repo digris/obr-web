@@ -6,11 +6,13 @@ import {
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
+import ContextMenu from '@/components/context-menu/ContextMenu.vue';
 
 export default defineComponent({
   components: {
     LazyImage,
     PlayAction,
+    ContextMenu,
   },
   props: {
     artist: {
@@ -58,6 +60,43 @@ export default defineComponent({
         class="title"
       >
         <router-link
+          class="primary"
+          :to="link"
+          v-text="artist.name"
+        />
+        <div
+          class="secondary"
+        >
+          <span
+            v-if="(artist.numMedia === 1)"
+          >
+            {{ artist.numMedia }} Track
+          </span>
+          <span
+            v-else
+          >
+            {{ artist.numMedia }} Tracks
+          </span>
+        </div>
+      </div>
+      <div
+        class="actions"
+      >
+        <ContextMenu
+          :obj="artist"
+          :icon-size="36"
+          :icon-by-rating="true"
+        />
+      </div>
+    </div>
+    <!--
+    <div
+      class="meta"
+    >
+      <div
+        class="title"
+      >
+        <router-link
           :to="link"
         >
           {{ artist.name }}
@@ -69,6 +108,7 @@ export default defineComponent({
         {{ artist.numMedia }} Tracks
       </div>
     </div>
+    -->
   </div>
 </template>
 
@@ -91,19 +131,26 @@ export default defineComponent({
       }
     }
   }
+
   .meta {
-    padding: 0.5rem 0 0 0;
+    display: flex;
     line-height: 1.25rem;
     .title {
       display: flex;
-      font-weight: 600;
-      a {
-        flex-grow: 1;
+      flex-direction: column;
+      flex-grow: 1;
+      padding: 4px 1rem 0 0;
+      .primary {
+        font-weight: 500;
+      }
+      .secondary {
+        @include typo.dim;
+        @include typo.light;
+        text-transform: capitalize;
       }
     }
-    .subtitle {
-      @include typo.dim;
-      @include typo.light;
+    .actions {
+      height: 36px;
     }
   }
   &:hover {

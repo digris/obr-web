@@ -159,7 +159,7 @@ export default {
       />
     </div>
     <LoadingMore
-      v-if="hasNext"
+      v-if="(artists.length && hasNext)"
       :has-next="hasNext"
       @on-enter="fetchNextPage"
     />

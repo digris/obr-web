@@ -51,18 +51,24 @@ export default defineComponent({
       isBanned,
       rate,
     } = useObjRating(objKey.value);
+    const canBan = computed(() => {
+      return (props.obj?.ct && props.obj.ct === 'catalog.media');
+    });
     const {
-      enqueueMedia,
+      // enqueueMedia,
+      enqueueObj,
       startPlayCurrent,
     } = useQueueControls();
-    const enqueueNext = requireSubscription(() => {
-      enqueueMedia([props.obj], 'insert');
-      startPlayCurrent();
+    const enqueueNext = requireSubscription(async () => {
+      // enqueueMedia([props.obj], 'insert');
+      await enqueueObj(props.obj, 'insert');
+      await startPlayCurrent();
       emit('close');
     }, 'foo');
-    const enqueueEnd = requireSubscription(() => {
-      enqueueMedia([props.obj], 'append');
-      startPlayCurrent();
+    const enqueueEnd = requireSubscription(async () => {
+      // enqueueMedia([props.obj], 'append');
+      await enqueueObj(props.obj, 'append');
+      await startPlayCurrent();
       emit('close');
     }, 'foo');
     return {
@@ -72,6 +78,7 @@ export default defineComponent({
       userRating,
       isFavorite,
       isBanned,
+      canBan,
       rate,
       //
       enqueueNext,
@@ -165,7 +172,9 @@ export default defineComponent({
         </div>
       </div>
     </section>
-    <section>
+    <section
+      v-if="canBan"
+    >
       <div
         v-if="!isBanned"
         @click="rate(-1)"

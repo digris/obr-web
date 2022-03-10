@@ -4,7 +4,6 @@ from django.conf import settings
 API_KEY = getattr(settings, "USERSNAP_API_KEY")
 
 
-
 register = template.Library()
 
 
@@ -18,14 +17,18 @@ def usersnap(context):
     except KeyError:
         return {}
 
-    context.update({
-        "api_key": API_KEY,
-    })
+    context.update(
+        {
+            "api_key": API_KEY,
+        }
+    )
 
     if request.user and request.user.is_authenticated:
-        context.update({
-            "email": request.user.email,
-            "uid": request.user.uid,
-        })
+        context.update(
+            {
+                "email": request.user.email,
+                "uid": request.user.uid,
+            }
+        )
 
     return context

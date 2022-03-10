@@ -18,7 +18,6 @@ import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 import EditorInline from '@/components/broadcast/editor/Inline.vue';
-// import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
   components: {
@@ -78,7 +77,7 @@ export default defineComponent({
     >
       <DetailHeader
         :obj-key="objKey"
-        :enable-rating="(true)"
+        :enable-rating="true"
         title-scope="Show"
         :title="title"
       >

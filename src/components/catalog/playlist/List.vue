@@ -189,7 +189,7 @@ export default {
     </div>
     <LoadingMore
       class="loading-more-container"
-      v-if="hasNext"
+      v-if="(playlists.length && hasNext)"
       :has-next="hasNext"
       @on-enter="fetchNextPage"
     />

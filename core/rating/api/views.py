@@ -37,6 +37,8 @@ class ObjectRatingView(APIView):
                 }
             )
 
+        print("kwargs", kwargs)
+
         try:
             return Vote.objects.get(**kwargs)
 

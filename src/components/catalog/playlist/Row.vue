@@ -6,7 +6,7 @@ import {
 import { DateTime } from 'luxon';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconContext from '@/components/ui/icon/IconContext.vue';
+import ContextMenu from '@/components/context-menu/ContextMenu.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import UserRating from '@/components/rating/UserRating.vue';
@@ -17,7 +17,7 @@ import PlaylistName from '@/components/catalog/playlist/Name.vue';
 export default defineComponent({
   components: {
     CircleButton,
-    IconContext,
+    ContextMenu,
     PlayAction,
     ObjectTags,
     UserRating,
@@ -145,14 +145,9 @@ export default defineComponent({
             :hide-if-unset="(!isHover)"
           />
         </CircleButton>
-        <CircleButton
-          :size="(48)"
-          :outlined="(false)"
-        >
-          <IconContext
-            :size="48"
-          />
-        </CircleButton>
+        <ContextMenu
+          :obj="playlist"
+        />
       </div>
     </div>
   </div>

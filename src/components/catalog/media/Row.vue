@@ -9,7 +9,6 @@ import { requireSubscription } from '@/utils/account';
 import Debug from '@/components/dev/Debug.vue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import ContextMenu from '@/components/context-menu/ContextMenu.vue';
-// import IconContext from '@/components/ui/icon/IconContext.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
@@ -28,7 +27,6 @@ export default defineComponent({
     Debug,
     CircleButton,
     ContextMenu,
-    // IconContext,
     ButtonPlay,
     MediaArtists,
     MediaReleases,

@@ -7,8 +7,7 @@ import { DateTime } from 'luxon';
 
 import LazyImage from '@/components/ui/LazyImage.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconContext from '@/components/ui/icon/IconContext.vue';
+import ContextMenu from '@/components/context-menu/ContextMenu.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
 import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
@@ -16,8 +15,7 @@ export default defineComponent({
   components: {
     LazyImage,
     PlayAction,
-    CircleButton,
-    IconContext,
+    ContextMenu,
     RelativeDateTime,
     PlaylistName,
   },
@@ -106,14 +104,11 @@ export default defineComponent({
       <div
         class="actions"
       >
-        <CircleButton
-          :size="36"
-          :outlined="(false)"
-        >
-          <IconContext
-            :size="36"
-          />
-        </CircleButton>
+        <ContextMenu
+          :obj="playlist"
+          :icon-size="36"
+          :icon-by-rating="true"
+        />
       </div>
     </div>
   </div>

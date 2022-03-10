@@ -7,10 +7,12 @@ import {
 } from 'vue';
 
 import { onClickOutside } from '@vueuse/core';
-
+import { useObjRating } from '@/composables/rating';
 import eventBus from '@/eventBus';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
+import IconHeart from '@/components/ui/icon/IconHeart.vue';
+import IconFlash from '@/components/ui/icon/IconFlash.vue';
 import ObjectActions from './ObjectActions.vue';
 
 export default defineComponent({
@@ -24,15 +26,33 @@ export default defineComponent({
       type: Number,
       default: 48,
     },
+    iconByRating: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     CircleButton,
     IconContext,
     ObjectActions,
   },
-  setup() {
+  setup(props) {
     const root = ref(null);
     const menu = ref(null);
+    const objKey = computed(() => `${props.obj.ct}:${props.obj.uid}`);
+    const {
+      userRating,
+    } = useObjRating(objKey.value);
+    const iconColor = 'rgb(var(--c-black))';
+    const iconComponent = computed(() => {
+      if (props.iconByRating && userRating.value && userRating.value.value === 1) {
+        return IconHeart;
+      }
+      if (props.iconByRating && userRating.value && userRating.value.value === -1) {
+        return IconFlash;
+      }
+      return IconContext;
+    });
     const isVisible = ref(false);
     const show = () => {
       eventBus.emit('contextMenu:show');
@@ -73,6 +93,8 @@ export default defineComponent({
     return {
       root,
       menu,
+      iconColor,
+      iconComponent,
       isVisible,
       show,
       hide,
@@ -100,9 +122,16 @@ export default defineComponent({
         :size="iconSize"
         :outlined="(false)"
       >
+        <component
+          :is="iconComponent"
+          :size="iconSize"
+          :color="iconColor"
+        />
+        <!--
         <IconContext
           :size="iconSize"
         />
+        -->
       </CircleButton>
     </div>
     <transition
@@ -133,8 +162,8 @@ export default defineComponent({
 .context-menu {
   //position: relative;
   &__icon {
-    width: 48px;
-    height: 48px;
+    width: var(--icon-size);
+    height: var(--icon-size);
   }
   .menu-container {
     position: relative;
@@ -150,11 +179,11 @@ export default defineComponent({
     }
     @include responsive.bp-small {
       position: fixed;
-      display: flex;
-      align-items: flex-end;
-      z-index: 120;
       top: 0;
       left: 0;
+      z-index: 120;
+      display: flex;
+      align-items: flex-end;
       width: 100%;
       height: 100%;
       background: rgba(var(--c-black), 0.8);
