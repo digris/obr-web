@@ -16,9 +16,9 @@
 
 @mixin admonition {
   @include block-spacing;
-  border: 3px solid rgb(var(--c-black));
-  padding: 1rem;
   margin: 1rem 0;
+  padding: 1rem;
+  border: 3px solid rgb(var(--c-black));
   @include content;
   .admonition-title {
     @include block-spacing;

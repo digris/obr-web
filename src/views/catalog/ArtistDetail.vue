@@ -87,6 +87,7 @@ export default defineComponent({
     >
       <DetailHeader
         :obj-key="objKey"
+        :enable-rating="true"
         title-scope="Künstler*in"
         :title="artist.name"
       >

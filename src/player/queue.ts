@@ -138,6 +138,10 @@ class Queue {
   startPlayCurrent() {
     // NOTE: not sure if there is no better way.. ;)
     const media = this.currentMedia.value;
+    if (!media) {
+      console.warn('unable to play: no current media');
+      return;
+    }
     const url = getMediaUrl(media);
     const event = {
       do: 'play',

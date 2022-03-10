@@ -80,5 +80,8 @@ class Page:
         )
         html = md.convert(self.file_content)
         meta = md.Meta
-        data = {"body": html, **parse_meta(meta),}
+        data = {
+            "body": html,
+            **parse_meta(meta),
+        }
         return data
