@@ -35,6 +35,7 @@ class MediaAdmin(admin.ModelAdmin):
         "uid",
         "artists__name",
         "artists__uid",
+        "identifiers__value",
     ]
     readonly_fields = [
         "uuid",

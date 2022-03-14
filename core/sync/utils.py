@@ -140,7 +140,7 @@ def update_identifier(obj, scope, value):
             content_type=content_type,
             object_id=object_id,
             scope=scope,
-            value=value
+            value=value,
         )
         identifier.save()
         logger.debug(f"added identifier for {obj.ct}:{obj.uid} - {scope}:{value}")
