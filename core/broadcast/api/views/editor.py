@@ -1,7 +1,7 @@
 import logging
 
-from django.db.models import Count
-from django.db.models.functions import Lower
+from django.db.models import Count, Max, Q
+from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
@@ -32,14 +32,15 @@ class EditorViewSet(
         qs = qs.annotate(
             num_playlists=Count(
                 "playlists",
-            )
+            ),
+            latest_emission=Max(
+                "playlists__emissions__time_start",
+                filter=Q(
+                    playlists__emissions__time_start__lte=Now(),
+                ),
+            ),
         )
-        # qs = qs.filter(
-        #     num_playlists__gte=5,
-        # )
-        qs = qs.order_by(
-            Lower("display_name"),
-        )
+        qs = qs.order_by("-latest_emission")
         return qs
 
     def filter_queryset(self, queryset):

@@ -2,12 +2,8 @@ import logging
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-from django.db.models.signals import pre_delete
-from django.dispatch import receiver
 
 from base.models.mixins import CTUIDModelMixin
-
-from broadcast.models import Emission as BroadcastEmission
 
 
 logger = logging.getLogger(__name__)
@@ -119,25 +115,3 @@ class Emission(CTUIDModelMixin, models.Model):
             time_offset += playlist_media.effective_duration
 
         return media_set
-
-
-@receiver(pre_delete, sender=BroadcastEmission)
-# pylint: disable=unused-argument
-def broadcast_emission_pre_delete(sender, instance, **kwargs):
-    lookup = {
-        "time_start": instance.time_start,
-        "time_end": instance.time_end,
-        "obj_key": instance.obj_key,
-        "playlist": instance.playlist,
-    }
-    logger.debug(f"create archived copy for emission: {instance}")
-    try:
-        Emission.objects.get(**lookup)
-    except Emission.DoesNotExist:
-        lookup.update(
-            {
-                "uuid": instance.uuid,
-            }
-        )
-        emission = Emission(**lookup)
-        emission.save()
