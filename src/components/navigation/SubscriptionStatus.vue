@@ -3,12 +3,12 @@ import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { DateTime } from 'luxon';
 
-import Datetime from '@/components/ui/date/Datetime.vue';
+// import Datetime from '@/components/ui/date/Datetime.vue';
 
 export default defineComponent({
-  components: {
-    Datetime,
-  },
+  // components: {
+  //   Datetime,
+  // },
   setup() {
     const detailsVisible = ref(false);
     const store = useStore();
@@ -71,6 +71,7 @@ export default defineComponent({
           v-text="`${numDaysRemaining} Tage`"
         />
       </router-link>
+      <!--
       <div
         v-if="(subscription && detailsVisible)"
         class="subscription"
@@ -102,6 +103,7 @@ export default defineComponent({
           </span>
         </div>
       </div>
+      -->
     </div>
   </div>
 </template>
