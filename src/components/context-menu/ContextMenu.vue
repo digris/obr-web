@@ -39,6 +39,7 @@ export default defineComponent({
   setup(props) {
     const root = ref(null);
     const menu = ref(null);
+    const menuPosition = ref('bottom');
     const objKey = computed(() => `${props.obj.ct}:${props.obj.uid}`);
     const {
       userRating,
@@ -54,8 +55,14 @@ export default defineComponent({
       return IconContext;
     });
     const isVisible = ref(false);
-    const show = () => {
-      eventBus.emit('contextMenu:show');
+    const show = (e) => {
+      const { pageY } = e;
+      const height = window.innerHeight;
+      if ((height - pageY) < 240) {
+        menuPosition.value = 'top';
+      } else {
+        menuPosition.value = 'bottom';
+      }
       isVisible.value = true;
     };
     const hide = () => {
@@ -93,6 +100,7 @@ export default defineComponent({
     return {
       root,
       menu,
+      menuPosition,
       iconColor,
       iconComponent,
       isVisible,
@@ -127,11 +135,6 @@ export default defineComponent({
           :size="iconSize"
           :color="iconColor"
         />
-        <!--
-        <IconContext
-          :size="iconSize"
-        />
-        -->
       </CircleButton>
     </div>
     <transition
@@ -140,6 +143,7 @@ export default defineComponent({
       <div
         class="menu-container"
         v-if="isVisible"
+        :class="`position-${menuPosition}`"
       >
         <div
           class="menu"
@@ -160,22 +164,34 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 .context-menu {
-  //position: relative;
+  position: relative;
   &__icon {
     width: var(--icon-size);
     height: var(--icon-size);
   }
   .menu-container {
-    position: relative;
+    position: absolute;
+    right: 0;
     .menu {
       position: absolute;
-      top: 0;
       right: 0;
       z-index: 50;
       min-width: 300px;
       background: rgba(255, 255, 255, 1.0);
       border-radius: 4px;
       box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+    }
+    &.position-top {
+      bottom: 0;
+      .menu {
+        bottom: 0;
+      }
+    }
+    &.position-bottom {
+      top: 0;
+      .menu {
+        top: 0;
+      }
     }
     @include responsive.bp-small {
       position: fixed;
