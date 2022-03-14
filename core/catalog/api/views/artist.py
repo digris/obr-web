@@ -19,7 +19,8 @@ from tagging import utils as tagging_utils
 
 
 MEDIA_MIN_DURATION = 12
-DEFAULT_ORDERING = "-created"
+# DEFAULT_ORDERING = "-created"
+DEFAULT_ORDERING = "-latest_airplay"
 ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
 
 
@@ -104,12 +105,19 @@ class ArtistViewSet(
                     media__airplays__time_start__lte=Now(),
                 )
                 & Q(
-                    media__duration__gt=timedelta(
-                        seconds=MEDIA_MIN_DURATION,
-                    ),
+                    media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
                 ),
                 distinct=True,
-            )
+            ),
+            latest_airplay=Max(
+                "media__airplays__time_start",
+                filter=Q(
+                    media__airplays__time_start__lte=Now(),
+                )
+                & Q(
+                    media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
+                ),
+            ),
         )
 
         # annotate with request user's rating
