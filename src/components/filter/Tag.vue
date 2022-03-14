@@ -50,6 +50,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 .tag {
   position: relative;
   display: inline-flex;
@@ -91,10 +92,15 @@ export default defineComponent({
       border-radius: 12px;
     }
   }
-  &:hover {
-    background: rgb(var(--c-gray-100));
-    .tag__count {
-      display: flex;
+  @include responsive.hover-supported {
+    &:hover {
+      background: rgb(var(--c-gray-100));
+      .tag__count {
+        display: flex;
+      }
+      &.is-selected {
+        background: rgba(var(--c-black), 0.8);
+      }
     }
   }
 }

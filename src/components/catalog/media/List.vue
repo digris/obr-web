@@ -89,10 +89,22 @@ export default {
       }
       return merged;
     });
+    const ordering = computed(() => {
+      return (props.scope === 'collection') ? ['time_rated'] : [];
+    });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchMedia = async (limit = 16, offset = 0) => {
       mediaListLoading.value = true;
-      const { count, next, results } = await getMedia(limit, offset, combinedFilter.value);
+      const {
+        count,
+        next,
+        results,
+      } = await getMedia(
+        limit,
+        offset,
+        combinedFilter.value,
+        ordering.value,
+      );
       hasNext.value = !!next;
       numResults.value = count;
       // @ts-ignore
@@ -235,6 +247,7 @@ export default {
     <LoadingMore
       v-if="hasNext"
       :has-next="hasNext"
+      layout="table"
       @on-enter="fetchNextPage"
     />
   </div>

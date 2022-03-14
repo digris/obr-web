@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
+from django_filters import rest_framework as filters
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework import mixins, viewsets
@@ -18,7 +19,49 @@ from tagging import utils as tagging_utils
 
 
 MEDIA_MIN_DURATION = 12
+DEFAULT_ORDERING = "-created"
 ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
+
+
+class ArtistFilter(filters.FilterSet):
+
+    user_rating = filters.NumberFilter(
+        method="user_rating_filter",
+    )
+
+    class Meta:
+        model = Artist
+        fields = []
+
+    # pylint: disable=unused-argument
+    def user_rating_filter(self, queryset, name, value):
+        query = {
+            "user_rating__gte": value,
+        }
+        return queryset.filter(**query)
+
+    def filter_queryset(self, queryset, *args, **kwargs):
+        qs = super().filter_queryset(queryset)
+        try:
+            ordering = self.request.GET.get("ordering", DEFAULT_ORDERING)
+            if ordering == "time_rated" and self.request.user.is_authenticated:
+                qs = qs.annotate(
+                    user_rating_time_rated=Max(
+                        "votes__created",
+                        filter=Q(
+                            votes__user=self.request.user,
+                        ),
+                    ),
+                )
+                qs = qs.order_by("-user_rating_time_rated")
+                return qs
+
+        except AttributeError:
+            pass
+
+        qs = qs.order_by(DEFAULT_ORDERING)
+
+        return qs
 
 
 def get_search_qs(qs, q):
@@ -42,6 +85,9 @@ class ArtistViewSet(
     ]
     serializer_class = serializers.ArtistSerializer
     lookup_field = "uid"
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ArtistFilter
 
     def get_queryset(self):
         qs = self.queryset
@@ -94,7 +140,6 @@ class ArtistViewSet(
         qs = qs.filter(
             num_media__gte=ARTIST_MIN_NUM_MEDIA,
         )
-        qs = qs.order_by("-created")
 
         return qs
 

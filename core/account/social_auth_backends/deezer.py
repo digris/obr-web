@@ -13,7 +13,10 @@ class DeezerOAuth2(BaseOAuth2):
     REVOKE_TOKEN_METHOD = "GET"
     SCOPE_PARAMETER_NAME = "perms"
     SCOPE_SEPARATOR = ","
-    DEFAULT_SCOPE = ["basic_access", "email"]
+    DEFAULT_SCOPE = [
+        "basic_access",
+        "email",
+    ]
     EXTRA_DATA = [
         ("refresh_token", "refresh_token", True),
         ("expires_in", "expires"),
@@ -29,9 +32,11 @@ class DeezerOAuth2(BaseOAuth2):
         }
 
     def request_access_token(self, *args, **kwargs):
-
-        kwargs["params"].update({"output": "json"})
-
+        kwargs["params"].update(
+            {
+                "output": "json",
+            }
+        )
         return self.get_json(*args, **kwargs)
 
     def user_data(self, access_token, *args, **kwargs):

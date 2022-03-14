@@ -48,10 +48,17 @@ export default defineComponent({
       <div
         class="info"
       >
+        <!--
         <div
           class="text"
         >
           Alle {{ numTotal }} Tracks spielen
+        </div>
+        -->
+        <div
+          class="text"
+        >
+          Alle Tracks spielen
         </div>
       </div>
       <div

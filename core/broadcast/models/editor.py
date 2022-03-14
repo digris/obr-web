@@ -64,6 +64,7 @@ class Editor(
         verbose_name = "Editor"
         verbose_name_plural = "Editors"
         ordering = [
+            "-is_active",
             "display_name",
         ]
 

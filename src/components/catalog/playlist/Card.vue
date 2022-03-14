@@ -43,12 +43,17 @@ export default defineComponent({
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
     });
+    const timeRated = computed(() => {
+      const userRatingTimeRated = props.playlist?.userRatingTimeRated;
+      return (userRatingTimeRated) ? DateTime.fromISO(userRatingTimeRated) : null;
+    });
     return {
       objKey,
       title,
       subtitle,
       link,
       latestEmission,
+      timeRated,
     };
   },
 });
@@ -100,6 +105,13 @@ export default defineComponent({
           class="secondary"
           :date-time="latestEmission"
         />
+        <!--
+        <RelativeDateTime
+          v-if="timeRated"
+          class="secondary"
+          :date-time="timeRated"
+        />
+        -->
       </div>
       <div
         class="actions"

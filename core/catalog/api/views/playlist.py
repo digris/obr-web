@@ -6,6 +6,7 @@ from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
+from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 
 from catalog.api import serializers
@@ -13,6 +14,7 @@ from catalog.models import Playlist
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
+DEFAULT_ORDERING = "-latest_emission_time_start"
 
 
 class PlaylistFilter(filters.FilterSet):
@@ -71,6 +73,30 @@ class PlaylistFilter(filters.FilterSet):
             "user_rating__gte": value,
         }
         return queryset.filter(**query)
+
+    def filter_queryset(self, queryset, *args, **kwargs):
+        qs = super().filter_queryset(queryset)
+
+        try:
+            ordering = self.request.GET.get("ordering", DEFAULT_ORDERING)
+            if ordering == "time_rated" and self.request.user.is_authenticated:
+                qs = qs.annotate(
+                    user_rating_time_rated=Max(
+                        "votes__created",
+                        filter=Q(
+                            votes__user=self.request.user,
+                        ),
+                    ),
+                )
+                qs = qs.order_by("-user_rating_time_rated")
+                return qs
+
+        except AttributeError:
+            pass
+
+        qs = qs.order_by(DEFAULT_ORDERING)
+
+        return qs
 
 
 def get_search_qs(qs, q):
@@ -157,7 +183,6 @@ class PlaylistViewSet(
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)
 
-        qs = qs.order_by("-latest_emission_time_start")
         return qs
 
     def get_object(self):

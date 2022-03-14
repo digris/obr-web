@@ -12,7 +12,16 @@ export default defineComponent({
   components: {
     Emission,
   },
-  setup() {
+  props: {
+    currentLinkToHome: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  emits: [
+    'navigate',
+  ],
+  setup(props, { emit }) {
     const store = useStore();
     const emissions = computed(() => store.getters['program/emissions']);
     onMounted(() => {
@@ -21,8 +30,12 @@ export default defineComponent({
     onActivated(() => {
       store.dispatch('program/loadProgram');
     });
+    const navigate = () => {
+      emit('navigate');
+    };
     return {
       emissions,
+      navigate,
     };
   },
 });
@@ -35,6 +48,8 @@ export default defineComponent({
       v-for="(emission, index) in emissions"
       :key="`program-emission-${emission.uid}-${index}`"
       :emission="emission"
+      :current-link-to-home="currentLinkToHome"
+      @navigate="navigate"
     />
   </div>
 </template>

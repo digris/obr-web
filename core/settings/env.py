@@ -24,4 +24,5 @@ from .development import *  # NOQA
 # print("DATABASES", settings.DATABASES)
 # print("EMAIL_BACKEND", settings.EMAIL_BACKEND)
 
-from .gcp_logging import LOGGING  # NOQA
+# from .gcp_logging import LOGGING  # NOQA
+from .dev_logging import LOGGING  # NOQA

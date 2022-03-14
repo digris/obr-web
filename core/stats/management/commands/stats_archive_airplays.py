@@ -1,10 +1,10 @@
 from django.core.management.base import BaseCommand
 
-from stats import ingest
+from stats import archive
 
 
 class Command(BaseCommand):
-    help = "Ingest events into big-query"
+    help = "Archive airplays to stats db"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -14,5 +14,5 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        num_ingested = ingest.ingest_player_events()
-        self.stdout.write(f"ingested {num_ingested} events")
+        num_archived = archive.archive_airplays(database=options["database"])
+        self.stdout.write(f"archived {num_archived} airplays")

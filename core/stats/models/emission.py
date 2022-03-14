@@ -1,6 +1,7 @@
 import logging
 from django.db import models
 from django.utils import timezone
+from datetime import timedelta
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
@@ -73,6 +74,52 @@ class Emission(CTUIDModelMixin, models.Model):
     def series(self):
         return self.playlist.series if self.playlist else None
 
+    def get_media_set(self):
+        if not self.playlist:
+            return []
+
+        media_set = []
+        time_base = self.time_start
+        time_offset = timedelta()
+        qs = (
+            self.playlist.playlist_media.order_by(
+                "position",
+            )
+            .select_related(
+                "media",
+            )
+            .prefetch_related(
+                "media__artists",
+                "media__media_artist",
+                "media__media_artist__artist",
+                "media__releases",
+                "media__releases__images",
+            )
+        )
+        for playlist_media in qs:
+            time_start = time_base + time_offset
+            time_end = time_start + playlist_media.effective_duration
+
+            media_set.append(
+                {
+                    "media": playlist_media.media,
+                    "uid": playlist_media.uid,
+                    "key": f"{self.uid}-{playlist_media.uid}",
+                    "cue_in": playlist_media.cue_in,
+                    "cue_out": playlist_media.cue_out,
+                    "fade_in": playlist_media.fade_in,
+                    "fade_out": playlist_media.fade_out,
+                    "fade_cross": playlist_media.fade_cross,
+                    "time_start": time_start,
+                    "time_end": time_end,
+                    "emission": self,
+                }
+            )
+
+            time_offset += playlist_media.effective_duration
+
+        return media_set
+
 
 @receiver(pre_delete, sender=BroadcastEmission)
 # pylint: disable=unused-argument
@@ -83,6 +130,7 @@ def broadcast_emission_pre_delete(sender, instance, **kwargs):
         "obj_key": instance.obj_key,
         "playlist": instance.playlist,
     }
+    logger.debug(f"create archived copy for emission: {instance}")
     try:
         Emission.objects.get(**lookup)
     except Emission.DoesNotExist:
