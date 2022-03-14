@@ -11,7 +11,7 @@ import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
-// import Duration from '@/components/ui/time/Duration.vue';
+import Duration from '@/components/ui/time/Duration.vue';
 import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
@@ -22,7 +22,7 @@ export default defineComponent({
     ObjectTags,
     UserRating,
     RelativeDateTime,
-    // Duration,
+    Duration,
     PlaylistName,
   },
   props: {
@@ -116,22 +116,22 @@ export default defineComponent({
         :obj="playlist"
         :limit="(4)"
       />
-      <!--
-      <Duration
-        class="duration"
-        :seconds="playlist.numEmissions"
-      />
-      -->
       <RelativeDateTime
         class="airplays"
         v-if="latestEmission"
         :date-time="latestEmission"
       />
+      <Duration
+        class="duration"
+        :seconds="playlist.duration"
+      />
+      <!--
       <div
         class="emissions"
       >
         {{ playlist.numEmissions }} Emissions
       </div>
+      -->
       <div
         class="actions"
       >
@@ -177,8 +177,8 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-areas:
-    "play name editor airplays  actions"
-    "play name tags   emissions actions";
+    "play name editor airplays actions"
+    "play name tags   duration actions";
   grid-template-columns: 48px 8fr 5fr 3fr 48px;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
