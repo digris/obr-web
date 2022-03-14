@@ -1,5 +1,7 @@
 @charset "UTF-8";
 
+@use "../abstracts/responsive";
+
 body {
   font-weight: var(--font-weight);
   font-size: var(--font-size);
@@ -15,32 +17,29 @@ body {
   color: red;
 }
 
-@mixin dim($r: 0.5) {
-  opacity: 1 * $r;
-}
-
-@mixin light($w: 300) {
-  font-weight: $w;
-}
-
 @mixin x-large {
-  font-size: 4rem;
+  //font-size: 4rem;
+  font-size: var(--t-fs-x-large);
 }
 
 @mixin large {
-  font-size: 2rem;
+  //font-size: 2rem;
+  font-size: var(--t-fs-large);
 }
 
 @mixin default {
-  font-size: 1rem;
+  //font-size: 1rem;
+  font-size: var(--t-fs-default);
 }
 
 @mixin small {
-  font-size: 0.75rem;
+  //font-size: 0.75rem;
+  font-size: var(--t-fs-small);
 }
 
 @mixin tiny {
-  font-size: 0.65rem;
+  //font-size: 0.625rem;
+  font-size: var(--t-fs-tiny);
 }
 
 @mixin bold {
@@ -49,6 +48,10 @@ body {
 
 @mixin light {
   font-weight: 200;
+}
+
+@mixin dim($r: 0.5) {
+  opacity: 1 * $r;
 }
 
 @mixin underlined {

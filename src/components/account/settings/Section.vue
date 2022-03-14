@@ -19,7 +19,6 @@ export default defineComponent({
     },
   },
   setup(props, { attrs, emit }) {
-    console.dir(attrs.onEdit);
     const isEditable = computed(() => {
       return !!attrs.onEdit;
     });
@@ -62,7 +61,7 @@ export default defineComponent({
         class="panel-icon"
       >
         <IconEdit
-          :size="48"
+          :size="36"
         />
       </div>
     </div>

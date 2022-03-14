@@ -118,3 +118,29 @@ def update_image(obj, image_url, image_class, clear=True):
         i.file.save(filename, File(img_temp))
 
     logger.debug(f"updated image for {obj.ct}:{obj.uid}")
+
+
+def update_identifier(obj, scope, value):
+    content_type = ContentType.objects.get_for_model(obj)
+    object_id = obj.id
+    identifier = obj.identifiers.filter(scope=scope).first()
+
+    if identifier and value:
+        if value != identifier.value:
+            identifier.value = value
+            identifier.save()
+            logger.debug(f"updated identifier for {obj.ct}:{obj.uid} - {scope}:{value}")
+
+    elif identifier:
+        identifier.delete()
+        logger.debug(f"deleted identifier for {obj.ct}:{obj.uid} - {scope}")
+
+    elif value:
+        identifier = Identifier(
+            content_type=content_type,
+            object_id=object_id,
+            scope=scope,
+            value=value
+        )
+        identifier.save()
+        logger.debug(f"added identifier for {obj.ct}:{obj.uid} - {scope}:{value}")

@@ -86,6 +86,14 @@ export default defineComponent({
     :outlined="(false)"
   >
     <div
+      class="info"
+    >
+      <p>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+        <br>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.
+      </p>
+    </div>
+    <div
       v-for="backend in connected"
       :key="`disconnected-backend-${backend.provider}`"
       class="backend"
@@ -144,6 +152,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/abstracts/responsive";
+.info {
+  padding: 0.5rem 2rem 1rem 0;
+  opacity: 0.5;
+}
 .backend {
   display: flex;
   align-items: center;
