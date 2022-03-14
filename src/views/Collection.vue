@@ -15,19 +15,16 @@
       >
         <router-link
           :to="{ name: 'collectionMedia' }"
-        >
-          Tracks
-        </router-link>
+          v-text="`Tracks`"
+        />
         <router-link
           :to="{ name: 'collectionPlaylists' }"
-        >
-          Shows
-        </router-link>
+          v-text="`Shows`"
+        />
         <router-link
           :to="{ name: 'collectionArtists' }"
-        >
-          Künstler*innen
-        </router-link>
+          v-text="`Künstler*innen`"
+        />
       </div>
       <div
         class="menu menu--secondary"
