@@ -27,7 +27,7 @@
   margin-bottom: 12rem;
 }
 .header {
-  @include typo.large;
-  margin: 2rem 0 4rem;
+  @include typo.x-large;
+  margin: 2rem 0 2rem;
 }
 </style>

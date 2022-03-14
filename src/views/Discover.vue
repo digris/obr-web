@@ -74,8 +74,8 @@
   @include container.default;
   @include typo.x-large;
   @include typo.bold;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 .list-menu {
   @include container.default;

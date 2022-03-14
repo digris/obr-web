@@ -11,6 +11,8 @@ class IdentifierScope(models.TextChoices):
     DISCOGS = "discogs", "Discogs"
     WIKIPEDIA = "wikipedia", "Wikipedia"
     OFFICIAL = "official", "Website"
+    # NOTE: how to handle scopes that don't make sense for all content-types?
+    ISRC = "isrc", "ISRC"
 
 
 class Identifier(
