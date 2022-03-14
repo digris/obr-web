@@ -70,25 +70,12 @@ export default {
       }
       return merged;
     });
+    const ordering = computed(() => {
+      return (props.scope === 'collection') ? ['time_rated'] : [];
+    });
     const playlistComponent = computed(() => {
       return (props.layout === 'grid') ? PlaylistCard : PlaylistRow;
     });
-    /*
-    const userFilter = ref({});
-    const combinedFilter = computed(() => {
-      if (props.scope === 'collection') {
-        return {
-          ...props.initialFilter,
-          ...userFilter.value,
-          user_rating: 1,
-        };
-      }
-      return {
-        ...props.initialFilter,
-        ...userFilter.value,
-      };
-    });
-    */
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchPlaylists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
@@ -97,7 +84,13 @@ export default {
         count,
         next,
         results,
-      } = await getPlaylists(limit, offset, combinedFilter.value, expand);
+      } = await getPlaylists(
+        limit,
+        offset,
+        combinedFilter.value,
+        ordering.value,
+        expand,
+      );
       hasNext.value = !!next;
       numResults.value = count;
       // @ts-ignore
@@ -188,9 +181,10 @@ export default {
       />
     </div>
     <LoadingMore
-      class="loading-more-container"
       v-if="(playlists.length && hasNext)"
       :has-next="hasNext"
+      :layout="layout"
+      :class="`layout--${layout}`"
       @on-enter="fetchNextPage"
     />
   </div>
@@ -202,10 +196,6 @@ export default {
 .list-filter-container {
   @include container.default;
   margin-bottom: 1rem;
-}
-
-.loading-more-container {
-  @include container.default;
 }
 
 @mixin grid {
@@ -224,7 +214,6 @@ export default {
 }
 
 .playlist-list {
-  // @include container.default;
   .list-container {
     &.layout--grid {
       @include container.default;
@@ -232,6 +221,11 @@ export default {
     }
     &.layout--table {
       @include table;
+    }
+  }
+  .loading-more {
+    &.layout--grid {
+      @include container.default;
     }
   }
 }

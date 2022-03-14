@@ -15,6 +15,7 @@ from catalog.models import Media, Playlist
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
+DEFAULT_ORDERING = "-latest_airplay"
 
 
 class MediaFilter(filters.FilterSet):
@@ -55,6 +56,30 @@ class MediaFilter(filters.FilterSet):
             "user_rating__gte": value,
         }
         return queryset.filter(**query)
+
+    def filter_queryset(self, queryset, *args, **kwargs):
+        qs = super().filter_queryset(queryset)
+
+        try:
+            ordering = self.request.GET.get("ordering", DEFAULT_ORDERING)
+            if ordering == "time_rated" and self.request.user.is_authenticated:
+                qs = qs.annotate(
+                    user_rating_time_rated=Max(
+                        "votes__created",
+                        filter=Q(
+                            votes__user=self.request.user,
+                        ),
+                    ),
+                )
+                qs = qs.order_by("-user_rating_time_rated")
+                return qs
+
+        except AttributeError:
+            pass
+
+        qs = qs.order_by(DEFAULT_ORDERING)
+
+        return qs
 
 
 def get_search_qs(qs, q):
@@ -160,7 +185,7 @@ class MediaViewSet(
             duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
         )
 
-        qs = qs.order_by("-latest_airplay")
+        # qs = qs.order_by("-latest_airplay")
 
         return qs
 
@@ -190,7 +215,7 @@ class MediaViewSet(
 
         qs = self.filter_queryset(self.get_queryset(include_upcoming=True))
 
-        print("list_for_playlist", qs.count())
+        # print("list_for_playlist", qs.count())
         playlist = Playlist.objects.get(uid=uid)
         qs_media_ids = qs.values_list("id", flat=True)
         media_ids = []

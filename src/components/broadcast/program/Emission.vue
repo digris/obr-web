@@ -27,8 +27,15 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    currentLinkToHome: {
+      type: Boolean,
+      default: true,
+    },
   },
-  setup(props) {
+  emits: [
+    'navigate',
+  ],
+  setup(props, { emit }) {
     const root = ref(null);
     // const store = useStore();
     const now = ref(DateTime.now());
@@ -77,12 +84,12 @@ export default defineComponent({
       },
     );
     const routeTo = computed(() => {
-      if (isCurrent.value) {
+      if (props.currentLinkToHome && isCurrent.value) {
         return {
           path: '/',
         };
       }
-      if (isPast.value) {
+      if (isPast.value || isCurrent.value) {
         return {
           name: 'playlistDetail',
           params: {
@@ -102,7 +109,7 @@ export default defineComponent({
       console.debug('pause');
     };
     const navigate = () => {
-      console.debug('navigate');
+      emit('navigate');
     };
     const title = computed(() => {
       return {
@@ -259,7 +266,7 @@ export default defineComponent({
   &.is-upcoming {
     color: rgb(var(--c-black));
     background-color: rgb(var(--c-white));
-    cursor: wait;
+    cursor: default;
     opacity: 0.75;
   }
 }

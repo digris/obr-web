@@ -19,9 +19,14 @@
           Tracks
         </router-link>
         <router-link
-          :to="{ name: 'collectionAPlaylists' }"
+          :to="{ name: 'collectionPlaylists' }"
         >
           Shows
+        </router-link>
+        <router-link
+          :to="{ name: 'collectionArtists' }"
+        >
+          Künstler*innen
         </router-link>
       </div>
       <div

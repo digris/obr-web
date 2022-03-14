@@ -95,6 +95,10 @@ class PlaylistSerializer(
     latest_emission_time_start = serializers.DateTimeField(
         read_only=True,
     )
+    user_rating_time_rated = serializers.DateTimeField(
+        read_only=True,
+        # allow_null=True,
+    )
     num_media = serializers.IntegerField(
         read_only=True,
     )
@@ -128,6 +132,7 @@ class PlaylistSerializer(
             "name",
             "series",
             "latest_emission_time_start",
+            "user_rating_time_rated",
             "num_media",
             "num_emissions",
             "image",

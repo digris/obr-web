@@ -124,7 +124,9 @@ export default defineComponent({
     <div
       class="actions"
     >
-      <ToggleTimeshiftButton />
+      <ToggleTimeshiftButton
+        v-if="false"
+      />
     </div>
   </div>
 </template>

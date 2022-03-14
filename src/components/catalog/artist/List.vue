@@ -65,6 +65,9 @@ export default {
       }
       return merged;
     });
+    const ordering = computed(() => {
+      return (props.scope === 'collection') ? ['time_rated'] : [];
+    });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchArtists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
@@ -72,7 +75,12 @@ export default {
         count,
         next,
         results,
-      } = await getArtists(limit, offset, combinedFilter.value);
+      } = await getArtists(
+        limit,
+        offset,
+        combinedFilter.value,
+        ordering.value,
+      );
       hasNext.value = !!next;
       numResults.value = count;
       // @ts-ignore
@@ -150,7 +158,7 @@ export default {
     class="artist-list"
   >
     <div
-      class="grid"
+      class="list-container"
     >
       <ArtistCard
         v-for="artist in artists"
@@ -173,11 +181,8 @@ export default {
   @include container.default;
   margin-bottom: 1rem;
 }
-.artist-list {
-  @include container.default;
-  margin-bottom: 8rem;
-}
-.grid {
+
+@mixin grid {
   display: grid;
   grid-row-gap: 2rem;
   grid-column-gap: 0.5rem;
@@ -185,6 +190,17 @@ export default {
   @include responsive.bp-small {
     grid-gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.artist-list {
+  margin-bottom: 8rem;
+  .list-container {
+    @include container.default;
+    @include grid;
+  }
+  .loading-more {
+    @include container.default;
   }
 }
 </style>

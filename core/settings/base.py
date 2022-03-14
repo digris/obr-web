@@ -159,6 +159,7 @@ AUTHENTICATION_BACKENDS = [
     "social_core.backends.google.GoogleOAuth2",
     "social_core.backends.spotify.SpotifyOAuth2",
     "social_core.backends.apple.AppleIdAuth",
+    "account.social_auth_backends.deezer.DeezerOAuth2",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -211,6 +212,23 @@ SOCIAL_AUTH_SPOTIFY_SCOPE = [
     "user-read-private",
     "user-read-email",
     "user-top-read",
+]
+
+# deezer oauth2
+SOCIAL_AUTH_DEEZER_KEY = env(
+    "SOCIAL_AUTH_DEEZER_KEY",
+    default="",
+)
+
+SOCIAL_AUTH_DEEZER_SECRET = env(
+    "SOCIAL_AUTH_DEEZER_SECRET",
+    default="",
+)
+
+SOCIAL_AUTH_DEEZER_SCOPE = [
+    "manage_library",
+    # "listening_history",
+    "offline_access",
 ]
 
 
@@ -375,6 +393,16 @@ IMAGE_RESIZER_ENDPOINT = env(
     default="https://next.openbroadcast.ch/images/",
 )
 
+
+##################################################################
+# context
+##################################################################
+GIT_SHORT_SHA = env(
+    "GIT_SHORT_SHA",
+    default="",
+)
+
+
 ##################################################################
 # payment providers
 ##################################################################
@@ -386,6 +414,7 @@ STRIPE_SECRET_KEY = env(
     "STRIPE_SECRET_KEY",
     default="",
 )
+
 
 ##################################################################
 # analytics
@@ -406,6 +435,7 @@ SETTINGS_EXPORT = [
     "IMAGE_RESIZER_ENDPOINT",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",
+    "GIT_SHORT_SHA",
     "GOOGLE_GTM_ID",
     "SENTRY_DSN",
     "STRIPE_PUBLISHABLE_KEY",

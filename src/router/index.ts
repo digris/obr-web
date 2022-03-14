@@ -215,10 +215,26 @@ const routes = [
       },
       {
         path: 'shows/',
-        name: 'collectionAPlaylists',
-        // component: PlaylistList,
+        name: 'collectionPlaylists',
         components: {
           default: PlaylistList,
+          searchbar: SearchbarAlt,
+        },
+        props: {
+          default: (route: any) => ({
+            scope: 'collection',
+            query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
+          }),
+        },
+      },
+      {
+        path: 'artists/',
+        name: 'collectionArtists',
+        components: {
+          default: ArtistList,
           searchbar: SearchbarAlt,
         },
         props: {

@@ -6,6 +6,8 @@ from django.utils import timezone
 from datetime import datetime
 
 from broadcast.models import Emission
+
+# from stats.models import Emission
 from catalog.models.media import Airplay
 
 flatten = itertools.chain.from_iterable
