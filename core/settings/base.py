@@ -456,6 +456,19 @@ OBP_SYNC_TOKEN = env(
 
 
 ##################################################################
+# OBR API
+##################################################################
+OBR_SYNC_ENDPOINT = env(
+    "OBR_SYNC_ENDPOINT",
+    default="https://www.openbroadcast.ch/api/v2/obr-sync/",
+)
+OBR_SYNC_TOKEN = env(
+    "OBR_SYNC_TOKEN",
+    default="",
+)
+
+
+##################################################################
 # 3rd party services
 ##################################################################
 USERSNAP_API_KEY = env(
