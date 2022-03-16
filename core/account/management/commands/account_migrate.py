@@ -31,10 +31,8 @@ class Command(BaseCommand):
         # )
 
     def handle(self, *args, **options):
-        print(options)
 
         if options["source"].lower() == "obr":
-            print("OBR")
             migrate.migrate_accounts_from_obr(
                 database=options["database"],
             )

@@ -31,5 +31,5 @@ def handle_user_registered(sender, user, *args, **kwargs):
     # pylint: disable=import-outside-toplevel
     from subscription.utils import trial
 
-    print("subscription - handle_user_registered", user)
+    logger.info(f"start trial for {user}")
     trial.start_trial(user=user)

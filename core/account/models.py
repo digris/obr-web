@@ -18,6 +18,12 @@ from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
 
 
+class MigrationSource(models.TextChoices):
+    EMPTY = "", "none"
+    OBR = "obr", "OBR - radio"
+    OBP = "obp", "OBP - platform"
+
+
 class UserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
@@ -82,6 +88,18 @@ class User(
     )
     date_joined = models.DateTimeField(
         default=timezone.now,
+    )
+    obp_id = models.PositiveIntegerField(
+        verbose_name="open broadcast - platform ID",
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+    migration_source = models.CharField(
+        max_length=64,
+        choices=MigrationSource.choices,
+        default=MigrationSource.EMPTY,
+        db_index=True,
     )
 
     USERNAME_FIELD = "email"

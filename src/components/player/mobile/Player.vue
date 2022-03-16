@@ -1,5 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import {
+  computed,
+  defineComponent,
+  ref,
+  watch,
+} from 'vue';
+import { useWakeLock } from '@vueuse/core';
 import { usePlayerControls, usePlayerState } from '@/composables/player';
 import { useQueueState } from '@/composables/queue';
 import { getContrastColor } from '@/utils/color';
@@ -72,6 +78,22 @@ export default defineComponent({
     const togglePlayerPanel = () => {
       playerPanelVisible.value = !playerPanelVisible.value;
     };
+    const {
+      isSupported: wakeLockSupported,
+      request: wakeLockRequest,
+      release: wakeLockRelease,
+    } = useWakeLock();
+    watch(isPlaying, (state) => {
+      console.debug('isPlaying', state);
+      if (wakeLockSupported && state) {
+        wakeLockRequest('screen');
+        console.debug('wakelock requested');
+      }
+      if (wakeLockSupported && !state) {
+        wakeLockRelease();
+        console.debug('wakelock released');
+      }
+    });
     return {
       isVisible,
       isLive,

@@ -6,7 +6,7 @@ from django.conf import settings
 
 SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
 SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
-SYNC_DEBUG = getattr(settings, "OBP_SYNC_DEBUG", False)
+SYNC_DEBUG_REQUESTS = getattr(settings, "OBP_SYNC_DEBUG_REQUESTS", False)
 
 HEADERS = {
     "User-Agent": "openbroadcast.ch - API sync client/0.0.1",
@@ -50,7 +50,7 @@ def get(path, params=None, raw=False):
     except json.JSONDecodeError as e:
         raise APIClientException(f"error decoding JSON response: {e}") from e
 
-    if SYNC_DEBUG:
+    if SYNC_DEBUG_REQUESTS:
         print(
             json.dumps(
                 {

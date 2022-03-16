@@ -64,6 +64,7 @@ class UserAdmin(AuthUserAdmin):
     list_display = [
         "email",
         "uid",
+        "migration_source",
         "is_active",
         "is_staff",
         "is_superuser",
@@ -72,6 +73,7 @@ class UserAdmin(AuthUserAdmin):
         "is_staff",
         "is_active",
         "is_superuser",
+        "migration_source",
         "date_joined",
         "last_login",
     ]
@@ -104,6 +106,15 @@ class UserAdmin(AuthUserAdmin):
                 "fields": (
                     "first_name",
                     "last_name",
+                ),
+            },
+        ),
+        (
+            "Migration / remote",
+            {
+                "fields": (
+                    "obp_id",
+                    "migration_source",
                 ),
             },
         ),
