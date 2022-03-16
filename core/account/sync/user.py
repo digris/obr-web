@@ -1,6 +1,7 @@
 import logging
-
+from datetime import datetime
 from django.apps import apps
+from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
 
 from rating.models import Vote
@@ -18,9 +19,88 @@ CT_MAP = {
 }
 
 
+def sync_user_account(user):
+    logger.info(f"{user.ct_uid} sync account")
+
+    if not user.obp_id:
+        logger.warning(f"user {user.uid} has no obp id")
+        return None
+
+    try:
+        data = api_client.get(f"accounts/{user.obp_id}/")
+    except api_client.APIClientException as e:
+        logger.error(f"unable to get user: {user} - {e}")
+        return None
+
+    # pylint: disable=import-outside-toplevel
+    from account.models import User, Address, Gender
+
+    update = {}
+
+    if date_joined := data.get("date_joined"):
+        try:
+            date_joined = timezone.make_aware(datetime.fromisoformat(date_joined))
+            if date_joined < user.date_joined:
+                update.update(
+                    {
+                        "date_joined": date_joined,
+                    }
+                )
+        except TypeError:
+            pass
+
+    if date_of_birth := data.get("birth_date"):
+        update.update(
+            {
+                "date_of_birth": date_of_birth,
+            }
+        )
+
+    if phone := data.get("phone_mobile"):
+        update.update(
+            {
+                "phone": phone,
+            }
+        )
+
+    if gender := data.get("gender"):
+        values = {
+            "female": Gender.FEMALE,
+            "male": Gender.MALE,
+            "other": Gender.OTHER,
+        }
+        update.update(
+            {
+                "gender": values.get(gender, Gender.UNDEFINED),
+            }
+        )
+
+    User.objects.filter(id=user.id).update(**update)
+
+    if address := data.get("address"):
+        try:
+            address_obj = user.address
+        except Address.DoesNotExist:
+            address_obj = Address(
+                user=user,
+            )
+            address_obj.save()
+
+        Address.objects.filter(id=address_obj.id).update(
+            line_1=address.get("line_1") or "",
+            line_2=address.get("line_2") or "",
+            postal_code=address.get("postal_code") or "",
+            city=address.get("city") or "",
+            country=address.get("country"),
+        )
+
+    user.refresh_from_db()
+    return user
+
+
 def sync_user_votes(user):
     # NOTE: not sure where this should go. could also be implemented in rating module.
-    logger.debug(f"{user.ct_uid} sync votes")
+    logger.info(f"{user.ct_uid} sync votes")
 
     try:
         params = {
@@ -40,7 +120,7 @@ def sync_user_votes(user):
             co_ct = co.get("ct")
         except (KeyError, AttributeError):
             continue
-        # print(vote, co)
+
         ct = CT_MAP.get(co_ct)
         if not ct:
             continue
@@ -70,7 +150,7 @@ def sync_user_votes(user):
                 object_id=obj.id,
             )
             vote.save()
-        # print(f"// {value}", content_object)
+        logger.debug(f"synced vote on {obj} for {user}")
 
     return None
 
@@ -81,6 +161,8 @@ def sync_user(user, **kwargs):
     update = {}
 
     type(user).objects.filter(id=user.id).update(**update)
+
+    sync_user_account(user=user)
 
     sync_user_votes(user=user)
 
