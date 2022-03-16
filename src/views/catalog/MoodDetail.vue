@@ -90,7 +90,8 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
+        :obj="mood"
+        :show-context-menu="false"
         title-scope="Stimmung"
         :title="mood.name"
       >
@@ -108,7 +109,8 @@ export default defineComponent({
               :obj-key="objKey"
               :filter="combinedFilter"
               :size="(96)"
-              :outlined="(false)"
+              :outlined="false"
+              :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </div>

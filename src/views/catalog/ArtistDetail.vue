@@ -86,8 +86,7 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
-        :enable-rating="true"
+        :obj="artist"
         title-scope="Künstler*in"
         :title="artist.name"
       >
@@ -100,8 +99,9 @@ export default defineComponent({
           >
             <PlayAction
               :obj-key="objKey"
-              :size="(64)"
-              :outlined="(false)"
+              :size="(96)"
+              :outlined="false"
+              :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>
@@ -138,7 +138,7 @@ export default defineComponent({
           <span
             v-if="artist"
           >{{ artist.numMedia }} Tracks</span>
-          <span>•</span>
+          <span>&nbsp;•&nbsp;</span>
           <span>1h 25m</span>
         </template>
       </DetailHeader>

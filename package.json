@@ -30,7 +30,7 @@
     "qs": "^6.10.1",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
-    "shaka-player": "3.2.0",
+    "shaka-player": "3.3.2",
     "vue": "3.2",
     "vue-class-component": "^8.0.0-0",
     "vue-i18n": "^9.1.7",

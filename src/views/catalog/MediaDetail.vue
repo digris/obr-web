@@ -77,8 +77,7 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
-        :enable-rating="(true)"
+        :obj="media"
         title-scope="Track"
         :title="media.name"
       >
@@ -91,8 +90,9 @@ export default defineComponent({
           >
             <PlayAction
               :obj-key="objKey"
-              :size="(64)"
-              :outlined="(false)"
+              :size="(96)"
+              :outlined="false"
+              :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>

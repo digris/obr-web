@@ -34,6 +34,10 @@ export default defineComponent({
       type: String,
       default: null,
     },
+    shadowed: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const {
@@ -112,6 +116,7 @@ export default defineComponent({
           :is-buffering="(isLoading || isBuffering)"
           :size="size"
           :outlined="outlined"
+          :shadowed="shadowed"
           :style="buttonCssVars"
           :color="`rgb(${buttonColor.join(',')})`"
           :backgroundColor="backgroundColor"

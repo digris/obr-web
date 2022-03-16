@@ -9,12 +9,14 @@ const state = {
   playerState: null,
   isLive: false,
   media: null,
+  isVisible: false,
 };
 
 const getters = {
   playheadTime: (state: any) => state.playheadTime,
   playerState: (state: any) => state.playerState,
   isLive: (state: any) => state.isLive,
+  isVisible: (state: any) => state.isVisible,
   media: (state: any) => state.media,
   playState: (state: any, getters: any) => {
     if (!getters.playerState) {
@@ -60,6 +62,9 @@ const mutations = {
     const { isLive, media } = { ...item };
     state.isLive = isLive;
     state.media = media;
+    if (!state.isVisible) {
+      state.isVisible = true;
+    }
   },
 };
 

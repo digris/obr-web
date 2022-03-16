@@ -121,6 +121,7 @@ class User(
         max_length=64,
         choices=MigrationSource.choices,
         default=MigrationSource.EMPTY,
+        blank=True,
         db_index=True,
     )
 

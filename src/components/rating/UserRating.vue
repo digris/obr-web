@@ -86,7 +86,7 @@ export default defineComponent({
       :size="iconSize"
       :outlined="(true)"
       @click="rate(1)"
-      :color="`rgba(var(${colorVar}), 0.5)`"
+      :color="`rgba(var(${colorVar}), 0.8)`"
     />
     <IconFlash
       v-if="(userRating.value === -1)"
