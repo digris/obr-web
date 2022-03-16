@@ -5,9 +5,9 @@ import { playStream } from '@/player/stream';
 
 import ToggleProgramButton from './ToggleProgramButton.vue';
 import ToggleTimeshiftButton from './ToggleTimeshiftButton.vue';
-import ResetTimeshiftButton from './ResetTimeshiftButton.vue';
+// import ResetTimeshiftButton from './ResetTimeshiftButton.vue';
 
-const TIMESHIFT_OFFSET = 30;
+// const TIMESHIFT_OFFSET = 30;
 
 const zeroPad = (n:number) => {
   return n > 9 ? `${n}` : `0${n}`;
@@ -17,7 +17,13 @@ export default defineComponent({
   components: {
     ToggleProgramButton,
     ToggleTimeshiftButton,
-    ResetTimeshiftButton,
+    // ResetTimeshiftButton,
+  },
+  props: {
+    timeOverwrite: {
+      type: Object,
+      required: false,
+    },
   },
   emits: [
     'releaseFocus',
@@ -26,6 +32,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const time = computed(() => {
+      if (props.timeOverwrite) {
+        return props.timeOverwrite;
+      }
       return store.getters['time/time'];
     });
     const hour = computed(() => {
@@ -40,9 +49,9 @@ export default defineComponent({
     const offset = computed(() => {
       return store.getters['time/offset'];
     });
-    const isTimeshifted = computed(() => {
-      return offset.value > TIMESHIFT_OFFSET;
-    });
+    // const isTimeshifted = computed(() => {
+    //   return offset.value > TIMESHIFT_OFFSET;
+    // });
     const releaseFocus = () => {
       emit('releaseFocus');
     };
@@ -57,7 +66,7 @@ export default defineComponent({
       hour,
       minute,
       second,
-      isTimeshifted,
+      // isTimeshifted,
       offset,
       toggleProgram,
       releaseFocus,
@@ -82,7 +91,6 @@ export default defineComponent({
       class="container"
     >
       <div
-        v-if="(!isTimeshifted)"
         class="time"
         @click="releaseFocus"
       >
@@ -103,22 +111,6 @@ export default defineComponent({
           class="second"
         >{{ second }}</span>
         -->
-      </div>
-      <div
-        v-if="isTimeshifted"
-        class="time-shift"
-      >
-        <div
-          class="offset"
-          :title="offset"
-        >
-          &ndash; {{ offset }} Sec.
-        </div>
-        <div>
-          <ResetTimeshiftButton
-            @click="resetTimeshift"
-          />
-        </div>
       </div>
     </div>
     <div
@@ -153,6 +145,9 @@ $height: 48px;
   max-width: 800px;
   margin: 0 auto;
   padding: 1.5rem 0 1rem;
+  .actions {
+    height: 48px;
+  }
 }
 .container {
   @include live-color.fg;

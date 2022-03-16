@@ -27,7 +27,7 @@ export default defineComponent({
     const isLive = computed(() => store.getters['player/isLive']);
     const currentMedia = computed(() => store.getters['player/media']);
     const currentScope = computed(() => store.getters['player/scope']);
-    const isVisible = computed(() => !!currentMedia.value);
+    const isVisible = computed(() => store.getters['player/isVisible']);
     const objKey = computed(() => {
       if (!currentMedia.value) {
         return null;

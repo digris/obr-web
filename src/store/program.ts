@@ -34,7 +34,6 @@ const mutations = {
 
 const actions = {
   loadProgram: async (context: any) => {
-    console.debug('program store - loadProgram');
     const program = await getProgram();
     context.commit('SET_EMISSIONS', program.emissions);
   },

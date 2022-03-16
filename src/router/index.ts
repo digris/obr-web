@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { isEqual } from 'lodash-es';
 import store from '@/store';
 import NotFound from '@/views/NotFound.vue';
-import OnAir from '@/views/OnAir.vue';
+// import OnAir from '@/views/OnAir.vue';
+import Radio from '@/views/Radio.vue';
 import Program from '@/views/Program.vue';
 import Discover from '@/views/Discover.vue';
 import Collection from '@/views/Collection.vue';
@@ -38,7 +39,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: OnAir,
+    component: Radio,
     meta: {
       colorTheme: 'live',
     },

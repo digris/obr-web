@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
+import { useWindowSize } from '@vueuse/core';
 import { AudioPlayer } from '@/player/audioPlayer';
 
 import queue from '@/player/queue';
@@ -27,14 +28,16 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const user = computed(() => store.getters['account/user']);
-    const viewport = computed(() => store.getters['ui/viewport']);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const audioPlayer = new AudioPlayer();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const playerQueue = queue;
     store.dispatch('account/getUser');
+    const {
+      width: vpWidth,
+    } = useWindowSize();
     const playerComponent = computed(() => {
-      return (viewport.value.width < 500) ? MobilePlayer : Player;
+      return (vpWidth.value < 500) ? MobilePlayer : Player;
     });
     return {
       user,

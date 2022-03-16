@@ -4143,9 +4143,9 @@ email-validator@^2.0.4:
   integrity sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==
 
 eme-encryption-scheme-polyfill@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.0.3.tgz#2ca6e06480e06cceb5e50efd27943ac46c959878"
-  integrity sha512-44CNFMsqzHdKHrzWxlS7xZ8KUHn5XutBqpmCuWzNIynmAyFInHrrD3ozv/RvK9ZhgV6QY6Easx8EWAmxteNodg==
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.0.4.tgz#7d818302af3f3b19d5974255dcc92dc087413845"
+  integrity sha512-MHYJX1v145Pjj2YJTrVVuJOYyXrxGVy8LWf6kV5M4jrV/GyoeuJKyTuD+GaD+VAiE8Ip+MptiH4dXk6ZVmMNow==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -9203,10 +9203,10 @@ sha.js@^2.4.0, sha.js@^2.4.8:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-shaka-player@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-3.2.0.tgz#612c61b0a05aed8173c8fb55161eb05f61309955"
-  integrity sha512-JwFYNB+jgXKIwukncYEnU3wqR/ScyxpPNkSVUgT4Qxt4uPOkEBwPuZr9cpeqBUMQi6lXpBVTztC76AooPOpZ5g==
+shaka-player@3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-3.3.2.tgz#6c903413d64d0205d2c9672440f041233075e748"
+  integrity sha512-6N9J/Dy7xprT8xKcs9+YYiEJsXfKn3xtVzLndLRFP2hR13tn3YzVhP83hZmbnLzOEFBpuYlRq4kNrBNlOA+4/g==
   dependencies:
     eme-encryption-scheme-polyfill "^2.0.3"
 

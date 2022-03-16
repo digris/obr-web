@@ -86,10 +86,6 @@ export default defineComponent({
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background 200ms, color 200ms, border 200ms;
-  &:hover {
-    background: rgba(var(--c-fg), 0.1);
-    border-color: transparent;
-  }
   &.has-bg-color {
     /* TODO: likley this could be implemented in a nicer way.. */
     background: var(--c-circle-bg-color);
@@ -105,6 +101,13 @@ export default defineComponent({
     pointer-events: none;
     > :deep(*) {
       opacity: 0.4;
+    }
+  }
+  &:hover {
+    background: rgba(var(--c-fg), 0.1);
+    border-color: transparent;
+    &.is-outlined {
+      border-color: transparent;
     }
   }
 }

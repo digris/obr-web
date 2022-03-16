@@ -10,7 +10,6 @@ class UserIdentityMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-
         request.user_identity = get_user_identity(request)
         request.device_key = get_device_key(request)
         response = self.get_response(request)
