@@ -1,25 +1,24 @@
-import scheduler from 'node-schedule';
+import { useIntervalFn } from '@vueuse/core';
+import { isEqual } from 'lodash-es';
 import store from '@/store';
 import eventBus from '@/eventBus';
 
 class AccountHandler {
   constructor() {
     store.watch((state: any) => state.account.user, async (newUser, oldUser) => {
-      // if (newUser !== oldUser) {
-      if (JSON.stringify(newUser) !== JSON.stringify(oldUser)) {
+      if (!isEqual(newUser, oldUser)) {
         console.debug('user changed:', newUser, oldUser);
         // await store.dispatch('rating/clearRatings');
       }
     });
-    const rule = `${new Date().getSeconds()} * * * * *`;
-    const maxJobAge = 61;
-    scheduler.scheduleJob(rule, async (scheduledDate: Date) => {
-      // @ts-ignore
-      if (scheduledDate && (new Date() - scheduledDate) > maxJobAge * 1000) {
-        return;
-      }
+    const interval = 60 * 1000;
+    useIntervalFn(async () => {
       await store.dispatch('account/getUser');
-    });
+    }, interval);
+    // const focused = useWindowFocus();
+    // watch(focused, (value) => {
+    //   console.debug('focused', value);
+    // });
   }
 }
 
