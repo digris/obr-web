@@ -26,7 +26,6 @@ def sync_user_votes(user):
         params = {
             "limit": 10000,
             "email": user.email,
-            # "email": "jonas@digris.ch",
         }
         data = api_client.get("votes/", params=params)
     except api_client.APIClientException as e:
@@ -44,7 +43,6 @@ def sync_user_votes(user):
         # print(vote, co)
         ct = CT_MAP.get(co_ct)
         if not ct:
-            print(f"invalid ct: {co_ct}")
             continue
 
         model_class = apps.get_model(*ct.split("."))
