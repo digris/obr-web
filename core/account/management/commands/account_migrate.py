@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from account import migrate
+from account import migrator
+from account.models import MigrationSource
 
 
 class Command(BaseCommand):
@@ -23,22 +24,38 @@ class Command(BaseCommand):
                 "obp",
             ],
         )
-        # parser.add_argument(
-        #     "--email",
-        #     dest="email",
-        #     type=str,
-        #     required=False,
-        # )
+        parser.add_argument(
+            "--email",
+            dest="email",
+            type=str,
+            required=False,
+        )
+        parser.add_argument(
+            "--overwrite",
+            dest="overwrite",
+            action="store_true",
+            help="overwrite local account data",
+        )
 
     def handle(self, *args, **options):
 
-        if options["source"].lower() == "obr":
-            migrate.migrate_accounts_from_obr(
+        self.stdout.write(str(options))
+
+        emails = [options["email"]] if options["email"] else []
+
+        if options["source"].lower() == MigrationSource.OBR:
+            migrator.obr.migrate_accounts(
                 database=options["database"],
+                emails=emails,
+                overwrite=options["overwrite"],
             )
 
-        if options["source"].lower() == "obp":
-            raise NotImplementedError("OBR source not implemented yet")
+        if options["source"].lower() == MigrationSource.OBP:
+            migrator.obp.migrate_accounts(
+                database=options["database"],
+                emails=emails,
+                overwrite=options["overwrite"],
+            )
 
         # num_migrated = archive.archive_airplays(database=options["database"],)
         # self.stdout.write(f"migrated {num_migrated} accounts")

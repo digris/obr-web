@@ -6,7 +6,6 @@ from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 
 from catalog.api import serializers

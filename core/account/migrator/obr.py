@@ -35,13 +35,12 @@ class OBRMigrator:
             "limit": 2000,
         }
         r = requests.get(url=url, params=params, headers=self.headers)
-        # print(url)
-        # print(r.status_code)
-        # print(r.text)
         return r.json()["results"]
 
-    def migrate(self):
+    def migrate(self, emails=None, overwrite=False):
         user_accounts = self.get_user_accounts()
+        if emails:
+            user_accounts = [u for u in user_accounts if u.get("email") in emails]
 
         logger.info(f"loaded {len(user_accounts)} accounts from remote API")
 
@@ -58,11 +57,25 @@ class OBRMigrator:
 
             try:
                 user = User.objects.get(email=user_account["email"])
-                logger.info(f"existing account: {email}")
-                User.objects.filter(id=user.id,).update(
-                    date_joined=date_joined,
+                logger.info(
+                    f"existing account: {email} - overwrite: {'yes' if overwrite else 'no'}"
                 )
-            except User.DoesNotExist as e:
+                update = {
+                    "date_joined": date_joined,
+                }
+                if overwrite:
+                    update.update(
+                        {
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "obp_id": obp_id,
+                            "migration_source": MigrationSource.OBR,
+                        }
+                    )
+
+                User.objects.filter(id=user.id).update(**update)
+
+            except User.DoesNotExist:
                 user = User(
                     email=email,
                     first_name=first_name,
@@ -74,11 +87,12 @@ class OBRMigrator:
                 )
                 user.set_unusable_password()
                 user.save()
-                # logger.info(f'missing account: {email}')
-
-            # print(user_account)
 
 
-def migrate_accounts_from_obr(database="default"):
+def migrate_accounts(
+    database="default",
+    emails=None,
+    overwrite=False,
+):
     migrator = OBRMigrator(database=database)
-    return migrator.migrate()
+    return migrator.migrate(emails=emails, overwrite=overwrite)

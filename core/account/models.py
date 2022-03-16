@@ -24,6 +24,13 @@ class MigrationSource(models.TextChoices):
     OBP = "obp", "OBP - platform"
 
 
+class Gender(models.IntegerChoices):
+    UNDEFINED = 0, "undefined"
+    FEMALE = 1, "female"
+    MALE = 2, "male"
+    OTHER = 3, "other"
+
+
 class UserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
@@ -69,6 +76,13 @@ class User(
     email = models.EmailField(
         _("email address"),
         unique=True,
+        db_index=True,
+    )
+    phone = models.CharField(
+        max_length=64,
+        blank=True,
+        default="",
+        db_index=True,
     )
     first_name = models.CharField(
         max_length=64,
@@ -77,6 +91,14 @@ class User(
     )
     last_name = models.CharField(
         max_length=64,
+        null=True,
+        blank=True,
+    )
+    gender = models.PositiveSmallIntegerField(
+        choices=Gender.choices,
+        default=Gender.UNDEFINED,
+    )
+    date_of_birth = models.DateField(
         null=True,
         blank=True,
     )
