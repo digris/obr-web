@@ -32,7 +32,11 @@ export default defineComponent({
       playerState,
       currentMedia,
     } = usePlayerState();
-    const isCurrent = computed(() => currentMedia.value?.uid === props.media?.uid);
+    // const isCurrent = computed(() => currentMedia.value?.uid === props.media?.uid);
+    const isCurrent = computed(() => {
+      // eslint-disable-next-line max-len
+      return (currentMedia.value && props.media) ? currentMedia.value.uid === props.media.uid : false;
+    });
     const isPlaying = computed(() => {
       if (!isCurrent.value) {
         return false;
