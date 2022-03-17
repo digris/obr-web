@@ -35,6 +35,9 @@ export default defineComponent({
       >
         <LazyImage
           :image="editor.image"
+          :class="{
+            'is-grayscale': !editor.isActive,
+          }"
         />
       </div>
     </div>
@@ -68,6 +71,9 @@ export default defineComponent({
       .lazy-image {
         position: absolute;
         width: 100%;
+        &.is-grayscale {
+          filter: grayscale(1);
+        }
       }
     }
   }

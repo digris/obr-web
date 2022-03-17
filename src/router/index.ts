@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { isEqual } from 'lodash-es';
+import store from '@/store';
 import NotFound from '@/views/NotFound.vue';
-import OnAir from '@/views/OnAir.vue';
+// import OnAir from '@/views/OnAir.vue';
+import Radio from '@/views/Radio.vue';
 import Program from '@/views/Program.vue';
 import Discover from '@/views/Discover.vue';
 import Collection from '@/views/Collection.vue';
@@ -36,7 +39,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: OnAir,
+    component: Radio,
     meta: {
       colorTheme: 'live',
     },
@@ -53,11 +56,17 @@ const routes = [
     redirect: {
       name: 'discoverMoods',
     },
+    meta: {
+      title: 'Discover',
+    },
     children: [
       {
         path: 'moods/',
         name: 'discoverMoods',
         component: MoodList,
+        meta: {
+          title: 'Moods',
+        },
       },
       {
         path: 'playlists/',
@@ -207,10 +216,26 @@ const routes = [
       },
       {
         path: 'shows/',
-        name: 'collectionAPlaylists',
-        // component: PlaylistList,
+        name: 'collectionPlaylists',
         components: {
           default: PlaylistList,
+          searchbar: SearchbarAlt,
+        },
+        props: {
+          default: (route: any) => ({
+            scope: 'collection',
+            query: route.query,
+          }),
+          searchbar: (route: any) => ({
+            filter: route.query,
+          }),
+        },
+      },
+      {
+        path: 'artists/',
+        name: 'collectionArtists',
+        components: {
+          default: ArtistList,
           searchbar: SearchbarAlt,
         },
         props: {
@@ -291,6 +316,9 @@ const router = createRouter({
   // @ts-ignore
   routes,
   scrollBehavior(to, from, savedPosition) {
+    if (from && to.name === from.name && isEqual(to.params, from.params)) {
+      return false;
+    }
     return savedPosition || { left: 0, top: 0 };
   },
 });
@@ -299,6 +327,15 @@ router.beforeEach((to, from, next) => {
   const theme = to.meta?.colorTheme ?? 'light';
   // @ts-ignore
   setBodyColorTheme(theme);
+  next();
+});
+
+router.beforeEach(async (to, from, next) => {
+  const node = to.matched.slice().reverse().find((r) => r.meta && r.meta.title);
+  if (node) {
+    await store.dispatch('ui/setTitle', node?.meta?.title);
+  }
+  // await store.dispatch('ui/setTitle', node?.meta?.title ?? 'open broadcast radio');
   next();
 });
 

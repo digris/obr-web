@@ -219,7 +219,10 @@ export default defineComponent({
     @close="hideProgram"
     title="Heute"
   >
-    <Program />
+    <Program
+      :current-link-to-home="false"
+      @navigate="hideProgram"
+    />
   </OverlayPanel>
 </template>
 

@@ -1,16 +1,20 @@
 @charset "UTF-8";
 
-@import "variables";
 @import "colors";
 @import "responsive";
 
 :root {
   --grid-gap: 1rem;
-  --font-weight: #{$base-font-weight};
-  --font-size: #{$base-font-size};
-  --font-family: #{$base-font-family};
-  --container-width: #{$container-width};
+  --font-weight: 500;
+  --font-size: 1rem;
+  --font-family: 'IBM Plex Sans', 'Helvetica Neue','Helvetica','Robotox','Roboto','Source Sans Pro', sans-serif;
+  --container-width: 1800px;
   --image-filter: brightness(0.95) grayscale(0.1);
+  //
+  --bp-small: 320px;
+  --bp-medium: 720px;
+  --bp-large: 1024px;
+  --bp-max: 1400px;
 }
 
 /* stylelint-disable-next-line no-duplicate-selectors */
@@ -48,7 +52,7 @@
 
 @include bp-small {
   :root {
-    --font-size: #{$base-font-size * 1.25};
+    --font-size: 1.125rem;
   }
 }
 
@@ -61,5 +65,32 @@
 @include bp-large-up {
   :root {
     --grid-gap: 2rem;
+  }
+}
+
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+:root {
+  --t-fs-x-large: 4rem;
+  --t-lh-x-large: 4rem;
+  --t-fs-large: 2rem;
+  --t-lh-large: 2rem;
+  --t-fs-default: 1rem;
+  --t-lh-default: 1rem;
+  --t-fs-small: 0.75rem;
+  --t-lh-small: 0.75rem;
+  --t-fs-tiny: 0.625rem;
+  --t-lh-tiny: 0.625rem;
+  @include bp-small {
+    --t-fs-x-large: 2.5rem;
+    --t-lh-x-large: 2.5rem;
+    --t-fs-large: 1.125rem;
+    --t-lh-large: 1.125rem;
+    --t-fs-default: 1rem;
+    --t-lh-default: 1rem;
+    --t-fs-small: 0.75rem;
+    --t-lh-small: 0.75rem;
+    --t-fs-tiny: 0.625rem;
+    --t-lh-tiny: 0.625rem;
   }
 }

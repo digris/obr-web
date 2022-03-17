@@ -15,29 +15,24 @@
       >
         <router-link
           :to="{ name: 'discoverMoods' }"
-        >
-          Stimmung
-        </router-link>
+          v-text="`Stimmung`"
+        />
         <router-link
           :to="{ name: 'discoverMedia' }"
-        >
-          Tracks
-        </router-link>
+          v-text="`Tracks`"
+        />
         <router-link
           :to="{ name: 'discoverPlaylists' }"
-        >
-          Shows
-        </router-link>
+          v-text="`Shows`"
+        />
         <router-link
           :to="{ name: 'discoverArtists' }"
-        >
-          Künstler*innen
-        </router-link>
+          v-text="`Künstler*innen`"
+        />
         <router-link
           :to="{ name: 'discoverEditors' }"
-        >
-          Editor*innen
-        </router-link>
+          v-text="`Editor*innen`"
+        />
       </div>
       <div
         class="menu menu--secondary"
@@ -74,8 +69,8 @@
   @include container.default;
   @include typo.x-large;
   @include typo.bold;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 .list-menu {
   @include container.default;

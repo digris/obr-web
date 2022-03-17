@@ -3,9 +3,9 @@
 {% block extrahead %}{{ block.super }}
 <style>
 :root {
-  --primary: #79aec8;
-  --secondary: #417690;
-  --accent: #f5dd5d;
+  --primary: #425a9f;
+  --secondary: #2a3867;
+  --accent: #4ce4ff;
   --primary-fg: #fff;
 
   --body-fg: #333;
@@ -13,7 +13,7 @@
   --body-quiet-color: #666;
   --body-loud-color: #000;
 
-  --header-color: #ffc;
+  --header-color: #fff;
   --header-branding-color: var(--accent);
   --header-bg: var(--secondary);
   --header-link-color: var(--primary-fg);
@@ -22,14 +22,14 @@
   --breadcrumbs-link-fg: var(--body-bg);
   --breadcrumbs-bg: var(--primary);
 
-  --link-fg: #447e9b;
-  --link-hover-color: #036;
+  --link-fg: #2a3867;
+  --link-hover-color: #425a9f;
   --link-selected-fg: #5b80b2;
 
   --hairline-color: #e8e8e8;
   --border-color: #ccc;
 
-  --error-fg: #ba2121;
+  --error-fg: #ef1616;
 
   --message-success-bg: #dfd;
   --message-warning-bg: #ffc;
@@ -56,6 +56,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {}
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 </style>
 {% endblock %}

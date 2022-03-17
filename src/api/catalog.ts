@@ -25,10 +25,14 @@ async function getArtists(
   limit: number,
   offset: number,
   filter: any,
+  ordering: Array<string> = [],
 ) {
   const url = ARTIST_ENDPOINT;
   const params = {
-    limit, offset, ...filter,
+    limit,
+    offset,
+    ordering: ordering.join(','),
+    ...filter,
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -55,10 +59,18 @@ async function getArtist(uid: string) {
   return response.data;
 }
 
-async function getMedia(limit: number, offset: number, filter: any) {
+async function getMedia(
+  limit: number,
+  offset: number,
+  filter: any,
+  ordering: Array<string> = [],
+) {
   const url = MEDIA_ENDPOINT;
   const params = {
-    limit, offset, ...filter,
+    limit,
+    offset,
+    ordering: ordering.join(','),
+    ...filter,
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -90,11 +102,16 @@ async function getPlaylists(
   limit: number,
   offset: number,
   filter: any,
+  ordering: Array<string> = [],
   expand: Array<string> = [],
 ) {
   const url = PLAYLIST_ENDPOINT;
   const params = {
-    limit, offset, expand, ...filter,
+    limit,
+    offset,
+    ordering: ordering.join(','),
+    expand,
+    ...filter,
   };
   const response = await APIClient.get(url, { params });
   return response.data;

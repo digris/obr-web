@@ -12,6 +12,7 @@ import DetailPage from '@/layouts/DetailPage.vue';
 import DetailHeader from '@/layouts/DetailHeader.vue';
 import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
+import Searchbar from '@/components/filter/SearchbarAlt.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 // import Animation from '@/components/animation/Animation.vue';
 import Lottie from '@/components/animation/Lottie.vue';
@@ -22,6 +23,7 @@ export default defineComponent({
     DetailHeader,
     PlayAction,
     ObjectTags,
+    Searchbar,
     MediaList,
     // Animation,
     Lottie,
@@ -59,6 +61,10 @@ export default defineComponent({
       merged.tags = tags;
       return merged;
     });
+    const showPlayAll = computed(() => {
+      return (userFilter.value?.tags || []).length || userFilter.value?.q;
+      // return true;
+    });
     onActivated(() => {
       if (!mood.value) {
         store.dispatch('catalog/loadMood', props.uid);
@@ -70,6 +76,7 @@ export default defineComponent({
       mood,
       initialFilter,
       userFilter,
+      showPlayAll,
       combinedFilter,
       mediaColor,
     };
@@ -83,7 +90,8 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
+        :obj="mood"
+        :show-context-menu="false"
         title-scope="Stimmung"
         :title="mood.name"
       >
@@ -92,12 +100,17 @@ export default defineComponent({
         >
           <div
             class="image"
+            :style="{
+              display: 'flex',
+              alignItems: 'center',
+            }"
           >
             <PlayAction
               :obj-key="objKey"
               :filter="combinedFilter"
               :size="(96)"
-              :outlined="(false)"
+              :outlined="false"
+              :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </div>
@@ -119,7 +132,9 @@ export default defineComponent({
         <template
           #searchbar
         >
-          (( SB ))
+          <Searchbar
+            :filter="combinedFilter"
+          />
         </template>
         <template
           #background
@@ -135,7 +150,7 @@ export default defineComponent({
         :initial-filter="initialFilter"
         :query="query"
         :disable-user-filter="(false)"
-        :disable-play-all="(true)"
+        :disable-play-all="(!showPlayAll)"
       />
     </template>
   </DetailPage>

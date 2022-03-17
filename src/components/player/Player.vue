@@ -9,8 +9,6 @@ import Queue from './Queue.vue';
 import Circle from './button/Circle.vue';
 import UserRating from '@/components/rating/UserRating.vue';
 import IconQueue from '@/components/ui/icon/IconQueue.vue';
-import Debug from '@/components/dev/Debug.vue';
-import PlayerStreamInfo from './PlayerStreamInfo.vue';
 
 export default defineComponent({
   components: {
@@ -21,8 +19,6 @@ export default defineComponent({
     Queue,
     UserRating,
     IconQueue,
-    Debug,
-    PlayerStreamInfo,
   },
   setup() {
     const store = useStore();
@@ -31,7 +27,7 @@ export default defineComponent({
     const isLive = computed(() => store.getters['player/isLive']);
     const currentMedia = computed(() => store.getters['player/media']);
     const currentScope = computed(() => store.getters['player/scope']);
-    const isVisible = computed(() => !!currentMedia.value);
+    const isVisible = computed(() => store.getters['player/isVisible']);
     const objKey = computed(() => {
       if (!currentMedia.value) {
         return null;
@@ -66,10 +62,6 @@ export default defineComponent({
     const toggleQueue = () => {
       queueVisible.value = !queueVisible.value;
     };
-    const streamInfoVisible = ref(false);
-    const toggleStreamInfo = () => {
-      streamInfoVisible.value = !streamInfoVisible.value;
-    };
     return {
       isVisible,
       isLive,
@@ -83,28 +75,15 @@ export default defineComponent({
       queueNumMedia,
       hideQueue,
       toggleQueue,
-      streamInfoVisible,
-      toggleStreamInfo,
     };
   },
 });
 </script>
 
 <template>
-  <Debug
-    :visible="(false)"
-    :value="{
-      isLive,
-      currentScope,
-      playerState,
-    }"
-  />
   <Queue
     :is-visible="(queueVisible && queueNumMedia > 0)"
     @close="hideQueue"
-  />
-  <PlayerStreamInfo
-    v-if="(isVisible && streamInfoVisible)"
   />
   <transition
     name="slide"
@@ -114,12 +93,6 @@ export default defineComponent({
       class="player"
       :style="cssVars"
     >
-      <a
-        class="stream-info-toggle"
-        @click.prevent="toggleStreamInfo"
-      >
-        S
-      </a>
       <div
         class="container"
       >
@@ -165,12 +138,8 @@ export default defineComponent({
             <IconQueue
               :size="(48)"
               :color="(queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))')"
+              :num-queued="queueNumMedia"
             />
-            <!--
-            <span
-              v-text="queueNumMedia"
-            />
-            -->
           </Circle>
         </div>
       </div>
@@ -224,29 +193,6 @@ $player-height: 72px;
   .right {
     justify-content: flex-end;
   }
-}
-
-.stream-info-toggle {
-  position: fixed;
-  bottom: 56px;
-  left: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 12px;
-  height: 12px;
-  color: white;
-  font-size: 8px;
-  background: rgba(0,0,0,0.25);
-}
-
-.player-debug {
-  position: fixed;
-  right: 10px;
-  bottom: 70px;
-  width: 100%;
-  max-width: 600px;
-  background: #000;
 }
 
 .slide-enter-active,

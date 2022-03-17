@@ -11,7 +11,6 @@ from catalog.sync.media import sync_media, sync_master
 from sync.models.mixins import SyncModelMixin
 from tagging.managers import TaggableManager
 
-# from rating.mixins import RatingModelMixin
 from tagging.models import TaggedItem
 
 
@@ -43,7 +42,10 @@ class Media(
         related_name="tagged_media",
     )
 
-    votes = GenericRelation("rating.Vote", related_query_name="media")
+    votes = GenericRelation(
+        "rating.Vote",
+        related_query_name="media",
+    )
 
     identifiers = GenericRelation(
         "identifier.Identifier",
@@ -61,7 +63,6 @@ class Media(
 
     @property
     def artist_display(self):
-        # return "-"
         qs = self.media_artist.all()
         return ", ".join(str(ma.artist) for ma in qs)
 
@@ -71,12 +72,17 @@ class Media(
 
     @cached_property
     def latest_airplay(self):
-        # This data should normally be prefetched to the queryset.
+        # This data optimally should be prefetched in the queryset.
         latest = (
-            self.airplays.filter(time_start__lte=Now()).order_by("-time_start").first()
+            self.airplays.filter(
+                time_start__lte=Now(),
+            )
+            .order_by(
+                "-time_start",
+            )
+            .first()
         )
         return latest.time_start if latest else None
-        # return timezone.now()
 
     def sync_data(self, *args, **kwargs):
         return sync_media(self, *args, **kwargs)

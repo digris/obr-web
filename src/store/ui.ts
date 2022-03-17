@@ -30,6 +30,7 @@ const state: State = {
 
 const getters = {
   viewport: (state: State) => state.viewport,
+  // isMobile: (state: State) => state.viewport.width < 500,
   title: (state: State) => state.title,
   primaryColor: (state: State) => state.primaryColor,
   filterExpanded: (state: State) => state.filterExpanded,

@@ -47,7 +47,7 @@ class Release(
 
     votes = GenericRelation(
         "rating.Vote",
-        related_query_name="artist",
+        related_query_name="release",
     )
 
     identifiers = GenericRelation(

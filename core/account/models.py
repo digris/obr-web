@@ -18,6 +18,19 @@ from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
 
 
+class MigrationSource(models.TextChoices):
+    EMPTY = "", "none"
+    OBR = "obr", "OBR - radio"
+    OBP = "obp", "OBP - platform"
+
+
+class Gender(models.IntegerChoices):
+    UNDEFINED = 0, "undefined"
+    FEMALE = 1, "female"
+    MALE = 2, "male"
+    OTHER = 3, "other"
+
+
 class UserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
@@ -63,6 +76,13 @@ class User(
     email = models.EmailField(
         _("email address"),
         unique=True,
+        db_index=True,
+    )
+    phone = models.CharField(
+        max_length=64,
+        blank=True,
+        default="",
+        db_index=True,
     )
     first_name = models.CharField(
         max_length=64,
@@ -74,6 +94,14 @@ class User(
         null=True,
         blank=True,
     )
+    gender = models.PositiveSmallIntegerField(
+        choices=Gender.choices,
+        default=Gender.UNDEFINED,
+    )
+    date_of_birth = models.DateField(
+        null=True,
+        blank=True,
+    )
     is_staff = models.BooleanField(
         default=False,
     )
@@ -82,6 +110,19 @@ class User(
     )
     date_joined = models.DateTimeField(
         default=timezone.now,
+    )
+    obp_id = models.PositiveIntegerField(
+        verbose_name="open broadcast - platform ID",
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+    migration_source = models.CharField(
+        max_length=64,
+        choices=MigrationSource.choices,
+        default=MigrationSource.EMPTY,
+        blank=True,
+        db_index=True,
     )
 
     USERNAME_FIELD = "email"

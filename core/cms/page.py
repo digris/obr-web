@@ -10,7 +10,10 @@ PAGES_DIR = getattr(settings, "CMS_PAGES_DIR", "")
 
 MARKDOWN_EXTENSIONS = [
     "markdown.extensions.meta",
+    "markdown.extensions.toc",
+    "markdown.extensions.admonition",
     "markdown.extensions.fenced_code",
+    "pyembed.markdown",
 ]
 
 
@@ -27,6 +30,7 @@ def get_page_key_from_path(path: str) -> str:
 def parse_meta(meta):
     keys = [
         "title",
+        "summary",
     ]
     parsed = {}
     for key in keys:
@@ -35,7 +39,7 @@ def parse_meta(meta):
                 parsed[key] = value[0]
             else:
                 parsed[key] = value
-    print("parsed", parsed)
+
     return parsed
 
 
@@ -76,5 +80,8 @@ class Page:
         )
         html = md.convert(self.file_content)
         meta = md.Meta
-        data = {"body": html, **parse_meta(meta)}
+        data = {
+            "body": html,
+            **parse_meta(meta),
+        }
         return data

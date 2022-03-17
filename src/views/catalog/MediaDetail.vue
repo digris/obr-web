@@ -38,7 +38,7 @@ export default defineComponent({
     const store = useStore();
     const media = computed(() => store.getters['catalog/mediaByUid'](props.uid));
     const objKey = computed(() => {
-      return `${media.value.ct}:${media.value.uid}`;
+      return (media.value) ? `${media.value.ct}:${media.value.uid}` : null;
     });
     const query = computed(() => ({
       filter: {
@@ -77,8 +77,7 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
-        :enable-rating="(true)"
+        :obj="media"
         title-scope="Track"
         :title="media.name"
       >
@@ -91,8 +90,9 @@ export default defineComponent({
           >
             <PlayAction
               :obj-key="objKey"
-              :size="(64)"
-              :outlined="(false)"
+              :size="(96)"
+              :outlined="false"
+              :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>
@@ -123,6 +123,7 @@ export default defineComponent({
         <template
           #meta-panel
         >
+          <!--
           <span
             v-if="media"
           >
@@ -131,6 +132,7 @@ export default defineComponent({
           <span>
             •
           </span>
+          -->
           <Duration
             :seconds="media.duration"
           />

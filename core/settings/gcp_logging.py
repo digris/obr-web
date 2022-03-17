@@ -16,7 +16,6 @@ class StructuredFormatter(logging.Formatter):
             "lineno": record.lineno,
         }
         if record.args:
-            print("ARGS", record.args)
             try:
                 return dict({"text": message, "meta": meta, **record.args})
             except TypeError:
@@ -98,6 +97,14 @@ LOGGING = {
             "propagate": False,
         },
         "catalog": {
+            "level": "DEBUG",
+            "handlers": [
+                "console",
+                "gcp",
+            ],
+            "propagate": False,
+        },
+        "stats": {
             "level": "DEBUG",
             "handlers": [
                 "console",

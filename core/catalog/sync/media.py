@@ -12,7 +12,9 @@ from django.utils import timezone
 from google.cloud import storage
 
 from sync import api_client
-from sync.utils import update_relations, update_tags
+from sync.utils import update_relations, update_tags, update_identifier
+
+from identifier.models import IdentifierScope
 
 logger = logging.getLogger(__name__)
 
@@ -41,9 +43,9 @@ def sync_media(media, skip_media=False, **kwargs):
 
     update_relations(media, data.get("relations", []))
 
-    tags = data.get("tags", [])
+    update_tags(media, data.get("tags", []))
 
-    update_tags(media, tags)
+    update_identifier(media, IdentifierScope.ISRC, data.get("isrc"))
 
     try:
         master = Master.objects.get(media=media)
@@ -130,12 +132,6 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
         mode = "gs"
     else:
         mode = "fs"
-
-    # if master.path and not force:
-    #     # NOTE: implement re-sync
-    #     # if bucket.blob(master.path).exists():
-    #     #     return master
-    #     return master
 
     try:
         content, filename = download_master(media_uuid=master.uuid)

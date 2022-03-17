@@ -27,13 +27,13 @@ ADD ./src/assets/ ./build/assets/
 # python base image
 #######################################################################
 FROM python:3.10-slim as python-base
-ARG COMMIT=""
+ARG GIT_SHORT_SHA=""
 WORKDIR /root/
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PYTHONUNBUFFERED=1 \
-    GIT_COMMIT=$COMMIT
+    GIT_SHORT_SHA=$GIT_SHORT_SHA
 
 RUN set -ex \
     && apt-get update \
@@ -85,6 +85,7 @@ COPY --from=python-builder /venv /venv
 
 COPY ["manage.py", "./"]
 ADD ./core/ ./core/
+ADD ./content/ ./content/
 
 ENV PATH="/venv/bin:$PATH"
 
@@ -97,7 +98,8 @@ RUN unset DJANGO_SETTINGS_MODULE
 USER app
 
 ENV DJANGO_SETTINGS_MODULE=core.settings.live \
-    PORT=8000
+    PORT=8000 \
+    TZ="Europe/Zurich"
 
 EXPOSE 8000
 

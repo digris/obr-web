@@ -45,6 +45,10 @@ class Editor(
         default=Role.MUSIC_EDITOR,
     )
 
+    is_active = models.BooleanField(
+        default=False,
+    )
+
     votes = GenericRelation(
         "rating.Vote",
         related_query_name="editor",
@@ -60,6 +64,7 @@ class Editor(
         verbose_name = "Editor"
         verbose_name_plural = "Editors"
         ordering = [
+            "-is_active",
             "display_name",
         ]
 
@@ -69,6 +74,10 @@ class Editor(
     @cached_property
     def image(self):
         return self.images.first()
+
+    @cached_property
+    def is_former(self):
+        return not self.is_active
 
     def sync_data(self, *args, **kwargs):
         return sync_editor(self, *args, **kwargs)

@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     "broadcast",
     "catalog",
     "electronic_mail",
+    "stats",
+    #
+    "usersnap",
     "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
 ]
 
@@ -74,6 +77,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
+
+APPEND_SLASH = True
 
 TEMPLATES = [
     {
@@ -106,6 +111,10 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": env.db(
         default="postgres://obr:obr@db:5432/obr",
+    ),
+    "event": env.db_url(
+        "EVENT_DATABASE_URL",
+        default="sqlite:////dev/null",
     ),
     "sync": env.db_url(
         "SYNC_DATABASE_URL",
@@ -150,6 +159,7 @@ AUTHENTICATION_BACKENDS = [
     "social_core.backends.google.GoogleOAuth2",
     "social_core.backends.spotify.SpotifyOAuth2",
     "social_core.backends.apple.AppleIdAuth",
+    "account.social_auth_backends.deezer.DeezerOAuth2",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -202,6 +212,23 @@ SOCIAL_AUTH_SPOTIFY_SCOPE = [
     "user-read-private",
     "user-read-email",
     "user-top-read",
+]
+
+# deezer oauth2
+SOCIAL_AUTH_DEEZER_KEY = env(
+    "SOCIAL_AUTH_DEEZER_KEY",
+    default="",
+)
+
+SOCIAL_AUTH_DEEZER_SECRET = env(
+    "SOCIAL_AUTH_DEEZER_SECRET",
+    default="",
+)
+
+SOCIAL_AUTH_DEEZER_SCOPE = [
+    "manage_library",
+    # "listening_history",
+    "offline_access",
 ]
 
 
@@ -351,7 +378,6 @@ SPECTACULAR_SETTINGS = {
 ##################################################################
 # services
 ##################################################################
-GOOGLE_TAG_ID = ""
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",
     "hls": "https://stream-abr.next.openbroadcast.ch/manifest.m3u8",
@@ -367,6 +393,16 @@ IMAGE_RESIZER_ENDPOINT = env(
     default="https://next.openbroadcast.ch/images/",
 )
 
+
+##################################################################
+# context
+##################################################################
+GIT_SHORT_SHA = env(
+    "GIT_SHORT_SHA",
+    default="",
+)
+
+
 ##################################################################
 # payment providers
 ##################################################################
@@ -381,6 +417,15 @@ STRIPE_SECRET_KEY = env(
 
 
 ##################################################################
+# analytics
+##################################################################
+GOOGLE_GTM_ID = env(
+    "GOOGLE_GTM_ID",
+    default="GTM-KXBKVVT",
+)
+
+
+##################################################################
 # exported settings
 ##################################################################
 SETTINGS_EXPORT = [
@@ -390,6 +435,8 @@ SETTINGS_EXPORT = [
     "IMAGE_RESIZER_ENDPOINT",
     "STREAM_ENDPOINTS",
     "MEDIA_ENDPOINTS",
+    "GIT_SHORT_SHA",
+    "GOOGLE_GTM_ID",
     "SENTRY_DSN",
     "STRIPE_PUBLISHABLE_KEY",
 ]
@@ -409,11 +456,33 @@ OBP_SYNC_TOKEN = env(
 
 
 ##################################################################
+# OBR API
+##################################################################
+OBR_SYNC_ENDPOINT = env(
+    "OBR_SYNC_ENDPOINT",
+    default="https://www.openbroadcast.ch/api/v2/obr-sync/",
+)
+OBR_SYNC_TOKEN = env(
+    "OBR_SYNC_TOKEN",
+    default="",
+)
+
+
+##################################################################
+# 3rd party services
+##################################################################
+USERSNAP_API_KEY = env(
+    "USERSNAP_API_KEY",
+    default=None,
+)
+
+
+##################################################################
 # "CMS"
 ##################################################################
 CMS_PAGES_DIR = env(
-    "OBP_SYNC_TOKEN",
-    default=str(PROJECT_ROOT / "data" / "pages"),
+    "CMS_PAGES_DIR",
+    default=str(PROJECT_ROOT / "content" / "pages"),
 )
 
 
@@ -482,7 +551,7 @@ LOGGING_ = {
             "propagate": False,
         },
         "sentry.errors": {
-            "level": "INFO",
+            "level": "WARNING",
             "handlers": ["console"],
             "propagate": False,
         },

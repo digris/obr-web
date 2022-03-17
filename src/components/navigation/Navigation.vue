@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import eventBus from '@/eventBus';
-import MainMenu from '@/components/topbar/MainMenu.vue';
-import AccountMenu from '@/components/topbar/AccountMenu.vue';
-import SubscriptionStatus from '@/components/topbar/SubscriptionStatus.vue';
-import ToggleMenuButton from '@/components/topbar/ToggleMenuButton.vue';
+import MainMenu from '@/components/navigation/MainMenu.vue';
+import AccountMenu from '@/components/navigation/AccountMenu.vue';
+import SubscriptionStatus from '@/components/navigation/SubscriptionStatus.vue';
+import ToggleMenuButton from '@/components/navigation/ToggleMenuButton.vue';
 
 export default defineComponent({
   components: {
@@ -61,26 +61,28 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
+@use "@/style/base/live-color";
 .topbar {
   position: sticky;
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 272px 1fr 200px 72px;
+  grid-template-columns: 172px 1fr 100px 72px;
   width: 100%;
   height: 78px;
   background: rgba(var(--c-page-bg), 0.9);
   border-bottom: 7px solid rgb(var(--c-page-fg));
-  //backdrop-filter: blur(2px);
   transition: background 1000ms;
   @include responsive.bp-small {
     grid-template-columns: 120px 1fr 120px;
   }
   .brand {
+    @include live-color.fg;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 1.5rem;
+    transition: color, background-color 200ms;
   }
   .menu {
     display: flex;
@@ -101,7 +103,7 @@ export default defineComponent({
     justify-content: flex-end;
     > div {
       &:not(:last-child) {
-        margin-right: 1rem;
+        margin-right: 0.25rem;
       }
     }
   }

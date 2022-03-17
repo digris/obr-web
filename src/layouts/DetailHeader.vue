@@ -2,21 +2,29 @@
 import {
   defineComponent,
   ref,
-  onMounted,
+  onMounted, computed,
 } from 'vue';
 import { useRouter } from 'vue-router';
 
 import BackButton from '@/components/ui/button/BackButton.vue';
+import CircleButton from '@/components/ui/button/CircleButton.vue';
 import UserRating from '@/components/rating/UserRating.vue';
+import ContextMenu from '@/components/context-menu/ContextMenu.vue';
 
 export default defineComponent({
   components: {
     BackButton,
+    CircleButton,
     UserRating,
+    ContextMenu,
   },
   props: {
-    objKey: {
-      type: String,
+    // objKey: {
+    //   type: String,
+    //   required: true,
+    // },
+    obj: {
+      type: Object,
       required: true,
     },
     titleScope: {
@@ -29,13 +37,14 @@ export default defineComponent({
       required: false,
       default: null,
     },
-    enableRating: {
+    showContextMenu: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
-  setup() {
+  setup(props) {
     const router = useRouter();
+    const objKey = computed(() => `${props.obj.ct}:${props.obj.uid}`);
     const canNavigateBack = ref(false);
     const back = () => {
       if (canNavigateBack.value) {
@@ -48,6 +57,7 @@ export default defineComponent({
       }
     });
     return {
+      objKey,
       canNavigateBack,
       back,
     };
@@ -69,6 +79,11 @@ export default defineComponent({
           v-if="canNavigateBack"
           @click="back"
         />
+        <div
+          class="scope"
+          v-if="titleScope"
+          v-text="titleScope"
+        />
       </div>
       <div
         class="title"
@@ -76,10 +91,19 @@ export default defineComponent({
       <div
         class="actions"
       >
-        <UserRating
-          v-if="enableRating"
-          :obj-key="objKey"
-          :autoload="(true)"
+        <CircleButton
+          v-if="showContextMenu"
+          :size="(48)"
+          :outlined="(false)"
+        >
+          <UserRating
+            :obj-key="objKey"
+            :autoload="(true)"
+          />
+        </CircleButton>
+        <ContextMenu
+          v-if="showContextMenu"
+          :obj="obj"
         />
       </div>
     </div>
@@ -99,11 +123,13 @@ export default defineComponent({
         <div
           class="title"
         >
+          <!--
           <div
             class="title--scope"
             v-if="titleScope"
             v-text="titleScope"
           />
+          -->
           <h1
             class="title--primary"
             v-text="title"
@@ -118,11 +144,6 @@ export default defineComponent({
       class="bottom"
     >
       <div
-        class="noop"
-      >
-
-      </div>
-      <div
         class="meta"
       >
         <slot
@@ -132,8 +153,8 @@ export default defineComponent({
       <div
         class="searchbar"
       >
-        <div
-          id="searchbar"
+        <slot
+          name="searchbar"
         />
       </div>
     </div>
@@ -176,23 +197,38 @@ export default defineComponent({
   .top {
     position: sticky;
     top: 0;
-    > .actions {
-      justify-self: flex-end;
-    }
-  }
-  .bottom {
-    > .filterbar {
-      background: transparent;
-    }
-  }
-  .top,
-  .bottom {
+    z-index: 4;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     height: 4rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    > .back {
+      display: flex;
+      align-items: center;
+      .scope {
+        padding-left: 1rem;
+      }
+    }
+    > .actions {
+      display: flex;
+      justify-self: flex-end;
+    }
+  }
+  .bottom {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    height: 3rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    .meta {
+      padding-left: 4rem;
+    }
+    > .filterbar {
+      background: transparent;
+    }
   }
   .main {
     position: relative;
@@ -212,13 +248,17 @@ export default defineComponent({
       position: absolute;
       top: 0;
       width: calc(50% - 48px); // TODO: width calculation
+      margin-top: -1.5rem;
+      padding-left: calc(48px + 1rem);
       .title {
         margin-bottom: 0.5rem;
+        /*
         &--scope {
           @include typo.default;
           @include typo.bold;
           line-height: 1.5rem;
         }
+        */
         &--primary {
           @include typo.x-large;
           @include typo.bold;

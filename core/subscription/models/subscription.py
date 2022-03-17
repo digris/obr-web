@@ -59,8 +59,8 @@ class Subscription(CTUIDModelMixin, TimestampedModelMixin, models.Model):
         verbose_name = "Subscription"
         verbose_name_plural = "Subscriptions"
 
-    def __str__(self):
-        return f"<Subscription> {self.uid}"
+    # def __str__(self):
+    #     return f"<Subscription> {self.uid}"
 
     @property
     def is_active(self):

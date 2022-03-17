@@ -73,7 +73,7 @@ services:
   sync-schedule:
     container_name: sync-schedule
     user: 1000:1000
-#    user: 501:20
+#    command: echo "sync-schedule disabled."
     command: ./sync-schedule
     image: obr/core:lateest
     volumes:

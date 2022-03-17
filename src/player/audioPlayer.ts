@@ -3,6 +3,7 @@ import shaka from 'shaka-player';
 import { DateTime } from 'luxon';
 import eventBus from '@/eventBus';
 import store from '@/store';
+import { playStream } from '@/player/stream';
 
 const SHAKA_CONFIG = {
   manifest: {
@@ -27,7 +28,7 @@ const SHAKA_CONFIG = {
   },
 };
 
-const POLL_INTERVAL = 200;
+const POLL_INTERVAL = 100;
 
 const PROTECTED_MEDIA = 'https://media.next.openbroadcast.ch/';
 
@@ -164,7 +165,7 @@ class AudioPlayer {
 
     // NOTE: check how to structure playhead info / time...
     if (playheadTime) {
-      store.dispatch('time/setPlayheadTime', DateTime.fromJSDate(playheadTime).plus({ seconds: +1 }));
+      store.dispatch('time/setPlayheadTime', DateTime.fromJSDate(playheadTime).plus({ seconds: +0 }));
     } else {
       store.dispatch('time/setPlayheadTime', null);
     }
@@ -202,12 +203,6 @@ class AudioPlayer {
 
   stop() {
     this.player.unload();
-    // this.audio.pause();
-    // try {
-    //   this.audio.currentTime = 0;
-    // } catch (err) {
-    //   console.warn(err);
-    // }
   }
 
   pause() {
@@ -215,6 +210,10 @@ class AudioPlayer {
   }
 
   resume() {
+    if (this.player.isLive()) {
+      playStream();
+      return;
+    }
     this.audio.play();
   }
 }

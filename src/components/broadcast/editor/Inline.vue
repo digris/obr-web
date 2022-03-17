@@ -42,14 +42,15 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/base/live-color";
 @use "@/style/abstracts/responsive";
+@use "@/style/base/live-color";
 .editor {
   display: inline-flex;
   align-items: center;
   height: 3rem;
   margin-top: 0.75rem;
   border-radius: 1.5rem;
+  transition: color, background-color 200ms;
   .visual {
     display: flex;
     align-items: center;
@@ -82,11 +83,8 @@ export default defineComponent({
 
     }
   }
-  @include responsive.hover-supported {
-    &:hover {
-      @include live-color.bg-inverse(0.1);
-      transition: color, background-color 200ms;
-    }
+  @include responsive.on-hover {
+    @include live-color.bg-inverse(0.1);
   }
 }
 </style>
