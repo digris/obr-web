@@ -1,5 +1,4 @@
 <script lang="ts">
-import { debounce } from 'lodash-es';
 import {
   ref,
   computed,
@@ -8,6 +7,7 @@ import {
   onMounted,
 } from 'vue';
 import { useStore } from 'vuex';
+import { debounce } from 'lodash-es';
 
 import notify from '@/utils/notification';
 
@@ -88,7 +88,7 @@ export default defineComponent({
       } else {
         await store.dispatch('rating/updateRating', vote);
       }
-    }, 200);
+    }, 200, { leading: true, trailing: false });
     const downvote = async () => {
       const vote = {
         key: objKey.value,

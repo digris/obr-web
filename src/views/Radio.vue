@@ -5,7 +5,7 @@ import {
   watch,
   defineComponent,
 } from 'vue';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize, useFullscreen } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -30,6 +30,7 @@ export default defineComponent({
     Program,
   },
   setup() {
+    const root = ref();
     const route = useRoute();
     const store = useStore();
     const current = computed(() => store.getters['schedule/current']);
@@ -43,6 +44,8 @@ export default defineComponent({
     const itemSize = computed(() => {
       const maxForWidth = vpWidth.value * 0.4; // 3/4/3 grid
       const maxForHeight = vpHeight.value - 360; // height - navigation, spacing, player etc.
+      // const maxForHeight = vpWidth.value * 0.3; // height - navigation, spacing, player etc.
+      // const size = Math.max(Math.min(maxForWidth, maxForHeight, 1200), 240);
       const size = Math.max(Math.min(maxForWidth, maxForHeight, 1200), 240);
       return Math.round(size);
     });
@@ -148,7 +151,11 @@ export default defineComponent({
         }
       }
     });
+    const {
+      toggle: toggleFullscreen,
+    } = useFullscreen();
     return {
+      root,
       items,
       itemSize,
       current,
@@ -167,6 +174,8 @@ export default defineComponent({
       programVisible,
       toggleProgram,
       hideProgram,
+      //
+      toggleFullscreen,
     };
   },
 });
@@ -174,6 +183,7 @@ export default defineComponent({
 
 <template>
   <div
+    ref="root"
     class="on-air"
     :style="cssVars"
   >
