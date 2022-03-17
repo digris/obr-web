@@ -67,7 +67,7 @@ export default defineComponent({
       <p>
         <span
           v-if="address.country"
-          v-text="`${address.country.code}${address.postalCode ? '-' : ''}`"
+          v-text="`${address.country}${address.postalCode ? '-' : ''}`"
         />
         <span
           v-if="address.postalCode"
