@@ -1,32 +1,51 @@
 @charset "UTF-8";
 
-@import "variables";
+$pb-small: 400px;
+$pb-medium: 720px;
+$pb-large: 1024px;
+$pb-max: 1400px;
 
 @mixin bp-small {
-  @media (max-width: #{map-get($breakpoints, medium)}) {
+  @media (max-width: #{$pb-small}) {
     @content;
   }
 }
 
 @mixin bp-medium-up {
-  @media (min-width: #{map-get($breakpoints, medium)}) {
+  @media (min-width: #{$pb-medium}) {
     @content;
   }
 }
 
 @mixin bp-large-up {
-  @media (min-width: #{map-get($breakpoints, large)}) {
+  @media (min-width: #{$pb-large}) {
     @content;
   }
 }
 
 @mixin hover-supported {
-  /*
-   * https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer
-   * coarse: The primary input mechanism includes a pointing device of limited accuracy.
-   */
   @media not all and (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin tap-supported {
+  @media not all and (pointer: fine) {
+    @content;
+  }
+}
+
+@mixin on-hover {
+  @include hover-supported {
     &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin on-tap {
+  @include tap-supported {
+    &:active {
       @content;
     }
   }

@@ -282,10 +282,8 @@ export default defineComponent({
     border-top: 1px solid rgb(var(--c-gray-200));
   }
 
-  @include responsive.hover-supported {
-    &:hover {
-      background: rgb(var(--c-gray-100));
-    }
+  @include responsive.on-hover {
+    background: rgb(var(--c-gray-100));
   }
 }
 

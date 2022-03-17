@@ -66,11 +66,9 @@ export default defineComponent({
   }
   &__name {
     white-space: nowrap;
-    @include responsive.hover-supported {
-      &:hover {
-        @include live-color.bg-inverse(0.1);
-        transition: color, background-color 200ms;
-      }
+    @include responsive.on-hover {
+      @include live-color.bg-inverse(0.1);
+      transition: color, background-color 200ms;
     }
   }
 }

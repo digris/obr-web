@@ -94,7 +94,6 @@ export default defineComponent({
   border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
-  transition: background 200ms, color 200ms, border 200ms;
   &.is-outlined {
     border-color: rgba(var(--c-main), var(--outline-opacity));
   }
@@ -116,10 +115,15 @@ export default defineComponent({
     box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;
   }
   @include responsive.hover-supported {
-    &:hover {
-      background: rgba(var(--c-main), 0.1);
-      border-color: var(--outline-hover-color);
-    }
+    transition: background 1000ms, color 200ms, border 200ms;
+  }
+  @include responsive.on-hover {
+    background: rgba(var(--c-main), 0.1);
+    border-color: var(--outline-hover-color);
+  }
+  @include responsive.on-tap {
+    background: rgba(var(--c-main), 0.1);
+    border-color: var(--outline-hover-color);
   }
 }
 </style>

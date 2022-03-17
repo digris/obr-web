@@ -66,7 +66,7 @@ export default defineComponent({
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 272px 1fr 200px 72px;
+  grid-template-columns: 172px 1fr 100px 72px;
   width: 100%;
   height: 78px;
   background: rgba(var(--c-page-bg), 0.9);

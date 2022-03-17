@@ -5,6 +5,7 @@ import {
   onMounted,
 } from 'vue';
 import { useStore } from 'vuex';
+import { debounce } from 'lodash-es';
 
 import IconHeart from '@/components/ui/icon/IconHeart.vue';
 import IconFlash from '@/components/ui/icon/IconFlash.vue';
@@ -42,13 +43,13 @@ export default defineComponent({
     const userRating = computed(() => {
       return store.getters['rating/ratingByKey'](props.objKey);
     });
-    const rate = async (value: number) => {
+    const rate = debounce(async (value: number) => {
       const vote = {
         key: props.objKey,
         value,
       };
       await store.dispatch('rating/updateRating', vote);
-    };
+    }, 200, { leading: true, trailing: false });
     const style = computed(() => {
       return {
         height: `${props.iconSize}px`,

@@ -551,7 +551,7 @@ LOGGING_ = {
             "propagate": False,
         },
         "sentry.errors": {
-            "level": "INFO",
+            "level": "WARNING",
             "handlers": ["console"],
             "propagate": False,
         },
