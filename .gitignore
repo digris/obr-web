@@ -41,6 +41,3 @@ pnpm-debug.log*
 #.vscode
 
 /fixtures
-
-/cypress/videos/
-/cypress/screenshots/

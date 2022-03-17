@@ -2,14 +2,14 @@
 # python base image
 #######################################################################
 FROM python:3.10-slim as python-base
-ARG COMMIT=""
+ARG GIT_SHORT_SHA=""
 WORKDIR /root/
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    GIT_COMMIT=$COMMIT
+    GIT_SHORT_SHA=$GIT_SHORT_SHA
 
 RUN set -ex \
     && apt-get update \
