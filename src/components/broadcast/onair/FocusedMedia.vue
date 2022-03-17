@@ -87,9 +87,9 @@ export default defineComponent({
   }
 }
 a {
+  transition: color, background-color 200ms;
   @include responsive.on-hover {
     @include live-color.bg-inverse(0.1);
-    transition: color, background-color 200ms;
   }
 }
 </style>

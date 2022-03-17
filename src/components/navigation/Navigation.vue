@@ -61,6 +61,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
+@use "@/style/base/live-color";
 .topbar {
   position: sticky;
   top: 0;
@@ -71,16 +72,17 @@ export default defineComponent({
   height: 78px;
   background: rgba(var(--c-page-bg), 0.9);
   border-bottom: 7px solid rgb(var(--c-page-fg));
-  //backdrop-filter: blur(2px);
   transition: background 1000ms;
   @include responsive.bp-small {
     grid-template-columns: 120px 1fr 120px;
   }
   .brand {
+    @include live-color.fg;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 1.5rem;
+    transition: color, background-color 200ms;
   }
   .menu {
     display: flex;
