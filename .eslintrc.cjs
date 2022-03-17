@@ -17,6 +17,8 @@ module.exports = {
     // ignores during transition to vite
     "vue/multi-word-component-names": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": "off",
     //
     "arrow-body-style": "off",
     "no-shadow": "off",
