@@ -7,12 +7,17 @@ import {
 } from 'vue';
 import { getPage } from '@/api/cms';
 
+import SocialMediaLinks from '@/components/social-media/SocialMediaLinks.vue';
+
 export default defineComponent({
   props: {
     path: {
       type: String,
       required: true,
     },
+  },
+  components: {
+    SocialMediaLinks,
   },
   setup(props) {
     const page = ref({});
@@ -38,7 +43,6 @@ export default defineComponent({
     );
     return {
       page,
-      // body,
     };
   },
 });
@@ -61,6 +65,11 @@ export default defineComponent({
       v-if="page.body"
       v-html="page.body"
     />
+    <div
+      class="appendix"
+    >
+      <SocialMediaLinks />
+    </div>
   </div>
 </template>
 
@@ -79,12 +88,22 @@ export default defineComponent({
   }
   :deep(.body ) {
     @include cms.content;
+    @include cms.pyembed;
     > p {
       line-height: 110%;
       &:first-child {
         @include typo.large;
       }
     }
+    > .toc {
+      @include cms.toc;
+    }
+    > .admonition {
+      @include cms.admonition;
+    }
+  }
+  .appendix {
+    padding: 2rem 0 6rem;
   }
 }
 </style>

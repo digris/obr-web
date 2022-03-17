@@ -68,7 +68,6 @@ class Command(BaseCommand):
             "--database",
             type=str,
             default="default",
-            help="database connection to use",
         )
 
     def handle(self, *args, **options):

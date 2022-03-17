@@ -27,7 +27,7 @@ class BridgeView(APIView):
                 # pylint: disable=import-outside-toplevel
                 from broadcast.sync import schedule
 
-                date_start = datetime.now().replace(minute=0, second=0)
+                date_start = datetime.now().replace(minute=0, second=0, microsecond=0)
                 date_end = date_start + timedelta(hours=4)
 
                 updated = list(

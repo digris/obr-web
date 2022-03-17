@@ -11,4 +11,17 @@ class IdentifierInline(GenericTabularInline):
 
 @admin.register(Identifier)
 class IdentifierAdmin(admin.ModelAdmin):
-    pass
+
+    list_display = [
+        "__str__",
+        "value",
+        "content_type",
+    ]
+
+    list_filter = [
+        "scope",
+    ]
+
+    search_fields = [
+        "value",
+    ]

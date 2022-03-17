@@ -1,4 +1,5 @@
 import { computed, watch } from 'vue';
+import { isEqual } from 'lodash-es';
 import store from '@/store';
 
 class PlayerStateHandler {
@@ -18,7 +19,7 @@ class PlayerStateHandler {
       };
     });
     watch(computedItem, (item, previousItem) => {
-      if (JSON.stringify(item) === JSON.stringify(previousItem)) {
+      if (isEqual(item, previousItem)) {
         return;
       }
       store.dispatch('player/updateCurrentItem', item);

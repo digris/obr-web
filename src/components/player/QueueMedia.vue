@@ -5,10 +5,11 @@ import {
   defineComponent,
   onMounted, watch,
 } from 'vue';
-import { useStore } from 'vuex';
+
+import { usePlayerState, usePlayerControls } from '@/composables/player';
+import { useQueueControls } from '@/composables/queue';
 import { getContrastColor, getMediaColor } from '@/utils/color';
-import eventBus from '@/eventBus';
-import queue from '@/player/queue';
+
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconRemove from '@/components/ui/icon/IconRemove.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
@@ -40,21 +41,21 @@ export default defineComponent({
   },
   setup(props) {
     const root = ref(null);
-    const store = useStore();
+    const {
+      isLive,
+      isPlaying,
+      isBuffering,
+      // currentMedia,
+    } = usePlayerState();
+    const {
+      pause,
+    } = usePlayerControls();
+    const {
+      playFromIndex,
+      removeAtIndex,
+    } = useQueueControls();
     const objKey = computed(() => {
       return `${props.media?.ct}:${props.media?.uid}`;
-    });
-    // TODO: this is quite a lot duplicate logic as in catalog/media/Row.vue
-    // it eventually would be better to combine it in a central place.
-    const playerState = computed(() => {
-      return props.isCurrent ? store.getters['player/playerState'] : null;
-    });
-    const isLive = computed(() => playerState.value && playerState.value.isLive);
-    const isPlaying = computed(() => {
-      return playerState.value && playerState.value.isPlaying && !isLive.value;
-    });
-    const isBuffering = computed(() => {
-      return playerState.value && playerState.value.isBuffering && !isLive.value;
     });
     const color = computed(() => {
       // @ts-ignore
@@ -97,21 +98,17 @@ export default defineComponent({
       },
     );
     const play = async () => {
-      await queue.playFromIndex(props.index);
-    };
-    const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
+      await playFromIndex(props.index);
     };
     const canRemove = computed(() => {
       return !props.isCurrent;
     });
     const remove = async () => {
-      await queue.removeAtIndex(props.index);
+      await removeAtIndex(props.index);
     };
     return {
       root,
       objKey,
-      playerState,
       isPlaying,
       isBuffering,
       buttonCssVars,
@@ -144,8 +141,8 @@ export default defineComponent({
         @click="play"
         @pause="pause"
         :is-active="(isCurrent)"
-        :is-playing="isPlaying"
-        :is-buffering="isBuffering"
+        :is-playing="(isCurrent && isPlaying)"
+        :is-buffering="(isCurrent && isBuffering)"
         :style="buttonCssVars"
         :color="`rgb(${buttonColor.join(',')})`"
       />

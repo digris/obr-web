@@ -48,6 +48,36 @@ class AddressInline(admin.StackedInline):
     )
 
 
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    model = Address
+    list_display = [
+        "user",
+        "line_1",
+        "line_2",
+        "postal_code",
+        "city",
+        "country",
+    ]
+    search_fields = [
+        "user__uid",
+        "user__email",
+        "user__first_name",
+        "user__last_name",
+        "line_1",
+        "line_2",
+        "postal_code",
+        "city",
+        "country",
+    ]
+    # list_filter = [
+    #     "country",
+    # ]
+    readonly_fields = [
+        "user",
+    ]
+
+
 @admin.register(User)
 class UserAdmin(AuthUserAdmin):
     add_form = UserCreationForm
@@ -56,14 +86,19 @@ class UserAdmin(AuthUserAdmin):
     list_display = [
         "email",
         "uid",
+        "phone",
+        "migration_source",
         "is_active",
         "is_staff",
         "is_superuser",
+        # "date_joined",
+        # "last_login",
     ]
     list_filter = [
         "is_staff",
         "is_active",
         "is_superuser",
+        "migration_source",
         "date_joined",
         "last_login",
     ]
@@ -84,15 +119,30 @@ class UserAdmin(AuthUserAdmin):
         (
             None,
             {
-                "fields": ("email", "password"),
+                "fields": (
+                    "email",
+                    "phone",
+                    "password",
+                ),
             },
         ),
         (
             "User Details",
             {
                 "fields": (
+                    "gender",
                     "first_name",
                     "last_name",
+                    "date_of_birth",
+                ),
+            },
+        ),
+        (
+            "Migration / remote",
+            {
+                "fields": (
+                    "obp_id",
+                    "migration_source",
                 ),
             },
         ),

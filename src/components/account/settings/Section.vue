@@ -14,7 +14,6 @@ export default defineComponent({
     },
   },
   setup(props, { attrs, emit }) {
-    console.dir(attrs.onEdit);
     const isEditable = computed(() => {
       return !!attrs.onEdit;
     });
@@ -52,6 +51,14 @@ export default defineComponent({
       <slot
         name="default"
       />
+      <div
+        v-if="isEditable"
+        class="panel-icon"
+      >
+        <IconEdit
+          :size="36"
+        />
+      </div>
     </div>
   </section>
 </template>

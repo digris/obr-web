@@ -1,5 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import {
+  computed,
+  defineComponent,
+} from 'vue';
+
 import Identifier from './Identifier.vue';
 
 export default defineComponent({

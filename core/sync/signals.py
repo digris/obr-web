@@ -49,5 +49,10 @@ def sync_model_post_save(sender, instance, **kwargs):
 @receiver(broadcast_signals.schedule_updated)
 # pylint: disable=unused-argument
 def schedule_post_update(sender, time_start, time_end, emissions, **kwargs):
-    time_start = timezone.make_aware(time_start)
-    sync_airplays(time_start=time_start)
+    if timezone.is_naive(time_start):
+        time_start = timezone.make_aware(time_start)
+        logger.debug(f"converted to timezone aware: {time_start}")
+    if timezone.is_naive(time_end):
+        time_end = timezone.make_aware(time_end)
+        logger.debug(f"converted to timezone aware: {time_end}")
+    sync_airplays(time_start=time_start, time_end=time_end)

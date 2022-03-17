@@ -45,3 +45,17 @@ def get_user_identity(request):
         return f"account.user:{request.user.uid}"
 
     return get_anonymous_user_key(request)
+
+
+def get_device_key(request):
+    remote_ip = get_remote_ip(request)
+    user_agent = get_user_agent(request)
+    accept_language = get_accept_language(request)
+
+    parts = [
+        get_base64(remote_ip),
+        get_sha1(user_agent)[:10],
+        get_sha1(accept_language)[:10],
+    ]
+
+    return "-".join(parts)

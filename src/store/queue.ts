@@ -3,6 +3,7 @@
 export interface Queue {
   media: Array<object>,
   scope: Array<string>,
+  mode?: string,
 }
 
 export interface State {
@@ -45,11 +46,31 @@ const mutations = {
     state.currentIndex = index;
   },
   REMOVE_INDEX: (state:any, index: number) => {
+    console.debug('REMOVE_INDEX', index, state.currentIndex);
     state.media.splice(index, 1);
+    if (index < state.currentIndex) {
+      state.currentIndex -= 1;
+    }
   },
   REPLACE_MEDIA: (state:any, media: Array<object>) => {
     state.media = media;
     state.currentIndex = (media.length) ? 0 : -1;
+  },
+  INSERT_MEDIA: (state:any, media: Array<object>) => {
+    // state.media = [...state.media, ...media];
+    const splitAt = state.currentIndex + 1;
+    const head = state.media.slice(0, splitAt);
+    const tail = state.media.slice(splitAt);
+    state.media = [...head, ...media, ...tail];
+    if (state.currentIndex < 0) {
+      state.currentIndex = (media.length) ? 0 : -1;
+    }
+  },
+  APPEND_MEDIA: (state:any, media: Array<object>) => {
+    state.media = [...state.media, ...media];
+    if (state.currentIndex < 0) {
+      state.currentIndex = (media.length) ? 0 : -1;
+    }
   },
 };
 
@@ -61,6 +82,7 @@ const actions = {
     context.commit('REMOVE_INDEX', index);
   },
   replaceQueue: async (context:any, queue: Queue) => {
+    // TODO: refactor to `enqueue`
     const { media, scope } = queue;
     const mappedMedia = media.map((mediaObj) => {
       // @ts-ignore
@@ -71,6 +93,27 @@ const actions = {
       return { ...mediaObj, scope: mappedScope };
     });
     context.commit('REPLACE_MEDIA', mappedMedia);
+  },
+  enqueue: async (context:any, queue: Queue) => {
+    const { media, mode, scope } = queue;
+    const mappedMedia = media.map((mediaObj) => {
+      // @ts-ignore
+      const artistKeys = mediaObj.artists.map((artistObj) => {
+        return `${artistObj.ct}:${artistObj.uid}`;
+      });
+      const mappedScope = scope ? [...scope, ...artistKeys] : artistKeys;
+      return { ...mediaObj, scope: mappedScope };
+    });
+    console.debug(mode, mappedMedia);
+    if (mode === 'replace') {
+      context.commit('REPLACE_MEDIA', mappedMedia);
+    } else if (mode === 'insert') {
+      context.commit('INSERT_MEDIA', mappedMedia);
+    } else if (mode === 'append') {
+      context.commit('APPEND_MEDIA', mappedMedia);
+    } else {
+      console.warn(`nothing to do for mode: ${mode}`);
+    }
   },
 };
 

@@ -8,7 +8,7 @@ import { requireSubscription } from '@/utils/account';
 
 import Debug from '@/components/dev/Debug.vue';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconContext from '@/components/ui/icon/IconContext.vue';
+import ContextMenu from '@/components/context-menu/ContextMenu.vue';
 import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
@@ -26,7 +26,7 @@ export default defineComponent({
   components: {
     Debug,
     CircleButton,
-    IconContext,
+    ContextMenu,
     ButtonPlay,
     MediaArtists,
     MediaReleases,
@@ -127,7 +127,7 @@ export default defineComponent({
         media: [media],
       };
       eventBus.emit('queue:controls:enqueue', payload);
-    }, 'A subscription is required...');
+    }, 'A plan is required.');
     const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });
     };
@@ -232,7 +232,6 @@ export default defineComponent({
         <RelativeDateTime
           v-if="latestAirplay"
           :date-time="latestAirplay"
-          v-tooltip="`Total airplays: ${media.numAirplays}`"
         />
       </div>
       <Duration
@@ -252,6 +251,7 @@ export default defineComponent({
             :hide-if-unset="(!isHover)"
           />
         </CircleButton>
+        <!--
         <CircleButton
           :size="(48)"
           :outlined="(false)"
@@ -260,6 +260,10 @@ export default defineComponent({
             :size="48"
           />
         </CircleButton>
+        -->
+        <ContextMenu
+          :obj="media"
+        />
       </div>
     </div>
   </div>
@@ -278,7 +282,7 @@ export default defineComponent({
     border-top: 1px solid rgb(var(--c-gray-200));
   }
 
-  &:hover {
+  @include responsive.on-hover {
     background: rgb(var(--c-gray-100));
   }
 }
@@ -384,11 +388,6 @@ export default defineComponent({
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-    }
-    //TODO: just a quick fix
-    .play,
-    .actions {
-      transform: scale(calc(40 / 48));
     }
     .release,
     .airplays,

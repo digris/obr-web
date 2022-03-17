@@ -47,10 +47,12 @@ class EditorAdmin(admin.ModelAdmin):
         "display_name",
         "uid",
         "updated",
+        "is_active",
         "sync_state",
     ]
     list_filter = [
         "updated",
+        "is_active",
         "sync_state",
     ]
     search_fields = [

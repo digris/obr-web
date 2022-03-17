@@ -1,7 +1,7 @@
 import environ
 
 ##################################################################
-# explicitly load .envrc file. so there are the same ENV variables
+# explicitly load .env file. so there are the same ENV variables
 # as when using direnv.
 # this also works for pycharm / vs-code run configurations.
 # https://direnv.net/
@@ -23,3 +23,6 @@ from .development import *  # NOQA
 # print("DEBUG", settings.DEBUG)
 # print("DATABASES", settings.DATABASES)
 # print("EMAIL_BACKEND", settings.EMAIL_BACKEND)
+
+# from .gcp_logging import LOGGING  # NOQA
+from .dev_logging import LOGGING  # NOQA

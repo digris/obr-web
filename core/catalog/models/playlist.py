@@ -35,7 +35,7 @@ class Playlist(
         on_delete=models.SET_NULL,
     )
 
-    series_episode = models.PositiveSmallIntegerField(
+    series_episode = models.PositiveIntegerField(
         verbose_name="Series #",
         null=True,
         blank=True,

@@ -15,14 +15,16 @@
       >
         <router-link
           :to="{ name: 'collectionMedia' }"
-        >
-          Tracks
-        </router-link>
+          v-text="`Tracks`"
+        />
         <router-link
-          :to="{ name: 'collectionAPlaylists' }"
-        >
-          Shows
-        </router-link>
+          :to="{ name: 'collectionPlaylists' }"
+          v-text="`Shows`"
+        />
+        <router-link
+          :to="{ name: 'collectionArtists' }"
+          v-text="`Künstler*innen`"
+        />
       </div>
       <div
         class="menu menu--secondary"
@@ -75,9 +77,8 @@
   @include container.default;
   @include typo.x-large;
   @include typo.bold;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   margin-bottom: 1.5rem;
-  text-align: center;
 }
 .list-menu {
   @include container.default;

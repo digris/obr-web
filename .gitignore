@@ -23,6 +23,9 @@ gcp/terraform
 .env.*.local
 .env.live
 
+# 
+core/settings/sync.py
+
 # compose
 docker-compose.override.yml
 
@@ -34,7 +37,7 @@ pnpm-debug.log*
 
 # Editor directories and files
 .idea
-.vscode
+#.vscode
 
 /fixtures
 

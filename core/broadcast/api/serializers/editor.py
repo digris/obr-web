@@ -20,6 +20,7 @@ class ImageSerializer(BaseImageSerializer):
                 "ct": "broadcast.editor",
                 "uid": "3144C75B",
                 "name": "bang Goes",
+                "is_active": True,
                 "image": {
                     "uid": "60D49C10",
                     "file": "broadcast/editor/234B03E6/60D49C10.jpeg",
@@ -63,6 +64,7 @@ class EditorSerializer(
             "role",
             "num_playlists",
             "image",
+            "is_active",
         ]
         depth = 2
 

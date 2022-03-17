@@ -8,7 +8,7 @@ MAKEFLAGS += --no-builtin-rules
 GCP_PROJECT = open-broadcast
 DOCKER_TAG = ch-openbroadcast-next
 PORT = 8080
-COMMIT_HASH = $(shell git rev-parse --short HEAD)
+GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 
 lint:
 	npx stylelint "./src/**/*.(scss|js|vue)"
@@ -27,8 +27,7 @@ test:
 	pytest -m "e2e" -s ./core/tests/
 
 docker-image:
-	#docker build -f ./docker/Dockerfile -t $(DOCKER_TAG):latest . --progress=plain
-	docker build --build-arg COMMIT=$(COMMIT_HASH) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
+	docker build --build-arg GIT_SHORT_SHA=$(GIT_SHORT_SHA) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
 deploy:
 	gcloud builds submit --project $(GCP_PROJECT) --timeout=1200
@@ -36,6 +35,10 @@ deploy:
 update-settings:
 	gcloud --project $(GCP_PROJECT) \
 	  secrets versions add ch-openbroadcast-settings --data-file .env.live
+
+show-settings:
+	gcloud --project $(GCP_PROJECT) \
+	  secrets versions access latest --secret=ch-openbroadcast-settings
 
 translations:
 	poetry run ./manage.py makemessages \

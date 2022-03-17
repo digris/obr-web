@@ -122,9 +122,9 @@ export default defineComponent({
     margin-bottom: 0.5rem;
   }
   .tag {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     &:not(:last-child) {
-      margin-right: 0.5rem;
+      margin-right: 0.25rem;
     }
   }
   &.is-loading {

@@ -18,7 +18,6 @@ import PlayAction from '@/components/catalog/actions/PlayAction.vue';
 import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 import EditorInline from '@/components/broadcast/editor/Inline.vue';
-// import PlaylistName from '@/components/catalog/playlist/Name.vue';
 
 export default defineComponent({
   components: {
@@ -77,8 +76,7 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
-        :enable-rating="(true)"
+        :obj="playlist"
         title-scope="Show"
         :title="title"
       >
@@ -91,8 +89,9 @@ export default defineComponent({
           >
             <PlayAction
               :obj-key="objKey"
-              :size="(64)"
-              :outlined="(false)"
+              :size="(96)"
+              :outlined="false"
+              :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>
@@ -128,6 +127,7 @@ export default defineComponent({
         </template>
       </DetailHeader>
       <pre
+        v-if="(false)"
         class="debug"
         v-text="playlist.latestEmission"
       />

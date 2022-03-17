@@ -74,7 +74,8 @@ export default defineComponent({
       #header
     >
       <DetailHeader
-        :obj-key="objKey"
+        :obj="editor"
+        :show-context-menu="false"
         :title="editor.name"
         title-scope="Editor*in"
       >

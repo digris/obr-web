@@ -15,7 +15,7 @@ export default defineComponent({
   setup(props) {
     const durationDisplay = computed(() => {
       if (props.seconds < 60) {
-        return `${props.seconds}s`;
+        return `${Math.round(props.seconds)}s`;
       }
       const dateStr = new Date(props.seconds * 1000).toISOString();
       if (props.seconds < 60 * 60) {
