@@ -3,6 +3,18 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { getStaticSrc } from '@/utils/staticfiles';
 import { getSocialBackends, disconnectSocialBackend } from '@/api/account';
 
+import imgApple from '@/assets/brand-icons/apple.svg';
+import imgGoogle from '@/assets/brand-icons/google.svg';
+import imgSpotify from '@/assets/brand-icons/spotify.svg';
+import imgDeezer from '@/assets/brand-icons/vk.svg';
+
+const ICONS = {
+  apple: imgApple,
+  google: imgGoogle,
+  spotify: imgSpotify,
+  deezer: imgDeezer,
+};
+
 interface Backend {
   provider: string,
   uid: string,
@@ -30,7 +42,8 @@ export default defineComponent({
     };
     const getProviderLogo = (provider: string) => {
       const key = provider.split('-')[0];
-      return getStaticSrc(`assets/brand-icons/${key}.svg`);
+      return ICONS[key];
+      // return getStaticSrc(`assets/brand-icons/${key}.svg`);
     };
     const getProviderText = (provider: string) => {
       const key = provider.split('-')[0];

@@ -1,7 +1,11 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import IconEdit from '@/components/ui/icon/IconEdit.vue';
 
 export default defineComponent({
+  components: {
+    IconEdit,
+  },
   props: {
     title: {
       type: String,

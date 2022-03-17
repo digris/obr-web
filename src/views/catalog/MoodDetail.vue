@@ -15,7 +15,7 @@ import ObjectTags from '@/components/tagging/ObjectTags.vue';
 import Searchbar from '@/components/filter/SearchbarAlt.vue';
 import MediaList from '@/components/catalog/media/List.vue';
 // import Animation from '@/components/animation/Animation.vue';
-import Lottie from '@/components/animation/Lottie.vue';
+// import Lottie from '@/components/animation/Lottie.vue';
 
 export default defineComponent({
   components: {
@@ -26,7 +26,7 @@ export default defineComponent({
     Searchbar,
     MediaList,
     // Animation,
-    Lottie,
+    // Lottie,
   },
   props: {
     uid: {
@@ -139,11 +139,13 @@ export default defineComponent({
         <template
           #background
         >
+          <!--
           <Lottie
             v-if="mood.animationUrl"
             :src="mood.animationUrl"
             :color="mediaColor"
           />
+          -->
         </template>
       </DetailHeader>
       <MediaList

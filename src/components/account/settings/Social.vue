@@ -7,6 +7,18 @@ import Section from './Section.vue';
 import { disconnectSocialBackend, getSocialBackends } from '@/api/account';
 import { getStaticSrc } from '@/utils/staticfiles';
 
+import imgApple from '@/assets/brand-icons/apple.svg';
+import imgGoogle from '@/assets/brand-icons/google.svg';
+import imgSpotify from '@/assets/brand-icons/spotify.svg';
+import imgDeezer from '@/assets/brand-icons/deezer.svg';
+
+const ICONS = {
+  apple: imgApple,
+  google: imgGoogle,
+  spotify: imgSpotify,
+  deezer: imgDeezer,
+};
+
 interface Backend {
   provider: string,
   uid: string,
@@ -22,11 +34,13 @@ const getProviderText = (provider: string) => {
 
 const getProviderLogo = (provider: string) => {
   const key = provider.split('-')[0];
-  return getStaticSrc(`assets/brand-icons/${key}.svg`);
+  // @ts-ignore
+  return ICONS[key];
 };
 
 const annotateBackends = (backends: Backend[]) => {
   return backends.map((b: Backend) => {
+    console.debug('be', b);
     return {
       ...b,
       title: getProviderText(b.provider),
@@ -82,6 +96,7 @@ export default defineComponent({
 
 <template>
   <Section
+    v-if="false"
     title="Verbundene Konten"
     :outlined="(false)"
   >
