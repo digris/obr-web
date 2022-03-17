@@ -10,6 +10,7 @@ playground
 db.sqlite3
 __pycache__
 .coverage
+coverage
 .python-version
 *.mo
 
@@ -41,4 +42,5 @@ pnpm-debug.log*
 
 /fixtures
 
-/docs/terraform
+/cypress/videos/
+/cypress/screenshots/
