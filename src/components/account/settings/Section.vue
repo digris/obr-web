@@ -1,12 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-import IconEdit from '@/components/ui/icon/IconEdit.vue';
-
 export default defineComponent({
-  components: {
-    IconEdit,
-  },
   props: {
     title: {
       type: String,
@@ -76,8 +71,8 @@ export default defineComponent({
     padding-bottom: 0.4rem;
   }
   .panel {
-    //padding-top: 0.75rem;
-    border-radius: 3px;
+    //@include typo.large;
+    padding-top: 0.75rem;
   }
   &.is-outlined {
     .panel {
@@ -87,17 +82,9 @@ export default defineComponent({
   }
   &.is-editable {
     .panel {
-      position: relative;
-      min-height: 3rem;
       cursor: pointer;
       &:hover {
         background: rgba(var(--c-black), 0.1);
-      }
-      .panel-icon {
-        position: absolute;
-        top: 0;
-        right: 0;
-        pointer-events: none;
       }
     }
   }

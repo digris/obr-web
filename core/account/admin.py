@@ -5,14 +5,6 @@ from social_django.models import UserSocialAuth
 from subscription.models import Subscription
 from .forms import UserCreationForm, UserChangeForm
 from .models import User, Settings, Address, LoginToken
-from .email_login import send_login_email
-
-
-@admin.action(description="Send login e-mail")
-# pylint: disable=unused-argument
-def send_login_email_action(modeladmin, request, queryset):
-    for instance in queryset:
-        send_login_email(instance.email)
 
 
 class UserSocialAuthInline(admin.TabularInline):
@@ -122,9 +114,6 @@ class UserAdmin(AuthUserAdmin):
         SettingsInline,
         SubscriptionInline,
         UserSocialAuthInline,
-    ]
-    actions = [
-        send_login_email_action,
     ]
     fieldsets = (
         (
