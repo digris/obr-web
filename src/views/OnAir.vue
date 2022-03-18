@@ -1,4 +1,8 @@
 <script lang="ts">
+/*
+  NOTE: THIS COMPONENT IS NOT IN USE - MOVED TO views/Radio.vue
+*/
+
 import {
   computed,
   ref,
