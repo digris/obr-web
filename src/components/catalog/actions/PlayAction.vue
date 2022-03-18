@@ -112,13 +112,6 @@ export default defineComponent({
   <div
     class="play-action"
   >
-    <pre
-      v-if="false"
-      v-text="{
-        filter,
-        ordering,
-      }"
-    />
     <div
       @click="play"
       class="container"

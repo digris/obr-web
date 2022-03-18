@@ -1,6 +1,7 @@
 {
   "name": "openbroadcast.ch",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "license" : "MIT",
   "scripts": {
     "serve": "vite",
     "build": "vue-tsc --noEmit && vite build --base=/static/",
