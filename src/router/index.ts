@@ -23,6 +23,7 @@ import MediaDetail from '@/views/catalog/MediaDetail.vue';
 import AccountLogin from '@/components/account/Login.vue';
 import AccountEmailLogin from '@/components/account/EmailLogin.vue';
 import AccountSettings from '@/components/account/settings/Settings.vue';
+import DiscoverHeader from '@/layouts/DiscoverHeader.vue';
 // eslint-disable-next-line import/no-unresolved
 import SearchbarAlt from '@/components/filter/SearchbarAlt.vue';
 
@@ -63,7 +64,11 @@ const routes = [
       {
         path: 'moods/',
         name: 'discoverMoods',
-        component: MoodList,
+        // component: MoodList,
+        components: {
+          default: MoodList,
+          header: DiscoverHeader,
+        },
         meta: {
           title: 'Moods',
         },
@@ -73,13 +78,13 @@ const routes = [
         name: 'discoverPlaylists',
         components: {
           default: PlaylistList,
-          searchbar: SearchbarAlt,
+          header: DiscoverHeader,
         },
         props: {
           default: (route: any) => ({
             query: route.query,
           }),
-          searchbar: (route: any) => ({
+          header: (route: any) => ({
             filter: route.query,
           }),
         },
@@ -89,13 +94,13 @@ const routes = [
         name: 'discoverArtists',
         components: {
           default: ArtistList,
-          searchbar: SearchbarAlt,
+          header: DiscoverHeader,
         },
         props: {
           default: (route: any) => ({
             query: route.query,
           }),
-          searchbar: (route: any) => ({
+          header: (route: any) => ({
             filter: route.query,
           }),
         },
@@ -105,13 +110,13 @@ const routes = [
         name: 'discoverMedia',
         components: {
           default: MediaList,
-          searchbar: SearchbarAlt,
+          header: DiscoverHeader,
         },
         props: {
           default: (route: any) => ({
             query: route.query,
           }),
-          searchbar: (route: any) => ({
+          header: (route: any) => ({
             filter: route.query,
           }),
         },
@@ -119,44 +124,112 @@ const routes = [
       {
         path: 'editors/',
         name: 'discoverEditors',
-        component: EditorList,
+        components: {
+          default: EditorList,
+          header: DiscoverHeader,
+        },
+      },
+      // testing nested detail components
+      {
+        path: '/discover/moods/:uid/',
+        name: 'moodDetail',
+        components: {
+          default: MoodDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+            query: parseFilterQuery(route.query),
+          }),
+        },
+        meta: {
+          colorTheme: 'dark',
+        },
+      },
+      {
+        path: '/discover/playlists/:uid/',
+        name: 'playlistDetail',
+        components: {
+          default: PlaylistDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
+        meta: {
+          colorTheme: 'dark',
+        },
+      },
+      {
+        path: '/discover/artists/:uid/',
+        name: 'artistDetail',
+        components: {
+          default: ArtistDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
+        // props: (route: any) => ({
+        //   uid: route.params.uid,
+        // }),
+        meta: {
+          colorTheme: 'dark',
+        },
+      },
+      {
+        path: '/discover/editors/:uid/',
+        name: 'editorDetail',
+        components: {
+          default: EditorDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
+        meta: {
+          colorTheme: 'dark',
+        },
       },
     ],
   },
-  {
-    path: '/discover/playlists/:uid/',
-    name: 'playlistDetail',
-    component: PlaylistDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
-  {
-    path: '/discover/moods/:uid/',
-    name: 'moodDetail',
-    component: MoodDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-      query: parseFilterQuery(route.query),
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
-  {
-    path: '/discover/artists/:uid/',
-    name: 'artistDetail',
-    component: ArtistDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
+  // {
+  //   path: '/discover/playlists/:uid/',
+  //   name: 'playlistDetail',
+  //   component: PlaylistDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
+  // {
+  //   path: '/discover/moods/:uid/',
+  //   name: 'moodDetail',
+  //   component: MoodDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //     query: parseFilterQuery(route.query),
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
+  // {
+  //   path: '/discover/artists/:uid/',
+  //   name: 'artistDetail',
+  //   component: ArtistDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
   {
     path: '/discover/tracks/:uid/',
     name: 'mediaDetail',
@@ -168,17 +241,17 @@ const routes = [
       colorTheme: 'dark',
     },
   },
-  {
-    path: '/discover/editors/:uid/',
-    name: 'editorDetail',
-    component: EditorDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
+  // {
+  //   path: '/discover/editors/:uid/',
+  //   name: 'editorDetail',
+  //   component: EditorDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
   {
     path: '/collection/',
     name: 'collection',

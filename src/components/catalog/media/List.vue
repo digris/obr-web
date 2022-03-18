@@ -181,6 +181,7 @@ export default {
     return {
       combinedFilter,
       tagList,
+      ordering,
       tagListLoading,
       visibleMediaList,
       mediaListLoading,
@@ -220,6 +221,7 @@ export default {
   <PlayAction
     v-if="(!disablePlayAll && numResults > 0)"
     :filter="combinedFilter"
+    :ordering="ordering"
   >
     <template
       #default="{

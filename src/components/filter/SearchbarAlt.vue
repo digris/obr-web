@@ -53,7 +53,6 @@ export default defineComponent({
       q.value = e.target.value;
     };
     const hasSearchQuery = computed(() => {
-      console.debug('filter', props.filter);
       return (props.filter && props.filter.q);
       // return true;
     });

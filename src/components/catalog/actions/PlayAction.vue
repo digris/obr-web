@@ -22,6 +22,10 @@ export default defineComponent({
       required: false,
       default: () => {},
     },
+    ordering: {
+      type: Array,
+      default: () => [],
+    },
     size: {
       type: Number,
       default: 48,
@@ -77,7 +81,12 @@ export default defineComponent({
       if (props.objKey) {
         filter.obj_key = props.objKey;
       }
-      const { results } = await getMedia(100, 0, filter);
+      const { results } = await getMedia(
+        100,
+        0,
+        filter,
+        props.ordering,
+      );
       const payload = {
         mode: 'replace',
         media: results,
@@ -103,6 +112,13 @@ export default defineComponent({
   <div
     class="play-action"
   >
+    <pre
+      v-if="false"
+      v-text="{
+        filter,
+        ordering,
+      }"
+    />
     <div
       @click="play"
       class="container"

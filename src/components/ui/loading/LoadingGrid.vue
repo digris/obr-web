@@ -8,9 +8,6 @@ export default defineComponent({
       default: 4,
     },
   },
-  setup(props) {
-    console.debug('props', props);
-  },
 });
 </script>
 <template>
@@ -48,11 +45,12 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @keyframes load {
   from {
     left: -150px;
   }
-  to   {
+  to {
     left: 100%;
   }
 }
@@ -61,6 +59,10 @@ export default defineComponent({
   grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
+  @include responsive.bp-small {
+    grid-gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .card {
   &__visual {

@@ -1,10 +1,15 @@
 <script lang="ts">
 import {
   ref,
-  onMounted, computed, watch,
+  computed,
+  watch,
+  onMounted,
+  onActivated,
+  onDeactivated,
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import { isEqual } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/loading/Loading.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
@@ -56,7 +61,16 @@ export default {
     const tagListLoading = ref(false);
     const hasNext = ref(false);
     const userFilter = computed(() => {
-      return props.query;
+      const filter = props.query;
+      if (filter?.tags && (typeof filter.tags === 'string' || filter.tags instanceof String)) {
+        console.debug('...tag seems to be string', filter.tags);
+        return {
+          ...filter,
+          tags: [filter.tags],
+        }
+      }
+      console.debug('userFilter', filter)
+      return filter;
     });
     const combinedFilter = computed(() => {
       // @ts-ignore
@@ -80,6 +94,7 @@ export default {
     const fetchPlaylists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
       const expand = (props.layout === 'grid') ? [] : ['tags', 'editor', 'duration'];
+      console.debug(combinedFilter.value);
       const {
         count,
         next,
@@ -124,12 +139,25 @@ export default {
       router.push({ name: routeName, query });
     };
     onMounted(() => {
+      console.debug('PlaylistList - onMounted');
       fetchPlaylists();
       fetchTags().then(() => {});
     });
+    onActivated(() => {
+      console.debug('PlaylistList - onActivated', playlists.value.length);
+    });
+    onDeactivated(() => {
+      console.debug('PlaylistList - onDeactivated', playlists.value.length);
+    });
     watch(
       () => combinedFilter.value,
-      async () => {
+      async (oldFilter, newFilter) => {
+        console.debug('PlaylistList - filterChanged', playlists.value.length);
+        if(isEqual(oldFilter, newFilter)) {
+          console.debug('PlaylistList - filter unchanged')
+          return;
+        }
+        console.debug('PlaylistList - filter changed: reload data');
         lastOffset.value = 0;
         playlists.value = [];
         fetchPlaylists(limit, 0).then(() => {});
@@ -204,7 +232,7 @@ export default {
   grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   @include responsive.bp-small {
-    grid-gap: 1rem;
+    grid-gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -214,6 +242,7 @@ export default {
 }
 
 .playlist-list {
+  margin-bottom: 8rem;
   .list-container {
     &.layout--grid {
       @include container.default;
