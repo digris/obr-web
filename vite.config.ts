@@ -42,6 +42,11 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 3000,
     strictPort: true,
+    watch: {
+      ignored: [
+        '**/data/**',
+      ],
+    },
     proxy: {
       '^((?!src\/|static\/|node_modules\/|@).)*$': {
         target: 'http://local.obr-next:8080',
