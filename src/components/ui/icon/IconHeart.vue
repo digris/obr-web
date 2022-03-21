@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
     size: {
       type: Number,
@@ -46,9 +46,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <transition
-      name="fade"
-    >
+    <transition name="fade">
       <path
         v-if="outlined"
         d="M35.3,15.2c-3-3.1-7.8-3.2-10.9-0.1l-0.1,0.1c-0.1,0.1-0.2,0.2-0.2,0.2c-0.1-0.1-0.1-0.2-0.2-0.2c-3-3.1-7.8-3.2-10.9-0.1

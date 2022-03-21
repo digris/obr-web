@@ -1,9 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { DateTime } from 'luxon';
+import { computed, defineComponent } from "vue";
+import { DateTime } from "luxon";
 
-import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 
 export default defineComponent({
   props: {
@@ -27,7 +27,7 @@ export default defineComponent({
     });
     const link = computed(() => {
       return {
-        name: 'mediaDetail',
+        name: "mediaDetail",
         params: {
           uid: props.media.uid,
         },
@@ -39,9 +39,7 @@ export default defineComponent({
       }
       return `${props.item.timeStart.toLocaleString(
         DateTime.TIME_24_WITH_SECONDS
-      )} - ${props.item.timeEnd.toLocaleString(
-        DateTime.TIME_24_WITH_SECONDS
-      )}`;
+      )} - ${props.item.timeEnd.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}`;
     });
     return {
       title,
@@ -53,41 +51,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="metadata metadata--media"
-  >
-    <div
-      class="context"
-    >
-      Track
+  <div class="metadata metadata--media">
+    <div class="context">Track</div>
+    <div class="title">
+      <router-link :to="`/discover/tracks/${media.uid}/`" v-text="title" />
     </div>
-    <div
-      class="title"
-    >
-      <router-link
-        :to="`/discover/tracks/${media.uid}/`"
-        v-text="title"
-      />
+    <div class="subtitle subtitle--artists">
+      <MediaArtists :artists="media.artists" />
     </div>
-    <div
-      class="subtitle subtitle--artists"
-    >
-      <MediaArtists
-        :artists="media.artists"
-      />
+    <div class="subtitle">
+      <MediaReleases :releases="media.releases" />
     </div>
-    <div
-      class="subtitle"
-    >
-      <MediaReleases
-        :releases="media.releases"
-      />
-    </div>
-    <br>
-    <div
-      v-if="timeDisplay"
-      v-text="timeDisplay"
-    />
+    <br />
+    <div v-if="timeDisplay" v-text="timeDisplay" />
   </div>
 </template>
 

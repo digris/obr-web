@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -21,11 +21,11 @@ export default defineComponent({
     },
     colorVar: {
       type: String,
-      default: '--c-page-fg',
+      default: "--c-page-fg",
     },
     activeColorVar: {
       type: String,
-      default: '--c-page-fg-inverse',
+      default: "--c-page-fg-inverse",
     },
     progress: {
       type: Number,
@@ -48,30 +48,11 @@ export default defineComponent({
       'is-disabled': disabled,
     }"
   >
-    <slot
-      name="default"
-    />
-    <div
-      class="progress"
-    >
-      <svg
-        class="progress-circle"
-        width="200px"
-        height="200px"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          class="progress-circle-back"
-          cx="80"
-          cy="80"
-          r="74"
-        ></circle>
-        <circle
-          class="progress-circle-prog"
-          cx="80"
-          cy="80"
-          r="74"
-        ></circle>
+    <slot name="default" />
+    <div class="progress">
+      <svg class="progress-circle" width="200px" height="200px" xmlns="http://www.w3.org/2000/svg">
+        <circle class="progress-circle-back" cx="80" cy="80" r="74"></circle>
+        <circle class="progress-circle-prog" cx="80" cy="80" r="74"></circle>
       </svg>
     </div>
   </div>
@@ -105,7 +86,7 @@ circle {
 .progress-circle-back {
   fill: none;
   stroke: #d2d2d2;
-  stroke-width:10px;
+  stroke-width: 10px;
 }
 
 .progress-circle-prog {

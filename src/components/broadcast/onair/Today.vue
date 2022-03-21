@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted } from "vue";
 
-import CloseButton from '@/components/ui/panel/CloseButton.vue';
-import Program from '@/components/broadcast/program/Program.vue';
+import CloseButton from "@/components/ui/panel/CloseButton.vue";
+import Program from "@/components/broadcast/program/Program.vue";
 
 export default defineComponent({
   components: {
@@ -15,16 +15,14 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'close',
-  ],
+  emits: ["close"],
   setup(props, { emit }) {
     const close = () => {
-      emit('close');
+      emit("close");
     };
     onMounted(() => {
-      document.addEventListener('keydown', (e) => {
-        if (props.isVisible && e.code === 'Escape') {
+      document.addEventListener("keydown", (e) => {
+        if (props.isVisible && e.code === "Escape") {
           close();
         }
       });
@@ -37,26 +35,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <transition
-    name="slide"
-  >
-    <div
-      class="today"
-      v-if="isVisible"
-    >
-      <div
-        class="title"
-      >
-        <CloseButton
-          @click="close"
-        />
-        <span>
-          Heute
-        </span>
+  <transition name="slide">
+    <div class="today" v-if="isVisible">
+      <div class="title">
+        <CloseButton @click="close" />
+        <span> Heute </span>
       </div>
-      <div
-        class="body"
-      >
+      <div class="body">
         <Program />
       </div>
     </div>
@@ -79,7 +64,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgb(var(--c-black))
+    color: rgb(var(--c-black));
   }
   .body {
     max-height: calc(100vh - 78px);

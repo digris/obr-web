@@ -1,7 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
-import EditorInline from '@/components/broadcast/editor/Inline.vue';
+import EditorInline from "@/components/broadcast/editor/Inline.vue";
 
 export default defineComponent({
   props: {
@@ -25,7 +25,7 @@ export default defineComponent({
     });
     const link = computed(() => {
       return {
-        name: 'playlistDetail',
+        name: "playlistDetail",
         params: {
           uid: props.playlist.uid,
         },
@@ -44,24 +44,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="metadata metadata--emission"
-  >
-    <div
-      class="context"
-    >
-      Show
-    </div>
-    <router-link
-      :to="link"
-      v-text="title"
-      class="title"
-    />
+  <div class="metadata metadata--emission">
+    <div class="context">Show</div>
+    <router-link :to="link" v-text="title" class="title" />
     <div>
-      <EditorInline
-        v-if="editor"
-        :editor="editor"
-      />
+      <EditorInline v-if="editor" :editor="editor" />
     </div>
   </div>
 </template>

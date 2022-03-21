@@ -2,22 +2,22 @@
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
 export interface Viewport {
-  top: number,
-  left: number,
-  height: number,
-  width: number,
+  top: number;
+  left: number;
+  height: number;
+  width: number;
 }
 
 export interface State {
   // primaryColor: Array<number>,
-  title: string,
-  primaryColor: [number, number, number],
-  viewport: Viewport,
-  filterExpanded: boolean,
+  title: string;
+  primaryColor: [number, number, number];
+  viewport: Viewport;
+  filterExpanded: boolean;
 }
 
 const state: State = {
-  title: 'open broadcast radio',
+  title: "open broadcast radio",
   primaryColor: [0, 0, 0],
   viewport: {
     top: 0,
@@ -53,19 +53,19 @@ const mutations = {
 
 const actions = {
   setViewport: async (context: any, viewport: Viewport) => {
-    context.commit('SET_VIEWPORT', viewport);
+    context.commit("SET_VIEWPORT", viewport);
   },
   setTitle: async (context: any, title: string) => {
-    context.commit('SET_TITLE', title);
+    context.commit("SET_TITLE", title);
   },
   setPrimaryColor: async (context: any, color: [number, number, number]) => {
-    context.commit('SET_PRIMARY_COLOR', color);
+    context.commit("SET_PRIMARY_COLOR", color);
   },
   expandFilter: async (context: any) => {
-    context.commit('SET_FILTER_EXPANDED', true);
+    context.commit("SET_FILTER_EXPANDED", true);
   },
   closeFilter: async (context: any) => {
-    context.commit('SET_FILTER_EXPANDED', false);
+    context.commit("SET_FILTER_EXPANDED", false);
   },
 };
 

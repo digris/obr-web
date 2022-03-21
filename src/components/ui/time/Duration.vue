@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -8,7 +8,7 @@ export default defineComponent({
       default: 0,
       required: true,
       validator: (value: number) => {
-        return (value >= 0 && value < 86400);
+        return value >= 0 && value < 86400;
       },
     },
     roundSeconds: {
@@ -38,13 +38,9 @@ export default defineComponent({
     };
   },
 });
-
 </script>
 <template>
-  <div
-    class="duration"
-    v-text="durationDisplay"
-  />
+  <div class="duration" v-text="durationDisplay" />
 </template>
 
 <style lang="scss" scoped>

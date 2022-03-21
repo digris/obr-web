@@ -1,22 +1,15 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  watchEffect,
-  onActivated,
-  onBeforeUpdate,
-} from 'vue';
-import { useStore } from 'vuex';
-import { setPageTitle } from '@/utils/page';
+import { computed, defineComponent, ref, watchEffect, onActivated, onBeforeUpdate } from "vue";
+import { useStore } from "vuex";
+import { setPageTitle } from "@/utils/page";
 
-import DetailPage from '@/layouts/DetailPage.vue';
-import DetailHeader from '@/layouts/DetailHeader.vue';
-import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
-import ObjectIdentifiers from '@/components/identifier/ObjectIdentifiers.vue';
-import MediaList from '@/components/catalog/media/List.vue';
+import DetailPage from "@/layouts/DetailPage.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
+import MediaList from "@/components/catalog/media/List.vue";
 
 export default defineComponent({
   components: {
@@ -37,7 +30,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const isLoaded = ref(false);
-    const artist = computed(() => store.getters['catalog/artistByUid'](props.uid));
+    const artist = computed(() => store.getters["catalog/artistByUid"](props.uid));
     const objKey = computed(() => `${artist.value.ct}:${artist.value.uid}`);
     const query = computed(() => ({
       filter: {
@@ -57,14 +50,14 @@ export default defineComponent({
     // onActivated and onBeforeUpdate will fire ;(
     onActivated(() => {
       if (!artist.value) {
-        store.dispatch('catalog/loadArtist', props.uid);
+        store.dispatch("catalog/loadArtist", props.uid);
       } else {
         setPageTitle(title.value);
       }
     });
     onBeforeUpdate(() => {
       if (!artist.value) {
-        store.dispatch('catalog/loadArtist', props.uid);
+        store.dispatch("catalog/loadArtist", props.uid);
       }
     });
     watchEffect(() => {
@@ -82,63 +75,29 @@ export default defineComponent({
 
 <template>
   <DetailPage>
-    <template
-      #header
-    >
-      <DetailHeader
-        v-if="artist"
-        :obj="artist"
-        title-scope="Künstler*in"
-        :title="artist.name"
-      >
-        <template
-          #visual
-        >
-          <LazyImage
-            class="image"
-            :image="artist.image"
-          >
+    <template #header>
+      <DetailHeader v-if="artist" :obj="artist" title-scope="Künstler*in" :title="artist.name">
+        <template #visual>
+          <LazyImage class="image" :image="artist.image">
             <PlayAction
               :obj-key="objKey"
-              :size="(96)"
+              :size="96"
               :outlined="false"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>
         </template>
-        <template
-          #info-panel
-        >
-          <ObjectTags
-            class="tags"
-            :obj="artist"
-            :limit="(4)"
-          />
-          <div
-            v-if="artist.countryCode"
-          >
-            <span
-              v-text="artist.countryCode"
-            />
-            <span
-              v-if="artist.dateStart"
-            >
-              ({{ artist.dateStart.substr(0,4) }})
-            </span>
+        <template #info-panel>
+          <ObjectTags class="tags" :obj="artist" :limit="4" />
+          <div v-if="artist.countryCode">
+            <span v-text="artist.countryCode" />
+            <span v-if="artist.dateStart"> ({{ artist.dateStart.substr(0, 4) }}) </span>
           </div>
-          <ObjectIdentifiers
-            class="identifiers"
-            :obj="artist"
-            :limit="(4)"
-          />
+          <ObjectIdentifiers class="identifiers" :obj="artist" :limit="4" />
         </template>
-        <template
-          #meta-panel
-        >
-          <span
-            v-if="artist"
-          >{{ artist.numMedia }} Tracks</span>
+        <template #meta-panel>
+          <span v-if="artist">{{ artist.numMedia }} Tracks</span>
           <span>&nbsp;•&nbsp;</span>
           <span>1h 25m</span>
         </template>
@@ -146,8 +105,8 @@ export default defineComponent({
       <MediaList
         v-if="artist"
         :initial-filter="query.filter"
-        :disable-user-filter="(true)"
-        :disable-play-all="(true)"
+        :disable-user-filter="true"
+        :disable-play-all="true"
       />
     </template>
   </DetailPage>
@@ -156,6 +115,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tags,
 .identifiers {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 </style>

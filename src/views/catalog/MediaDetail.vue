@@ -1,20 +1,16 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onActivated,
-} from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, onActivated } from "vue";
+import { useStore } from "vuex";
 
-import DetailPage from '@/layouts/DetailPage.vue';
-import DetailHeader from '@/layouts/DetailHeader.vue';
-import LazyImage from '@/components/ui/LazyImage.vue';
-import Duration from '@/components/ui/time/Duration.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
-import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
-import PlaylistList from '@/components/catalog/playlist/List.vue';
+import DetailPage from "@/layouts/DetailPage.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import Duration from "@/components/ui/time/Duration.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
+import PlaylistList from "@/components/catalog/playlist/List.vue";
 
 export default defineComponent({
   components: {
@@ -36,9 +32,9 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const media = computed(() => store.getters['catalog/mediaByUid'](props.uid));
+    const media = computed(() => store.getters["catalog/mediaByUid"](props.uid));
     const objKey = computed(() => {
-      return (media.value) ? `${media.value.ct}:${media.value.uid}` : null;
+      return media.value ? `${media.value.ct}:${media.value.uid}` : null;
     });
     const query = computed(() => ({
       filter: {
@@ -54,11 +50,11 @@ export default defineComponent({
       return media.value.releases[0];
     });
     const image = computed(() => {
-      return (release.value && release.value.image) ? release.value.image : null;
+      return release.value && release.value.image ? release.value.image : null;
     });
     onActivated(() => {
       if (!media.value) {
-        store.dispatch('catalog/loadMedia', props.uid);
+        store.dispatch("catalog/loadMedia", props.uid);
       }
     });
     return {
@@ -73,56 +69,29 @@ export default defineComponent({
 </script>
 <template>
   <DetailPage>
-    <template
-      #header
-    >
-      <DetailHeader
-        :obj="media"
-        title-scope="Track"
-        :title="media.name"
-      >
-        <template
-          #visual
-        >
-          <LazyImage
-            class="image"
-            :image="image"
-          >
+    <template #header>
+      <DetailHeader :obj="media" title-scope="Track" :title="media.name">
+        <template #visual>
+          <LazyImage class="image" :image="image">
             <PlayAction
               :obj-key="objKey"
-              :size="(96)"
+              :size="96"
               :outlined="false"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>
         </template>
-        <template
-          #info-panel
-        >
-          <div
-            class="artists"
-          >
-            <MediaArtists
-              :artists="media.artists"
-            />
+        <template #info-panel>
+          <div class="artists">
+            <MediaArtists :artists="media.artists" />
           </div>
-          <div
-            class="releases"
-          >
-            <MediaReleases
-              :releases="media.releases"
-            />
+          <div class="releases">
+            <MediaReleases :releases="media.releases" />
           </div>
-          <ObjectTags
-            class="tags"
-            :obj="media"
-            :limit="(4)"
-          />
+          <ObjectTags class="tags" :obj="media" :limit="4" />
         </template>
-        <template
-          #meta-panel
-        >
+        <template #meta-panel>
           <!--
           <span
             v-if="media"
@@ -133,16 +102,14 @@ export default defineComponent({
             •
           </span>
           -->
-          <Duration
-            :seconds="media.duration"
-          />
+          <Duration :seconds="media.duration" />
         </template>
       </DetailHeader>
     </template>
     <PlaylistList
       :initial-filter="query.filter"
-      :disable-user-filter="(true)"
-      :disable-play-all="(true)"
+      :disable-user-filter="true"
+      :disable-play-all="true"
       layout="table"
     />
   </DetailPage>
@@ -151,6 +118,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tags,
 .identifiers {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 </style>

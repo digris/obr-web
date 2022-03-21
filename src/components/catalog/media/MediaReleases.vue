@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -16,19 +16,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    v-if="(releases.length)"
-    class="media-releases"
-  >
-    <span
-      v-for="(release, index) in releases"
-      :key="`media-release-${index}`"
-      class="release"
-    >
-      <span
-        class="releaset__name"
-        v-text="release.name"
-      />
+  <div v-if="releases.length" class="media-releases">
+    <span v-for="(release, index) in releases" :key="`media-release-${index}`" class="release">
+      <span class="releaset__name" v-text="release.name" />
     </span>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-fg))',
+      default: "rgb(var(--c-page-fg))",
     },
   },
   setup(props) {
@@ -33,25 +33,9 @@ export default defineComponent({
 });
 </script>
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 48 48"
-    :style="style"
-  >
-    <circle
-      cx="24"
-      cy="17"
-      r="2"
-    />
-    <circle
-      cx="24"
-      cy="24"
-      r="2"
-    />
-    <circle
-      cx="24"
-      cy="31"
-      r="2"
-    />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" :style="style">
+    <circle cx="24" cy="17" r="2" />
+    <circle cx="24" cy="24" r="2" />
+    <circle cx="24" cy="31" r="2" />
   </svg>
 </template>

@@ -1,16 +1,16 @@
-import settings from '@/settings';
-import { getMediaFormat } from '@/utils/browser';
+import settings from "@/settings";
+import { getMediaFormat } from "@/utils/browser";
 
 const { MEDIA_ENDPOINTS } = settings;
 
 const SUFFIX_MAP = {
-  hls: '/hls/manifest.m3u8',
-  dash: '/dash/manifest.mpd',
+  hls: "/hls/manifest.m3u8",
+  dash: "/dash/manifest.mpd",
 };
 
 export enum MediaSuffix {
-  HLS = 'hls',
-  DASH = 'dash',
+  HLS = "hls",
+  DASH = "dash",
 }
 
 const getSuffix = (format: string) => {

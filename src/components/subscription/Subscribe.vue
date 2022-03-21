@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import eventBus from '@/eventBus';
-import notify from '@/utils/notification';
-import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
+import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import eventBus from "@/eventBus";
+import notify from "@/utils/notification";
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 
-import SubscribePlan from '@/components/subscription/SubscribePlan.vue';
-import SubscribeVoucher from '@/components/subscription/SubscribeVoucher.vue';
+import SubscribePlan from "@/components/subscription/SubscribePlan.vue";
+import SubscribeVoucher from "@/components/subscription/SubscribeVoucher.vue";
 
 export default defineComponent({
   components: {
@@ -17,7 +17,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const isVisible = ref(false);
-    const intent = ref('plan');
+    const intent = ref("plan");
     const next = ref(null);
     const message = ref(null);
     const successVisible = ref(false);
@@ -28,20 +28,20 @@ export default defineComponent({
     const setIntent = (value: string) => {
       intent.value = value;
     };
-    eventBus.on('subscription:subscribe', (event) => {
-      console.debug('subscription:subscribe', event);
+    eventBus.on("subscription:subscribe", (event) => {
+      console.debug("subscription:subscribe", event);
       isVisible.value = true;
       intent.value = event.intent;
       next.value = event.next || null;
       message.value = event.message || null;
     });
     const subscriptionUpdated = () => {
-      console.debug('show success');
+      console.debug("show success");
       // successVisible.value = true;
       close();
       notify({
-        level: 'success',
-        body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
+        level: "success",
+        body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
         // action: {
         //   label: 'More',
         //   url: '/foo/bar/',
@@ -52,7 +52,7 @@ export default defineComponent({
         // @ts-ignore
         router.push(next.value);
       }
-      console.debug('next:', next.value);
+      console.debug("next:", next.value);
     };
     return {
       close,
@@ -69,21 +69,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <OverlayPanel
-    :is-visible="isVisible"
-    @close="close"
-  >
+  <OverlayPanel :is-visible="isVisible" @close="close">
     <div>
-      <div
-        class="title"
-      >
-        Guthaben
-      </div>
-      <p
-        class="lead"
-      >
+      <div class="title">Guthaben</div>
+      <p class="lead">
         Keine Abos - dafür Prepaid Guthaben!
-        <br>
+        <br />
         Die von uns gespielten Inhalte zu jederzeit hören für CHF 1.– pro Monat.
       </p>
       <!--
@@ -97,82 +88,38 @@ export default defineComponent({
         Gültig bis am: 12.04.2021
       </p>
       -->
-      <p>
-        &nbsp;
+      <p>&nbsp;</p>
+      <p v-if="intent === 'plan'" class="lead">
+        Hast du einen <a @click.prevent="setIntent('voucher')">Gratis-Code</a>?
       </p>
-      <p
-        v-if="(intent === 'plan')"
-        class="lead"
-      >
-        Hast du einen <a
-          @click.prevent="setIntent('voucher')"
-        >Gratis-Code</a>?
-      </p>
-      <p
-        v-if="(intent === 'voucher')"
-        class="lead"
-      >
+      <p v-if="intent === 'voucher'" class="lead">
         Du hast keinen Code?
-        <a
-          @click.prevent="setIntent('plan')"
-        >Guthaben kaufen</a>.
+        <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>.
       </p>
     </div>
-    <div
-      class="subscribe"
-    >
+    <div class="subscribe">
       <section>
-        <transition
-          name="fade"
-          mode="out-in"
-          appear
-        >
-          <SubscribePlan
-            v-if="(intent === 'plan')"
-            :next="next"
-          />
+        <transition name="fade" mode="out-in" appear>
+          <SubscribePlan v-if="intent === 'plan'" :next="next" />
           <SubscribeVoucher
-            v-else-if="(intent === 'voucher')"
+            v-else-if="intent === 'voucher'"
             :next="next"
             @subscription-extended="subscriptionUpdated"
           />
         </transition>
       </section>
     </div>
-    <template
-      v-if="successVisible"
-      #success
-      :level="error"
-    >
-      <div
-        class="subscribe-success"
-      >
-        <h1
-          class="title"
-        >Your Plan has been updated</h1>
-        <p
-          class="message"
-        >
-          (( message ))
-        </p>
-        <div
-          class="cta"
-        >
-          <button
-            @click.prevent="close"
-            class="button"
-          >Let's start exploring!</button>
+    <template v-if="successVisible" #success :level="error">
+      <div class="subscribe-success">
+        <h1 class="title">Your Plan has been updated</h1>
+        <p class="message">(( message ))</p>
+        <div class="cta">
+          <button @click.prevent="close" class="button">Let's start exploring!</button>
         </div>
       </div>
     </template>
-    <template
-      #footer
-    >
-      <div
-        class="legal"
-      >
-        (( Legal shizzle... ))
-      </div>
+    <template #footer>
+      <div class="legal">(( Legal shizzle... ))</div>
     </template>
   </OverlayPanel>
 </template>
@@ -189,7 +136,7 @@ export default defineComponent({
   @include button.default;
 }
 .subscribe-menu {
-  @include tab-menu.default
+  @include tab-menu.default;
 }
 .current-subscription-text {
   margin: 2rem 0;

@@ -1,23 +1,18 @@
 <script lang="ts">
-import {
-  computed,
-  ref,
-  onActivated,
-  defineComponent,
-} from 'vue';
-import { useStore } from 'vuex';
+import { computed, ref, onActivated, defineComponent } from "vue";
+import { useStore } from "vuex";
 
-import { playlistTitle } from '@/utils/catalog';
+import { playlistTitle } from "@/utils/catalog";
 
-import DetailPage from '@/layouts/DetailPage.vue';
+import DetailPage from "@/layouts/DetailPage.vue";
 // eslint-disable-next-line import/no-unresolved
-import DetailHeader from '@/layouts/DetailHeader.vue';
-import LazyImage from '@/components/ui/LazyImage.vue';
-import Duration from '@/components/ui/time/Duration.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
-import MediaList from '@/components/catalog/media/List.vue';
-import EditorInline from '@/components/broadcast/editor/Inline.vue';
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import Duration from "@/components/ui/time/Duration.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import MediaList from "@/components/catalog/media/List.vue";
+import EditorInline from "@/components/broadcast/editor/Inline.vue";
 
 export default defineComponent({
   components: {
@@ -40,7 +35,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const isLoaded = ref(false);
-    const playlist = computed(() => store.getters['catalog/playlistByUid'](props.uid));
+    const playlist = computed(() => store.getters["catalog/playlistByUid"](props.uid));
     const title = computed(() => playlistTitle(playlist.value));
     const objKey = computed(() => `${playlist.value?.ct}:${playlist.value?.uid}`);
     const mediaList = computed(() => {
@@ -55,7 +50,7 @@ export default defineComponent({
     }));
     onActivated(() => {
       if (!playlist.value) {
-        store.dispatch('catalog/loadPlaylist', props.uid);
+        store.dispatch("catalog/loadPlaylist", props.uid);
       }
     });
     return {
@@ -72,57 +67,28 @@ export default defineComponent({
 
 <template>
   <DetailPage>
-    <template
-      #header
-    >
-      <DetailHeader
-        v-if="playlist"
-        :obj="playlist"
-        :title="title"
-        title-scope="Show"
-      >
-        <template
-          #visual
-        >
-          <LazyImage
-            class="image"
-            :image="playlist.image"
-          >
+    <template #header>
+      <DetailHeader v-if="playlist" :obj="playlist" :title="title" title-scope="Show">
+        <template #visual>
+          <LazyImage class="image" :image="playlist.image">
             <PlayAction
               :obj-key="objKey"
-              :size="(96)"
+              :size="96"
               :outlined="false"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </LazyImage>
         </template>
-        <template
-          #info-panel
-        >
-          <ObjectTags
-            class="tags"
-            :obj="playlist"
-            :limit="(4)"
-          />
-          <EditorInline
-            v-if="(playlist && playlist.editor)"
-            :editor="playlist.editor"
-          />
+        <template #info-panel>
+          <ObjectTags class="tags" :obj="playlist" :limit="4" />
+          <EditorInline v-if="playlist && playlist.editor" :editor="playlist.editor" />
         </template>
-        <template
-          #meta-panel
-        >
-          <span
-            v-if="(playlist && playlist.numMedia)"
-          >
-            {{ playlist.numMedia }} Tracks
-          </span>
-          <span>
-            •
-          </span>
+        <template #meta-panel>
+          <span v-if="playlist && playlist.numMedia"> {{ playlist.numMedia }} Tracks </span>
+          <span> • </span>
           <Duration
-            v-if="(playlist && playlist.duration)"
+            v-if="playlist && playlist.duration"
             :seconds="playlist.duration"
             :round-seconds="60 * 5"
           />
@@ -142,6 +108,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tags,
 .identifiers {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 </style>

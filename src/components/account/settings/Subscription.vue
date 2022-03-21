@@ -1,25 +1,21 @@
 <script lang="ts">
-import {
-  defineComponent,
-} from 'vue';
+import { defineComponent } from "vue";
 
-import Section from './Section.vue';
-import CurrentSubscription from '@/components/subscription/CurrentSubscription.vue';
+import Section from "./Section.vue";
+import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
 
 export default defineComponent({
   components: {
     Section,
     CurrentSubscription,
   },
-  emits: [
-    'updated',
-  ],
+  emits: ["updated"],
   setup(props, { emit }) {
     const onUpdated = async () => {
-      emit('updated');
+      emit("updated");
     };
     const onEdit = () => {
-      console.debug('onEdit');
+      console.debug("onEdit");
     };
     return {
       onEdit,
@@ -30,10 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section
-    title="Guthaben für kostenpflichtige Inhalte"
-    @edit="onEdit"
-  >
+  <Section title="Guthaben für kostenpflichtige Inhalte" @edit="onEdit">
     <CurrentSubscription />
   </Section>
 </template>

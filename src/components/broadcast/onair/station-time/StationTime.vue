@@ -1,12 +1,12 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
 // import { playStream } from '@/player/stream';
 
-import ToggleProgramButton from './ToggleProgramButton.vue';
-import IconClose from '@/components/ui/icon/IconClose.vue';
+import ToggleProgramButton from "./ToggleProgramButton.vue";
+import IconClose from "@/components/ui/icon/IconClose.vue";
 
-const zeroPad = (n:number) => {
+const zeroPad = (n: number) => {
   return n > 9 ? `${n}` : `0${n}`;
 };
 
@@ -21,17 +21,14 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: [
-    'releaseFocus',
-    'toggleProgram',
-  ],
+  emits: ["releaseFocus", "toggleProgram"],
   setup(props, { emit }) {
     const store = useStore();
     const time = computed(() => {
       if (props.timeOverwrite) {
         return props.timeOverwrite;
       }
-      return store.getters['time/time'];
+      return store.getters["time/time"];
     });
     const hour = computed(() => {
       return zeroPad(time.value.hour);
@@ -43,13 +40,13 @@ export default defineComponent({
       return zeroPad(time.value.second);
     });
     const offset = computed(() => {
-      return store.getters['time/offset'];
+      return store.getters["time/offset"];
     });
     const releaseFocus = () => {
-      emit('releaseFocus');
+      emit("releaseFocus");
     };
     const toggleProgram = () => {
-      emit('toggleProgram');
+      emit("toggleProgram");
     };
     return {
       time,
@@ -66,38 +63,20 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="station-time"
-  >
-    <div
-      class="actions"
-    >
-      <ToggleProgramButton
-        @click.prevent="toggleProgram"
-      />
+  <div class="station-time">
+    <div class="actions">
+      <ToggleProgramButton @click.prevent="toggleProgram" />
     </div>
     <div
       class="container"
       :class="{
-        'is-past': !!(timeOverwrite),
+        'is-past': !!timeOverwrite,
       }"
     >
-      <div
-        class="time"
-        @click="releaseFocus"
-      >
-        <span
-          class="hour"
-          v-text="hour"
-        />
-        <span
-          class="separator separator--minute"
-          v-text="`:`"
-        />
-        <span
-          class="minute"
-          v-text="minute"
-        />
+      <div class="time" @click="releaseFocus">
+        <span class="hour" v-text="hour" />
+        <span class="separator separator--minute" v-text="`:`" />
+        <span class="minute" v-text="minute" />
         <!--
         <span
           class="separator separator--second"
@@ -106,17 +85,10 @@ export default defineComponent({
           class="second"
         >{{ second }}</span>
         -->
-        <IconClose
-          class="icon"
-          :size="(36)"
-          color="rgb(var(--c-page-fg-inverse))"
-        />
+        <IconClose class="icon" :size="36" color="rgb(var(--c-page-fg-inverse))" />
       </div>
     </div>
-    <div
-      class="actions"
-    >
-    </div>
+    <div class="actions"></div>
   </div>
 </template>
 <style lang="scss">

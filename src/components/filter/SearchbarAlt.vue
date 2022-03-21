@@ -77,9 +77,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="searchbar"
-  >
+  <div class="searchbar">
     <form
       class="searchinput"
       :class="{
@@ -87,31 +85,21 @@ export default defineComponent({
       }"
       @submit.prevent="submitSearch"
     >
-      <input
-        :value="q"
-        @keyup="searchInput"
-      />
+      <input :value="q" @keyup="searchInput" />
     </form>
-    <CircleButton
-      :size="(48)"
-      :outlined="(false)"
-      @click="submitSearch"
-    >
-      <IconSearch
-        :size="(48)"
-        :color="`rgb(var(--c-page-fg))`"
-      />
+    <CircleButton :size="48" :outlined="false" @click="submitSearch">
+      <IconSearch :size="48" :color="`rgb(var(--c-page-fg))`" />
     </CircleButton>
     <CircleButton
-      :size="(48)"
-      :outlined="(false)"
-      :active="(isExpanded)"
+      :size="48"
+      :outlined="false"
+      :active="isExpanded"
       :color-var="`--c-black`"
       @click="toggleFilter"
     >
       <IconHashtag
-        :size="(48)"
-        :color="(isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`)"
+        :size="48"
+        :color="isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`"
       />
     </CircleButton>
   </div>
@@ -140,7 +128,7 @@ export default defineComponent({
     transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
     &:focus {
       background: rgba(var(--c-black), 0.1);
-      border-bottom: 3px solid rgba(var(--c-page-fg), 0.0);
+      border-bottom: 3px solid rgba(var(--c-page-fg), 0);
       outline: none;
     }
   }

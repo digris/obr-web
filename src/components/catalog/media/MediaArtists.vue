@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -16,34 +16,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="media-artists"
-  >
-    <span
-      v-for="(artist, index) in artists"
-      :key="`media-artist-${index}`"
-      class="artist"
-    >
-      <span
-        v-if="(index > 0 && artist.joinPhrase)"
-        class="artist__join"
-      >
+  <div class="media-artists">
+    <span v-for="(artist, index) in artists" :key="`media-artist-${index}`" class="artist">
+      <span v-if="index > 0 && artist.joinPhrase" class="artist__join">
         {{ artist.joinPhrase }}
       </span>
-      <span
-        v-else-if="(index > 0)"
-        class="artist__join artist__join--spaceless"
-      >, </span>
+      <span v-else-if="index > 0" class="artist__join artist__join--spaceless">, </span>
       <router-link
         v-if="link"
         :to="`/discover/artists/${artist.uid}/`"
         class="artist__name"
         v-text="artist.name"
       />
-      <span
-        v-else
-        v-text="artist.name"
-      />
+      <span v-else v-text="artist.name" />
     </span>
   </div>
 </template>

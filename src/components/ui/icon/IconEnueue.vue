@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-} from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -14,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-fg))',
+      default: "rgb(var(--c-page-fg))",
     },
     flipY: {
       type: Boolean,
@@ -28,7 +25,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         fill: props.color,
-        stroke: 'none',
+        stroke: "none",
         width: `${size.value}px`,
         height: `${size.value}px`,
       };
@@ -48,21 +45,9 @@ export default defineComponent({
       'flip-y': flipY,
     }"
   >
-    <rect
-      x="14"
-      y="26"
-      width="20"
-      height="3"
-    />
-    <rect
-      x="14"
-      y="32"
-      width="20"
-      height="3"
-    />
-    <polygon
-      points="14,13 22,17.5 14,22"
-    />
+    <rect x="14" y="26" width="20" height="3" />
+    <rect x="14" y="32" width="20" height="3" />
+    <polygon points="14,13 22,17.5 14,22" />
   </svg>
 </template>
 

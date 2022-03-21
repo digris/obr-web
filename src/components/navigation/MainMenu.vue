@@ -1,19 +1,8 @@
 <template>
-  <div
-    class="main-menu"
-  >
-    <router-link
-      to="/"
-      v-text="`Radio`"
-    />
-    <router-link
-      to="/discover/"
-      v-text="`Discover`"
-    />
-    <router-link
-      to="/collection/"
-      v-text="`Favoriten`"
-    />
+  <div class="main-menu">
+    <router-link to="/" v-text="`Radio`" />
+    <router-link to="/discover/" v-text="`Discover`" />
+    <router-link to="/collection/" v-text="`Favoriten`" />
   </div>
 </template>
 

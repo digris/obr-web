@@ -1,14 +1,13 @@
 <script lang="ts">
-
-import eventBus from '@/eventBus';
+import eventBus from "@/eventBus";
 
 export default {
   setup() {
     const login = () => {
       const event = {
-        intent: 'login',
+        intent: "login",
       };
-      eventBus.emit('account:authenticate', event);
+      eventBus.emit("account:authenticate", event);
     };
     return {
       login,
@@ -17,12 +16,8 @@ export default {
 };
 </script>
 <template>
-  <section
-    class="section"
-  >
-    <button
-      @click.prevent="login"
-    >Login</button>
+  <section class="section">
+    <button @click.prevent="login">Login</button>
   </section>
 </template>
 

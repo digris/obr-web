@@ -1,16 +1,12 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  ref,
-} from 'vue';
+import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
   props: {
     code: {
       type: String,
       required: false,
-      default: '',
+      default: "",
     },
     valid: {
       type: Boolean,
@@ -18,9 +14,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'input',
-  ],
+  emits: ["input"],
   setup(props, { emit }) {
     const inputEl = ref(null);
     const inputValue = ref(props.code);
@@ -30,7 +24,7 @@ export default defineComponent({
     const handleInput = async (e: any) => {
       const value = parseInput(e.target.value);
       inputValue.value = value;
-      emit('input', value);
+      emit("input", value);
     };
     onMounted(() => {
       handleInput({
@@ -51,18 +45,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="code-input"
-    :class="{'is-valid': valid}"
-  >
-    <div
-      class="input-container"
-    >
-      <label
-        for="ti-1299"
-      >
-        Gratis-Code:
-      </label>
+  <div class="code-input" :class="{ 'is-valid': valid }">
+    <div class="input-container">
+      <label for="ti-1299"> Gratis-Code: </label>
       <input
         ref="inputEl"
         id="ti-1299"
@@ -71,7 +56,7 @@ export default defineComponent({
         :value="inputValue"
         maxlength="8"
         placeholder="Code"
-      >
+      />
     </div>
   </div>
 </template>

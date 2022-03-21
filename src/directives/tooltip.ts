@@ -1,9 +1,9 @@
 const TooltipDirective = {
   beforeMount(el: any, binding: any) {
     // eslint-disable-next-line no-param-reassign
-    el.style.setProperty('--tooltip-text', `"${binding.value}"`);
+    el.style.setProperty("--tooltip-text", `"${binding.value}"`);
     // eslint-disable-next-line no-param-reassign
-    el.classList.add('has-tooltip');
+    el.classList.add("has-tooltip");
   },
 };
 

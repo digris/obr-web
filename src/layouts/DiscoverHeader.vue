@@ -23,45 +23,17 @@ export default defineComponent({
 
 <template>
   <div>
-    <div
-      class="title"
-    >
-      Discover
-    </div>
-    <div
-      class="list-menu"
-    >
-      <div
-        class="menu menu--primary"
-      >
-        <router-link
-          :to="{ name: 'discoverMoods' }"
-          v-text="`Stimmung`"
-        />
-        <router-link
-          :to="{ name: 'discoverMedia' }"
-          v-text="`Tracks`"
-        />
-        <router-link
-          :to="{ name: 'discoverPlaylists' }"
-          v-text="`Shows`"
-        />
-        <router-link
-          :to="{ name: 'discoverArtists' }"
-          v-text="`Künstler*innen`"
-        />
-        <router-link
-          :to="{ name: 'discoverEditors' }"
-          v-text="`Editor*innen`"
-        />
+    <div class="title">Discover</div>
+    <div class="list-menu">
+      <div class="menu menu--primary">
+        <router-link :to="{ name: 'discoverMoods' }" v-text="`Stimmung`" />
+        <router-link :to="{ name: 'discoverMedia' }" v-text="`Tracks`" />
+        <router-link :to="{ name: 'discoverPlaylists' }" v-text="`Shows`" />
+        <router-link :to="{ name: 'discoverArtists' }" v-text="`Künstler*innen`" />
+        <router-link :to="{ name: 'discoverEditors' }" v-text="`Editor*innen`" />
       </div>
-      <div
-        class="menu menu--secondary"
-      >
-        <Searchbar
-          v-if="filter"
-          :filter="filter"
-        />
+      <div class="menu menu--secondary">
+        <Searchbar v-if="filter" :filter="filter" />
       </div>
     </div>
   </div>

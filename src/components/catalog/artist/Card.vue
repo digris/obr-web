@@ -1,12 +1,9 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-} from 'vue';
+import { computed, defineComponent } from "vue";
 
-import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ContextMenu from '@/components/context-menu/ContextMenu.vue';
+import LazyImage from "@/components/ui/LazyImage.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 
 export default defineComponent({
   components: {
@@ -31,62 +28,29 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="card card--artist"
-  >
-    <router-link
-      :to="link"
-      class="visual"
-    >
-      <div
-        class="visual__image"
-      >
-        <LazyImage
-          :image="artist.image"
-        >
+  <div class="card card--artist">
+    <router-link :to="link" class="visual">
+      <div class="visual__image">
+        <LazyImage :image="artist.image">
           <PlayAction
             :obj-key="objKey"
-            :size="(64)"
-            :outlined="(false)"
+            :size="64"
+            :outlined="false"
             background-color="rgb(var(--c-white))"
           />
         </LazyImage>
       </div>
     </router-link>
-    <div
-      class="meta"
-    >
-      <div
-        class="title"
-      >
-        <router-link
-          class="primary"
-          :to="link"
-          v-text="artist.name"
-        />
-        <div
-          class="secondary"
-        >
-          <span
-            v-if="(artist.numMedia === 1)"
-          >
-            {{ artist.numMedia }} Track
-          </span>
-          <span
-            v-else
-          >
-            {{ artist.numMedia }} Tracks
-          </span>
+    <div class="meta">
+      <div class="title">
+        <router-link class="primary" :to="link" v-text="artist.name" />
+        <div class="secondary">
+          <span v-if="artist.numMedia === 1"> {{ artist.numMedia }} Track </span>
+          <span v-else> {{ artist.numMedia }} Tracks </span>
         </div>
       </div>
-      <div
-        class="actions"
-      >
-        <ContextMenu
-          :obj="artist"
-          :icon-size="36"
-          :icon-by-rating="true"
-        />
+      <div class="actions">
+        <ContextMenu :obj="artist" :icon-size="36" :icon-by-rating="true" />
       </div>
     </div>
     <!--
@@ -117,7 +81,7 @@ export default defineComponent({
 .card {
   .visual {
     position: relative;
-    background: rgba(var(--c-white), .25);
+    background: rgba(var(--c-white), 0.25);
     cursor: pointer;
     &__image {
       position: relative;

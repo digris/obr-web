@@ -1,15 +1,15 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-import eventBus from '@/eventBus';
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
+import eventBus from "@/eventBus";
 
 export default defineComponent({
   setup() {
     const store = useStore();
-    const user = computed(() => store.getters['account/user']);
+    const user = computed(() => store.getters["account/user"]);
     const initials = computed(() => {
       if (!user.value) {
-        return '?';
+        return "?";
       }
       if (user.value.firstName) {
         return user.value.firstName.substr(0, 1).toUpperCase();
@@ -18,10 +18,10 @@ export default defineComponent({
     });
     const login = () => {
       const event = {
-        intent: 'login',
+        intent: "login",
         next: window.location.pathname,
       };
-      eventBus.emit('account:authenticate', event);
+      eventBus.emit("account:authenticate", event);
     };
     return {
       user,
@@ -52,17 +52,8 @@ export default defineComponent({
       </router-link>
     </div>
     -->
-    <div
-      class="account-menu"
-      v-if="(!user)"
-    >
-      <a
-        href="#"
-        @click.prevent="login"
-        class="menu-link"
-      >
-        Login
-      </a>
+    <div class="account-menu" v-if="!user">
+      <a href="#" @click.prevent="login" class="menu-link"> Login </a>
     </div>
   </div>
 </template>

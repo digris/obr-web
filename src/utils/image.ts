@@ -1,4 +1,4 @@
-import settings from '@/settings';
+import settings from "@/settings";
 
 const { IMAGE_RESIZER_ENDPOINT } = settings;
 

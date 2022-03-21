@@ -1,12 +1,7 @@
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  onMounted,
-  onActivated,
-} from 'vue';
-import { useStore } from 'vuex';
-import Emission from './Emission.vue';
+import { defineComponent, computed, onMounted, onActivated } from "vue";
+import { useStore } from "vuex";
+import Emission from "./Emission.vue";
 
 export default defineComponent({
   components: {
@@ -18,20 +13,18 @@ export default defineComponent({
       default: true,
     },
   },
-  emits: [
-    'navigate',
-  ],
+  emits: ["navigate"],
   setup(props, { emit }) {
     const store = useStore();
-    const emissions = computed(() => store.getters['program/emissions']);
+    const emissions = computed(() => store.getters["program/emissions"]);
     onMounted(() => {
-      store.dispatch('program/loadProgram');
+      store.dispatch("program/loadProgram");
     });
     onActivated(() => {
-      store.dispatch('program/loadProgram');
+      store.dispatch("program/loadProgram");
     });
     const navigate = () => {
-      emit('navigate');
+      emit("navigate");
     };
     return {
       emissions,
@@ -41,9 +34,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="program"
-  >
+  <div class="program">
     <Emission
       v-for="(emission, index) in emissions"
       :key="`program-emission-${emission.uid}-${index}`"

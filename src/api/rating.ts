@@ -1,5 +1,5 @@
-import { APIClient } from '@/api/client';
-import settings from '@/settings';
+import { APIClient } from "@/api/client";
+import settings from "@/settings";
 
 const VOTE_ENDPOINT = `${settings.API_BASE_URL}rating/`;
 

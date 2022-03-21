@@ -2,8 +2,8 @@
 // NOTE: the naming here is kind of confusing and maybe should be changed.
 // this view (views/Program.view) is used as top-level view bound to /program/
 // the actual program data is handled by components/broadcast/program/Program.vue
-import { defineComponent } from 'vue';
-import Program from '@/components/broadcast/program/Program.vue';
+import { defineComponent } from "vue";
+import Program from "@/components/broadcast/program/Program.vue";
 
 export default defineComponent({
   components: {
@@ -12,30 +12,15 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="program-view"
-  >
-    <div
-      class="title"
-    >
-      Heute
-    </div>
-    <div
-      class="body"
-    >
+  <div class="program-view">
+    <div class="title">Heute</div>
+    <div class="body">
       <Program />
     </div>
-    <div
-      class="lookup"
-    >
+    <div class="lookup">
       (( Lookup ))
-      <input
-        type="date"
-        value="2022-02-01"
-      >
-      <input
-        type="time"
-      >
+      <input type="date" value="2022-02-01" />
+      <input type="time" />
     </div>
   </div>
 </template>

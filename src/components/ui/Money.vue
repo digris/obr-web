@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'Money',
+  name: "Money",
   props: {
     value: {
       type: Number,
@@ -14,9 +14,9 @@ export default {
   data() {
     return {
       currency: {
-        symbol: 'CHF',
+        symbol: "CHF",
       },
-      locale: 'de-CH',
+      locale: "de-CH",
     };
   },
   computed: {
@@ -29,8 +29,8 @@ export default {
         maximumFractionDigits: 2,
       };
       let valueStr = this.value.toLocaleString(this.locale, options);
-      if (valueStr.endsWith('.00')) {
-        valueStr = valueStr.replace('.00', '.-');
+      if (valueStr.endsWith(".00")) {
+        valueStr = valueStr.replace(".00", ".-");
       }
       return valueStr;
     },
@@ -39,21 +39,14 @@ export default {
 </script>
 
 <template>
-  <span
-    class="money"
-  >
-    <span
-      v-if="includeCurrency"
-      class="symbol"
-    >{{ symbol }}&nbsp;</span><span
-      class="value"
-    >{{ valueDisplay }}</span>
+  <span class="money">
+    <span v-if="includeCurrency" class="symbol">{{ symbol }}&nbsp;</span><span class="value">{{ valueDisplay }}</span>
   </span>
 </template>
 
 <style lang="scss" scoped>
-  .money {
-    display: inline-flex;
-    align-items: flex-end;
-  }
+.money {
+  display: inline-flex;
+  align-items: flex-end;
+}
 </style>

@@ -1,10 +1,5 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  PropType,
-} from 'vue';
+import { computed, defineComponent, ref, PropType } from "vue";
 
 type Option = {
   code?: string;
@@ -16,7 +11,7 @@ export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     options: {
@@ -25,15 +20,15 @@ export default defineComponent({
     },
     label: {
       type: String,
-      default: '',
+      default: "",
     },
     autocomplete: {
       type: String,
-      default: 'none',
+      default: "none",
     },
     placeholder: {
       type: String,
-      default: '',
+      default: "",
     },
     minlength: {
       type: Number,
@@ -44,15 +39,11 @@ export default defineComponent({
       default: 128,
     },
   },
-  emits: [
-    'keyup',
-    'change',
-    'update:modelValue',
-  ],
+  emits: ["keyup", "change", "update:modelValue"],
   setup(props, { emit }) {
     const id = ref(`form-text-input-${Math.random().toString(36).slice(2)}`);
     const update = (value: string) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
     };
     const annotatedOptions = computed(() => {
       return props.options.map((t: Option) => {
@@ -72,24 +63,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="select-input"
-  >
-    <label
-      v-if="label"
-      :for="id"
-      v-text="label"
-    />
-    <select
-      :id="id"
-      :value="modelValue"
-      @input="update($event.target.value)"
-    >
+  <div class="select-input">
+    <label v-if="label" :for="id" v-text="label" />
+    <select :id="id" :value="modelValue" @input="update($event.target.value)">
       <option
         v-for="option in annotatedOptions"
         :key="`${id}-${option.code}`"
         :value="option.code"
-        :selected="(!!option.selected)"
+        :selected="!!option.selected"
         v-text="option.name"
       />
     </select>

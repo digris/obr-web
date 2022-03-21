@@ -1,5 +1,5 @@
-import { APIClient } from '@/api/client';
-import settings from '@/settings';
+import { APIClient } from "@/api/client";
+import settings from "@/settings";
 
 const MOOD_ENDPOINT = `${settings.API_BASE_URL}catalog/moods/`;
 const PLAYLIST_ENDPOINT = `${settings.API_BASE_URL}catalog/playlists/`;
@@ -9,7 +9,8 @@ const MEDIA_ENDPOINT = `${settings.API_BASE_URL}catalog/media/`;
 async function getMoods(limit: number, offset: number) {
   const url = MOOD_ENDPOINT;
   const params = {
-    limit, offset,
+    limit,
+    offset,
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -25,13 +26,13 @@ async function getArtists(
   limit: number,
   offset: number,
   filter: any,
-  ordering: Array<string> = [],
+  ordering: Array<string> = []
 ) {
   const url = ARTIST_ENDPOINT;
   const params = {
     limit,
     offset,
-    ordering: ordering.join(','),
+    ordering: ordering.join(","),
     ...filter,
   };
   const response = await APIClient.get(url, { params });
@@ -51,25 +52,20 @@ async function getArtist(uid: string) {
   const url = `${ARTIST_ENDPOINT}${uid}/`;
   const params = {
     expand: [
-      'tags',
-      'identifiers', // TODO: implement in serializer
+      "tags",
+      "identifiers", // TODO: implement in serializer
     ],
   };
   const response = await APIClient.get(url, { params });
   return response.data;
 }
 
-async function getMedia(
-  limit: number,
-  offset: number,
-  filter: any,
-  ordering: Array<string> = [],
-) {
+async function getMedia(limit: number, offset: number, filter: any, ordering: Array<string> = []) {
   const url = MEDIA_ENDPOINT;
   const params = {
     limit,
     offset,
-    ordering: ordering.join(','),
+    ordering: ordering.join(","),
     ...filter,
   };
   const response = await APIClient.get(url, { params });
@@ -88,9 +84,7 @@ async function getMediaTags(filter: any) {
 async function getMediaDetail(uid: string) {
   const url = `${MEDIA_ENDPOINT}${uid}/`;
   const params = {
-    expand: [
-      'tags',
-    ],
+    expand: ["tags"],
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -103,14 +97,14 @@ async function getPlaylists(
   offset: number,
   filter: any,
   ordering: Array<string> = [],
-  expand: Array<string> = [],
+  expand: Array<string> = []
 ) {
   const url = PLAYLIST_ENDPOINT;
-  console.debug('getPlaylists:', filter)
+  console.debug("getPlaylists:", filter);
   const params = {
     limit,
     offset,
-    ordering: ordering.join(','),
+    ordering: ordering.join(","),
     expand,
     ...filter,
   };
@@ -130,13 +124,7 @@ async function getPlaylistsTags(filter: any) {
 async function getPlaylist(uid: string) {
   const url = `${PLAYLIST_ENDPOINT}${uid}/`;
   const params = {
-    expand: [
-      'media_set',
-      'tags',
-      'editor',
-      'duration',
-      'latest_emission',
-    ],
+    expand: ["media_set", "tags", "editor", "duration", "latest_emission"],
   };
   const response = await APIClient.get(url, { params });
   return response.data;

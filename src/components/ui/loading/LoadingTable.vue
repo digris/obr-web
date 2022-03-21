@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -9,39 +9,25 @@ export default defineComponent({
     },
   },
   setup(props) {
-    console.debug('props', props);
+    console.debug("props", props);
   },
 });
 </script>
 <template>
-  <div
-    class="loading-table"
-  >
+  <div class="loading-table">
     <div
       class="row"
       v-for="(item, index) in Array(number)"
       :key="`placeholder-row-${item}-${index}`"
     >
-      <div
-        class="container"
-      >
-        <div
-          class="row__actions"
-        />
-        <div
-          class="row__title"
-        >
-          <div
-            class="line line--primary"
-          >
-            <div
-              class="bar"
-            />
+      <div class="container">
+        <div class="row__actions" />
+        <div class="row__title">
+          <div class="line line--primary">
+            <div class="bar" />
           </div>
         </div>
-        <div
-          class="row__appendix"
-        />
+        <div class="row__appendix" />
       </div>
     </div>
   </div>
@@ -52,7 +38,7 @@ export default defineComponent({
   from {
     left: -150px;
   }
-  to   {
+  to {
     left: 100%;
   }
 }

@@ -1,7 +1,7 @@
-import { fileURLToPath, URL } from 'url'
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { fileURLToPath, URL } from "url";
+import { resolve } from "path";
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,12 +10,12 @@ export default defineConfig({
     target: "es2020",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'src/main.ts'),
+        main: resolve(__dirname, "src/main.ts"),
       },
       output: {
-        entryFileNames: '[name].js',
-        chunkFileNames: '[name].js',
-        assetFileNames: '[name].[ext]',
+        entryFileNames: "[name].js",
+        chunkFileNames: "[name].js",
+        assetFileNames: "[name].[ext]",
         // manualChunks: {
         //   'player': [
         //     'shaka-player',
@@ -29,35 +29,32 @@ export default defineConfig({
         // },
       },
     },
-    outDir: resolve(__dirname, 'build'),
+    outDir: resolve(__dirname, "build"),
     chunkSizeWarningLimit: 1000,
     assetsInlineLimit: 8092,
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
   },
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 3000,
     strictPort: true,
     watch: {
-      ignored: [
-        '**/data/**',
-      ],
+      ignored: ["**/data/**"],
     },
     proxy: {
-      '^((?!src\/|static\/|node_modules\/|@).)*$': {
-        target: 'http://local.obr-next:8080',
+      "^((?!src/|static/|node_modules/|@).)*$": {
+        target: "http://local.obr-next:8080",
         // origin: 'http://127.0.0.1:8080/',
         configure: (proxy) => {
-          proxy.on('proxyReq', function (proxyReq) {
-            proxyReq.setHeader('X-VITE-PROXIED', 'on');
+          proxy.on("proxyReq", function (proxyReq) {
+            proxyReq.setHeader("X-VITE-PROXIED", "on");
           });
         },
       },
     },
   },
-
-})
+});

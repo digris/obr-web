@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -11,33 +11,15 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="loading-grid"
-  >
-    <div
-      class="card"
-      v-for="(item, index) in Array(number)"
-      :key="`placeholder-${item}-${index}`"
-    >
-      <div
-        class="card__visual"
-      />
-      <div
-        class="card__meta"
-      >
-        <div
-          class="line line--primary"
-        >
-          <div
-            class="bar"
-          />
+  <div class="loading-grid">
+    <div class="card" v-for="(item, index) in Array(number)" :key="`placeholder-${item}-${index}`">
+      <div class="card__visual" />
+      <div class="card__meta">
+        <div class="line line--primary">
+          <div class="bar" />
         </div>
-        <div
-          class="line line--secondary"
-        >
-          <div
-            class="bar"
-          />
+        <div class="line line--secondary">
+          <div class="bar" />
         </div>
       </div>
     </div>

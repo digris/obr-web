@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { getStaticSrc } from '@/utils/staticfiles';
-import { getSocialBackends, disconnectSocialBackend } from '@/api/account';
+import { defineComponent, ref, onMounted } from "vue";
+import { getStaticSrc } from "@/utils/staticfiles";
+import { getSocialBackends, disconnectSocialBackend } from "@/api/account";
 
-import imgApple from '@/assets/brand-icons/apple.svg';
-import imgGoogle from '@/assets/brand-icons/google.svg';
-import imgSpotify from '@/assets/brand-icons/spotify.svg';
-import imgDeezer from '@/assets/brand-icons/vk.svg';
+import imgApple from "@/assets/brand-icons/apple.svg";
+import imgGoogle from "@/assets/brand-icons/google.svg";
+import imgSpotify from "@/assets/brand-icons/spotify.svg";
+import imgDeezer from "@/assets/brand-icons/vk.svg";
 
 const ICONS = {
   apple: imgApple,
@@ -16,11 +16,11 @@ const ICONS = {
 };
 
 interface Backend {
-  provider: string,
-  uid: string,
-  connectUrl: string,
-  disconnectUrl: string,
-  canDisconnect: boolean,
+  provider: string;
+  uid: string;
+  connectUrl: string;
+  disconnectUrl: string;
+  canDisconnect: boolean;
 }
 
 export default defineComponent({
@@ -41,25 +41,25 @@ export default defineComponent({
       disconnectedBackends.value = backends.disconnected;
     };
     const getProviderLogo = (provider: string) => {
-      const key = provider.split('-')[0];
+      const key = provider.split("-")[0];
       return ICONS[key];
       // return getStaticSrc(`assets/brand-icons/${key}.svg`);
     };
     const getProviderText = (provider: string) => {
-      const key = provider.split('-')[0];
+      const key = provider.split("-")[0];
       return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = (backend: Backend) => {
-      console.debug('beginLogin', backend);
+      console.debug("beginLogin", backend);
       let nextUrl = backend.connectUrl;
       if (props.next) {
         nextUrl += `?next=${props.next}`;
       }
-      console.debug('nextUrl', nextUrl);
+      console.debug("nextUrl", nextUrl);
       window.location.href = nextUrl;
     };
     const disconnect = async (backend: Backend) => {
-      console.debug('disconnect', backend);
+      console.debug("disconnect", backend);
       await disconnectSocialBackend(backend.provider, backend.uid);
       await fetchBackends();
     };
@@ -78,13 +78,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="social-login"
-  >
-    <section
-      v-if="(disconnectedBackends.length)"
-      class="backends backends--disconnected"
-    >
+  <div class="social-login">
+    <section v-if="disconnectedBackends.length" class="backends backends--disconnected">
       <div
         v-for="backend in disconnectedBackends"
         :key="`disconnected-backend-${backend.provider}`"
@@ -92,47 +87,32 @@ export default defineComponent({
         class="backend"
         :class="`backend--${backend.provider}`"
       >
-        <img
-          class="logo"
-          :src="getProviderLogo(backend.provider)"
-        />
-        <p
-          class="name"
-        >Continue with {{ getProviderText(backend.provider) }}</p>
+        <img class="logo" :src="getProviderLogo(backend.provider)" />
+        <p class="name">Continue with {{ getProviderText(backend.provider) }}</p>
       </div>
     </section>
-    <section
-      v-if="(connectedBackends.length)"
-      class="backends backends--connected"
-    >
+    <section v-if="connectedBackends.length" class="backends backends--connected">
       <div
         v-for="backend in connectedBackends"
         :key="`connected-backend-${backend.provider}`"
         class="backend"
         :class="`backend--${backend.provider}`"
       >
-        <img
-          class="logo"
-          :src="getProviderLogo(backend.provider)"
-        />
-        <p
-          class="name"
-        >
+        <img class="logo" :src="getProviderLogo(backend.provider)" />
+        <p class="name">
           {{ backend.provider }}
-          <br>
-          <small
-            class="uid"
-          >{{ backend.uid }}</small>
+          <br />
+          <small class="uid">{{ backend.uid }}</small>
         </p>
-        <div
-          class="disconnect"
-        >
+        <div class="disconnect">
           <button
             @click="disconnect(backend)"
             class="button"
-            :class="{'is-disabled': !backend.canDisconnect}"
-            :disabled="(!backend.canDisconnect)"
-          >disconnect</button>
+            :class="{ 'is-disabled': !backend.canDisconnect }"
+            :disabled="!backend.canDisconnect"
+          >
+            disconnect
+          </button>
         </div>
       </div>
     </section>

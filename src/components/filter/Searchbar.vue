@@ -57,38 +57,23 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="searchbar"
-  >
-    <form
-      class="searchinput"
-      @submit.prevent="updateSearchQuery"
-    >
-      <input
-        :value="filter.q"
-        @keyup="searchInput"
-      />
+  <div class="searchbar">
+    <form class="searchinput" @submit.prevent="updateSearchQuery">
+      <input :value="filter.q" @keyup="searchInput" />
     </form>
-    <CircleButton
-      :size="(48)"
-      :outlined="(false)"
-      @click="updateSearchQuery"
-    >
-      <IconSearch
-        :size="(48)"
-        :color="`rgb(var(--c-page-fg))`"
-      />
+    <CircleButton :size="48" :outlined="false" @click="updateSearchQuery">
+      <IconSearch :size="48" :color="`rgb(var(--c-page-fg))`" />
     </CircleButton>
     <CircleButton
-      :size="(48)"
-      :outlined="(false)"
-      :active="(isExpanded)"
+      :size="48"
+      :outlined="false"
+      :active="isExpanded"
       :color-var="`--c-black`"
       @click="toggleFilter"
     >
       <IconHashtag
-        :size="(48)"
-        :color="(isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`)"
+        :size="48"
+        :color="isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`"
       />
     </CircleButton>
   </div>

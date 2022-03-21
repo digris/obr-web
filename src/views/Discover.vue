@@ -1,22 +1,10 @@
 <template>
-  <div
-    class="discover"
-  >
-    <router-view
-      name="header"
-    />
-    <div
-      class="body"
-    >
-      <router-view
-        v-slot="{ Component }"
-      >
-        <keep-alive
-          :max="6"
-        >
-          <component
-            :is="Component"
-          />
+  <div class="discover">
+    <router-view name="header" />
+    <div class="body">
+      <router-view v-slot="{ Component }">
+        <keep-alive :max="6">
+          <component :is="Component" />
         </keep-alive>
       </router-view>
     </div>

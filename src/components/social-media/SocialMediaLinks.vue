@@ -5,30 +5,11 @@ export default defineComponent({});
 </script>
 
 <template>
-  <div
-    class="social-media-links"
-  >
-    <div
-      class="links"
-    >
-      <a
-        class="link link--twitter"
-        href="#"
-      >
-        T
-      </a>
-      <a
-        class="link link--facebook"
-        href="#"
-      >
-        FB
-      </a>
-      <a
-        class="link link--youtube"
-        href="#"
-      >
-        YT
-      </a>
+  <div class="social-media-links">
+    <div class="links">
+      <a class="link link--twitter" href="#"> T </a>
+      <a class="link link--facebook" href="#"> FB </a>
+      <a class="link link--youtube" href="#"> YT </a>
     </div>
   </div>
 </template>

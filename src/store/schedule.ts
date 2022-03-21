@@ -1,12 +1,12 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 // @ts-ignore
-import { DateTime } from 'luxon';
-import { getSchedule } from '@/api/broadcast';
+import { DateTime } from "luxon";
+import { getSchedule } from "@/api/broadcast";
 
 export interface State {
-  schedule: Array<any>,
-  current: Object | null,
+  schedule: Array<any>;
+  current: Object | null;
 }
 
 const state: State = {
@@ -19,7 +19,7 @@ const getters = {
   current: (state: State) => state.current,
   currentMedia: (state: State) => {
     // @ts-ignore
-    return (state.current) ? state.current.media : null;
+    return state.current ? state.current.media : null;
   },
   past: (state: State) => {
     if (!state.current) {
@@ -45,8 +45,8 @@ const getters = {
 };
 
 const mutations = {
-  SET_SCHEDULE: (state: State, schedule:Array<any>) => {
-    const parsedSchedule:Array<any> = [];
+  SET_SCHEDULE: (state: State, schedule: Array<any>) => {
+    const parsedSchedule: Array<any> = [];
     schedule.forEach((el) => {
       const s = { ...el };
       s.timeStart = DateTime.fromISO(s.timeStart);
@@ -55,7 +55,7 @@ const mutations = {
     });
     state.schedule = parsedSchedule;
   },
-  SET_CURRENT: (state: State, current:Object) => {
+  SET_CURRENT: (state: State, current: Object) => {
     state.current = current;
   },
 };
@@ -74,10 +74,10 @@ const actions = {
 
     const schedule = await getSchedule(params);
     // console.table(schedule);
-    context.commit('SET_SCHEDULE', schedule);
+    context.commit("SET_SCHEDULE", schedule);
   },
   updateCurrent: async (context: any, current: Object) => {
-    context.commit('SET_CURRENT', current);
+    context.commit("SET_CURRENT", current);
   },
 };
 

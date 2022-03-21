@@ -1,20 +1,20 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
-import { useStore } from 'vuex';
-import { DateTime } from 'luxon';
-import eventBus from '@/eventBus';
-import { getContrastColor } from '@/utils/color';
-import { requireSubscription } from '@/utils/account';
+import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
+import { DateTime } from "luxon";
+import eventBus from "@/eventBus";
+import { getContrastColor } from "@/utils/color";
+import { requireSubscription } from "@/utils/account";
 
-import Debug from '@/components/dev/Debug.vue';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import ContextMenu from '@/components/context-menu/ContextMenu.vue';
-import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
-import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
-import UserRating from '@/components/rating/UserRating.vue';
-import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
-import Duration from '@/components/ui/time/Duration.vue';
+import Debug from "@/components/dev/Debug.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
+import Duration from "@/components/ui/time/Duration.vue";
 
 export default defineComponent({
   props: {
@@ -41,23 +41,23 @@ export default defineComponent({
     });
     const isHover = ref(false);
     const release = computed(() => {
-      return (props.media.releases && props.media.releases.length) ? props.media.releases[0] : null;
+      return props.media.releases && props.media.releases.length ? props.media.releases[0] : null;
     });
     const currentMedia = computed(() => {
-      return store.getters['queue/currentMedia'];
+      return store.getters["queue/currentMedia"];
     });
     const isCurrent = computed(() => {
-      return currentMedia.value && (props.media.uid === currentMedia.value.uid);
+      return currentMedia.value && props.media.uid === currentMedia.value.uid;
     });
     const queuedMedia = computed(() => {
-      return store.getters['queue/media'];
+      return store.getters["queue/media"];
     });
     const isQueued = computed(() => {
       // @ts-ignore
       return queuedMedia.value.findIndex((i: object) => i.uid === props.media.uid) > -1;
     });
     const queuedIndex = computed(() => {
-      return store.getters['queue/currentIndex'];
+      return store.getters["queue/currentIndex"];
     });
     const queuePosition = computed(() => {
       if (queuedIndex.value < 0) {
@@ -71,7 +71,7 @@ export default defineComponent({
       return index - queuedIndex.value;
     });
     const playerState = computed(() => {
-      return isCurrent.value ? store.getters['player/playerState'] : null;
+      return isCurrent.value ? store.getters["player/playerState"] : null;
     });
     const isLive = computed(() => playerState.value && playerState.value.isLive);
     const isPlaying = computed(() => {
@@ -87,13 +87,13 @@ export default defineComponent({
       return DateTime.fromISO(props.media.latestAirplay);
     });
     const currentOnairMedia = computed(() => {
-      return store.getters['schedule/currentMedia'];
+      return store.getters["schedule/currentMedia"];
     });
     const isOnair = computed(() => {
-      return currentOnairMedia.value && (props.media.uid === currentOnairMedia.value.uid);
+      return currentOnairMedia.value && props.media.uid === currentOnairMedia.value.uid;
     });
     const color = computed(() => {
-      return (release.value && release.value.image) ? release.value.image.rgb : null;
+      return release.value && release.value.image ? release.value.image.rgb : null;
     });
     const contrastColor = computed(() => {
       if (color.value && isCurrent.value && !isLive.value) {
@@ -105,31 +105,31 @@ export default defineComponent({
       if (!color.value) {
         return {};
       }
-      const rgb = color.value.join(',');
-      const rgbContrast = contrastColor.value.join(',');
+      const rgb = color.value.join(",");
+      const rgbContrast = contrastColor.value.join(",");
       return {
-        '--c-color': rgb,
-        '--c-contrast-color': rgbContrast,
+        "--c-color": rgb,
+        "--c-contrast-color": rgbContrast,
       };
     });
     const buttonCssVars = computed(() => {
       if (color.value && isCurrent.value) {
         return {
-          '--c-fg': color.value.join(','),
+          "--c-fg": color.value.join(","),
         };
       }
       return {
-        '--c-fg': '0,0,0',
+        "--c-fg": "0,0,0",
       };
     });
     const play = requireSubscription((media: object) => {
       const payload = {
         media: [media],
       };
-      eventBus.emit('queue:controls:enqueue', payload);
+      eventBus.emit("queue:controls:enqueue", payload);
     });
     const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
+      eventBus.emit("player:controls", { do: "pause" });
     };
     return {
       objKey,
@@ -163,46 +163,29 @@ export default defineComponent({
       'is-current': isCurrent,
       'is-onair': isOnair,
     }"
-    @mouseenter="isHover=true"
-    @mouseleave="isHover=false"
+    @mouseenter="isHover = true"
+    @mouseleave="isHover = false"
   >
-    <Debug
-      :visible="(false)"
-      :value="media"
-    />
-    <div
-      class="container"
-    >
-      <div
-        class="play"
-      >
+    <Debug :visible="false" :value="media" />
+    <div class="container">
+      <div class="play">
         <ButtonPlay
           @play="play(media)"
           @pause="pause"
-          :is-active="(isCurrent && !isLive)"
+          :is-active="isCurrent && !isLive"
           :is-playing="isPlaying"
           :is-buffering="isBuffering"
           :style="buttonCssVars"
           :color="`rgb(${contrastColor.join(',')})`"
         />
-        <div
-          class="state"
-          v-if="true"
-        >
-          <div
-            class="state__on-air"
-            v-if="isOnair"
-          >R</div>
-          <div
-            v-else
-            class="state__queued"
-            v-if="(isQueued && queuePosition > 0)"
-          >{{ queuePosition }}</div>
+        <div class="state" v-if="true">
+          <div class="state__on-air" v-if="isOnair">R</div>
+          <div v-else class="state__queued" v-if="isQueued && queuePosition > 0">
+            {{ queuePosition }}
+          </div>
         </div>
       </div>
-      <div
-        class="name"
-      >
+      <div class="name">
         <router-link
           :to="{
             name: 'mediaDetail',
@@ -214,44 +197,19 @@ export default defineComponent({
           {{ media.name }}
         </router-link>
       </div>
-      <div
-        class="artist"
-      >
-        <MediaArtists
-          :artists="media.artists"
-        />
+      <div class="artist">
+        <MediaArtists :artists="media.artists" />
       </div>
-      <div
-        class="release"
-      >
-        <MediaReleases
-          :releases="media.releases"
-        />
+      <div class="release">
+        <MediaReleases :releases="media.releases" />
       </div>
-      <div
-        class="airplays"
-      >
-        <RelativeDateTime
-          v-if="latestAirplay"
-          :date-time="latestAirplay"
-        />
+      <div class="airplays">
+        <RelativeDateTime v-if="latestAirplay" :date-time="latestAirplay" />
       </div>
-      <Duration
-        class="duration"
-        :seconds="media.duration"
-      />
-      <div
-        class="actions"
-      >
-        <CircleButton
-          :size="(48)"
-          :outlined="(false)"
-        >
-          <UserRating
-            :obj-key="objKey"
-            :icon-size="48"
-            :hide-if-unset="(!isHover)"
-          />
+      <Duration class="duration" :seconds="media.duration" />
+      <div class="actions">
+        <CircleButton :size="48" :outlined="false">
+          <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
         </CircleButton>
         <!--
         <CircleButton
@@ -263,9 +221,7 @@ export default defineComponent({
           />
         </CircleButton>
         -->
-        <ContextMenu
-          :obj="media"
-        />
+        <ContextMenu :obj="media" />
       </div>
     </div>
   </div>

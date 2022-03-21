@@ -1,9 +1,5 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  ref,
-} from 'vue';
+import { defineComponent, onMounted, ref } from "vue";
 
 export default defineComponent({
   props: {
@@ -13,19 +9,17 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'input',
-  ],
+  emits: ["input"],
   setup(props, { emit }) {
     const inputEl = ref(null);
-    const inputValue = ref('');
+    const inputValue = ref("");
     const parseInput = (value: string) => {
       return value.toUpperCase();
     };
     const handleInput = (e: any) => {
       const value = parseInput(e.target.value);
       inputValue.value = value;
-      emit('input', value);
+      emit("input", value);
     };
     onMounted(() => {
       // @ts-ignore
@@ -41,18 +35,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="token-input"
-    :class="{'is-valid': valid}"
-  >
-    <div
-      class="input-container token-input"
-    >
-      <label
-        for="ti-1298"
-      >
-        Login-Code:
-      </label>
+  <div class="token-input" :class="{ 'is-valid': valid }">
+    <div class="input-container token-input">
+      <label for="ti-1298"> Login-Code: </label>
       <input
         ref="inputEl"
         id="ti-1298"
@@ -62,7 +47,7 @@ export default defineComponent({
         maxlength="7"
         placeholder="Login-Code"
         autocomplete="one-time-code"
-      >
+      />
     </div>
   </div>
 </template>

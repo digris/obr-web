@@ -1,23 +1,23 @@
-import './style/main.scss';
-import { createApp } from 'vue';
-import { createI18n } from 'vue-i18n';
-import * as Sentry from '@sentry/vue';
-import { Integrations } from '@sentry/tracing';
-import settings from '@/settings';
-import createEventHandler from '@/stats/event';
-import createUIStateHandler from '@/utils/ui';
-import createStationTimeHandler from '@/utils/time';
-import createAccountHandler from '@/utils/account';
-import creadeScheduleHandler from '@/broadcast/schedule';
-import createPlayerStateHandler from '@/player/handler';
-import messagesDE from '@/locales/de.json';
+import "./style/main.scss";
+import { createApp } from "vue";
+import { createI18n } from "vue-i18n";
+import * as Sentry from "@sentry/vue";
+import { Integrations } from "@sentry/tracing";
+import settings from "@/settings";
+import createEventHandler from "@/stats/event";
+import createUIStateHandler from "@/utils/ui";
+import createStationTimeHandler from "@/utils/time";
+import createAccountHandler from "@/utils/account";
+import creadeScheduleHandler from "@/broadcast/schedule";
+import createPlayerStateHandler from "@/player/handler";
+import messagesDE from "@/locales/de.json";
 
-import App from './App.vue';
-import store from './store';
-import router from './router';
+import App from "./App.vue";
+import store from "./store";
+import router from "./router";
 
 // directives
-import { TooltipDirective } from './directives/tooltip';
+import { TooltipDirective } from "./directives/tooltip";
 
 createEventHandler();
 createStationTimeHandler();
@@ -28,17 +28,13 @@ createPlayerStateHandler();
 
 const i18n = createI18n({
   legacy: false,
-  locale: 'de',
+  locale: "de",
   messages: {
     de: messagesDE,
   },
 });
 
-const app = createApp(App)
-  .use(i18n)
-  .use(router)
-  .use(store)
-  .directive('tooltip', TooltipDirective);
+const app = createApp(App).use(i18n).use(router).use(store).directive("tooltip", TooltipDirective);
 
 Sentry.init({
   app,
@@ -46,18 +42,13 @@ Sentry.init({
   integrations: [
     new Integrations.BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracingOrigins: [
-        'local.obr-next',
-        'next.openbroadcast.ch',
-        'openbroadcast.ch',
-        /^\//,
-      ],
+      tracingOrigins: ["local.obr-next", "next.openbroadcast.ch", "openbroadcast.ch", /^\//],
     }),
   ],
   tracesSampleRate: 1.0,
 });
 
-app.mount('#app');
+app.mount("#app");
 
 // @ts-ignore
 window.app = app;

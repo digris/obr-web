@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import IconSkip from '@/components/ui/icon/IconSkip.vue';
-import Circle from './Circle.vue';
+import { defineComponent } from "vue";
+import IconSkip from "@/components/ui/icon/IconSkip.vue";
+import Circle from "./Circle.vue";
 
 export default defineComponent({
   components: {
@@ -15,7 +15,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-fg))',
+      default: "rgb(var(--c-fg))",
     },
     rotate: {
       type: Number,
@@ -30,14 +30,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Circle
-    :size="size"
-    :disabled="disabled"
-  >
-    <IconSkip
-      :size="size"
-      :rotate="rotate"
-      :color="color"
-    />
+  <Circle :size="size" :disabled="disabled">
+    <IconSkip :size="size" :rotate="rotate" :color="color" />
   </Circle>
 </template>

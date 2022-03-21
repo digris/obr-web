@@ -1,17 +1,12 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-  ref,
-} from 'vue';
-import { loadStripe } from '@stripe/stripe-js';
-import settings from '@/settings';
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import { getPlanOptions, createStripeCheckoutSession } from '@/api/subscription';
-import Datetime from '@/components/ui/date/Datetime.vue';
-import Money from '@/components/ui/Money.vue';
+import { computed, defineComponent, onMounted, ref } from "vue";
+import { loadStripe } from "@stripe/stripe-js";
+import settings from "@/settings";
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import { getPlanOptions, createStripeCheckoutSession } from "@/api/subscription";
+import Datetime from "@/components/ui/date/Datetime.vue";
+import Money from "@/components/ui/Money.vue";
 
 const { STRIPE_PUBLISHABLE_KEY } = settings;
 // const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
@@ -64,9 +59,9 @@ export default defineComponent({
       // if (response) {
       //   throw new Error('foo');
       // }
-      console.debug('response', response);
+      console.debug("response", response);
       const sessionId = response.id;
-      console.debug('sessionId', sessionId);
+      console.debug("sessionId", sessionId);
       // @ts-ignore
       const result = await stripe.redirectToCheckout({
         sessionId,
@@ -80,7 +75,7 @@ export default defineComponent({
     };
     const startPayment = async (provider: string) => {
       errors.value = [];
-      if (provider === 'stripe') {
+      if (provider === "stripe") {
         await startStripePayment();
       }
     };
@@ -101,88 +96,44 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="subscribe-plan"
-  >
-    <section
-      class="section info"
-    >
+  <div class="subscribe-plan">
+    <section class="section info">
       <div>
-        <p
-          class="message"
-          v-text="message"
-        />
-        <div
-          class="options"
-        >
+        <p class="message" v-text="message" />
+        <div class="options">
           <div
             v-for="(option, index) in options"
             @click="selectOption(option)"
             :key="`options-${index}-${option.sku}`"
             class="option"
-            :class="{'is-selected': option.sku === selectedOption.sku}"
+            :class="{ 'is-selected': option.sku === selectedOption.sku }"
           >
-            <div
-              class="price"
-            >
-              <Money
-                :value="option.price"
-                :include-currency="(true)"
-              />
+            <div class="price">
+              <Money :value="option.price" :include-currency="true" />
             </div>
-            <div
-              class="separator"
-            />
-            <div
-              class="title"
-            >
+            <div class="separator" />
+            <div class="title">
               {{ option.title }}
             </div>
-            <div
-              class="until-date"
-            >
+            <div class="until-date">
               Gültig bis am
-              <Datetime
-                :value="option.untilDate"
-                :display-time="(false)"
-              />
+              <Datetime :value="option.untilDate" :display-time="false" />
             </div>
           </div>
         </div>
       </div>
     </section>
-    <section
-      v-if="selectedOption"
-      class="section total"
-    >
-      <div
-        class="title"
-      >
-        Total inkl. aller Steuren und Gebühren
-      </div>
-      <div
-        class="price"
-      >
-        <Money
-          :value="selectedOption.price"
-        />
+    <section v-if="selectedOption" class="section total">
+      <div class="title">Total inkl. aller Steuren und Gebühren</div>
+      <div class="price">
+        <Money :value="selectedOption.price" />
       </div>
     </section>
-    <section
-      v-if="errors"
-      class="section errors"
-    >
-      <APIErrors
-        :errors="errors"
-      />
+    <section v-if="errors" class="section errors">
+      <APIErrors :errors="errors" />
     </section>
-    <section
-      class="section actions"
-    >
-      <AsyncButton
-        class="button"
-        @click.prevent="startPayment('stripe')"
-      >
+    <section class="section actions">
+      <AsyncButton class="button" @click.prevent="startPayment('stripe')">
         Jetzt Bezahlen
       </AsyncButton>
       <!--
@@ -223,7 +174,7 @@ export default defineComponent({
   align-items: center;
   padding: 1rem;
   background: rgb(var(--c-white));
-  box-shadow: 0 0 3px rgba(var(--c-black),0.33);
+  box-shadow: 0 0 3px rgba(var(--c-black), 0.33);
   cursor: pointer;
   transition: background 100ms;
   &:hover {

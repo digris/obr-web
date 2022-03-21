@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-import eventBus from '@/eventBus';
-import SidePanel from '@/components/ui/panel/SidePanel.vue';
+import { defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import eventBus from "@/eventBus";
+import SidePanel from "@/components/ui/panel/SidePanel.vue";
 
-import SocialLogin from '@/components/account/SocialLogin.vue';
-import EmailLoginForm from '@/components/account/EmailLoginForm.vue';
-import EmailLoginVerify from '@/components/account/EmailLoginVerify.vue';
+import SocialLogin from "@/components/account/SocialLogin.vue";
+import EmailLoginForm from "@/components/account/EmailLoginForm.vue";
+import EmailLoginVerify from "@/components/account/EmailLoginVerify.vue";
 
 export default defineComponent({
   components: {
@@ -21,10 +21,10 @@ export default defineComponent({
     const socialLoginVisible = ref(true);
     const emailLoginVisible = ref(true);
     const emailLoginVerifyVisible = ref(false);
-    const intent = ref('login');
+    const intent = ref("login");
     const next = ref(null);
     const message = ref(null);
-    const emailSentTo = ref('');
+    const emailSentTo = ref("");
     const close = () => {
       isVisible.value = false;
     };
@@ -38,12 +38,12 @@ export default defineComponent({
       emailLoginVerifyVisible.value = true;
     };
     const reset = () => {
-      emailSentTo.value = '';
+      emailSentTo.value = "";
       socialLoginVisible.value = true;
       emailLoginVisible.value = true;
       emailLoginVerifyVisible.value = false;
     };
-    eventBus.on('account:authenticate', (event) => {
+    eventBus.on("account:authenticate", (event) => {
       isVisible.value = true;
       if (event.intent) {
         intent.value = event.intent;
@@ -51,11 +51,14 @@ export default defineComponent({
       next.value = event.next || null;
       message.value = event.message || null;
     });
-    store.watch((state: any) => state.account.user, (newUser) => {
-      if (newUser) {
-        isVisible.value = false;
+    store.watch(
+      (state: any) => state.account.user,
+      (newUser) => {
+        if (newUser) {
+          isVisible.value = false;
+        }
       }
-    });
+    );
     return {
       close,
       isVisible,
@@ -74,53 +77,21 @@ export default defineComponent({
 });
 </script>
 <template>
-  <SidePanel
-    :is-visible="isVisible"
-    @close="close"
-  >
-    <div
-      class="title"
-    >
-      Anmelden
-    </div>
-    <div
-      v-if="message"
-      class="message"
-    >
+  <SidePanel :is-visible="isVisible" @close="close">
+    <div class="title">Anmelden</div>
+    <div v-if="message" class="message">
       <p>{{ message }}</p>
     </div>
-    <section
-      v-if="socialLoginVisible"
-      class="section social"
-    >
+    <section v-if="socialLoginVisible" class="section social">
       <p>Mit einem bestehenden Konto:</p>
-      <SocialLogin
-        :next="next"
-      />
+      <SocialLogin :next="next" />
     </section>
-    <div
-      v-if="(socialLoginVisible && emailLoginVisible)"
-      class="subtitle"
-    >
-      oder
-    </div>
-    <section
-      v-if="emailLoginVisible"
-      class="section email"
-    >
-      <EmailLoginForm
-        :next="next"
-        @email-sent="handleEmailSent"
-      />
+    <div v-if="socialLoginVisible && emailLoginVisible" class="subtitle">oder</div>
+    <section v-if="emailLoginVisible" class="section email">
+      <EmailLoginForm :next="next" @email-sent="handleEmailSent" />
     </section>
-    <section
-      v-if="emailLoginVerifyVisible"
-      class="section email"
-    >
-      <EmailLoginVerify
-        :email="emailSentTo"
-        @reset="reset"
-      />
+    <section v-if="emailLoginVerifyVisible" class="section email">
+      <EmailLoginVerify :email="emailSentTo" @reset="reset" />
     </section>
   </SidePanel>
 </template>

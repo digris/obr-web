@@ -1,9 +1,9 @@
 // import applyConverters from 'axios-case-converter';
-import axios from 'axios';
-import qs from 'qs';
+import axios from "axios";
+import qs from "qs";
 
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
 // const APIClient = applyConverters(axios.create({
@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 const APIClient = axios.create({
   timeout: 12000,
   headers: {
-    'X-Requested-With': 'XMLHttpRequest',
+    "X-Requested-With": "XMLHttpRequest",
   },
 });
 

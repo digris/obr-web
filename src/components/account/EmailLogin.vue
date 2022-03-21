@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { defineComponent, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default defineComponent({
   setup() {
@@ -12,8 +12,8 @@ export default defineComponent({
     const errors = ref<Array<string>>([]);
     const loginBySignedEmail = async (value: string | string[]) => {
       try {
-        await store.dispatch('account/loginUserBySignedEmail', value);
-        await router.push({ name: 'accountSettings' });
+        await store.dispatch("account/loginUserBySignedEmail", value);
+        await router.push({ name: "accountSettings" });
       } catch (err) {
         console.warn(err);
         errors.value = [err.message, err.response.data];
@@ -30,12 +30,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="form-errors"
-    v-if="errors.length"
-  >
-    <pre
-      v-text="errors"
-    />
+  <div class="form-errors" v-if="errors.length">
+    <pre v-text="errors" />
   </div>
 </template>

@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import eventBus from '@/eventBus';
-import MainMenu from '@/components/navigation/MainMenu.vue';
-import AccountMenu from '@/components/navigation/AccountMenu.vue';
-import SubscriptionStatus from '@/components/navigation/SubscriptionStatus.vue';
-import ToggleMenuButton from '@/components/navigation/ToggleMenuButton.vue';
+import { defineComponent } from "vue";
+import eventBus from "@/eventBus";
+import MainMenu from "@/components/navigation/MainMenu.vue";
+import AccountMenu from "@/components/navigation/AccountMenu.vue";
+import SubscriptionStatus from "@/components/navigation/SubscriptionStatus.vue";
+import ToggleMenuButton from "@/components/navigation/ToggleMenuButton.vue";
 
 export default defineComponent({
   components: {
@@ -15,7 +15,7 @@ export default defineComponent({
   },
   setup() {
     const showSideMenu = () => {
-      eventBus.emit('side-menu:show');
+      eventBus.emit("side-menu:show");
     };
     return {
       showSideMenu,
@@ -25,35 +25,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="topbar"
-  >
-    <div
-      class="brand"
-    >
-      <router-link
-        to="/"
-      >
-        open broadcast
-      </router-link>
+  <div class="topbar">
+    <div class="brand">
+      <router-link to="/"> open broadcast </router-link>
     </div>
-    <MainMenu
-      class="menu menu--main"
-    />
-    <div
-      class="subscription-and-account"
-    >
-      <SubscriptionStatus
-        class="menu menu--subscription"
-      />
-      <AccountMenu
-        class="menu menu--account"
-      />
+    <MainMenu class="menu menu--main" />
+    <div class="subscription-and-account">
+      <SubscriptionStatus class="menu menu--subscription" />
+      <AccountMenu class="menu menu--account" />
     </div>
-    <div
-      class="menu-toggle"
-      @click.prevent="showSideMenu"
-    >
+    <div class="menu-toggle" @click.prevent="showSideMenu">
       <ToggleMenuButton />
     </div>
   </div>

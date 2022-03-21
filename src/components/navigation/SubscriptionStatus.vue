@@ -1,7 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-import { DateTime } from 'luxon';
+import { computed, defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import { DateTime } from "luxon";
 
 // import Datetime from '@/components/ui/date/Datetime.vue';
 
@@ -12,17 +12,17 @@ export default defineComponent({
   setup() {
     const detailsVisible = ref(false);
     const store = useStore();
-    const subscription = computed(() => store.getters['account/subscription']);
+    const subscription = computed(() => store.getters["account/subscription"]);
     const now = ref(DateTime.now());
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {
         return null;
       }
       const activeUntil = DateTime.fromISO(subscription.value.activeUntil);
-      const diff = activeUntil.diff(now.value, ['days']);
+      const diff = activeUntil.diff(now.value, ["days"]);
       return Math.round(diff.days);
     });
-    const isActive = computed(() => (subscription.value && subscription.value.isActive));
+    const isActive = computed(() => subscription.value && subscription.value.isActive);
     const showDetails = () => {
       detailsVisible.value = true;
     };
@@ -57,19 +57,9 @@ export default defineComponent({
           'is-expired': !isActive,
         }"
       >
-        <span
-          v-if="isActive"
-        >
-          Free access
-        </span>
-        <span
-          v-else
-        >
-          Expired
-        </span>
-        <span
-          v-text="`${numDaysRemaining} Tage`"
-        />
+        <span v-if="isActive"> Free access </span>
+        <span v-else> Expired </span>
+        <span v-text="`${numDaysRemaining} Tage`" />
       </router-link>
       <!--
       <div

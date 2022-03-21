@@ -1,10 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-import { DateTime } from 'luxon';
+import { computed, defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import { DateTime } from "luxon";
 
-import eventBus from '@/eventBus';
-import Datetime from '@/components/ui/date/Datetime.vue';
+import eventBus from "@/eventBus";
+import Datetime from "@/components/ui/date/Datetime.vue";
 
 export default defineComponent({
   components: {
@@ -12,28 +12,28 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const subscription = computed(() => store.getters['account/subscription']);
+    const subscription = computed(() => store.getters["account/subscription"]);
     const now = ref(DateTime.now());
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {
         return null;
       }
       const activeUntil = DateTime.fromISO(subscription.value.activeUntil);
-      const diff = activeUntil.diff(now.value, ['days']);
+      const diff = activeUntil.diff(now.value, ["days"]);
       return Math.round(diff.days);
     });
-    const isActive = computed(() => (subscription.value && subscription.value.isActive));
+    const isActive = computed(() => subscription.value && subscription.value.isActive);
     const title = computed(() => {
       if (isActive.value) {
-        return 'Guthaben';
+        return "Guthaben";
       }
-      return 'Guthaben abgelaufen';
+      return "Guthaben abgelaufen";
     });
     const extendSubscription = () => {
       const event = {
-        intent: 'plan',
+        intent: "plan",
       };
-      eventBus.emit('subscription:subscribe', event);
+      eventBus.emit("subscription:subscribe", event);
     };
     return {
       subscription,
@@ -52,24 +52,15 @@ export default defineComponent({
     @click.stop="extendSubscription"
     :class="{
       'is-active': isActive,
-      'is-expired': !isActive
+      'is-expired': !isActive,
     }"
   >
-    <div
-      class="details"
-    >
-      <p
-        v-text="title"
-      />
-      <p>
-        {{ numDaysRemaining }} Tage
-      </p>
+    <div class="details">
+      <p v-text="title" />
+      <p>{{ numDaysRemaining }} Tage</p>
       <p>
         Gültig bis am:
-        <Datetime
-          :value="subscription.activeUntil"
-          :display-time="(false)"
-        />
+        <Datetime :value="subscription.activeUntil" :display-time="false" />
       </p>
     </div>
   </div>

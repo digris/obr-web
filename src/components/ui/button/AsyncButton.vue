@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed } from "vue";
 
 export default defineComponent({
   inheritAttrs: false,
@@ -28,10 +28,10 @@ export default defineComponent({
     });
 
     const classes = computed(() => ({
-      'is-loading': isLoading.value,
-      'is-success': isSuccess.value,
-      'has-error': hasError.value,
-      'is-disabled': props.disabled,
+      "is-loading": isLoading.value,
+      "is-success": isSuccess.value,
+      "has-error": hasError.value,
+      "is-disabled": props.disabled,
     }));
 
     const setSuccess = (displayFor: number) => {
@@ -59,7 +59,7 @@ export default defineComponent({
         await attrs.onClick(e);
         setSuccess(2000);
       } catch (err) {
-        console.debug('hm..', err);
+        console.debug("hm..", err);
         setError(3000);
       } finally {
         isLoading.value = false;
@@ -88,15 +88,12 @@ export default defineComponent({
   <button
     :style="style"
     :class="classes"
-    :disabled="(isLoading || disabled)"
+    :disabled="isLoading || disabled"
     class="async-button"
     ref="button"
     v-bind="computedAttrs"
   >
-    <slot
-      v-if="isLoading"
-      name="loading"
-    >
+    <slot v-if="isLoading" name="loading">
       <svg
         class="loading-spinner"
         width="38"
@@ -105,23 +102,10 @@ export default defineComponent({
         xmlns="http://www.w3.org/2000/svg"
         stroke="#fff"
       >
-        <g
-          fill="none"
-          fill-rule="evenodd"
-        >
-          <g
-            transform="translate(1 1)"
-            stroke-width="2"
-          >
-            <circle
-              stroke-opacity=".5"
-              cx="18"
-              cy="18"
-              r="18"
-            />
-            <path
-              d="M36 18c0-9.94-8.06-18-18-18"
-            >
+        <g fill="none" fill-rule="evenodd">
+          <g transform="translate(1 1)" stroke-width="2">
+            <circle stroke-opacity=".5" cx="18" cy="18" r="18" />
+            <path d="M36 18c0-9.94-8.06-18-18-18">
               <animateTransform
                 attributeName="transform"
                 type="rotate"
@@ -135,21 +119,9 @@ export default defineComponent({
         </g>
       </svg>
     </slot>
-    <slot
-      v-else-if="isSuccess"
-      name="success"
-    >
-      OK
-    </slot>
-    <slot
-      v-else-if="hasError"
-      name="error"
-    >
-      Error
-    </slot>
-    <slot
-      v-else
-    />
+    <slot v-else-if="isSuccess" name="success"> OK </slot>
+    <slot v-else-if="hasError" name="error"> Error </slot>
+    <slot v-else />
   </button>
 </template>
 
