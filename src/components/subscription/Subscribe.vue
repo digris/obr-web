@@ -109,7 +109,7 @@ export default defineComponent({
         </transition>
       </section>
     </div>
-    <template v-if="successVisible" #success :level="error">
+    <template v-if="successVisible" #success>
       <div class="subscribe-success">
         <h1 class="title">Your Plan has been updated</h1>
         <p class="message">(( message ))</p>

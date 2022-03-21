@@ -24,7 +24,6 @@ import AccountLogin from "@/components/account/Login.vue";
 import AccountEmailLogin from "@/components/account/EmailLogin.vue";
 import AccountSettings from "@/components/account/settings/Settings.vue";
 import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
-// eslint-disable-next-line import/no-unresolved
 import SearchbarAlt from "@/components/filter/SearchbarAlt.vue";
 
 import { getUser } from "@/api/account";

@@ -5,7 +5,6 @@ import { useStore } from "vuex";
 import { playlistTitle } from "@/utils/catalog";
 
 import DetailPage from "@/layouts/DetailPage.vue";
-// eslint-disable-next-line import/no-unresolved
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";

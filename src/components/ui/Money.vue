@@ -40,7 +40,8 @@ export default {
 
 <template>
   <span class="money">
-    <span v-if="includeCurrency" class="symbol">{{ symbol }}&nbsp;</span><span class="value">{{ valueDisplay }}</span>
+    <span v-if="includeCurrency" class="symbol" v-text="`${symbol}&nbsp;`" />
+    <span class="value" v-text="valueDisplay" />
   </span>
 </template>
 

@@ -3,12 +3,11 @@ import { defineComponent, onMounted, ref } from "vue";
 
 import Section from "./Section.vue";
 import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
-import { getStaticSrc } from "@/utils/staticfiles";
 
 import imgApple from "@/assets/brand-icons/apple.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
-import imgDeezer from "@/assets/brand-icons/deezer.svg";
+import imgDeezer from "@/assets/brand-icons/vk.svg";
 
 const ICONS = {
   apple: imgApple,

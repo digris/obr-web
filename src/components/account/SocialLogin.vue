@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { getStaticSrc } from "@/utils/staticfiles";
 import { getSocialBackends, disconnectSocialBackend } from "@/api/account";
 
 import imgApple from "@/assets/brand-icons/apple.svg";

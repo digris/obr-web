@@ -1,6 +1,5 @@
 <script>
 import { computed, ref, watch } from "vue";
-// eslint-disable-next-line import/extensions
 import Intersect from "@/components/utils/intersect.js";
 import { getImageColor, getImageSrc } from "@/utils/image";
 

@@ -178,10 +178,10 @@ export default defineComponent({
           :style="buttonCssVars"
           :color="`rgb(${contrastColor.join(',')})`"
         />
-        <div class="state" v-if="true">
+        <div class="state">
           <div class="state__on-air" v-if="isOnair">R</div>
-          <div v-else class="state__queued" v-if="isQueued && queuePosition > 0">
-            {{ queuePosition }}
+          <div v-else class="state__queued">
+            <span v-if="isQueued && queuePosition > 0" v-text="queuePosition" />
           </div>
         </div>
       </div>
