@@ -5,6 +5,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import { isEqual } from 'lodash-es';
 
 import LoadingMore from '@/components/ui/loading/Loading.vue';
 import ListFilter from '@/components/filter/ListFilter.vue';
@@ -119,12 +120,15 @@ export default {
     });
     watch(
       () => combinedFilter.value,
-      async () => {
+      async (oldFilter, newFilter) => {
+        if(isEqual(oldFilter, newFilter)) {
+          return;
+        }
         lastOffset.value = 0;
         artists.value = [];
         fetchArtists(limit, 0).then(() => {});
         fetchTags().then(() => {});
-      },
+      }
     );
     return {
       combinedFilter,

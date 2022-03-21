@@ -35,7 +35,8 @@ export default defineComponent({
       if (!route.hash.startsWith('#')) {
         return '';
       }
-      return route.hash.replace('#', '');
+      const hashValue = route.hash.replace('#', '');
+      return (codeRegex.test(hashValue)) ? hashValue : null;
     });
     const fetchVoucher = async (codeValue: string) => {
       voucher.value = null;

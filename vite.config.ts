@@ -51,8 +51,8 @@ export default defineConfig({
       '^((?!src\/|static\/|node_modules\/|@).)*$': {
         target: 'http://local.obr-next:8080',
         // origin: 'http://127.0.0.1:8080/',
-        configure: (proxy, options) => {
-          proxy.on('proxyReq', function (proxyReq, req, res, options) {
+        configure: (proxy) => {
+          proxy.on('proxyReq', function (proxyReq) {
             proxyReq.setHeader('X-VITE-PROXIED', 'on');
           });
         },

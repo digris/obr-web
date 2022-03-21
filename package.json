@@ -1,13 +1,14 @@
 {
   "name": "openbroadcast.ch",
   "version": "0.0.1",
-  "license" : "MIT",
+  "license": "MIT",
   "scripts": {
     "serve": "vite",
     "build": "vue-tsc --noEmit && vite build --base=/static/",
     "test:unit": "vitest --environment jsdom",
     "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
+    "fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@sentry/tracing": "^6.18.2",

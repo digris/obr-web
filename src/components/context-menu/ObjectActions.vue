@@ -64,13 +64,13 @@ export default defineComponent({
       await enqueueObj(props.obj, 'insert');
       await startPlayCurrent();
       emit('close');
-    }, 'foo');
+    });
     const enqueueEnd = requireSubscription(async () => {
       // enqueueMedia([props.obj], 'append');
       await enqueueObj(props.obj, 'append');
       await startPlayCurrent();
       emit('close');
-    }, 'foo');
+    });
     return {
       iconSize,
       iconColor,

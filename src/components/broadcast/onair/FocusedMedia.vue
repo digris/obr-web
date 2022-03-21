@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import { DateTime } from 'luxon';
 
 import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
 import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
@@ -10,6 +11,10 @@ export default defineComponent({
       type: Object,
       true: false,
       default: () => null,
+    },
+    item: {
+      type: Object,
+      required: false,
     },
   },
   components: {
@@ -28,9 +33,20 @@ export default defineComponent({
         },
       };
     });
+    const timeDisplay = computed(() => {
+      if (!props.item) {
+        return null;
+      }
+      return `${props.item.timeStart.toLocaleString(
+        DateTime.TIME_24_WITH_SECONDS
+      )} - ${props.item.timeEnd.toLocaleString(
+        DateTime.TIME_24_WITH_SECONDS
+      )}`;
+    });
     return {
       title,
       link,
+      timeDisplay,
     };
   },
 });
@@ -67,6 +83,11 @@ export default defineComponent({
         :releases="media.releases"
       />
     </div>
+    <br>
+    <div
+      v-if="timeDisplay"
+      v-text="timeDisplay"
+    />
   </div>
 </template>
 

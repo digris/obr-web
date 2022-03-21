@@ -8,7 +8,7 @@ import {
 import { useWindowSize, useFullscreen } from '@vueuse/core';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-
+import eventBus from '@/eventBus';
 import StationTime from '@/components/broadcast/onair/station-time/StationTime.vue';
 import Schedule from '@/components/broadcast/onair/Schedule.vue';
 import FocusedEmission from '@/components/broadcast/onair/FocusedEmission.vue';
@@ -77,7 +77,12 @@ export default defineComponent({
     });
     const setFocus = (key:string) => {
       console.debug('setFocus', key);
-      focusKey.value = key;
+      console.debug('current key', current.value?.key);
+      if (current.value?.key === key) {
+        focusKey.value = '';
+      } else {
+        focusKey.value = key;
+      }
     };
     const paginate = (offset:number) => {
       if (offset === 0) {
@@ -97,6 +102,9 @@ export default defineComponent({
           paginate(-1);
         }, i * 10);
       }
+      // setTimeout(() => {
+      //
+      // })
       // setFocus('');
     };
     const paginatedItems = computed(() => {
@@ -151,6 +159,12 @@ export default defineComponent({
         }
       }
     });
+    eventBus.on('player:audio:ended', () => {
+      if (focusKey.value) {
+        console.debug('Radio - audio ended > reset focus lock');
+        releaseFocus();
+      }
+    });
     const {
       toggle: toggleFullscreen,
     } = useFullscreen();
@@ -159,6 +173,7 @@ export default defineComponent({
       items,
       itemSize,
       current,
+      focusKey,
       focused,
       stationTimeOverwrite,
       next,
@@ -192,6 +207,13 @@ export default defineComponent({
       @toggle-program="toggleProgram"
       :time-overwrite="stationTimeOverwrite"
     />
+    <pre
+      v-if="false"
+      class="debug"
+      v-text="{
+        focusKey,
+      }"
+    />
     <div
       class="left"
     >
@@ -222,6 +244,7 @@ export default defineComponent({
       <FocusedMedia
         v-if="focused && focused.media"
         :media="focused.media"
+        :item="focused"
       />
       <PaginateButton
         :disabled="(!hasNext)"

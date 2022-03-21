@@ -86,6 +86,7 @@ export default defineComponent({
       #header
     >
       <DetailHeader
+        v-if="artist"
         :obj="artist"
         title-scope="Künstler*in"
         :title="artist.name"
@@ -143,6 +144,7 @@ export default defineComponent({
         </template>
       </DetailHeader>
       <MediaList
+        v-if="artist"
         :initial-filter="query.filter"
         :disable-user-filter="(true)"
         :disable-play-all="(true)"

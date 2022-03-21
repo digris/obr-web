@@ -161,22 +161,15 @@ export default {
     });
     watch(
       () => combinedFilter.value,
-      async () => {
-        // console.debug('watched combinedFilter', newValue, oldValue, isEqual(newValue, oldValue));
+      async (oldFilter, newFilter) => {
+        if(isEqual(oldFilter, newFilter)) {
+          return;
+        }
         lastOffset.value = 0;
         mediaList.value = [];
         fetchMedia(limit, 0).then(() => {});
         fetchTags().then(() => {});
-      },
-    );
-    watch(
-      () => props.query,
-      async (newValue, oldValue) => {
-        if (isEqual(newValue, oldValue)) {
-          console.debug('unchanged');
-        }
-        // userFilter.value = newValue;
-      },
+      }
     );
     return {
       combinedFilter,

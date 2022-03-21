@@ -63,7 +63,7 @@ export default defineComponent({
         scope: [],
       };
       eventBus.emit('queue:controls:enqueue', payload);
-    }, 'foo');
+    });
     const play = () => {
       if (props.isCurrent) {
         const startTime = -10;

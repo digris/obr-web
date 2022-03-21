@@ -62,14 +62,12 @@ export default {
     const hasNext = ref(false);
     const userFilter = computed(() => {
       const filter = props.query;
-      if (filter?.tags && (typeof filter.tags === 'string' || filter.tags instanceof String)) {
-        console.debug('...tag seems to be string', filter.tags);
-        return {
-          ...filter,
-          tags: [filter.tags],
-        }
-      }
-      console.debug('userFilter', filter)
+      // if (filter?.tags && (typeof filter.tags === 'string' || filter.tags instanceof String)) {
+      //   return {
+      //     ...filter,
+      //     tags: [filter.tags],
+      //   };
+      // }
       return filter;
     });
     const combinedFilter = computed(() => {
@@ -152,17 +150,14 @@ export default {
     watch(
       () => combinedFilter.value,
       async (oldFilter, newFilter) => {
-        console.debug('PlaylistList - filterChanged', playlists.value.length);
         if(isEqual(oldFilter, newFilter)) {
-          console.debug('PlaylistList - filter unchanged')
           return;
         }
-        console.debug('PlaylistList - filter changed: reload data');
         lastOffset.value = 0;
         playlists.value = [];
         fetchPlaylists(limit, 0).then(() => {});
         fetchTags().then(() => {});
-      },
+      }
     );
     return {
       combinedFilter,

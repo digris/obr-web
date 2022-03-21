@@ -42,7 +42,7 @@ export default defineComponent({
     const isLoaded = ref(false);
     const playlist = computed(() => store.getters['catalog/playlistByUid'](props.uid));
     const title = computed(() => playlistTitle(playlist.value));
-    const objKey = computed(() => `${playlist.value.ct}:${playlist.value.uid}`);
+    const objKey = computed(() => `${playlist.value?.ct}:${playlist.value?.uid}`);
     const mediaList = computed(() => {
       return playlist.value.mediaSet.reduce((a: any, b: any) => a.concat({ ...b.media, ...b }), []);
     });
@@ -76,9 +76,10 @@ export default defineComponent({
       #header
     >
       <DetailHeader
+        v-if="playlist"
         :obj="playlist"
-        title-scope="Show"
         :title="title"
+        title-scope="Show"
       >
         <template
           #visual
@@ -123,19 +124,16 @@ export default defineComponent({
           <Duration
             v-if="(playlist && playlist.duration)"
             :seconds="playlist.duration"
+            :round-seconds="60 * 5"
           />
         </template>
       </DetailHeader>
-      <pre
-        v-if="(false)"
-        class="debug"
-        v-text="playlist.latestEmission"
-      />
     </template>
     <MediaList
+      v-if="playlist"
       :initial-filter="query.filter"
-      :disable-user-filter="(true)"
-      :disable-play-all="(true)"
+      :disable-user-filter="true"
+      :disable-play-all="true"
       :hide-upcoming="true"
     />
   </DetailPage>

@@ -11,14 +11,24 @@ export default defineComponent({
         return (value >= 0 && value < 86400);
       },
     },
+    roundSeconds: {
+      type: Number,
+      default: null,
+    },
   },
   setup(props) {
-    const durationDisplay = computed(() => {
-      if (props.seconds < 60) {
-        return `${Math.round(props.seconds)}s`;
+    const roundedSeconds = computed(() => {
+      if (props.roundSeconds && props.roundSeconds < props.seconds) {
+        return Math.round(props.seconds / props.roundSeconds) * props.roundSeconds;
       }
-      const dateStr = new Date(props.seconds * 1000).toISOString();
-      if (props.seconds < 60 * 60) {
+      return props.seconds;
+    });
+    const durationDisplay = computed(() => {
+      if (roundedSeconds.value < 60) {
+        return `${Math.round(roundedSeconds.value)}s`;
+      }
+      const dateStr = new Date(roundedSeconds.value * 1000).toISOString();
+      if (roundedSeconds.value < 60 * 60) {
         return dateStr.substr(14, 5);
       }
       return dateStr.substr(11, 8);

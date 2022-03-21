@@ -68,7 +68,7 @@ export default defineComponent({
     white-space: nowrap;
     transition: color, background-color 200ms;
     @include responsive.on-hover {
-      @include live-color.bg-inverse(0.1);
+      @include live-color.bg-inverse($alpha: 0.1, $transition: false);
     }
   }
 }

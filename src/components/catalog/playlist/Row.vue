@@ -124,6 +124,7 @@ export default defineComponent({
       <Duration
         class="duration"
         :seconds="playlist.duration"
+        :round-seconds="60 * 5"
       />
       <!--
       <div

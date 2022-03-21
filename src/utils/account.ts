@@ -46,7 +46,7 @@ const requireLogin = (fn: Function, message: string) => {
 };
 
 // eslint-disable-next-line arrow-body-style
-const requireSubscription = (fn: Function, message: string) => {
+const requireSubscription = (fn: Function, message = '') => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
     const user = store.getters['account/user'];

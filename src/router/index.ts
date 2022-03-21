@@ -82,7 +82,8 @@ const routes = [
         },
         props: {
           default: (route: any) => ({
-            query: route.query,
+            // query: route.query,
+            query: parseFilterQuery(route.query),
           }),
           header: (route: any) => ({
             filter: route.query,
@@ -98,7 +99,8 @@ const routes = [
         },
         props: {
           default: (route: any) => ({
-            query: route.query,
+            // query: route.query,
+            query: parseFilterQuery(route.query),
           }),
           header: (route: any) => ({
             filter: route.query,
@@ -114,7 +116,8 @@ const routes = [
         },
         props: {
           default: (route: any) => ({
-            query: route.query,
+            // query: route.query,
+            query: parseFilterQuery(route.query),
           }),
           header: (route: any) => ({
             filter: route.query,

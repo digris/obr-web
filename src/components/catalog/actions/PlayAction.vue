@@ -94,7 +94,7 @@ export default defineComponent({
       };
       eventBus.emit('queue:controls:enqueue', payload);
       isLoading.value = false;
-    }, 'Subscription required.');
+    });
     return {
       play,
       isPlaying,

@@ -1,14 +1,10 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
-import { playStream } from '@/player/stream';
+// import { playStream } from '@/player/stream';
 
 import ToggleProgramButton from './ToggleProgramButton.vue';
-import ToggleTimeshiftButton from './ToggleTimeshiftButton.vue';
-// import ResetTimeshiftButton from './ResetTimeshiftButton.vue';
 import IconClose from '@/components/ui/icon/IconClose.vue';
-
-// const TIMESHIFT_OFFSET = 30;
 
 const zeroPad = (n:number) => {
   return n > 9 ? `${n}` : `0${n}`;
@@ -17,8 +13,6 @@ const zeroPad = (n:number) => {
 export default defineComponent({
   components: {
     ToggleProgramButton,
-    ToggleTimeshiftButton,
-    // ResetTimeshiftButton,
     IconClose,
   },
   props: {
@@ -51,17 +45,11 @@ export default defineComponent({
     const offset = computed(() => {
       return store.getters['time/offset'];
     });
-    // const isTimeshifted = computed(() => {
-    //   return offset.value > TIMESHIFT_OFFSET;
-    // });
     const releaseFocus = () => {
       emit('releaseFocus');
     };
     const toggleProgram = () => {
       emit('toggleProgram');
-    };
-    const resetTimeshift = () => {
-      playStream();
     };
     return {
       time,
@@ -72,7 +60,6 @@ export default defineComponent({
       offset,
       toggleProgram,
       releaseFocus,
-      resetTimeshift,
     };
   },
 });
@@ -92,7 +79,7 @@ export default defineComponent({
     <div
       class="container"
       :class="{
-        'is-past': (timeOverwrite),
+        'is-past': !!(timeOverwrite),
       }"
     >
       <div
@@ -101,13 +88,16 @@ export default defineComponent({
       >
         <span
           class="hour"
-        >{{ hour }}</span>
+          v-text="hour"
+        />
         <span
           class="separator separator--minute"
-        >:</span>
+          v-text="`:`"
+        />
         <span
           class="minute"
-        >{{ minute }}</span>
+          v-text="minute"
+        />
         <!--
         <span
           class="separator separator--second"
@@ -126,9 +116,6 @@ export default defineComponent({
     <div
       class="actions"
     >
-      <ToggleTimeshiftButton
-        v-if="false"
-      />
     </div>
   </div>
 </template>

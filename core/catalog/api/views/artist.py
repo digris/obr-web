@@ -144,6 +144,14 @@ class ArtistViewSet(
         if q := self.request.GET.get("q", None):
             qs = get_search_qs(qs, q)
 
+        # tag handling (filter seems to not support `tags[]=***`)
+        tag_uids = self.request.GET.getlist(
+            "tags[]", self.request.GET.getlist("tags", [])
+        )
+
+        for uid in tag_uids:
+            qs = qs.filter(tags__uid=uid)
+
         # NOTE: make dynamic...
         qs = qs.filter(
             num_media__gte=ARTIST_MIN_NUM_MEDIA,

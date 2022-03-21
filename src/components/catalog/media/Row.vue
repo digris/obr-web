@@ -127,7 +127,7 @@ export default defineComponent({
         media: [media],
       };
       eventBus.emit('queue:controls:enqueue', payload);
-    }, 'A plan is required.');
+    });
     const pause = () => {
       eventBus.emit('player:controls', { do: 'pause' });
     };
@@ -187,14 +187,16 @@ export default defineComponent({
         />
         <div
           class="state"
+          v-if="true"
         >
           <div
             class="state__on-air"
             v-if="isOnair"
           >R</div>
           <div
+            v-else
             class="state__queued"
-            v-if="isQueued"
+            v-if="(isQueued && queuePosition > 0)"
           >{{ queuePosition }}</div>
         </div>
       </div>
@@ -295,7 +297,7 @@ export default defineComponent({
   grid-template-areas:
     "play name artist  duration actions"
     "play name release airplays actions";
-  grid-template-columns: 1fr 8fr 5fr 2fr 2fr;
+  grid-template-columns: 96px 8fr 6fr 2fr 96px;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   color: rgb(var(--c-black));
@@ -314,8 +316,9 @@ export default defineComponent({
 
     .state {
       position: absolute;
-      top: 1px;
-      right: 0;
+      opacity: 0.4;
+      top: -2px;
+      right: 40px;
       font-size: 8px;
       font-family: monospace;
       -webkit-font-smoothing: none;
@@ -332,6 +335,7 @@ export default defineComponent({
     grid-area: name;
     @include typo.large;
     min-width: 0;
+    margin-left: -48px;
     > a {
       overflow: hidden;
       white-space: nowrap;
