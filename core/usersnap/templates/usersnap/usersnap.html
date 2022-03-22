@@ -1,20 +1,17 @@
 {% if api_key %}{% spaceless %}
 <script>
     window.onUsersnapCXLoad = function (api) {
-        api.init();
+      api.init();
     }
     var script = document.createElement('script');
     script.defer = 1;
-    // script.src = 'https://widget.usersnap.com/global/load/7a427ddf-fa5a-4b9f-81c6-35ad0c22a6d2?onload=onUsersnapCXLoad';
     script.src = 'https://widget.usersnap.com/global/load/{{ api_key }}?onload=onUsersnapCXLoad';
     document.getElementsByTagName('head')[0].appendChild(script);
-
-
     window.onUsersnapCXLoad = function(api) {
       api.init({
         {% if email %}user: {
-          userId: "{{ uid }}", // Id of the user
-          email: "{{ email }}" // Email address
+          userId: "{{ uid }}",
+          email: "{{ email }}"
         },{% endif %}
         useSystemFonts: true,
         enableScreenshot: true,

@@ -89,18 +89,18 @@ jobs:
           path: screenshots
 
 
-  deploy:
-    needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Set up GCP SDK
-        uses: google-github-actions/setup-gcloud@v0
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Submit to cloudbuild
-        run: gcloud builds submit --async
+#  deploy:
+#    needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/main'
+#    steps:
+#      - name: Set up GCP SDK
+#        uses: google-github-actions/setup-gcloud@v0
+#        with:
+#          project_id: ${{ secrets.GCP_PROJECT_ID }}
+#          service_account_key: ${{ secrets.GCP_SA_KEY }}
+#          export_default_credentials: true
+#      - name: Checkout
+#        uses: actions/checkout@v3
+#      - name: Submit to cloudbuild
+#        run: gcloud builds submit --async
