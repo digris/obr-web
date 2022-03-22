@@ -1,0 +1,22 @@
+steps:
+- name: 'gcr.io/google-appengine/exec-wrapper'
+  args: [
+    '-i', 'gcr.io/open-broadcast/obr-web:latest',
+    '-s', 'open-broadcast:europe-west6:open-broadcast-db',
+    '--', 'python', 'manage.py', 'migrate'
+  ]
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: [
+    'run',
+    'deploy',
+    'ch-openbroadcast-next-core',
+    '--image', 'gcr.io/open-broadcast/obr-web:latest',
+    '--region', 'europe-west6',
+    '--platform', 'managed',
+    '--max-instances', '50',
+    '--memory', '2048M',
+    '--concurrency', '20',
+    '--use-http2',
+    '--add-cloudsql-instances', 'open-broadcast:europe-west6:open-broadcast-db',
+    '--allow-unauthenticated'
+  ]
