@@ -63,7 +63,7 @@ jobs:
 #          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
-            ghcr.io/digris/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ steps.meta.outputs.tags }}
             gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
 
       - name: Deploy to GCP cloud run
