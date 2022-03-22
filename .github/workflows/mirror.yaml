@@ -1,4 +1,4 @@
-name: Mirror
+name: Mirror to gitlab
 
 on: [push, delete]
 

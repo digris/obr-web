@@ -38,6 +38,7 @@ jobs:
     name: Backend tests
 
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
         with:
           python-version: '3.9'
