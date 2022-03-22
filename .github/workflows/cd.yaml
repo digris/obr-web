@@ -45,6 +45,11 @@ jobs:
       - run: pip install poetry==1.1.13
       - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
       - run: make test-be
+      - uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-screenshots
+          path: screenshots
+
 
   deploy:
     needs: [preflight-fe, preflight-be, test-be]

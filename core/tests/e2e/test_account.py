@@ -1,5 +1,6 @@
 import pytest
 import time
+import os
 from freezegun import freeze_time
 from libfaketime import fake_time, reexec_if_needed
 from django.conf import settings
@@ -36,6 +37,7 @@ def driver_init(request):
     options = Options()
     options.add_argument("--headless")
     # options.add_argument("--auto-open-devtools-for-tabs")
+    os.mkdir('screenshots')
     driver = webdriver.Chrome(options=options)
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 900)
@@ -59,6 +61,9 @@ class TestAccount:
         assert "open broadcast radio" == self.driver.title
         # body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body
+
+        self.driver.save_screenshot('screenshots/index.png')
+        return
 
         self.driver.find_element(By.XPATH, "//a[normalize-space()='Login']").click()
 
