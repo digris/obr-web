@@ -39,6 +39,8 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
 
 #      - name: Submit to cloudbuild
 #        run: gcloud builds submit --async
@@ -57,8 +59,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-#          file: docker/Dockerfile
-          file: compose/image-resizer/Dockerfile
+          file: docker/Dockerfile
           #platforms: linux/amd64,linux/arm64
           push: true
 #          tags: ${{ steps.meta.outputs.tags }}
