@@ -6,13 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0016_auto_20220316_1217'),
+        ("account", "0016_auto_20220316_1217"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='migration_source',
-            field=models.CharField(blank=True, choices=[('', 'none'), ('obr', 'OBR - radio'), ('obp', 'OBP - platform')], db_index=True, default='', max_length=64),
+            model_name="user",
+            name="migration_source",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("", "none"),
+                    ("obr", "OBR - radio"),
+                    ("obp", "OBP - platform"),
+                ],
+                db_index=True,
+                default="",
+                max_length=64,
+            ),
         ),
     ]

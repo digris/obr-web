@@ -6,13 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('identifier', '0003_auto_20210625_1010'),
+        ("identifier", "0003_auto_20210625_1010"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='identifier',
-            name='scope',
-            field=models.CharField(choices=[('musicbrainz', 'Musicbrainz'), ('obp', 'open broadcast platform'), ('discogs', 'Discogs'), ('wikipedia', 'Wikipedia'), ('official', 'Website'), ('isrc', 'ISRC')], db_index=True, max_length=32, null=True),
+            model_name="identifier",
+            name="scope",
+            field=models.CharField(
+                choices=[
+                    ("musicbrainz", "Musicbrainz"),
+                    ("obp", "open broadcast platform"),
+                    ("discogs", "Discogs"),
+                    ("wikipedia", "Wikipedia"),
+                    ("official", "Website"),
+                    ("isrc", "ISRC"),
+                ],
+                db_index=True,
+                max_length=32,
+                null=True,
+            ),
         ),
     ]
