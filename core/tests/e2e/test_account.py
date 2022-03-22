@@ -59,10 +59,12 @@ class TestAccount:
         self.driver.get(live_server.url)
 
         assert "open broadcast radio" == self.driver.title
-        # body = self.driver.find_element(By.TAG_NAME, "body").text
+
+        body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body
 
-        time.sleep(10)
+        print(f'body: "{body}"')
+
         self.driver.save_screenshot("screenshots/index.png")
         return
 
