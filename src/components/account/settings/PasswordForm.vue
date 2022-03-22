@@ -1,14 +1,11 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-} from 'vue';
+import { defineComponent, ref } from "vue";
 
-import { updatePassword } from '@/api/account';
+import { updatePassword } from "@/api/account";
 
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import TextInput from '@/components/ui/form/TextInput.vue';
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import TextInput from "@/components/ui/form/TextInput.vue";
 
 export default defineComponent({
   components: {
@@ -16,12 +13,10 @@ export default defineComponent({
     APIErrors,
     TextInput,
   },
-  emits: [
-    'updated',
-  ],
+  emits: ["updated"],
   setup(props, { emit }) {
-    const password = ref('');
-    const passwordConfirm = ref('');
+    const password = ref("");
+    const passwordConfirm = ref("");
     const formValid = ref(false);
     const errors = ref<Array<string>>([]);
     const handleInput = () => {
@@ -31,7 +26,7 @@ export default defineComponent({
       errors.value = [];
       try {
         await updatePassword(password.value);
-        emit('updated');
+        emit("updated");
       } catch (err: any) {
         console.warn(err);
         errors.value = [err.response];
@@ -50,13 +45,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <form
-    class="form"
-    @submit.prevent="submitForm"
-  >
-    <div
-      class="input-container"
-    >
+  <form class="form" @submit.prevent="submitForm">
+    <div class="input-container">
       <TextInput
         v-model="password"
         @keyup="handleInput"
@@ -64,13 +54,11 @@ export default defineComponent({
         label="Neues Passwort"
         autocomplete="new-password"
         placeholder="Passwort"
-        :minlength="(8)"
-        :maxlength="(64)"
+        :minlength="8"
+        :maxlength="64"
       />
     </div>
-    <div
-      class="input-container"
-    >
+    <div class="input-container">
       <TextInput
         v-model="passwordConfirm"
         @keyup="handleInput"
@@ -78,26 +66,15 @@ export default defineComponent({
         label="Passwort bestätigen"
         autocomplete="new-password"
         placeholder="Passwort"
-        :minlength="(8)"
-        :maxlength="(64)"
+        :minlength="8"
+        :maxlength="64"
       />
     </div>
-    <div
-      class="form-errors"
-      v-if="errors.length"
-    >
-      <APIErrors
-        :errors="errors"
-      />
+    <div class="form-errors" v-if="errors.length">
+      <APIErrors :errors="errors" />
     </div>
-    <div
-      class="input-container submit"
-    >
-      <AsyncButton
-        class="button"
-        @click.prevent="submitForm"
-        :disabled="(!formValid)"
-      >
+    <div class="input-container submit">
+      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!formValid">
         Speichern
       </AsyncButton>
     </div>

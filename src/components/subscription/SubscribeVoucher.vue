@@ -1,18 +1,14 @@
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  ref,
-} from 'vue';
-import { useStore } from 'vuex';
-import { debounce } from 'lodash-es';
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import { getVoucher, redeemVoucher } from '@/api/subscription';
-import Datetime from '@/components/ui/date/Datetime.vue';
-import CodeInput from './voucher/CodeInput.vue';
+import { defineComponent, computed, ref } from "vue";
+import { useStore } from "vuex";
+import { debounce } from "lodash-es";
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import { getVoucher, redeemVoucher } from "@/api/subscription";
+import Datetime from "@/components/ui/date/Datetime.vue";
+import CodeInput from "./voucher/CodeInput.vue";
 
-const codeRegex = new RegExp('^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$');
+const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
 
 export default defineComponent({
   components: {
@@ -24,16 +20,14 @@ export default defineComponent({
   props: {
     code: {
       type: String,
-      default: '',
+      default: "",
     },
     next: {
       type: String,
       default: null,
     },
   },
-  emits: [
-    'subscriptionExtended',
-  ],
+  emits: ["subscriptionExtended"],
   setup(props, { emit }) {
     const store = useStore();
     const errors = ref<Array<string>>([]);
@@ -65,15 +59,15 @@ export default defineComponent({
       // @ts-ignore
       const code = voucher.value?.code;
       if (!codeRegex.test(code)) {
-        console.warn('invalid code', code);
+        console.warn("invalid code", code);
         return;
       }
       errors.value = [];
       try {
         const response = await redeemVoucher(code);
         console.debug(response);
-        await store.dispatch('account/getUser');
-        emit('subscriptionExtended');
+        await store.dispatch("account/getUser");
+        emit("subscriptionExtended");
       } catch (err: any) {
         console.warn(err);
         console.warn(err.response);
@@ -94,59 +88,29 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="subscribe-voucher"
-  >
-    <section
-      class="section input"
-    >
+  <div class="subscribe-voucher">
+    <section class="section input">
       <div>
-        <CodeInput
-          :code="codeInput"
-          :valid="isValid"
-          @input="handleCodeInput"
-        />
+        <CodeInput :code="codeInput" :valid="isValid" @input="handleCodeInput" />
       </div>
       <div>
-        <pre
-          v-text="voucher"
-          class="_debug"
-        ></pre>
+        <pre v-text="voucher" class="_debug"></pre>
       </div>
     </section>
-    <section
-      v-if="errors"
-      class="section errors"
-    >
-      <APIErrors
-        :errors="errors"
-      />
+    <section v-if="errors" class="section errors">
+      <APIErrors :errors="errors" />
     </section>
-    <section
-      v-if="voucher"
-      class="section voucher"
-    >
+    <section v-if="voucher" class="section voucher">
       <div>
-        <p>
-          + {{ voucher.numDays }} Tage
-        </p>
+        <p>+ {{ voucher.numDays }} Tage</p>
         <p>
           Guthaben bis am
-          <Datetime
-            :value="voucher.untilDate"
-            :display-time="(false)"
-          />
+          <Datetime :value="voucher.untilDate" :display-time="false" />
         </p>
       </div>
     </section>
-    <section
-      class="section actions"
-    >
-      <AsyncButton
-        class="button"
-        :disabled="(!isValid)"
-        @click.prevent="redeem"
-      >
+    <section class="section actions">
+      <AsyncButton class="button" :disabled="!isValid" @click.prevent="redeem">
         Jetzt Einlösen
       </AsyncButton>
     </section>

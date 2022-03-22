@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -8,39 +8,18 @@ export default defineComponent({
       default: 4,
     },
   },
-  setup(props) {
-    console.debug('props', props);
-  },
 });
 </script>
 <template>
-  <div
-    class="loading-grid"
-  >
-    <div
-      class="card"
-      v-for="(item, index) in Array(number)"
-      :key="`placeholder-${item}-${index}`"
-    >
-      <div
-        class="card__visual"
-      />
-      <div
-        class="card__meta"
-      >
-        <div
-          class="line line--primary"
-        >
-          <div
-            class="bar"
-          />
+  <div class="loading-grid">
+    <div class="card" v-for="(item, index) in Array(number)" :key="`placeholder-${item}-${index}`">
+      <div class="card__visual" />
+      <div class="card__meta">
+        <div class="line line--primary">
+          <div class="bar" />
         </div>
-        <div
-          class="line line--secondary"
-        >
-          <div
-            class="bar"
-          />
+        <div class="line line--secondary">
+          <div class="bar" />
         </div>
       </div>
     </div>
@@ -48,11 +27,12 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @keyframes load {
   from {
     left: -150px;
   }
-  to   {
+  to {
     left: 100%;
   }
 }
@@ -61,6 +41,10 @@ export default defineComponent({
   grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
+  @include responsive.bp-small {
+    grid-gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 .card {
   &__visual {

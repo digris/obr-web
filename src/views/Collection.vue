@@ -1,37 +1,14 @@
 <template>
-  <div
-    class="collection"
-  >
-    <div
-      class="title"
-    >
-      Favoriten
-    </div>
-    <div
-      class="list-menu"
-    >
-      <div
-        class="menu menu--primary"
-      >
-        <router-link
-          :to="{ name: 'collectionMedia' }"
-          v-text="`Tracks`"
-        />
-        <router-link
-          :to="{ name: 'collectionPlaylists' }"
-          v-text="`Shows`"
-        />
-        <router-link
-          :to="{ name: 'collectionArtists' }"
-          v-text="`Künstler*innen`"
-        />
+  <div class="collection">
+    <div class="title">Favoriten</div>
+    <div class="list-menu">
+      <div class="menu menu--primary">
+        <router-link :to="{ name: 'collectionMedia' }" v-text="`Tracks`" />
+        <router-link :to="{ name: 'collectionPlaylists' }" v-text="`Shows`" />
+        <router-link :to="{ name: 'collectionArtists' }" v-text="`Künstler*innen`" />
       </div>
-      <div
-        class="menu menu--secondary"
-      >
-        <router-view
-          name="searchbar"
-        />
+      <div class="menu menu--secondary">
+        <router-view name="searchbar" />
       </div>
     </div>
     <!--
@@ -50,16 +27,10 @@
       </div>
     </div>
     -->
-    <div
-      class="list-body"
-    >
-      <router-view
-        v-slot="{ Component }"
-      >
+    <div class="list-body">
+      <router-view v-slot="{ Component }">
         <keep-alive>
-          <component
-            :is="Component"
-          />
+          <component :is="Component" />
         </keep-alive>
       </router-view>
     </div>

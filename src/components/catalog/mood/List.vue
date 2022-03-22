@@ -1,12 +1,8 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  ref,
-} from 'vue';
-import { getMoods } from '@/api/catalog';
+import { defineComponent, onMounted, ref } from "vue";
+import { getMoods } from "@/api/catalog";
 
-import MoodCard from './Card.vue';
+import MoodCard from "./Card.vue";
 
 export default defineComponent({
   components: {
@@ -29,17 +25,9 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="mood-list"
-  >
-    <div
-      class="grid"
-    >
-      <MoodCard
-        v-for="mood in moods"
-        :key="mood.uid"
-        :mood="mood"
-      />
+  <div class="mood-list">
+    <div class="grid">
+      <MoodCard v-for="mood in moods" :key="mood.uid" :mood="mood" />
     </div>
   </div>
 </template>

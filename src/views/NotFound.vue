@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -9,27 +9,19 @@ export default defineComponent({
     },
   },
   setup(props) {
-    console.debug('props', props);
+    console.debug("props", props);
   },
 });
 </script>
 
 <template>
-  <div
-    class="not-found"
-  >
-    <div
-      class="header"
-    >
-      <div
-        class="title"
-      >
+  <div class="not-found">
+    <div class="header">
+      <div class="title">
         <h1>Page does not exist</h1>
       </div>
     </div>
-    <div
-      class="body"
-    >
+    <div class="body">
       <p>{{ path }}</p>
     </div>
   </div>

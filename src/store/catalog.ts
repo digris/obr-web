@@ -1,12 +1,7 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
-import {
-  getMediaDetail,
-  getMood,
-  getArtist,
-  getPlaylist,
-} from '@/api/catalog';
+import { getMediaDetail, getMood, getArtist, getPlaylist } from "@/api/catalog";
 
 const state = {
   media: [],
@@ -87,12 +82,12 @@ const actions = {
   // @ts-ignore
   loadMedia: async (context, uid: string) => {
     const media = await getMediaDetail(uid);
-    context.commit('SET_MEDIA', { media });
+    context.commit("SET_MEDIA", { media });
   },
   // @ts-ignore
   loadMood: async (context, uid: string) => {
     const mood = await getMood(uid);
-    context.commit('SET_MOOD', { mood });
+    context.commit("SET_MOOD", { mood });
   },
   // @ts-ignore
   loadArtist: async (context, uid: string) => {
@@ -104,15 +99,15 @@ const actions = {
       return context.state.loading[objKey];
     }
     const promise = getArtist(uid).then((artist) => {
-      context.commit('SET_ARTIST', { artist });
+      context.commit("SET_ARTIST", { artist });
     });
-    context.commit('SET_LOADING', { objKey, promise });
+    context.commit("SET_LOADING", { objKey, promise });
     return promise;
   },
   // @ts-ignore
   loadPlaylist: async (context, uid: string) => {
     const playlist = await getPlaylist(uid);
-    context.commit('SET_PLAYLIST', { playlist });
+    context.commit("SET_PLAYLIST", { playlist });
   },
 };
 

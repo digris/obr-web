@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -7,7 +7,7 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
     size: {
       type: Number,
@@ -23,7 +23,7 @@ export default defineComponent({
       if (props.outlined) {
         return {
           stroke: props.color,
-          fill: 'transparent',
+          fill: "transparent",
           strokeMiterlimit: 10,
           transform: `scale(${props.size / BASE_SIZE})`,
           strokeWidth: (3 * BASE_SIZE) / props.size,
@@ -52,9 +52,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <polygon
-      points="35,21 24,21 24,13 13,26 24,26 24,35"
-    />
+    <polygon points="35,21 24,21 24,13 13,26 24,26 24,35" />
   </svg>
   <!-- eslint-enable max-len -->
 </template>

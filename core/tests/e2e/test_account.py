@@ -1,5 +1,6 @@
 import pytest
 import time
+import os
 from freezegun import freeze_time
 from libfaketime import fake_time, reexec_if_needed
 from django.conf import settings
@@ -34,12 +35,13 @@ def fill_form(driver, values):
 @pytest.fixture(scope="class")
 def driver_init(request):
     options = Options()
-    # options.add_argument("--headless")
-    options.add_argument("--auto-open-devtools-for-tabs")
+    options.add_argument("--headless")
+    # options.add_argument("--auto-open-devtools-for-tabs")
+    os.makedirs("screenshots", exist_ok=True)
     driver = webdriver.Chrome(options=options)
     driver.set_window_position(0, 0)
-    driver.set_window_size(1600, 1600)
-    driver.implicitly_wait(10)
+    driver.set_window_size(1200, 900)
+    driver.implicitly_wait(20)
     request.cls.driver = driver
     yield
     driver.close()
@@ -55,8 +57,13 @@ class TestAccount:
         self.driver.get(live_server.url)
 
         assert "open broadcast radio" == self.driver.title
-        # body = self.driver.find_element(By.TAG_NAME, "body").text
+
+        body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body
+
+        # print(f'body: "{body}"')
+
+        self.driver.save_screenshot("screenshots/start.png")
 
         self.driver.find_element(By.XPATH, "//a[normalize-space()='Login']").click()
 

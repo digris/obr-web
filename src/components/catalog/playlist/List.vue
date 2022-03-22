@@ -1,16 +1,14 @@
 <script lang="ts">
-import {
-  ref,
-  onMounted, computed, watch,
-} from 'vue';
-import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, computed, watch, onMounted, onActivated, onDeactivated } from "vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { isEqual } from "lodash-es";
 
-import LoadingMore from '@/components/ui/loading/Loading.vue';
-import ListFilter from '@/components/filter/ListFilter.vue';
-import PlaylistCard from '@/components/catalog/playlist/Card.vue';
-import PlaylistRow from '@/components/catalog/playlist/Row.vue';
-import { getPlaylists, getPlaylistsTags } from '@/api/catalog';
+import LoadingMore from "@/components/ui/loading/Loading.vue";
+import ListFilter from "@/components/filter/ListFilter.vue";
+import PlaylistCard from "@/components/catalog/playlist/Card.vue";
+import PlaylistRow from "@/components/catalog/playlist/Row.vue";
+import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 
 export default {
   components: {
@@ -41,10 +39,10 @@ export default {
     },
     layout: {
       type: String,
-      default: 'grid',
+      default: "grid",
     },
   },
-  setup(props:any) {
+  setup(props: any) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -56,40 +54,44 @@ export default {
     const tagListLoading = ref(false);
     const hasNext = ref(false);
     const userFilter = computed(() => {
-      return props.query;
+      const filter = props.query;
+      // if (filter?.tags && (typeof filter.tags === 'string' || filter.tags instanceof String)) {
+      //   return {
+      //     ...filter,
+      //     tags: [filter.tags],
+      //   };
+      // }
+      return filter;
     });
     const combinedFilter = computed(() => {
       // @ts-ignore
-      const tags = [...props.initialFilter?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const tags = [...(props.initialFilter?.tags ?? []), ...(userFilter.value?.tags ?? [])];
       const merged = { ...props.initialFilter, ...userFilter.value };
       // @ts-ignore
       merged.tags = tags;
-      if (props.scope === 'collection') {
+      if (props.scope === "collection") {
         // @ts-ignore
         merged.user_rating = 1;
       }
       return merged;
     });
     const ordering = computed(() => {
-      return (props.scope === 'collection') ? ['time_rated'] : [];
+      return props.scope === "collection" ? ["time_rated"] : [];
     });
     const playlistComponent = computed(() => {
-      return (props.layout === 'grid') ? PlaylistCard : PlaylistRow;
+      return props.layout === "grid" ? PlaylistCard : PlaylistRow;
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchPlaylists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
-      const expand = (props.layout === 'grid') ? [] : ['tags', 'editor', 'duration'];
-      const {
-        count,
-        next,
-        results,
-      } = await getPlaylists(
+      const expand = props.layout === "grid" ? [] : ["tags", "editor", "duration"];
+      console.debug(combinedFilter.value);
+      const { count, next, results } = await getPlaylists(
         limit,
         offset,
         combinedFilter.value,
         ordering.value,
-        expand,
+        expand
       );
       hasNext.value = !!next;
       numResults.value = count;
@@ -97,7 +99,7 @@ export default {
       playlists.value.push(...results);
 
       // TODO: this kind of smells...
-      await store.dispatch('rating/updateObjectRatings', results);
+      await store.dispatch("rating/updateObjectRatings", results);
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
@@ -116,25 +118,35 @@ export default {
       if (props.disableUserFilter) {
         return false;
       }
-      return store.getters['ui/filterExpanded'];
+      return store.getters["ui/filterExpanded"];
     });
     const updateUserFilter = (filter: any) => {
       const query = filter;
-      const routeName = route.name || 'discoverPlaylists';
+      const routeName = route.name || "discoverPlaylists";
       router.push({ name: routeName, query });
     };
     onMounted(() => {
+      console.debug("PlaylistList - onMounted");
       fetchPlaylists();
       fetchTags().then(() => {});
     });
+    onActivated(() => {
+      console.debug("PlaylistList - onActivated", playlists.value.length);
+    });
+    onDeactivated(() => {
+      console.debug("PlaylistList - onDeactivated", playlists.value.length);
+    });
     watch(
       () => combinedFilter.value,
-      async () => {
+      async (oldFilter, newFilter) => {
+        if (isEqual(oldFilter, newFilter)) {
+          return;
+        }
         lastOffset.value = 0;
         playlists.value = [];
         fetchPlaylists(limit, 0).then(() => {});
         fetchTags().then(() => {});
-      },
+      }
     );
     return {
       combinedFilter,
@@ -155,10 +167,7 @@ export default {
 </script>
 
 <template>
-  <div
-    v-if="showUserFilter"
-    class="list-filter-container"
-  >
+  <div v-if="showUserFilter" class="list-filter-container">
     <ListFilter
       :filter="userFilter"
       :tag-list="tagList"
@@ -166,13 +175,8 @@ export default {
       @change="updateUserFilter"
     />
   </div>
-  <div
-    class="playlist-list"
-  >
-    <div
-      class="list-container"
-      :class="`layout--${layout}`"
-    >
+  <div class="playlist-list">
+    <div class="list-container" :class="`layout--${layout}`">
       <component
         v-for="playlist in playlists"
         :key="playlist.uid"
@@ -181,7 +185,7 @@ export default {
       />
     </div>
     <LoadingMore
-      v-if="(playlists.length && hasNext)"
+      v-if="playlists.length && hasNext"
       :has-next="hasNext"
       :layout="layout"
       :class="`layout--${layout}`"
@@ -204,7 +208,7 @@ export default {
   grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   @include responsive.bp-small {
-    grid-gap: 1rem;
+    grid-gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -214,6 +218,7 @@ export default {
 }
 
 .playlist-list {
+  margin-bottom: 8rem;
   .list-container {
     &.layout--grid {
       @include container.default;

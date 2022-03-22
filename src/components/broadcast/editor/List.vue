@@ -1,13 +1,8 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  ref,
-  computed,
-} from 'vue';
-import { getEditors } from '@/api/broadcast';
+import { defineComponent, onMounted, ref, computed } from "vue";
+import { getEditors } from "@/api/broadcast";
 
-import EditorCard from './Card.vue';
+import EditorCard from "./Card.vue";
 
 export default defineComponent({
   components: {
@@ -40,36 +35,16 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="editor-list"
-  >
-    <div
-      class="grid"
-      v-if="(activeEditors.length)"
-    >
-      <EditorCard
-        v-for="editor in activeEditors"
-        :key="editor.uid"
-        :editor="editor"
-      />
+  <div class="editor-list">
+    <div class="grid" v-if="activeEditors.length">
+      <EditorCard v-for="editor in activeEditors" :key="editor.uid" :editor="editor" />
     </div>
-    <div
-      class="former-editors"
-      v-if="(pastEditors.length)"
-    >
-      <div
-        class="subtitle"
-      >
+    <div class="former-editors" v-if="pastEditors.length">
+      <div class="subtitle">
         <div>Ehemalige</div>
       </div>
-      <div
-        class="grid"
-      >
-        <EditorCard
-          v-for="editor in pastEditors"
-          :key="editor.uid"
-          :editor="editor"
-        />
+      <div class="grid">
+        <EditorCard v-for="editor in pastEditors" :key="editor.uid" :editor="editor" />
       </div>
     </div>
   </div>

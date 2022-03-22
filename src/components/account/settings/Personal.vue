@@ -1,13 +1,9 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-} from 'vue';
+import { defineComponent, ref, computed } from "vue";
 
-import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
-import Section from './Section.vue';
-import Form from './PersonalForm.vue';
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import Section from "./Section.vue";
+import Form from "./PersonalForm.vue";
 
 export default defineComponent({
   components: {
@@ -22,9 +18,7 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  emits: [
-    'updated',
-  ],
+  emits: ["updated"],
   setup(props, { emit }) {
     const fullName = computed(() => {
       if (props.user?.firstName && props.user?.lastName) {
@@ -47,7 +41,7 @@ export default defineComponent({
     };
     const onUpdated = async () => {
       await hideForm();
-      emit('updated');
+      emit("updated");
     };
     const onEdit = () => {
       showForm();
@@ -64,27 +58,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section
-    title="Persönliche Angaben"
-    @edit="onEdit"
-  >
-    <p
-      v-if="fullName"
-      v-text="fullName"
-    />
-    <p
-      v-else
-      v-text="`---`"
-    />
+  <Section title="Persönliche Angaben" @edit="onEdit">
+    <p v-if="fullName" v-text="fullName" />
+    <p v-else v-text="`---`" />
   </Section>
-  <OverlayPanel
-    :is-visible="formVisible"
-    @close="hideForm"
-    title="Persönliche Angaben"
-  >
-    <Form
-      :user="user"
-      @updated="onUpdated"
-    />
+  <OverlayPanel :is-visible="formVisible" @close="hideForm" title="Persönliche Angaben">
+    <Form :user="user" @updated="onUpdated" />
   </OverlayPanel>
 </template>

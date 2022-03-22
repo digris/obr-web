@@ -1,12 +1,9 @@
 <script lang="ts">
-import {
-  ref,
-  defineComponent,
-} from 'vue';
+import { ref, defineComponent } from "vue";
 
-import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
-import Section from './Section.vue';
-import Form from './EmailForm.vue';
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import Section from "./Section.vue";
+import Form from "./EmailForm.vue";
 
 export default defineComponent({
   components: {
@@ -21,9 +18,7 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  emits: [
-    'updated',
-  ],
+  emits: ["updated"],
   setup(props, { emit }) {
     const formVisible = ref(false);
     const showForm = () => {
@@ -34,7 +29,7 @@ export default defineComponent({
     };
     const onUpdated = async () => {
       await hideForm();
-      emit('updated');
+      emit("updated");
     };
     const onEdit = () => {
       showForm();
@@ -50,22 +45,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section
-    title="E-Mail"
-    @edit="onEdit"
-  >
-    <p
-      v-text="user.email"
-    />
+  <Section title="E-Mail" @edit="onEdit">
+    <p v-text="user.email" />
   </Section>
-  <OverlayPanel
-    :is-visible="formVisible"
-    @close="hideForm"
-    title="E-Mail"
-  >
-    <Form
-      :current-email="user.email"
-      @updated="onUpdated"
-    />
+  <OverlayPanel :is-visible="formVisible" @close="hideForm" title="E-Mail">
+    <Form :current-email="user.email" @updated="onUpdated" />
   </OverlayPanel>
 </template>

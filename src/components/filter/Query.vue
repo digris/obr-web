@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import IconRemove from '@/components/ui/icon/IconRemove.vue';
+import IconRemove from "@/components/ui/icon/IconRemove.vue";
 
 export default defineComponent({
   components: {
@@ -13,12 +13,10 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: [
-    'click',
-  ],
+  emits: ["click"],
   setup(props, { emit }) {
     const click = () => {
-      emit('click', props.q);
+      emit("click", props.q);
     };
     return {
       click,
@@ -28,16 +26,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="query is-selected"
-    @click.prevent="click"
-  >
+  <div class="query is-selected" @click.prevent="click">
     {{ q }}
-    <IconRemove
-      class="query__clear"
-      color="rgb(var(--c-white))"
-      :size="24"
-    />
+    <IconRemove class="query__clear" color="rgb(var(--c-white))" :size="24" />
     <!--
     <small
       class="query__clear"

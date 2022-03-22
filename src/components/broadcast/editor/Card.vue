@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import LazyImage from '@/components/ui/LazyImage.vue';
+import LazyImage from "@/components/ui/LazyImage.vue";
 
 export default defineComponent({
   components: {
@@ -23,16 +23,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <router-link
-    class="card card--editor"
-    :to="link"
-  >
-    <div
-      class="visual"
-    >
-      <div
-        class="visual__image"
-      >
+  <router-link class="card card--editor" :to="link">
+    <div class="visual">
+      <div class="visual__image">
         <LazyImage
           :image="editor.image"
           :class="{
@@ -41,18 +34,11 @@ export default defineComponent({
         />
       </div>
     </div>
-    <div
-      class="meta"
-    >
-      <div
-        class="title"
-      >
+    <div class="meta">
+      <div class="title">
         {{ editor.name }}
       </div>
-      <div
-        class="subtitle"
-        v-text="editor.role"
-      />
+      <div class="subtitle" v-text="editor.role" />
     </div>
   </router-link>
 </template>
@@ -61,7 +47,7 @@ export default defineComponent({
 .card {
   .visual {
     position: relative;
-    background: rgba(var(--c-white), .25);
+    background: rgba(var(--c-white), 0.25);
     cursor: pointer;
     &__image {
       position: relative;

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,13 +11,13 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-fg))',
+      default: "rgb(var(--c-page-fg))",
     },
   },
   setup(props) {
     const style = computed(() => {
       return {
-        fill: 'none',
+        fill: "none",
         stroke: props.color,
         strokeWidth: (2 * BASE_SIZE) / props.size,
         strokeMiterlimit: 10,
@@ -38,23 +38,9 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <polyline
-      points="34,19.1 20.2,33 14,34 15.1,27.8 28.9,14 "
-    />
-    <path
-      d="M25.3,16.6"
-    />
-    <line
-      x1="28.9"
-      y1="14"
-      x2="34"
-      y2="19.1"
-    />
-    <line
-      x1="24.8"
-      y1="18.1"
-      x2="29.9"
-      y2="23.2"
-    />
+    <polyline points="34,19.1 20.2,33 14,34 15.1,27.8 28.9,14 " />
+    <path d="M25.3,16.6" />
+    <line x1="28.9" y1="14" x2="34" y2="19.1" />
+    <line x1="24.8" y1="18.1" x2="29.9" y2="23.2" />
   </svg>
 </template>

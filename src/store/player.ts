@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state", "getters"] }] */
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 
 const state = {
   configuration: {},
@@ -20,24 +20,24 @@ const getters = {
   media: (state: any) => state.media,
   playState: (state: any, getters: any) => {
     if (!getters.playerState) {
-      return 'stopped';
+      return "stopped";
     }
     if (getters.playerState.isPlaying) {
-      return 'playing';
+      return "playing";
     }
     if (getters.playerState.isPaused) {
-      return 'paused';
+      return "paused";
     }
     if (getters.playerState.isBuffering) {
-      return 'buffering';
+      return "buffering";
     }
-    return 'stopped';
+    return "stopped";
   },
   release: (state: any, getters: any) => {
     return getters.media?.releases?.length ? getters.media.releases[0] : null;
   },
   scope: (state: any, getters: any) => {
-    return [...getters.media?.scope ?? [], `${getters.media?.ct}:${getters.media?.uid}`];
+    return [...(getters.media?.scope ?? []), `${getters.media?.ct}:${getters.media?.uid}`];
     // return getters.media?.scope ?? [];
   },
   color: (state: any, getters: any) => {
@@ -71,11 +71,11 @@ const mutations = {
 const actions = {
   // @ts-ignore
   updatePlayerState: async (context, playerState) => {
-    context.commit('SET_PLAYER_STATE', playerState);
+    context.commit("SET_PLAYER_STATE", playerState);
   },
   // @ts-ignore
   updateCurrentItem: async (context, item) => {
-    context.commit('SET_ITEM', item);
+    context.commit("SET_ITEM", item);
   },
 };
 

@@ -1,19 +1,13 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  onActivated,
-  onBeforeUpdate,
-} from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, ref, onActivated, onBeforeUpdate } from "vue";
+import { useStore } from "vuex";
 
-import DetailPage from '@/layouts/DetailPage.vue';
-import DetailHeader from '@/layouts/DetailHeader.vue';
-import LazyImage from '@/components/ui/LazyImage.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
-import ObjectIdentifiers from '@/components/identifier/ObjectIdentifiers.vue';
-import PlaylistList from '@/components/catalog/playlist/List.vue';
+import DetailPage from "@/layouts/DetailPage.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
+import PlaylistList from "@/components/catalog/playlist/List.vue";
 
 export default defineComponent({
   components: {
@@ -33,7 +27,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const isLoaded = ref(false);
-    const editor = computed(() => store.getters['broadcast/editorByUid'](props.uid));
+    const editor = computed(() => store.getters["broadcast/editorByUid"](props.uid));
     const objKey = computed(() => `${editor.value.ct}:${editor.value.uid}`);
     const query = computed(() => ({
       filter: {
@@ -50,12 +44,12 @@ export default defineComponent({
     // onActivated and onBeforeUpdate will fire ;(
     onActivated(() => {
       if (!editor.value) {
-        store.dispatch('broadcast/loadEditor', props.uid);
+        store.dispatch("broadcast/loadEditor", props.uid);
       }
     });
     onBeforeUpdate(() => {
       if (!editor.value) {
-        store.dispatch('broadcast/loadEditor', props.uid);
+        store.dispatch("broadcast/loadEditor", props.uid);
       }
     });
     return {
@@ -70,44 +64,22 @@ export default defineComponent({
 
 <template>
   <DetailPage>
-    <template
-      #header
-    >
+    <template #header>
       <DetailHeader
         :obj="editor"
         :show-context-menu="false"
         :title="editor.name"
         title-scope="Editor*in"
       >
-        <template
-          #visual
-        >
-          <LazyImage
-            class="image"
-            :image="editor.image"
-          />
+        <template #visual>
+          <LazyImage class="image" :image="editor.image" />
         </template>
-        <template
-          #info-panel
-        >
-          <div
-            class="role"
-            v-text="editor.role"
-          />
-          <ObjectTags
-            class="tags"
-            :obj="editor"
-            :limit="(4)"
-          />
-          <ObjectIdentifiers
-            class="identifiers"
-            :obj="editor"
-            :limit="(4)"
-          />
+        <template #info-panel>
+          <div class="role" v-text="editor.role" />
+          <ObjectTags class="tags" :obj="editor" :limit="4" />
+          <ObjectIdentifiers class="identifiers" :obj="editor" :limit="4" />
         </template>
-        <template
-          #meta-panel
-        >
+        <template #meta-panel>
           <span>
             {{ editor.numPlaylists }}
             Shows
@@ -115,16 +87,13 @@ export default defineComponent({
         </template>
       </DetailHeader>
     </template>
-    <PlaylistList
-      :initial-filter="query.filter"
-      layout="table"
-    />
+    <PlaylistList :initial-filter="query.filter" layout="table" />
   </DetailPage>
 </template>
 
 <style lang="scss" scoped>
 .tags,
 .identifiers {
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 </style>

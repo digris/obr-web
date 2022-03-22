@@ -1,24 +1,27 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 const formatJSON = (value: object) => {
   let json = JSON.stringify(value, null, 4);
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, (match) => {
-    let cls = 'number';
-    if (/^"/.test(match)) {
-      if (/:$/.test(match)) {
-        cls = 'key';
-      } else {
-        cls = 'string';
+  json = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return json.replace(
+    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+    (match) => {
+      let cls = "number";
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = "key";
+        } else {
+          cls = "string";
+        }
+      } else if (/true|false/.test(match)) {
+        cls = "boolean";
+      } else if (/null/.test(match)) {
+        cls = "null";
       }
-    } else if (/true|false/.test(match)) {
-      cls = 'boolean';
-    } else if (/null/.test(match)) {
-      cls = 'null';
+      return `<span class="${cls}">${match}</span>`;
     }
-    return `<span class="${cls}">${match}</span>`;
-  });
+  );
 };
 
 export default defineComponent({
@@ -30,8 +33,7 @@ export default defineComponent({
     },
     value: {
       type: Object,
-      default: () => {
-      },
+      default: () => {},
     },
     visible: {
       type: Boolean,
@@ -54,13 +56,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    v-if="visible"
-    class="debug-panel"
-  >
-    <pre
-      v-html="formatted"
-    />
+  <div v-if="visible" class="debug-panel">
+    <pre v-html="formatted" />
   </div>
 </template>
 

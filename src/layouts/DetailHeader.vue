@@ -1,15 +1,11 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  onMounted, computed,
-} from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 
-import BackButton from '@/components/ui/button/BackButton.vue';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import UserRating from '@/components/rating/UserRating.vue';
-import ContextMenu from '@/components/context-menu/ContextMenu.vue';
+import BackButton from "@/components/ui/button/BackButton.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 
 export default defineComponent({
   components: {
@@ -66,63 +62,26 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="detail-header"
-  >
-    <div
-      class="top"
-    >
-      <div
-        class="back"
-      >
-        <BackButton
-          v-if="canNavigateBack"
-          @click="back"
-        />
-        <div
-          class="scope"
-          v-if="titleScope"
-          v-text="titleScope"
-        />
+  <div class="detail-header">
+    <div class="top">
+      <div class="back">
+        <BackButton v-if="canNavigateBack" @click="back" />
+        <div class="scope" v-if="titleScope" v-text="titleScope" />
       </div>
-      <div
-        class="title"
-      />
-      <div
-        class="actions"
-      >
-        <CircleButton
-          v-if="showContextMenu"
-          :size="(48)"
-          :outlined="(false)"
-        >
-          <UserRating
-            :obj-key="objKey"
-            :autoload="(true)"
-          />
+      <div class="title" />
+      <div class="actions">
+        <CircleButton v-if="showContextMenu" :size="48" :outlined="false">
+          <UserRating :obj-key="objKey" :autoload="true" />
         </CircleButton>
-        <ContextMenu
-          v-if="showContextMenu"
-          :obj="obj"
-        />
+        <ContextMenu v-if="showContextMenu" :obj="obj" />
       </div>
     </div>
-    <div
-      class="main"
-    >
-      <div
-        class="visual"
-      >
-        <slot
-          name="visual"
-        />
+    <div class="main">
+      <div class="visual">
+        <slot name="visual" />
       </div>
-      <div
-        class="body"
-      >
-        <div
-          class="title"
-        >
+      <div class="body">
+        <div class="title">
           <!--
           <div
             class="title--scope"
@@ -130,40 +89,21 @@ export default defineComponent({
             v-text="titleScope"
           />
           -->
-          <h1
-            class="title--primary"
-            v-text="title"
-          />
+          <h1 class="title--primary" v-text="title" />
         </div>
-        <slot
-          name="info-panel"
-        />
+        <slot name="info-panel" />
       </div>
     </div>
-    <div
-      class="bottom"
-    >
-      <div
-        class="meta"
-      >
-        <slot
-          name="meta-panel"
-        />
+    <div class="bottom">
+      <div class="meta">
+        <slot name="meta-panel" />
       </div>
-      <div
-        class="searchbar"
-      >
-        <slot
-          name="searchbar"
-        />
+      <div class="searchbar">
+        <slot name="searchbar" />
       </div>
     </div>
-    <div
-      class="background"
-    >
-      <slot
-        name="background"
-      />
+    <div class="background">
+      <slot name="background" />
     </div>
   </div>
 </template>

@@ -1,9 +1,7 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
-import {
-  getEditor,
-} from '@/api/broadcast';
+import { getEditor } from "@/api/broadcast";
 
 const state = {
   editors: [],
@@ -33,7 +31,7 @@ const actions = {
   // @ts-ignore
   loadEditor: async (context, uid: string) => {
     const editor = await getEditor(uid);
-    context.commit('SET_PLAYLIST', { editor });
+    context.commit("SET_PLAYLIST", { editor });
   },
 };
 

@@ -1,20 +1,12 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  onMounted,
-  onUnmounted,
-  onActivated,
-  watch,
-} from 'vue';
+import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 // import { useStore } from 'vuex';
-import { DateTime } from 'luxon';
-import { playStream } from '@/player/stream';
+import { DateTime } from "luxon";
+import { playStream } from "@/player/stream";
 // ButtonPlay for livestream, PlayAction for on-demand
-import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
+import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
 
 export default defineComponent({
   components: {
@@ -32,9 +24,7 @@ export default defineComponent({
       default: true,
     },
   },
-  emits: [
-    'navigate',
-  ],
+  emits: ["navigate"],
   setup(props, { emit }) {
     const root = ref(null);
     // const store = useStore();
@@ -53,8 +43,8 @@ export default defineComponent({
     const scrollIntoView = () => {
       // @ts-ignore
       root.value.scrollIntoViewIfNeeded({
-        block: 'end',
-        behavior: 'smooth',
+        block: "end",
+        behavior: "smooth",
       });
     };
     onActivated(() => {
@@ -81,17 +71,17 @@ export default defineComponent({
         if (isCurrent.value) {
           scrollIntoView();
         }
-      },
+      }
     );
     const routeTo = computed(() => {
       if (props.currentLinkToHome && isCurrent.value) {
         return {
-          path: '/',
+          path: "/",
         };
       }
       if (isPast.value || isCurrent.value) {
         return {
-          name: 'playlistDetail',
+          name: "playlistDetail",
           params: {
             uid: props.emission.playlist?.uid,
           },
@@ -106,10 +96,10 @@ export default defineComponent({
       return null;
     };
     const pause = () => {
-      console.debug('pause');
+      console.debug("pause");
     };
     const navigate = () => {
-      emit('navigate');
+      emit("navigate");
     };
     const title = computed(() => {
       return {
@@ -118,13 +108,13 @@ export default defineComponent({
       };
     });
     const tagsDisplay = computed(() => {
-      return props.emission.tags.slice(0, 4).join(', ');
+      return props.emission.tags.slice(0, 4).join(", ");
     });
     const timeStartDisplay = computed(() => {
       if (!props.emission?.timeStart) {
         return null;
       }
-      return props.emission.timeStart.setLocale('de-ch').toLocaleString(DateTime.TIME_24_SIMPLE);
+      return props.emission.timeStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     return {
       root,
@@ -153,12 +143,8 @@ export default defineComponent({
       'is-upcoming': isUpcoming,
     }"
   >
-    <div
-      class="container"
-    >
-      <div
-        class="play"
-      >
+    <div class="container">
+      <div class="play">
         <PlayAction
           v-if="isPast"
           :style="{
@@ -182,46 +168,22 @@ export default defineComponent({
             '--c-fg': 'var(--c-black)',
             '--c-bg': 'var(--c-white)',
           }"
-          :disabled="(true)"
+          :disabled="true"
         />
       </div>
-      <div
-        class="name"
-      >
-        <router-link
-          v-if="(!isUpcoming)"
-          :to="routeTo"
-          @click="navigate"
-        >
+      <div class="name">
+        <router-link v-if="!isUpcoming" :to="routeTo" @click="navigate">
           {{ title.name }}
-          <small
-            v-if="title.appendix"
-            v-text="`#${title.appendix}`"
-          />
+          <small v-if="title.appendix" v-text="`#${title.appendix}`" />
         </router-link>
-        <span
-          v-else
-        >
+        <span v-else>
           {{ title.name }}
-          <small
-            v-if="title.appendix"
-            v-text="`#${title.appendix}`"
-          />
+          <small v-if="title.appendix" v-text="`#${title.appendix}`" />
         </span>
       </div>
-      <div
-        class="editor"
-        v-if="emission.editor"
-        v-text="emission.editor.name"
-      />
-      <ObjectTags
-        class="tags"
-        :obj="emission"
-        :limit="(4)"
-      />
-      <div
-        class="time-start"
-      >
+      <div class="editor" v-if="emission.editor" v-text="emission.editor.name" />
+      <ObjectTags class="tags" :obj="emission" :limit="4" />
+      <div class="time-start">
         {{ timeStartDisplay }}
       </div>
     </div>

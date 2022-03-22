@@ -1,4 +1,4 @@
-import settings from '@/settings';
+import settings from "@/settings";
 
 const { STATIC_URL } = settings;
 

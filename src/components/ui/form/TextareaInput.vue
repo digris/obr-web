@@ -1,19 +1,16 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-} from 'vue';
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     label: {
       type: String,
-      default: '',
+      default: "",
       required: false,
     },
     maxlength: {
@@ -21,13 +18,11 @@ export default defineComponent({
       default: 128,
     },
   },
-  emits: [
-    'update:modelValue',
-  ],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
     const id = ref(`form-textarea-input-${Math.random().toString(36).slice(2)}`);
     const update = (value: string) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
     };
     return {
       id,
@@ -38,14 +33,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="textarea-input"
-  >
-    <label
-      v-if="label"
-      :for="id"
-      v-text="label"
-    />
+  <div class="textarea-input">
+    <label v-if="label" :for="id" v-text="label" />
     <textarea
       :id="id"
       :value="modelValue"

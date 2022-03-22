@@ -1,18 +1,13 @@
 <script lang="ts">
-import lottie from 'lottie-web';
+import lottie from "lottie-web";
 
-import {
-  ref,
-  computed,
-  defineComponent,
-  onMounted,
-} from 'vue';
+import { ref, computed, defineComponent, onMounted } from "vue";
 
 export default defineComponent({
   props: {
     src: {
       type: String,
-      default: '',
+      default: "",
     },
     color: {
       type: Array,
@@ -24,22 +19,22 @@ export default defineComponent({
     const player = ref();
     const playerEl = ref();
     const cssVars = computed(() => ({
-      '--c-star-rgb': props.color.join(','),
+      "--c-star-rgb": props.color.join(","),
     }));
     onMounted(() => {
-      console.debug('Lottie.vue mounted', playerEl.value);
+      console.debug("Lottie.vue mounted", playerEl.value);
       player.value = lottie.loadAnimation({
         container: playerEl.value,
         // @ts-ignore https://github.com/airbnb/lottie-web/pull/2619
-        renderer: 'canvas',
+        renderer: "canvas",
         loop: true,
         autoplay: true,
         path: props.src,
         rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice',
+          preserveAspectRatio: "xMidYMid slice",
         },
       });
-      console.debug('p', player);
+      console.debug("p", player);
       player.value.play();
     });
     return {
@@ -51,14 +46,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="lottie"
-    :style="cssVars"
-  >
-    <div
-      ref="playerEl"
-      class="player"
-    />
+  <div class="lottie" :style="cssVars">
+    <div ref="playerEl" class="player" />
   </div>
 </template>
 

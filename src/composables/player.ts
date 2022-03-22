@@ -1,10 +1,10 @@
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-import eventBus from '@/eventBus';
+import { computed } from "vue";
+import { useStore } from "vuex";
+import eventBus from "@/eventBus";
 
 const usePlayerState = () => {
   const store = useStore();
-  const playerState = computed(() => store.getters['player/playerState']);
+  const playerState = computed(() => store.getters["player/playerState"]);
   const isLive = computed(() => playerState.value?.isLive);
   const isPlaying = computed(() => playerState.value?.isPlaying);
   const isBuffering = computed(() => playerState.value?.isBuffering);
@@ -12,9 +12,9 @@ const usePlayerState = () => {
   const currentTime = computed(() => playerState.value?.currentTime);
   const relPosition = computed(() => playerState.value?.relPosition);
 
-  const currentMedia = computed(() => store.getters['player/media']);
-  const currentScope = computed(() => store.getters['player/scope']);
-  const currentColor = computed(() => store.getters['player/color']);
+  const currentMedia = computed(() => store.getters["player/media"]);
+  const currentScope = computed(() => store.getters["player/scope"]);
+  const currentColor = computed(() => store.getters["player/color"]);
 
   return {
     playerState,
@@ -33,20 +33,20 @@ const usePlayerState = () => {
 
 const usePlayerControls = () => {
   const play = () => {
-    eventBus.emit('player:controls', { do: 'play' });
+    eventBus.emit("player:controls", { do: "play" });
   };
   const pause = () => {
-    eventBus.emit('player:controls', { do: 'pause' });
+    eventBus.emit("player:controls", { do: "pause" });
   };
   const resume = () => {
-    eventBus.emit('player:controls', { do: 'resume' });
+    eventBus.emit("player:controls", { do: "resume" });
   };
-  const seek = (pos:number) => {
+  const seek = (pos: number) => {
     const event = {
-      do: 'seek',
+      do: "seek",
       relPosition: pos,
     };
-    eventBus.emit('player:controls', event);
+    eventBus.emit("player:controls", event);
   };
   return {
     play,
@@ -56,7 +56,4 @@ const usePlayerControls = () => {
   };
 };
 
-export {
-  usePlayerState,
-  usePlayerControls,
-};
+export { usePlayerState, usePlayerControls };

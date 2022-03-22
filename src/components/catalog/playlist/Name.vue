@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-} from 'vue';
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -14,8 +11,8 @@ export default defineComponent({
   setup(props) {
     const title = computed(() => {
       return {
-        name: (props.playlist.series) ? props.playlist.series.name : props.playlist.name,
-        appendix: (props.playlist.series) ? props.playlist.series.episode : null,
+        name: props.playlist.series ? props.playlist.series.name : props.playlist.name,
+        appendix: props.playlist.series ? props.playlist.series.episode : null,
       };
     });
     const titleDisplay = computed(() => {
@@ -32,7 +29,5 @@ export default defineComponent({
 </script>
 
 <template>
-  <span
-    v-text="titleDisplay"
-  />
+  <span v-text="titleDisplay" />
 </template>

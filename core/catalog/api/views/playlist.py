@@ -171,13 +171,13 @@ class PlaylistViewSet(
             latest_emission_time_start__lte=Now(),
         )
 
+        if q := self.request.GET.get("q", None):
+            qs = get_search_qs(qs, q)
+
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(
             "tags[]", self.request.GET.getlist("tags", [])
         )
-
-        if q := self.request.GET.get("q", None):
-            qs = get_search_qs(qs, q)
 
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)

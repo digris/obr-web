@@ -1,21 +1,20 @@
 <script lang="ts">
-import {
-  computed,
-  ref,
-  watch,
-  defineComponent,
-} from 'vue';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
+/*
+  NOTE: THIS COMPONENT IS NOT IN USE - MOVED TO views/Radio.vue
+*/
 
-import StationTime from '@/components/broadcast/onair/station-time/StationTime.vue';
-import Schedule from '@/components/broadcast/onair/Schedule.vue';
-import FocusedEmission from '@/components/broadcast/onair/FocusedEmission.vue';
-import FocusedMedia from '@/components/broadcast/onair/FocusedMedia.vue';
-import PaginateButton from '@/components/broadcast/onair/button/PaginateNext.vue';
-import Rating from '@/components/broadcast/onair/rating/Rating.vue';
-import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
-import Program from '@/components/broadcast/program/Program.vue';
+import { computed, ref, watch, defineComponent } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+
+import StationTime from "@/components/broadcast/onair/station-time/StationTime.vue";
+import Schedule from "@/components/broadcast/onair/Schedule.vue";
+import FocusedEmission from "@/components/broadcast/onair/FocusedEmission.vue";
+import FocusedMedia from "@/components/broadcast/onair/FocusedMedia.vue";
+import PaginateButton from "@/components/broadcast/onair/button/PaginateNext.vue";
+import Rating from "@/components/broadcast/onair/rating/Rating.vue";
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import Program from "@/components/broadcast/program/Program.vue";
 
 export default defineComponent({
   components: {
@@ -31,10 +30,10 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const store = useStore();
-    const viewport = computed(() => store.getters['ui/viewport']);
-    const current = computed(() => store.getters['schedule/current']);
-    const next = computed(() => store.getters['schedule/next']);
-    const past = computed(() => store.getters['schedule/past']);
+    const viewport = computed(() => store.getters["ui/viewport"]);
+    const current = computed(() => store.getters["schedule/current"]);
+    const next = computed(() => store.getters["schedule/next"]);
+    const past = computed(() => store.getters["schedule/past"]);
     const items = computed(() => [next.value || null, current.value || null, ...past.value]);
     const itemSize = computed(() => {
       const { width, height } = viewport.value;
@@ -44,11 +43,11 @@ export default defineComponent({
       return Math.round(size);
     });
     const cssVars = computed(() => ({
-      '--size': `${itemSize.value}px`,
-      '--item-size': `${itemSize.value}px`,
-      '--item-offset': `${itemSize.value * 0.12}px`,
+      "--size": `${itemSize.value}px`,
+      "--item-size": `${itemSize.value}px`,
+      "--item-offset": `${itemSize.value * 0.12}px`,
     }));
-    const focusKey = ref('');
+    const focusKey = ref("");
     const calculatedOffset = computed(() => {
       try {
         const index = items.value.findIndex((i) => i.key === focusKey.value);
@@ -69,21 +68,21 @@ export default defineComponent({
         return null;
       }
     });
-    const paginate = (offset:number) => {
+    const paginate = (offset: number) => {
       if (offset === 0) {
-        focusKey.value = '';
+        focusKey.value = "";
       } else {
         const index = calculatedOffset.value + 1 + offset;
         const { key } = items.value[index];
         focusKey.value = key;
       }
     };
-    const setFocus = (key:string) => {
+    const setFocus = (key: string) => {
       focusKey.value = key;
     };
     const releaseFocus = () => {
-      console.debug('releaseFocus');
-      console.debug('calculatedOffset', calculatedOffset.value);
+      console.debug("releaseFocus");
+      console.debug("calculatedOffset", calculatedOffset.value);
       for (let i = 0; i < calculatedOffset.value; i += 1) {
         setTimeout(() => {
           paginate(-1);
@@ -111,26 +110,26 @@ export default defineComponent({
     watch(
       () => route.name,
       async (newName) => {
-        if (newName !== 'home') {
+        if (newName !== "home") {
           return;
         }
         const item = focused.value;
         if (item && item.media.releases && item.media.releases.length) {
           const { image } = item.media.releases[0];
           if (image && image.rgb) {
-            store.dispatch('ui/setPrimaryColor', image.rgb);
+            store.dispatch("ui/setPrimaryColor", image.rgb);
           }
         }
-      },
+      }
     );
     watch(focused, (item) => {
-      if (route.name !== 'home') {
+      if (route.name !== "home") {
         return;
       }
       if (item.media.releases && item.media.releases.length) {
         const { image } = item.media.releases[0];
         if (image && image.rgb) {
-          store.dispatch('ui/setPrimaryColor', image.rgb);
+          store.dispatch("ui/setPrimaryColor", image.rgb);
         }
       }
     });
@@ -158,54 +157,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="on-air"
-    :style="cssVars"
-  >
-    <StationTime
-      @release-focus="releaseFocus"
-      @toggle-program="toggleProgram"
-    />
-    <div
-      class="left"
-    >
+  <div class="on-air" :style="cssVars">
+    <StationTime @release-focus="releaseFocus" @toggle-program="toggleProgram" />
+    <div class="left">
       <FocusedEmission
         v-if="focused && focused.emission && focused.playlist"
         :emission="focused.emission"
         :playlist="focused.playlist"
       />
-      <PaginateButton
-        :disabled="(!hasPrevious)"
-        :rotate="180"
-        @click="paginate(1)"
-      />
+      <PaginateButton :disabled="!hasPrevious" :rotate="180" @click="paginate(1)" />
     </div>
-    <div
-      class="center"
-    >
-      <div
-        class="placeholder"
-      />
+    <div class="center">
+      <div class="placeholder" />
     </div>
-    <div
-      class="right"
-    >
-      <FocusedMedia
-        v-if="focused && focused.media"
-        :media="focused.media"
-      />
-      <PaginateButton
-        :disabled="(!hasNext)"
-        @click="paginate(-1)"
-      />
+    <div class="right">
+      <FocusedMedia v-if="focused && focused.media" :media="focused.media" />
+      <PaginateButton :disabled="!hasNext" @click="paginate(-1)" />
     </div>
-    <div
-      class="actions"
-    >
-      <Rating
-        v-if="focused && focused.media"
-        :media="focused.media"
-      />
+    <div class="actions">
+      <Rating v-if="focused && focused.media" :media="focused.media" />
     </div>
     <Schedule
       :current="current"
@@ -214,15 +184,8 @@ export default defineComponent({
       @on-focus="setFocus"
     />
   </div>
-  <OverlayPanel
-    :is-visible="programVisible"
-    @close="hideProgram"
-    title="Heute"
-  >
-    <Program
-      :current-link-to-home="false"
-      @navigate="hideProgram"
-    />
+  <OverlayPanel :is-visible="programVisible" @close="hideProgram" title="Heute">
+    <Program :current-link-to-home="false" @navigate="hideProgram" />
   </OverlayPanel>
 </template>
 

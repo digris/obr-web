@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 const BASE_SIZE = 120;
 
@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
     rotate: {
       type: Number,
@@ -21,9 +21,9 @@ export default defineComponent({
   setup(props) {
     const style = computed(() => {
       return {
-        fill: 'transparent',
+        fill: "transparent",
         stroke: props.color,
-        strokeWidth: '6px',
+        strokeWidth: "6px",
         transform: `scale(${props.size / BASE_SIZE}) rotate(${props.rotate}deg)`,
       };
     });
@@ -41,11 +41,7 @@ export default defineComponent({
     viewBox="0 0 120 120"
     :style="style"
   >
-    <polyline
-      points="56,100 96,60 56,20"
-    />
-    <polyline
-      points="35,100 75,60 35,20"
-    />
+    <polyline points="56,100 96,60 56,20" />
+    <polyline points="35,100 75,60 35,20" />
   </svg>
 </template>

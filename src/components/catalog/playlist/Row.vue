@@ -1,18 +1,15 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent, ref,
-} from 'vue';
-import { DateTime } from 'luxon';
+import { computed, defineComponent, ref } from "vue";
+import { DateTime } from "luxon";
 
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import ContextMenu from '@/components/context-menu/ContextMenu.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
-import UserRating from '@/components/rating/UserRating.vue';
-import RelativeDateTime from '@/components/ui/date/RelativeDateTime.vue';
-import Duration from '@/components/ui/time/Duration.vue';
-import PlaylistName from '@/components/catalog/playlist/Name.vue';
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
+import Duration from "@/components/ui/time/Duration.vue";
+import PlaylistName from "@/components/catalog/playlist/Name.vue";
 
 export default defineComponent({
   components: {
@@ -37,15 +34,15 @@ export default defineComponent({
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const title = computed(() => {
       return {
-        name: (props.playlist.series) ? props.playlist.series.name : props.playlist.name,
-        appendix: (props.playlist.series) ? props.playlist.series.episode : null,
+        name: props.playlist.series ? props.playlist.series.name : props.playlist.name,
+        appendix: props.playlist.series ? props.playlist.series.episode : null,
       };
     });
     const subtitle = computed(() => {
       if (props.playlist.series) {
         return props.playlist.name;
       }
-      return '-';
+      return "-";
     });
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
@@ -63,27 +60,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="playlist-row"
-    @mouseenter="isHover=true"
-    @mouseleave="isHover=false"
-  >
-    <div
-      class="container"
-    >
-      <div
-        class="play"
-      >
+  <div class="playlist-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
+    <div class="container">
+      <div class="play">
         <PlayAction
           :obj-key="objKey"
-          :size="(48)"
-          :outlined="(false)"
+          :size="48"
+          :outlined="false"
           background-color="rgb(var(--c-white))"
         />
       </div>
-      <div
-        class="name"
-      >
+      <div class="name">
         <router-link
           :to="{
             name: 'playlistDetail',
@@ -92,15 +79,10 @@ export default defineComponent({
             },
           }"
         >
-          <PlaylistName
-            :playlist="playlist"
-          />
+          <PlaylistName :playlist="playlist" />
         </router-link>
       </div>
-      <div
-        class="editor"
-        v-if="playlist.editor"
-      >
+      <div class="editor" v-if="playlist.editor">
         <router-link
           :to="{
             name: 'editorDetail',
@@ -111,20 +93,9 @@ export default defineComponent({
           v-text="playlist.editor.name"
         />
       </div>
-      <ObjectTags
-        class="tags"
-        :obj="playlist"
-        :limit="(4)"
-      />
-      <RelativeDateTime
-        class="airplays"
-        v-if="latestEmission"
-        :date-time="latestEmission"
-      />
-      <Duration
-        class="duration"
-        :seconds="playlist.duration"
-      />
+      <ObjectTags class="tags" :obj="playlist" :limit="4" />
+      <RelativeDateTime class="airplays" v-if="latestEmission" :date-time="latestEmission" />
+      <Duration class="duration" :seconds="playlist.duration" :round-seconds="60 * 5" />
       <!--
       <div
         class="emissions"
@@ -132,22 +103,11 @@ export default defineComponent({
         {{ playlist.numEmissions }} Emissions
       </div>
       -->
-      <div
-        class="actions"
-      >
-        <CircleButton
-          :size="(48)"
-          :outlined="(false)"
-        >
-          <UserRating
-            :obj-key="objKey"
-            :icon-size="48"
-            :hide-if-unset="(!isHover)"
-          />
+      <div class="actions">
+        <CircleButton :size="48" :outlined="false">
+          <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
         </CircleButton>
-        <ContextMenu
-          :obj="playlist"
-        />
+        <ContextMenu :obj="playlist" />
       </div>
     </div>
   </div>
