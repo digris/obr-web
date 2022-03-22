@@ -1,43 +1,37 @@
 <script lang="ts">
-import {
-  ref,
-  computed,
-  defineComponent,
-  watch,
-  onMounted,
-} from 'vue';
-import { useStore } from 'vuex';
-import { debounce } from 'lodash-es';
+import { ref, computed, defineComponent, watch, onMounted } from "vue";
+import { useStore } from "vuex";
+import { debounce } from "lodash-es";
 
-import notify from '@/utils/notification';
+import notify from "@/utils/notification";
 
-import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconHeart from '@/components/ui/icon/IconHeart.vue';
-import IconFlash from '@/components/ui/icon/IconFlash.vue';
-import RadioInput from '@/components/ui/form/RadioInput.vue';
-import TextareaInput from '@/components/ui/form/TextareaInput.vue';
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import IconHeart from "@/components/ui/icon/IconHeart.vue";
+import IconFlash from "@/components/ui/icon/IconFlash.vue";
+import RadioInput from "@/components/ui/form/RadioInput.vue";
+import TextareaInput from "@/components/ui/form/TextareaInput.vue";
 
 const REASONS = [
   {
-    value: 'track',
-    label: 'Ich mag diesen Track nicht',
+    value: "track",
+    label: "Ich mag diesen Track nicht",
   },
   {
-    value: 'genre',
-    label: 'Ich mag diese Art von Musik nicht',
+    value: "genre",
+    label: "Ich mag diese Art von Musik nicht",
   },
   {
-    value: 'emission',
-    label: 'Ich mag diese Sendung nicht',
+    value: "emission",
+    label: "Ich mag diese Sendung nicht",
   },
   {
-    value: 'daytime',
-    label: 'Der Track oder die Sendung passen nicht zur Tageszeit',
+    value: "daytime",
+    label: "Der Track oder die Sendung passen nicht zur Tageszeit",
   },
   {
-    value: 'repetition',
-    label: 'Ich habe diesen Track schon zu oft gehört',
+    value: "repetition",
+    label: "Ich habe diesen Track schon zu oft gehört",
   },
 ];
 
@@ -62,33 +56,37 @@ export default defineComponent({
       return `${props.media.ct}:${props.media.uid}`;
     });
     const userRating = computed(() => {
-      return store.getters['rating/ratingByKey'](objKey.value);
+      return store.getters["rating/ratingByKey"](objKey.value);
     });
     const userRatingValue = computed(() => {
       return userRating.value?.value;
     });
     const promptVisible = ref(false);
     const scopes = computed(() => REASONS);
-    const scope = ref('track');
-    const comment = ref('');
+    const scope = ref("track");
+    const comment = ref("");
     const showPrompt = () => {
       promptVisible.value = true;
     };
     const hidePrompt = () => {
-      comment.value = '';
+      comment.value = "";
       promptVisible.value = false;
     };
-    const rate = debounce(async (value: number) => {
-      const vote = {
-        key: objKey.value,
-        value: userRatingValue.value === value ? null : value,
-      };
-      if (vote.value === -1) {
-        showPrompt();
-      } else {
-        await store.dispatch('rating/updateRating', vote);
-      }
-    }, 200, { leading: true, trailing: false });
+    const rate = debounce(
+      async (value: number) => {
+        const vote = {
+          key: objKey.value,
+          value: userRatingValue.value === value ? null : value,
+        };
+        if (vote.value === -1) {
+          showPrompt();
+        } else {
+          await store.dispatch("rating/updateRating", vote);
+        }
+      },
+      200,
+      { leading: true, trailing: false }
+    );
     const downvote = async () => {
       const vote = {
         key: objKey.value,
@@ -97,11 +95,11 @@ export default defineComponent({
         comment: comment.value,
       };
       hidePrompt();
-      await store.dispatch('rating/updateRating', vote);
+      await store.dispatch("rating/updateRating", vote);
       notify({
-        level: 'success',
+        level: "success",
         ttl: 5,
-        body: 'Vielen Dank für dein feedback!',
+        body: "Vielen Dank für dein feedback!",
       });
     };
     const fetchRating = async (key: string) => {
@@ -111,7 +109,7 @@ export default defineComponent({
       if (userRating.value) {
         return;
       }
-      await store.dispatch('rating/loadRating', key);
+      await store.dispatch("rating/loadRating", key);
     };
     onMounted(() => {
       fetchRating(objKey.value);
@@ -135,60 +133,26 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="rating"
-  >
-    <div
-      class="total"
-    >
-      ?
-    </div>
+  <div class="rating">
+    <div class="total">?</div>
     <div>
-      <CircleButton
-        :size="48"
-        @click="rate(1)"
-      >
-        <IconHeart
-          :size="48"
-          :outlined="(userRatingValue !== 1)"
-          color="rgb(var(--c-page-fg))"
-        />
+      <CircleButton :size="48" @click="rate(1)">
+        <IconHeart :size="48" :outlined="userRatingValue !== 1" color="rgb(var(--c-page-fg))" />
       </CircleButton>
     </div>
     <div>
-      <CircleButton
-        :size="48"
-        @click="rate(-1)"
-      >
-        <IconFlash
-          :size="48"
-          :outlined="(userRatingValue !== -1)"
-          color="rgb(var(--c-page-fg))"
-        />
+      <CircleButton :size="48" @click="rate(-1)">
+        <IconFlash :size="48" :outlined="userRatingValue !== -1" color="rgb(var(--c-page-fg))" />
       </CircleButton>
     </div>
-    <div
-      class="total"
-    >
-      ?
-    </div>
+    <div class="total">?</div>
   </div>
-  <OverlayPanel
-    :is-visible="promptVisible"
-    @close="hidePrompt"
-    title="Was stört dich?"
-  >
-    <div
-      class="prompt"
-    >
-      <div
-        class="prompt__lead"
-      >
+  <OverlayPanel :is-visible="promptVisible" @close="hidePrompt" title="Was stört dich?">
+    <div class="prompt">
+      <div class="prompt__lead">
         <p>Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!</p>
       </div>
-      <div
-        class="prompt__scopes"
-      >
+      <div class="prompt__scopes">
         <RadioInput
           v-for="s in scopes"
           v-model="scope"
@@ -199,29 +163,14 @@ export default defineComponent({
           class="scope"
         />
       </div>
-      <div
-        class="prompt__comment"
-      >
-        <TextareaInput
-          v-model="comment"
-          :maxlength="(256)"
-          label="Kommentar"
-        />
+      <div class="prompt__comment">
+        <TextareaInput v-model="comment" :maxlength="256" label="Kommentar" />
       </div>
-      <div
-        class="prompt__actions"
-      >
-        <button
-          class="button"
-          @click="downvote"
-        >
-          Senden
-        </button>
+      <div class="prompt__actions">
+        <button class="button" @click="downvote">Senden</button>
       </div>
     </div>
-    <template
-      #footer
-    >
+    <template #footer>
       <div>(( footer content ))</div>
     </template>
   </OverlayPanel>

@@ -1,14 +1,14 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-import { getContrastColor } from '@/utils/color';
-import CurrentMedia from './CurrentMedia.vue';
-import Playhead from './Playhead.vue';
-import OnAir from './button/OnAir.vue';
-import Queue from './Queue.vue';
-import Circle from './button/Circle.vue';
-import UserRating from '@/components/rating/UserRating.vue';
-import IconQueue from '@/components/ui/icon/IconQueue.vue';
+import { computed, defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import { getContrastColor } from "@/utils/color";
+import CurrentMedia from "./CurrentMedia.vue";
+import Playhead from "./Playhead.vue";
+import OnAir from "./button/OnAir.vue";
+import Queue from "./Queue.vue";
+import Circle from "./button/Circle.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import IconQueue from "@/components/ui/icon/IconQueue.vue";
 
 export default defineComponent({
   components: {
@@ -23,11 +23,11 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const liveTimeOffset = ref(-10);
-    const playerState = computed(() => store.getters['player/playerState']);
-    const isLive = computed(() => store.getters['player/isLive']);
-    const currentMedia = computed(() => store.getters['player/media']);
-    const currentScope = computed(() => store.getters['player/scope']);
-    const isVisible = computed(() => store.getters['player/isVisible']);
+    const playerState = computed(() => store.getters["player/playerState"]);
+    const isLive = computed(() => store.getters["player/isLive"]);
+    const currentMedia = computed(() => store.getters["player/media"]);
+    const currentScope = computed(() => store.getters["player/scope"]);
+    const isVisible = computed(() => store.getters["player/isVisible"]);
     const objKey = computed(() => {
       if (!currentMedia.value) {
         return null;
@@ -40,22 +40,22 @@ export default defineComponent({
         const fg = getContrastColor(bg);
         const fgInverse = getContrastColor(fg);
         const colors = {
-          '--c-bg': bg.join(','),
-          '--c-fg': fg.join(','),
-          '--c-fg-inverse': fgInverse.join(','),
+          "--c-bg": bg.join(","),
+          "--c-fg": fg.join(","),
+          "--c-fg-inverse": fgInverse.join(","),
         };
         return colors;
       } catch (e) {
         // console.debug(e);
       }
       return {
-        '--c-bg': isLive.value ? '255, 255, 255' : '0, 0, 0',
-        '--c-fg': isLive.value ? '0, 0, 0' : '255, 255, 255',
-        '--c-fg-inverse': isLive.value ? '255, 255, 255' : '0, 0, 0',
+        "--c-bg": isLive.value ? "255, 255, 255" : "0, 0, 0",
+        "--c-fg": isLive.value ? "0, 0, 0" : "255, 255, 255",
+        "--c-fg-inverse": isLive.value ? "255, 255, 255" : "0, 0, 0",
       };
     });
     const queueVisible = ref(false);
-    const queueNumMedia = computed(() => store.getters['queue/numMedia']);
+    const queueNumMedia = computed(() => store.getters["queue/numMedia"]);
     const hideQueue = () => {
       queueVisible.value = false;
     };
@@ -81,63 +81,33 @@ export default defineComponent({
 </script>
 
 <template>
-  <Queue
-    :is-visible="(queueVisible && queueNumMedia > 0)"
-    @close="hideQueue"
-  />
-  <transition
-    name="slide"
-  >
-    <div
-      v-if="isVisible"
-      class="player"
-      :style="cssVars"
-    >
-      <div
-        class="container"
-      >
-        <div
-          class="left"
-        >
-          <CurrentMedia
-            :media="currentMedia"
-          />
+  <Queue :is-visible="queueVisible && queueNumMedia > 0" @close="hideQueue" />
+  <transition name="slide">
+    <div v-if="isVisible" class="player" :style="cssVars">
+      <div class="container">
+        <div class="left">
+          <CurrentMedia :media="currentMedia" />
         </div>
-        <div
-          class="center"
-        >
-          <OnAir
-            v-if="isLive"
-          />
-          <Playhead
-            v-else
-          />
+        <div class="center">
+          <OnAir v-if="isLive" />
+          <Playhead v-else />
         </div>
-        <div
-          class="right"
-        >
-          <Circle
-            :size="(48)"
-            :outlined="(false)"
-          >
-            <UserRating
-              color-var="--c-fg"
-              v-if="currentMedia"
-              :obj-key="objKey"
-            />
+        <div class="right">
+          <Circle :size="48" :outlined="false">
+            <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
           <Circle
-            :size="(48)"
+            :size="48"
             :active="queueVisible"
-            :disabled="(queueNumMedia < 1)"
+            :disabled="queueNumMedia < 1"
             @click.prevent="toggleQueue"
             :style="{
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
             }"
           >
             <IconQueue
-              :size="(48)"
-              :color="(queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))')"
+              :size="48"
+              :color="queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))'"
               :num-queued="queueNumMedia"
             />
           </Circle>
@@ -164,7 +134,7 @@ $player-height: 72px;
   height: $player-height;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
-  border-top: 1px solid rgba(var(--c-page-fg), .2);
+  border-top: 1px solid rgba(var(--c-page-fg), 0.2);
   transition: background 1000ms;
 }
 

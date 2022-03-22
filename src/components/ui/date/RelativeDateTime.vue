@@ -7,8 +7,8 @@ import {
   onUnmounted,
   onActivated,
   onDeactivated,
-} from 'vue';
-import { DateTime } from 'luxon';
+} from "vue";
+import { DateTime } from "luxon";
 
 const TIME_UPDATE_INTERVAL = 60000;
 
@@ -22,13 +22,13 @@ export default defineComponent({
   setup(props) {
     const now = ref(DateTime.now());
     const isToday = computed(() => {
-      return (props.dateTime.hasSame(now.value, 'day'));
+      return props.dateTime.hasSame(now.value, "day");
     });
     const timeDisplay = computed(() => {
       if (isToday.value) {
-        return `Heute ${props.dateTime.toFormat('HH:mm')}`;
+        return `Heute ${props.dateTime.toFormat("HH:mm")}`;
       }
-      return props.dateTime.setLocale('de-CH').toRelativeCalendar();
+      return props.dateTime.setLocale("de-CH").toRelativeCalendar();
     });
     let interval: ReturnType<typeof setInterval>;
     const startInterval = () => {
@@ -53,12 +53,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <span
-    class="date-or-time"
-  >
-    <slot
-      name="default"
-    ></slot>
+  <span class="date-or-time">
+    <slot name="default"></slot>
     {{ timeDisplay }}
   </span>
 </template>

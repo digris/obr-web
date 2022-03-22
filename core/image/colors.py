@@ -7,7 +7,7 @@ RESIZE_TO = 100
 
 
 # https://stackoverflow.com/questions/42671252/python-pillow-valueerror-decompressed-data-too-large
-PngImagePlugin.MAX_TEXT_CHUNK = 4 * (1024 ** 2)
+PngImagePlugin.MAX_TEXT_CHUNK = 4 * (1024**2)
 
 
 def read_as_image(file):

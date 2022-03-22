@@ -1,10 +1,7 @@
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-} from 'vue';
+import { defineComponent, computed } from "vue";
 
-import SocialMediaLinks from '@/components/social-media/SocialMediaLinks.vue';
+import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 
 export default defineComponent({
   components: {
@@ -22,30 +19,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="detail"
-  >
-    <div
-      v-if="hasHeader"
-      class="detail__header"
-    >
-      <slot
-        name="header"
-      />
+  <div class="detail">
+    <div v-if="hasHeader" class="detail__header">
+      <slot name="header" />
     </div>
-    <section
-      class="detail__body"
-    >
-      <slot
-        name="default"
-      />
+    <section class="detail__body">
+      <slot name="default" />
     </section>
-    <section
-      class="detail__appendix"
-    >
-      <slot
-        name="appendix"
-      >
+    <section class="detail__appendix">
+      <slot name="appendix">
         <SocialMediaLinks />
       </slot>
     </section>

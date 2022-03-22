@@ -1,22 +1,22 @@
 <script lang="ts">
-import { debounce } from 'lodash-es';
-import * as EmailValidator from 'email-validator';
-import { defineComponent, ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { debounce } from "lodash-es";
+import * as EmailValidator from "email-validator";
+import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
 
-import { checkLoginEmail, sendLoginEmail } from '@/api/account';
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import Message from '@/components/ui/Message.vue';
+import { checkLoginEmail, sendLoginEmail } from "@/api/account";
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import Message from "@/components/ui/Message.vue";
 
-const CREATE_ACCOUNT = 'Konto erstellen';
-const SEND_TOKEN = 'Code senden';
-const LOGIN = 'Login';
+const CREATE_ACCOUNT = "Konto erstellen";
+const SEND_TOKEN = "Code senden";
+const LOGIN = "Login";
 
 export enum Flow {
-  Password = 'password',
-  Token = 'token',
-  Register = 'register',
+  Password = "password",
+  Token = "token",
+  Register = "register",
 }
 
 export default defineComponent({
@@ -25,13 +25,11 @@ export default defineComponent({
     APIErrors,
     Message,
   },
-  emits: [
-    'emailSent',
-  ],
+  emits: ["emailSent"],
   setup(props, { emit }) {
     const store = useStore();
-    const email = ref('');
-    const password = ref('');
+    const email = ref("");
+    const password = ref("");
     const emailValid = ref(false);
     const emailExists = ref(false);
     const promptPassword = ref(false);
@@ -48,7 +46,7 @@ export default defineComponent({
       return Flow.Register;
     });
     const updateAccount = (account: any | null) => {
-      message.value = '';
+      message.value = "";
       if (account && account.uid) {
         emailExists.value = true;
         if (account.hasUsablePassword) {
@@ -56,7 +54,7 @@ export default defineComponent({
           buttonText.value = LOGIN;
         } else {
           message.value = {
-            level: 'info',
+            level: "info",
             body: 'Konto bereits vorhanden. Klicke auf "Code senden"',
           };
           buttonText.value = SEND_TOKEN;
@@ -92,7 +90,7 @@ export default defineComponent({
       errors.value = [];
       try {
         const response = await sendLoginEmail(email.value);
-        emit('emailSent', response.email);
+        emit("emailSent", response.email);
       } catch (err: any) {
         console.warn(err);
         errors.value = [err.response];
@@ -107,7 +105,7 @@ export default defineComponent({
       };
       errors.value = [];
       try {
-        await store.dispatch('account/loginUser', credentials);
+        await store.dispatch("account/loginUser", credentials);
         document.location.reload();
       } catch (err) {
         console.warn(err);
@@ -146,18 +144,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <form
-    class="form"
-    @submit.prevent="submitForm"
-  >
-    <div
-      class="input-container"
-    >
-      <label
-        for="email-1625"
-      >
-        Mit deiner E-Mail Adresse:
-      </label>
+  <form class="form" @submit.prevent="submitForm">
+    <div class="input-container">
+      <label for="email-1625"> Mit deiner E-Mail Adresse: </label>
       <input
         @keyup="handleEmailInput"
         class="input"
@@ -168,17 +157,10 @@ export default defineComponent({
         type="email"
         placeholder="E-Mail"
         autocomplete="email"
-      >
+      />
     </div>
-    <div
-      v-if="(flow === 'password')"
-      class="input-container"
-    >
-      <label
-        for="password-1625"
-      >
-        Passwort:
-      </label>
+    <div v-if="flow === 'password'" class="input-container">
+      <label for="password-1625"> Passwort: </label>
       <input
         class="input"
         v-model="password"
@@ -188,41 +170,20 @@ export default defineComponent({
         type="password"
         placeholder="Password"
         autocomplete="current-password"
-      >
-      <p
-        class="help"
-      >
+      />
+      <p class="help">
         Passwort vergessen?
-        <a
-          @click.prevent="resetPassword"
-        >Login mit E-Mail-Bestätigung</a>
+        <a @click.prevent="resetPassword">Login mit E-Mail-Bestätigung</a>
       </p>
     </div>
-    <div
-      class="form-messages"
-      v-if="(message && message.body)"
-    >
-      <Message
-        :level="message.level"
-        :body="message.body"
-      />
+    <div class="form-messages" v-if="message && message.body">
+      <Message :level="message.level" :body="message.body" />
     </div>
-    <div
-      class="form-errors"
-      v-if="errors.length"
-    >
-      <APIErrors
-        :errors="errors"
-      />
+    <div class="form-errors" v-if="errors.length">
+      <APIErrors :errors="errors" />
     </div>
-    <div
-      class="input-container submit"
-    >
-      <AsyncButton
-        class="button"
-        @click.prevent="submitForm"
-        :disabled="(!emailValid)"
-      >
+    <div class="input-container submit">
+      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!emailValid">
         {{ buttonText }}
       </AsyncButton>
     </div>

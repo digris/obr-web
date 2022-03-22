@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-} from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -14,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-fg))',
+      default: "rgb(var(--c-page-fg))",
     },
   },
   setup(props) {
@@ -24,7 +21,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         fill: props.color,
-        stroke: 'none',
+        stroke: "none",
         // transform: `scale(${props.size / BASE_SIZE})`,
         width: `${size.value}px`,
         height: `${size.value}px`,
@@ -38,29 +35,10 @@ export default defineComponent({
 </script>
 <template>
   <!-- eslint-disable max-len -->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 48 48"
-    :style="style"
-  >
-    <rect
-      x="8"
-      y="22.5"
-      width="32"
-      height="3"
-    />
-    <rect
-      x="8"
-      y="13.5"
-      width="32"
-      height="3"
-    />
-    <rect
-      x="8"
-      y="31.5"
-      width="32"
-      height="3"
-    />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" :style="style">
+    <rect x="8" y="22.5" width="32" height="3" />
+    <rect x="8" y="13.5" width="32" height="3" />
+    <rect x="8" y="31.5" width="32" height="3" />
   </svg>
   <!-- eslint-enable max-len -->
 </template>

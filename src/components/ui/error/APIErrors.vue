@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -17,41 +17,17 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    v-if="hasErrors"
-    class="errors"
-  >
-    <div
-      v-for="(error, index) in errors"
-      :key="`error-${index}`"
-      class="error"
-    >
-      <p
-        v-if="(error.data && error.data.message)"
-        class="error__message"
-      >
+  <div v-if="hasErrors" class="errors">
+    <div v-for="(error, index) in errors" :key="`error-${index}`" class="error">
+      <p v-if="error.data && error.data.message" class="error__message">
         {{ error.data.message }}
       </p>
-      <p
-        v-else-if="(error.data && error.data.detail)"
-        class="error__message"
-      >
+      <p v-else-if="error.data && error.data.detail" class="error__message">
         {{ error.data.detail }}
       </p>
-      <p
-        v-else
-        class="error__message"
-      >
-        An error occurred. Sorry.
-      </p>
-      <code
-        class="error__status"
-      >
-        <div
-          class="status-code"
-        >
-          #{{ error.status }}
-        </div>
+      <p v-else class="error__message">An error occurred. Sorry.</p>
+      <code class="error__status">
+        <div class="status-code">#{{ error.status }}</div>
       </code>
     </div>
   </div>

@@ -1,11 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { DateTime } from 'luxon';
-import eventBus from '@/eventBus';
-import { playStream } from '@/player/stream';
-import { requireSubscription } from '@/utils/account';
-import LazyImage from '@/components/ui/LazyImage.vue';
-import PlayButton from './button/Play.vue';
+import { computed, defineComponent } from "vue";
+import { DateTime } from "luxon";
+import eventBus from "@/eventBus";
+import { playStream } from "@/player/stream";
+import { requireSubscription } from "@/utils/account";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import PlayButton from "./button/Play.vue";
 
 export default defineComponent({
   components: {
@@ -27,10 +27,7 @@ export default defineComponent({
       default: null,
     },
   },
-  emits: [
-    'play',
-    'pause',
-  ],
+  emits: ["play", "pause"],
   setup(props, { emit }) {
     // const store = useStore();
     // eslint-disable-next-line arrow-body-style
@@ -42,7 +39,7 @@ export default defineComponent({
       return props.scheduleItem ? props.scheduleItem.media : null;
     });
     const objKey = computed(() => {
-      return (media.value) ? `${media.value.ct}:${media.value.uid}` : null;
+      return media.value ? `${media.value.ct}:${media.value.uid}` : null;
     });
     const release = computed(() => {
       if (media.value && media.value.releases.length) {
@@ -51,31 +48,31 @@ export default defineComponent({
       return null;
     });
     const image = computed(() => {
-      return (release.value && release.value.image) ? release.value.image : null;
+      return release.value && release.value.image ? release.value.image : null;
     });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const playMedia = requireSubscription((media: object) => {
       const payload = {
-        mode: 'replace',
+        mode: "replace",
         media: [media],
         // TODO: annotate scope with corresponding playlist
         scope: [],
       };
-      eventBus.emit('queue:controls:enqueue', payload);
-    }, 'foo');
+      eventBus.emit("queue:controls:enqueue", payload);
+    });
     const play = () => {
       if (props.isCurrent) {
         const startTime = -10;
         playStream(startTime);
-        emit('play');
+        emit("play");
       } else {
         playMedia(props.scheduleItem.media);
       }
     };
     const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
-      emit('pause');
+      eventBus.emit("player:controls", { do: "pause" });
+      emit("pause");
     };
     return {
       isPlaceholder,
@@ -99,27 +96,12 @@ export default defineComponent({
       'is-placeholder': isPlaceholder,
     }"
   >
-    <div
-      v-if="isPlaceholder"
-      class="panel"
-    >
+    <div v-if="isPlaceholder" class="panel"></div>
+    <div v-else class="panel">
+      <LazyImage :image="image" />
     </div>
-    <div
-      v-else
-      class="panel"
-    >
-      <LazyImage
-        :image="image"
-      />
-    </div>
-    <div
-      class="actions"
-    >
-      <PlayButton
-        :media="media"
-        @play="play"
-        @pause="pause"
-      />
+    <div class="actions">
+      <PlayButton :media="media" @play="play" @pause="pause" />
     </div>
   </div>
 </template>

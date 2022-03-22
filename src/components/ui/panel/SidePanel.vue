@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted } from "vue";
 
-import CloseButton from './CloseButton.vue';
+import CloseButton from "./CloseButton.vue";
 
 export default defineComponent({
   components: {
@@ -13,16 +13,14 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'close',
-  ],
+  emits: ["close"],
   setup(props, { emit }) {
     const close = () => {
-      emit('close');
+      emit("close");
     };
     onMounted(() => {
-      document.addEventListener('keydown', (e) => {
-        if (props.isVisible && e.code === 'Escape') {
+      document.addEventListener("keydown", (e) => {
+        if (props.isVisible && e.code === "Escape") {
           close();
         }
       });
@@ -34,41 +32,19 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition
-    name="fade"
-  >
-    <div
-      v-if="isVisible"
-      class="mask"
-    />
+  <transition name="fade">
+    <div v-if="isVisible" class="mask" />
   </transition>
-  <transition
-    name="slide"
-  >
-    <div
-      v-if="isVisible"
-      class="side-panel"
-    >
-      <div
-        class="side-panel__header"
-      >
-        <CloseButton
-          @click.prevent="close"
-        />
+  <transition name="slide">
+    <div v-if="isVisible" class="side-panel">
+      <div class="side-panel__header">
+        <CloseButton @click.prevent="close" />
       </div>
-      <div
-        class="side-panel__body"
-      >
-        <slot
-          name="default"
-        />
+      <div class="side-panel__body">
+        <slot name="default" />
       </div>
-      <div
-        class="side-panel__footer"
-      >
-        <slot
-          name="footer"
-        />
+      <div class="side-panel__footer">
+        <slot name="footer" />
       </div>
     </div>
   </transition>

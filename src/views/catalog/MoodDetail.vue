@@ -1,21 +1,16 @@
 <script lang="ts">
-import {
-  computed,
-  ref,
-  onActivated,
-  defineComponent,
-} from 'vue';
-import { useStore } from 'vuex';
-import { Tag } from '@/typings/api/models/Tag';
+import { computed, ref, onActivated, defineComponent } from "vue";
+import { useStore } from "vuex";
+import { Tag } from "@/typings/api/models/Tag";
 
-import DetailPage from '@/layouts/DetailPage.vue';
-import DetailHeader from '@/layouts/DetailHeader.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import ObjectTags from '@/components/tagging/ObjectTags.vue';
-import Searchbar from '@/components/filter/SearchbarAlt.vue';
-import MediaList from '@/components/catalog/media/List.vue';
+import DetailPage from "@/layouts/DetailPage.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import Searchbar from "@/components/filter/SearchbarAlt.vue";
+import MediaList from "@/components/catalog/media/List.vue";
 // import Animation from '@/components/animation/Animation.vue';
-import Lottie from '@/components/animation/Lottie.vue';
+// import Lottie from '@/components/animation/Lottie.vue';
 
 export default defineComponent({
   components: {
@@ -26,7 +21,7 @@ export default defineComponent({
     Searchbar,
     MediaList,
     // Animation,
-    Lottie,
+    // Lottie,
   },
   props: {
     uid: {
@@ -41,8 +36,8 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const isLoaded = ref(false);
-    const mood = computed(() => store.getters['catalog/moodByUid'](props.uid));
-    const mediaColor = computed(() => store.getters['player/color']);
+    const mood = computed(() => store.getters["catalog/moodByUid"](props.uid));
+    const mediaColor = computed(() => store.getters["player/color"]);
     const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
     const initialFilter = computed(() => {
       return {
@@ -55,7 +50,7 @@ export default defineComponent({
     // combinedQuery is needed for the 'play action'
     const combinedFilter = computed(() => {
       // @ts-ignore
-      const tags = [...initialFilter.value?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const tags = [...(initialFilter.value?.tags ?? []), ...(userFilter.value?.tags ?? [])];
       const merged = { ...initialFilter.value, ...userFilter.value };
       // @ts-ignore
       merged.tags = tags;
@@ -67,7 +62,7 @@ export default defineComponent({
     });
     onActivated(() => {
       if (!mood.value) {
-        store.dispatch('catalog/loadMood', props.uid);
+        store.dispatch("catalog/loadMood", props.uid);
       }
     });
     return {
@@ -86,18 +81,14 @@ export default defineComponent({
 
 <template>
   <DetailPage>
-    <template
-      #header
-    >
+    <template #header>
       <DetailHeader
         :obj="mood"
         :show-context-menu="false"
         title-scope="Stimmung"
         :title="mood.name"
       >
-        <template
-          #visual
-        >
+        <template #visual>
           <div
             class="image"
             :style="{
@@ -108,49 +99,37 @@ export default defineComponent({
             <PlayAction
               :obj-key="objKey"
               :filter="combinedFilter"
-              :size="(96)"
+              :size="96"
               :outlined="false"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
             />
           </div>
         </template>
-        <template
-          #info-panel
-        >
-          <ObjectTags
-            class="tags"
-            :obj="mood"
-            :limit="(4)"
-          />
+        <template #info-panel>
+          <ObjectTags class="tags" :obj="mood" :limit="4" />
         </template>
-        <template
-          #meta-panel
-        >
+        <template #meta-panel>
           <span>1h 25m</span>
         </template>
-        <template
-          #searchbar
-        >
-          <Searchbar
-            :filter="combinedFilter"
-          />
+        <template #searchbar>
+          <Searchbar :filter="combinedFilter" />
         </template>
-        <template
-          #background
-        >
+        <template #background>
+          <!--
           <Lottie
             v-if="mood.animationUrl"
             :src="mood.animationUrl"
             :color="mediaColor"
           />
+          -->
         </template>
       </DetailHeader>
       <MediaList
         :initial-filter="initialFilter"
         :query="query"
-        :disable-user-filter="(false)"
-        :disable-play-all="(!showPlayAll)"
+        :disable-user-filter="false"
+        :disable-play-all="!showPlayAll"
       />
     </template>
   </DetailPage>

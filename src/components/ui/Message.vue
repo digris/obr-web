@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export enum MessageLevel {
-  Info = 'info',
-  Warning = 'warning',
-  Success = 'success',
+  Info = "info",
+  Warning = "warning",
+  Success = "success",
 }
 
 export default defineComponent({
@@ -22,18 +22,11 @@ export default defineComponent({
     console.debug(props);
   },
 });
-
 </script>
 
 <template>
-  <div
-    class="message"
-    :class="`message--${level}`"
-  >
-    <div
-      class="message__body"
-      v-html="body"
-    />
+  <div class="message" :class="`message--${level}`">
+    <div class="message__body" v-html="body" />
   </div>
 </template>
 

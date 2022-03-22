@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -12,12 +12,10 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'click',
-  ],
+  emits: ["click"],
   setup(props, { emit }) {
     const click = () => {
-      emit('click', props.tag);
+      emit("click", props.tag);
     };
     return {
       click,
@@ -27,23 +25,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="tag"
-    @click.prevent="click"
-    :class="{'is-selected': selected}"
-  >
+  <div class="tag" @click.prevent="click" :class="{ 'is-selected': selected }">
     {{ tag.name }}
-    <small
-      class="tag__type"
-      v-text="tag.type"
-    />
-    <div
-      class="tag__count"
-    >
-      <div
-        class="tag__count__value"
-        v-text="tag.count"
-      />
+    <small class="tag__type" v-text="tag.type" />
+    <div class="tag__count">
+      <div class="tag__count__value" v-text="tag.count" />
     </div>
   </div>
 </template>

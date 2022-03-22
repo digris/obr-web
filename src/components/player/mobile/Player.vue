@@ -1,21 +1,16 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  watch,
-} from 'vue';
-import { useWakeLock } from '@vueuse/core';
-import { usePlayerControls, usePlayerState } from '@/composables/player';
-import { useQueueState } from '@/composables/queue';
-import { getContrastColor } from '@/utils/color';
-import Queue from '@/components/player/Queue.vue';
-import Circle from '@/components/player/button/Circle.vue';
-import UserRating from '@/components/rating/UserRating.vue';
-import IconQueue from '@/components/ui/icon/IconQueue.vue';
-import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
-import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import PlayerPanel from './PlayerPanel.vue';
+import { computed, defineComponent, ref, watch } from "vue";
+import { useWakeLock } from "@vueuse/core";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueState } from "@/composables/queue";
+import { getContrastColor } from "@/utils/color";
+import Queue from "@/components/player/Queue.vue";
+import Circle from "@/components/player/button/Circle.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import IconQueue from "@/components/ui/icon/IconQueue.vue";
+import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import PlayerPanel from "./PlayerPanel.vue";
 
 export default defineComponent({
   components: {
@@ -29,13 +24,7 @@ export default defineComponent({
   },
   setup() {
     const liveTimeOffset = ref(-10);
-    const {
-      isLive,
-      isPlaying,
-      isBuffering,
-      currentMedia,
-      currentScope,
-    } = usePlayerState();
+    const { isLive, isPlaying, isBuffering, currentMedia, currentScope } = usePlayerState();
     const { resume, pause } = usePlayerControls();
     const { queueLength } = useQueueState();
     const isVisible = computed(() => !!currentMedia.value);
@@ -53,17 +42,17 @@ export default defineComponent({
         const fg = getContrastColor(bg);
         const fgInverse = getContrastColor(fg);
         return {
-          '--c-bg': bg.join(','),
-          '--c-fg': fg.join(','),
-          '--c-fg-inverse': fgInverse.join(','),
+          "--c-bg": bg.join(","),
+          "--c-fg": fg.join(","),
+          "--c-fg-inverse": fgInverse.join(","),
         };
       } catch (e) {
         // console.debug(e);
       }
       return {
-        '--c-bg': isLive.value ? '255, 255, 255' : '0, 0, 0',
-        '--c-fg': isLive.value ? '0, 0, 0' : '255, 255, 255',
-        '--c-fg-inverse': isLive.value ? '255, 255, 255' : '0, 0, 0',
+        "--c-bg": isLive.value ? "255, 255, 255" : "0, 0, 0",
+        "--c-fg": isLive.value ? "0, 0, 0" : "255, 255, 255",
+        "--c-fg-inverse": isLive.value ? "255, 255, 255" : "0, 0, 0",
       };
     });
     const hideQueue = () => {
@@ -84,14 +73,14 @@ export default defineComponent({
       release: wakeLockRelease,
     } = useWakeLock();
     watch(isPlaying, (state) => {
-      console.debug('isPlaying', state);
+      console.debug("isPlaying", state);
       if (wakeLockSupported && state) {
-        wakeLockRequest('screen');
-        console.debug('wakelock requested');
+        wakeLockRequest("screen");
+        console.debug("wakelock requested");
       }
       if (wakeLockSupported && !state) {
         wakeLockRelease();
-        console.debug('wakelock released');
+        console.debug("wakelock released");
       }
     });
     return {
@@ -119,31 +108,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <Queue
-    :is-visible="(queueVisible && queueLength > 0)"
-    :bottom="(60)"
-    @close="hideQueue"
-  />
+  <Queue :is-visible="queueVisible && queueLength > 0" :bottom="60" @close="hideQueue" />
   <PlayerPanel
     :is-visible="playerPanelVisible"
     :media="currentMedia"
     :style="cssVars"
     @close="hidePlayerPanel"
   />
-  <transition
-    name="slide"
-  >
-    <div
-      v-if="isVisible"
-      class="mobile-player"
-      :style="cssVars"
-    >
-      <div
-        class="container"
-      >
-        <div
-          class="left"
-        >
+  <transition name="slide">
+    <div v-if="isVisible" class="mobile-player" :style="cssVars">
+      <div class="container">
+        <div class="left">
           <ButtonPlay
             :size="40"
             :is-playing="isPlaying"
@@ -152,51 +127,29 @@ export default defineComponent({
             @play="play"
           />
         </div>
-        <div
-          class="center"
-        >
-          <div
-            v-if="currentMedia"
-            @click="togglePlayerPanel"
-            class="current-media"
-          >
-            <div
-              v-text="currentMedia.name"
-              class="title"
-            />
-            <MediaArtists
-              :artists="currentMedia.artists"
-              :link="false"
-              class="artists"
-            />
+        <div class="center">
+          <div v-if="currentMedia" @click="togglePlayerPanel" class="current-media">
+            <div v-text="currentMedia.name" class="title" />
+            <MediaArtists :artists="currentMedia.artists" :link="false" class="artists" />
           </div>
         </div>
-        <div
-          class="right"
-        >
-          <Circle
-            :size="(40)"
-            :outlined="(false)"
-          >
-            <UserRating
-              color-var="--c-fg"
-              v-if="currentMedia"
-              :obj-key="objKey"
-            />
+        <div class="right">
+          <Circle :size="40" :outlined="false">
+            <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
           <Circle
-            v-if="(queueLength > 0)"
-            :size="(40)"
+            v-if="queueLength > 0"
+            :size="40"
             :active="queueVisible"
-            :disabled="(queueLength < 1)"
+            :disabled="queueLength < 1"
             @click.prevent="toggleQueue"
             :style="{
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
             }"
           >
             <IconQueue
-              :size="(40)"
-              :color="(queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))')"
+              :size="40"
+              :color="queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))'"
               :num-queued="queueLength"
             />
           </Circle>
@@ -229,7 +182,7 @@ $player-height: 60px;
   padding: 0 0.5rem;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
-  border-top: 1px solid rgba(var(--c-page-fg), .2);
+  border-top: 1px solid rgba(var(--c-page-fg), 0.2);
   transition: background 1000ms;
 }
 

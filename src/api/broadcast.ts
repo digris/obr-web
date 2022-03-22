@@ -1,5 +1,5 @@
-import { APIClient } from '@/api/client';
-import settings from '@/settings';
+import { APIClient } from "@/api/client";
+import settings from "@/settings";
 
 const SCHEDULE_ENDPOINT = `${settings.API_BASE_URL}broadcast/schedule/`;
 const PROGRAM_ENDPOINT = `${settings.API_BASE_URL}broadcast/program/`;
@@ -18,7 +18,8 @@ async function getProgram() {
 async function getEditors(limit: number, offset: number) {
   const url = EDITOR_ENDPOINT;
   const params = {
-    limit, offset,
+    limit,
+    offset,
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -30,9 +31,4 @@ async function getEditor(uid: string) {
   return response.data;
 }
 
-export {
-  getSchedule,
-  getProgram,
-  getEditors,
-  getEditor,
-};
+export { getSchedule, getProgram, getEditors, getEditor };

@@ -1,9 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import eventBus from '@/eventBus';
-import SidePanel from '@/components/ui/panel/SidePanel.vue';
+import { computed, defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import eventBus from "@/eventBus";
+import SidePanel from "@/components/ui/panel/SidePanel.vue";
 
 export default defineComponent({
   components: {
@@ -13,31 +13,31 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const isVisible = ref(false);
-    const user = computed(() => store.getters['account/user']);
+    const user = computed(() => store.getters["account/user"]);
     const close = () => {
       isVisible.value = false;
     };
-    const navigate = async (e:any) => {
+    const navigate = async (e: any) => {
       await router.push(e);
       isVisible.value = false;
     };
-    eventBus.on('side-menu:show', () => {
+    eventBus.on("side-menu:show", () => {
       isVisible.value = true;
     });
     const login = () => {
       const event = {
-        intent: 'login',
+        intent: "login",
         next: window.location.pathname,
       };
-      eventBus.emit('account:authenticate', event);
+      eventBus.emit("account:authenticate", event);
     };
     const logout = async () => {
       try {
-        await store.dispatch('account/logoutUser');
-        await router.push({ name: 'home' });
+        await store.dispatch("account/logoutUser");
+        await router.push({ name: "home" });
         close();
       } catch (err) {
-        console.debug('err', err);
+        console.debug("err", err);
       }
     };
     return {
@@ -52,117 +52,99 @@ export default defineComponent({
 });
 </script>
 <template>
-  <SidePanel
-    :is-visible="isVisible"
-    @close="close"
-  >
-    <div
-      class="side-menu"
-    >
-      <section
-        class="section"
-        v-if="user"
-      >
+  <SidePanel :is-visible="isVisible" @close="close">
+    <div class="side-menu">
+      <section class="section" v-if="user">
         <router-link
           to="/"
-          @click.prevent="navigate({
-            name: 'accountSettings',
-          })"
+          @click.prevent="
+            navigate({
+              name: 'accountSettings',
+            })
+          "
         >
           Konto Einstellungen
         </router-link>
       </section>
-      <section
-        class="section"
-        v-else
-      >
-        <a
-          href="#"
-          @click.prevent="login"
-        >
-          Login
-        </a>
+      <section class="section" v-else>
+        <a href="#" @click.prevent="login"> Login </a>
       </section>
-      <section
-        class="section section--primary"
-      >
+      <section class="section section--primary">
         <router-link
           to="/"
-          @click.prevent="navigate({
-            name: 'home',
-          })"
+          @click.prevent="
+            navigate({
+              name: 'home',
+            })
+          "
         >
           Radio
         </router-link>
         <router-link
           to="/discover/"
-          @click.prevent="navigate({
-            name: 'discover',
-          })"
+          @click.prevent="
+            navigate({
+              name: 'discover',
+            })
+          "
         >
           Discover
         </router-link>
         <router-link
           to="/collection/"
-          @click.prevent="navigate({
-            name: 'collection',
-          })"
+          @click.prevent="
+            navigate({
+              name: 'collection',
+            })
+          "
         >
           Favoriten
         </router-link>
       </section>
-      <section
-        class="section section--primary"
-      >
+      <section class="section section--primary">
         <router-link
           to="/program/"
-          @click.prevent="navigate({
-            name: 'program',
-          })"
+          @click.prevent="
+            navigate({
+              name: 'program',
+            })
+          "
         >
           Programm
         </router-link>
-        <router-link
-          to="/discover/"
-        >
-          Empfang
-        </router-link>
+        <router-link to="/discover/"> Empfang </router-link>
       </section>
-      <section
-        class="section"
-      >
+      <section class="section">
         <router-link
           to="/history/"
-          @click.prevent="navigate({
-            path: '/history/',
-          })"
+          @click.prevent="
+            navigate({
+              path: '/history/',
+            })
+          "
           v-text="`History`"
         />
         <router-link
           to="/jobs/"
-          @click.prevent="navigate({
-            path: '/jobs/',
-          })"
+          @click.prevent="
+            navigate({
+              path: '/jobs/',
+            })
+          "
           v-text="`Jobs`"
         />
         <router-link
           to="/legal/terms/"
-          @click.prevent="navigate({
-            path: '/legal/terms/',
-          })"
+          @click.prevent="
+            navigate({
+              path: '/legal/terms/',
+            })
+          "
           v-text="`AGB`"
         />
       </section>
-      <section
-        class="section"
-        v-if="user"
-      >
-        <a
-          href="#"
-          @click.prevent="logout"
-        >
-          Abmelden
-        </a>
+      <section class="section" v-if="user">
+        <a href="#" @click.prevent="logout"> Abmelden </a>
       </section>
     </div>
   </SidePanel>

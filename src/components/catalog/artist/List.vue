@@ -1,15 +1,13 @@
 <script lang="ts">
-import {
-  ref,
-  onMounted, computed, watch,
-} from 'vue';
-import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted, computed, watch } from "vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { isEqual } from "lodash-es";
 
-import LoadingMore from '@/components/ui/loading/Loading.vue';
-import ListFilter from '@/components/filter/ListFilter.vue';
-import ArtistCard from '@/components/catalog/artist/Card.vue';
-import { getArtists, getArtistsTags } from '@/api/catalog';
+import LoadingMore from "@/components/ui/loading/Loading.vue";
+import ListFilter from "@/components/filter/ListFilter.vue";
+import ArtistCard from "@/components/catalog/artist/Card.vue";
+import { getArtists, getArtistsTags } from "@/api/catalog";
 
 export default {
   components: {
@@ -39,7 +37,7 @@ export default {
       default: false,
     },
   },
-  setup(props:any) {
+  setup(props: any) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -55,31 +53,27 @@ export default {
     });
     const combinedFilter = computed(() => {
       // @ts-ignore
-      const tags = [...props.initialFilter?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const tags = [...(props.initialFilter?.tags ?? []), ...(userFilter.value?.tags ?? [])];
       const merged = { ...props.initialFilter, ...userFilter.value };
       // @ts-ignore
       merged.tags = tags;
-      if (props.scope === 'collection') {
+      if (props.scope === "collection") {
         // @ts-ignore
         merged.user_rating = 1;
       }
       return merged;
     });
     const ordering = computed(() => {
-      return (props.scope === 'collection') ? ['time_rated'] : [];
+      return props.scope === "collection" ? ["time_rated"] : [];
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchArtists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
-      const {
-        count,
-        next,
-        results,
-      } = await getArtists(
+      const { count, next, results } = await getArtists(
         limit,
         offset,
         combinedFilter.value,
-        ordering.value,
+        ordering.value
       );
       hasNext.value = !!next;
       numResults.value = count;
@@ -87,7 +81,7 @@ export default {
       artists.value.push(...results);
 
       // TODO: this kind of smells...
-      await store.dispatch('rating/updateObjectRatings', results);
+      await store.dispatch("rating/updateObjectRatings", results);
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
@@ -106,11 +100,11 @@ export default {
       if (props.disableUserFilter) {
         return false;
       }
-      return store.getters['ui/filterExpanded'];
+      return store.getters["ui/filterExpanded"];
     });
     const updateUserFilter = (filter: any) => {
       const query = filter;
-      const routeName = route.name || 'discoverArtists';
+      const routeName = route.name || "discoverArtists";
       router.push({ name: routeName, query });
     };
     onMounted(() => {
@@ -119,12 +113,15 @@ export default {
     });
     watch(
       () => combinedFilter.value,
-      async () => {
+      async (oldFilter, newFilter) => {
+        if (isEqual(oldFilter, newFilter)) {
+          return;
+        }
         lastOffset.value = 0;
         artists.value = [];
         fetchArtists(limit, 0).then(() => {});
         fetchTags().then(() => {});
-      },
+      }
     );
     return {
       combinedFilter,
@@ -143,9 +140,7 @@ export default {
 };
 </script>
 <template>
-  <div
-    class="list-filter-container"
-  >
+  <div class="list-filter-container">
     <ListFilter
       v-if="showUserFilter"
       :filter="userFilter"
@@ -154,23 +149,11 @@ export default {
       @change="updateUserFilter"
     />
   </div>
-  <div
-    class="artist-list"
-  >
-    <div
-      class="list-container"
-    >
-      <ArtistCard
-        v-for="artist in artists"
-        :key="artist.uid"
-        :artist="artist"
-      />
+  <div class="artist-list">
+    <div class="list-container">
+      <ArtistCard v-for="artist in artists" :key="artist.uid" :artist="artist" />
     </div>
-    <LoadingMore
-      v-if="(artists.length && hasNext)"
-      :has-next="hasNext"
-      @on-enter="fetchNextPage"
-    />
+    <LoadingMore v-if="artists.length && hasNext" :has-next="hasNext" @on-enter="fetchNextPage" />
   </div>
 </template>
 

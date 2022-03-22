@@ -1,16 +1,13 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-} from 'vue';
+import { defineComponent, ref } from "vue";
 
-import * as EmailValidator from 'email-validator';
+import * as EmailValidator from "email-validator";
 
-import { updateUser } from '@/api/account';
+import { updateUser } from "@/api/account";
 
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import TextInput from '@/components/ui/form/TextInput.vue';
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import TextInput from "@/components/ui/form/TextInput.vue";
 
 export default defineComponent({
   components: {
@@ -22,12 +19,10 @@ export default defineComponent({
     currentEmail: {
       type: String,
       required: true,
-      default: '',
+      default: "",
     },
   },
-  emits: [
-    'updated',
-  ],
+  emits: ["updated"],
   setup(props, { emit }) {
     const email = ref(props.currentEmail);
     const formValid = ref(false);
@@ -41,7 +36,7 @@ export default defineComponent({
         await updateUser({
           email: email.value,
         });
-        emit('updated');
+        emit("updated");
       } catch (err: any) {
         console.warn(err);
         errors.value = [err.response];
@@ -59,38 +54,22 @@ export default defineComponent({
 </script>
 
 <template>
-  <form
-    class="form"
-    @submit.prevent="submitForm"
-  >
-    <div
-      class="input-container"
-    >
+  <form class="form" @submit.prevent="submitForm">
+    <div class="input-container">
       <TextInput
         v-model="email"
         @keyup="handleInput"
         type="email"
         label="E-Mail Adresse"
-        :minlength="(8)"
-        :maxlength="(64)"
+        :minlength="8"
+        :maxlength="64"
       />
     </div>
-    <div
-      class="form-errors"
-      v-if="errors.length"
-    >
-      <APIErrors
-        :errors="errors"
-      />
+    <div class="form-errors" v-if="errors.length">
+      <APIErrors :errors="errors" />
     </div>
-    <div
-      class="input-container submit"
-    >
-      <AsyncButton
-        class="button"
-        @click.prevent="submitForm"
-        :disabled="(!formValid)"
-      >
+    <div class="input-container submit">
+      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!formValid">
         Speichern
       </AsyncButton>
     </div>

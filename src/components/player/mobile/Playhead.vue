@@ -1,10 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { DateTime } from 'luxon';
-import { usePlayerState, usePlayerControls } from '@/composables/player';
+import { computed, defineComponent } from "vue";
+import { DateTime } from "luxon";
+import { usePlayerState, usePlayerControls } from "@/composables/player";
 
-import Duration from '@/components/ui/time/Duration.vue';
-import Progress from '../PlayheadProgress.vue';
+import Duration from "@/components/ui/time/Duration.vue";
+import Progress from "../PlayheadProgress.vue";
 
 export default defineComponent({
   components: {
@@ -18,26 +18,17 @@ export default defineComponent({
     },
   },
   setup() {
-    const {
-      isLive,
-      isPlaying,
-      isBuffering,
-      duration,
-      currentTime,
-      relPosition,
-    } = usePlayerState();
-    const {
-      seek,
-    } = usePlayerControls();
+    const { isLive, isPlaying, isBuffering, duration, currentTime, relPosition } = usePlayerState();
+    const { seek } = usePlayerControls();
     const strLiveTime = computed(() => {
       if (!isLive.value) {
-        return '';
+        return "";
       }
       const dt = DateTime.fromJSDate(currentTime.value);
       return dt.toLocaleString({
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
       });
     });
     return {
@@ -61,28 +52,13 @@ export default defineComponent({
       'is-disabled': disabled,
     }"
   >
-    <div
-      class="progress"
-    >
-      <div
-        class="time time--current"
-      >
-        <span
-          v-if="isLive"
-          v-text="strLiveTime"
-        />
-        <Duration
-          v-else
-          :seconds="currentTime"
-        />
+    <div class="progress">
+      <div class="time time--current">
+        <span v-if="isLive" v-text="strLiveTime" />
+        <Duration v-else :seconds="currentTime" />
       </div>
-      <div
-        class="time time--total"
-      >
-        <Duration
-          v-if="duration"
-          :seconds="duration"
-        />
+      <div class="time time--total">
+        <Duration v-if="duration" :seconds="duration" />
       </div>
       <Progress
         :is-live="isLive"

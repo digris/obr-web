@@ -1,22 +1,16 @@
 <script lang="ts">
-import {
-  computed,
-  onMounted,
-  onActivated,
-  ref,
-  watch, onUnmounted,
-} from 'vue';
-import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import { isEqual } from 'lodash-es';
-import { DateTime } from 'luxon';
+import { computed, onMounted, onActivated, ref, watch, onUnmounted } from "vue";
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { isEqual } from "lodash-es";
+import { DateTime } from "luxon";
 
-import LoadingMore from '@/components/ui/loading/Loading.vue';
-import ListFilter from '@/components/filter/ListFilter.vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import PlayAll from '@/components/catalog/media/PlayAll.vue';
-import MediaRow from '@/components/catalog/media/Row.vue';
-import { getMedia, getMediaTags } from '@/api/catalog';
+import LoadingMore from "@/components/ui/loading/Loading.vue";
+import ListFilter from "@/components/filter/ListFilter.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import PlayAll from "@/components/catalog/media/PlayAll.vue";
+import MediaRow from "@/components/catalog/media/Row.vue";
+import { getMedia, getMediaTags } from "@/api/catalog";
 
 export default {
   components: {
@@ -52,7 +46,7 @@ export default {
       default: false,
     },
   },
-  setup(props:any) {
+  setup(props: any) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -75,42 +69,38 @@ export default {
       if (!props.hideUpcoming) {
         return mediaList.value;
       }
-      return mediaList.value.filter((m:any) => DateTime.fromISO(m.latestAirplay) < now.value);
+      return mediaList.value.filter((m: any) => DateTime.fromISO(m.latestAirplay) < now.value);
     });
     const combinedFilter = computed(() => {
       // @ts-ignore
-      const tags = [...props.initialFilter?.tags ?? [], ...userFilter.value?.tags ?? []];
+      const tags = [...(props.initialFilter?.tags ?? []), ...(userFilter.value?.tags ?? [])];
       const merged = { ...props.initialFilter, ...userFilter.value };
       // @ts-ignore
       merged.tags = tags;
-      if (props.scope === 'collection') {
+      if (props.scope === "collection") {
         // @ts-ignore
         merged.user_rating = 1;
       }
       return merged;
     });
     const ordering = computed(() => {
-      return (props.scope === 'collection') ? ['time_rated'] : [];
+      return props.scope === "collection" ? ["time_rated"] : [];
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchMedia = async (limit = 16, offset = 0) => {
       mediaListLoading.value = true;
-      const {
-        count,
-        next,
-        results,
-      } = await getMedia(
+      const { count, next, results } = await getMedia(
         limit,
         offset,
         combinedFilter.value,
-        ordering.value,
+        ordering.value
       );
       hasNext.value = !!next;
       numResults.value = count;
       // @ts-ignore
       mediaList.value.push(...results);
       // TODO: this kind of smells...
-      await store.dispatch('rating/updateObjectRatings', results);
+      await store.dispatch("rating/updateObjectRatings", results);
       mediaListLoading.value = false;
     };
     const fetchNextPage = async () => {
@@ -131,11 +121,11 @@ export default {
       if (props.disableUserFilter) {
         return false;
       }
-      return store.getters['ui/filterExpanded'];
+      return store.getters["ui/filterExpanded"];
     });
     const updateUserFilter = (filter: any) => {
       const query = filter;
-      const routeName = route.name || 'discoverMedia';
+      const routeName = route.name || "discoverMedia";
       router.push({ name: routeName, query });
     };
     onMounted(() => {
@@ -161,26 +151,20 @@ export default {
     });
     watch(
       () => combinedFilter.value,
-      async () => {
-        // console.debug('watched combinedFilter', newValue, oldValue, isEqual(newValue, oldValue));
+      async (oldFilter, newFilter) => {
+        if (isEqual(oldFilter, newFilter)) {
+          return;
+        }
         lastOffset.value = 0;
         mediaList.value = [];
         fetchMedia(limit, 0).then(() => {});
         fetchTags().then(() => {});
-      },
-    );
-    watch(
-      () => props.query,
-      async (newValue, oldValue) => {
-        if (isEqual(newValue, oldValue)) {
-          console.debug('unchanged');
-        }
-        // userFilter.value = newValue;
-      },
+      }
     );
     return {
       combinedFilter,
       tagList,
+      ordering,
       tagListLoading,
       visibleMediaList,
       mediaListLoading,
@@ -206,10 +190,7 @@ export default {
     }"
   ></pre>
   -->
-  <div
-    v-if="showUserFilter"
-    class="list-filter-container"
-  >
+  <div v-if="showUserFilter" class="list-filter-container">
     <ListFilter
       :filter="userFilter"
       :tag-list="tagList"
@@ -218,38 +199,23 @@ export default {
     />
   </div>
   <PlayAction
-    v-if="(!disablePlayAll && numResults > 0)"
+    v-if="!disablePlayAll && numResults > 0"
     :filter="combinedFilter"
+    :ordering="ordering"
   >
-    <template
-      #default="{
-        isLoading,
-      }"
-    >
-      <PlayAll
-        :is-loading="isLoading"
-        :num-total="numResults"
-      />
+    <template #default="{ isLoading }">
+      <PlayAll :is-loading="isLoading" :num-total="numResults" />
     </template>
   </PlayAction>
-  <div
-    class="media-list"
-  >
-    <div
-      class="table"
-    >
+  <div class="media-list">
+    <div class="table">
       <MediaRow
         v-for="(media, index) in visibleMediaList"
         :key="`media-row-${index}`"
         :media="media"
       />
     </div>
-    <LoadingMore
-      v-if="hasNext"
-      :has-next="hasNext"
-      layout="table"
-      @on-enter="fetchNextPage"
-    />
+    <LoadingMore v-if="hasNext" :has-next="hasNext" layout="table" @on-enter="fetchNextPage" />
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -41,11 +41,11 @@ export default defineComponent({
     },
     colorVar: {
       type: String,
-      default: '--c-page-fg',
+      default: "--c-page-fg",
     },
     activeColorVar: {
       type: String,
-      default: '--c-page-fg-inverse',
+      default: "--c-page-fg-inverse",
     },
     progress: {
       type: Number,
@@ -64,7 +64,7 @@ export default defineComponent({
       '--c-active': `var(${activeColorVar})`,
       '--outline-opacity': outlineOpacity,
       '--outline-width': `${outlineWidth}px`,
-      '--outline-hover-color': outlineOnHover ? 'rgba(var(--c-main)': 'transparent',
+      '--outline-hover-color': outlineOnHover ? 'rgba(var(--c-main)' : 'transparent',
     }"
     :class="{
       'is-outlined': outlined,
@@ -75,9 +75,7 @@ export default defineComponent({
       'is-progress': progress !== null,
     }"
   >
-    <slot
-      name="default"
-    />
+    <slot name="default" />
   </div>
 </template>
 

@@ -1,13 +1,8 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  watch,
-  onBeforeMount,
-} from 'vue';
-import { getPage } from '@/api/cms';
+import { defineComponent, ref, watch, onBeforeMount } from "vue";
+import { getPage } from "@/api/cms";
 
-import SocialMediaLinks from '@/components/social-media/SocialMediaLinks.vue';
+import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 
 export default defineComponent({
   props: {
@@ -27,7 +22,7 @@ export default defineComponent({
         page.value = await getPage(path);
       } catch (err) {
         page.value = {
-          title: 'Not found',
+          title: "Not found",
           body: err?.message,
         };
       }
@@ -39,7 +34,7 @@ export default defineComponent({
       () => props.path,
       async (path) => {
         await loadPage(path);
-      },
+      }
     );
     return {
       page,
@@ -49,25 +44,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="page"
-  >
-    <div
-      class="title"
-      v-if="page.title"
-    >
-      <h1
-        v-text="page.title"
-      />
+  <div class="page">
+    <div class="title" v-if="page.title">
+      <h1 v-text="page.title" />
     </div>
-    <div
-      class="body"
-      v-if="page.body"
-      v-html="page.body"
-    />
-    <div
-      class="appendix"
-    >
+    <div class="body" v-if="page.body" v-html="page.body" />
+    <div class="appendix">
       <SocialMediaLinks />
     </div>
   </div>
@@ -86,7 +68,7 @@ export default defineComponent({
       @include typo.bold;
     }
   }
-  :deep(.body ) {
+  :deep(.body) {
     @include cms.content;
     @include cms.pyembed;
     > p {

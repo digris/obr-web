@@ -1,20 +1,17 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent, ref, watch,
-} from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-import { getVoucher, redeemVoucher } from '@/api/subscription';
+import { computed, defineComponent, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { getVoucher, redeemVoucher } from "@/api/subscription";
 
-import eventBus from '@/eventBus';
+import eventBus from "@/eventBus";
 
-import ModalPanel from '@/components/ui/panel/ModalPanel.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import Datetime from '@/components/ui/date/Datetime.vue';
+import ModalPanel from "@/components/ui/panel/ModalPanel.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import Datetime from "@/components/ui/date/Datetime.vue";
 
-const codeRegex = new RegExp('^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$');
+const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
 
 export default defineComponent({
   components: {
@@ -27,15 +24,16 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const user = computed(() => store.getters['account/user']);
+    const user = computed(() => store.getters["account/user"]);
     const errors = ref<Array<string>>([]);
     const voucher = ref(null);
     const isValid = computed(() => !!voucher.value);
     const code = computed(() => {
-      if (!route.hash.startsWith('#')) {
-        return '';
+      if (!route.hash.startsWith("#")) {
+        return "";
       }
-      return route.hash.replace('#', '');
+      const hashValue = route.hash.replace("#", "");
+      return codeRegex.test(hashValue) ? hashValue : null;
     });
     const fetchVoucher = async (codeValue: string) => {
       voucher.value = null;
@@ -51,7 +49,7 @@ export default defineComponent({
       try {
         const response = await redeemVoucher(code.value);
         console.debug(response);
-        await store.dispatch('account/getUser');
+        await store.dispatch("account/getUser");
         await router.replace(route.path);
       } catch (err: any) {
         console.warn(err);
@@ -62,11 +60,11 @@ export default defineComponent({
     };
     const authenticateAndRedeem = () => {
       const event = {
-        intent: 'login',
+        intent: "login",
         next: `${route.path}#${code.value}`,
       };
-      console.debug('Authenticate', event);
-      eventBus.emit('account:authenticate', event);
+      console.debug("Authenticate", event);
+      eventBus.emit("account:authenticate", event);
     };
     const closePanel = () => {
       router.push(route.path);
@@ -79,7 +77,7 @@ export default defineComponent({
         } else {
           voucher.value = null;
         }
-      },
+      }
     );
     return {
       user,
@@ -96,82 +94,40 @@ export default defineComponent({
 </script>
 
 <template>
-  <ModalPanel
-    :is-visible="(!!code)"
-    @close="closePanel"
-  >
-    <div
-      class="claim-voucher"
-    >
-      <section
-        class="code"
-      >
+  <ModalPanel :is-visible="!!code" @close="closePanel">
+    <div class="claim-voucher">
+      <section class="code">
         <div>
-          <p
-            v-text="`Code: ${code}`"
-          />
+          <p v-text="`Code: ${code}`" />
         </div>
       </section>
-      <section
-        v-if="(errors && errors.length)"
-        class="error"
-      >
-        <p
-          class="error__notes"
-        >
-          Ungültiger Gutschein-Code.
-        </p>
-        <APIErrors
-          :errors="errors"
-        />
+      <section v-if="errors && errors.length" class="error">
+        <p class="error__notes">Ungültiger Gutschein-Code.</p>
+        <APIErrors :errors="errors" />
       </section>
-      <section
-        v-if="voucher"
-        class="voucher"
-      >
-        <div
-          class="voucher__details"
-        >
-          <p>
-            + {{ voucher.numDays }} Tage
-          </p>
+      <section v-if="voucher" class="voucher">
+        <div class="voucher__details">
+          <p>+ {{ voucher.numDays }} Tage</p>
           <p>
             Guthaben bis am
-            <Datetime
-              :value="voucher.untilDate"
-              :display-time="(false)"
-            />
+            <Datetime :value="voucher.untilDate" :display-time="false" />
           </p>
         </div>
       </section>
-      <section
-        class="actions"
-      >
-        <div
-          v-if="user"
-        >
-          <AsyncButton
-            class="button"
-            :disabled="(!isValid)"
-            @click.prevent="redeem"
-          >
+      <section class="actions">
+        <div v-if="user">
+          <AsyncButton class="button" :disabled="!isValid" @click.prevent="redeem">
             Jetzt Einlösen
           </AsyncButton>
         </div>
-        <div
-          v-else
-        >
-          <AsyncButton
-            class="button"
-            :disabled="(!isValid)"
-            @click.prevent="authenticateAndRedeem"
-          >
+        <div v-else>
+          <AsyncButton class="button" :disabled="!isValid" @click.prevent="authenticateAndRedeem">
             Anmelden und einlösen
           </AsyncButton>
         </div>
       </section>
       <pre
-        v-if="(false)"
+        v-if="false"
         v-text="{
           user,
           code,
