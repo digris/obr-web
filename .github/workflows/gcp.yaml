@@ -57,14 +57,15 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: docker/Dockerfile
+#          file: docker/Dockerfile
+          file: compose/image-resizer/Dockerfile
           #platforms: linux/amd64,linux/arm64
           push: true
 #          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
-            ${{ steps.meta.outputs.tags }}
             gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
+            ${{ steps.meta.outputs.tags }}
 
       - name: Deploy to GCP cloud run
         run: |-
