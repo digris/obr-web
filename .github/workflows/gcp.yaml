@@ -63,4 +63,18 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
             ${{ steps.meta.outputs.tags }}
-            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{  github.sha }}
+            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
+
+      - name: Deploy to GCP cloud run
+        run: |-
+          gcloud run deploy ${{ env.GCP_SERVICE }} \
+            --region europe-west6 \
+            --image gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }} \
+            --platform "managed" \
+            --max-instance "50" \
+            --memory "2048M" \
+            --concurrency "20" \
+            --add-cloudsql-instances "open-broadcast:europe-west6:open-broadcast-db" \
+            --use-http2 \
+            --allow-unauthenticated \
+            --quiet
