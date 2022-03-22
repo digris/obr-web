@@ -21,7 +21,9 @@
   background-color: rgba(var(--c-page-bg), $alpha);
 }
 
-@mixin bg-inverse($alpha: 1) {
-  @include transition-inverse;
+@mixin bg-inverse($alpha: 1, $transition: true) {
   background-color: rgba(var(--c-page-fg), $alpha);
+  @if $transition {
+    @include transition-inverse;
+  }
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import PlayAction from '@/components/catalog/actions/PlayAction.vue';
-import IconPlay from '@/components/ui/icon/IconPlay.vue';
+import { defineComponent } from "vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import IconPlay from "@/components/ui/icon/IconPlay.vue";
 
 export default defineComponent({
   components: {
@@ -24,17 +24,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="play-icon"
-  >
-    <PlayAction
-      :obj-key="objKey"
-      :filter="filter"
-    >
-      <IconPlay
-        :size="48"
-        color="rgb(var(--c-white))"
-      />
+  <div class="play-icon">
+    <PlayAction :obj-key="objKey" :filter="filter">
+      <IconPlay :size="48" color="rgb(var(--c-white))" />
     </PlayAction>
   </div>
 </template>

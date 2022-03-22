@@ -1,7 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
+import IconEdit from "@/components/ui/icon/IconEdit.vue";
 
 export default defineComponent({
+  components: {
+    IconEdit,
+  },
   props: {
     title: {
       type: String,
@@ -21,7 +25,7 @@ export default defineComponent({
       if (!isEditable.value) {
         return;
       }
-      emit('edit');
+      emit("edit");
     };
     return {
       isEditable,
@@ -39,25 +43,11 @@ export default defineComponent({
       'is-editable': isEditable,
     }"
   >
-    <div
-      class="title"
-      v-if="title"
-      v-text="title"
-    />
-    <div
-      class="panel"
-      @click="handleEdit"
-    >
-      <slot
-        name="default"
-      />
-      <div
-        v-if="isEditable"
-        class="panel-icon"
-      >
-        <IconEdit
-          :size="36"
-        />
+    <div class="title" v-if="title" v-text="title" />
+    <div class="panel" @click="handleEdit">
+      <slot name="default" />
+      <div v-if="isEditable" class="panel-icon">
+        <IconEdit :size="36" />
       </div>
     </div>
   </section>

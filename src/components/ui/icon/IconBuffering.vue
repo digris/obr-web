@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,13 +11,13 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
   },
   setup(props) {
     const style = computed(() => {
       return {
-        '--color': props.color,
+        "--color": props.color,
         transform: `scale(${props.size / BASE_SIZE})`,
       };
     });
@@ -28,19 +28,10 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    :style="style"
-    class="buffering"
-  >
-    <div
-      class="bar bar--1"
-    />
-    <div
-      class="bar bar--2"
-    />
-    <div
-      class="bar bar--3"
-    />
+  <div :style="style" class="buffering">
+    <div class="bar bar--1" />
+    <div class="bar bar--2" />
+    <div class="bar bar--3" />
   </div>
 </template>
 <style lang="scss">

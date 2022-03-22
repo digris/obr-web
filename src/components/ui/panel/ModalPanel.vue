@@ -1,11 +1,7 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-} from 'vue';
+import { computed, defineComponent, onMounted } from "vue";
 
-import CloseButton from './CloseButton.vue';
+import CloseButton from "./CloseButton.vue";
 
 export default defineComponent({
   components: {
@@ -18,21 +14,19 @@ export default defineComponent({
     },
     title: {
       type: String,
-      default: '',
+      default: "",
     },
   },
-  emits: [
-    'close',
-  ],
+  emits: ["close"],
   setup(props, { slots, emit }) {
     const hasFooter = computed(() => !!slots.footer);
     const hasSuccess = computed(() => !!slots.success);
     const close = () => {
-      emit('close');
+      emit("close");
     };
     onMounted(() => {
-      document.addEventListener('keydown', (e) => {
-        if (props.isVisible && e.code === 'Escape') {
+      document.addEventListener("keydown", (e) => {
+        if (props.isVisible && e.code === "Escape") {
           close();
         }
       });
@@ -46,49 +40,22 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition
-    name="fade"
-  >
-    <div
-      v-if="isVisible"
-      class="modal-panel"
-    >
-      <div
-        class="container"
-      >
-        <div
-          class="modal-panel__header"
-        >
-          <CloseButton
-            @click.prevent="close"
-          />
+  <transition name="fade">
+    <div v-if="isVisible" class="modal-panel">
+      <div class="container">
+        <div class="modal-panel__header">
+          <CloseButton @click.prevent="close" />
         </div>
-        <div
-          class="modal-panel__content"
-        >
-          <div
-            v-if="title"
-            class="modal-panel__content__title"
-          >
-            <div
-              v-text="title"
-            />
+        <div class="modal-panel__content">
+          <div v-if="title" class="modal-panel__content__title">
+            <div v-text="title" />
           </div>
-          <div
-            class="modal-panel__content__body"
-          >
-            <slot
-              name="default"
-            />
+          <div class="modal-panel__content__body">
+            <slot name="default" />
           </div>
         </div>
-        <div
-          v-if="hasSuccess"
-          class="modal-panel__success"
-        >
-          <slot
-            name="success"
-          />
+        <div v-if="hasSuccess" class="modal-panel__success">
+          <slot name="success" />
         </div>
       </div>
     </div>

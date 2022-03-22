@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-fg))',
+      default: "rgb(var(--c-page-fg))",
     },
   },
   setup(props) {
@@ -21,7 +21,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         fill: props.color,
-        stroke: 'none',
+        stroke: "none",
         // transform: `scale(${props.size / BASE_SIZE})`,
         width: `${size.value}px`,
         height: `${size.value}px`,
@@ -41,18 +41,8 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <rect
-      x="14"
-      y="8"
-      width="3.2"
-      height="3.2"
-    />
-    <rect
-      x="30.8"
-      y="8"
-      width="3.2"
-      height="3.2"
-    />
+    <rect x="14" y="8" width="3.2" height="3.2" />
+    <rect x="30.8" y="8" width="3.2" height="3.2" />
     <!-- eslint-disable max-len -->
     <path
       d="M34,11.2v3.2h-3.2v-3.2H17.2v3.2H14v-3.2h-4v25.6h28V11.2H34z M15.6,32c-0.9,0-1.6-0.7-1.6-1.6s0.7-1.6,1.6-1.6

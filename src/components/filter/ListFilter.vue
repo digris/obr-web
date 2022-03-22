@@ -81,24 +81,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="list-filter"
-  >
-    <div
-      class="tag-list"
-      :class="{'is-loading': isLoading}"
-    >
+  <div class="list-filter">
+    <div class="tag-list" :class="{ 'is-loading': isLoading }">
       <div>
-        <Query
-          v-if="searchQuery"
-          :q="searchQuery"
-          @click="clearSearchQuery"
-        />
+        <Query v-if="searchQuery" :q="searchQuery" @click="clearSearchQuery" />
         <Tag
           v-for="tag in moodTags"
           :key="`tag-list-tag-${tag.uid}`"
           :tag="tag"
-          :selected="(selectedTags.includes(tag.uid))"
+          :selected="selectedTags.includes(tag.uid)"
           @click="toggleTag"
         />
       </div>
@@ -107,7 +98,7 @@ export default defineComponent({
           v-for="tag in otherTags"
           :key="`tag-list-tag-${tag.uid}`"
           :tag="tag"
-          :selected="(selectedTags.includes(tag.uid))"
+          :selected="selectedTags.includes(tag.uid)"
           @click="toggleTag"
         />
       </div>

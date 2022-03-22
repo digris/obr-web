@@ -20,11 +20,11 @@ export default {
   methods: {
     seek(e) {
       if (this.isLive) {
-        console.warn('no seek in live mode!');
+        console.warn("no seek in live mode!");
         return;
       }
       const relPosition = e.offsetX / this.$el.getBoundingClientRect().width;
-      this.$emit('seek', relPosition);
+      this.$emit("seek", relPosition);
     },
   },
 };
@@ -36,28 +36,12 @@ export default {
     :class="{
       'is-live': isLive,
       'is-playing': isPlaying,
-      'is-buffering': isBuffering
+      'is-buffering': isBuffering,
     }"
   >
-    <svg
-      viewBox="0 0 1000 32"
-      preserveAspectRatio="none"
-      fill="transparent"
-      @click="seek"
-    >
-      <rect
-        x="0"
-        y="0"
-        width="100%"
-        height="32"
-      />
-      <rect
-        x="0"
-        y="12"
-        width="100%"
-        height="8"
-        class="progress-total"
-      />
+    <svg viewBox="0 0 1000 32" preserveAspectRatio="none" fill="transparent" @click="seek">
+      <rect x="0" y="0" width="100%" height="32" />
+      <rect x="0" y="12" width="100%" height="8" class="progress-total" />
       <rect
         v-if="relPosition"
         x="0"

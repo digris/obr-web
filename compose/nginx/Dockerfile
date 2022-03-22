@@ -1,5 +1,9 @@
 FROM nginx:1.21
 
+RUN apt-get update && apt-get install -y \
+    nginx-extras \
+    libnginx-mod-http-headers-more-filter
+
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD default.conf.template /etc/nginx/templates/default.conf.template
 

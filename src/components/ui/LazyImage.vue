@@ -1,11 +1,11 @@
 <script>
-import { computed, ref, watch } from 'vue';
-// eslint-disable-next-line import/extensions
-import Intersect from '@/components/utils/intersect.js';
-import { getImageColor, getImageSrc } from '@/utils/image';
+import { computed, ref, watch } from "vue";
+import Intersect from "@/components/utils/intersect.js";
+import { getImageColor, getImageSrc } from "@/utils/image";
 
 // eslint-disable-next-line max-len
-const PLACEHOLDER_SRC = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+const PLACEHOLDER_SRC =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 
 export default {
   components: { Intersect },
@@ -41,11 +41,15 @@ export default {
       isLoading.value = true;
       const img = new Image();
       img.src = src.value;
-      img.addEventListener('load', () => {
-        isLoading.value = false;
-        isLoaded.value = true;
-        imageSrc.value = src.value;
-      }, true);
+      img.addEventListener(
+        "load",
+        () => {
+          isLoading.value = false;
+          isLoaded.value = true;
+          imageSrc.value = src.value;
+        },
+        true
+      );
     };
 
     const onEnter = () => {
@@ -61,12 +65,12 @@ export default {
     const cssVars = computed(() => {
       if (!color.value) {
         return {
-          '--c-color': '128,128,128',
+          "--c-color": "128,128,128",
         };
       }
-      const rgb = color.value.join(',');
+      const rgb = color.value.join(",");
       return {
-        '--c-color': rgb,
+        "--c-color": rgb,
       };
     });
 
@@ -78,7 +82,7 @@ export default {
         imageSrc.value = PLACEHOLDER_SRC;
 
         loadImage();
-      },
+      }
     );
 
     return {
@@ -95,9 +99,7 @@ export default {
 </script>
 
 <template>
-  <Intersect
-    @enter="onEnter"
-  >
+  <Intersect @enter="onEnter">
     <div
       class="lazy-image"
       :style="{
@@ -110,15 +112,11 @@ export default {
         :style="cssVars"
         :class="{
           'is-pending': !isLoaded,
-          'is-loading': isLoading
+          'is-loading': isLoading,
         }"
       />
-      <div
-        class="overlay"
-      >
-        <slot
-          name="default"
-        ></slot>
+      <div class="overlay">
+        <slot name="default"></slot>
       </div>
     </div>
   </Intersect>

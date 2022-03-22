@@ -1,21 +1,21 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 
 export interface Action {
-  label: string,
-  url: string,
+  label: string;
+  url: string;
 }
 
 export interface Message {
-  level: string,
-  body: string,
-  key?: string,
-  seen?: boolean,
-  ttl?: number,
-  action?: Action,
+  level: string;
+  body: string;
+  key?: string;
+  seen?: boolean;
+  ttl?: number;
+  action?: Action;
 }
 
 export interface State {
-  messages: Array<object>,
+  messages: Array<object>;
 }
 
 const state: State = {
@@ -42,15 +42,15 @@ const actions = {
   addMessage: async (context: any, message: Message) => {
     const key = Math.random().toString(36).substring(2);
     const { ttl } = message;
-    context.commit('ADD_MESSAGE', { ...message, key, seen: null });
+    context.commit("ADD_MESSAGE", { ...message, key, seen: null });
     if (ttl) {
       setTimeout(() => {
-        context.commit('DELETE_MESSAGE', key);
+        context.commit("DELETE_MESSAGE", key);
       }, ttl * 1000);
     }
   },
   setMessageSeen: async (context: any, message: Message) => {
-    context.commit('DELETE_MESSAGE', message.key);
+    context.commit("DELETE_MESSAGE", message.key);
   },
 };
 

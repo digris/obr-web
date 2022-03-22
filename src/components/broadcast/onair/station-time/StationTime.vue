@@ -1,23 +1,19 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-import { playStream } from '@/player/stream';
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
+// import { playStream } from '@/player/stream';
 
-import ToggleProgramButton from './ToggleProgramButton.vue';
-import ToggleTimeshiftButton from './ToggleTimeshiftButton.vue';
-// import ResetTimeshiftButton from './ResetTimeshiftButton.vue';
+import ToggleProgramButton from "./ToggleProgramButton.vue";
+import IconClose from "@/components/ui/icon/IconClose.vue";
 
-// const TIMESHIFT_OFFSET = 30;
-
-const zeroPad = (n:number) => {
+const zeroPad = (n: number) => {
   return n > 9 ? `${n}` : `0${n}`;
 };
 
 export default defineComponent({
   components: {
     ToggleProgramButton,
-    ToggleTimeshiftButton,
-    // ResetTimeshiftButton,
+    IconClose,
   },
   props: {
     timeOverwrite: {
@@ -25,17 +21,14 @@ export default defineComponent({
       required: false,
     },
   },
-  emits: [
-    'releaseFocus',
-    'toggleProgram',
-  ],
+  emits: ["releaseFocus", "toggleProgram"],
   setup(props, { emit }) {
     const store = useStore();
     const time = computed(() => {
       if (props.timeOverwrite) {
         return props.timeOverwrite;
       }
-      return store.getters['time/time'];
+      return store.getters["time/time"];
     });
     const hour = computed(() => {
       return zeroPad(time.value.hour);
@@ -47,19 +40,13 @@ export default defineComponent({
       return zeroPad(time.value.second);
     });
     const offset = computed(() => {
-      return store.getters['time/offset'];
+      return store.getters["time/offset"];
     });
-    // const isTimeshifted = computed(() => {
-    //   return offset.value > TIMESHIFT_OFFSET;
-    // });
     const releaseFocus = () => {
-      emit('releaseFocus');
+      emit("releaseFocus");
     };
     const toggleProgram = () => {
-      emit('toggleProgram');
-    };
-    const resetTimeshift = () => {
-      playStream();
+      emit("toggleProgram");
     };
     return {
       time,
@@ -70,39 +57,26 @@ export default defineComponent({
       offset,
       toggleProgram,
       releaseFocus,
-      resetTimeshift,
     };
   },
 });
 </script>
 
 <template>
-  <div
-    class="station-time"
-  >
-    <div
-      class="actions"
-    >
-      <ToggleProgramButton
-        @click.prevent="toggleProgram"
-      />
+  <div class="station-time">
+    <div class="actions">
+      <ToggleProgramButton @click.prevent="toggleProgram" />
     </div>
     <div
       class="container"
+      :class="{
+        'is-past': !!timeOverwrite,
+      }"
     >
-      <div
-        class="time"
-        @click="releaseFocus"
-      >
-        <span
-          class="hour"
-        >{{ hour }}</span>
-        <span
-          class="separator separator--minute"
-        >:</span>
-        <span
-          class="minute"
-        >{{ minute }}</span>
+      <div class="time" @click="releaseFocus">
+        <span class="hour" v-text="hour" />
+        <span class="separator separator--minute" v-text="`:`" />
+        <span class="minute" v-text="minute" />
         <!--
         <span
           class="separator separator--second"
@@ -111,15 +85,10 @@ export default defineComponent({
           class="second"
         >{{ second }}</span>
         -->
+        <IconClose class="icon" :size="36" color="rgb(var(--c-page-fg-inverse))" />
       </div>
     </div>
-    <div
-      class="actions"
-    >
-      <ToggleTimeshiftButton
-        v-if="false"
-      />
-    </div>
+    <div class="actions"></div>
   </div>
 </template>
 <style lang="scss">
@@ -161,13 +130,12 @@ $height: 48px;
   user-select: none;
   .time {
     display: grid;
-    flex-grow: 1;
-    //grid-template-columns: 64px 32px 64px 32px 64px;
-    grid-template-columns: 64px 32px 64px;
+    //flex-grow: 1;
+    grid-template-columns: 1em 0.5em 1em;
     align-items: center;
     justify-content: center;
-
-    //padding-left: $height;
+    font-size: 64px;
+    transition: background-color 20ms, color 100ms, font-size 200ms;
     > span {
       justify-self: center;
     }
@@ -175,11 +143,35 @@ $height: 48px;
     .minute,
     .second {
       font-weight: 600;
-      font-size: 64px;
+      font-size: 1em;
     }
     .separator {
-      font-size: 32px;
+      font-size: 0.5em;
       animation: pulsate 2s linear infinite;
+    }
+    .icon {
+      display: none;
+    }
+  }
+  &.is-past {
+    .time {
+      grid-template-columns: 1em 0.75em 1em 1em;
+      background: yellow;
+      font-size: 16px;
+      padding: 0 32px;
+      //height: 48px;
+      border-radius: 24px;
+      @include live-color.bg-inverse;
+      @include live-color.fg-inverse;
+      transition: background-color 1000ms, color 100ms 400ms, font-size 200ms;
+      .separator {
+        font-size: 1em;
+      }
+      .icon {
+        display: flex;
+        cursor: pointer;
+        transition: stroke 1000ms;
+      }
     }
   }
   .time-shift {

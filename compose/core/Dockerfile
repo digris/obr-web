@@ -2,14 +2,14 @@
 # python base image
 #######################################################################
 FROM python:3.10-slim as python-base
-ARG COMMIT=""
+ARG GIT_SHORT_SHA=""
 WORKDIR /root/
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    GIT_COMMIT=$COMMIT
+    GIT_SHORT_SHA=$GIT_SHORT_SHA
 
 RUN set -ex \
     && apt-get update \
@@ -28,7 +28,7 @@ WORKDIR /root/
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.1.11
+    POETRY_VERSION=1.1.13
 
 RUN pip3 install -U pip "poetry==$POETRY_VERSION" \
     && python -m venv /venv

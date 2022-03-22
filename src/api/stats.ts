@@ -1,5 +1,5 @@
-import { APIClient } from '@/api/client';
-import settings from '@/settings';
+import { APIClient } from "@/api/client";
+import settings from "@/settings";
 
 const STATS_ENDPOINT = `${settings.API_BASE_URL}stats/`;
 
@@ -9,7 +9,7 @@ async function createPlayerEvents(events: Array<object>) {
     events: [...events],
   };
   const response = await APIClient.put(url, payload);
-  console.debug('response', response);
+  console.debug("response", response);
   return response;
 }
 

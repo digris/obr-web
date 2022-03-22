@@ -30,20 +30,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleButton
-    :size="(48)"
-    :outlined="(false)"
-    :active="(true)"
-    v-if="user"
-    v-text="initials"
-  />
-  <CircleButton
-    :size="(48)"
-    :outlined="(false)"
-    v-else
-  >
-    <IconMenu
-      :size="(48)"
-    />
+  <CircleButton :size="48" :outlined="false" :active="true" v-if="user" v-text="initials" />
+  <CircleButton :size="48" :outlined="false" v-else>
+    <IconMenu :size="48" />
   </CircleButton>
 </template>

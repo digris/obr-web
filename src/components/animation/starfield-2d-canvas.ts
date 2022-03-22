@@ -3,7 +3,7 @@
 const { requestAnimationFrame, cancelAnimationFrame } = window;
 
 const randomForMinMax = (min: number, max: number) => {
-  return min + (Math.random() * (max - min));
+  return min + Math.random() * (max - min);
 };
 
 const randomXYZ = (width: number, height: number, depth: number) => {
@@ -38,37 +38,37 @@ class Point {
 }
 
 class Starfield {
-  ctx: CanvasRenderingContext2D|null;
+  ctx: CanvasRenderingContext2D | null;
 
-  animationId: number = -1;
+  animationId = -1;
 
   width: number;
 
   height: number;
 
-  x: number = 0;
+  x = 0;
 
-  y: number = 0;
+  y = 0;
 
-  originX: number = 0;
+  originX = 0;
 
-  originY: number = 0;
+  originY = 0;
 
-  depth: number = 1000;
+  depth = 1000;
 
-  maxPointSize: number = 8;
+  maxPointSize = 8;
 
   points: Array<Point> = [];
 
-  lastRenderTime: number = 0;
+  lastRenderTime = 0;
 
   constructor(canvas: HTMLCanvasElement) {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     // @ts-ignore
     window.ctx = ctx;
     if (ctx) {
-      ctx.fillStyle = 'rgb(0,0,0)';
-      ctx.shadowColor = 'rgb(255,255,255)';
+      ctx.fillStyle = "rgb(0,0,0)";
+      ctx.shadowColor = "rgb(255,255,255)";
       ctx.globalAlpha = 0.9;
     }
     this.width = canvas.width;
@@ -81,27 +81,27 @@ class Starfield {
     this.initializeOrigin();
     this.initializePoints(200);
     this.run(0);
-  }
+  };
 
   stop = () => {
     cancelAnimationFrame(this.animationId);
-  }
+  };
 
   resume = () => {
     this.run(0);
-  }
+  };
 
   run = (time: number) => {
     this.render(time).then(() => {});
     this.animationId = requestAnimationFrame(this.run);
-  }
+  };
 
   initializeOrigin = () => {
     this.originX = Math.round(this.width / 2);
     this.originY = Math.round(this.height / 2);
-  }
+  };
 
-  initializePoints = (numPoints: number = 0) => {
+  initializePoints = (numPoints = 0) => {
     const points = [];
     for (let i = 0; i < numPoints; i += 1) {
       const { x, y, z } = randomXYZ(this.width, this.height, this.depth);
@@ -110,7 +110,7 @@ class Starfield {
     }
     this.points = points;
     console.table(this.points);
-  }
+  };
 
   updatePoints = async (step: number) => {
     for (let i = 0; i < this.points.length; i += 1) {
@@ -123,7 +123,7 @@ class Starfield {
         point.setXYZ(x, y, z);
       }
     }
-  }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   drawPoint = (point: Point) => {
@@ -137,10 +137,10 @@ class Starfield {
       this.ctx.ellipse(x, y, size, size, 0, 0, 10);
       this.ctx.fill();
     }
-  }
+  };
 
   async render(time: number) {
-    const timeDelta = (time - this.lastRenderTime);
+    const timeDelta = time - this.lastRenderTime;
     this.lastRenderTime = time;
     const step = timeDelta * 0.05;
     await this.updatePoints(step);

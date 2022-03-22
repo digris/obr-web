@@ -1,31 +1,28 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-} from 'vue';
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     type: {
       type: String,
-      default: 'text',
+      default: "text",
     },
     label: {
       type: String,
-      default: '',
+      default: "",
     },
     autocomplete: {
       type: String,
-      default: 'none',
+      default: "none",
     },
     placeholder: {
       type: String,
-      default: '',
+      default: "",
     },
     minlength: {
       type: Number,
@@ -36,15 +33,11 @@ export default defineComponent({
       default: 128,
     },
   },
-  emits: [
-    'keyup',
-    'change',
-    'update:modelValue',
-  ],
+  emits: ["keyup", "change", "update:modelValue"],
   setup(props, { emit }) {
     const id = ref(`form-text-input-${Math.random().toString(36).slice(2)}`);
     const update = (value: string) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
     };
     return {
       id,
@@ -55,14 +48,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="text-input"
-  >
-    <label
-      v-if="label"
-      :for="id"
-      v-text="label"
-    />
+  <div class="text-input">
+    <label v-if="label" :for="id" v-text="label" />
     <input
       :id="id"
       :value="modelValue"
@@ -74,7 +61,7 @@ export default defineComponent({
       @keyup="$emit('keyup')"
       @change="$emit('change')"
       @input="update($event.target.value)"
-    >
+    />
   </div>
 </template>
 

@@ -1,30 +1,26 @@
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-} from 'vue';
+import { defineComponent, ref, computed } from "vue";
 
 export default defineComponent({
   props: {
     modelValue: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     name: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     value: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     label: {
       type: String,
-      default: '',
+      default: "",
       required: true,
     },
     size: {
@@ -32,16 +28,14 @@ export default defineComponent({
       default: 24,
     },
   },
-  emits: [
-    'update:modelValue',
-  ],
+  emits: ["update:modelValue"],
   setup(props, { emit }) {
     const id = ref(`form-radio-input-${Math.random().toString(36).slice(2)}`);
     const isSelected = computed(() => {
       return props.value === props.modelValue;
     });
     const update = (value: string) => {
-      emit('update:modelValue', value);
+      emit("update:modelValue", value);
     };
     return {
       id,
@@ -67,10 +61,7 @@ export default defineComponent({
       :checked="isSelected"
       @input="update($event.target.value)"
     />
-    <label
-      :for="id"
-      v-text="label"
-    />
+    <label :for="id" v-text="label" />
     <!--
     <pre
       v-text="{
@@ -94,7 +85,7 @@ export default defineComponent({
   + .radio-input {
     margin-top: 0.5rem;
   }
-  input[type=radio] {
+  input[type="radio"] {
     display: grid;
     width: var(--size);
     height: var(--size);

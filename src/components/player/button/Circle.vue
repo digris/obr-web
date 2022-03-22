@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   props: {
@@ -42,10 +42,10 @@ export default defineComponent({
     });
     const cssVars = computed(() => {
       return {
-        '--size': `${props.size}px`,
-        '--c-circle-bg-color': props.backgroundColor,
-        '--outline-width': `${props.outlineWidth}px`,
-        '--outline-opacity': props.outlineOpacity,
+        "--size": `${props.size}px`,
+        "--c-circle-bg-color": props.backgroundColor,
+        "--outline-width": `${props.outlineWidth}px`,
+        "--outline-opacity": props.outlineOpacity,
       };
     });
     return {
@@ -67,9 +67,7 @@ export default defineComponent({
       'has-bg-color': backgroundColor,
     }"
   >
-    <slot
-      name="default"
-    />
+    <slot name="default" />
   </div>
 </template>
 

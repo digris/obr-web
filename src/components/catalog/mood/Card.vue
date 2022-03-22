@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -17,21 +17,12 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="card card--mood"
-  >
-    <router-link
-      class="panel"
-      :to="link"
-    >
-      <div
-        class="name"
-      >
+  <div class="card card--mood">
+    <router-link class="panel" :to="link">
+      <div class="name">
         {{ mood.name }}
       </div>
-      <div
-        class="teaser"
-      >
+      <div class="teaser">
         {{ mood.teaser }}
       </div>
     </router-link>

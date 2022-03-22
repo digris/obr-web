@@ -1,12 +1,9 @@
 <script lang="ts">
-import {
-  ref,
-  defineComponent,
-} from 'vue';
+import { ref, defineComponent } from "vue";
 
-import OverlayPanel from '@/components/ui/panel/OverlayPanel.vue';
-import Section from './Section.vue';
-import Form from './PasswordForm.vue';
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import Section from "./Section.vue";
+import Form from "./PasswordForm.vue";
 
 export default defineComponent({
   components: {
@@ -35,22 +32,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section
-    title="Passwort"
-    @edit="onEdit"
-  >
-    <p
-      class="user-details"
-      v-text="`●●●●●●●●`"
-    />
+  <Section title="Passwort" @edit="onEdit">
+    <p class="user-details" v-text="`●●●●●●●●`" />
   </Section>
-  <OverlayPanel
-    :is-visible="formVisible"
-    @close="hideForm"
-    title="Passwort"
-  >
-    <Form
-      @updated="hideForm"
-    />
+  <OverlayPanel :is-visible="formVisible" @close="hideForm" title="Passwort">
+    <Form @updated="hideForm" />
   </OverlayPanel>
 </template>

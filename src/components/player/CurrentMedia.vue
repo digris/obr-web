@@ -1,8 +1,8 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
-import LazyImage from '@/components/ui/LazyImage.vue';
-import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
+import LazyImage from "@/components/ui/LazyImage.vue";
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 
 export default defineComponent({
   props: {
@@ -24,7 +24,7 @@ export default defineComponent({
       return null;
     });
     const image = computed(() => {
-      return (release.value && release.value.image) ? release.value.image : null;
+      return release.value && release.value.image ? release.value.image : null;
     });
     return {
       release,
@@ -35,9 +35,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="current-media"
-  >
+  <div class="current-media">
     <router-link
       v-if="media"
       class="visual"
@@ -48,14 +46,9 @@ export default defineComponent({
         },
       }"
     >
-      <LazyImage
-        :image="image"
-      />
+      <LazyImage :image="image" />
     </router-link>
-    <div
-      v-if="media"
-      class="metadata"
-    >
+    <div v-if="media" class="metadata">
       <router-link
         class="metadata--primary"
         :to="{
@@ -66,12 +59,8 @@ export default defineComponent({
         }"
         v-text="media.name"
       />
-      <div
-        class="metadata--secondary"
-      >
-        <MediaArtists
-          :artists="media.artists"
-        />
+      <div class="metadata--secondary">
+        <MediaArtists :artists="media.artists" />
       </div>
     </div>
   </div>

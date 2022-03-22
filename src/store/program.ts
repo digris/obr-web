@@ -1,14 +1,14 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
-import { DateTime } from 'luxon';
-import { getProgram } from '@/api/broadcast';
+import { DateTime } from "luxon";
+import { getProgram } from "@/api/broadcast";
 
 export interface Emission {
-  timeStart: DateTime,
-  timeEnd: DateTime,
+  timeStart: DateTime;
+  timeEnd: DateTime;
 }
 
 export interface State {
-  emissions: Array<Emission>,
+  emissions: Array<Emission>;
 }
 
 const state: State = {
@@ -20,8 +20,8 @@ const getters = {
 };
 
 const mutations = {
-  SET_EMISSIONS: (state: State, emissions:Array<any>) => {
-    const parsedEmissions:Array<Emission> = [];
+  SET_EMISSIONS: (state: State, emissions: Array<any>) => {
+    const parsedEmissions: Array<Emission> = [];
     emissions.forEach((el) => {
       const emission = { ...el };
       emission.timeStart = DateTime.fromISO(emission.timeStart);
@@ -35,7 +35,7 @@ const mutations = {
 const actions = {
   loadProgram: async (context: any) => {
     const program = await getProgram();
-    context.commit('SET_EMISSIONS', program.emissions);
+    context.commit("SET_EMISSIONS", program.emissions);
   },
 };
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, ref } from "vue";
+import { useStore } from "vuex";
 
-import AsyncButton from '@/components/ui/button/AsyncButton.vue';
-import APIErrors from '@/components/ui/error/APIErrors.vue';
-import TokenInput from '@/components/account/TokenInput.vue';
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import TokenInput from "@/components/account/TokenInput.vue";
 
-const tokenRegex = new RegExp('^([A-Z0-9]{3})-?([A-Z0-9]{3})$');
+const tokenRegex = new RegExp("^([A-Z0-9]{3})-?([A-Z0-9]{3})$");
 
 export default defineComponent({
   components: {
@@ -18,15 +18,13 @@ export default defineComponent({
     email: {
       type: String,
       required: false,
-      default: '',
+      default: "",
     },
   },
-  emits: [
-    'reset',
-  ],
+  emits: ["reset"],
   setup(props, { emit }) {
     const store = useStore();
-    const token = ref('');
+    const token = ref("");
     const tokenValid = ref(false);
     const errors = ref<Array<string>>([]);
 
@@ -34,11 +32,11 @@ export default defineComponent({
       token.value = value;
       tokenValid.value = tokenRegex.test(value);
       errors.value = [];
-      console.debug('value', value);
+      console.debug("value", value);
     };
 
     const submitForm = async () => {
-      console.debug('submit form');
+      console.debug("submit form");
       if (!tokenValid.value) {
         return;
       }
@@ -48,8 +46,8 @@ export default defineComponent({
         token: token.value,
       };
       try {
-        await store.dispatch('account/loginUserByToken', credentials);
-        await store.dispatch('account/getUser');
+        await store.dispatch("account/loginUserByToken", credentials);
+        await store.dispatch("account/getUser");
         document.location.reload();
       } catch (err) {
         console.warn(err);
@@ -59,7 +57,7 @@ export default defineComponent({
     };
 
     const reset = async () => {
-      emit('reset');
+      emit("reset");
     };
 
     return {
@@ -76,40 +74,19 @@ export default defineComponent({
 
 <template>
   <div>
-    <p
-      class="lead"
-    >
-      Eine E-Mail mit einem Login-Code wurde an {{ email }} geschickt.<br>
-      Falls du keine E-Mail erhalten hast, prüfe deinen Spam Ordner.<br>
-      <a
-        @click.prevent="reset"
-      >E-Mail erneut senden</a>
+    <p class="lead">
+      Eine E-Mail mit einem Login-Code wurde an {{ email }} geschickt.<br />
+      Falls du keine E-Mail erhalten hast, prüfe deinen Spam Ordner.<br />
+      <a @click.prevent="reset">E-Mail erneut senden</a>
     </p>
   </div>
-  <form
-    class="form"
-    @submit.prevent="submitForm"
-  >
-    <TokenInput
-      ref="tokenInputRef"
-      @input="handleTokenInput"
-    />
-    <div
-      class="form-errors"
-      v-if="errors.length"
-    >
-      <APIErrors
-        :errors="errors"
-      />
+  <form class="form" @submit.prevent="submitForm">
+    <TokenInput ref="tokenInputRef" @input="handleTokenInput" />
+    <div class="form-errors" v-if="errors.length">
+      <APIErrors :errors="errors" />
     </div>
-    <div
-      class="input-container submit"
-    >
-      <AsyncButton
-        class="button"
-        @click.prevent="submitForm"
-        :disabled="(!tokenValid)"
-      >
+    <div class="input-container submit">
+      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!tokenValid">
         Anmelden
       </AsyncButton>
     </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { DateTime } from 'luxon';
+import { computed, defineComponent } from "vue";
+import { DateTime } from "luxon";
 
 export default defineComponent({
   props: {
@@ -19,7 +19,7 @@ export default defineComponent({
   },
   setup(props) {
     const parsedValue = computed(() => {
-      if (typeof props.value === 'string') {
+      if (typeof props.value === "string") {
         return DateTime.fromISO(props.value);
       }
       return props.value;
@@ -29,14 +29,14 @@ export default defineComponent({
         return null;
       }
       // @ts-ignore
-      return parsedValue.value.setLocale('de-ch').toLocaleString(DateTime.DATE_SHORT);
+      return parsedValue.value.setLocale("de-ch").toLocaleString(DateTime.DATE_SHORT);
     });
     const timeDisplay = computed(() => {
       if (!props.displayTime) {
         return null;
       }
       // @ts-ignore
-      return parsedValue.value.setLocale('de-ch').toLocaleString(DateTime.TIME_24_SIMPLE);
+      return parsedValue.value.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     return {
       dateDisplay,
@@ -47,21 +47,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <span
-    class="datetime"
-  >
-    <span
-      v-if="dateDisplay"
-      class="datetime__date"
-    >{{ dateDisplay }}</span>
-    <span
-      v-if="(dateDisplay && timeDisplay)"
-      class="datetime__separator"
-    ></span>
-    <span
-      v-if="timeDisplay"
-      class="datetime__time"
-    >{{ timeDisplay }}</span>
+  <span class="datetime">
+    <span v-if="dateDisplay" class="datetime__date">{{ dateDisplay }}</span>
+    <span v-if="dateDisplay && timeDisplay" class="datetime__separator"></span>
+    <span v-if="timeDisplay" class="datetime__time">{{ timeDisplay }}</span>
   </span>
 </template>
 

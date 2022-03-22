@@ -1,34 +1,34 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import { isEqual } from 'lodash-es';
-import store from '@/store';
-import NotFound from '@/views/NotFound.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import { isEqual } from "lodash-es";
+import store from "@/store";
+import NotFound from "@/views/NotFound.vue";
 // import OnAir from '@/views/OnAir.vue';
-import Radio from '@/views/Radio.vue';
-import Program from '@/views/Program.vue';
-import Discover from '@/views/Discover.vue';
-import Collection from '@/views/Collection.vue';
-import Account from '@/views/Account.vue';
-import Page from '@/views/cms/Page.vue';
-import PType from '@/views/PType.vue';
-import EditorList from '@/components/broadcast/editor/List.vue';
-import MoodList from '@/components/catalog/mood/List.vue';
-import MoodDetail from '@/views/catalog/MoodDetail.vue';
-import ArtistList from '@/components/catalog/artist/List.vue';
-import ArtistDetail from '@/views/catalog/ArtistDetail.vue';
-import PlaylistList from '@/components/catalog/playlist/List.vue';
-import PlaylistDetail from '@/views/catalog/PlaylistDetail.vue';
-import EditorDetail from '@/views/broadcast/EditorDetail.vue';
-import MediaList from '@/components/catalog/media/List.vue';
-import MediaDetail from '@/views/catalog/MediaDetail.vue';
-import AccountLogin from '@/components/account/Login.vue';
-import AccountEmailLogin from '@/components/account/EmailLogin.vue';
-import AccountSettings from '@/components/account/settings/Settings.vue';
-// eslint-disable-next-line import/no-unresolved
-import SearchbarAlt from '@/components/filter/SearchbarAlt.vue';
+import Radio from "@/views/Radio.vue";
+import Program from "@/views/Program.vue";
+import Discover from "@/views/Discover.vue";
+import Collection from "@/views/Collection.vue";
+import Account from "@/views/Account.vue";
+import Page from "@/views/cms/Page.vue";
+import PType from "@/views/PType.vue";
+import EditorList from "@/components/broadcast/editor/List.vue";
+import MoodList from "@/components/catalog/mood/List.vue";
+import MoodDetail from "@/views/catalog/MoodDetail.vue";
+import ArtistList from "@/components/catalog/artist/List.vue";
+import ArtistDetail from "@/views/catalog/ArtistDetail.vue";
+import PlaylistList from "@/components/catalog/playlist/List.vue";
+import PlaylistDetail from "@/views/catalog/PlaylistDetail.vue";
+import EditorDetail from "@/views/broadcast/EditorDetail.vue";
+import MediaList from "@/components/catalog/media/List.vue";
+import MediaDetail from "@/views/catalog/MediaDetail.vue";
+import AccountLogin from "@/components/account/Login.vue";
+import AccountEmailLogin from "@/components/account/EmailLogin.vue";
+import AccountSettings from "@/components/account/settings/Settings.vue";
+import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
+import SearchbarAlt from "@/components/filter/SearchbarAlt.vue";
 
-import { getUser } from '@/api/account';
-import { setBodyColorTheme } from '@/utils/color';
-import { parseFilterQuery } from '@/utils/filter';
+import { getUser } from "@/api/account";
+import { setBodyColorTheme } from "@/utils/color";
+import { parseFilterQuery } from "@/utils/filter";
 
 const isAuthenticated = async () => {
   const user = await getUser();
@@ -37,151 +37,226 @@ const isAuthenticated = async () => {
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: "/",
+    name: "home",
     component: Radio,
     meta: {
-      colorTheme: 'live',
+      colorTheme: "live",
     },
   },
   {
-    path: '/program/',
-    name: 'program',
+    path: "/program/",
+    name: "program",
     component: Program,
   },
   {
-    path: '/discover/',
-    name: 'discover',
+    path: "/discover/",
+    name: "discover",
     component: Discover,
     redirect: {
-      name: 'discoverMoods',
+      name: "discoverMoods",
     },
     meta: {
-      title: 'Discover',
+      title: "Discover",
     },
     children: [
       {
-        path: 'moods/',
-        name: 'discoverMoods',
-        component: MoodList,
+        path: "moods/",
+        name: "discoverMoods",
+        // component: MoodList,
+        components: {
+          default: MoodList,
+          header: DiscoverHeader,
+        },
         meta: {
-          title: 'Moods',
+          title: "Moods",
         },
       },
       {
-        path: 'playlists/',
-        name: 'discoverPlaylists',
+        path: "playlists/",
+        name: "discoverPlaylists",
         components: {
           default: PlaylistList,
-          searchbar: SearchbarAlt,
+          header: DiscoverHeader,
         },
         props: {
           default: (route: any) => ({
-            query: route.query,
+            // query: route.query,
+            query: parseFilterQuery(route.query),
           }),
-          searchbar: (route: any) => ({
+          header: (route: any) => ({
             filter: route.query,
           }),
         },
       },
       {
-        path: 'artists/',
-        name: 'discoverArtists',
+        path: "artists/",
+        name: "discoverArtists",
         components: {
           default: ArtistList,
-          searchbar: SearchbarAlt,
+          header: DiscoverHeader,
         },
         props: {
           default: (route: any) => ({
-            query: route.query,
+            // query: route.query,
+            query: parseFilterQuery(route.query),
           }),
-          searchbar: (route: any) => ({
+          header: (route: any) => ({
             filter: route.query,
           }),
         },
       },
       {
-        path: 'tracks/',
-        name: 'discoverMedia',
+        path: "tracks/",
+        name: "discoverMedia",
         components: {
           default: MediaList,
-          searchbar: SearchbarAlt,
+          header: DiscoverHeader,
         },
         props: {
           default: (route: any) => ({
-            query: route.query,
+            // query: route.query,
+            query: parseFilterQuery(route.query),
           }),
-          searchbar: (route: any) => ({
+          header: (route: any) => ({
             filter: route.query,
           }),
         },
       },
       {
-        path: 'editors/',
-        name: 'discoverEditors',
-        component: EditorList,
+        path: "editors/",
+        name: "discoverEditors",
+        components: {
+          default: EditorList,
+          header: DiscoverHeader,
+        },
+      },
+      // testing nested detail components
+      {
+        path: "/discover/moods/:uid/",
+        name: "moodDetail",
+        components: {
+          default: MoodDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+            query: parseFilterQuery(route.query),
+          }),
+        },
+        meta: {
+          colorTheme: "dark",
+        },
+      },
+      {
+        path: "/discover/playlists/:uid/",
+        name: "playlistDetail",
+        components: {
+          default: PlaylistDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
+        meta: {
+          colorTheme: "dark",
+        },
+      },
+      {
+        path: "/discover/artists/:uid/",
+        name: "artistDetail",
+        components: {
+          default: ArtistDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
+        // props: (route: any) => ({
+        //   uid: route.params.uid,
+        // }),
+        meta: {
+          colorTheme: "dark",
+        },
+      },
+      {
+        path: "/discover/editors/:uid/",
+        name: "editorDetail",
+        components: {
+          default: EditorDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
+        meta: {
+          colorTheme: "dark",
+        },
       },
     ],
   },
+  // {
+  //   path: '/discover/playlists/:uid/',
+  //   name: 'playlistDetail',
+  //   component: PlaylistDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
+  // {
+  //   path: '/discover/moods/:uid/',
+  //   name: 'moodDetail',
+  //   component: MoodDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //     query: parseFilterQuery(route.query),
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
+  // {
+  //   path: '/discover/artists/:uid/',
+  //   name: 'artistDetail',
+  //   component: ArtistDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
   {
-    path: '/discover/playlists/:uid/',
-    name: 'playlistDetail',
-    component: PlaylistDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
-  {
-    path: '/discover/moods/:uid/',
-    name: 'moodDetail',
-    component: MoodDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-      query: parseFilterQuery(route.query),
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
-  {
-    path: '/discover/artists/:uid/',
-    name: 'artistDetail',
-    component: ArtistDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
-  {
-    path: '/discover/tracks/:uid/',
-    name: 'mediaDetail',
+    path: "/discover/tracks/:uid/",
+    name: "mediaDetail",
     component: MediaDetail,
     props: (route: any) => ({
       uid: route.params.uid,
     }),
     meta: {
-      colorTheme: 'dark',
+      colorTheme: "dark",
     },
   },
+  // {
+  //   path: '/discover/editors/:uid/',
+  //   name: 'editorDetail',
+  //   component: EditorDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: 'dark',
+  //   },
+  // },
   {
-    path: '/discover/editors/:uid/',
-    name: 'editorDetail',
-    component: EditorDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: 'dark',
-    },
-  },
-  {
-    path: '/collection/',
-    name: 'collection',
+    path: "/collection/",
+    name: "collection",
     component: Collection,
     /*
     beforeEnter: async (to: object, from: object, next: any) => {
@@ -194,19 +269,19 @@ const routes = [
     },
     */
     redirect: {
-      name: 'collectionMedia',
+      name: "collectionMedia",
     },
     children: [
       {
-        path: 'tracks/',
-        name: 'collectionMedia',
+        path: "tracks/",
+        name: "collectionMedia",
         components: {
           default: MediaList,
           searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
-            scope: 'collection',
+            scope: "collection",
             query: route.query,
           }),
           searchbar: (route: any) => ({
@@ -215,15 +290,15 @@ const routes = [
         },
       },
       {
-        path: 'shows/',
-        name: 'collectionPlaylists',
+        path: "shows/",
+        name: "collectionPlaylists",
         components: {
           default: PlaylistList,
           searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
-            scope: 'collection',
+            scope: "collection",
             query: route.query,
           }),
           searchbar: (route: any) => ({
@@ -232,15 +307,15 @@ const routes = [
         },
       },
       {
-        path: 'artists/',
-        name: 'collectionArtists',
+        path: "artists/",
+        name: "collectionArtists",
         components: {
           default: ArtistList,
           searchbar: SearchbarAlt,
         },
         props: {
           default: (route: any) => ({
-            scope: 'collection',
+            scope: "collection",
             query: route.query,
           }),
           searchbar: (route: any) => ({
@@ -251,68 +326,68 @@ const routes = [
     ],
   },
   {
-    path: '/account/',
-    name: 'Account',
+    path: "/account/",
+    name: "Account",
     component: Account,
     redirect: {
-      name: 'accountSettings',
+      name: "accountSettings",
     },
     children: [
       {
-        path: 'login/',
-        name: 'accountLogin',
+        path: "login/",
+        name: "accountLogin",
         component: AccountLogin,
         beforeEnter: async (to: object, from: object, next: any) => {
           const authenticated = await isAuthenticated();
           if (authenticated) {
-            next({ name: 'accountSettings' });
+            next({ name: "accountSettings" });
           } else {
             next();
           }
         },
       },
       {
-        path: 'settings/',
-        name: 'accountSettings',
+        path: "settings/",
+        name: "accountSettings",
         component: AccountSettings,
         beforeEnter: async (to: object, from: object, next: any) => {
           const authenticated = await isAuthenticated();
           if (!authenticated) {
-            next({ name: 'accountLogin' });
+            next({ name: "accountLogin" });
           } else {
             next();
           }
         },
       },
       {
-        path: 'email-login/:signedEmail?/',
-        name: 'accountEmailLogin',
+        path: "email-login/:signedEmail?/",
+        name: "accountEmailLogin",
         component: AccountEmailLogin,
       },
     ],
   },
   {
-    path: '/ptype/',
-    name: 'ptype',
+    path: "/ptype/",
+    name: "ptype",
     component: PType,
   },
   {
-    path: '/:pathMatch(.*)*',
-    name: 'page',
+    path: "/:pathMatch(.*)*",
+    name: "page",
     component: Page,
     props: (route: any) => ({
       path: route.path,
     }),
   },
   {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
     component: NotFound,
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  history: createWebHistory("/"),
   // @ts-ignore
   routes,
   scrollBehavior(to, from, savedPosition) {
@@ -324,16 +399,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const theme = to.meta?.colorTheme ?? 'light';
+  const theme = to.meta?.colorTheme ?? "light";
   // @ts-ignore
   setBodyColorTheme(theme);
   next();
 });
 
 router.beforeEach(async (to, from, next) => {
-  const node = to.matched.slice().reverse().find((r) => r.meta && r.meta.title);
+  const node = to.matched
+    .slice()
+    .reverse()
+    .find((r) => r.meta && r.meta.title);
   if (node) {
-    await store.dispatch('ui/setTitle', node?.meta?.title);
+    await store.dispatch("ui/setTitle", node?.meta?.title);
   }
   // await store.dispatch('ui/setTitle', node?.meta?.title ?? 'open broadcast radio');
   next();

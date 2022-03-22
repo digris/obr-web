@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
 
-import { getRating, postRating } from '@/api/rating';
+import { getRating, postRating } from "@/api/rating";
 
 const state = {
   ratings: [],
@@ -30,7 +30,7 @@ const actions = {
   // @ts-ignore
   loadRating: async (context, key: string) => {
     const rating = await getRating(key);
-    context.commit('SET_RATING', { key, rating });
+    context.commit("SET_RATING", { key, rating });
   },
   updateObjectRatings: async (context: any, objects: Array<any>) => {
     objects.forEach((obj) => {
@@ -39,19 +39,19 @@ const actions = {
         const rating = {
           value: obj.userRating,
         };
-        context.commit('SET_RATING', { key, rating });
+        context.commit("SET_RATING", { key, rating });
       }
     });
   },
   updateRating: async (context: any, vote: object) => {
     // @ts-ignore
     const { key, ...rating } = vote;
-    context.commit('SET_RATING', { key, rating });
+    context.commit("SET_RATING", { key, rating });
     const newRating = await postRating(key, rating);
-    context.commit('SET_RATING', { key, rating: newRating });
+    context.commit("SET_RATING", { key, rating: newRating });
   },
   clearRatings: async (context: any) => {
-    console.debug('clearRatings', context);
+    console.debug("clearRatings", context);
     // context.commit('SET_RATINGS', []);
   },
 };

@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import LazyImage from '@/components/ui/LazyImage.vue';
+import LazyImage from "@/components/ui/LazyImage.vue";
 
 export default defineComponent({
   props: {
@@ -18,24 +18,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <router-link
-    v-if="editor"
-    class="editor"
-    :to="`/discover/editors/${editor.uid}/`"
-  >
-    <div
-      class="visual"
-    >
-      <LazyImage
-        v-if="editor.image"
-        class="image"
-        :image="editor.image"
-        :size="(128)"
-      />
+  <router-link v-if="editor" class="editor" :to="`/discover/editors/${editor.uid}/`">
+    <div class="visual">
+      <LazyImage v-if="editor.image" class="image" :image="editor.image" :size="128" />
     </div>
-    <div
-      class="name"
-    >
+    <div class="name">
       {{ editor.name }}
     </div>
   </router-link>
@@ -80,7 +67,6 @@ export default defineComponent({
     .image {
       width: 2.5rem;
       height: 2.5rem;
-
     }
   }
   @include responsive.on-hover {

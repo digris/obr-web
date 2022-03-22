@@ -1,10 +1,5 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  onUpdated,
-  ref,
-} from 'vue';
+import { defineComponent, onMounted, onUpdated, ref } from "vue";
 
 export default defineComponent({
   props: {
@@ -13,29 +8,27 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'close',
-  ],
+  emits: ["close"],
   setup(props, { slots, emit }) {
     const close = () => {
-      emit('close');
+      emit("close");
     };
     const hasFeedback = ref(false);
-    const feedbackClass = ref('is-info');
+    const feedbackClass = ref("is-info");
 
     onUpdated(() => {
       hasFeedback.value = !!(slots.warning || slots.success || slots.info);
       if (slots.warning) {
-        feedbackClass.value = 'is-warning';
+        feedbackClass.value = "is-warning";
       }
       if (slots.success) {
-        feedbackClass.value = 'is-success';
+        feedbackClass.value = "is-success";
       }
     });
 
     onMounted(() => {
-      document.addEventListener('keydown', (e) => {
-        if (props.isVisible && e.code === 'Escape') {
+      document.addEventListener("keydown", (e) => {
+        if (props.isVisible && e.code === "Escape") {
           close();
         }
       });
@@ -49,66 +42,27 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition
-    name="fade"
-  >
-    <div
-      v-if="isVisible"
-      class="mask"
-    >
-      <div
-        v-if="isVisible"
-        class="modal"
-      >
-        <div
-          class="modal__header"
-        >
-          <h2
-            class="title"
-          >
-            <slot
-              name="title"
-            />
+  <transition name="fade">
+    <div v-if="isVisible" class="mask">
+      <div v-if="isVisible" class="modal">
+        <div class="modal__header">
+          <h2 class="title">
+            <slot name="title" />
           </h2>
-          <button
-            @click.prevent="close"
-            class="close-button"
-          >
-            X
-          </button>
+          <button @click.prevent="close" class="close-button">X</button>
         </div>
-        <div
-          class="modal__body"
-        >
-          <slot
-            name="default"
-          />
+        <div class="modal__body">
+          <slot name="default" />
         </div>
-        <div
-          class="modal__footer"
-        >
-          <slot
-            name="footer"
-          />
+        <div class="modal__footer">
+          <slot name="footer" />
         </div>
         <!-- full-screen overlay for feedback (errors / success / info) -->
-        <transition
-          name="fade"
-        >
-          <div
-            v-if="hasFeedback"
-            class="modal__feedback"
-            :class="feedbackClass"
-          >
-            <slot
-              name="warning"
-            />
-            <slot
-              name="success"
-            />
-            <slot
-              name="info"
-            />
+        <transition name="fade">
+          <div v-if="hasFeedback" class="modal__feedback" :class="feedbackClass">
+            <slot name="warning" />
+            <slot name="success" />
+            <slot name="info" />
           </div>
         </transition>
       </div>

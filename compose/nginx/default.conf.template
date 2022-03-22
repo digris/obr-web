@@ -39,8 +39,16 @@ server {
     alias /data/encoded/;
   }
 
-  location /static/ {
-    proxy_pass http://static/static/;
+#  location /static/ {
+#    proxy_pass http://static/static/;
+#    proxy_set_header Host $host:3000;
+#    error_page 502 = @static-fallback;
+#  }
+
+  #location /src/ {
+  location ~ ^/(src|node_modules|@\w+)/(.*)$ {
+    more_set_headers "Content-Type: application/javascript";
+    proxy_pass http://static/$1/$2;
     proxy_set_header Host $host:3000;
     error_page 502 = @static-fallback;
   }
@@ -51,6 +59,7 @@ server {
 
   location / {
     proxy_pass http://core/;
+    proxy_set_header X-Vite-Proxied "on";
     proxy_set_header Host $host:3000;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

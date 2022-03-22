@@ -1,8 +1,5 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-} from 'vue';
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -14,7 +11,7 @@ export default defineComponent({
   },
   setup(props) {
     const cssVars = computed(() => ({
-      '--c-star-rgb': props.color.join(','),
+      "--c-star-rgb": props.color.join(","),
     }));
     return {
       cssVars,
@@ -24,25 +21,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="space"
-    :style="cssVars"
-  >
-    <div
-      class="stars"
-    ></div>
-    <div
-      class="stars"
-    ></div>
-    <div
-      class="stars"
-    ></div>
-    <div
-      class="stars"
-    ></div>
-    <div
-      class="stars"
-    ></div>
+  <div class="space" :style="cssVars">
+    <div class="stars"></div>
+    <div class="stars"></div>
+    <div class="stars"></div>
+    <div class="stars"></div>
+    <div class="stars"></div>
   </div>
 </template>
 
@@ -85,42 +69,41 @@ export default defineComponent({
     radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
     radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
   */
-  background-image:
-    radial-gradient(
+  background-image: radial-gradient(
       2px 2px at 20px 30px,
-      rgba(var(--c-star-rgb),1),
-      rgba(var(--c-star-rgb),0.8) 90%,
-      rgba(var(--c-star-rgb),0) 100%
+      rgba(var(--c-star-rgb), 1),
+      rgba(var(--c-star-rgb), 0.8) 90%,
+      rgba(var(--c-star-rgb), 0) 100%
     ),
     radial-gradient(
       2px 2px at 40px 70px,
-      rgba(var(--c-star-rgb),1),
-      rgba(var(--c-star-rgb),0.8) 90%,
-      rgba(var(--c-star-rgb),0) 100%
+      rgba(var(--c-star-rgb), 1),
+      rgba(var(--c-star-rgb), 0.8) 90%,
+      rgba(var(--c-star-rgb), 0) 100%
     ),
     radial-gradient(
       2px 2px at 50px 160px,
-      rgba(var(--c-star-rgb),1),
-      rgba(var(--c-star-rgb),0.8) 90%,
-      rgba(var(--c-star-rgb),0) 100%
+      rgba(var(--c-star-rgb), 1),
+      rgba(var(--c-star-rgb), 0.8) 90%,
+      rgba(var(--c-star-rgb), 0) 100%
     ),
     radial-gradient(
       2px 2px at 90px 40px,
-      rgba(var(--c-star-rgb),1),
-      rgba(var(--c-star-rgb),0.8) 90%,
-      rgba(var(--c-star-rgb),0) 100%
+      rgba(var(--c-star-rgb), 1),
+      rgba(var(--c-star-rgb), 0.8) 90%,
+      rgba(var(--c-star-rgb), 0) 100%
     ),
     radial-gradient(
       2px 2px at 130px 80px,
-      rgba(var(--c-star-rgb),1),
-      rgba(var(--c-star-rgb),0.8) 90%,
-      rgba(var(--c-star-rgb),0) 100%
+      rgba(var(--c-star-rgb), 1),
+      rgba(var(--c-star-rgb), 0.8) 90%,
+      rgba(var(--c-star-rgb), 0) 100%
     ),
     radial-gradient(
       2px 2px at 160px 120px,
-      rgba(var(--c-star-rgb),1),
-      rgba(var(--c-star-rgb),0.8) 90%,
-      rgba(var(--c-star-rgb),0) 100%
+      rgba(var(--c-star-rgb), 1),
+      rgba(var(--c-star-rgb), 0.8) 90%,
+      rgba(var(--c-star-rgb), 0) 100%
     );
   /*
   background-image:

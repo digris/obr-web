@@ -1,9 +1,9 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // import CircleButton from '@/components/ui/button/CircleButton.vue';
 // import IconContext from '@/components/ui/icon/IconContext.vue';
-import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
+import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
 
 export default defineComponent({
   components: {
@@ -35,19 +35,11 @@ export default defineComponent({
       'is-loading': isLoading,
     }"
   >
-    <div
-      class="container"
-    >
-      <div
-        class="play"
-      >
-        <ButtonPlay
-          :is-buffering="isLoading"
-        />
+    <div class="container">
+      <div class="play">
+        <ButtonPlay :is-buffering="isLoading" />
       </div>
-      <div
-        class="info"
-      >
+      <div class="info">
         <!--
         <div
           class="text"
@@ -55,15 +47,9 @@ export default defineComponent({
           Alle {{ numTotal }} Tracks spielen
         </div>
         -->
-        <div
-          class="text"
-        >
-          Alle Tracks spielen
-        </div>
+        <div class="text">Alle Tracks spielen</div>
       </div>
-      <div
-        class="actions"
-      >
+      <div class="actions">
         <!--
         <CircleButton
           :size="(48)"
@@ -115,6 +101,5 @@ export default defineComponent({
   .actions {
     justify-self: flex-end;
   }
-
 }
 </style>
