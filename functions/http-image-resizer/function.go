@@ -268,21 +268,19 @@ func ReadImageFS(path string, file string) (image.Image, string, error) {
 func CropImage(img image.Image, w, h int, resize bool) image.Image {
 	width, height := GetCropDimensions(img, w, h)
 	resizer := nfnt.NewDefaultResizer()
-	analyzer := smartcrop.NewAnalyzer(resizer)
-	topCrop, _ := analyzer.FindBestCrop(img, width, height)
-
+	cropRect := GetCropRectangle(img, w, h)
 	type SubImager interface {
 		SubImage(r image.Rectangle) image.Image
 	}
-	img = img.(SubImager).SubImage(topCrop)
+	img = img.(SubImager).SubImage(cropRect)
 	if resize && (img.Bounds().Dx() != width || img.Bounds().Dy() != height) {
 		img = resizer.Resize(img, uint(width), uint(height))
 	}
+	// 	fmt.Println("crop img:", img)
 	return img
 }
 
 func GetCropDimensions(img image.Image, width, height int) (int, int) {
-	// if we don't have width or height set use the smaller image dimension as both width and height
 	if width == 0 && height == 0 {
 		bounds := img.Bounds()
 		x := bounds.Dx()
@@ -296,6 +294,28 @@ func GetCropDimensions(img image.Image, width, height int) (int, int) {
 		}
 	}
 	return width, height
+}
+
+func GetCropRectangle(img image.Image, w, h int) image.Rectangle {
+	resizer := nfnt.NewDefaultResizer()
+	analyzer := smartcrop.NewAnalyzer(resizer)
+	rectangle, _ := analyzer.FindBestCrop(img, w, h)
+	if rectangle.Max.X == 0 || rectangle.Max.Y == 0 {
+		bounds := img.Bounds()
+		x := bounds.Dx()
+		y := bounds.Dy()
+		if x < y {
+			rectangle.Max.X = x
+			rectangle.Max.Y = x
+		} else {
+			rectangle.Max.X = y
+			rectangle.Max.Y = y
+		}
+	}
+	log.WithFields(log.Fields{
+		"rectangle": rectangle,
+	}).Debug("parse path")
+	return rectangle
 }
 
 func ScaleImage(img image.Image, w, h int, fill bool) image.Image {
