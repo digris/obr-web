@@ -48,8 +48,8 @@ jobs:
       # build & push image
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-        with:
-          driver-opts: image=moby/buildkit:buildx-stable-1
+#        with:
+#          driver-opts: image=moby/buildkit:buildx-stable-1
 
       - name: Extract metadata (tags, labels) for image
         id: meta
@@ -68,7 +68,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
             gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{  github.sha }}
-            ${{ steps.meta.outputs.tags }}
 
       - name: Deploy to GCP cloud run
         run: gcloud builds submit --config gcp/migrate-deploy.yaml --timeout=1200
