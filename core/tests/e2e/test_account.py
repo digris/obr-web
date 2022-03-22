@@ -37,11 +37,11 @@ def driver_init(request):
     options = Options()
     options.add_argument("--headless")
     # options.add_argument("--auto-open-devtools-for-tabs")
-    os.mkdir('screenshots')
+    os.mkdir("screenshots")
     driver = webdriver.Chrome(options=options)
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 900)
-    driver.implicitly_wait(20)
+    driver.implicitly_wait(30)
     print("driver window:", driver.__dict__)
     print("driver window:", driver.get_window_size())
     request.cls.driver = driver
@@ -62,7 +62,8 @@ class TestAccount:
         # body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body
 
-        self.driver.save_screenshot('screenshots/index.png')
+        time.sleep(10)
+        self.driver.save_screenshot("screenshots/index.png")
         return
 
         self.driver.find_element(By.XPATH, "//a[normalize-space()='Login']").click()

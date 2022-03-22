@@ -2,7 +2,7 @@ name: Create and publish a Docker image
 
 on:
   push:
-    branches: ['release']
+    branches: ['migrate-webpack-to-vite']
 
 env:
   REGISTRY: ghcr.io
