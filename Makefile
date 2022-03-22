@@ -22,9 +22,16 @@ fix:
 	find ./core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
 	black ./core/
 
-test:
+test-be:
 # 	pytest --ds core.settings.test ./core/
 	pytest -m "e2e" -s ./core/tests/
+
+test-fe:
+	yarn test:unit
+
+test:
+	make test-be
+	make test-fe
 
 docker-image:
 	docker build --build-arg GIT_SHORT_SHA=$(GIT_SHORT_SHA) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
