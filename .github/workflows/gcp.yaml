@@ -67,8 +67,7 @@ jobs:
 #          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           tags: |
-            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{  github.sha }}
-            ${{ steps.meta.outputs.tags }}
+            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}
 
       - name: Deploy to GCP cloud run
         run: gcloud builds submit --config gcp/migrate-deploy.yaml --timeout=1200 --async
