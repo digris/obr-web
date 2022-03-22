@@ -40,8 +40,8 @@ def driver_init(request):
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 900)
     driver.implicitly_wait(20)
-    print('driver window:', driver.__dict__)
-    print('driver window:', driver.get_window_size())
+    print("driver window:", driver.__dict__)
+    print("driver window:", driver.get_window_size())
     request.cls.driver = driver
     yield
     driver.close()
