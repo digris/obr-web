@@ -6,6 +6,7 @@ env:
   GH_REGISTRY: ghcr.io
   GCP_PROJECT_ID: open-broadcast
   GCP_SERVICE: obr-web
+  IMAGE_NAME: obr-web
 
 jobs:
   deploy:
