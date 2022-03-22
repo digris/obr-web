@@ -38,6 +38,31 @@ jobs:
     name: Backend tests
 
     steps:
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.9'
+      - run: pip install poetry==1.1.13
+      - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
+      - run: make test-be
+
+  test-fe:
+    runs-on: ubuntu-latest
+    name: Frontend tests
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm install -g yarn
+      - run: yarn install --dev
+      - run: yarn test:unit
+
+  test-e2e:
+    runs-on: ubuntu-latest
+    name: End-t-end tests
+
+    steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
@@ -50,7 +75,7 @@ jobs:
       - run: yarn build
       - run: pip install poetry==1.1.13
       - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
-      - run: make test-be
+      - run: make test-e2e
       - uses: actions/upload-artifact@v3
         with:
           name: e2e-test-screenshots
@@ -58,7 +83,7 @@ jobs:
 
 
   deploy:
-    needs: [preflight-fe, preflight-be, test-be]
+    needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
