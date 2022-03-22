@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
   },
   setup(props) {
@@ -20,7 +20,7 @@ export default defineComponent({
         stroke: props.color,
         strokeWidth: 3,
         strokeMiterlimit: 10,
-        fill: 'transparent',
+        fill: "transparent",
         transform: `scale(${props.size / BASE_SIZE})`,
       };
     });
@@ -38,16 +38,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <circle
-      cx="23.5"
-      cy="23"
-      r="7"
-    />
-    <line
-      x1="27.5"
-      y1="28"
-      x2="33.5"
-      y2="34"
-    />
+    <circle cx="23.5" cy="23" r="7" />
+    <line x1="27.5" y1="28" x2="33.5" y2="34" />
   </svg>
 </template>

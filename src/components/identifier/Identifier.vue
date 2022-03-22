@@ -1,11 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 const SCOPE_DISPLAY = {
-  wikipedia: 'Wikipedia',
-  musicbrainz: 'Musicbrainz',
-  discogs: 'Discogs',
-  official: 'Official website',
+  wikipedia: "Wikipedia",
+  musicbrainz: "Musicbrainz",
+  discogs: "Discogs",
+  official: "Official website",
 };
 
 export default defineComponent({

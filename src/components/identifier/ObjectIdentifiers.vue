@@ -1,10 +1,7 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-} from 'vue';
+import { computed, defineComponent } from "vue";
 
-import Identifier from './Identifier.vue';
+import Identifier from "./Identifier.vue";
 
 export default defineComponent({
   components: {
@@ -21,11 +18,11 @@ export default defineComponent({
     },
     separator: {
       type: String,
-      default: ', ',
+      default: ", ",
     },
     spacing: {
       type: String,
-      default: '0.5rem',
+      default: "0.5rem",
     },
   },
   setup(props) {
@@ -34,7 +31,7 @@ export default defineComponent({
     });
     const identifiers = computed(() => {
       // eslint-disable-next-line max-len
-      return (props.obj && props.obj.identifiers) ? props.obj.identifiers.slice(0, props.limit) : [];
+      return props.obj && props.obj.identifiers ? props.obj.identifiers.slice(0, props.limit) : [];
     });
     return {
       keyPrefix,

@@ -1,10 +1,7 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-} from 'vue';
+import { computed, defineComponent } from "vue";
 
-import ScheduleItem from '@/components/broadcast/onair/ScheduleItem.vue';
+import ScheduleItem from "@/components/broadcast/onair/ScheduleItem.vue";
 
 export default defineComponent({
   components: {
@@ -24,21 +21,19 @@ export default defineComponent({
       default: 0,
     },
   },
-  emits: [
-    'onFocus',
-  ],
+  emits: ["onFocus"],
   setup(props, { emit }) {
     const cssVars = computed(() => ({
-      '--item-size': `${props.itemSize}px`,
-      '--item-offset': `${props.itemSize * 0.12}px`,
+      "--item-size": `${props.itemSize}px`,
+      "--item-offset": `${props.itemSize * 0.12}px`,
     }));
-    const setFocus = (key:string) => {
-      emit('onFocus', key);
+    const setFocus = (key: string) => {
+      emit("onFocus", key);
     };
     const play = () => {
       // TODO: not needed without time-shift
       setTimeout(() => {
-        emit('onFocus', '');
+        emit("onFocus", "");
       }, 2000);
     };
     return {
@@ -51,16 +46,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="schedule"
-    :style="cssVars"
-  >
+  <div class="schedule" :style="cssVars">
     <ScheduleItem
       v-for="(item, index) in items"
-      :key="`schedule-item-${(item) ? item.key : index}`"
+      :key="`schedule-item-${item ? item.key : index}`"
       :schedule-item="item"
-      :has-focus="(index === 1)"
-      :is-current="(item === current)"
+      :has-focus="index === 1"
+      :is-current="item === current"
       :class="`pos-${index}`"
       @play="play"
       @click="setFocus(item.key)"
@@ -107,17 +99,17 @@ export default defineComponent({
     transform: translateX(calc(var(--item-offset) * -3)) scale(0.4);
     opacity: 0;
   }
-  &:nth-child(n+6) {
+  &:nth-child(n + 6) {
     z-index: 6;
     transform: translateX(calc(var(--item-offset) * -4)) scale(0.2);
     opacity: 0;
   }
-  &:nth-child(n+3) {
+  &:nth-child(n + 3) {
     filter: grayscale(100%);
   }
   &.is-next {
     z-index: 11;
-    transform: translateX(600px) scale(3.0);
+    transform: translateX(600px) scale(3);
     opacity: 0.1;
     pointer-events: none;
   }

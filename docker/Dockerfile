@@ -2,7 +2,7 @@
 # node based builder to build front end / vue.js
 #######################################################################
 #FROM node:lts-alpine as node-builder
-FROM node:14-slim as node-builder
+FROM node:16-slim as node-builder
 
 WORKDIR /root/
 
@@ -12,13 +12,27 @@ RUN set -ex \
         git
 
 COPY ["yarn.lock", "package.json", "./"]
+
+#ENV NODE_ENV=production
+
 RUN yarn install
 
 ENV NODE_ENV=production
 
-COPY ["tsconfig.json", "babel.config.js", "vue.config.js", ".eslintrc.js", "./"]
+COPY [ \
+  "tsconfig.json", \
+  "vite.config.ts", \
+  "tsconfig.vite-config.json", \
+  "tsconfig.app.json", \
+  "tsconfig.vitest.json", \
+  ".eslintrc.cjs", \
+  "./" \
+]
+
 ADD ./src/ ./src/
+
 RUN yarn build
+
 # TODO: maybe use webpack to handle assets?
 ADD ./src/assets/ ./build/assets/
 
@@ -52,7 +66,7 @@ WORKDIR /root/
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.1.11
+    POETRY_VERSION=1.1.13
 
 RUN pip3 install -U pip "poetry==$POETRY_VERSION" \
     && python -m venv /venv
@@ -61,7 +75,11 @@ COPY ["pyproject.toml","poetry.lock", "./"]
 
 # https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker
 # NOTE: --without-hashes is temporary here to allow install pacvkages from git (only pypi supports hashes)
-RUN poetry export --without-hashes -f requirements.txt | /venv/bin/pip install -r /dev/stdin
+RUN poetry export \
+    --without-hashes \
+    -f requirements.txt \
+    | /venv/bin/pip install \
+    -r /dev/stdin
 
 ADD ./core/ ./core/
 

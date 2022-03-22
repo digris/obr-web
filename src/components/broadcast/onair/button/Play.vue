@@ -1,10 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { usePlayerState } from '@/composables/player';
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconPlay from '@/components/ui/icon/IconPlay.vue';
-import IconBuffering from '@/components/ui/icon/IconBuffering.vue';
-import IconPlaying from '@/components/ui/icon/IconPlaying.vue';
+import { computed, defineComponent, ref } from "vue";
+import { usePlayerState } from "@/composables/player";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import IconPlay from "@/components/ui/icon/IconPlay.vue";
+import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
+import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
 
 export default defineComponent({
   components: {
@@ -22,20 +22,14 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'play',
-    'pause',
-  ],
+  emits: ["play", "pause"],
   setup(props, { emit }) {
     const isHover = ref(false);
-    const {
-      playerState,
-      currentMedia,
-    } = usePlayerState();
+    const { playerState, currentMedia } = usePlayerState();
     // const isCurrent = computed(() => currentMedia.value?.uid === props.media?.uid);
     const isCurrent = computed(() => {
       // eslint-disable-next-line max-len
-      return (currentMedia.value && props.media) ? currentMedia.value.uid === props.media.uid : false;
+      return currentMedia.value && props.media ? currentMedia.value.uid === props.media.uid : false;
     });
     const isPlaying = computed(() => {
       if (!isCurrent.value) {
@@ -69,13 +63,13 @@ export default defineComponent({
       return IconPlay;
     });
     const isFilled = computed(() => {
-      return (isPlaying.value || isBuffering.value);
+      return isPlaying.value || isBuffering.value;
     });
     const handleClick = () => {
       if (isBuffering.value || isPlaying.value) {
-        emit('pause');
+        emit("pause");
       } else {
-        emit('play');
+        emit("play");
       }
     };
     return {
@@ -93,8 +87,8 @@ export default defineComponent({
 <template>
   <CircleButton
     :size="120"
-    :outline-opacity="(1)"
-    :outline-width="(6)"
+    :outline-opacity="1"
+    :outline-width="6"
     :filled="isFilled"
     @mouseover="isHover = true"
     @mouseleave="isHover = false"
@@ -103,8 +97,8 @@ export default defineComponent({
     <component
       :is="icon"
       :size="96"
-      :color="(isFilled) ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
-      :pause="(isPlaying && isHover)"
+      :color="isFilled ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
+      :pause="isPlaying && isHover"
     />
   </CircleButton>
 </template>

@@ -1,11 +1,7 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onMounted,
-} from 'vue';
-import { useStore } from 'vuex';
-import QueueMedia from '@/components/player/QueueMedia.vue';
+import { computed, defineComponent, onMounted } from "vue";
+import { useStore } from "vuex";
+import QueueMedia from "@/components/player/QueueMedia.vue";
 
 export default defineComponent({
   components: {
@@ -21,21 +17,19 @@ export default defineComponent({
       default: 72,
     },
   },
-  emits: [
-    'close',
-  ],
+  emits: ["close"],
   setup(props, { emit }) {
     const store = useStore();
-    const mediaList = computed(() => store.getters['queue/media']);
+    const mediaList = computed(() => store.getters["queue/media"]);
     // const currentIndex = computed(() => store.getters['queue/currentIndex']);
-    const currentMedia = computed(() => store.getters['queue/currentMedia']);
+    const currentMedia = computed(() => store.getters["queue/currentMedia"]);
     const close = () => {
-      emit('close');
+      emit("close");
     };
 
     onMounted(() => {
-      document.addEventListener('keydown', (e) => {
-        if (props.isVisible && e.code === 'KeyX') {
+      document.addEventListener("keydown", (e) => {
+        if (props.isVisible && e.code === "KeyX") {
           close();
         }
       });
@@ -50,9 +44,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <transition
-    name="slide"
-  >
+  <transition name="slide">
     <div
       v-if="isVisible"
       class="queue"
@@ -60,19 +52,14 @@ export default defineComponent({
         bottom: `${bottom}px`,
       }"
     >
-      <div
-        class="container"
-      >
-        <transition-group
-          name="queue--disabled"
-          mode="out-in"
-        >
+      <div class="container">
+        <transition-group name="queue--disabled" mode="out-in">
           <QueueMedia
             v-for="(media, index) in mediaList"
             :key="`media-row-${media.uid}`"
             :index="index"
             :media="media"
-            :is-current="(media === currentMedia)"
+            :is-current="media === currentMedia"
           />
         </transition-group>
       </div>

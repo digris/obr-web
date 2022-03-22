@@ -8,13 +8,12 @@ preflight-fe:
   stage: preflight
 #  tags:
 #    - node
-  image: node:14-slim
+  image: node:16-slim
   before_script:
     - yarn config set cache-folder .yarn
     - yarn install --dev
   script:
-    - npx stylelint "./src/**/*.(scss|js|vue)"
-    - npx eslint ./src/ --ext .js --ext .vue
+    - yarn lint
 
 deploy:
   stage: deploy

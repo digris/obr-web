@@ -21,5 +21,11 @@
   }
   @include responsive.bp-small {
     flex-direction: column;
+    .menu {
+      &--primary {
+        display: flex;
+        flex-direction: column;
+      }
+    }
   }
 }

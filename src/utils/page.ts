@@ -1,9 +1,7 @@
-import store from '@/store';
+import store from "@/store";
 
 const setPageTitle = async (title: string) => {
-  await store.dispatch('ui/setTitle', title);
+  await store.dispatch("ui/setTitle", title);
 };
 
-export {
-  setPageTitle,
-};
+export { setPageTitle };

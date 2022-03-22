@@ -1,21 +1,16 @@
 <script lang="ts">
-import {
-  ref,
-  computed,
-  defineComponent,
-  onMounted, watch,
-} from 'vue';
+import { ref, computed, defineComponent, onMounted, watch } from "vue";
 
-import { usePlayerState, usePlayerControls } from '@/composables/player';
-import { useQueueControls } from '@/composables/queue';
-import { getContrastColor, getMediaColor } from '@/utils/color';
+import { usePlayerState, usePlayerControls } from "@/composables/player";
+import { useQueueControls } from "@/composables/queue";
+import { getContrastColor, getMediaColor } from "@/utils/color";
 
-import CircleButton from '@/components/ui/button/CircleButton.vue';
-import IconRemove from '@/components/ui/icon/IconRemove.vue';
-import ButtonPlay from '@/components/player/button/ButtonPlay.vue';
-import MediaArtists from '@/components/catalog/media/MediaArtists.vue';
-import MediaReleases from '@/components/catalog/media/MediaReleases.vue';
-import UserRating from '@/components/rating/UserRating.vue';
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import IconRemove from "@/components/ui/icon/IconRemove.vue";
+import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
+import UserRating from "@/components/rating/UserRating.vue";
 
 export default defineComponent({
   components: {
@@ -47,13 +42,8 @@ export default defineComponent({
       isBuffering,
       // currentMedia,
     } = usePlayerState();
-    const {
-      pause,
-    } = usePlayerControls();
-    const {
-      playFromIndex,
-      removeAtIndex,
-    } = useQueueControls();
+    const { pause } = usePlayerControls();
+    const { playFromIndex, removeAtIndex } = useQueueControls();
     const objKey = computed(() => {
       return `${props.media?.ct}:${props.media?.uid}`;
     });
@@ -70,18 +60,18 @@ export default defineComponent({
     const buttonCssVars = computed(() => {
       if (color.value && props.isCurrent) {
         return {
-          '--c-fg': color.value.join(','),
+          "--c-fg": color.value.join(","),
         };
       }
       return {
-        '--c-fg': '0,0,0',
+        "--c-fg": "0,0,0",
       };
     });
     const scrollIntoView = () => {
       // @ts-ignore
       root.value.scrollIntoViewIfNeeded({
-        block: 'end',
-        behavior: 'smooth',
+        block: "end",
+        behavior: "smooth",
       });
     };
     onMounted(() => {
@@ -95,7 +85,7 @@ export default defineComponent({
         if (props.isCurrent) {
           scrollIntoView();
         }
-      },
+      }
     );
     const play = async () => {
       await playFromIndex(props.index);
@@ -134,65 +124,38 @@ export default defineComponent({
       'is-current': isCurrent,
     }"
   >
-    <div
-      class="play"
-    >
+    <div class="play">
       <ButtonPlay
         @click="play"
         @pause="pause"
-        :is-active="(isCurrent)"
-        :is-playing="(isCurrent && isPlaying)"
-        :is-buffering="(isCurrent && isBuffering)"
+        :is-active="isCurrent"
+        :is-playing="isCurrent && isPlaying"
+        :is-buffering="isCurrent && isBuffering"
         :style="buttonCssVars"
         :color="`rgb(${buttonColor.join(',')})`"
       />
     </div>
-    <div
-      class="name"
-    >
+    <div class="name">
       <span>{{ media.name }}</span>
     </div>
-    <div
-      class="artist"
-    >
-      <MediaArtists
-        :link="(false)"
-        :artists="media.artists"
-      />
+    <div class="artist">
+      <MediaArtists :link="false" :artists="media.artists" />
     </div>
-    <div
-      class="release"
-    >
-      <MediaReleases
-        :link="(false)"
-        :releases="media.releases"
-      />
+    <div class="release">
+      <MediaReleases :link="false" :releases="media.releases" />
     </div>
-    <div
-      class="actions"
-    >
-      <CircleButton
-        color-var="--c-white"
-        :size="(48)"
-        :outlined="(false)"
-      >
-        <UserRating
-          color-var="--c-fg"
-          :obj-key="objKey"
-          :icon-size="48"
-        />
+    <div class="actions">
+      <CircleButton color-var="--c-white" :size="48" :outlined="false">
+        <UserRating color-var="--c-fg" :obj-key="objKey" :icon-size="48" />
       </CircleButton>
       <CircleButton
         color-var="--c-fg"
         @click="remove"
-        :disabled="(!canRemove)"
-        :size="(48)"
-        :outlined="(true)"
+        :disabled="!canRemove"
+        :size="48"
+        :outlined="true"
       >
-        <IconRemove
-          color="rgb(var(--c-fg))"
-          :size="36"
-        />
+        <IconRemove color="rgb(var(--c-fg))" :size="36" />
       </CircleButton>
     </div>
   </div>

@@ -1,8 +1,8 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent } from "vue";
+import { useStore } from "vuex";
 
-import CloseButton from './CloseButton.vue';
+import CloseButton from "./CloseButton.vue";
 
 export default defineComponent({
   components: {
@@ -10,9 +10,9 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const messages = computed(() => store.getters['notification/messages']);
+    const messages = computed(() => store.getters["notification/messages"]);
     const setSeen = (message: object) => {
-      store.dispatch('notification/setMessageSeen', message);
+      store.dispatch("notification/setMessageSeen", message);
     };
     return {
       messages,
@@ -23,33 +23,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="notifications"
-  >
+  <div class="notifications">
     <div
       v-for="(message, index) in messages"
       :key="`message-${index}-${message.key}`"
       class="message"
       :class="`is-${message.level}`"
     >
-      <div
-        @click="setSeen(message)"
-        class="close"
-      >
+      <div @click="setSeen(message)" class="close">
         <CloseButton />
       </div>
-      <div
-        class="body"
-        v-text="message.body"
-      />
-      <div
-        v-if="message.action && message.action.label"
-        class="action"
-      >
-        <router-link
-          :to="message.action.url"
-          class="button"
-        >
+      <div class="body" v-text="message.body" />
+      <div v-if="message.action && message.action.label" class="action">
+        <router-link :to="message.action.url" class="button">
           {{ message.action.label }}
         </router-link>
       </div>

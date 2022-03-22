@@ -1,10 +1,10 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
-import { DateTime } from 'luxon';
+import { DateTime } from "luxon";
 
 export interface State {
-  stationTime: DateTime,
-  playheadTime: DateTime | null,
+  stationTime: DateTime;
+  playheadTime: DateTime | null;
 }
 
 const state: State = {
@@ -17,7 +17,7 @@ const getters = {
   playheadTime: (state: State) => state.playheadTime,
   // eslint-disable-next-line arrow-body-style
   time: (state: State) => {
-    return (state.playheadTime) ? state.playheadTime : state.stationTime;
+    return state.playheadTime ? state.playheadTime : state.stationTime;
   },
   // eslint-disable-next-line @typescript-eslint/no-shadow
   offset: (state: State, getters: any) => {
@@ -36,10 +36,10 @@ const mutations = {
 
 const actions = {
   setStationTime: async (context: any, stationTime: DateTime) => {
-    context.commit('SET_STATION_TIME', stationTime);
+    context.commit("SET_STATION_TIME", stationTime);
   },
   setPlayheadTime: async (context: any, playheadTime: DateTime) => {
-    context.commit('SET_PLAYHEAD_TIME', playheadTime);
+    context.commit("SET_PLAYHEAD_TIME", playheadTime);
   },
 };
 

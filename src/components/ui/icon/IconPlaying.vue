@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
     pause: {
       type: Boolean,
@@ -21,7 +21,7 @@ export default defineComponent({
   setup(props) {
     const style = computed(() => {
       return {
-        '--color': props.color,
+        "--color": props.color,
         transform: `scale(${props.size / BASE_SIZE})`,
       };
     });
@@ -39,21 +39,17 @@ export default defineComponent({
       pause: pause,
     }"
   >
-    <div
-      class="bar bar--1"
-    />
-    <div
-      class="bar bar--2"
-    />
-    <div
-      class="bar bar--3"
-    />
+    <div class="bar bar--1" />
+    <div class="bar bar--2" />
+    <div class="bar bar--3" />
   </div>
 </template>
 <style lang="scss">
 //TODO: how to implement keyframes / animations scoped?
 @keyframes eq {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     height: 50%;
   }
   35% {

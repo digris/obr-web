@@ -1,32 +1,39 @@
-import { useIntervalFn } from '@vueuse/core';
-import store from '@/store';
+import { useIntervalFn } from "@vueuse/core";
+import store from "@/store";
 
 class Schedule {
   constructor() {
     const interval = 61 * 1000;
-    useIntervalFn(async () => {
-      await store.dispatch('schedule/loadSchedule');
-    }, interval, { immediateCallback: true });
+    useIntervalFn(
+      async () => {
+        await store.dispatch("schedule/loadSchedule");
+      },
+      interval,
+      { immediateCallback: true }
+    );
 
     // eslint-disable-next-line arrow-body-style
-    store.watch((state: any, getters: any) => {
-      return getters['time/time'];
-    }, (time) => {
-      const current = store.getters['schedule/current'];
-      if (current && current.timeStart <= time && current.timeEnd > time) {
-        // console.debug('current item matches - all fine!');
-        return;
+    store.watch(
+      (state: any, getters: any) => {
+        return getters["time/time"];
+      },
+      (time) => {
+        const current = store.getters["schedule/current"];
+        if (current && current.timeStart <= time && current.timeEnd > time) {
+          // console.debug('current item matches - all fine!');
+          return;
+        }
+        const schedule = store.getters["schedule/schedule"];
+        if (!schedule.length) {
+          // console.debug('schedule empty');
+          return;
+        }
+        const newCurrent = schedule.find((s: any) => s.timeStart <= time && s.timeEnd > time);
+        if (newCurrent) {
+          Schedule.updateCurrent(newCurrent);
+        }
       }
-      const schedule = store.getters['schedule/schedule'];
-      if (!schedule.length) {
-        // console.debug('schedule empty');
-        return;
-      }
-      const newCurrent = schedule.find((s:any) => s.timeStart <= time && s.timeEnd > time);
-      if (newCurrent) {
-        Schedule.updateCurrent(newCurrent);
-      }
-    });
+    );
   }
 
   // static async loadSchedule() {
@@ -34,11 +41,11 @@ class Schedule {
   // }
 
   static async updateCurrent(item: any) {
-    const current = store.getters['schedule/current'];
+    const current = store.getters["schedule/current"];
     if (current && current.key === item.key) {
       return;
     }
-    await store.dispatch('schedule/updateCurrent', item);
+    await store.dispatch("schedule/updateCurrent", item);
   }
 }
 

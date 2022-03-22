@@ -122,39 +122,15 @@ export default defineComponent({
       '--icon-size': `${iconSize}px`,
     }"
   >
-    <div
-      class="context-menu__icon"
-      @click.prevent="show"
-    >
-      <CircleButton
-        :size="iconSize"
-        :outlined="(false)"
-      >
-        <component
-          :is="iconComponent"
-          :size="iconSize"
-          :color="iconColor"
-        />
+    <div class="context-menu__icon" @click.prevent="show">
+      <CircleButton :size="iconSize" :outlined="false">
+        <component :is="iconComponent" :size="iconSize" :color="iconColor" />
       </CircleButton>
     </div>
-    <transition
-      name="slide"
-    >
-      <div
-        class="menu-container"
-        v-if="isVisible"
-        :class="`position-${menuPosition}`"
-      >
-        <div
-          class="menu"
-          ref="menu"
-          @mouseleave="onMenuMouseleave"
-          @mouseenter="onMenuMouseenter"
-        >
-          <ObjectActions
-            :obj="obj"
-            @close="hide"
-          />
+    <transition name="slide">
+      <div class="menu-container" v-if="isVisible" :class="`position-${menuPosition}`">
+        <div class="menu" ref="menu" @mouseleave="onMenuMouseleave" @mouseenter="onMenuMouseenter">
+          <ObjectActions :obj="obj" @close="hide" />
         </div>
       </div>
     </transition>
@@ -177,7 +153,7 @@ export default defineComponent({
       right: 0;
       z-index: 50;
       min-width: 300px;
-      background: rgba(255, 255, 255, 1.0);
+      background: rgba(255, 255, 255, 1);
       border-radius: 4px;
       box-shadow: 0 0 10px rgb(0 0 0 / 30%);
     }
@@ -213,15 +189,13 @@ export default defineComponent({
   }
 }
 .fade-enter-active,
-.fade-leave-active,
-{
+.fade-leave-active {
   opacity: 1;
   transition: opacity 100ms linear;
 }
 
 .fade-enter,
-.fade-leave-to
-{
+.fade-leave-to {
   opacity: 0;
 }
 </style>

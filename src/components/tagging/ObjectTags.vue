@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
-import Tag from './Tag.vue';
+import { computed, defineComponent } from "vue";
+import Tag from "./Tag.vue";
 
 export default defineComponent({
   components: {
@@ -13,7 +13,7 @@ export default defineComponent({
     },
     prefix: {
       type: String,
-      default: '#',
+      default: "#",
     },
     limit: {
       type: Number,
@@ -21,11 +21,11 @@ export default defineComponent({
     },
     separator: {
       type: String,
-      default: ', ',
+      default: ", ",
     },
     spacing: {
       type: String,
-      default: '0.25rem',
+      default: "0.25rem",
     },
   },
   setup(props) {
@@ -33,11 +33,11 @@ export default defineComponent({
       return props.obj?.uid;
     });
     const tags = computed(() => {
-      return (props.obj && props.obj.tags) ? props.obj.tags.slice(0, props.limit) : [];
+      return props.obj && props.obj.tags ? props.obj.tags.slice(0, props.limit) : [];
     });
     const discoverLinkTo = computed(() => {
       return {
-        name: 'discoverMedia',
+        name: "discoverMedia",
         query: {
           tags: tags.value.map((t: any) => t.uid),
         },

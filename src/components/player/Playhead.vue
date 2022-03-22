@@ -1,14 +1,14 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-import { DateTime } from 'luxon';
-import eventBus from '@/eventBus';
-import Progress from './PlayheadProgress.vue';
-import ButtonPlay from './button/ButtonPlay.vue';
-import ButtonSkip from './button/ButtonSkip.vue';
+import { computed, defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import { DateTime } from "luxon";
+import eventBus from "@/eventBus";
+import Progress from "./PlayheadProgress.vue";
+import ButtonPlay from "./button/ButtonPlay.vue";
+import ButtonSkip from "./button/ButtonSkip.vue";
 
-const dt2hhmmss = (dt:any) => dt.toISOString().substr(11, 8);
-const s2hhmmss = (s:number) => dt2hhmmss(new Date(s * 1000));
+const dt2hhmmss = (dt: any) => dt.toISOString().substr(11, 8);
+const s2hhmmss = (s: number) => dt2hhmmss(new Date(s * 1000));
 
 export default defineComponent({
   components: {
@@ -18,7 +18,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const playerState = computed(() => store.getters['player/playerState']);
+    const playerState = computed(() => store.getters["player/playerState"]);
     const isLive = computed(() => playerState.value && playerState.value.isLive);
     const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
     const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
@@ -28,14 +28,14 @@ export default defineComponent({
 
     const strCurrentTime = computed(() => {
       if (!currentTime.value) {
-        return '00:00:00';
+        return "00:00:00";
       }
       if (isLive.value) {
         const dt = DateTime.fromJSDate(currentTime.value);
         return dt.toLocaleString({
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
         });
       }
       return s2hhmmss(currentTime.value);
@@ -43,40 +43,40 @@ export default defineComponent({
 
     const strTotalTime = computed(() => {
       if (isLive.value) {
-        return '--:--:--';
+        return "--:--:--";
       }
       if (!duration.value) {
-        return '00:00:00';
+        return "00:00:00";
       }
       return s2hhmmss(duration.value);
     });
 
-    const hasPrevious = computed(() => store.getters['queue/previousIndex'] !== null);
+    const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
     // const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
     const hasNext = ref(true);
 
     const pause = () => {
-      eventBus.emit('player:controls', { do: 'pause' });
+      eventBus.emit("player:controls", { do: "pause" });
     };
 
     const play = () => {
-      eventBus.emit('player:controls', { do: 'resume' });
+      eventBus.emit("player:controls", { do: "resume" });
     };
 
-    const seek = (pos:number) => {
+    const seek = (pos: number) => {
       const event = {
-        do: 'seek',
+        do: "seek",
         relPosition: pos,
       };
-      eventBus.emit('player:controls', event);
+      eventBus.emit("player:controls", event);
     };
 
     const playNext = () => {
-      eventBus.emit('queue:controls:playNext');
+      eventBus.emit("queue:controls:playNext");
     };
 
     const playPrevious = () => {
-      eventBus.emit('queue:controls:playPrevious');
+      eventBus.emit("queue:controls:playPrevious");
     };
 
     return {
@@ -103,30 +103,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="playhead"
-  >
-    <div
-      class="actions"
-    >
-      <ButtonPlay
-        :is-playing="isPlaying"
-        :is-buffering="isBuffering"
-        @pause="pause"
-        @play="play"
-      />
+  <div class="playhead">
+    <div class="actions">
+      <ButtonPlay :is-playing="isPlaying" :is-buffering="isBuffering" @pause="pause" @play="play" />
     </div>
-    <div
-      class="progress"
-    >
-      <div
-        class="time time--current"
-      >
+    <div class="progress">
+      <div class="time time--current">
         <span>{{ strCurrentTime }}</span>
       </div>
-      <div
-        class="time time--total"
-      >
+      <div class="time time--total">
         <span>{{ strTotalTime }}</span>
       </div>
       <Progress
@@ -137,15 +122,8 @@ export default defineComponent({
         @seek="seek"
       />
     </div>
-    <div
-      class="actions"
-    >
-      <ButtonSkip
-        v-if="(!isLive)"
-        :size="(48)"
-        :disabled="(!hasNext)"
-        @click.prevent="playNext"
-      />
+    <div class="actions">
+      <ButtonSkip v-if="!isLive" :size="48" :disabled="!hasNext" @click.prevent="playNext" />
     </div>
   </div>
 </template>

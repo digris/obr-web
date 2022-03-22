@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 const BASE_SIZE = 48;
 
@@ -11,7 +11,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-page-bg))',
+      default: "rgb(var(--c-page-bg))",
     },
     rotate: {
       type: Number,
@@ -39,16 +39,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <polygon
-      class="fill"
-      points="30,24 15,15 15,33"
-    />
-    <rect
-      class="fill"
-      x="30.5"
-      y="15"
-      width="3"
-      height="18"
-    />
+    <polygon class="fill" points="30,24 15,15 15,33" />
+    <rect class="fill" x="30.5" y="15" width="3" height="18" />
   </svg>
 </template>

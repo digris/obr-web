@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: {
@@ -9,11 +9,11 @@ export default defineComponent({
     },
     prefix: {
       type: String,
-      default: '',
+      default: "",
     },
     suffix: {
       type: String,
-      default: '',
+      default: "",
     },
   },
   setup(props) {
@@ -28,11 +28,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div
-    class="tag"
-    :class="`tag--${tag.type}`"
-    v-text="display"
-  />
+  <div class="tag" :class="`tag--${tag.type}`" v-text="display" />
 </template>
 
 <style lang="scss" scoped>

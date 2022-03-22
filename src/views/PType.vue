@@ -1,19 +1,13 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: {},
 });
 </script>
 <template>
-  <div
-    class="ptype-view"
-  >
-    <div
-      class="stage"
-    >
-      (( STAGE ))
-    </div>
+  <div class="ptype-view">
+    <div class="stage">(( STAGE ))</div>
   </div>
 </template>
 <style lang="scss" scoped>

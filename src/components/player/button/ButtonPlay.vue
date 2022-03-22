@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
-import IconPlay from '@/components/ui/icon/IconPlay.vue';
-import IconPlaying from '@/components/ui/icon/IconPlaying.vue';
-import IconBuffering from '@/components/ui/icon/IconBuffering.vue';
-import IconPause from '@/components/ui/icon/IconPause.vue';
-import Circle from './Circle.vue';
+import { defineComponent, computed, ref } from "vue";
+import IconPlay from "@/components/ui/icon/IconPlay.vue";
+import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
+import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
+import IconPause from "@/components/ui/icon/IconPause.vue";
+import Circle from "./Circle.vue";
 
 export default defineComponent({
   components: {
@@ -20,7 +20,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: 'rgb(var(--c-fg))',
+      default: "rgb(var(--c-fg))",
     },
     // backgroundColor:
     // default is transparent, using 'color' if isActive
@@ -61,10 +61,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: [
-    'play',
-    'pause',
-  ],
+  emits: ["play", "pause"],
   setup(props, { emit }) {
     const isHover = ref(false);
     const icon = computed(() => {
@@ -81,9 +78,9 @@ export default defineComponent({
     });
     const action = computed(() => {
       if (props.isBuffering || props.isPlaying) {
-        return 'pause';
+        return "pause";
       }
-      return 'play';
+      return "play";
     });
     const handleClick = () => {
       emit(action.value);
@@ -124,11 +121,7 @@ export default defineComponent({
       'has-shadow': shadowed,
     }"
   >
-    <component
-      :is="icon"
-      :size="size"
-      :color="color"
-    />
+    <component :is="icon" :size="size" :color="color" />
   </Circle>
 </template>
 <style lang="scss" scoped>

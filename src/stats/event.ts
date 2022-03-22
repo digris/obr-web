@@ -1,19 +1,19 @@
-import { computed, watch } from 'vue';
-import { debounce, isEqual } from 'lodash-es';
-import store from '@/store';
+import { computed, watch } from "vue";
+import { debounce, isEqual } from "lodash-es";
+import store from "@/store";
 
-import { createPlayerEvents } from '@/api/stats';
+import { createPlayerEvents } from "@/api/stats";
 
 export interface Event {
-  state: string,
-  objKey: string,
-  objName: string,
-  source: string,
+  state: string;
+  objKey: string;
+  objName: string;
+  source: string;
 }
 
 const createGA4Event = (event: Event) => {
   const GA4event = {
-    event: 'player',
+    event: "player",
     state: event.state,
     source: event.source,
     obj_key: event.objKey,
@@ -29,16 +29,16 @@ class EventHandler {
 
   constructor() {
     this.queue = [];
-    const playState = computed(() => store.getters['player/playState']);
-    const isLive = computed(() => store.getters['player/isLive']);
-    const media = computed(() => store.getters['player/media']);
+    const playState = computed(() => store.getters["player/playState"]);
+    const isLive = computed(() => store.getters["player/isLive"]);
+    const media = computed(() => store.getters["player/media"]);
     const combinedState = computed(() => {
-      const objKey = (media.value) ? `${media.value.ct}:${media.value.uid}` : null;
+      const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
       return {
         state: playState.value,
         objKey,
         objName: media.value?.name,
-        source: (isLive.value) ? 'live' : 'on-demand',
+        source: isLive.value ? "live" : "on-demand",
       };
     });
     const addEvent = debounce(async (event) => {
