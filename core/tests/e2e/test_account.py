@@ -41,9 +41,7 @@ def driver_init(request):
     driver = webdriver.Chrome(options=options)
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 900)
-    driver.implicitly_wait(30)
-    print("driver window:", driver.__dict__)
-    print("driver window:", driver.get_window_size())
+    driver.implicitly_wait(20)
     request.cls.driver = driver
     yield
     driver.close()
@@ -63,10 +61,9 @@ class TestAccount:
         body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body
 
-        print(f'body: "{body}"')
+        # print(f'body: "{body}"')
 
-        self.driver.save_screenshot("screenshots/index.png")
-        return
+        self.driver.save_screenshot("screenshots/start.png")
 
         self.driver.find_element(By.XPATH, "//a[normalize-space()='Login']").click()
 
