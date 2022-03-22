@@ -40,7 +40,10 @@ docker-image:
 	docker build --build-arg GIT_SHORT_SHA=$(GIT_SHORT_SHA) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
 deploy:
-	gcloud builds submit --project $(GCP_PROJECT) --timeout=1200
+	gcloud builds submit \
+	  --project $(GCP_PROJECT) \
+	  --config gcp/build-migrate-deploy.yaml \
+	  --timeout=1200
 
 update-settings:
 	gcloud --project $(GCP_PROJECT) \
