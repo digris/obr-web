@@ -73,7 +73,7 @@ jobs:
             --platform "managed" \
             --max-instance "50" \
             --memory "2048M" \
-            --concurrency "20" \
+            --concurrency "19" \
             --add-cloudsql-instances "open-broadcast:europe-west6:open-broadcast-db" \
             --use-http2 \
             --allow-unauthenticated \
