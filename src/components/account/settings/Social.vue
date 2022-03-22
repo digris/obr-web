@@ -100,14 +100,6 @@ export default defineComponent({
       </p>
     </div>
     <div
-      class="info"
-    >
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-        <br>Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.
-      </p>
-    </div>
-    <div
       v-for="backend in connected"
       :key="`disconnected-backend-${backend.provider}`"
       class="backend"
