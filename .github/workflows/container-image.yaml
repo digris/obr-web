@@ -7,7 +7,7 @@ name: Build & push container image
 on:
   workflow_run:
     workflows: ["CD"]
-    branches: [migrate-webpack-to-vite]
+    branches: [main]
     types:
       - completed
 
