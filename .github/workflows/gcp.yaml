@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: GCP auth
         uses: google-github-actions/auth@v0
         with:
@@ -15,7 +17,5 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0
       - name: Use gcloud CLI
         run: gcloud info
-      - name: Checkout
-        uses: actions/checkout@v3
       - name: Submit to cloudbuild
         run: gcloud builds submit --async
