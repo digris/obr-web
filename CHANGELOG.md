@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.11 (2022-03-23)
+### Fix
+* Triggering pipeline (11). ([`ef9801a`](https://github.com/digris/obr-web/commit/ef9801a28ca46d553eafcb08b682336970790735))
+
 ## v0.0.10 (2022-03-23)
 ### Fix
 * Triggering another (21) release. ([`b4c390a`](https://github.com/digris/obr-web/commit/b4c390a61bbe09ba920d1c0ef60db03818adff84))
