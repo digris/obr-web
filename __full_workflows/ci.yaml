@@ -3,7 +3,6 @@ name: CI
 on: [push]
 
 jobs:
-
   preflight-fe:
     runs-on: ubuntu-latest
     name: Frontend preflight
