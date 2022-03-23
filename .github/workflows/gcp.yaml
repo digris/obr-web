@@ -1,13 +1,13 @@
 name: GCP
 
-on: [push]
+#on: [push]
 
-#on:
-#  workflow_run:
-#    workflows: ["CI"]
-#    branches: [main]
-#    types:
-#      - completed
+on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: [main]
+    types:
+      - completed
 
 env:
   IMAGE_NAME: obr-web
@@ -25,14 +25,14 @@ jobs:
       packages: write
       id-token: write
 
-    if: github.ref == 'refs/heads/main'
-#    if: github.event.workflow_run.conclusion == 'success'
+#    if: github.ref == 'refs/heads/main'
+    if: github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       # prepare github
-      - name: Log in to the container registry
+      - name: Authorize github container registry
         uses: docker/login-action@v1
         with:
           registry: ${{ env.GH_REGISTRY }}
@@ -44,21 +44,22 @@ jobs:
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
+
       - name: Set up cloud SDK
         uses: google-github-actions/setup-gcloud@v0
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
-      - name: Authorize Docker push
+
+      - name: Authorize GCP container registry
         run: gcloud auth configure-docker
 
-#      - name: Submit to cloudbuild
-#        run: gcloud builds submit --async
-
       # build & push image
-      - name: Set up Docker Buildx
+      - name: Set up docker buildx
         uses: docker/setup-buildx-action@v1
-#        with:
-#          driver-opts: image=moby/buildkit:buildx-stable-1
+
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: Extract metadata (tags, labels) for image
         id: meta
@@ -70,10 +71,6 @@ jobs:
           tags: |
             type=ref,event=branch
             type=sha
-
-      - name: Set outputs
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
