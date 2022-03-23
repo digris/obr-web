@@ -67,6 +67,12 @@ jobs:
           images: |
             ${{ env.GH_REGISTRY }}/${{ env.GH_ORGANIZATION }}/${{ env.IMAGE_NAME }}
             gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
