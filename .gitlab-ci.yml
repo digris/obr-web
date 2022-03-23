@@ -18,7 +18,7 @@ preflight-fe:
 deploy:
   stage: deploy
   only:
-    - main
+    - main-disabled
   image: google/cloud-sdk
   services:
     - docker:dind

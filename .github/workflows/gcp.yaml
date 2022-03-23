@@ -10,10 +10,11 @@ on: [push]
 #      - completed
 
 env:
+  IMAGE_NAME: obr-web
   GH_REGISTRY: ghcr.io
+  GH_ORGANIZATION: digris
   GCP_PROJECT_ID: open-broadcast
   GCP_SERVICE: obr-web
-  IMAGE_NAME: obr-web
 
 jobs:
   deploy:
@@ -63,7 +64,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v2
         with:
-          images: ${{ env.GH_REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            ${{ env.GH_REGISTRY }}/${{ env.GH_ORGANIZATION }}/${{ env.IMAGE_NAME }}
+            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -71,10 +74,10 @@ jobs:
           context: .
           file: docker/Dockerfile
           push: true
-#          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          tags: |
-            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
+#          tags: |
+#            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
 
       - name: Deploy to GCP cloud run
         run: gcloud builds submit --config gcp/migrate-deploy.yaml --timeout=1200 --async
