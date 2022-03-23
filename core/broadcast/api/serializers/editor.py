@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
-from base.api.serializers import CTUIDModelSerializer
+from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models.editor import Editor, EditorImage
 from image.api.serializers import BaseImageSerializer
 
