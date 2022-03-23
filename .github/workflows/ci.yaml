@@ -89,6 +89,23 @@ jobs:
           path: screenshots
 
 
+  release:
+    needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
+    steps:
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+      - uses: actions/checkout@v3
+      - name: Semantic release
+        run: |
+          pip install python-semantic-release
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          semantic-release publish
+
+
 #  deploy:
 #    needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
 #    runs-on: ubuntu-latest

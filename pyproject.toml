@@ -69,10 +69,21 @@ libfaketime = "^2.0.0"
 vulture = "^2.3"
 pyupgrade = "^2.29.1"
 black = "22.1.0"
+python-semantic-release = "^7.27.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.semantic_release]
+version_variable = [
+    "core/__init__.py:__version__",
+    "pyproject.toml:version"
+]
+branch = "main"
+upload_to_pypi = false
+upload_to_release = false
+build_command = "pip install poetry && poetry build"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

@@ -1,6 +1,6 @@
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
-from base.api.serializers import CTUIDModelSerializer
+from api_extra.serializers import CTUIDModelSerializer
 from catalog.api.serializers import MediaSerializer
 from broadcast.models.editor import Editor
 from broadcast.models.emission import Emission
