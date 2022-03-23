@@ -2,7 +2,7 @@ steps:
 - name: 'gcr.io/kaniko-project/executor:latest'
   args:
   - --dockerfile=docker/Dockerfile
-  - --destination=gcr.io/open-broadcast/ch-openbroadcast-next-core
+  - --destination=gcr.io/open-broadcast/obr-web:latest
   - --cache=true
   - --cache-ttl=1h
   - --build-arg='GIT_SHORT_SHA=${SHORT_SHA}'
