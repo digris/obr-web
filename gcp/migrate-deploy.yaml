@@ -1,7 +1,7 @@
 steps:
 - name: 'gcr.io/google-appengine/exec-wrapper'
   args: [
-    '-i', 'gcr.io/open-broadcast/obr-web:latest',
+    '-i', 'gcr.io/open-broadcast/obr-web:main',
     '-s', 'open-broadcast:europe-west6:open-broadcast-db',
     '--', 'python', 'manage.py', 'migrate'
   ]
@@ -10,7 +10,7 @@ steps:
     'run',
     'deploy',
     'ch-openbroadcast-next-core',
-    '--image', 'gcr.io/open-broadcast/obr-web:latest',
+    '--image', 'gcr.io/open-broadcast/obr-web:main',
     '--region', 'europe-west6',
     '--platform', 'managed',
     '--max-instances', '50',
