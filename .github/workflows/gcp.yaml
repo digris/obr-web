@@ -82,7 +82,7 @@ jobs:
 #          tags: |
 #            gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.GCP_SERVICE }}:${{ github.sha }}
           build-args: |
-            GIT_SHORT_SHA=${{ github.sha }}
+            GIT_SHORT_SHA=${{ github.sha::7 }}
 
       - name: Deploy to GCP cloud run
         run: gcloud builds submit --config gcp/migrate-deploy.yaml --timeout=1200 --async
