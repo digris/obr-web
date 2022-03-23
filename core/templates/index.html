@@ -35,19 +35,19 @@
   {% if color %}style="--c-live-bg: {{ color|join:',' }}"{% endif %}
 >
   <div id="app"></div>
+  {% spaceless %}
   {% if not vite_proxied %}
   <script type="module" src="{% static 'vendor.js' %}"></script>
   <script type="module" src="{% static 'main.js' %}"></script>
   {% else %}
   <script type="module" src="//localhost:3000/src/main.ts?t={% now 'U' %}"></script>
   {% endif %}
-  {% usersnap %}
+  {% usersnap %}{% endspaceless %}
 </body>
 <!-- v:0.0.1 -->
 <!--
 country:     {{ geolocation_country }}
 city:        {{ geolocation_city }}
 coordinates: {{ geolocation_coordinates }}
-...
 -->
 </html>
