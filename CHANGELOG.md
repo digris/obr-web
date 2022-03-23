@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.12 (2022-03-23)
+### Fix
+* Cleaned up ci pipeline. ([#9](https://github.com/digris/obr-web/issues/9)) ([`c0bf9b4`](https://github.com/digris/obr-web/commit/c0bf9b4ae4c91c012d9bb418e5ef86b15fd7c2c4))
+
 ## v0.0.11 (2022-03-23)
 ### Fix
 * Triggering pipeline (11). ([`ef9801a`](https://github.com/digris/obr-web/commit/ef9801a28ca46d553eafcb08b682336970790735))
