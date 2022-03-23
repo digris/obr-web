@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.7 (2022-03-23)
+### Fix
+* Triggering another (18) release. ([`720a835`](https://github.com/digris/obr-web/commit/720a835d82d12223a32031c094c06b80b18e9216))
+
 ## v0.0.6 (2022-03-23)
 ### Fix
 * Triggering another (10) release. ([`4973d48`](https://github.com/digris/obr-web/commit/4973d48c63836f62df85fcca35a97459b6558a05))
