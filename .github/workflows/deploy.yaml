@@ -69,6 +69,7 @@ jobs:
           tags: |
             type=ref,event=branch
             type=sha
+            type=semver,pattern={{ version }}
 
 #      - name: Build and push Docker image
 #        uses: docker/build-push-action@v2
