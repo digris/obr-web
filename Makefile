@@ -39,6 +39,9 @@ test:
 docker-image:
 	docker build --build-arg GIT_SHORT_SHA=$(GIT_SHORT_SHA) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
+release:
+	poetry run semantic-release publish
+
 deploy:
 	gcloud builds submit \
 	  --project $(GCP_PROJECT) \
