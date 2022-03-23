@@ -105,7 +105,6 @@ jobs:
           git config user.email github-actions@github.com
           semantic-release publish
 
-
 #  deploy:
 #    needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
 #    runs-on: ubuntu-latest
