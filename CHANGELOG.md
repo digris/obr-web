@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.14 (2022-03-24)
+### Fix
+* Update version output (3). ([`6c18702`](https://github.com/digris/obr-web/commit/6c187026ac848b7e1d16ae015eaf22f3cca67cd6))
+
 ## v0.0.13 (2022-03-24)
 ### Fix
 * Update version output. ([`ca0bb2f`](https://github.com/digris/obr-web/commit/ca0bb2f42f2ba72f6eda13a50bc58a6b09620084))
