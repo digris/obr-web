@@ -92,6 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     steps:
+      # https://mestrak.com/blog/semantic-release-with-python-poetry-github-actions-20nn
       - uses: actions/setup-python@v3
         with:
           python-version: 3.9
