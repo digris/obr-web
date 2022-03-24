@@ -2,7 +2,7 @@
 
 "Next-gen" version of openbroadcast.ch website to be launched in 2022.
 
-![CD](https://github.com/digris/obr-web/actions/workflows/cd.yaml/badge.svg)
+[![CI](https://github.com/digris/obr-web/actions/workflows/ci.yaml/badge.svg)](https://github.com/digris/obr-web/actions/workflows/ci.yaml)
 
  - [GitLab Project](https://gitlab.com/digris/open-broadcast/openbroadcast.ch)
  - [next.openbroadcast.ch](https://next.openbroadcast.ch/)
