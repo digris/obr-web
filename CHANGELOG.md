@@ -1,4 +1,8 @@
-# Changelog
+Title:   Changelog
+
+For details visit the project on [GitHub](https://github.com/digris/obr-web/).
+
+***
 
 <!--next-version-placeholder-->
 
