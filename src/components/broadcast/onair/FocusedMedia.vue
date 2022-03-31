@@ -57,9 +57,11 @@ export default defineComponent({
       <router-link :to="`/discover/tracks/${media.uid}/`" v-text="title" />
     </div>
     <div class="subtitle subtitle--artists">
+      <span class="subtitle--label" v-text="media.artists.length === 1 ? 'Artist' : 'Artists'" />
       <MediaArtists :artists="media.artists" />
     </div>
     <div class="subtitle">
+      <span class="subtitle--label" v-text="`Album`" />
       <MediaReleases :releases="media.releases" />
     </div>
     <br />
@@ -81,6 +83,14 @@ export default defineComponent({
   margin-top: 0;
   &--artists {
     margin-top: 0.75rem;
+  }
+  &--label {
+    &:after {
+      content: ": ";
+    }
+  }
+  .media-releases {
+    display: inline;
   }
 }
 a {
