@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.15 (2022-03-31)
+### Fix
+* **player:** Disable skip next if last item in queue ([#15](https://github.com/digris/obr-web/issues/15)) ([`b40a6a9`](https://github.com/digris/obr-web/commit/b40a6a950eb4f0887775c4bac93b97cadc5e596b))
+
 ## v0.0.14 (2022-03-24)
 ### Fix
 * Update version output (3). ([`6c18702`](https://github.com/digris/obr-web/commit/6c187026ac848b7e1d16ae015eaf22f3cca67cd6))
