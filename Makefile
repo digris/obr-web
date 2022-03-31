@@ -11,13 +11,11 @@ PORT = 8080
 GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 
 lint:
-	npx stylelint "./src/**/*.(scss|js|vue)"
 	yarn lint
 	black --check ./core/
 	poetry run prospector -p ./core/
 
 fix:
-	npx stylelint "./src/**/*.(scss|js|vue)" --fix
 	yarn fix
 	find ./core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
 	black ./core/

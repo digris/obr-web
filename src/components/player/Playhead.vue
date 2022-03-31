@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
 import eventBus from "@/eventBus";
@@ -52,8 +52,7 @@ export default defineComponent({
     });
 
     const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
-    // const hasNext = computed(() => store.getters['queue/nextIndex'] !== null);
-    const hasNext = ref(true);
+    const hasNext = computed(() => store.getters["queue/nextIndex"] !== null);
 
     const pause = () => {
       eventBus.emit("player:controls", { do: "pause" });
