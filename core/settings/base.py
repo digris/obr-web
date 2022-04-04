@@ -382,8 +382,8 @@ SPECTACULAR_SETTINGS = {
 # services
 ##################################################################
 STREAM_ENDPOINTS = {
-    "dash": "https://stream-abr.next.openbroadcast.ch/stream.mpd",
-    "hls": "https://stream-abr.next.openbroadcast.ch/manifest.m3u8",
+    "dash": "https://stream-abr.next.openbroadcast.ch/dash/stream.mpd",
+    "hls": "https://stream-abr.next.openbroadcast.ch/hls/manifest.m3u8",
     "icecast": "https://stream.next.openbroadcast.ch/256.mp3",
 }
 MEDIA_ENDPOINTS = {
