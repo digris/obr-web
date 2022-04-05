@@ -8,8 +8,8 @@
   <link rel="icon" type="image/png" href="{% static 'assets/favicon/default.png' %}">
   <link rel="manifest" href="{% url 'manifest:manifest' %}">
   {% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
-  <link href="{% static 'main.js' %}" rel="preload" as="script">
-  <link href="{% static 'vendor.js' %}" rel="preload" as="script">
+  <link href="{% static 'main.js' %}" rel="modulepreload">
+  <link href="{% static 'vendor.js' %}" rel="modulepreload">
   <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600&display=swap');
