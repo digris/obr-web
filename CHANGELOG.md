@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.17 (2022-04-05)
+### Fix
+* Update script preload ("modulepreload") ([`158e81a`](https://github.com/digris/obr-web/commit/158e81a96ead3ea5f81901e08137797d86f5bb9b))
+
 ## v0.0.16 (2022-03-31)
 ### Fix
 * **radio:** Add labels to current media ([#14](https://github.com/digris/obr-web/issues/14)) ([`7849502`](https://github.com/digris/obr-web/commit/784950230bdf451845e337ce48fdba1b22bdc6ce))
