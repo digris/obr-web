@@ -133,5 +133,13 @@ export default defineComponent({
       height: 36px;
     }
   }
+  &:hover {
+    .visual {
+      background: rgba(var(--c-black), 0.2);
+      :deep(img) {
+        opacity: 0.5;
+      }
+    }
+  }
 }
 </style>

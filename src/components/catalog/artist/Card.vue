@@ -123,11 +123,6 @@ export default defineComponent({
       :deep(img) {
         opacity: 0.5;
       }
-      /*
-      &__image {
-        opacity: 0.5;
-      }
-      */
     }
   }
 }

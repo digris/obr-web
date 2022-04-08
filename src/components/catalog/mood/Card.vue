@@ -42,11 +42,15 @@ export default defineComponent({
   &:hover {
     color: rgb(var(--c-white));
     background: rgb(var(--c-black));
+    .panel {
+      color: rgb(var(--c-white));
+    }
   }
   .panel {
     display: grid;
     width: 100%;
     height: 100%;
+    color: rgb(var(--c-black));
     .name {
       @include typo.large;
       display: flex;
