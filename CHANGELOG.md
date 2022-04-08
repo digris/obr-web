@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.18 (2022-04-08)
+### Fix
+* **ui:** Implement ui modal panel ([`d76d52f`](https://github.com/digris/obr-web/commit/d76d52fd8a86a665fe785ada94d9979a54396437))
+
 ## v0.0.17 (2022-04-05)
 ### Fix
 * Update script preload ("modulepreload") ([`158e81a`](https://github.com/digris/obr-web/commit/158e81a96ead3ea5f81901e08137797d86f5bb9b))
