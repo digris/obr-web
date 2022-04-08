@@ -42,10 +42,10 @@ export default defineComponent({
 <template>
   <transition name="fade">
     <div v-if="isVisible" class="overlay-panel">
+      <div class="header">
+        <CloseButton @click.prevent="close" />
+      </div>
       <div class="container">
-        <div class="overlay-panel__header">
-          <CloseButton @click.prevent="close" />
-        </div>
         <div class="overlay-panel__content">
           <div v-if="title" class="overlay-panel__content__title">
             <div v-text="title" />
@@ -54,16 +54,9 @@ export default defineComponent({
             <slot name="default" />
           </div>
         </div>
-        <!--
-        <div
-          v-if="hasFooter"
-          class="overlay-panel__footer"
-        >
-          <slot
-            name="footer"
-          />
+        <div v-if="hasFooter" class="overlay-panel__footer">
+          <slot name="footer" />
         </div>
-        -->
         <div v-if="hasSuccess" class="overlay-panel__success">
           <slot name="success" />
         </div>
@@ -85,16 +78,37 @@ export default defineComponent({
   flex-direction: column;
   width: 100%;
   height: 100%;
-  //overflow: hidden;
+  overflow: hidden;
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  overscroll-behavior: auto contain;
+
+  .header {
+    @include container.small;
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background: rgb(var(--c-white));
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.9);
+  }
 
   .container {
     @include container.small;
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding-bottom: 4rem;
+    min-height: calc(100vh - 79px);
   }
 
   @include responsive.bp-small {
@@ -102,26 +116,15 @@ export default defineComponent({
   }
 
   &__header {
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    //height: 72px;
     height: 78px;
     margin-top: 0;
-    //border-bottom: 1px solid rgb(var(--c-gray-100));
-    //border-bottom: 1px solid rgb(var(--c-black));
-    //border-bottom: 7px solid rgb(var(--c-black));
   }
   &__content {
     flex-grow: 1;
-    max-height: calc(100% - 72px - 2rem);
-    /* right padding for scrollbar */
-    padding-right: 0.75rem;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    &::-webkit-scrollbar {
-      display: none;
-    }
     &__title {
       @include typo.x-large;
       @include typo.bold;

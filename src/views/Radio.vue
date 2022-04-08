@@ -231,7 +231,7 @@ export default defineComponent({
     />
   </div>
   <OverlayPanel :is-visible="programVisible" @close="hideProgram" title="Heute">
-    <Program :current-link-to-home="false" @navigate="hideProgram" />
+    <Program class="program" :current-link-to-home="false" @navigate="hideProgram" />
   </OverlayPanel>
 </template>
 
@@ -297,5 +297,8 @@ export default defineComponent({
       display: none;
     }
   }
+}
+.program {
+  margin-bottom: 8rem;
 }
 </style>

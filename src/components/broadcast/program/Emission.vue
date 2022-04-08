@@ -1,9 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
-// import { useStore } from 'vuex';
 import { DateTime } from "luxon";
 import { playStream } from "@/player/stream";
-// ButtonPlay for livestream, PlayAction for on-demand
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
@@ -27,7 +25,6 @@ export default defineComponent({
   emits: ["navigate"],
   setup(props, { emit }) {
     const root = ref(null);
-    // const store = useStore();
     const now = ref(DateTime.now());
     const timer = ref(null);
     const isPast = computed(() => {
@@ -174,11 +171,11 @@ export default defineComponent({
       <div class="name">
         <router-link v-if="!isUpcoming" :to="routeTo" @click="navigate">
           {{ title.name }}
-          <small v-if="title.appendix" v-text="`#${title.appendix}`" />
+          <span v-if="title.appendix" v-text="`#${title.appendix}`" />
         </router-link>
         <span v-else>
           {{ title.name }}
-          <small v-if="title.appendix" v-text="`#${title.appendix}`" />
+          <span v-if="title.appendix" v-text="`#${title.appendix}`" />
         </span>
       </div>
       <div class="editor" v-if="emission.editor" v-text="emission.editor.name" />
@@ -229,7 +226,7 @@ export default defineComponent({
     color: rgb(var(--c-black));
     background-color: rgb(var(--c-white));
     cursor: default;
-    opacity: 0.75;
+    opacity: 0.5;
   }
 }
 
@@ -252,6 +249,7 @@ export default defineComponent({
   .play {
     position: relative;
     grid-area: play;
+    max-height: 48px;
   }
 
   .name {
@@ -263,9 +261,6 @@ export default defineComponent({
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-    }
-    small {
-      @include typo.dim;
     }
   }
 
@@ -282,42 +277,6 @@ export default defineComponent({
     grid-area: time-start;
     @include typo.large;
     justify-content: flex-end;
-  }
-
-  // TODO: responsive styles have to be cleaned up
-  @include responsive.bp-small {
-    grid-template-areas:
-      "play name   time-start"
-      "play editor time-start";
-    grid-template-columns: 48px 1fr 96px;
-    padding: 0.375rem 0;
-    .play {
-      padding-left: 0.5rem;
-    }
-    .name {
-      @include typo.default;
-    }
-    .editor {
-      @include typo.default;
-      @include typo.dim;
-      @include typo.light;
-      min-width: 0;
-      margin-top: -4px; //TODO: just a quick fix
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .time-start {
-      @include typo.large;
-      padding-right: 1rem;
-    }
-    //TODO: just a quick fix
-    .play,
-    .actions {
-      transform: scale(calc(40 / 48));
-    }
-    .tags {
-      display: none;
-    }
   }
 }
 </style>
