@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.19 (2022-04-27)
+### Fix
+* Implement total media duration on artist detail API / view ([`1934699`](https://github.com/digris/obr-web/commit/1934699f32a1f51cd974f56c7b59395ce1ce813f))
+
 ## v0.0.18 (2022-04-08)
 ### Fix
 * **ui:** Implement ui modal panel ([`d76d52f`](https://github.com/digris/obr-web/commit/d76d52fd8a86a665fe785ada94d9979a54396437))
