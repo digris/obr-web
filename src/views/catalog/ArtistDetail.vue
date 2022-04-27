@@ -6,6 +6,7 @@ import { setPageTitle } from "@/utils/page";
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
+import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
@@ -16,6 +17,7 @@ export default defineComponent({
     DetailPage,
     DetailHeader,
     LazyImage,
+    Duration,
     PlayAction,
     ObjectTags,
     ObjectIdentifiers,
@@ -97,9 +99,16 @@ export default defineComponent({
           <ObjectIdentifiers class="identifiers" :obj="artist" :limit="4" />
         </template>
         <template #meta-panel>
-          <span v-if="artist">{{ artist.numMedia }} Tracks</span>
+          <span v-if="artist && artist.numMedia">
+            {{ artist.numMedia }}
+            <span v-if="artist.numMedia == 1">Track</span>
+            <span v-else>Tracks</span>
+          </span>
           <span>&nbsp;•&nbsp;</span>
-          <span>1h 25m</span>
+          <Duration
+            v-if="artist && artist.mediaTotalDuration"
+            :seconds="artist.mediaTotalDuration"
+          />
         </template>
       </DetailHeader>
       <MediaList

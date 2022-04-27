@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from django.core.exceptions import FieldError
 from django.conf import settings
-from django.db.models import Count, Max, Q
+from django.db.models import Count, Max, Q, Sum
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
@@ -101,6 +101,16 @@ class ArtistViewSet(
         qs = qs.annotate(
             num_media=Count(
                 "media",
+                filter=Q(
+                    media__airplays__time_start__lte=Now(),
+                )
+                & Q(
+                    media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
+                ),
+                distinct=True,
+            ),
+            media_total_duration=Sum(
+                "media__duration",
                 filter=Q(
                     media__airplays__time_start__lte=Now(),
                 )

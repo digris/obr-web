@@ -7,6 +7,16 @@ from tagging.api.serializers import TagSerializer
 from identifier.api.serializers import IdentifierSerializer
 
 
+class DurationInSecondsSerializer(
+    serializers.Serializer,
+):
+    def to_representation(self, instance):
+        if not instance:
+            return None
+
+        return instance.seconds
+
+
 class ArtistSerializer(
     FlexFieldsSerializerMixin,
     serializers.ModelSerializer,
@@ -19,6 +29,9 @@ class ArtistSerializer(
         read_only=True,
     )
     num_media = serializers.IntegerField(
+        read_only=True,
+    )
+    media_total_duration = DurationInSecondsSerializer(
         read_only=True,
     )
     user_rating = serializers.IntegerField(
@@ -34,6 +47,7 @@ class ArtistSerializer(
             "uid",
             "name",
             "num_media",
+            "media_total_duration",
             "image",
             "country_code",
             "date_start",
