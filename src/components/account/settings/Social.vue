@@ -7,7 +7,7 @@ import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
 import imgApple from "@/assets/brand-icons/apple.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
-import imgDeezer from "@/assets/brand-icons/vk.svg";
+import imgDeezer from "@/assets/brand-icons/deezer.svg";
 
 const ICONS = {
   apple: imgApple,
@@ -92,7 +92,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section v-if="false" title="Verbundene Konten" :outlined="false">
+  <Section title="Verbundene Konten" :outlined="false">
     <div class="info">
       <p>
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.

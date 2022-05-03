@@ -1,6 +1,6 @@
 import settings from "@/settings";
 import eventBus from "@/eventBus";
-import { getMediaFormat } from "@/utils/browser";
+// import { getMediaFormat } from "@/utils/browser";
 
 const { STREAM_ENDPOINTS } = settings;
 
@@ -15,7 +15,8 @@ const getUrl = (format: string) => {
 };
 
 const getStreamUrl = (noCache = true) => {
-  const mediaFormat = getMediaFormat();
+  // const mediaFormat = getMediaFormat();
+  const mediaFormat = "hls";
   let url = getUrl(mediaFormat);
   if (noCache) {
     url = `${url}?${Date.now()}`;

@@ -2,24 +2,23 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 
-import SocialLogin from "@/components/account/SocialLogin.vue";
 import Section from "@/components/account/settings/Section.vue";
 import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
 import Password from "@/components/account/settings/Password.vue";
 import Email from "@/components/account/settings/Email.vue";
 import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
-// import Debug from '@/components/dev/Debug.vue';
+import Social from "@/components/account/settings/Social.vue";
 
 export default defineComponent({
   components: {
     Section,
-    SocialLogin,
     CurrentSubscription,
     Email,
     Password,
     Personal,
     Address,
+    Social,
   },
   setup() {
     const store = useStore();
@@ -51,7 +50,5 @@ export default defineComponent({
   <Password />
   <Personal :user="user" @updated="reloadUser" />
   <Address :address="address" @updated="reloadUser" />
-  <Section v-if="user" title="Verbundene Accounts" :outlined="false">
-    <SocialLogin :next="socialNext" />
-  </Section>
+  <Social />
 </template>

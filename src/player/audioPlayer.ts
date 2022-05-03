@@ -1,9 +1,14 @@
 // @ts-ignore
 import shaka from "shaka-player";
+import muxjs from "mux.js";
 import { DateTime } from "luxon";
+import { watch } from "vue";
 import eventBus from "@/eventBus";
 import store from "@/store";
 import { playStream } from "@/player/stream";
+import { useStreamSettings } from "@/composables/settings";
+
+shaka.dependencies.add("muxjs", muxjs);
 
 const SHAKA_CONFIG = {
   manifest: {
@@ -17,14 +22,17 @@ const SHAKA_CONFIG = {
     bandwidthDowngradeTarget: 0.4,
     bandwidthUpgradeTarget: 0.2,
     // NOTE: testing bw limitations
-    restrictions: {
-      maxBandwidth: 512000,
-    },
+    // restrictions: {
+    //   maxBandwidth: 512000,
+    // },
   },
   streaming: {
     bufferingGoal: 30,
     rebufferingGoal: 0.1,
     bufferBehind: 0.1,
+    retryParameters: {
+      maxAttempts: 100,
+    },
   },
 };
 
@@ -114,19 +122,39 @@ class AudioPlayer {
       }
     });
 
-    // eventBus.on('player:controls:playStream', (e) => {
-    //   const startTime = (e.startTime) ? e.startTime : -10;
-    //   console.debug('player:controls:playStream', startTime);
-    // });
-
-    // "audio" events
-    // audio.onprogress = (e) => {
-    //   console.debug('onprogress', e);
-    // };
     audio.onended = (e) => {
       console.debug("AudioPlayer - audio.onended", e);
       eventBus.emit("player:audio:ended", e);
     };
+
+    const { maxBandwidth } = useStreamSettings();
+
+    if (maxBandwidth.value > 0) {
+      this.updateMaxBandwidth(maxBandwidth.value);
+    }
+
+    watch(
+      () => maxBandwidth.value,
+      (newValue) => {
+        this.updateMaxBandwidth(newValue);
+      }
+    );
+  }
+
+  updateMaxBandwidth(value: number) {
+    console.debug("updateMaxBandwidth", value);
+    this.updateSettings({
+      abr: {
+        restrictions: {
+          maxBandwidth: value > 0 ? value : null,
+        },
+      },
+    });
+  }
+
+  updateSettings(settings: object) {
+    console.debug("updateSettings", settings);
+    this.player.configure(settings);
   }
 
   updateState() {

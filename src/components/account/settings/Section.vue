@@ -73,8 +73,14 @@ export default defineComponent({
   &.is-editable {
     .panel {
       cursor: pointer;
+      position: relative;
       &:hover {
         background: rgba(var(--c-black), 0.1);
+      }
+      .panel-icon {
+        position: absolute;
+        right: 0;
+        top: 0;
       }
     }
   }
