@@ -90,7 +90,6 @@ class AudioPlayer {
     }, POLL_INTERVAL);
 
     eventBus.on("player:controls", (e) => {
-      console.debug("player:controls", e);
       switch (e.do) {
         case "play": {
           const { url, startTime } = e;
@@ -142,7 +141,6 @@ class AudioPlayer {
   }
 
   updateMaxBandwidth(value: number) {
-    console.debug("updateMaxBandwidth", value);
     this.updateSettings({
       abr: {
         restrictions: {

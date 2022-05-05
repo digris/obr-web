@@ -37,7 +37,6 @@ const getProviderLogo = (provider: string) => {
 
 const annotateBackends = (backends: Backend[]) => {
   return backends.map((b: Backend) => {
-    console.debug("be", b);
     return {
       ...b,
       title: getProviderText(b.provider),

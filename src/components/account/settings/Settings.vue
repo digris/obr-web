@@ -9,6 +9,7 @@ import Email from "@/components/account/settings/Email.vue";
 import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
 import Social from "@/components/account/settings/Social.vue";
+import Stream from "@/components/account/settings/Stream.vue";
 
 export default defineComponent({
   components: {
@@ -19,6 +20,7 @@ export default defineComponent({
     Personal,
     Address,
     Social,
+    Stream,
   },
   setup() {
     const store = useStore();
@@ -43,12 +45,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section v-if="user" title="Guthaben für kostenpflichtige Inhalte">
-    <CurrentSubscription />
-  </Section>
-  <Email v-if="user" :user="user" @updated="reloadUser" />
-  <Password />
-  <Personal :user="user" @updated="reloadUser" />
-  <Address :address="address" @updated="reloadUser" />
-  <Social />
+  <div v-if="user">
+    <Section title="Guthaben für kostenpflichtige Inhalte">
+      <CurrentSubscription />
+    </Section>
+    <Email v-if="user" :user="user" @updated="reloadUser" />
+    <Password />
+    <Personal :user="user" @updated="reloadUser" />
+    <Address :address="address" @updated="reloadUser" />
+    <Social />
+    <Stream />
+  </div>
 </template>

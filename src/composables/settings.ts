@@ -1,9 +1,15 @@
-import { useLocalStorage } from "@vueuse/core";
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 const useStreamSettings = () => {
-  const maxBandwidth = useLocalStorage("stream-max-bw", 0);
+  const store = useStore();
+  const maxBandwidth = computed(() => store.getters["settings/maxBandwidth"]);
+  const setMaxBandwidth = async (value: number) => {
+    await store.dispatch("settings/setMaxBandwidth", value);
+  };
   return {
     maxBandwidth,
+    setMaxBandwidth,
   };
 };
 
