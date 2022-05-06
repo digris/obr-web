@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.20 (2022-05-06)
+### Fix
+* Title formatting (#16, #17) ([`c9987b9`](https://github.com/digris/obr-web/commit/c9987b9f813e1e495c84ec4c5c0e3a0bde1dfef9))
+
 ## v0.0.19 (2022-04-27)
 ### Fix
 * Implement total media duration on artist detail API / view ([`1934699`](https://github.com/digris/obr-web/commit/1934699f32a1f51cd974f56c7b59395ce1ce813f))
