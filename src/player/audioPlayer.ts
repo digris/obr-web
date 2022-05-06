@@ -1,5 +1,6 @@
 // @ts-ignore
 import shaka from "shaka-player";
+// import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 import muxjs from "mux.js";
 import { DateTime } from "luxon";
 import { watch } from "vue";
@@ -33,6 +34,7 @@ const SHAKA_CONFIG = {
     retryParameters: {
       maxAttempts: 100,
     },
+    useNativeHlsOnSafari: false,
   },
 };
 
@@ -157,9 +159,9 @@ class AudioPlayer {
 
   updateState() {
     const { audio, player } = this;
-    const playheadTime = player.getPlayheadTimeAsDate();
     const stats = player.getStats();
     const isLive = player.isLive();
+    const playheadTime = isLive ? player.getPlayheadTimeAsDate() : null;
     const bandwidth = Number.isNaN(stats.streamBandwidth) ? 0 : stats.streamBandwidth;
     let bufferState = null;
     let currentTime;

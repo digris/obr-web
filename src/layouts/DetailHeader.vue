@@ -66,7 +66,7 @@ export default defineComponent({
     <div class="top">
       <div class="back">
         <BackButton v-if="canNavigateBack" @click="back" />
-        <div class="scope" v-if="titleScope" v-text="titleScope" />
+        <div class="scope" v-if="titleScope" v-text="`${titleScope}:`" />
       </div>
       <div class="title" />
       <div class="actions">

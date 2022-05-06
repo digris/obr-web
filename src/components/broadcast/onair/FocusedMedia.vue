@@ -52,7 +52,7 @@ export default defineComponent({
 
 <template>
   <div class="metadata metadata--media">
-    <div class="context">Track</div>
+    <div class="context">Track:</div>
     <div class="title">
       <router-link :to="`/discover/tracks/${media.uid}/`" v-text="title" />
     </div>

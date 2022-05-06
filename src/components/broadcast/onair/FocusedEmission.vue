@@ -45,7 +45,7 @@ export default defineComponent({
 
 <template>
   <div class="metadata metadata--emission">
-    <div class="context">Show</div>
+    <div class="context">Show:</div>
     <router-link :to="link" v-text="title" class="title" />
     <div>
       <EditorInline v-if="editor" :editor="editor" />
