@@ -36,6 +36,7 @@ class ScheduleEmissionSerializer(CatalogMediaSerializer):
 
 class SchedulePlaylistSerializer(CatalogMediaSerializer):
     editor = EditorSerializer()
+    series = serializers.JSONField(source="series_dict")
 
     class Meta:
         model = Playlist
@@ -46,6 +47,7 @@ class SchedulePlaylistSerializer(CatalogMediaSerializer):
             "name",
             "duration",
             "editor",
+            "series",
         ]
 
 

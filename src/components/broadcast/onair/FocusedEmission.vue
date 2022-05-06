@@ -20,8 +20,10 @@ export default defineComponent({
     EditorInline,
   },
   setup(props) {
-    const title = computed(() => {
-      return props.playlist.name;
+    const displayName = computed(() => {
+      const name = props.playlist?.series?.name || props.playlist.name;
+      const appendix = props.playlist?.series?.episode;
+      return name && appendix ? `${name} #${appendix}` : name;
     });
     const link = computed(() => {
       return {
@@ -35,7 +37,7 @@ export default defineComponent({
       return props.playlist?.editor;
     });
     return {
-      title,
+      displayName,
       link,
       editor,
     };
@@ -46,7 +48,7 @@ export default defineComponent({
 <template>
   <div class="metadata metadata--emission">
     <div class="context">Show:</div>
-    <router-link :to="link" v-text="title" class="title" />
+    <router-link :to="link" v-text="displayName" class="title" />
     <div>
       <EditorInline v-if="editor" :editor="editor" />
     </div>

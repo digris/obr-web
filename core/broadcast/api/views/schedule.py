@@ -23,6 +23,7 @@ class ScheduleView(GenericAPIView):
             .select_related(
                 "playlist",
                 "playlist__editor",
+                "playlist__series",
             )
             .prefetch_related(
                 "playlist__editor__images",
