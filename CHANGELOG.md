@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.21 (2022-05-06)
+### Fix
+* **ui:** Unify show display radio / current emission ([`cd5ea3b`](https://github.com/digris/obr-web/commit/cd5ea3bc72a3e4e5e6c32db2f7e52061d27fa9bf))
+
 ## v0.0.20 (2022-05-06)
 ### Fix
 * Title formatting (#16, #17) ([`c9987b9`](https://github.com/digris/obr-web/commit/c9987b9f813e1e495c84ec4c5c0e3a0bde1dfef9))
