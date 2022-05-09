@@ -61,39 +61,6 @@ export default defineComponent({
         <span v-else> Expired </span>
         <span v-text="`${numDaysRemaining} Tage`" />
       </router-link>
-      <!--
-      <div
-        v-if="(subscription && detailsVisible)"
-        class="subscription"
-        :class="{'is-active': isActive, 'is-expired': !isActive}"
-      >
-        <div
-          class="title"
-        >
-          <span>Guthaben</span>
-        </div>
-        <div
-          class="details"
-        >
-          <span
-            v-if="isActive"
-          >
-            Gültig bis:
-            <Datetime
-              :value="subscription.activeUntil"
-            />
-          </span>
-          <span
-            v-else
-          >
-            Abgelaufen:
-            <Datetime
-              :value="subscription.activeUntil"
-            />
-          </span>
-        </div>
-      </div>
-      -->
     </div>
   </div>
 </template>
