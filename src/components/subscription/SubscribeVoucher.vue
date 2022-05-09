@@ -45,10 +45,16 @@ export default defineComponent({
     };
 
     const handleCodeInput = debounce(async (value: string) => {
+      errors.value = [];
       if (codeRegex.test(value)) {
         await fetchVoucher(value);
       } else {
         voucher.value = null;
+        // errors.value = [
+        //   {
+        //     message: "invalid code",
+        //   },
+        // ];
       }
     }, 200);
 
@@ -94,7 +100,7 @@ export default defineComponent({
         <CodeInput :code="codeInput" :valid="isValid" @input="handleCodeInput" />
       </div>
       <div>
-        <pre v-text="voucher" class="_debug"></pre>
+        <pre v-text="errors" class="_debug"></pre>
       </div>
     </section>
     <section v-if="errors" class="section errors">
