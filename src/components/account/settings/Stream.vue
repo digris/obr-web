@@ -42,14 +42,12 @@ export default defineComponent({
   <Section title="Streaming" :outlined="false">
     <div class="info">
       <p>
-        Per "default" liefern wir dir unseren Content in der bestmöglichen Qualität, d.h. encodiert
-        als AAC mit 512Kb/s.
+        Per "default" liefern wir dir unseren Content in der bestmöglichen Qualität.
         <br />
-        Die Übertragungsrate wird hierbei laufend an die Qualität deiner Internetverbindung
-        angepasst.
+        Die Übertragungsrate wird laufend an die Qualität deiner Internetverbindung angepasst.
         <br />
-        Zur Minimierung deines Datenvolumens / der Umweltbelastung / unserer Infrastrukturkosten
-        kannst du eine maximale Übertragungsrate festlegen:
+        Zur Minimierung deines Datenvolumens / der Umweltbelastung kannst du eine maximale
+        Übertragungsrate festlegen:
       </p>
     </div>
     <div class="options options--bw">
