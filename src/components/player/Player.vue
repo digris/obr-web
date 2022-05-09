@@ -9,6 +9,7 @@ import Queue from "./Queue.vue";
 import Circle from "./button/Circle.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import IconQueue from "@/components/ui/icon/IconQueue.vue";
+import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
 
 export default defineComponent({
   components: {
@@ -19,6 +20,7 @@ export default defineComponent({
     Queue,
     UserRating,
     IconQueue,
+    AnimatedNumber,
   },
   setup() {
     const store = useStore();
@@ -98,6 +100,7 @@ export default defineComponent({
           </Circle>
           <Circle
             :size="48"
+            :outlined="false"
             :active="queueVisible"
             :disabled="queueNumMedia < 1"
             @click.prevent="toggleQueue"
@@ -110,6 +113,9 @@ export default defineComponent({
               :color="queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))'"
               :num-queued="queueNumMedia"
             />
+            <div class="num-queued">
+              <AnimatedNumber :value="queueNumMedia" />
+            </div>
           </Circle>
         </div>
       </div>
@@ -162,6 +168,26 @@ $player-height: 72px;
   }
   .right {
     justify-content: flex-end;
+    .circle-button {
+      position: relative;
+    }
+    .num-queued {
+      display: flex;
+      position: absolute;
+      top: -4px;
+      right: -3px;
+      background: rgb(var(--c-white));
+      width: auto;
+      min-width: 20px;
+      min-height: 20px;
+      border-radius: 10px;
+      color: rgb(var(--c-black));
+      padding: 0 6px;
+      font-size: 12px;
+      box-shadow: 0 0 3px rgb(0 0 0 / 40%);
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
