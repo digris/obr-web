@@ -85,7 +85,7 @@ export default defineComponent({
     align-items: center;
     justify-content: flex-end;
     height: 75px;
-    margin: 0 4rem 1rem;
+    margin: 0 4rem 0.5rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
     @include responsive.bp-small {
       margin: 0 1rem 1rem;

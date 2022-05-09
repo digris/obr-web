@@ -157,10 +157,9 @@ export default defineComponent({
   .section {
     display: flex;
     flex-direction: column;
-    //margin-bottom: 1.5rem;
-    padding: 0.5rem 0;
+    padding: 14px 0;
     &:first-child {
-      padding-top: 0;
+      padding-top: 7px;
     }
     &:not(:last-child) {
       border-bottom: 1px solid rgb(var(--c-gray-200));
