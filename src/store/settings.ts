@@ -5,7 +5,7 @@ export interface Settings {
   maxBandwidth: number;
 }
 
-const maxBandwidth = useLocalStorage("settings/stream/maxBandwidth", 0);
+const maxBandwidth = useLocalStorage("settings/stream/maxBandwidth", 720000);
 
 const state: Settings = {
   // maxBandwidth: 0,

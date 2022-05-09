@@ -25,6 +25,9 @@ export default defineComponent({
       <p v-else-if="error.data && error.data.detail" class="error__message">
         {{ error.data.detail }}
       </p>
+      <p v-else-if="error.message" class="error__message">
+        {{ error.message }}
+      </p>
       <p v-else class="error__message">An error occurred. Sorry.</p>
       <code class="error__status">
         <div class="status-code">#{{ error.status }}</div>

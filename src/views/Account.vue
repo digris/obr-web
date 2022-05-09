@@ -1,7 +1,7 @@
 <template>
   <div class="account">
     <div class="header">
-      <div class="title">Konto</div>
+      <div class="title" v-text="$t('ACCOUNT.ACCOUNT')" />
     </div>
     <div class="body">
       <router-view></router-view>

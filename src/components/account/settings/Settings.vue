@@ -8,6 +8,8 @@ import Password from "@/components/account/settings/Password.vue";
 import Email from "@/components/account/settings/Email.vue";
 import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
+import Social from "@/components/account/settings/Social.vue";
+import Stream from "@/components/account/settings/Stream.vue";
 
 export default defineComponent({
   components: {
@@ -17,6 +19,8 @@ export default defineComponent({
     Password,
     Personal,
     Address,
+    Social,
+    Stream,
   },
   setup() {
     const store = useStore();
