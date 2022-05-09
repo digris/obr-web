@@ -1,15 +1,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import eventBus from "@/eventBus";
+import Logo from "@/components/ui/logo/Logo.vue";
 import MainMenu from "@/components/navigation/MainMenu.vue";
 import AccountMenu from "@/components/navigation/AccountMenu.vue";
+import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
 import SubscriptionStatus from "@/components/navigation/SubscriptionStatus.vue";
 import ToggleMenuButton from "@/components/navigation/ToggleMenuButton.vue";
 
 export default defineComponent({
   components: {
+    Logo,
     MainMenu,
     AccountMenu,
+    LanguageChooser,
     SubscriptionStatus,
     ToggleMenuButton,
   },
@@ -26,11 +30,13 @@ export default defineComponent({
 
 <template>
   <div class="topbar">
-    <div class="brand">
-      <router-link to="/"> open broadcast </router-link>
-    </div>
+    <router-link class="brand" to="/">
+      <Logo />
+      <span>open broadcast</span>
+    </router-link>
     <MainMenu class="menu menu--main" />
-    <div class="subscription-and-account">
+    <div class="language-subscription-account">
+      <LanguageChooser />
       <SubscriptionStatus class="menu menu--subscription" />
       <AccountMenu class="menu menu--account" />
     </div>
@@ -48,7 +54,7 @@ export default defineComponent({
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 172px 1fr 100px 72px;
+  grid-template-columns: 242px 1fr 170px 72px;
   width: 100%;
   height: 78px;
   background: rgba(var(--c-page-bg), 0.9);
@@ -63,7 +69,15 @@ export default defineComponent({
     align-items: center;
     justify-content: flex-start;
     padding-left: 1.5rem;
+    padding-right: 1.5rem;
     transition: color, background-color 200ms;
+    .logo {
+      margin-right: 12px;
+    }
+    &:hover {
+      background: rgba(var(--c-page-fg), 0.1);
+      transition: color, background-color 200ms;
+    }
   }
   .menu {
     display: flex;
@@ -78,7 +92,7 @@ export default defineComponent({
       display: none;
     }
   }
-  .subscription-and-account {
+  .language-subscription-account {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -86,6 +100,10 @@ export default defineComponent({
       &:not(:last-child) {
         margin-right: 0.25rem;
       }
+    }
+    .language-chooser {
+      padding-right: 1rem;
+      margin-top: -12px;
     }
   }
   .menu-toggle {
