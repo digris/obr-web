@@ -1,5 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, computed } from "vue";
+
+//        Aa-bB-cc    d
 
 export default defineComponent({
   props: {
@@ -19,13 +21,16 @@ export default defineComponent({
     const inputEl = ref(null);
     const inputValue = ref(props.code);
     const parseInput = (value: string) => {
-      return value.toUpperCase();
+      return value.toUpperCase().replace(/\s/g, "").substring(0, 8);
     };
     const handleInput = async (e: any) => {
       const value = parseInput(e.target.value);
       inputValue.value = value;
       emit("input", value);
     };
+    const limitInput = computed(() => {
+      return inputValue.value && inputValue.value.length >= 8 ? 8 : 100;
+    });
     onMounted(() => {
       handleInput({
         target: {
@@ -39,6 +44,7 @@ export default defineComponent({
       inputEl,
       inputValue,
       handleInput,
+      limitInput,
     };
   },
 });
@@ -52,10 +58,10 @@ export default defineComponent({
         ref="inputEl"
         id="ti-1299"
         class="input"
-        @keyup="handleInput"
+        @input="handleInput"
         :value="inputValue"
-        maxlength="8"
-        placeholder="Code"
+        :maxlength="limitInput"
+        placeholder="Code: XX-YY-ZZ"
       />
     </div>
   </div>
