@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.functional import cached_property
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 from tagging.models import TaggedItem, TaggableManager
@@ -23,8 +24,8 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         blank=True,
     )
 
-    animation_url = models.URLField(
-        blank=True,
+    style = models.JSONField(
+        default=dict,
     )
 
     class Meta:
@@ -38,3 +39,9 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
 
     def get_absolute_url(self):
         return f"/discover/moods/{self.uid}/"
+
+    @cached_property
+    def rgb(self):
+        if not self.style:
+            return None
+        return self.style.get("color")

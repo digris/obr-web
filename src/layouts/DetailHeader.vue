@@ -102,9 +102,6 @@ export default defineComponent({
         <slot name="searchbar" />
       </div>
     </div>
-    <div class="background">
-      <slot name="background" />
-    </div>
   </div>
 </template>
 
@@ -206,12 +203,6 @@ export default defineComponent({
         }
       }
     }
-  }
-  .background {
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from api_extra.serializers import RGBValueField
 
 from catalog.models import Mood
 from tagging.api.serializers import TagSerializer
@@ -14,6 +15,12 @@ class MoodSerializer(
     tags = TagSerializer(
         many=True,
     )
+    rgb = serializers.ListField(
+        child=RGBValueField(),
+        min_length=3,
+        max_length=3,
+        read_only=True,
+    )
 
     class Meta:
         model = Mood
@@ -24,5 +31,6 @@ class MoodSerializer(
             "name",
             "teaser",
             "tags",
-            "animation_url",
+            "rgb",
+            "style",
         ]

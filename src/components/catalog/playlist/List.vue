@@ -7,6 +7,7 @@ import { isEqual } from "lodash-es";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import PlaylistCard from "@/components/catalog/playlist/Card.vue";
+import PlaylistRowHeader from "@/components/catalog/playlist/RowHeader.vue";
 import PlaylistRow from "@/components/catalog/playlist/Row.vue";
 import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 
@@ -14,6 +15,7 @@ export default {
   components: {
     ListFilter,
     LoadingMore,
+    PlaylistRowHeader,
     PlaylistCard,
   },
   props: {
@@ -176,6 +178,9 @@ export default {
     />
   </div>
   <div class="playlist-list">
+    <div v-if="layout === 'table'" class="table-header">
+      <PlaylistRowHeader />
+    </div>
     <div class="list-container" :class="`layout--${layout}`">
       <component
         v-for="playlist in playlists"
@@ -218,7 +223,8 @@ export default {
 }
 
 .playlist-list {
-  margin-bottom: 8rem;
+  margin-bottom: 0;
+  background: rgb(var(--c-white));
   .list-container {
     &.layout--grid {
       @include container.default;

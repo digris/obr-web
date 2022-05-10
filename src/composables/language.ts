@@ -9,7 +9,7 @@ const useLanguage = () => {
     return cookies.get(COOKIE_NAME);
   });
   const setLanguage = (value: string) => {
-    cookies.set(COOKIE_NAME, value, {path: "/"});
+    cookies.set(COOKIE_NAME, value, { path: "/" });
     // @ts-ignore
     window.i18n.global.locale = value;
   };

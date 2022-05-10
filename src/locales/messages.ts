@@ -1,12 +1,12 @@
 const messages = {
   de: {
     ACCOUNT: {
-      ACCOUNT: 'Konto',
+      ACCOUNT: "Konto",
     },
   },
   en: {
     ACCOUNT: {
-      ACCOUNT: 'Account',
+      ACCOUNT: "Account",
     },
   },
 };

@@ -139,7 +139,7 @@ export default defineComponent({
   grid-template-areas:
     "play name editor airplays actions"
     "play name tags   duration actions";
-  grid-template-columns: 48px 8fr 5fr 3fr 48px;
+  grid-template-columns: 96px 8fr 6fr 2fr 96px;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   color: rgb(var(--c-black));
@@ -157,6 +157,7 @@ export default defineComponent({
     grid-area: name;
     @include typo.large;
     min-width: 0;
+    margin-left: -48px;
     > a {
       overflow: hidden;
       white-space: nowrap;

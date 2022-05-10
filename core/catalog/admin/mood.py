@@ -28,6 +28,7 @@ class MoodAdmin(admin.ModelAdmin):
         "uuid",
         "uid",
         "tags",
+        # "style",
     ]
     inlines = [
         TaggedItemInline,

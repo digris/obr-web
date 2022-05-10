@@ -9,6 +9,7 @@ import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlayAll from "@/components/catalog/media/PlayAll.vue";
+import MediaRowHeader from "@/components/catalog/media/RowHeader.vue";
 import MediaRow from "@/components/catalog/media/Row.vue";
 import { getMedia, getMediaTags } from "@/api/catalog";
 
@@ -17,6 +18,7 @@ export default {
     ListFilter,
     PlayAction,
     PlayAll,
+    MediaRowHeader,
     MediaRow,
     LoadingMore,
   },
@@ -208,6 +210,9 @@ export default {
     </template>
   </PlayAction>
   <div class="media-list">
+    <div class="table-header">
+      <MediaRowHeader />
+    </div>
     <div class="table">
       <MediaRow
         v-for="(media, index) in visibleMediaList"
@@ -225,6 +230,7 @@ export default {
 .list-filter-container {
   @include container.default;
   margin-bottom: 1rem;
+  //padding-left: 5rem;
 }
 .media-list {
   //margin: 0 0 8rem;
