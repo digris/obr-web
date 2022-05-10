@@ -177,7 +177,7 @@ export default {
 }
 
 .artist-list {
-  margin-bottom: 8rem;
+  margin-bottom: 0;
   .list-container {
     @include container.default;
     @include grid;

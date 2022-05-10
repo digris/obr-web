@@ -55,7 +55,7 @@ export default defineComponent({
 @use "@/style/elements/container";
 .editor-list {
   @include container.default;
-  margin-bottom: 8rem;
+  margin-bottom: 0;
 }
 .grid {
   display: grid;

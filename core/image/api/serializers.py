@@ -1,15 +1,5 @@
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema_field
-
-
-@extend_schema_field(
-    {
-        "type": "integer",
-    }
-)
-class RGBValueField(serializers.IntegerField):
-    min_value = 0
-    max_value = 255
+from api_extra.serializers import RGBValueField
 
 
 class BaseImageSerializer(serializers.ModelSerializer):

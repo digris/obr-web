@@ -9,8 +9,7 @@ import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import Searchbar from "@/components/filter/SearchbarAlt.vue";
 import MediaList from "@/components/catalog/media/List.vue";
-// import Animation from '@/components/animation/Animation.vue';
-// import Lottie from '@/components/animation/Lottie.vue';
+import Visual from "@/components/catalog/mood/Visual.vue";
 
 export default defineComponent({
   components: {
@@ -20,8 +19,7 @@ export default defineComponent({
     ObjectTags,
     Searchbar,
     MediaList,
-    // Animation,
-    // Lottie,
+    Visual,
   },
   props: {
     uid: {
@@ -81,6 +79,9 @@ export default defineComponent({
 
 <template>
   <DetailPage>
+    <template #background>
+      <Visual :color="mood.rgb" />
+    </template>
     <template #header>
       <DetailHeader
         :obj="mood"
@@ -115,16 +116,9 @@ export default defineComponent({
         <template #searchbar>
           <Searchbar :filter="combinedFilter" />
         </template>
-        <template #background>
-          <!--
-          <Lottie
-            v-if="mood.animationUrl"
-            :src="mood.animationUrl"
-            :color="mediaColor"
-          />
-          -->
-        </template>
       </DetailHeader>
+    </template>
+    <template #default>
       <MediaList
         :initial-filter="initialFilter"
         :query="query"

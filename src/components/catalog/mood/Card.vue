@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
+import { getContrastColor } from "@/utils/color";
 
 export default defineComponent({
   props: {
@@ -10,14 +11,23 @@ export default defineComponent({
   },
   setup(props) {
     const link = `/discover/moods/${props.mood.uid}/`;
+    const cssVars = computed(() => {
+      const bg = props.mood?.rgb ?? [128, 128, 128];
+      const fg = getContrastColor(bg);
+      return {
+        "--c-bg": bg.join(","),
+        "--c-fg": fg.join(","),
+      };
+    });
     return {
       link,
+      cssVars,
     };
   },
 });
 </script>
 <template>
-  <div class="card card--mood">
+  <div class="card card--mood" :style="cssVars">
     <router-link class="panel" :to="link">
       <div class="name">
         {{ mood.name }}
@@ -36,21 +46,21 @@ export default defineComponent({
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  color: rgb(var(--c-black));
-  background: rgb(var(--c-gray-200));
+  color: rgb(var(--c-fg));
+  background: rgb(var(--c-bg));
   transition: color 200ms, background 300ms;
   &:hover {
-    color: rgb(var(--c-white));
+    color: rgb(var(--c-bg));
     background: rgb(var(--c-black));
     .panel {
-      color: rgb(var(--c-white));
+      color: rgb(var(--c-gb));
     }
   }
   .panel {
     display: grid;
     width: 100%;
     height: 100%;
-    color: rgb(var(--c-black));
+    color: rgb(var(--c-fg));
     .name {
       @include typo.large;
       display: flex;
