@@ -47,7 +47,10 @@ export default defineComponent({
           Alle {{ numTotal }} Tracks spielen
         </div>
         -->
+        <!--
         <div class="text">Alle Tracks spielen</div>
+        -->
+        <div class="text" v-text="$t('catalog.list.playAllTracks')" />
       </div>
       <div class="actions">
         <!--
