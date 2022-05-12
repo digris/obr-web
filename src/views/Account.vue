@@ -1,7 +1,21 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
+
+export default defineComponent({
+  setup() {
+    const { t } = useI18n();
+    return {
+      t,
+    };
+  },
+});
+</script>
+
 <template>
   <div class="account">
     <div class="header">
-      <div class="title" v-text="$t('ACCOUNT.ACCOUNT')" />
+      <div class="title" v-text="t('ACCOUNT.ACCOUNT')" />
     </div>
     <div class="body">
       <router-view></router-view>

@@ -2,6 +2,7 @@
 import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { useI18n } from "vue-i18n";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 
@@ -12,6 +13,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
+    const { t } = useI18n();
     const isVisible = ref(false);
     const user = computed(() => store.getters["account/user"]);
     const close = () => {
@@ -40,13 +42,27 @@ export default defineComponent({
         console.debug("err", err);
       }
     };
+    const pages = computed(() => {
+      return [
+        {
+          path: "/about/",
+          title: t("menu.about"),
+        },
+        {
+          path: "/legal/terms/",
+          title: t("menu.terms"),
+        },
+      ];
+    });
     return {
+      t,
       close,
       isVisible,
       user,
       navigate,
       login,
       logout,
+      pages,
     };
   },
 });
@@ -62,9 +78,8 @@ export default defineComponent({
               name: 'accountSettings',
             })
           "
-        >
-          Konto Einstellungen
-        </router-link>
+          v-text="t('menu.accountSettings')"
+        />
       </section>
       <section class="section" v-else>
         <a href="#" @click.prevent="login"> Login </a>
@@ -77,9 +92,8 @@ export default defineComponent({
               name: 'home',
             })
           "
-        >
-          Radio
-        </router-link>
+          v-text="t('menu.home')"
+        />
         <router-link
           to="/discover/"
           @click.prevent="
@@ -87,9 +101,8 @@ export default defineComponent({
               name: 'discover',
             })
           "
-        >
-          Discover
-        </router-link>
+          v-text="t('menu.discover')"
+        />
         <router-link
           to="/collection/"
           @click.prevent="
@@ -97,9 +110,8 @@ export default defineComponent({
               name: 'collection',
             })
           "
-        >
-          Favoriten
-        </router-link>
+          v-text="t('menu.collection')"
+        />
       </section>
       <section class="section section--primary">
         <router-link
@@ -109,42 +121,25 @@ export default defineComponent({
               name: 'program',
             })
           "
-        >
-          Programm
-        </router-link>
-        <router-link to="/discover/"> Empfang </router-link>
+          v-text="t('menu.program')"
+        />
+        <router-link to="/reception/" v-text="t('menu.reception')" />
       </section>
       <section class="section">
         <router-link
-          to="/history/"
+          v-for="(page, index) in pages"
+          :key="`page-${index}-${page.path}`"
+          :to="page.path"
           @click.prevent="
             navigate({
-              path: '/history/',
+              path: page.path,
             })
           "
-          v-text="`History`"
-        />
-        <router-link
-          to="/jobs/"
-          @click.prevent="
-            navigate({
-              path: '/jobs/',
-            })
-          "
-          v-text="`Jobs`"
-        />
-        <router-link
-          to="/legal/terms/"
-          @click.prevent="
-            navigate({
-              path: '/legal/terms/',
-            })
-          "
-          v-text="`AGB`"
+          v-text="page.title"
         />
       </section>
       <section class="section" v-if="user">
-        <a href="#" @click.prevent="logout"> Abmelden </a>
+        <a href="#" @click.prevent="logout" v-text="t('menu.logout')" />
       </section>
     </div>
   </SidePanel>
@@ -154,6 +149,9 @@ export default defineComponent({
 @use "@/style/elements/section";
 @use "@/style/base/typo";
 .side-menu {
+  overflow-y: scroll;
+  max-height: 100%;
+  overscroll-behavior: contain;
   .section {
     display: flex;
     flex-direction: column;

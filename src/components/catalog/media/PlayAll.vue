@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
 // import CircleButton from '@/components/ui/button/CircleButton.vue';
 // import IconContext from '@/components/ui/icon/IconContext.vue';
@@ -20,6 +21,12 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+  },
+  setup() {
+    const { t } = useI18n();
+    return {
+      t,
+    };
   },
 });
 </script>
@@ -50,7 +57,7 @@ export default defineComponent({
         <!--
         <div class="text">Alle Tracks spielen</div>
         -->
-        <div class="text" v-text="$t('catalog.list.playAllTracks')" />
+        <div class="text" v-text="t('catalog.list.playAllTracks')" />
       </div>
       <div class="actions">
         <!--
