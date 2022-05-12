@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useStreamSettings } from "@/composables/settings";
+import { defineComponent, computed } from "vue";
+import { useSettingsStore } from "@/stores/settings";
 
 import Section from "./Section.vue";
 
@@ -27,8 +27,12 @@ export default defineComponent({
     Section,
   },
   setup() {
-    const { maxBandwidth, setMaxBandwidth } = useStreamSettings();
     const maxBandwidthChoices = BANDWITH_CHOICES;
+    const settingsStore = useSettingsStore();
+    const maxBandwidth = computed(() => settingsStore.maxBandwidth);
+    const setMaxBandwidth = (value: number) => {
+      settingsStore.setMaxBandwidth(value);
+    };
     return {
       maxBandwidth,
       maxBandwidthChoices,

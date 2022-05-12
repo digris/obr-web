@@ -1,15 +1,18 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
+import { useSettingsStore } from "@/stores/settings";
 
 export default defineComponent({
   setup() {
+    const settingsStore = useSettingsStore();
     const { locale, availableLocales } = useI18n({ useScope: "global" });
     const setLocale = (value: string) => {
       locale.value = value;
+      settingsStore.setLocale(value);
     };
     return {
-      locale,
+      currentLocale: locale,
       availableLocales,
       setLocale,
     };
@@ -20,14 +23,14 @@ export default defineComponent({
 <template>
   <div class="language-chooser">
     <a
-      v-for="(l, index) in availableLocales"
-      :key="`locale-${index}-${l}`"
-      @click.prevent="setLocale(l)"
+      v-for="(locale, index) in availableLocales"
+      :key="`locale-${index}-${locale}`"
+      @click.prevent="setLocale(locale)"
       href="#"
       class="language"
-      :class="{ 'is-current': l === locale }"
+      :class="{ 'is-current': locale === currentLocale }"
     >
-      <span v-text="l" />
+      <span v-text="locale" />
     </a>
   </div>
 </template>

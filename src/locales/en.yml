@@ -1,0 +1,15 @@
+ACCOUNT:
+  ACCOUNT: Account
+catalog:
+  list:
+    playAllTracks: Play all tracks
+menu:
+  accountSettings: Account & Settings
+  home: Radio
+  discover: Discover
+  collection: Favourites
+  program: Program
+  reception: Reception
+  about: About
+  terms: Terms & Conditions
+  logout: Logout

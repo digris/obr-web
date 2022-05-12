@@ -1,20 +1,17 @@
 import "./style/main.scss";
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
+import { createPinia } from "pinia";
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 import settings from "@/settings";
+import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
 import createUIStateHandler from "@/utils/ui";
 import createStationTimeHandler from "@/utils/time";
 import createAccountHandler from "@/utils/account";
 import creadeScheduleHandler from "@/broadcast/schedule";
 import createPlayerStateHandler from "@/player/handler";
-
-// import messagesDE from "@/locales/de.json";
-// import messagesEN from "@/locales/en.json";
-
-import { messages } from "@/locales/messages";
 
 import App from "./App.vue";
 import store from "./store";
@@ -30,14 +27,33 @@ createAccountHandler();
 createUIStateHandler();
 createPlayerStateHandler();
 
+const pinia = createPinia();
+
+const app = createApp(App);
+app.use(pinia);
+
+const settingsStore = useSettingsStore();
+
+// @ts-ignore
+import de from "@/locales/de.yml";
+// @ts-ignore
+import en from "@/locales/en.yml";
+
 const i18n = createI18n({
   legacy: false,
-  locale: settings.locale,
+  locale: settingsStore.locale,
   fallbackLocale: "de",
-  messages: messages,
+  // messages: messages,
+  messages: {
+    de,
+    en,
+  },
 });
 
-const app = createApp(App).use(i18n).use(router).use(store).directive("tooltip", TooltipDirective);
+app.use(router);
+app.use(store);
+app.use(i18n);
+app.directive("tooltip", TooltipDirective);
 
 Sentry.init({
   app,
@@ -54,7 +70,7 @@ Sentry.init({
 app.mount("#app");
 
 // @ts-ignore
-window.i18n = i18n;
+window.pinia = pinia;
 
 // @ts-ignore
 window.app = app;

@@ -7,7 +7,8 @@ import { watch } from "vue";
 import eventBus from "@/eventBus";
 import store from "@/store";
 import { playStream } from "@/player/stream";
-import { useStreamSettings } from "@/composables/settings";
+import { useSettingsStore } from "@/stores/settings";
+import { storeToRefs } from "pinia";
 
 shaka.dependencies.add("muxjs", muxjs);
 
@@ -128,7 +129,7 @@ class AudioPlayer {
       eventBus.emit("player:audio:ended", e);
     };
 
-    const { maxBandwidth } = useStreamSettings();
+    const { maxBandwidth } = storeToRefs(useSettingsStore());
 
     if (maxBandwidth.value > 0) {
       this.updateMaxBandwidth(maxBandwidth.value);
@@ -141,7 +142,6 @@ class AudioPlayer {
       }
     );
   }
-
   updateMaxBandwidth(value: number) {
     this.updateSettings({
       abr: {
