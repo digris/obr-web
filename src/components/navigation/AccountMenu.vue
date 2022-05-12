@@ -7,15 +7,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const user = computed(() => store.getters["account/user"]);
-    const initials = computed(() => {
-      if (!user.value) {
-        return "?";
-      }
-      if (user.value.firstName) {
-        return user.value.firstName.substr(0, 1).toUpperCase();
-      }
-      return user.value.email.substr(0, 1).toUpperCase();
-    });
     const login = () => {
       const event = {
         intent: "login",
@@ -25,7 +16,6 @@ export default defineComponent({
     };
     return {
       user,
-      initials,
       login,
     };
   },
@@ -34,24 +24,6 @@ export default defineComponent({
 
 <template>
   <div>
-    <!--
-    <div
-      class="account-menu"
-      v-if="user"
-    >
-      <router-link
-        :to="{ name: 'accountSettings' }"
-        v-slot="{ isActive }"
-      >
-        <CircleButton
-          :size="(48)"
-          :active="isActive"
-        >
-          {{ initials }}
-        </CircleButton>
-      </router-link>
-    </div>
-    -->
     <div class="account-menu" v-if="!user">
       <a href="#" @click.prevent="login" class="menu-link"> Login </a>
     </div>
@@ -60,22 +32,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
-@mixin menu-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 0 2rem;
-  color: inherit;
-  text-decoration: none;
-  transition: color, background-color 500ms;
-  &:hover,
-  &.router-link-active {
-    color: #fff;
-    background: black;
-    transition: color, background-color 200ms;
-  }
-}
 @mixin menu-button {
   display: flex;
   align-items: center;
@@ -85,7 +41,8 @@ export default defineComponent({
   color: inherit;
   text-decoration: none;
   border-radius: 24px;
-  transition: color, background-color 500ms;
+  transition: color, border 100ms 400ms, background-color 500ms;
+  border: 1px solid rgba(var(--c-page-fg), 0.25);
   &:hover {
     @include live-color.bg-inverse(0.1);
     transition: color, background-color 200ms;
@@ -100,17 +57,6 @@ export default defineComponent({
   color: inherit;
   > a.menu-link {
     @include menu-button;
-  }
-  .submenu {
-    @include live-color.bg(0.9);
-    position: absolute;
-    top: 72px;
-    display: flex;
-    flex-direction: column;
-    > a {
-      @include menu-link;
-      height: 48px;
-    }
   }
 }
 </style>

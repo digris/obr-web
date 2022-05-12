@@ -47,17 +47,7 @@ export default defineComponent({
         <ButtonPlay :is-buffering="isLoading" />
       </div>
       <div class="info">
-        <!--
-        <div
-          class="text"
-        >
-          Alle {{ numTotal }} Tracks spielen
-        </div>
-        -->
-        <!--
-        <div class="text">Alle Tracks spielen</div>
-        -->
-        <div class="text" v-text="t('catalog.list.playAllTracks')" />
+        <div class="text" v-text="t('catalog.list.playAllTracks', numTotal)" />
       </div>
       <div class="actions">
         <!--
@@ -92,7 +82,6 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-columns: 1fr 16fr 1fr;
-  //padding: 0.75rem 0;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   > div {

@@ -1,8 +1,11 @@
 ACCOUNT:
   ACCOUNT: Konto
 catalog:
+  ct:
+    media: Track | Tracks
+    artist: Künstler*in
   list:
-    playAllTracks: Alle Tracks spielen
+    playAllTracks: Track spielen | Alle {count} Tracks spielen
 menu:
   accountSettings: Konto Einstellungen
   home: Radio
