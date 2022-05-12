@@ -1,30 +1,33 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useLanguage } from "@/composables/language";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   setup() {
-    const languages = ["de", "en", "fr"];
-    const { currentLanguage, setLanguage } = useLanguage();
+    const { locale, availableLocales } = useI18n({ useScope: "global" });
+    const setLocale = (value: string) => {
+      locale.value = value;
+    };
     return {
-      currentLanguage,
-      languages,
-      setLanguage,
+      locale,
+      availableLocales,
+      setLocale,
     };
   },
 });
 </script>
+
 <template>
   <div class="language-chooser">
     <a
-      v-for="(language, index) in languages"
-      :key="`language-${index}-${language}`"
-      @click.prevent="setLanguage(language)"
+      v-for="(l, index) in availableLocales"
+      :key="`locale-${index}-${l}`"
+      @click.prevent="setLocale(l)"
       href="#"
       class="language"
-      :class="{ 'is-current': language === currentLanguage }"
+      :class="{ 'is-current': l === locale }"
     >
-      <span v-text="language" />
+      <span v-text="l" />
     </a>
   </div>
 </template>

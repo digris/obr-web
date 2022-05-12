@@ -4,7 +4,6 @@ import { createI18n } from "vue-i18n";
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 import settings from "@/settings";
-import { useLanguage } from "@/composables/language";
 import createEventHandler from "@/stats/event";
 import createUIStateHandler from "@/utils/ui";
 import createStationTimeHandler from "@/utils/time";
@@ -31,11 +30,10 @@ createAccountHandler();
 createUIStateHandler();
 createPlayerStateHandler();
 
-const { currentLanguage } = useLanguage();
-
 const i18n = createI18n({
-  legacy: true,
-  locale: currentLanguage.value,
+  legacy: false,
+  locale: settings.locale,
+  fallbackLocale: "de",
   messages: messages,
 });
 
