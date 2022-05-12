@@ -1,8 +1,22 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
+
+export default defineComponent({
+  setup() {
+    const { t } = useI18n();
+    return {
+      t,
+    };
+  },
+});
+</script>
+
 <template>
   <div class="main-menu">
-    <router-link to="/" v-text="`Radio`" />
-    <router-link to="/discover/" v-text="`Discover`" />
-    <router-link to="/collection/" v-text="`Favoriten`" />
+    <router-link to="/" v-text="t('menu.home')" />
+    <router-link to="/discover/" v-text="t('menu.discover')" />
+    <router-link to="/collection/" v-text="t('menu.collection')" />
   </div>
 </template>
 
