@@ -49,6 +49,18 @@ export default defineComponent({
           title: t("menu.about"),
         },
         {
+          path: "/contact/",
+          title: t("menu.contact"),
+        },
+        {
+          path: "/donate/",
+          title: t("menu.donate"),
+        },
+        {
+          path: "/legal/imprint/",
+          title: t("menu.imprint"),
+        },
+        {
           path: "/legal/terms/",
           title: t("menu.terms"),
         },
