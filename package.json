@@ -11,6 +11,7 @@
     "fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@sentry/tracing": "^6.18.2",
     "@sentry/vue": "^6.18.2",
     "@stripe/stripe-js": "^1.24.0",
@@ -22,6 +23,7 @@
     "luxon": "^2.3.1",
     "mitt": "^3.0.0",
     "mux.js": "^6.0.1",
+    "pinia": "^2.0.0-rc.10",
     "qs": "^6.10.3",
     "sass": "^1.49.9",
     "shaka-player": "4.0.0",
