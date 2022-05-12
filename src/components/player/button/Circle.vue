@@ -102,7 +102,7 @@ export default defineComponent({
     }
   }
   &:hover {
-    background: rgba(var(--c-fg), 0.1);
+    background: rgba(var(--c-fg), 0.15);
     border-color: transparent;
     &.is-outlined {
       border-color: transparent;

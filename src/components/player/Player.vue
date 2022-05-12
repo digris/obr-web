@@ -9,6 +9,7 @@ import Queue from "./Queue.vue";
 import Circle from "./button/Circle.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import IconQueue from "@/components/ui/icon/IconQueue.vue";
+import IconCaret from "@/components/ui/icon/IconCaret.vue";
 import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
 
 export default defineComponent({
@@ -18,6 +19,7 @@ export default defineComponent({
     OnAir,
     Circle,
     Queue,
+    IconCaret,
     UserRating,
     IconQueue,
     AnimatedNumber,
@@ -108,12 +110,9 @@ export default defineComponent({
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
             }"
           >
-            <IconQueue
-              :size="48"
-              :color="queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))'"
-              :num-queued="queueNumMedia"
-            />
-            <div class="num-queued">
+            <IconCaret v-if="queueVisible" :size="48" direction="down" color="rgb(var(--c-bg))" />
+            <IconQueue v-else :size="48" color="rgb(var(--c-fg))" :num-queued="queueNumMedia" />
+            <div v-if="queueNumMedia > 0" class="num-queued">
               <AnimatedNumber :value="queueNumMedia" />
             </div>
           </Circle>
@@ -172,6 +171,7 @@ $player-height: 72px;
       position: relative;
     }
     .num-queued {
+      pointer-events: none;
       display: flex;
       position: absolute;
       top: -4px;
