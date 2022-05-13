@@ -39,6 +39,7 @@ const useQueueControls = () => {
   };
   const store = useStore();
   const enqueueMedia = async (media: Array<object>, mode = "append", scope = []) => {
+    console.debug("enqueueMedia", media, mode, scope);
     await store.dispatch("queue/enqueue", { media, mode, scope });
     // await queue.startPlayCurrent();
   };

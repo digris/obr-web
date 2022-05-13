@@ -7,9 +7,10 @@ import { requireSubscription } from "@/utils/account";
 import { useObjRating } from "@/composables/rating";
 import { useQueueControls } from "@/composables/queue";
 
-import IconEnueue from "@/components/ui/icon/IconEnueue.vue";
+import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
+import Action from "./actions/Action.vue";
 
 export default defineComponent({
   props: {
@@ -20,6 +21,7 @@ export default defineComponent({
     },
   },
   components: {
+    Action,
     IconEnueue,
     IconHeart,
     IconFlash,
@@ -72,79 +74,40 @@ export default defineComponent({
 <template>
   <div class="actions">
     <section>
-      <div class="action" @click.prevent="enqueueNext">
-        <div class="action__icon">
+      <Action @click="enqueueNext" :label="t('player.enqueueNext')">
+        <template #icon>
           <IconEnueue :size="iconSize" :color="iconColor" />
-        </div>
-        <div class="action__name" v-text="t('player.enqueueNext')" />
-      </div>
-      <div class="action" @click.prevent="enqueueEnd">
-        <div class="action__icon">
+        </template>
+      </Action>
+      <Action @click="enqueueEnd" :label="t('player.enqueueEnd')">
+        <template #icon>
           <IconEnueue :size="iconSize" :color="iconColor" :flip-y="true" />
-        </div>
-        <div class="action__name" v-text="t('player.enqueueEnd')" />
-      </div>
+        </template>
+      </Action>
     </section>
     <section>
-      <div v-if="!isFavorite" @click="rate(1)" class="action">
-        <div class="action__icon">
+      <Action v-if="!isFavorite" @click="rate(1)" :label="t('player.favoritesAdd')">
+        <template #icon>
           <IconHeart :size="iconSize" :color="iconColor" :outlined="true" />
-        </div>
-        <div class="action__name">Zu meinen Favoriten</div>
-      </div>
-      <div v-else class="action" @click="rate(null)">
-        <div class="action__icon">
+        </template>
+      </Action>
+      <Action v-else @click="rate(null)" :label="t('player.favoritesRemove')">
+        <template #icon>
           <IconHeart :size="iconSize" :color="iconColor" />
-        </div>
-        <div class="action__name">Aus Favoriten entfernen</div>
-      </div>
+        </template>
+      </Action>
     </section>
     <section v-if="canBan">
-      <div v-if="!isBanned" @click="rate(-1)" class="action">
-        <div class="action__icon">
+      <Action v-if="!isBanned" @click="rate(-1)" :label="t('player.bannedAdd')">
+        <template #icon>
           <IconFlash :size="iconSize" :color="iconColor" :outlined="true" />
-        </div>
-        <div class="action__name">Mag ich nicht</div>
-      </div>
-      <div v-else class="action" @click="rate(null)">
-        <div class="action__icon">
+        </template>
+      </Action>
+      <Action v-else @click="rate(0)" :label="t('player.bannedRemove')">
+        <template #icon>
           <IconFlash :size="iconSize" :color="iconColor" />
-        </div>
-        <div class="action__name">Mag ich doch</div>
-      </div>
+        </template>
+      </Action>
     </section>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.actions {
-  .action {
-    display: flex;
-    align-items: center;
-    height: 3rem;
-    border-bottom: 1px solid rgb(var(--c-gray-200));
-    cursor: pointer;
-    &:hover {
-      background: rgb(var(--c-gray-100));
-    }
-    &__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-    }
-    &__name {
-      display: flex;
-      flex-grow: 1;
-      align-items: center;
-      justify-content: flex-start;
-      height: 48px;
-      padding-right: 1rem;
-      &:first-letter {
-        text-transform: uppercase;
-      }
-    }
-  }
-}
-</style>

@@ -2,15 +2,25 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { requireSubscription } from "@/utils/account";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
-import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 
 export default defineComponent({
   components: {
+    PlayAction,
     ContextMenu,
-    ButtonPlay,
   },
   props: {
+    filter: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
+    ordering: {
+      type: Array,
+      default: () => [],
+    },
     isLoading: {
       type: Boolean,
       default: false,
@@ -22,8 +32,16 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
+    const iconSize = 42;
+    const iconColor = "rgb(var(--c-black))";
+    const enqueueNext = requireSubscription(async () => {
+      console.debug("enqueueNext");
+    });
     return {
       t,
+      iconSize,
+      iconColor,
+      enqueueNext,
     };
   },
 });
@@ -42,15 +60,20 @@ export default defineComponent({
   >
     <div class="container">
       <div class="play">
-        <ButtonPlay :is-buffering="isLoading" />
+        <PlayAction :filter="filter" :ordering="ordering" background-color="rgb(var(--c-white))" />
       </div>
       <div class="info">
-        <div class="text" v-text="t('catalog.list.playAllTracks', numTotal)" />
+        <PlayAction :filter="filter" :ordering="ordering">
+          <div v-if="!isLoading" class="text" v-text="t('catalog.list.playAllTracks', numTotal)" />
+        </PlayAction>
       </div>
       <div class="actions">
-        <ContextMenu>
-          <h1>FOO</h1>
-        </ContextMenu>
+        <ContextMenu
+          :list="{
+            filter,
+            ordering,
+          }"
+        />
       </div>
     </div>
   </div>
