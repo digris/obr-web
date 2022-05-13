@@ -8,6 +8,12 @@ export default defineComponent({
   components: {
     SocialMediaLinks,
   },
+  props: {
+    appendixVisible: {
+      type: Boolean,
+      default: true,
+    },
+  },
   setup(props, { slots }) {
     const hasHeader = computed(() => !!slots.header);
     const hasBody = computed(() => !!slots.default);
@@ -41,7 +47,7 @@ export default defineComponent({
     <section class="detail__space" />
     <section class="detail__appendix">
       <slot name="appendix">
-        <SocialMediaLinks />
+        <SocialMediaLinks v-if="appendixVisible" />
       </slot>
     </section>
   </div>
@@ -63,6 +69,9 @@ export default defineComponent({
   }
   &__body {
     background: transparent;
+    :deep(.list-filter-container) {
+      padding-left: 5rem;
+    }
   }
   &__space {
     flex-grow: 1;

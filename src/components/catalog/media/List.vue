@@ -48,7 +48,11 @@ export default {
       default: false,
     },
   },
-  setup(props: any) {
+  emits: [
+    'allLoaded',
+    'hasMore',
+  ],
+  setup(props: any, { emit }) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -104,6 +108,11 @@ export default {
       // TODO: this kind of smells...
       await store.dispatch("rating/updateObjectRatings", results);
       mediaListLoading.value = false;
+      if (!hasNext.value) {
+        emit("allLoaded");
+      } else {
+        emit("hasMore");
+      }
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
