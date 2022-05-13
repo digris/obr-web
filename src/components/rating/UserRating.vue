@@ -53,6 +53,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         height: `${props.iconSize}px`,
+        width: `${props.iconSize}px`,
         opacity: props.hideIfUnset && userRating.value.value === null ? 0 : 1,
       };
     });
@@ -91,6 +92,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .user-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: opacity 200ms ease-in-out;
 }
 </style>

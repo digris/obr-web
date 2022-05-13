@@ -2,14 +2,12 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
-import CircleButton from "@/components/ui/button/CircleButton.vue";
-import IconContext from "@/components/ui/icon/IconContext.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
 
 export default defineComponent({
   components: {
-    CircleButton,
-    IconContext,
+    ContextMenu,
     ButtonPlay,
   },
   props: {
@@ -50,9 +48,9 @@ export default defineComponent({
         <div class="text" v-text="t('catalog.list.playAllTracks', numTotal)" />
       </div>
       <div class="actions">
-        <CircleButton :size="48" :outlined="false">
-          <IconContext :color="'rgb(var(--c-black))'" :size="36" />
-        </CircleButton>
+        <ContextMenu>
+          <h1>FOO</h1>
+        </ContextMenu>
       </div>
     </div>
   </div>

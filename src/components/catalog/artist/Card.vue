@@ -3,12 +3,16 @@ import { computed, defineComponent } from "vue";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import UserRating from "@/components/rating/UserRating.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 
 export default defineComponent({
   components: {
     LazyImage,
     PlayAction,
+    CircleButton,
+    UserRating,
     ContextMenu,
   },
   props: {
@@ -50,29 +54,12 @@ export default defineComponent({
         </div>
       </div>
       <div class="actions">
-        <ContextMenu :obj="artist" :icon-size="36" :icon-by-rating="true" />
+        <CircleButton :size="36" :outlined="false">
+          <UserRating :obj-key="objKey" :icon-size="40" />
+        </CircleButton>
+        <ContextMenu :obj="artist" :icon-size="36" />
       </div>
     </div>
-    <!--
-    <div
-      class="meta"
-    >
-      <div
-        class="title"
-      >
-        <router-link
-          :to="link"
-        >
-          {{ artist.name }}
-        </router-link>
-      </div>
-      <div
-        class="subtitle"
-      >
-        {{ artist.numMedia }} Tracks
-      </div>
-    </div>
-    -->
   </div>
 </template>
 
@@ -115,6 +102,9 @@ export default defineComponent({
     }
     .actions {
       height: 36px;
+      width: 72px;
+      display: flex;
+      margin-top: 0.5rem;
     }
   }
   &:hover {

@@ -4,6 +4,8 @@ import { DateTime } from "luxon";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import UserRating from "@/components/rating/UserRating.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import PlaylistName from "@/components/catalog/playlist/Name.vue";
@@ -12,6 +14,8 @@ export default defineComponent({
   components: {
     LazyImage,
     PlayAction,
+    CircleButton,
+    UserRating,
     ContextMenu,
     RelativeDateTime,
     PlaylistName,
@@ -90,7 +94,10 @@ export default defineComponent({
         -->
       </div>
       <div class="actions">
-        <ContextMenu :obj="playlist" :icon-size="36" :icon-by-rating="true" />
+        <CircleButton :size="36" :outlined="false">
+          <UserRating :obj-key="objKey" :icon-size="40" />
+        </CircleButton>
+        <ContextMenu :obj="playlist" :icon-size="36" />
       </div>
     </div>
   </div>
@@ -131,6 +138,9 @@ export default defineComponent({
     }
     .actions {
       height: 36px;
+      width: 72px;
+      display: flex;
+      margin-top: 0.5rem;
     }
   }
   &:hover {
