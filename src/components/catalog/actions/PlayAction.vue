@@ -4,8 +4,8 @@ import { usePlayerState } from "@/composables/player";
 import { requireSubscription } from "@/utils/account";
 import { getMedia } from "@/api/catalog";
 import { getContrastColor } from "@/utils/color";
-import eventBus from "@/eventBus";
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import { useQueueControls } from "@/composables/queue";
 
 export default defineComponent({
   components: {
@@ -26,6 +26,10 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    mode: {
+      type: String,
+      default: "replace",
+    },
     size: {
       type: Number,
       default: 48,
@@ -45,6 +49,7 @@ export default defineComponent({
   },
   setup(props) {
     const { playerState, currentScope, currentColor } = usePlayerState();
+    const { enqueueMedia, startPlayCurrent } = useQueueControls();
     const inScope = computed(() => {
       return currentScope.value.includes(props.objKey);
     });
@@ -74,16 +79,15 @@ export default defineComponent({
     const play = requireSubscription(async () => {
       isLoading.value = true;
       const filter = { ...props.filter };
+      const ordering = props.ordering;
+      const mode = props.mode;
+      const scope = props.objKey ? [props.objKey] : [];
       if (props.objKey) {
         filter.obj_key = props.objKey;
       }
-      const { results } = await getMedia(100, 0, filter, props.ordering);
-      const payload = {
-        mode: "replace",
-        media: results,
-        scope: props.objKey ? [props.objKey] : null,
-      };
-      eventBus.emit("queue:controls:enqueue", payload);
+      const { results } = await getMedia(100, 0, filter, ordering);
+      await enqueueMedia(results, mode, scope);
+      await startPlayCurrent(true);
       isLoading.value = false;
     });
     return {
@@ -101,7 +105,7 @@ export default defineComponent({
 
 <template>
   <div class="play-action">
-    <div @click="play" class="container">
+    <div @click="play" class="container" :class="{ 'is-loading': isLoading }">
       <slot name="default">
         <ButtonPlay
           :is-active="inScope"
@@ -118,3 +122,11 @@ export default defineComponent({
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.play-action {
+  .is-loading {
+    cursor: wait;
+  }
+}
+</style>

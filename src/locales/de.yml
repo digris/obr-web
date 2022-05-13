@@ -34,3 +34,7 @@ datetime:
 player:
   enqueueNext: Als nächstes spielen
   enqueueEnd: Ans Ende der Warteschlange
+  favoritesAdd: Zu meinen Favoriten
+  favoritesRemove: Aus Favoriten entfernen
+  bannedAdd: Mag ich nicht
+  bannedRemove: Mag ich doch

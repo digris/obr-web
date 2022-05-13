@@ -11,13 +11,22 @@ import eventBus from '@/eventBus';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
 import ObjectActions from './ObjectActions.vue';
+import ListActions from './ListActions.vue';
 
 export default defineComponent({
   props: {
     obj: {
       type: Object,
       required: false,
-      default: () => {},
+      default: () => ({}),
+    },
+    list: {
+      type: Object,
+      required: false,
+      default: () => ({
+        filter: {},
+        ordering: [],
+      }),
     },
     iconSize: {
       type: Number,
@@ -28,13 +37,15 @@ export default defineComponent({
     CircleButton,
     IconContext,
     ObjectActions,
+    ListActions,
   },
-  setup() {
+  setup(props) {
     const root = ref(null);
     const menu = ref(null);
     const menuPosition = ref('bottom');
     const iconColor = 'rgb(var(--c-black))';
     const isVisible = ref(false);
+    const isObj = computed(() => Object.keys(props.obj).length);
     const show = (e) => {
       const { pageY } = e;
       const height = window.innerHeight;
@@ -83,6 +94,7 @@ export default defineComponent({
       menuPosition,
       iconColor,
       isVisible,
+      isObj,
       show,
       hide,
       onMenuMouseleave,
@@ -109,7 +121,8 @@ export default defineComponent({
     <transition name="slide">
       <div class="menu-container" v-if="isVisible" :class="`position-${menuPosition}`">
         <div class="menu" ref="menu" @mouseleave="onMenuMouseleave" @mouseenter="onMenuMouseenter">
-          <ObjectActions :obj="obj" @close="hide" />
+          <ObjectActions v-if="isObj" :obj="obj" @close="hide" />
+          <ListActions v-else :filter="list.filter" :ordering="list.ordering" @close="hide" />
         </div>
       </div>
     </transition>

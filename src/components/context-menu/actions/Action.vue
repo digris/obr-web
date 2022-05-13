@@ -1,0 +1,62 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  props: {
+    label: {
+      type: String,
+      required: true,
+      default: "",
+    },
+  },
+  emits: ["click"],
+  setup(props, { emit }) {
+    const onClick = () => {
+      emit("click");
+    };
+    return {
+      onClick,
+    };
+  },
+});
+</script>
+
+<template>
+  <div class="action" @click.prevent="onClick">
+    <div class="action__icon">
+      <slot name="icon"></slot>
+    </div>
+    <div class="action__name" v-text="label" />
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.action {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  border-bottom: 1px solid rgb(var(--c-gray-200));
+  cursor: pointer;
+  &:hover {
+    background: rgb(var(--c-gray-100));
+  }
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+  }
+  &__name {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-start;
+    height: 48px;
+    padding-right: 1rem;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+}
+</style>

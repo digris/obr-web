@@ -7,7 +7,6 @@ import { DateTime } from "luxon";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
-import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlayAll from "@/components/catalog/media/PlayAll.vue";
 import MediaRowHeader from "@/components/catalog/media/RowHeader.vue";
 import MediaRow from "@/components/catalog/media/Row.vue";
@@ -16,7 +15,6 @@ import { getMedia, getMediaTags } from "@/api/catalog";
 export default {
   components: {
     ListFilter,
-    PlayAction,
     PlayAll,
     MediaRowHeader,
     MediaRow,
@@ -190,14 +188,6 @@ export default {
 </script>
 
 <template>
-  <!--
-  <pre
-    class="debug"
-    v-text="{
-      now: now,
-    }"
-  ></pre>
-  -->
   <div v-if="showUserFilter" class="list-filter-container">
     <ListFilter
       :filter="userFilter"
@@ -206,15 +196,9 @@ export default {
       @change="updateUserFilter"
     />
   </div>
-  <PlayAction
-    v-if="!disablePlayAll && numResults > 0"
-    :filter="combinedFilter"
-    :ordering="ordering"
-  >
-    <template #default="{ isLoading }">
-      <PlayAll :is-loading="isLoading" :num-total="numResults" />
-    </template>
-  </PlayAction>
+  <div v-if="!disablePlayAll && numResults > 0">
+    <PlayAll :num-total="numResults" :filter="combinedFilter" :ordering="ordering" />
+  </div>
   <div class="media-list">
     <div class="table-header">
       <MediaRowHeader />
