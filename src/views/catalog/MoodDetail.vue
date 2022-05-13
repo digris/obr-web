@@ -33,9 +33,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const isLoaded = ref(false);
     const mood = computed(() => store.getters["catalog/moodByUid"](props.uid));
-    const mediaColor = computed(() => store.getters["player/color"]);
     const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
     const initialFilter = computed(() => {
       return {
@@ -56,29 +54,30 @@ export default defineComponent({
     });
     const showPlayAll = computed(() => {
       return (userFilter.value?.tags || []).length || userFilter.value?.q;
-      // return true;
     });
     onActivated(() => {
       if (!mood.value) {
         store.dispatch("catalog/loadMood", props.uid);
       }
     });
+    const allMediaLoaded = ref(false);
     return {
       objKey,
-      isLoaded,
       mood,
       initialFilter,
       userFilter,
       showPlayAll,
       combinedFilter,
-      mediaColor,
+      allMediaLoaded,
     };
   },
 });
 </script>
 
 <template>
-  <DetailPage>
+  <DetailPage
+    :appendix-visible="allMediaLoaded"
+  >
     <template #background>
       <Visual :color="mood.rgb" />
     </template>
@@ -124,6 +123,8 @@ export default defineComponent({
         :query="query"
         :disable-user-filter="false"
         :disable-play-all="!showPlayAll"
+        @allLoaded="allMediaLoaded = true"
+        @hasMore="allMediaLoaded = false"
       />
     </template>
   </DetailPage>
@@ -134,7 +135,7 @@ export default defineComponent({
 .section {
   @include container.section;
 }
-.mood-detail {
+.--disabled--mood-detail {
   margin-bottom: 12rem;
   .detail-header {
     // TODO: find / define appropriate value...
@@ -145,8 +146,5 @@ export default defineComponent({
     justify-content: flex-end;
     margin-bottom: 1rem;
   }
-}
-.media-list {
-  background: rgb(var(--c-white));
 }
 </style>

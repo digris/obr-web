@@ -87,7 +87,7 @@ export default defineComponent({
         </template>
       </DetailHeader>
     </template>
-    <PlaylistList :initial-filter="query.filter" layout="table" />
+    <PlaylistList :initial-filter="query.filter" :disable-user-filter="false" layout="table" />
   </DetailPage>
 </template>
 
