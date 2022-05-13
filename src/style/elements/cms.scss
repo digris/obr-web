@@ -32,6 +32,34 @@
   }
 }
 
+@mixin table {
+  @include typo.light;
+  @include block-spacing;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  > thead {
+    color: rgb(var(--c-page-bg));
+    background: rgb(var(--c-page-fg));
+    font-weight: inherit;
+    th {
+      padding: 0.5rem;
+      text-align: left;
+      font-weight: inherit;
+    }
+  }
+  > tbody {
+    td {
+      padding: 0.5rem;
+      border-bottom: 3px solid rgb(var(--c-page-fg));
+      user-select: text;
+      &:not(:last-child) {
+        border-right: 3px solid rgb(var(--c-page-fg));
+      }
+    }
+  }
+}
+
 @mixin pyembed {
   > iframe {
     @include block-spacing;
@@ -47,7 +75,7 @@
   > h3 {
     @include typo.large;
     @include typo.bold;
-    margin: 2rem 0;
+    margin: 2rem 0 0.5rem;
     //@include block-spacing(0.5);
   }
   > h4,
@@ -59,6 +87,13 @@
   }
   > p {
     @include block-spacing;
+    line-height: 120%;
+    > em {
+      padding: 0 0.2em;
+      color: rgb(var(--c-page-bg));
+      background: rgb(var(--c-page-fg));
+      font-style: normal;
+    }
   }
   > ol,
   > ul {
@@ -67,6 +102,9 @@
     margin-left: 1.5rem;
     padding-bottom: 0.75rem;
     list-style-position: outside;
+    > li {
+      margin-bottom: 1rem;
+    }
   }
   > hr {
     margin: 2rem 0;
