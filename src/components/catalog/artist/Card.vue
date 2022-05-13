@@ -1,5 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
+import { useObjKey } from "@/composables/obj";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
@@ -22,9 +24,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const objKey = computed(() => `${props.artist.ct}:${props.artist.uid}`);
+    const { t } = useI18n();
+    const { objKey } = useObjKey(props.artist);
     const link = `/discover/artists/${props.artist.uid}/`;
     return {
+      t,
       objKey,
       link,
     };
@@ -48,10 +52,7 @@ export default defineComponent({
     <div class="meta">
       <div class="title">
         <router-link class="primary" :to="link" v-text="artist.name" />
-        <div class="secondary">
-          <span v-if="artist.numMedia === 1"> {{ artist.numMedia }} Track </span>
-          <span v-else> {{ artist.numMedia }} Tracks </span>
-        </div>
+        <div class="secondary" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
       </div>
       <div class="actions">
         <CircleButton :size="36" :outlined="false">

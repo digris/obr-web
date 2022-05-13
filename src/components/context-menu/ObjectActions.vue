@@ -1,10 +1,8 @@
 <script lang="ts">
-import {
-  computed,
-  // computed,
-  defineComponent,
-} from "vue";
+import { computed, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
+import { useObjKey } from "@/composables/obj";
 import { requireSubscription } from "@/utils/account";
 import { useObjRating } from "@/composables/rating";
 import { useQueueControls } from "@/composables/queue";
@@ -28,7 +26,8 @@ export default defineComponent({
   },
   emits: ["close"],
   setup(props, { emit }) {
-    const objKey = computed(() => `${props.obj.ct}:${props.obj.uid}`);
+    const { t } = useI18n();
+    const { objKey } = useObjKey(props.obj);
     const iconSize = 42;
     const iconColor = "rgb(var(--c-black))";
     const { userRating, isFavorite, isBanned, rate } = useObjRating(objKey.value);
@@ -53,6 +52,7 @@ export default defineComponent({
       emit("close");
     });
     return {
+      t,
       iconSize,
       iconColor,
       //
@@ -76,13 +76,13 @@ export default defineComponent({
         <div class="action__icon">
           <IconEnueue :size="iconSize" :color="iconColor" />
         </div>
-        <div class="action__name">Als nächstes spielen</div>
+        <div class="action__name" v-text="t('player.enqueueNext')" />
       </div>
       <div class="action" @click.prevent="enqueueEnd">
         <div class="action__icon">
           <IconEnueue :size="iconSize" :color="iconColor" :flip-y="true" />
         </div>
-        <div class="action__name">Ans Ende der Warteschlange</div>
+        <div class="action__name" v-text="t('player.enqueueEnd')" />
       </div>
     </section>
     <section>
@@ -141,6 +141,9 @@ export default defineComponent({
       justify-content: flex-start;
       height: 48px;
       padding-right: 1rem;
+      &:first-letter {
+        text-transform: uppercase;
+      }
     }
   }
 }

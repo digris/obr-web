@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { DateTime } from "luxon";
+import { useObjKey } from "@/composables/obj";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
@@ -27,7 +28,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const objKey = computed(() => `${props.playlist.ct}:${props.playlist.uid}`);
+    const { objKey } = useObjKey(props.playlist);
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const title = computed(() => {
       return {
@@ -85,13 +86,6 @@ export default defineComponent({
           -->
         </router-link>
         <RelativeDateTime class="secondary" :date-time="latestEmission" />
-        <!--
-        <RelativeDateTime
-          v-if="timeRated"
-          class="secondary"
-          :date-time="timeRated"
-        />
-        -->
       </div>
       <div class="actions">
         <CircleButton :size="36" :outlined="false">

@@ -10,6 +10,7 @@ catalog:
     artist: Künstler*in | Künstler*innen
     release: Album | Alben
     playlist: Show | Shows
+    numMedia: 1 Track | {count} Tracks
   list:
     playAllTracks: Track spielen | Alle {count} Tracks spielen
 menu:
@@ -28,3 +29,8 @@ menu:
 text:
   duration: Dauer
   airtime: Airtime
+datetime:
+  today: heute
+player:
+  enqueueNext: Als nächstes spielen
+  enqueueEnd: Ans Ende der Warteschlange

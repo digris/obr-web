@@ -24,4 +24,9 @@ menu:
   logout: Logout
 text:
   duration: duration
-  airtime: airtime
+  airtime: airtimeAirtime
+datetime:
+  today: today
+player:
+  enqueueNext: queue as next
+  enqueueEnd: queue at end
