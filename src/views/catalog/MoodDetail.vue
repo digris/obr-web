@@ -75,9 +75,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <DetailPage
-    :appendix-visible="allMediaLoaded"
-  >
+  <DetailPage :appendix-visible="allMediaLoaded">
     <template #background>
       <Visual :color="mood.rgb" />
     </template>

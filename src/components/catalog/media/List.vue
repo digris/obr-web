@@ -48,10 +48,7 @@ export default {
       default: false,
     },
   },
-  emits: [
-    'allLoaded',
-    'hasMore',
-  ],
+  emits: ["allLoaded", "hasMore"],
   setup(props: any, { emit }) {
     const store = useStore();
     const route = useRoute();

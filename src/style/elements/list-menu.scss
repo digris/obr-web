@@ -6,9 +6,17 @@
   margin-bottom: 1rem;
   .menu {
     > a {
+      display: inline-block;
       margin-right: 1.5rem;
-      padding: 1rem 0 0.5rem;
+      padding: 0 0 0.5rem;
       color: rgb(var(--c-page-fg));
+      &:after {
+        content: " ";
+        font-size: 0;
+      }
+      &:first-letter {
+        text-transform: uppercase;
+      }
       &.router-link-exact-active {
         border-bottom: 3px solid rgb(var(--c-page-fg));
       }

@@ -1,16 +1,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
-export default defineComponent({});
+export default defineComponent({
+  setup() {
+    const { t } = useI18n();
+    return {
+      t,
+    };
+  },
+});
 </script>
 
 <template>
   <div class="media-row-header">
     <div class="container">
       <div class="label" />
-      <div class="label label--playlist">Show:</div>
-      <div class="label">Editor*in:</div>
-      <div class="label">Airtime/Dauer:</div>
+      <div class="label label--playlist" v-text="`${t('catalog.ct.playlist')}:`" />
+      <div class="label" v-text="`${t('broadcast.ct.editor')}:`" />
+      <div class="label" v-text="`${t('text.airtime')}/${t('text.duration')}:`" />
     </div>
   </div>
 </template>
@@ -29,6 +37,9 @@ export default defineComponent({});
   grid-column-gap: 1rem;
   grid-template-columns: 96px 8fr 6fr 2fr 96px;
   .label {
+    &:first-letter {
+      text-transform: uppercase;
+    }
     &--playlist {
       margin-left: -48px;
     }
