@@ -7,28 +7,21 @@ import {
 } from 'vue';
 
 import { onClickOutside } from '@vueuse/core';
-import { useObjRating } from '@/composables/rating';
 import eventBus from '@/eventBus';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
-import IconHeart from '@/components/ui/icon/IconHeart.vue';
-import IconFlash from '@/components/ui/icon/IconFlash.vue';
 import ObjectActions from './ObjectActions.vue';
 
 export default defineComponent({
   props: {
     obj: {
       type: Object,
-      required: true,
+      required: false,
       default: () => {},
     },
     iconSize: {
       type: Number,
       default: 48,
-    },
-    iconByRating: {
-      type: Boolean,
-      default: false,
     },
   },
   components: {
@@ -36,24 +29,11 @@ export default defineComponent({
     IconContext,
     ObjectActions,
   },
-  setup(props) {
+  setup() {
     const root = ref(null);
     const menu = ref(null);
     const menuPosition = ref('bottom');
-    const objKey = computed(() => `${props.obj.ct}:${props.obj.uid}`);
-    const {
-      userRating,
-    } = useObjRating(objKey.value);
     const iconColor = 'rgb(var(--c-black))';
-    const iconComponent = computed(() => {
-      if (props.iconByRating && userRating.value && userRating.value.value === 1) {
-        return IconHeart;
-      }
-      if (props.iconByRating && userRating.value && userRating.value.value === -1) {
-        return IconFlash;
-      }
-      return IconContext;
-    });
     const isVisible = ref(false);
     const show = (e) => {
       const { pageY } = e;
@@ -102,7 +82,6 @@ export default defineComponent({
       menu,
       menuPosition,
       iconColor,
-      iconComponent,
       isVisible,
       show,
       hide,
@@ -124,7 +103,7 @@ export default defineComponent({
   >
     <div class="context-menu__icon" @click.prevent="show">
       <CircleButton :size="iconSize" :outlined="false">
-        <component :is="iconComponent" :size="iconSize" :color="iconColor" />
+        <IconContext :size="iconSize" :color="iconColor" />
       </CircleButton>
     </div>
     <transition name="slide">
