@@ -211,16 +211,6 @@ export default defineComponent({
         <CircleButton :size="48" :outlined="false">
           <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
         </CircleButton>
-        <!--
-        <CircleButton
-          :size="(48)"
-          :outlined="(false)"
-        >
-          <IconContext
-            :size="48"
-          />
-        </CircleButton>
-        -->
         <ContextMenu :obj="media" />
       </div>
     </div>

@@ -28,18 +28,6 @@ export default defineComponent({
   },
   emits: ["close"],
   setup(props, { emit }) {
-    // const store = useStore();
-    // const userRating = computed(() => {
-    //   return store.getters['rating/ratingByKey'](props.objKey);
-    // });
-    // const rate = async (value: number) => {
-    //   const vote = {
-    //     key: props.objKey,
-    //     value,
-    //   };
-    //   await store.dispatch('rating/updateRating', vote);
-    //   emit('close');
-    // };
     const objKey = computed(() => `${props.obj.ct}:${props.obj.uid}`);
     const iconSize = 42;
     const iconColor = "rgb(var(--c-black))";
