@@ -10,6 +10,7 @@ catalog:
     artist: artist | artists
     release: album
     playlist: show | shows
+    numMedia: 1 track | {count} tracks
   list:
     playAllTracks: Play track | Play all {count} tracks
 menu:

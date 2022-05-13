@@ -190,6 +190,7 @@ const routes = [
         props: {
           default: (route: any) => ({
             uid: route.params.uid,
+            query: parseFilterQuery(route.query),
           }),
         },
         meta: {

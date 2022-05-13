@@ -1,11 +1,12 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { usePlayerState } from "@/composables/player";
+import { useMagicKeys } from "@vueuse/core";
+import { usePlayerState, usePlayerControls } from "@/composables/player";
+import { useQueueControls } from "@/composables/queue";
 import { requireSubscription } from "@/utils/account";
 import { getMedia } from "@/api/catalog";
 import { getContrastColor } from "@/utils/color";
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
-import { useQueueControls } from "@/composables/queue";
 
 export default defineComponent({
   components: {
@@ -48,17 +49,23 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { playerState, currentScope, currentColor } = usePlayerState();
+    const { shift: shiftKey } = useMagicKeys();
     const { enqueueMedia, startPlayCurrent } = useQueueControls();
+    const {
+      isPlaying,
+      isBuffering,
+      issPaused,
+      //
+      currentScope,
+      currentColor,
+    } = usePlayerState();
+    const { pause, resume } = usePlayerControls();
     const inScope = computed(() => {
       return currentScope.value.includes(props.objKey);
     });
-    const isPlaying = computed(() => {
-      return inScope.value && playerState.value.isPlaying;
-    });
-    const isBuffering = computed(() => {
-      return inScope.value && playerState.value.isBuffering;
-    });
+    const objIsPlaying = computed(() => inScope.value && isPlaying.value);
+    const objIsBuffering = computed(() => inScope.value && isBuffering.value);
+    const objIsPaused = computed(() => inScope.value && issPaused.value);
     const buttonCssVars = computed(() => {
       if (inScope.value && currentColor.value) {
         return {
@@ -76,7 +83,7 @@ export default defineComponent({
       return [0, 0, 0];
     });
     const isLoading = ref(false);
-    const play = requireSubscription(async () => {
+    const play = async () => {
       isLoading.value = true;
       const filter = { ...props.filter };
       const ordering = props.ordering;
@@ -89,15 +96,29 @@ export default defineComponent({
       await enqueueMedia(results, mode, scope);
       await startPlayCurrent(true);
       isLoading.value = false;
+    };
+    const onClick = requireSubscription(async (e) => {
+      if (e.shiftKey) {
+        await play();
+      } else if (objIsPlaying.value || isBuffering.value) {
+        await pause();
+      } else if (objIsPaused.value) {
+        await resume();
+      } else {
+        await play();
+      }
     });
     return {
-      play,
-      isPlaying,
-      isBuffering,
+      onClick,
+      isPlaying: objIsPlaying,
+      isBuffering: objIsBuffering,
+      isPaused: objIsPaused,
       isLoading,
       inScope,
       buttonCssVars,
       buttonColor,
+      //
+      shiftKey,
     };
   },
 });
@@ -105,11 +126,11 @@ export default defineComponent({
 
 <template>
   <div class="play-action">
-    <div @click="play" class="container" :class="{ 'is-loading': isLoading }">
+    <div @click="onClick" class="container" :class="{ 'is-loading': isLoading }">
       <slot name="default">
         <ButtonPlay
           :is-active="inScope"
-          :is-playing="isPlaying"
+          :is-playing="isPlaying && !shiftKey"
           :is-buffering="isLoading || isBuffering"
           :size="size"
           :outlined="outlined"
@@ -120,11 +141,13 @@ export default defineComponent({
         />
       </slot>
     </div>
+    <div v-if="isPaused && size > 86" class="hint"></div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .play-action {
+  position: relative;
   .is-loading {
     cursor: wait;
   }

@@ -8,6 +8,7 @@ const usePlayerState = () => {
   const isLive = computed(() => playerState.value?.isLive);
   const isPlaying = computed(() => playerState.value?.isPlaying);
   const isBuffering = computed(() => playerState.value?.isBuffering);
+  const issPaused = computed(() => playerState.value?.isPaused);
   const duration = computed(() => playerState.value?.duration);
   const currentTime = computed(() => playerState.value?.currentTime);
   const relPosition = computed(() => playerState.value?.relPosition);
@@ -21,6 +22,7 @@ const usePlayerState = () => {
     isLive,
     isPlaying,
     isBuffering,
+    issPaused,
     duration,
     currentTime,
     relPosition,

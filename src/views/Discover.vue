@@ -1,3 +1,13 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  setup() {
+    return {};
+  },
+});
+</script>
+
 <template>
   <div class="discover">
     <router-view name="header" />
@@ -10,3 +20,9 @@
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.body {
+  padding-bottom: 8rem;
+}
+</style>
