@@ -1,9 +1,15 @@
 ACCOUNT:
   ACCOUNT: Konto
+broadcast:
+  ct:
+    editor: Editor*in | Editor*innen
 catalog:
   ct:
+    mood: Stimmung | Stimmungen
     media: Track | Tracks
-    artist: Künstler*in
+    artist: Künstler*in | Künstler*innen
+    release: Album | Alben
+    playlist: Show | Shows
   list:
     playAllTracks: Track spielen | Alle {count} Tracks spielen
 menu:
@@ -19,3 +25,6 @@ menu:
   imprint: Impressum
   terms: AGB
   logout: Abmelden
+text:
+  duration: Dauer
+  airtime: Airtime

@@ -18,8 +18,8 @@ export default defineComponent({
     <div class="list-menu">
       <div class="menu menu--primary">
         <router-link :to="{ name: 'collectionMedia' }" v-text="t('catalog.ct.media', 2)" />
-        <router-link :to="{ name: 'collectionPlaylists' }" v-text="`Shows`" />
-        <router-link :to="{ name: 'collectionArtists' }" v-text="`Künstler*innen`" />
+        <router-link :to="{ name: 'collectionPlaylists' }" v-text="t('catalog.ct.playlist', 2)" />
+        <router-link :to="{ name: 'collectionArtists' }" v-text="t('catalog.ct.artist', 2)" />
       </div>
       <div class="menu menu--secondary">
         <router-view name="searchbar" />

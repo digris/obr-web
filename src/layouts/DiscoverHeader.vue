@@ -1,7 +1,6 @@
 <script type="ts">
-import {
-  defineComponent,
-} from 'vue';
+import { defineComponent } from 'vue';
+import { useI18n } from "vue-i18n";
 
 import Searchbar from '@/components/filter/SearchbarAlt.vue';
 
@@ -15,8 +14,11 @@ export default defineComponent({
   components: {
     Searchbar,
   },
-  setup(props) {
-    console.debug('PR', props);
+  setup() {
+    const { t } = useI18n();
+    return {
+      t,
+    };
   },
 });
 </script>
@@ -26,11 +28,11 @@ export default defineComponent({
     <div class="title">Discover</div>
     <div class="list-menu">
       <div class="menu menu--primary">
-        <router-link :to="{ name: 'discoverMoods' }" v-text="`Stimmung`" />
-        <router-link :to="{ name: 'discoverMedia' }" v-text="`Tracks`" />
-        <router-link :to="{ name: 'discoverPlaylists' }" v-text="`Shows`" />
-        <router-link :to="{ name: 'discoverArtists' }" v-text="`Künstler*innen`" />
-        <router-link :to="{ name: 'discoverEditors' }" v-text="`Editor*innen`" />
+        <router-link :to="{ name: 'discoverMoods' }" v-text="t('catalog.ct.mood')" />
+        <router-link :to="{ name: 'discoverMedia' }" v-text="t('catalog.ct.media', 2)" />
+        <router-link :to="{ name: 'discoverPlaylists' }" v-text="t('catalog.ct.playlist', 2)" />
+        <router-link :to="{ name: 'discoverArtists' }" v-text="t('catalog.ct.artist', 2)" />
+        <router-link :to="{ name: 'discoverEditors' }" v-text="t('broadcast.ct.editor', 2)" />
       </div>
       <div class="menu menu--secondary">
         <Searchbar v-if="filter" :filter="filter" />
