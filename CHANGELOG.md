@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.22 (2022-05-13)
+### Fix
+* **ux:** Handle play / pause ([#30](https://github.com/digris/obr-web/issues/30)) ([`882d41e`](https://github.com/digris/obr-web/commit/882d41e304d14943d547b11829a4f9b05ac16db6))
+
 ## v0.0.21 (2022-05-06)
 ### Fix
 * **ui:** Unify show display radio / current emission ([`cd5ea3b`](https://github.com/digris/obr-web/commit/cd5ea3bc72a3e4e5e6c32db2f7e52061d27fa9bf))
