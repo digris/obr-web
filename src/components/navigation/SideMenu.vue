@@ -135,7 +135,15 @@ export default defineComponent({
           "
           v-text="t('menu.program')"
         />
-        <router-link to="/reception/" v-text="t('menu.reception')" />
+        <router-link
+          to="/reception/"
+          v-text="t('menu.reception')"
+          @click.prevent="
+            navigate({
+              path: '/reception/',
+            })
+          "
+        />
       </section>
       <section class="section">
         <router-link

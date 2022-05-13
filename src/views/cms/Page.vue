@@ -72,7 +72,6 @@ export default defineComponent({
     @include cms.content;
     @include cms.pyembed;
     > p {
-      line-height: 110%;
       &:first-child {
         @include typo.large;
       }
@@ -82,6 +81,9 @@ export default defineComponent({
     }
     > .admonition {
       @include cms.admonition;
+    }
+    > table {
+      @include cms.table;
     }
   }
   .appendix {

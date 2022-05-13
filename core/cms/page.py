@@ -13,6 +13,7 @@ MARKDOWN_EXTENSIONS = [
     "markdown.extensions.toc",
     "markdown.extensions.admonition",
     "markdown.extensions.fenced_code",
+    "markdown.extensions.tables",
     "pyembed.markdown",
 ]
 
