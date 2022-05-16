@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.23 (2022-05-16)
+### Fix
+* Implement correct serializer for emission / playlist ([`04e3aeb`](https://github.com/digris/obr-web/commit/04e3aeb2d1a0a98e25fd1888174c83dea6e504f5))
+
 ## v0.0.22 (2022-05-13)
 ### Fix
 * **ux:** Handle play / pause ([#30](https://github.com/digris/obr-web/issues/30)) ([`882d41e`](https://github.com/digris/obr-web/commit/882d41e304d14943d547b11829a4f9b05ac16db6))
