@@ -19,8 +19,9 @@ class BaseImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = [
-            "uid",
+            # "uid",
             "path",
+            "url",
             "file",
             "rgb",
         ]

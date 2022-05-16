@@ -5,6 +5,7 @@ from broadcast.models import Emission
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
 from catalog.api.serializers import PlaylistSerializer as CatalogPlaylistSerializer
 from catalog.models import Playlist, Media
+from .emission import EmissionSerializer
 
 
 class ScheduleMediaSerializer(CatalogMediaSerializer):
@@ -22,7 +23,7 @@ class ScheduleMediaSerializer(CatalogMediaSerializer):
         ]
 
 
-class ScheduleEmissionSerializer(CatalogMediaSerializer):
+class ScheduleEmissionSerializer(EmissionSerializer):
     class Meta:
         model = Emission
         fields = [

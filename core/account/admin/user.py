@@ -1,10 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
+from django.template.response import TemplateResponse
+from django.urls import path
 from social_django.models import UserSocialAuth
 
 from subscription.models import Subscription
-from .forms import UserCreationForm, UserChangeForm
-from .models import User, Settings, Address, LoginToken
+from ..forms import UserCreationForm, UserChangeForm
+from ..models import User, Settings, Address, LoginToken
 
 
 class UserSocialAuthInline(admin.TabularInline):
@@ -83,6 +85,14 @@ class UserAdmin(AuthUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
+
+    def get_urls(self):
+        urls = super().get_urls()
+        user_urls = [
+            path("migrate/", self.admin_site.admin_view(self.migrate_user_view)),
+        ]
+        return user_urls + urls
+
     list_display = [
         "email",
         "uid",
@@ -195,6 +205,16 @@ class UserAdmin(AuthUserAdmin):
     ordering = [
         "-date_joined",
     ]
+
+    def migrate_user_view(self, request):
+        context = dict(
+            self.admin_site.each_context(request),
+        )
+        return TemplateResponse(
+            request,
+            "admin/account/user/migrate-user.html",
+            context,
+        )
 
 
 @admin.register(LoginToken)

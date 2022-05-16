@@ -19,6 +19,12 @@ class DurationInSecondsSerializer(
 class MediaArtistSerializer(
     serializers.ModelSerializer,
 ):
+    url = serializers.HyperlinkedRelatedField(
+        read_only=True,
+        lookup_field="uid",
+        source="artist",
+        view_name="api:catalog:artist-detail",
+    )
     name = serializers.CharField(
         source="artist.name",
         read_only=True,
@@ -35,6 +41,7 @@ class MediaArtistSerializer(
     class Meta:
         model = MediaArtists
         fields = [
+            "url",
             "ct",
             "uid",
             "name",
