@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.24 (2022-05-16)
+### Fix
+* Implement schedule serializers ([`59596b5`](https://github.com/digris/obr-web/commit/59596b575e4497c10d64f778c2c016fdec3fefb7))
+
 ## v0.0.23 (2022-05-16)
 ### Fix
 * Implement correct serializer for emission / playlist ([`04e3aeb`](https://github.com/digris/obr-web/commit/04e3aeb2d1a0a98e25fd1888174c83dea6e504f5))
