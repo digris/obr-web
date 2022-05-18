@@ -34,6 +34,10 @@ test:
 	make test-fe
 	make test-e2e
 
+setup:
+	poetry install
+	yarn install
+
 docker-image:
 	docker build --build-arg GIT_SHORT_SHA=$(GIT_SHORT_SHA) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .
 
