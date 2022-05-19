@@ -5,6 +5,7 @@ const SCOPE_DISPLAY = {
   wikipedia: "Wikipedia",
   musicbrainz: "Musicbrainz",
   discogs: "Discogs",
+  soundcloud: "SoundCloud",
   official: "Official website",
 };
 

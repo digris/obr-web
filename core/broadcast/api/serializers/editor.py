@@ -1,8 +1,11 @@
+from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
+
 from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
 from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models.editor import Editor, EditorImage
 from image.api.serializers import BaseImageSerializer
+from identifier.api.serializers import IdentifierSerializer
 
 
 class ImageSerializer(BaseImageSerializer):
@@ -34,6 +37,7 @@ class ImageSerializer(BaseImageSerializer):
 )
 class EditorSerializer(
     CTUIDModelSerializer,
+    FlexFieldsSerializerMixin,
     serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
@@ -67,6 +71,16 @@ class EditorSerializer(
             "is_active",
         ]
         depth = 2
+        expandable_fields = {
+            "identifiers": (
+                IdentifierSerializer,
+                {
+                    "many": True,
+                    "required": False,
+                    "allow_null": True,
+                },
+            ),
+        }
 
     @staticmethod
     def get_role(obj):

@@ -10,6 +10,7 @@ class IdentifierScope(models.TextChoices):
     OBP = "obp", "open broadcast platform"
     DISCOGS = "discogs", "Discogs"
     WIKIPEDIA = "wikipedia", "Wikipedia"
+    SOUNDCLOUD = "soundcloud", "SoundCloud"
     OFFICIAL = "official", "Website"
     # NOTE: how to handle scopes that don't make sense for all content-types?
     ISRC = "isrc", "ISRC"

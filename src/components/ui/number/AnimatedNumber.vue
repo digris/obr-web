@@ -9,25 +9,29 @@ export default defineComponent({
       default: 0,
     },
   },
-  setup(props) {
+  emits: ["tweenStart", "tweenEnd"],
+  setup(props, { emit }) {
     const display = ref(props.value);
 
     const tweenValue = async (fromValue: number, toValue: number) => {
-      console.debug("tweenValue", fromValue, toValue);
+      const diff = toValue - fromValue;
+      emit("tweenStart", diff);
       tween({
         from: { n: fromValue },
         to: { n: toValue },
-        duration: 500,
+        duration: 800,
         easing: "easeOutQuad",
-        step: (state) => {
+        render: (state) => {
           display.value = state.n.toFixed(0);
         },
       });
+      setTimeout(() => {
+        emit("tweenEnd", diff);
+      }, 1000);
     };
     watch(
       () => props.value,
       async (newValue, oldValue) => {
-        console.debug("NC", newValue, oldValue);
         await tweenValue(oldValue, newValue);
       }
     );
