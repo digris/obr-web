@@ -39,6 +39,7 @@ export default defineComponent({
     <div class="grid" v-if="activeEditors.length">
       <EditorCard v-for="editor in activeEditors" :key="editor.uid" :editor="editor" />
     </div>
+    <!--
     <div class="former-editors" v-if="pastEditors.length">
       <div class="subtitle">
         <div>Ehemalige</div>
@@ -47,6 +48,7 @@ export default defineComponent({
         <EditorCard v-for="editor in pastEditors" :key="editor.uid" :editor="editor" />
       </div>
     </div>
+    -->
   </div>
 </template>
 
@@ -67,6 +69,7 @@ export default defineComponent({
     grid-template-columns: repeat(2, 1fr);
   }
 }
+/*
 .former-editors {
   margin-top: 2rem;
   .subtitle {
@@ -74,4 +77,5 @@ export default defineComponent({
     font-size: 2rem;
   }
 }
+*/
 </style>
