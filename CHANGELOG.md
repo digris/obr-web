@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.25 (2022-05-19)
+### Fix
+* Extend queue-icon animation ([`ae4a995`](https://github.com/digris/obr-web/commit/ae4a995865fe87ec1613b0994fc060ba93baacbc))
+
 ## v0.0.24 (2022-05-16)
 ### Fix
 * Implement schedule serializers ([`59596b5`](https://github.com/digris/obr-web/commit/59596b575e4497c10d64f778c2c016fdec3fefb7))
