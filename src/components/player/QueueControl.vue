@@ -1,0 +1,106 @@
+<script lang="ts">
+import { ref, defineComponent } from "vue";
+
+import IconQueue from "@/components/ui/icon/IconQueue.vue";
+import IconCaret from "@/components/ui/icon/IconCaret.vue";
+import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
+import Circle from "./button/Circle.vue";
+
+export default defineComponent({
+  components: {
+    IconQueue,
+    IconCaret,
+    AnimatedNumber,
+    Circle,
+  },
+  props: {
+    queueVisible: {
+      type: Boolean,
+      default: false,
+    },
+    numQueued: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+  },
+  emits: ["toggleVisibility"],
+  setup(setup, { emit }) {
+    const isTweening = ref(false);
+    const onClick = () => {
+      emit("toggleVisibility");
+    };
+    const onTweenStart = (diff: number) => {
+      if (diff === -1) {
+        return;
+      }
+      isTweening.value = true;
+    };
+    const onTweenEnd = (diff: number) => {
+      if (diff === -1) {
+        return;
+      }
+      isTweening.value = false;
+    };
+    return {
+      isTweening,
+      onClick,
+      onTweenStart,
+      onTweenEnd,
+    };
+  },
+});
+</script>
+
+<template>
+  <Circle
+    class="queue-control"
+    :size="48"
+    :outlined="false"
+    :active="queueVisible"
+    :disabled="numQueued < 1"
+    @click.prevent="onClick"
+    :style="{
+      color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
+    }"
+  >
+    <IconCaret v-if="queueVisible" :size="48" direction="down" color="rgb(var(--c-bg))" />
+    <IconQueue v-else :size="48" color="rgb(var(--c-fg))" :num-queued="numQueued" />
+    <div
+      v-if="numQueued > 0"
+      class="number"
+      :class="{
+        'is-tweening': isTweening,
+      }"
+    >
+      <AnimatedNumber @tween-start="onTweenStart" @tween-end="onTweenEnd" :value="numQueued" />
+    </div>
+  </Circle>
+</template>
+
+<style lang="scss" scoped>
+.queue-control {
+  .number {
+    pointer-events: none;
+    display: flex;
+    position: absolute;
+    top: -4px;
+    right: -3px;
+    background: rgb(var(--c-white));
+    width: auto;
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 10px;
+    color: rgb(var(--c-black));
+    padding: 0 6px;
+    font-size: 12px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 40%);
+    align-items: center;
+    justify-content: center;
+    transition: font-size 200ms;
+    &.is-tweening {
+      font-size: 20px;
+    }
+  }
+}
+</style>

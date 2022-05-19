@@ -2,15 +2,13 @@
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
 import { getContrastColor } from "@/utils/color";
+import UserRating from "@/components/rating/UserRating.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import Playhead from "./Playhead.vue";
 import OnAir from "./button/OnAir.vue";
 import Queue from "./Queue.vue";
 import Circle from "./button/Circle.vue";
-import UserRating from "@/components/rating/UserRating.vue";
-import IconQueue from "@/components/ui/icon/IconQueue.vue";
-import IconCaret from "@/components/ui/icon/IconCaret.vue";
-import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
+import QueueControl from "./QueueControl.vue";
 
 export default defineComponent({
   components: {
@@ -19,10 +17,8 @@ export default defineComponent({
     OnAir,
     Circle,
     Queue,
-    IconCaret,
     UserRating,
-    IconQueue,
-    AnimatedNumber,
+    QueueControl,
   },
   setup() {
     const store = useStore();
@@ -100,22 +96,11 @@ export default defineComponent({
           <Circle :size="48" :outlined="false">
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
-          <Circle
-            :size="48"
-            :outlined="false"
-            :active="queueVisible"
-            :disabled="queueNumMedia < 1"
-            @click.prevent="toggleQueue"
-            :style="{
-              color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
-            }"
-          >
-            <IconCaret v-if="queueVisible" :size="48" direction="down" color="rgb(var(--c-bg))" />
-            <IconQueue v-else :size="48" color="rgb(var(--c-fg))" :num-queued="queueNumMedia" />
-            <div v-if="queueNumMedia > 0" class="num-queued">
-              <AnimatedNumber :value="queueNumMedia" />
-            </div>
-          </Circle>
+          <QueueControl
+            :queue-visible="queueVisible"
+            :num-queued="queueNumMedia"
+            @toggle-visibility="toggleQueue"
+          />
         </div>
       </div>
     </div>
@@ -169,24 +154,6 @@ $player-height: 72px;
     justify-content: flex-end;
     .circle-button {
       position: relative;
-    }
-    .num-queued {
-      pointer-events: none;
-      display: flex;
-      position: absolute;
-      top: -4px;
-      right: -3px;
-      background: rgb(var(--c-white));
-      width: auto;
-      min-width: 20px;
-      min-height: 20px;
-      border-radius: 10px;
-      color: rgb(var(--c-black));
-      padding: 0 6px;
-      font-size: 12px;
-      box-shadow: 0 0 3px rgb(0 0 0 / 40%);
-      align-items: center;
-      justify-content: center;
     }
   }
 }
