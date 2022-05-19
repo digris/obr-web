@@ -22,6 +22,7 @@ SECRET_KEY = env(
 
 ALLOWED_HOSTS = ["*"]
 SESSION_COOKIE_NAME = "sid"
+SESSION_COOKIE_SAMESITE = None
 
 SITE_URL = ""
 
@@ -232,6 +233,36 @@ SOCIAL_AUTH_DEEZER_SCOPE = [
     "manage_library",
     # "listening_history",
     "offline_access",
+]
+
+# apple id
+SOCIAL_AUTH_APPLE_ID_CLIENT = env(
+    "SOCIAL_AUTH_APPLE_ID_CLIENT",
+    default="",
+)
+SOCIAL_AUTH_APPLE_ID_TEAM = env(
+    "SOCIAL_AUTH_APPLE_ID_TEAM",
+    default="",
+)
+SOCIAL_AUTH_APPLE_ID_KEY = env(
+    "SOCIAL_AUTH_APPLE_ID_KEY",
+    default="",
+)
+SOCIAL_AUTH_APPLE_ID_SECRET = env.str(
+    "SOCIAL_AUTH_APPLE_ID_SECRET",
+    multiline=True,
+    default="",
+)
+# SOCIAL_AUTH_APPLE_ID_SECRET = """
+# -----BEGIN PRIVATE KEY-----
+# MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgzxsOPmjnJ+/76BYe
+# FMZGnuBRM/LWsvZe6hoxMiTMwROgCgYIKoZIzj0DAQehRANCAATN1pfGDwkN6NXQ
+# uqcQR2R9RHnf7cnXveyOCTQIdZlPOBtgi1I0zAVS5fZ14RV7R4P57NrtY3VoACyZ
+# ibVEjEBq
+# -----END PRIVATE KEY-----"""
+SOCIAL_AUTH_APPLE_ID_SCOPE = [
+    "email",
+    "name",
 ]
 
 
