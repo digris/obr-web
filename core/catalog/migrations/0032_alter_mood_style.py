@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0031_mood_style'),
+        ("catalog", "0031_mood_style"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mood',
-            name='style',
+            model_name="mood",
+            name="style",
             field=models.JSONField(default=dict),
         ),
     ]
