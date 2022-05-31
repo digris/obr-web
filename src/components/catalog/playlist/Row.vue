@@ -32,26 +32,20 @@ export default defineComponent({
     const objKey = computed(() => `${props.playlist.ct}:${props.playlist.uid}`);
     const isHover = ref(false);
     const link = `/discover/playlists/${props.playlist.uid}/`;
+    const latestEmission = computed(() => {
+      return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
+    });
     const title = computed(() => {
       return {
         name: props.playlist.series ? props.playlist.series.name : props.playlist.name,
-        appendix: props.playlist.series ? props.playlist.series.episode : null,
+        // appendix: props.playlist.series ? props.playlist.series.episode : null,
+        appendix: latestEmission.value,
       };
-    });
-    const subtitle = computed(() => {
-      if (props.playlist.series) {
-        return props.playlist.name;
-      }
-      return "-";
-    });
-    const latestEmission = computed(() => {
-      return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
     });
     return {
       objKey,
       isHover,
       title,
-      subtitle,
       link,
       latestEmission,
     };
@@ -79,7 +73,7 @@ export default defineComponent({
             },
           }"
         >
-          <PlaylistName :playlist="playlist" />
+          <PlaylistName :playlist="playlist" :airtime="latestEmission" />
         </router-link>
       </div>
       <div class="editor" v-if="playlist.editor">

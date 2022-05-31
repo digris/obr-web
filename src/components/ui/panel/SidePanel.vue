@@ -71,12 +71,13 @@ export default defineComponent({
   flex-direction: column;
   width: 100%;
   max-width: 50vw;
+  min-width: 500px;
   height: 100%;
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
 
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     max-width: unset;
   }
 
@@ -87,20 +88,20 @@ export default defineComponent({
     height: 75px;
     margin: 0 4rem 0.5rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       margin: 0 1rem 1rem;
     }
   }
   &__body {
     flex-grow: 1;
     padding: 0 4rem 1rem;
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       padding: 0 1rem 1rem;
     }
   }
   &__footer {
     padding: 1rem 4rem;
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       padding: 0 1rem 1rem;
     }
   }

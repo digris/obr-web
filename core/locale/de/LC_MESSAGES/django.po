@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-10 16:12+0100\n"
+"POT-Creation-Date: 2022-05-23 22:25+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,44 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/account/models.py:32
+#: core/account/api/views.py:56 core/account/api/views.py:313
+#: core/account/api/views.py:346 core/account/api/views.py:385
+msgid "Not authorized"
+msgstr ""
+
+#: core/account/api/views.py:105
+msgid "The email or password you entered is incorrect."
+msgstr "E-Mail und / oder Passwort ungültig."
+
+#: core/account/email_login/__init__.py:62
+msgid "Signature expired"
+msgstr ""
+
+#: core/account/email_login/__init__.py:64
+msgid "Invalid signature"
+msgstr ""
+
+#: core/account/models.py:45
 msgid "The Email must be set"
 msgstr ""
 
-#: core/account/models.py:51
+#: core/account/models.py:64
 msgid "Superuser must have is_staff=True."
 msgstr ""
 
-#: core/account/models.py:53
+#: core/account/models.py:66
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: core/account/models.py:64
+#: core/account/models.py:77
 msgid "email address"
 msgstr ""
 
-#: core/account/models.py:202
+#: core/account/models.py:243
 msgid "email"
 msgstr ""
 
-#: core/account/models.py:207
+#: core/account/models.py:248
 msgid "token"
 msgstr ""
 
@@ -65,3 +82,26 @@ msgstr "Dieser Gutschein-Code konnte nicht gefunden werden"
 #: core/subscription/utils/voucher.py:47
 msgid "You did already use this voucher-code"
 msgstr "Du hast diesen Gutschein-Code bereits verwendet"
+
+#: core/templates/admin/login.html:23
+msgid "Please correct the error below."
+msgstr ""
+
+#: core/templates/admin/login.html:23
+msgid "Please correct the errors below."
+msgstr ""
+
+#: core/templates/admin/login.html:39
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+
+#: core/templates/admin/login.html:59
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: core/templates/admin/login.html:63
+msgid "Log in"
+msgstr ""

@@ -5,6 +5,7 @@ from django.db import models
 from taggit.models import TagBase, GenericTaggedItemBase
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from sync.models.mixins import SyncTimeModelMixin
 from .managers import TaggableManager  # NOQA
 
 
@@ -21,6 +22,7 @@ class TagType(models.TextChoices):
 class Tag(
     TimestampedModelMixin,
     CTUIDModelMixin,
+    SyncTimeModelMixin,
     TagBase,
 ):
 

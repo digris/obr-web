@@ -20,6 +20,10 @@ class APIClientException(Exception):
     pass
 
 
+class APIClient404Exception(APIClientException):
+    pass
+
+
 def get_url(path):
     endpoint = f"{SYNC_ENDPOINT.rstrip('/')}/"
     path = path.replace(endpoint, "")
@@ -37,6 +41,9 @@ def get(path, params=None, raw=False):
         r = requests.get(url, params=params, headers=HEADERS)
     except requests.exceptions.RequestException as e:
         raise APIClientException(f"error connecting: {e}") from e
+
+    if r.status_code == 404:
+        raise APIClient404Exception(f"resource does not exist: {r.status_code}")
 
     if not r.status_code == 200:
         raise APIClientException(f"invalid status-code returned: {r.status_code}")

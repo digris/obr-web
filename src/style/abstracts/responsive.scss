@@ -11,8 +11,20 @@ $pb-max: 1400px;
   }
 }
 
+@mixin bp-medium {
+  @media (max-width: #{$pb-medium}) {
+    @content;
+  }
+}
+
 @mixin bp-medium-up {
   @media (min-width: #{$pb-medium}) {
+    @content;
+  }
+}
+
+@mixin bp-large {
+  @media (max-width: #{$pb-large}) {
     @content;
   }
 }

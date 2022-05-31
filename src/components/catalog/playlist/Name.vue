@@ -1,4 +1,5 @@
 <script lang="ts">
+import { DateTime } from "luxon";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
@@ -6,6 +7,11 @@ export default defineComponent({
     playlist: {
       type: Object,
       required: true,
+    },
+    airtime: {
+      type: DateTime,
+      required: false,
+      default: null,
     },
   },
   setup(props) {
@@ -16,6 +22,10 @@ export default defineComponent({
       };
     });
     const titleDisplay = computed(() => {
+      if (title.value.name && props.airtime) {
+        // return `${title.value.name} ${props.airtime.toFormat("HH:mm")}`;
+        return `${title.value.name} ${props.airtime.toLocaleString(DateTime.TIME_24_SIMPLE)}`;
+      }
       if (title.value.name && title.value.appendix) {
         return `${title.value.name} #${title.value.appendix}`;
       }

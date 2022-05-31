@@ -16,9 +16,11 @@ import (
 	"path/filepath"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"cloud.google.com/go/storage"
 
+	"github.com/chai2010/webp"
 	"github.com/muesli/smartcrop"
 	"github.com/muesli/smartcrop/nfnt"
 
@@ -112,7 +114,6 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 		img, format, err = ReadImageFS(sourceOptions.path, o.file)
 	}
 
-	// img, format, err := ReadImageGS(ctx, sourceOptions.path, o.file)
 	if err != nil {
 		log.Warningf("unable to load image: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -126,19 +127,27 @@ func ResizeImage(w http.ResponseWriter, r *http.Request) {
 		img = ScaleImage(img, o.width, o.height, true)
 	}
 
+	if strings.Contains(r.Header.Get("Accept"), "image/webp") {
+		format = "webp"
+	}
+
+	fmt.Println("format:", format)
+
 	// encode result depending on original type
 	encoded := &bytes.Buffer{}
 	contentType := ""
 
-	if format == "png" {
+	switch format {
+	case "png":
 		encoded, err = EncodeImageToPNG(img)
 		contentType = "image/png"
-	} else {
+	case "webp":
+		encoded, err = EncodeImageToWebP(img)
+		contentType = "image/webp"
+	default:
 		encoded, err = EncodeImageToJpg(img)
 		contentType = "image/jpeg"
 	}
-
-	fmt.Println(contentType)
 
 	if err != nil {
 		log.Warningf("unable to encode image: %v", err)
@@ -352,5 +361,11 @@ func EncodeImageToJpg(img image.Image) (*bytes.Buffer, error) {
 func EncodeImageToPNG(img image.Image) (*bytes.Buffer, error) {
 	encoded := &bytes.Buffer{}
 	err := png.Encode(encoded, img)
+	return encoded, err
+}
+
+func EncodeImageToWebP(img image.Image) (*bytes.Buffer, error) {
+	encoded := &bytes.Buffer{}
+	err := webp.Encode(encoded, img, &webp.Options{Lossless: false, Quality: 90})
 	return encoded, err
 }

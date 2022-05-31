@@ -1,7 +1,13 @@
 import { APIClient } from "@/api/client";
-import settings from "@/settings";
 
-const ACCOUNT_ENDPOINT = `${settings.API_BASE_URL}account/`;
+import { useAPIBaseUrl } from "@/composables/api";
+
+const { APIBaseUrl } = useAPIBaseUrl();
+
+console.debug("APIBaseUrl", APIBaseUrl.value);
+
+// const ACCOUNT_ENDPOINT = `${settings.API_BASE_URL}account/`;
+const ACCOUNT_ENDPOINT = `${APIBaseUrl.value}account/`;
 
 async function login(email: string, password: string) {
   const url = `${ACCOUNT_ENDPOINT}login/`;

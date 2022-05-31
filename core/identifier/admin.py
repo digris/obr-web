@@ -24,4 +24,5 @@ class IdentifierAdmin(admin.ModelAdmin):
 
     search_fields = [
         "value",
+        "uid",
     ]

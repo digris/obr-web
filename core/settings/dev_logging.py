@@ -60,6 +60,13 @@ LOGGING = {
             ],
             "propagate": False,
         },
+        "tagging": {
+            "level": "INFO",
+            "handlers": [
+                "console",
+            ],
+            "propagate": False,
+        },
         "stats": {
             "level": "DEBUG",
             "handlers": [
@@ -68,7 +75,7 @@ LOGGING = {
             "propagate": False,
         },
         "sync": {
-            "level": "DEBUG",
+            "level": "INFO",
             "handlers": [
                 "console",
             ],

@@ -174,9 +174,21 @@ const routes = [
             uid: route.params.uid,
           }),
         },
-        // props: (route: any) => ({
-        //   uid: route.params.uid,
-        // }),
+        meta: {
+          colorTheme: "dark",
+        },
+      },
+      {
+        path: "/discover/tracks/:uid/",
+        name: "mediaDetail",
+        components: {
+          default: MediaDetail,
+        },
+        props: {
+          default: (route: any) => ({
+            uid: route.params.uid,
+          }),
+        },
         meta: {
           colorTheme: "dark",
         },
@@ -233,17 +245,17 @@ const routes = [
   //     colorTheme: 'dark',
   //   },
   // },
-  {
-    path: "/discover/tracks/:uid/",
-    name: "mediaDetail",
-    component: MediaDetail,
-    props: (route: any) => ({
-      uid: route.params.uid,
-    }),
-    meta: {
-      colorTheme: "dark",
-    },
-  },
+  // {
+  //   path: "/discover/tracks/:uid/",
+  //   name: "mediaDetail",
+  //   component: MediaDetail,
+  //   props: (route: any) => ({
+  //     uid: route.params.uid,
+  //   }),
+  //   meta: {
+  //     colorTheme: "dark",
+  //   },
+  // },
   // {
   //   path: '/discover/editors/:uid/',
   //   name: 'editorDetail',

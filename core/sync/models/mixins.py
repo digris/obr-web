@@ -11,18 +11,28 @@ class SyncState(models.TextChoices):
     FAILED = "failed", "Failed"
 
 
-class SyncModelMixin(models.Model):
+class SyncTimeModelMixin(models.Model):
+
+    sync_last_update = models.DateTimeField(
+        default=timezone.make_aware(datetime.fromtimestamp(0)),
+        db_index=True,
+        editable=False,
+    )
+
+    class Meta:
+        abstract = True
+
+
+class SyncModelMixin(
+    SyncTimeModelMixin,
+    models.Model,
+):
 
     sync_state = models.CharField(
         max_length=16,
         db_index=True,
         default=SyncState.PENDING,
         choices=SyncState.choices,
-    )
-
-    sync_last_update = models.DateTimeField(
-        default=timezone.make_aware(datetime.fromtimestamp(0)),
-        db_index=True,
     )
 
     class Meta:

@@ -13,14 +13,16 @@ class Tagdmin(admin.ModelAdmin):
         "type",
         "num_tagged_items",
     ]
-
     list_filter = [
         "type",
     ]
-
     search_fields = [
         "name",
         "uid",
+    ]
+    readonly_fields = [
+        "uid",
+        "uuid",
     ]
 
     @admin.display(

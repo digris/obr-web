@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.response import Response
@@ -52,7 +53,7 @@ class UserView(APIView):
         if not request.user.is_authenticated:
             return Response(
                 {
-                    "message": "Not authorized",
+                    "message": _("Not authorized"),
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
@@ -101,7 +102,7 @@ class LoginView(APIView):
         else:
             response = Response(
                 {
-                    "message": "The email or password you entered is incorrect.",
+                    "message": _("The email or password you entered is incorrect."),
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
@@ -309,7 +310,7 @@ class EmailView(APIView):
         if not request.user.is_authenticated:
             return Response(
                 {
-                    "message": "Not authorized",
+                    "message": _("Not authorized"),
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
@@ -342,7 +343,7 @@ class PasswordUpdateView(APIView):
         if not request.user.is_authenticated:
             return Response(
                 {
-                    "message": "Not authorized",
+                    "message": _("Not authorized"),
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )
@@ -381,7 +382,7 @@ class AddressUpdateView(APIView):
         if not request.user.is_authenticated:
             return Response(
                 {
-                    "message": "Not authorized",
+                    "message": _("Not authorized"),
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
             )

@@ -10,5 +10,5 @@ export SOURCE=fs://../../data/media
 ```
 
 ```shell
-go run cmd/server/server.go
+go run cmd/serve.go
 ```
