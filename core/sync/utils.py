@@ -5,6 +5,8 @@ import filetype
 from urllib.parse import urlparse
 from urllib.request import urlopen
 
+from django.db import transaction
+from django.db.utils import IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -43,7 +45,12 @@ def update_relations(obj, relations):
                 scope=scope,
                 value=value,
             )
-            identifier.save()
+            try:
+                # https://stackoverflow.com/a/23326971
+                with transaction.atomic():
+                    identifier.save()
+            except IntegrityError as e:
+                logger.warning(f"unable to add identifier: {identifier} - {e}")
 
 
 def update_tags(obj, tags):

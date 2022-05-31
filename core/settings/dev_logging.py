@@ -75,7 +75,7 @@ LOGGING = {
             "propagate": False,
         },
         "sync": {
-            "level": "INFO",
+            "level": "DEBUG",
             "handlers": [
                 "console",
             ],

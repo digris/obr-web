@@ -5,6 +5,7 @@ from django.urls import path
 from social_django.models import UserSocialAuth
 
 from subscription.models import Subscription
+from sync.admin import sync_qs_action
 from ..forms import UserCreationForm, UserChangeForm
 from ..models import User, Settings, Address, LoginToken
 
@@ -103,6 +104,7 @@ class UserAdmin(AuthUserAdmin):
         "is_superuser",
         # "date_joined",
         # "last_login",
+        "sync_state",
     ]
     list_filter = [
         "is_staff",
@@ -111,6 +113,7 @@ class UserAdmin(AuthUserAdmin):
         "migration_source",
         "date_joined",
         "last_login",
+        "sync_state",
     ]
     readonly_fields = [
         "last_login",
@@ -124,6 +127,9 @@ class UserAdmin(AuthUserAdmin):
         SettingsInline,
         SubscriptionInline,
         UserSocialAuthInline,
+    ]
+    actions = [
+        sync_qs_action,
     ]
     fieldsets = (
         (

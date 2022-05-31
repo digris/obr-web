@@ -15,6 +15,7 @@ def update_model(model_class, last_update_before):
     )
 
     for instance in qs_outdated:
+        print(f"sync: {instance.ct_uid}")
         result = instance.sync_data()
         sync_state = SyncState.COMPLETED if result else SyncState.FAILED
         model_class.objects.filter(id=instance.id).update(
