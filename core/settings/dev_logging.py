@@ -81,6 +81,13 @@ LOGGING = {
             ],
             "propagate": False,
         },
+        "slack": {
+            "level": "INFO",
+            "handlers": [
+                "console",
+            ],
+            "propagate": False,
+        },
         "broadcast": {
             "level": "DEBUG",
             "handlers": [
