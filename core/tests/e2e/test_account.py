@@ -35,7 +35,7 @@ def fill_form(driver, values):
 @pytest.fixture(scope="class")
 def driver_init(request):
     options = Options()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     # options.add_argument("--auto-open-devtools-for-tabs")
     os.makedirs("screenshots", exist_ok=True)
     driver = webdriver.Chrome(options=options)
@@ -75,9 +75,11 @@ class TestAccount:
         )
 
         self.driver.find_element(
-            By.XPATH, "//button[normalize-space()='Konto erstellen']"
+            By.XPATH, "//button[normalize-space()='Login']"
         ).click()
-        time.sleep(2)
+        time.sleep(3)
+
+        print(mailoutbox)
 
         assert len(mailoutbox) == 1
 
