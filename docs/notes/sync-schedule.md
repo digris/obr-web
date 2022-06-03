@@ -12,3 +12,12 @@ DJANGO_SETTINGS_MODULE=core.settings.sync ./manage.py \
   -e 2015-01-01 \
   -f
 ```
+
+## Via API
+
+```shell
+curl \
+  -X POST \
+  -H "Authorization: Token ba8839c8fe539dd512889e4be4cb130f5cedefa8" \
+  https://j.pbi.io/api/v1/sync/schedule/
+```

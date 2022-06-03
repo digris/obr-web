@@ -16,9 +16,17 @@ export default defineComponent({
   <div class="media-row-header">
     <div class="container">
       <div class="label" />
-      <div class="label label--track" v-text="`${t('catalog.ct.media')}:`" />
-      <div class="label" v-text="`${t('catalog.ct.artist')}/${t('catalog.ct.release')}:`" />
-      <div class="label" v-text="`${t('text.duration')}/${t('text.airtime')}:`" />
+      <div class="label label--track">
+        <span v-text="t('catalog.ct.media')" />
+      </div>
+      <div class="label">
+        <span v-text="t('catalog.ct.artist')" />
+        <span v-text="t('catalog.ct.release')" />
+      </div>
+      <div class="label label--airtime">
+        <span v-text="t('text.duration')" />
+        <span v-text="t('text.airtime')" />
+      </div>
     </div>
   </div>
 </template>
@@ -37,11 +45,28 @@ export default defineComponent({
   grid-column-gap: 1rem;
   grid-template-columns: 96px 8fr 6fr 2fr 96px;
   .label {
-    &:first-letter {
-      text-transform: uppercase;
+    white-space: nowrap;
+    > span {
+      display: inline-block;
+      &:first-letter {
+        text-transform: uppercase;
+      }
+      &:not(:last-child) {
+        &:after {
+          content: "/";
+        }
+      }
+      &:last-child {
+        &:after {
+          content: ":";
+        }
+      }
     }
     &--track {
       margin-left: -48px;
+    }
+    &--airtime {
+      grid-column: span 2;
     }
   }
 }

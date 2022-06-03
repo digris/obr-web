@@ -45,6 +45,7 @@ django-countries = "^7.2.1"
 google-cloud-bigquery = "^2.32.0"
 django-qsstats-magic = "^1.1.0"
 pyembed-markdown = "^1.1.0"
+slack-sdk = "^3.17.0"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
