@@ -61,6 +61,9 @@ class Media(
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return f"/discover/tracks/{self.uid}/"
+
     @property
     def artist_display(self):
         qs = self.media_artist.all()
@@ -83,6 +86,12 @@ class Media(
             .first()
         )
         return latest.time_start if latest else None
+
+    @cached_property
+    def image(self):
+        if release := self.releases.first():
+            return release.image
+        return None
 
     def sync_data(self, *args, **kwargs):
         return sync_media(self, *args, **kwargs)
