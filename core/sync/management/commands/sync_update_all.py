@@ -9,7 +9,9 @@ from sync.models.mixins import SyncModelMixin, SyncState
 
 def update_model(model_class, last_update_before):
     qs = model_class.objects.all()
-    qs_outdated = model_class.objects.filter(sync_last_update__lt=last_update_before)
+    qs_outdated = model_class.objects.filter(
+        sync_last_update__lt=last_update_before,
+    )
     print(
         f"{model_class.__name__}: total: {qs.count()} - outdated: {qs_outdated.count()}"
     )
@@ -38,6 +40,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         last_update_before = timezone.now() - timedelta(hours=options["max_age"])
-        print("last_update_before", last_update_before)
         for model_class in SyncModelMixin.__subclasses__():
-            update_model(model_class=model_class, last_update_before=last_update_before)
+            update_model(
+                model_class=model_class,
+                last_update_before=last_update_before,
+            )
