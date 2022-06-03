@@ -101,6 +101,10 @@ urlpatterns = [
         include("cms.api.urls", "cms"),
     ),
     path(
+        "sync/",
+        include("sync.api.urls", "sync"),
+    ),
+    path(
         "pub-sub-bridge/",
         include("pub_sub_bridge.api.urls", "pub_sub_bridge"),
     ),

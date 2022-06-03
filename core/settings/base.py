@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "catalog",
     "electronic_mail",
     "stats",
+    "slack",
     #
     "usersnap",
     "django_cleanup.apps.CleanupConfig",  # NOTE: this app has to be placed last
