@@ -81,6 +81,8 @@ class TestAccount:
         for entry in self.driver.get_log("browser"):
             print("// LOG", entry)
 
+        time.sleep(2)
+
         print(mailoutbox)
 
         assert len(mailoutbox) == 1
