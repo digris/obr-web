@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.26 (2022-06-07)
+### Fix
+* **ci:** Update "hanging" release version ([`07ac446`](https://github.com/digris/obr-web/commit/07ac446070514225b0fbc57434ee7b13dacbf44b))
+
 ## v0.0.25 (2022-05-19)
 ### Fix
 * Extend queue-icon animation ([`ae4a995`](https://github.com/digris/obr-web/commit/ae4a995865fe87ec1613b0994fc060ba93baacbc))
