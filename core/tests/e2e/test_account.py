@@ -18,7 +18,7 @@ USER_DATA = {
 
 CARD_DATA = {
     "number": 4242424242424242,
-    "expiry": 1221,
+    "expiry": 1222,
     "cvc": 123,
 }
 
