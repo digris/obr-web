@@ -1,7 +1,5 @@
 <template>
-  <div class="no-results">
-    No Results
-  </div>
+  <div class="no-results">No Results</div>
 </template>
 <style lang="scss" scoped>
 .no-results {

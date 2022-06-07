@@ -153,12 +153,8 @@ export default {
     />
   </div>
   <div class="artist-list">
-    <LoadingMore
-      v-if="numResults === -1"
-    />
-    <NoResults
-      v-if="numResults === 0"
-    />
+    <LoadingMore v-if="numResults === -1" />
+    <NoResults v-if="numResults === 0" />
     <div class="list-container">
       <ArtistCard v-for="artist in artists" :key="artist.uid" :artist="artist" />
     </div>

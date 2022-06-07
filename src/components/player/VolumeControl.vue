@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, defineComponent, computed } from 'vue';
+import { ref, defineComponent, computed } from "vue";
 import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
 
