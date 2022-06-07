@@ -48,7 +48,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const numResults = ref(0);
+    const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
     const playlists = ref([]);
@@ -181,6 +181,11 @@ export default {
     <div v-if="layout === 'table'" class="table-header">
       <PlaylistRowHeader />
     </div>
+    <LoadingMore
+      v-if="numResults === -1"
+      :layout="layout"
+      :class="`layout--${layout}`"
+    />
     <div class="list-container" :class="`layout--${layout}`">
       <component
         v-for="playlist in playlists"

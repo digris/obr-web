@@ -9,7 +9,6 @@ async function createPlayerEvents(events: Array<object>) {
     events: [...events],
   };
   const response = await APIClient.put(url, payload);
-  console.debug("response", response);
   return response;
 }
 

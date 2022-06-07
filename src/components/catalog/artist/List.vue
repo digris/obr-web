@@ -5,6 +5,7 @@ import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
+import NoResults from "@/components/ui/loading/NoResults.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import ArtistCard from "@/components/catalog/artist/Card.vue";
 import { getArtists, getArtistsTags } from "@/api/catalog";
@@ -13,6 +14,7 @@ export default {
   components: {
     ListFilter,
     LoadingMore,
+    NoResults,
     ArtistCard,
   },
   props: {
@@ -41,7 +43,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const numResults = ref(0);
+    const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
     const artists = ref([]);
@@ -119,6 +121,7 @@ export default {
         }
         lastOffset.value = 0;
         artists.value = [];
+        numResults.value = -1;
         fetchArtists(limit, 0).then(() => {});
         fetchTags().then(() => {});
       }
@@ -150,6 +153,12 @@ export default {
     />
   </div>
   <div class="artist-list">
+    <LoadingMore
+      v-if="numResults === -1"
+    />
+    <NoResults
+      v-if="numResults === 0"
+    />
     <div class="list-container">
       <ArtistCard v-for="artist in artists" :key="artist.uid" :artist="artist" />
     </div>
