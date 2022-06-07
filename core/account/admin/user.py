@@ -114,6 +114,7 @@ class UserAdmin(AuthUserAdmin):
         "date_joined",
         "last_login",
         "sync_state",
+        "sync_last_update",
     ]
     readonly_fields = [
         "last_login",

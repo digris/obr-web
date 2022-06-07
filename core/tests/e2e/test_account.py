@@ -79,6 +79,9 @@ class TestAccount:
         ).click()
         time.sleep(3)
 
+        for entry in self.driver.get_log("browser"):
+            print("// LOG", entry)
+
         print(mailoutbox)
 
         assert len(mailoutbox) == 1
