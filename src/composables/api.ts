@@ -3,7 +3,7 @@ import settings from "@/settings";
 import { useStorage } from "@vueuse/core";
 
 const useAPIBaseUrl = () => {
-  const locale = useStorage("settings/locale", "");
+  const locale = useStorage("settings/locale", "en");
   const prefix = computed(() => (locale.value === "en" ? "" : `/${locale.value}`));
   const APIBaseUrl = computed(() => {
     return `${prefix.value}${settings.API_BASE_URL}`;
