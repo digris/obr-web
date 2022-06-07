@@ -28,6 +28,10 @@ export default defineComponent({
       type: String,
       default: null,
     },
+    hoverBackgroundColor: {
+      type: String,
+      default: null,
+    },
     isPlaying: {
       type: Boolean,
       default: false,
@@ -114,6 +118,7 @@ export default defineComponent({
     :disabled="disabled"
     :active="isActive"
     :background-color="backgroundColor"
+    :hover-background-color="isPlaying ? 'rgb(var(--c-fg))' : hoverBackgroundColor"
     :class="{
       'is-playing': isPlaying,
       'is-buffering': isBuffering,

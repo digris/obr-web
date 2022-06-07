@@ -31,6 +31,10 @@ export default defineComponent({
       type: String,
       default: null,
     },
+    hoverBackgroundColor: {
+      type: String,
+      default: null,
+    },
   },
   setup(props) {
     const style = computed(() => {
@@ -46,6 +50,7 @@ export default defineComponent({
         "--c-circle-bg-color": props.backgroundColor,
         "--outline-width": `${props.outlineWidth}px`,
         "--outline-opacity": props.outlineOpacity,
+        "--hover-bg-color": props.hoverBackgroundColor,
       };
     });
     return {
@@ -65,6 +70,7 @@ export default defineComponent({
       'is-active': active,
       'is-disabled': disabled,
       'has-bg-color': backgroundColor,
+      'has-hover-bg-color': hoverBackgroundColor,
     }"
   >
     <slot name="default" />
@@ -103,9 +109,13 @@ export default defineComponent({
   }
   &:hover {
     background: rgba(var(--c-fg), 0.15);
+    //background: var(--hover-bg-color);
     border-color: transparent;
     &.is-outlined {
       border-color: transparent;
+    }
+    &.has-hover-bg-color {
+      background: var(--hover-bg-color);
     }
   }
 }

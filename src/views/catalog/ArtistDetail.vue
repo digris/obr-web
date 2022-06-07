@@ -1,11 +1,13 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watchEffect, onActivated, onBeforeUpdate } from "vue";
+import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { setPageTitle } from "@/utils/page";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
+import PlayAllSmall from "@/components/catalog/media/PlayAllSmall.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
@@ -17,6 +19,7 @@ export default defineComponent({
     DetailPage,
     DetailHeader,
     LazyImage,
+    PlayAllSmall,
     Duration,
     PlayAction,
     ObjectTags,
@@ -30,6 +33,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const store = useStore();
     const isLoaded = ref(false);
     const artist = computed(() => store.getters["catalog/artistByUid"](props.uid));
@@ -66,6 +70,7 @@ export default defineComponent({
       setPageTitle(title.value);
     });
     return {
+      t,
       objKey,
       isLoaded,
       artist,
@@ -87,6 +92,7 @@ export default defineComponent({
               :outlined="false"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
+              hover-background-color="rgb(var(--c-gray-200))"
             />
           </LazyImage>
         </template>
@@ -99,16 +105,17 @@ export default defineComponent({
           <ObjectIdentifiers class="identifiers" :obj="artist" :limit="4" />
         </template>
         <template #meta-panel>
-          <span v-if="artist && artist.numMedia">
-            {{ artist.numMedia }}
-            <span v-if="artist.numMedia == 1">Track</span>
-            <span v-else>Tracks</span>
-          </span>
-          <span>&nbsp;•&nbsp;</span>
-          <Duration
-            v-if="artist && artist.mediaTotalDuration"
-            :seconds="artist.mediaTotalDuration"
-          />
+          <PlayAllSmall :obj-key="objKey">
+            <span
+              v-if="artist && artist.numMedia"
+              v-text="t('catalog.ct.numMedia', artist.numMedia)"
+            />
+            <span>&nbsp;•&nbsp;</span>
+            <Duration
+              v-if="artist && artist.mediaTotalDuration"
+              :seconds="artist.mediaTotalDuration"
+            />
+          </PlayAllSmall>
         </template>
       </DetailHeader>
       <MediaList

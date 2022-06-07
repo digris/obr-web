@@ -31,6 +31,10 @@ export default defineComponent({
       type: String,
       default: "replace",
     },
+    restartQueue: {
+      type: Boolean,
+      default: false,
+    },
     size: {
       type: Number,
       default: 48,
@@ -40,6 +44,10 @@ export default defineComponent({
       default: true,
     },
     backgroundColor: {
+      type: String,
+      default: null,
+    },
+    hoverBackgroundColor: {
       type: String,
       default: null,
     },
@@ -98,7 +106,7 @@ export default defineComponent({
       isLoading.value = false;
     };
     const onClick = requireSubscription(async (e) => {
-      if (e.shiftKey) {
+      if (e.shiftKey || props.restartQueue) {
         await play();
       } else if (objIsPlaying.value || isBuffering.value) {
         await pause();
@@ -137,7 +145,8 @@ export default defineComponent({
           :shadowed="shadowed"
           :style="buttonCssVars"
           :color="`rgb(${buttonColor.join(',')})`"
-          :backgroundColor="backgroundColor"
+          :background-color="backgroundColor"
+          :hover-background-color="hoverBackgroundColor"
         />
       </slot>
     </div>
