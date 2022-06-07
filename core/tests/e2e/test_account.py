@@ -75,9 +75,8 @@ class TestAccount:
         )
 
         self.driver.find_element(
-            By.XPATH, "//button[normalize-space()='Login']"
+            By.XPATH, "//button[normalize-space()='Konto erstellen']"
         ).click()
-        time.sleep(3)
 
         for entry in self.driver.get_log("browser"):
             print("// LOG", entry)
