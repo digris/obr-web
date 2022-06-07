@@ -129,11 +129,22 @@ class AudioPlayer {
       eventBus.emit("player:audio:ended", e);
     };
 
-    const { maxBandwidth } = storeToRefs(useSettingsStore());
+    const { volume, maxBandwidth } = storeToRefs(useSettingsStore());
 
     if (maxBandwidth.value > 0) {
       this.updateMaxBandwidth(maxBandwidth.value);
     }
+
+    if (volume.value > -1) {
+      this.updateVolume(volume.value);
+    }
+
+    watch(
+      () => volume.value,
+      (newValue) => {
+        this.updateVolume(newValue);
+      }
+    );
 
     watch(
       () => maxBandwidth.value,
@@ -141,6 +152,9 @@ class AudioPlayer {
         this.updateMaxBandwidth(newValue);
       }
     );
+  }
+  updateVolume(value: number) {
+    this.audio.volume = value / 100.0;
   }
   updateMaxBandwidth(value: number) {
     this.updateSettings({

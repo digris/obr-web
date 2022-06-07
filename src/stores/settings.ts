@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { useStorage, useNavigatorLanguage } from "@vueuse/core";
 
 interface State {
+  volume: number;
   maxBandwidth: number;
   locale: string;
 }
@@ -13,6 +14,7 @@ const getDefaultLanguage = () => {
 
 export const useSettingsStore = defineStore("settings", {
   state: (): State => ({
+    volume: useStorage("settings/player/volume", 100),
     maxBandwidth: useStorage("settings/stream/maxBandwidth", 200000),
     locale: useStorage("settings/locale", getDefaultLanguage()),
   }),
@@ -24,6 +26,9 @@ export const useSettingsStore = defineStore("settings", {
   actions: {
     setLocale(value: string) {
       this.locale = value;
+    },
+    setVolume(value: number) {
+      this.volume = value;
     },
     setMaxBandwidth(value: number) {
       this.maxBandwidth = value;
