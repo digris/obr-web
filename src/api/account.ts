@@ -4,8 +4,6 @@ import { useAPIBaseUrl } from "@/composables/api";
 
 const { APIBaseUrl } = useAPIBaseUrl();
 
-console.debug("APIBaseUrl", APIBaseUrl.value);
-
 // const ACCOUNT_ENDPOINT = `${settings.API_BASE_URL}account/`;
 const ACCOUNT_ENDPOINT = `${APIBaseUrl.value}account/`;
 
