@@ -45,3 +45,9 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         if not self.style:
             return None
         return self.style.get("color")
+
+    @cached_property
+    def rays(self):
+        if not self.style:
+            return None
+        return self.style.get("rays")

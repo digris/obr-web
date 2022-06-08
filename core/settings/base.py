@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django_filters",
     "social_django",
     "django_countries",
+    "django_json_widget",
     # "adminsortable2",  # disabled for the moment. (wait for django 4 support)
     "base",
     "tagging",

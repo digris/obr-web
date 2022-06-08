@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, ref, onActivated, defineComponent } from "vue";
 import { useStore } from "vuex";
-import { Tag } from "@/typings/api/models/Tag";
+import type { Tag } from "@/typings/api/models/Tag";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
@@ -76,8 +76,13 @@ export default defineComponent({
 
 <template>
   <DetailPage :appendix-visible="allMediaLoaded">
-    <template #background>
-      <Visual :color="mood.rgb" />
+    <template #background="slotProps">
+      <Visual
+        :color="mood.rgb"
+        :ray-config="mood.rays"
+        :height="slotProps.height"
+        :width="slotProps.width"
+      />
     </template>
     <template #header>
       <DetailHeader
@@ -117,6 +122,7 @@ export default defineComponent({
     </template>
     <template #default>
       <MediaList
+        class="media-list"
         :initial-filter="initialFilter"
         :query="query"
         :disable-user-filter="false"
@@ -133,16 +139,7 @@ export default defineComponent({
 .section {
   @include container.section;
 }
-.--disabled--mood-detail {
-  margin-bottom: 12rem;
-  .detail-header {
-    // TODO: find / define appropriate value...
-    min-height: 60vh;
-  }
-  .--disabled--searchbar {
-    flex-grow: 1;
-    justify-content: flex-end;
-    margin-bottom: 1rem;
-  }
+.media-list {
+  background: orangered;
 }
 </style>

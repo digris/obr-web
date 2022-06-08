@@ -19,18 +19,14 @@ export default defineComponent({
     const hasBody = computed(() => !!slots.default);
     const hasBackground = computed(() => !!slots.background);
     const headerEl = ref(null);
-    const { height: headerHeight } = useElementSize(headerEl);
-    const backgroundStyle = computed(() => {
-      return {
-        height: `${headerHeight.value + 300}px`,
-      };
-    });
+    const { height: headerHeight, width: headerWidth } = useElementSize(headerEl);
     return {
       hasHeader,
       hasBody,
       hasBackground,
       headerEl,
-      backgroundStyle,
+      headerHeight,
+      headerWidth,
     };
   },
 });
@@ -51,8 +47,8 @@ export default defineComponent({
       </slot>
     </section>
   </div>
-  <div class="background" v-if="hasBackground" :style="backgroundStyle">
-    <slot name="background" />
+  <div class="background" v-if="hasBackground">
+    <slot name="background" :width="headerWidth" :height="headerHeight + 78" />
   </div>
 </template>
 
@@ -70,6 +66,7 @@ export default defineComponent({
   &__body {
     background: transparent;
     :deep(.list-filter-container) {
+      padding-top: 1rem;
       padding-left: 5rem;
     }
   }
@@ -84,9 +81,10 @@ export default defineComponent({
   }
 }
 .background {
+  background: yellow;
   position: absolute;
   z-index: 1;
-  top: -78px;
+  top: 0;
   width: 100%;
   overflow: hidden;
 }

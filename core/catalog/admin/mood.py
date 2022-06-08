@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
+from django.db import models
+from django_json_widget.widgets import JSONEditorWidget
 from tagging.models import TaggedItem
 from catalog.models.mood import Mood
 
@@ -33,3 +35,6 @@ class MoodAdmin(admin.ModelAdmin):
     inlines = [
         TaggedItemInline,
     ]
+    formfield_overrides = {
+        models.JSONField: {"widget": JSONEditorWidget(height=500)},
+    }

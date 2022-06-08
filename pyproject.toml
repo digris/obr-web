@@ -49,6 +49,7 @@ slack-sdk = "^3.17.0"
 google-api-core = "^2.8.1"
 mccabe = "^0.7.0"
 grpcio = "^1.46.3"
+django-json-widget = "^1.1.1"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"

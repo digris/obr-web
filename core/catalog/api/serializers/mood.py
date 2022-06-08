@@ -5,6 +5,30 @@ from catalog.models import Mood
 from tagging.api.serializers import TagSerializer
 
 
+# class RayColorsSerializer(serializers.Serializer):
+#     inner = serializers.ListField(
+#         child=RGBValueField(),
+#         min_length=3,
+#         max_length=3,
+#         read_only=True,
+#     )
+#     outer = serializers.ListField(
+#         child=RGBValueField(),
+#         min_length=3,
+#         max_length=3,
+#         read_only=True,
+#     )
+
+
+class RaySerializer(serializers.Serializer):
+    count = serializers.IntegerField()
+    spread = serializers.FloatField()
+    width = serializers.FloatField()
+    length = serializers.IntegerField()
+    # colors = RayColorsSerializer()
+    colors = serializers.JSONField()
+
+
 class MoodSerializer(
     serializers.HyperlinkedModelSerializer,
 ):
@@ -21,6 +45,10 @@ class MoodSerializer(
         max_length=3,
         read_only=True,
     )
+    rays = serializers.ListField(
+        child=RaySerializer(),
+        read_only=True,
+    )
 
     class Meta:
         model = Mood
@@ -32,5 +60,6 @@ class MoodSerializer(
             "teaser",
             "tags",
             "rgb",
-            "style",
+            "rays",
+            # "style",
         ]
