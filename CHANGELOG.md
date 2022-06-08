@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.30 (2022-06-08)
+### Fix
+* Add "global" API permissions ([`8f25f31`](https://github.com/digris/obr-web/commit/8f25f314e64603a9bbf37ef0f1d9732eced57734))
+
 ## v0.0.29 (2022-06-08)
 ### Fix
 * Add mood "visual" stubs ([`0cb2080`](https://github.com/digris/obr-web/commit/0cb20803b35e15ee23ffe2dba7a2821c99846114))
