@@ -4,12 +4,19 @@ import google.auth
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import migrations
-from google.cloud import secretmanager as sm
+
+try:
+    from google.cloud import secretmanager as sm
+except ImportError as e:
+    print("unable to import secretmanager")
+    sm = None
 
 
 def create_superuser(apps, schema_editor):
     if getattr(settings, "TEST_MODE", False):
         print("TEST_MODE detected - skipping migration")
+        return
+    if not sm:
         return
     # superuser secret as <email>:<password>
     # to create secret:

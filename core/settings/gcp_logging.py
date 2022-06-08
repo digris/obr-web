@@ -1,26 +1,7 @@
-import logging
+import google.cloud.logging
 
-from google.cloud import logging as google_cloud_logging
-
-gcp_log_client = google_cloud_logging.Client()
-gcp_log_client.setup_logging()
-
-
-class StructuredFormatter(logging.Formatter):
-    def format(self, record):
-        message = super().format(record)
-        meta = {
-            "module": record.module,
-            "funcName": record.funcName,
-            "filename": record.filename,
-            "lineno": record.lineno,
-        }
-        if record.args:
-            try:
-                return dict({"text": message, "meta": meta, **record.args})
-            except TypeError:
-                return dict({"text": message, "meta": meta, "args": record.args})
-        return {"text": message, "meta": meta}
+client = google.cloud.logging.Client()
+client.setup_logging()
 
 
 LOGGING = {
@@ -30,36 +11,20 @@ LOGGING = {
     "root": {
         "level": "WARNING",
         "handlers": [
-            "console",
             "gcp",
         ],
     },
-    "formatters": {
-        "verbose": {
-            "format": "%(asctime)s %(levelname)s\t%(name)s\t%(funcName)s:%(lineno)s - %(message)s",
-        },
-        "gcp": {
-            "class": "settings.gcp_logging.StructuredFormatter",
-        },
-    },
     "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
         "gcp": {
             "level": "DEBUG",
             "class": "google.cloud.logging.handlers.CloudLoggingHandler",
-            "client": gcp_log_client,
-            "formatter": "gcp",
+            "client": client,
         },
     },
     "loggers": {
         "django.db.backends": {
             "level": "WARNING",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -67,7 +32,6 @@ LOGGING = {
         "django.request": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -75,7 +39,6 @@ LOGGING = {
         "user_identity": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -83,7 +46,6 @@ LOGGING = {
         "account": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -91,7 +53,6 @@ LOGGING = {
         "geoip": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -99,7 +60,6 @@ LOGGING = {
         "catalog": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -107,7 +67,6 @@ LOGGING = {
         "stats": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -115,7 +74,6 @@ LOGGING = {
         "sync": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -123,7 +81,6 @@ LOGGING = {
         "broadcast": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,
@@ -131,7 +88,6 @@ LOGGING = {
         "spa": {
             "level": "DEBUG",
             "handlers": [
-                "console",
                 "gcp",
             ],
             "propagate": False,

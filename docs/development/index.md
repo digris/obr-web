@@ -20,9 +20,9 @@ See `package.json` and `pyproject.toml` for version details.
 ```shell
 # install python packages
 # using pyenv:
-pyenv install 3.9.8
+pyenv install 3.10.4
 
-poetry env use python3.9
+poetry env use python3.10
 poetry install
 
 # install npm packages
