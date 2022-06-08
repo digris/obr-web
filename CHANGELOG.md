@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.31 (2022-06-08)
+### Fix
+* Implement inline subscription translations ([`89e2595`](https://github.com/digris/obr-web/commit/89e259596b63aa9465e25d3c75678ca0d718a34e))
+
 ## v0.0.30 (2022-06-08)
 ### Fix
 * Add "global" API permissions ([`8f25f31`](https://github.com/digris/obr-web/commit/8f25f314e64603a9bbf37ef0f1d9732eced57734))
