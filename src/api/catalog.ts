@@ -1,10 +1,14 @@
 import { APIClient } from "@/api/client";
-import settings from "@/settings";
+// import settings from "@/settings";
 
-const MOOD_ENDPOINT = `${settings.API_BASE_URL}catalog/moods/`;
-const PLAYLIST_ENDPOINT = `${settings.API_BASE_URL}catalog/playlists/`;
-const ARTIST_ENDPOINT = `${settings.API_BASE_URL}catalog/artists/`;
-const MEDIA_ENDPOINT = `${settings.API_BASE_URL}catalog/media/`;
+import { useAPIBaseUrl } from "@/composables/api";
+
+const { APIBaseUrl } = useAPIBaseUrl();
+
+const MOOD_ENDPOINT = `${APIBaseUrl.value}catalog/moods/`;
+const PLAYLIST_ENDPOINT = `${APIBaseUrl.value}catalog/playlists/`;
+const ARTIST_ENDPOINT = `${APIBaseUrl.value}catalog/artists/`;
+const MEDIA_ENDPOINT = `${APIBaseUrl.value}catalog/media/`;
 
 async function getMoods(limit: number, offset: number) {
   const url = MOOD_ENDPOINT;

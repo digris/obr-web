@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.db import models
+from modeltranslation.admin import TranslationAdmin
 from django_json_widget.widgets import JSONEditorWidget
 from tagging.models import TaggedItem
 from catalog.models.mood import Mood
@@ -15,7 +16,7 @@ class TaggedItemInline(GenericTabularInline):
 
 
 @admin.register(Mood)
-class MoodAdmin(admin.ModelAdmin):
+class MoodAdmin(TranslationAdmin):
     save_on_top = True
     list_display = [
         "__str__",

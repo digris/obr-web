@@ -27,6 +27,7 @@ SESSION_COOKIE_SAMESITE = None
 SITE_URL = ""
 
 INSTALLED_APPS = [
+    "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

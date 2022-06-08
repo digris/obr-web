@@ -17,6 +17,9 @@ class MoodViewSet(
     serializer_class = serializers.MoodSerializer
     lookup_field = "uid"
 
+    def get_queryset(self):
+        return Mood.objects.all().order_by("name")
+
     def get_object(self):
         try:
             obj_uid = self.kwargs["uid"]

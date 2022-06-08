@@ -279,3 +279,11 @@ class LoginToken(
     @property
     def is_valid(self):
         return self.created > timezone.now() - timedelta(hours=LOGIN_TOKEN_MAX_AGE)
+
+
+class GlobalPermissions(models.Model):
+    class Meta:
+        managed = False
+        default_permissions = ()
+
+        permissions = (("api_sync_webhooks", "API - Sync webhooks"),)

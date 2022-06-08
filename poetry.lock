@@ -378,6 +378,18 @@ python-versions = "*"
 future = "*"
 
 [[package]]
+name = "django-modeltranslation"
+version = "0.18.2"
+description = "Translates Django models using a registration approach."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Django = ">=2.2"
+six = "*"
+
+[[package]]
 name = "django-qsstats-magic"
 version = "1.1.0"
 description = "A django microframework that eases the generation of aggregate data for querysets."
@@ -2455,7 +2467,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9, <3.11"
-content-hash = "0a542636ef7254b44c9c97a5a23baa2bc218891489e88baba2979521010fce7a"
+content-hash = "6626d8b95f004dd5e3f57d48c94ff7ddf5c59a650e95a6204dcf34ca146cea76"
 
 [metadata.files]
 asgiref = [
@@ -2712,6 +2724,10 @@ django-filter = [
 ]
 django-json-widget = [
     {file = "django-json-widget-1.1.1.tar.gz", hash = "sha256:ec948a4c379687f9c854748ba540fdbeb1b1730846ca953f186818521de7e696"},
+]
+django-modeltranslation = [
+    {file = "django-modeltranslation-0.18.2.tar.gz", hash = "sha256:70fbd09b323b23ee8a939ff9f4851378396f0f83ae9d75f13a79c6e40d43436e"},
+    {file = "django_modeltranslation-0.18.2-py3-none-any.whl", hash = "sha256:52e321bf1deef94acfe4f8127dddcdf51640e8177bdfe0e57ecc629712ab4968"},
 ]
 django-qsstats-magic = [
     {file = "django-qsstats-magic-1.1.0.tar.gz", hash = "sha256:73268ab20805c9f2e92b8cf54c36adfe03661d90eb5d58da69a5cb4d932c2757"},
