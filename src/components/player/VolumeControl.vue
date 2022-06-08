@@ -17,8 +17,10 @@ export default defineComponent({
     const { volume } = storeToRefs(useSettingsStore());
     const isExpanded = ref(false);
     const onClick = () => {
-      console.debug("VC click");
       isExpanded.value = !isExpanded.value;
+    };
+    const onChange = () => {
+      isExpanded.value = false;
     };
     const icon = computed(() => {
       if (volume.value < 1) {
@@ -30,6 +32,7 @@ export default defineComponent({
       icon,
       volume,
       onClick,
+      onChange,
       isExpanded,
     };
   },
@@ -41,7 +44,7 @@ export default defineComponent({
     <component :is="icon" :size="48" color="rgb(var(--c-fg))" />
   </Circle>
   <div v-if="isExpanded">
-    <input class="slider" type="range" min="0" max="100" v-model="volume" />
+    <input class="slider" type="range" min="0" max="100" v-model="volume" @change="onChange" />
   </div>
 </template>
 

@@ -10,6 +10,8 @@ export default defineComponent({
     const setLocale = (value: string) => {
       locale.value = value;
       settingsStore.setLocale(value);
+      // NOTE: refresh is only needed to also update resources loaded via API
+      document.location.reload();
     };
     return {
       currentLocale: locale,

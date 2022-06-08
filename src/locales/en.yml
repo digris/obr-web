@@ -1,5 +1,7 @@
 ACCOUNT:
   ACCOUNT: Account
+subscription:
+  numDaysRemaining: 1 day | {count} days
 broadcast:
   ct:
     editor: editor | editors

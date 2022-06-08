@@ -1,5 +1,7 @@
 ACCOUNT:
   ACCOUNT: Konto
+subscription:
+  numDaysRemaining: 1 Tag | {count} Tage
 broadcast:
   ct:
     editor: Editor*in | Editor*innen

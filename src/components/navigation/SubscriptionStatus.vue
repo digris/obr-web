@@ -1,15 +1,13 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
+import { useI18n } from 'vue-i18n';
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
 
-// import Datetime from '@/components/ui/date/Datetime.vue';
 
 export default defineComponent({
-  // components: {
-  //   Datetime,
-  // },
   setup() {
+    const { t } = useI18n();
     const detailsVisible = ref(false);
     const store = useStore();
     const subscription = computed(() => store.getters["account/subscription"]);
@@ -30,6 +28,7 @@ export default defineComponent({
       detailsVisible.value = false;
     };
     return {
+      t,
       subscription,
       isActive,
       numDaysRemaining,
@@ -59,7 +58,7 @@ export default defineComponent({
       >
         <span v-if="isActive"> Free access </span>
         <span v-else> Expired </span>
-        <span v-text="`${numDaysRemaining} Tage`" />
+        <span v-text="t('subscription.numDaysRemaining', numDaysRemaining)" />
       </router-link>
     </div>
   </div>
@@ -79,16 +78,9 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    //align-items: center;
-    //justify-content: center;
     width: 100%;
     height: 100%;
     line-height: 14px;
-    /*
-    &.is-active {
-      color: rgb(var(--c-success));
-    }
-    */
     &.is-expired {
       color: rgb(var(--c-warning));
     }
