@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.29 (2022-06-08)
+### Fix
+* Add mood "visual" stubs ([`0cb2080`](https://github.com/digris/obr-web/commit/0cb20803b35e15ee23ffe2dba7a2821c99846114))
+
 ## v0.0.28 (2022-06-08)
 ### Fix
 * Add github icon ([`457a05e`](https://github.com/digris/obr-web/commit/457a05e15eadd3f8da39811cc02706016ba00ef6))
