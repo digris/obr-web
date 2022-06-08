@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.27 (2022-06-08)
+### Fix
+* **ci:** Pin `python-semantic-release` version ([`24337f4`](https://github.com/digris/obr-web/commit/24337f405e77144284660558debe205f010a71b2))
+
 ## v0.0.26 (2022-06-07)
 ### Fix
 * **ci:** Update "hanging" release version ([`07ac446`](https://github.com/digris/obr-web/commit/07ac446070514225b0fbc57434ee7b13dacbf44b))
