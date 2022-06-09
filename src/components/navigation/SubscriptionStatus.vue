@@ -1,9 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { useI18n } from 'vue-i18n';
+import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
-
 
 export default defineComponent({
   setup() {

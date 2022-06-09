@@ -1,10 +1,12 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import { defineComponent, ref, computed, onMounted, watch } from "vue";
+import { defineComponent, ref, computed, watch } from "vue";
+
+type RGBAColor = Array<[number, number, number, number]>;
 
 interface Colors {
-  inner: Array<[number, number, number, number]>;
-  outer: Array<[number, number, number, number]>;
+  inner: RGBAColor;
+  outer: RGBAColor;
 }
 
 interface RayConfig {
@@ -19,12 +21,12 @@ interface Ray {
   start: number;
   width: number;
   length: number;
-  colors: Colors;
   blend: string;
   blur: number;
+  colors: Colors;
 }
 
-const colorToRGBA = (color: Array<[number, number, number, number]>) => {
+const colorToRGBA = (color: RGBAColor) => {
   return `rgba(${color.join(",")})`;
 };
 
@@ -37,20 +39,17 @@ const drawCanvas = async (
 ) => {
   ctx.canvas.width = width;
   ctx.canvas.height = height;
-  console.debug("CTX", ctx.canvas.width, ctx.canvas.height, offsetY, rays);
-
   const center = {
     x: width / 2,
     y: height / 2 + offsetY / 2,
   };
-
   rays.forEach((ray: Ray) => {
     const { length, colors, start, blend, blur } = ray;
-    const g = ctx.createRadialGradient(center.x, center.y, 0, center.x, center.y, length);
+    const gradient = ctx.createRadialGradient(center.x, center.y, 0, center.x, center.y, length);
     ctx.beginPath();
-    g.addColorStop(0, colorToRGBA(colors.inner));
-    g.addColorStop(1, colorToRGBA(colors.outer));
-    ctx.fillStyle = g;
+    gradient.addColorStop(0, colorToRGBA(colors.inner));
+    gradient.addColorStop(1, colorToRGBA(colors.outer));
+    ctx.fillStyle = gradient;
     ctx.arc(center.x, center.y, length, start, start + ray.width);
     ctx.lineTo(center.x, center.y);
     ctx.globalCompositeOperation = blend;
@@ -61,21 +60,10 @@ const drawCanvas = async (
     }
     ctx.fill();
   });
-  // ctx.beginPath();
-  // ctx.arc(center.x, center.y, 60, 0, 2 * Math.PI);
-  // ctx.stroke();
 };
 
 export default defineComponent({
   props: {
-    color: {
-      type: Array,
-      default: () => [255, 0, 255],
-    },
-    rayConfig: {
-      type: Array as PropType<Array<RayConfig>>,
-      required: true,
-    },
     width: {
       type: Number,
       default: 0,
@@ -84,12 +72,27 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    color: {
+      type: Array,
+      default: () => [255, 0, 255],
+    },
+    rayConfig: {
+      type: Array as PropType<Array<RayConfig>>,
+      required: true,
+    },
   },
   setup(props) {
     const canvas = ref<HTMLCanvasElement | null>(null);
+    const size = computed(() => {
+      return {
+        height: props.height,
+        width: props.width,
+      };
+    });
     const containerStyle = computed(() => {
       const bg = props.color.join(",");
       return {
+        // TODO: implement calculation taking into account screen size
         height: `${props.height + 300}px`,
         background: `rgb(${bg})`,
       };
@@ -100,47 +103,33 @@ export default defineComponent({
         width: `${props.width}px`,
       };
     });
-    const initCanvas = async () => {
-      console.debug("initCanvas");
-    };
-
     const rays = computed(() => {
       const r: Ray[] = [];
       props.rayConfig.forEach((conf: RayConfig) => {
         const { count, colors, spread, width, length } = conf;
         for (let i = 0; i < count; i++) {
           r.push({
+            blur: 0,
+            blend: "multiply",
             start: Math.PI * Math.random() * spread,
             width: Math.PI * Math.random() * width,
             length,
             colors,
-            blur: 0,
-            blend: "multiply",
           });
         }
       });
       return r;
     });
-
     const updateCanvas = async () => {
       const ctx = canvas.value?.getContext("2d");
       if (ctx) {
+        // TODO: implement offset calculation
         await drawCanvas(ctx, props.width, props.height, 92, rays.value);
       }
     };
-    onMounted(() => {
-      initCanvas();
-    });
-    const size = computed(() => {
-      return {
-        height: props.height,
-        width: props.width,
-      };
-    });
     watch(
       () => size.value,
       async () => {
-        // await initCanvas();
         await updateCanvas();
       }
     );
@@ -156,7 +145,7 @@ export default defineComponent({
 <template>
   <div class="visual-container" :style="containerStyle">
     <div class="visual" :style="visualStyle">
-      <canvas ref="canvas"></canvas>
+      <canvas ref="canvas" />
     </div>
   </div>
 </template>
