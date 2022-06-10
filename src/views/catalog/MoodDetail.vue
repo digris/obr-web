@@ -113,7 +113,9 @@ export default defineComponent({
           <ObjectTags class="tags" :obj="mood" :limit="4" />
         </template>
         <template #meta-panel>
+          <!--
           <span>1h 25m</span>
+          -->
         </template>
         <template #searchbar>
           <Searchbar :filter="combinedFilter" />
@@ -138,8 +140,5 @@ export default defineComponent({
 @use "@/style/elements/container";
 .section {
   @include container.section;
-}
-.media-list {
-  background: orangered;
 }
 </style>

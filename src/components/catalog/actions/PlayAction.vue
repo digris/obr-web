@@ -56,7 +56,7 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
+  setup(props, { slots }) {
     const { shift: shiftKey } = useMagicKeys();
     const { enqueueMedia, startPlayCurrent } = useQueueControls();
     const {
@@ -74,6 +74,15 @@ export default defineComponent({
     const objIsPlaying = computed(() => inScope.value && isPlaying.value);
     const objIsBuffering = computed(() => inScope.value && isBuffering.value);
     const objIsPaused = computed(() => inScope.value && issPaused.value);
+    const actionStyle = computed(() => {
+      if (slots.default) {
+        return {};
+      }
+      return {
+        width: `${props.size}px`,
+        height: `${props.size}px`,
+      };
+    });
     const buttonCssVars = computed(() => {
       if (inScope.value && currentColor.value) {
         return {
@@ -117,6 +126,7 @@ export default defineComponent({
       }
     });
     return {
+      actionStyle,
       onClick,
       isPlaying: objIsPlaying,
       isBuffering: objIsBuffering,
@@ -133,8 +143,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="play-action">
-    <div @click="onClick" class="container" :class="{ 'is-loading': isLoading }">
+  <div class="play-action" :style="actionStyle">
+    <div
+      @click="onClick"
+      class="container"
+      :class="{
+        'is-loading': isLoading,
+      }"
+    >
       <slot name="default">
         <ButtonPlay
           :is-active="inScope"

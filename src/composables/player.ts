@@ -2,6 +2,10 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 import eventBus from "@/eventBus";
 
+const usePlayer = () => {
+
+};
+
 const usePlayerState = () => {
   const store = useStore();
   const playerState = computed(() => store.getters["player/playerState"]);

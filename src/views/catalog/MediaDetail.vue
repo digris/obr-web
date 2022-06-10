@@ -116,8 +116,15 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .tags,
 .identifiers {
   margin: 0.5rem 0;
 }
+/*
+.artists {
+  @include typo.large;
+  margin-bottom: 1rem;
+}
+*/
 </style>

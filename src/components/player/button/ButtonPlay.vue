@@ -125,6 +125,10 @@ export default defineComponent({
       'is-hover': isHover,
       'has-shadow': shadowed,
     }"
+    :style="{
+      height: `${size}px`,
+      width: `${size}px`,
+    }"
   >
     <component :is="icon" :size="size" :color="color" />
   </Circle>

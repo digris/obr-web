@@ -1,5 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+import { useStreamControls } from '@/composables/stream';
+import { useQueueControls } from '@/composables/queue';
 import { DateTime } from "luxon";
 import eventBus from "@/eventBus";
 import { playStream } from "@/player/stream";
@@ -29,7 +31,8 @@ export default defineComponent({
   },
   emits: ["play", "pause"],
   setup(props, { emit }) {
-    // const store = useStore();
+    const { startPlayStream } = useStreamControls();
+    const { enqueueObj, startPlayCurrent } = useQueueControls();
     // eslint-disable-next-line arrow-body-style
     const isPlaceholder = computed(() => {
       return props.scheduleItem === null;
@@ -52,22 +55,25 @@ export default defineComponent({
     });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const playMedia = requireSubscription((media: object) => {
-      const payload = {
-        mode: "replace",
-        media: [media],
-        // TODO: annotate scope with corresponding playlist
-        scope: [],
-      };
-      eventBus.emit("queue:controls:enqueue", payload);
+    const playMedia = requireSubscription(async (media: object) => {
+      await enqueueObj(media, 'replace');
+      await startPlayCurrent(true);
+      // const payload = {
+      //   mode: "replace",
+      //   media: [media],
+      //   // TODO: annotate scope with corresponding playlist
+      //   scope: [],
+      // };
+      // eventBus.emit("queue:controls:enqueue", payload);
     });
-    const play = () => {
+    const play = async () => {
       if (props.isCurrent) {
         const startTime = -10;
-        playStream(startTime);
+        // playStream(startTime);
+        await startPlayStream(startTime);
         emit("play");
       } else {
-        playMedia(props.scheduleItem.media);
+        await playMedia(props.scheduleItem.media);
       }
     };
     const pause = () => {

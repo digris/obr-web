@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { DateTime } from "luxon";
+import { useObjKey } from "@/composables/obj";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
@@ -29,7 +30,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const objKey = computed(() => `${props.playlist.ct}:${props.playlist.uid}`);
+    const { objKey } = useObjKey(props.playlist);
     const isHover = ref(false);
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const latestEmission = computed(() => {

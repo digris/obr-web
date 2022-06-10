@@ -2,14 +2,14 @@
 import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
+import { useObjKey } from "@/composables/obj";
 import eventBus from "@/eventBus";
 import { getContrastColor } from "@/utils/color";
 import { requireSubscription } from "@/utils/account";
 
-import Debug from "@/components/dev/Debug.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
-import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 import UserRating from "@/components/rating/UserRating.vue";
@@ -24,10 +24,9 @@ export default defineComponent({
     },
   },
   components: {
-    Debug,
     CircleButton,
     ContextMenu,
-    ButtonPlay,
+    PlayAction,
     MediaArtists,
     MediaReleases,
     UserRating,
@@ -36,9 +35,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const objKey = computed(() => {
-      return `${props.media.ct}:${props.media.uid}`;
-    });
+    const { objKey } = useObjKey(props.media);
     const isHover = ref(false);
     const release = computed(() => {
       return props.media.releases && props.media.releases.length ? props.media.releases[0] : null;
@@ -166,17 +163,13 @@ export default defineComponent({
     @mouseenter="isHover = true"
     @mouseleave="isHover = false"
   >
-    <Debug :visible="false" :value="media" />
     <div class="container">
       <div class="play">
-        <ButtonPlay
-          @play="play(media)"
-          @pause="pause"
-          :is-active="isCurrent && !isLive"
-          :is-playing="isPlaying"
-          :is-buffering="isBuffering"
-          :style="buttonCssVars"
-          :color="`rgb(${contrastColor.join(',')})`"
+        <PlayAction
+          :obj-key="objKey"
+          :size="48"
+          :outlined="false"
+          background-color="rgb(var(--c-white))"
         />
         <div class="state">
           <div class="state__on-air" v-if="isOnair">R</div>
@@ -193,9 +186,8 @@ export default defineComponent({
               uid: media.uid,
             },
           }"
-        >
-          {{ media.name }}
-        </router-link>
+          v-text="media.name"
+        />
       </div>
       <div class="artist">
         <MediaArtists :artists="media.artists" />
