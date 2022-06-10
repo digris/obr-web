@@ -14,6 +14,12 @@ import MobilePlayer from "@/components/player/mobile/Player.vue";
 import Notifications from "@/components/notification/Notifications.vue";
 import ClaimVoucher from "@/components/subscription/voucher/Claim.vue";
 
+declare global {
+  interface Window {
+    audioPlayer: AudioPlayer;
+  }
+}
+
 export default defineComponent({
   name: "App",
   components: {
@@ -28,10 +34,11 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const user = computed(() => store.getters["account/user"]);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const audioPlayer = new AudioPlayer();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const playerQueue = queue;
+
+    window.audioPlayer = new AudioPlayer();
+    // @ts-ignore
+    window.queue = queue;
+
     store.dispatch("account/getUser");
     const { width: vpWidth } = useWindowSize();
     const playerComponent = computed(() => {

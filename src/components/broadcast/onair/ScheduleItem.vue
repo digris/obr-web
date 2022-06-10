@@ -1,10 +1,10 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useStreamControls } from '@/composables/stream';
-import { useQueueControls } from '@/composables/queue';
+import { useStreamControls } from "@/composables/stream";
+import { useQueueControls } from "@/composables/queue";
 import { DateTime } from "luxon";
 import eventBus from "@/eventBus";
-import { playStream } from "@/player/stream";
+// import { playStream } from "@/player/stream";
 import { requireSubscription } from "@/utils/account";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayButton from "./button/Play.vue";
@@ -56,7 +56,7 @@ export default defineComponent({
     const timeFormat = DateTime.TIME_WITH_SECONDS;
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const playMedia = requireSubscription(async (media: object) => {
-      await enqueueObj(media, 'replace');
+      await enqueueObj(media, "replace");
       await startPlayCurrent(true);
       // const payload = {
       //   mode: "replace",
@@ -66,14 +66,14 @@ export default defineComponent({
       // };
       // eventBus.emit("queue:controls:enqueue", payload);
     });
-    const play = async () => {
+    const play = () => {
       if (props.isCurrent) {
         const startTime = -10;
         // playStream(startTime);
-        await startPlayStream(startTime);
+        startPlayStream(startTime);
         emit("play");
       } else {
-        await playMedia(props.scheduleItem.media);
+        playMedia(props.scheduleItem.media);
       }
     };
     const pause = () => {
