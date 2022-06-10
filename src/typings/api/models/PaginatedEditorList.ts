@@ -9,4 +9,5 @@ export type PaginatedEditorList = {
     next?: string | null;
     previous?: string | null;
     results?: Array<Editor>;
-}
+};
+

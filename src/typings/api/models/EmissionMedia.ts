@@ -11,4 +11,5 @@ export type EmissionMedia = {
     fadeCross: number;
     timeStart: string;
     timeEnd: string;
-}
+};
+

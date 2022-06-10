@@ -8,4 +8,5 @@ export type Program = {
     timeFrom: string;
     timeUntil: string;
     emissions: Array<ProgramEmission>;
-}
+};
+

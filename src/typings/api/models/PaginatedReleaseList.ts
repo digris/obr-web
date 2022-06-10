@@ -9,4 +9,5 @@ export type PaginatedReleaseList = {
     next?: string | null;
     previous?: string | null;
     results?: Array<Release>;
-}
+};
+

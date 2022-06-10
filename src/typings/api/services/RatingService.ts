@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class RatingService {
@@ -11,15 +13,18 @@ export class RatingService {
      * @returns any No response body
      * @throws ApiError
      */
-    public static async ratingRetrieve(
+    public static ratingRetrieve(
         objCt: string,
         objUid: string,
-    ): Promise<any> {
-        const result = await __request({
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/rating/${objCt}:${objUid}/`,
+            url: '/api/v1/rating/{obj_ct}:{obj_uid}/',
+            path: {
+                'obj_ct': objCt,
+                'obj_uid': objUid,
+            },
         });
-        return result.body;
     }
 
     /**
@@ -28,15 +33,18 @@ export class RatingService {
      * @returns any No response body
      * @throws ApiError
      */
-    public static async ratingCreate(
+    public static ratingCreate(
         objCt: string,
         objUid: string,
-    ): Promise<any> {
-        const result = await __request({
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/rating/${objCt}:${objUid}/`,
+            url: '/api/v1/rating/{obj_ct}:{obj_uid}/',
+            path: {
+                'obj_ct': objCt,
+                'obj_uid': objUid,
+            },
         });
-        return result.body;
     }
 
 }

@@ -18,4 +18,5 @@ export type Schedule = {
     media: ScheduleMedia;
     emission: ScheduleEmission;
     playlist: SchedulePlaylist;
-}
+};
+

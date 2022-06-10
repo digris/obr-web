@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { Image } from './Image';
+
 /**
  * A ModelSerializer that takes additional arguments for
  * "fields", "omit" and "expand" in order to
@@ -12,10 +14,7 @@ export type CatalogPlaylist = {
     readonly url?: string;
     readonly ct?: string;
     readonly uid?: string;
-    name: string;
-    readonly series?: string;
-    readonly latestEmission?: string;
-    readonly numMedia?: number;
-    readonly numEmissions?: number;
-    readonly userRating?: number | null;
-}
+    name?: string | null;
+    readonly image?: Image;
+};
+

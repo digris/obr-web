@@ -9,4 +9,5 @@ export type PaginatedArtistList = {
     next?: string | null;
     previous?: string | null;
     results?: Array<Artist>;
-}
+};
+

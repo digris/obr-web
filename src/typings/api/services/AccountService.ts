@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class AccountService {
@@ -9,60 +11,88 @@ export class AccountService {
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountLoginCreate(): Promise<any> {
-        const result = await __request({
-            method: 'POST',
-            path: `/api/v1/account/login/`,
+    public static accountAddressPartialUpdate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/account/address/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountLogoutCreate(): Promise<any> {
-        const result = await __request({
+    public static accountEmailCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/account/logout/`,
+            url: '/api/v1/account/email/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountSendEmailLoginRetrieve(): Promise<any> {
-        const result = await __request({
+    public static accountLoginCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/account/login/',
+        });
+    }
+
+    /**
+     * @returns any No response body
+     * @throws ApiError
+     */
+    public static accountLogoutCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/account/logout/',
+        });
+    }
+
+    /**
+     * @returns any No response body
+     * @throws ApiError
+     */
+    public static accountPasswordCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/account/password/',
+        });
+    }
+
+    /**
+     * @returns any No response body
+     * @throws ApiError
+     */
+    public static accountSendEmailLoginRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/account/send-email-login/`,
+            url: '/api/v1/account/send-email-login/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountSendEmailLoginCreate(): Promise<any> {
-        const result = await __request({
+    public static accountSendEmailLoginCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/account/send-email-login/`,
+            url: '/api/v1/account/send-email-login/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountSignedEmailLoginCreate(): Promise<any> {
-        const result = await __request({
+    public static accountSignedEmailLoginCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/account/signed-email-login/`,
+            url: '/api/v1/account/signed-email-login/',
         });
-        return result.body;
     }
 
     /**
@@ -71,12 +101,11 @@ export class AccountService {
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountSocialBackendsRetrieve(): Promise<any> {
-        const result = await __request({
+    public static accountSocialBackendsRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/account/social-backends/`,
+            url: '/api/v1/account/social-backends/',
         });
-        return result.body;
     }
 
     /**
@@ -88,39 +117,51 @@ export class AccountService {
      * @returns void
      * @throws ApiError
      */
-    public static async accountSocialBackendsDestroy(
+    public static accountSocialBackendsDestroy(
         provider: string,
         uid: string,
-    ): Promise<void> {
-        const result = await __request({
+    ): CancelablePromise<void> {
+        return __request(OpenAPI, {
             method: 'DELETE',
-            path: `/api/v1/account/social-backends/${provider}/${uid}/`,
+            url: '/api/v1/account/social-backends/{provider}/{uid}/',
+            path: {
+                'provider': provider,
+                'uid': uid,
+            },
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountTokenLoginCreate(): Promise<any> {
-        const result = await __request({
+    public static accountTokenLoginCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/account/token-login/`,
+            url: '/api/v1/account/token-login/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async accountUsersMeRetrieve(): Promise<any> {
-        const result = await __request({
+    public static accountUsersMeRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/account/users/me/`,
+            url: '/api/v1/account/users/me/',
         });
-        return result.body;
+    }
+
+    /**
+     * @returns any No response body
+     * @throws ApiError
+     */
+    public static accountUsersMePartialUpdate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/account/users/me/',
+        });
     }
 
 }

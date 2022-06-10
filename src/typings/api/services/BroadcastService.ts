@@ -7,6 +7,9 @@ import type { PaginatedEditorList } from '../models/PaginatedEditorList';
 import type { PaginatedEmissionList } from '../models/PaginatedEmissionList';
 import type { Program } from '../models/Program';
 import type { Schedule } from '../models/Schedule';
+
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class BroadcastService {
@@ -17,19 +20,18 @@ export class BroadcastService {
      * @returns PaginatedEditorList
      * @throws ApiError
      */
-    public static async broadcastEditorsList(
+    public static broadcastEditorsList(
         limit?: number,
         offset?: number,
-    ): Promise<PaginatedEditorList> {
-        const result = await __request({
+    ): CancelablePromise<PaginatedEditorList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/broadcast/editors/`,
+            url: '/api/v1/broadcast/editors/',
             query: {
                 'limit': limit,
                 'offset': offset,
             },
         });
-        return result.body;
     }
 
     /**
@@ -37,14 +39,16 @@ export class BroadcastService {
      * @returns Editor
      * @throws ApiError
      */
-    public static async broadcastEditorsRetrieve(
+    public static broadcastEditorsRetrieve(
         uid: string,
-    ): Promise<Editor> {
-        const result = await __request({
+    ): CancelablePromise<Editor> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/broadcast/editors/${uid}/`,
+            url: '/api/v1/broadcast/editors/{uid}/',
+            path: {
+                'uid': uid,
+            },
         });
-        return result.body;
     }
 
     /**
@@ -53,19 +57,18 @@ export class BroadcastService {
      * @returns PaginatedEmissionList
      * @throws ApiError
      */
-    public static async broadcastEmissionsList(
+    public static broadcastEmissionsList(
         limit?: number,
         offset?: number,
-    ): Promise<PaginatedEmissionList> {
-        const result = await __request({
+    ): CancelablePromise<PaginatedEmissionList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/broadcast/emissions/`,
+            url: '/api/v1/broadcast/emissions/',
             query: {
                 'limit': limit,
                 'offset': offset,
             },
         });
-        return result.body;
     }
 
     /**
@@ -73,38 +76,49 @@ export class BroadcastService {
      * @returns Emission
      * @throws ApiError
      */
-    public static async broadcastEmissionsRetrieve(
+    public static broadcastEmissionsRetrieve(
         uid: string,
-    ): Promise<Emission> {
-        const result = await __request({
+    ): CancelablePromise<Emission> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/broadcast/emissions/${uid}/`,
+            url: '/api/v1/broadcast/emissions/{uid}/',
+            path: {
+                'uid': uid,
+            },
         });
-        return result.body;
     }
 
     /**
      * @returns Program
      * @throws ApiError
      */
-    public static async broadcastProgramRetrieve(): Promise<Program> {
-        const result = await __request({
+    public static broadcastProgramRetrieve(): CancelablePromise<Program> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/broadcast/program/`,
+            url: '/api/v1/broadcast/program/',
         });
-        return result.body;
     }
 
     /**
      * @returns Schedule
      * @throws ApiError
      */
-    public static async broadcastScheduleRetrieve(): Promise<Schedule> {
-        const result = await __request({
+    public static broadcastScheduleRetrieve(): CancelablePromise<Schedule> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/broadcast/schedule/`,
+            url: '/api/v1/broadcast/schedule/',
         });
-        return result.body;
+    }
+
+    /**
+     * @returns Program
+     * @throws ApiError
+     */
+    public static broadcastStationTimeRetrieve(): CancelablePromise<Program> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/broadcast/station-time/',
+        });
     }
 
 }

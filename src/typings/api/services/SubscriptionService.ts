@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class SubscriptionService {
@@ -9,36 +11,33 @@ export class SubscriptionService {
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionPaymentRetrieve(): Promise<any> {
-        const result = await __request({
+    public static subscriptionPaymentRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/subscription/payment/`,
+            url: '/api/v1/subscription/payment/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionPaymentStripeRetrieve(): Promise<any> {
-        const result = await __request({
+    public static subscriptionPaymentStripeRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/subscription/payment/stripe/`,
+            url: '/api/v1/subscription/payment/stripe/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionPaymentStripeCreate(): Promise<any> {
-        const result = await __request({
+    public static subscriptionPaymentStripeCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/subscription/payment/stripe/`,
+            url: '/api/v1/subscription/payment/stripe/',
         });
-        return result.body;
     }
 
     /**
@@ -46,62 +45,60 @@ export class SubscriptionService {
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionPaymentStripeSuccessRetrieve(
+    public static subscriptionPaymentStripeSuccessRetrieve(
         signedPaymentUid: string,
-    ): Promise<any> {
-        const result = await __request({
+    ): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/subscription/payment/stripe/success/${signedPaymentUid}/`,
+            url: '/api/v1/subscription/payment/stripe/success/{signed_payment_uid}/',
+            path: {
+                'signed_payment_uid': signedPaymentUid,
+            },
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionPaymentStripeWebhookCreate(): Promise<any> {
-        const result = await __request({
+    public static subscriptionPaymentStripeWebhookCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/subscription/payment/stripe/webhook/`,
+            url: '/api/v1/subscription/payment/stripe/webhook/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionPlanRetrieve(): Promise<any> {
-        const result = await __request({
+    public static subscriptionPlanRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/subscription/plan/`,
+            url: '/api/v1/subscription/plan/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionVoucherRetrieve(): Promise<any> {
-        const result = await __request({
+    public static subscriptionVoucherRetrieve(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/subscription/voucher/`,
+            url: '/api/v1/subscription/voucher/',
         });
-        return result.body;
     }
 
     /**
      * @returns any No response body
      * @throws ApiError
      */
-    public static async subscriptionVoucherCreate(): Promise<any> {
-        const result = await __request({
+    public static subscriptionVoucherCreate(): CancelablePromise<any> {
+        return __request(OpenAPI, {
             method: 'POST',
-            path: `/api/v1/subscription/voucher/`,
+            url: '/api/v1/subscription/voucher/',
         });
-        return result.body;
     }
 
 }

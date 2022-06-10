@@ -9,4 +9,5 @@ export type PaginatedEmissionList = {
     next?: string | null;
     previous?: string | null;
     results?: Array<Emission>;
-}
+};
+

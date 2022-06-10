@@ -11,6 +11,9 @@ import type { PaginatedMediaList } from '../models/PaginatedMediaList';
 import type { PaginatedMoodList } from '../models/PaginatedMoodList';
 import type { PaginatedReleaseList } from '../models/PaginatedReleaseList';
 import type { Release } from '../models/Release';
+
+import type { CancelablePromise } from '../core/CancelablePromise';
+import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
 export class CatalogService {
@@ -19,38 +22,59 @@ export class CatalogService {
      * Artist endpoint.
      * @param limit Number of results to return per page.
      * @param offset The initial index from which to return the results.
+     * @param userRating
      * @returns PaginatedArtistList
      * @throws ApiError
      */
-    public static async catalogArtistsList(
+    public static catalogArtistsList(
         limit?: number,
         offset?: number,
-    ): Promise<PaginatedArtistList> {
-        const result = await __request({
+        userRating?: number,
+    ): CancelablePromise<PaginatedArtistList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/artists/`,
+            url: '/api/v1/catalog/artists/',
             query: {
                 'limit': limit,
                 'offset': offset,
+                'user_rating': userRating,
             },
         });
-        return result.body;
     }
 
     /**
      * Artist endpoint.
      * @param uid
+     * @param expand
      * @returns Artist
      * @throws ApiError
      */
-    public static async catalogArtistsRetrieve(
+    public static catalogArtistsRetrieve(
         uid: string,
-    ): Promise<Artist> {
-        const result = await __request({
+        expand?: string,
+    ): CancelablePromise<Artist> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/artists/${uid}/`,
+            url: '/api/v1/catalog/artists/{uid}/',
+            path: {
+                'uid': uid,
+            },
+            query: {
+                'expand': expand,
+            },
         });
-        return result.body;
+    }
+
+    /**
+     * Artist endpoint.
+     * @returns Artist
+     * @throws ApiError
+     */
+    public static catalogArtistsTagsRetrieve(): CancelablePromise<Artist> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/catalog/artists/tags/',
+        });
     }
 
     /**
@@ -68,15 +92,15 @@ export class CatalogService {
      * @returns PaginatedMediaList
      * @throws ApiError
      */
-    public static async catalogMediaList(
+    public static catalogMediaList(
         limit?: number,
         objKey?: string,
         offset?: number,
         userRating?: number,
-    ): Promise<PaginatedMediaList> {
-        const result = await __request({
+    ): CancelablePromise<PaginatedMediaList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/media/`,
+            url: '/api/v1/catalog/media/',
             query: {
                 'limit': limit,
                 'obj_key': objKey,
@@ -84,7 +108,6 @@ export class CatalogService {
                 'user_rating': userRating,
             },
         });
-        return result.body;
     }
 
     /**
@@ -99,14 +122,16 @@ export class CatalogService {
      * @returns Media
      * @throws ApiError
      */
-    public static async catalogMediaRetrieve(
+    public static catalogMediaRetrieve(
         uid: string,
-    ): Promise<Media> {
-        const result = await __request({
+    ): CancelablePromise<Media> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/media/${uid}/`,
+            url: '/api/v1/catalog/media/{uid}/',
+            path: {
+                'uid': uid,
+            },
         });
-        return result.body;
     }
 
     /**
@@ -120,12 +145,11 @@ export class CatalogService {
      * @returns Media
      * @throws ApiError
      */
-    public static async catalogMediaTagsRetrieve(): Promise<Media> {
-        const result = await __request({
+    public static catalogMediaTagsRetrieve(): CancelablePromise<Media> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/media/tags/`,
+            url: '/api/v1/catalog/media/tags/',
         });
-        return result.body;
     }
 
     /**
@@ -134,19 +158,18 @@ export class CatalogService {
      * @returns PaginatedMoodList
      * @throws ApiError
      */
-    public static async catalogMoodsList(
+    public static catalogMoodsList(
         limit?: number,
         offset?: number,
-    ): Promise<PaginatedMoodList> {
-        const result = await __request({
+    ): CancelablePromise<PaginatedMoodList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/moods/`,
+            url: '/api/v1/catalog/moods/',
             query: {
                 'limit': limit,
                 'offset': offset,
             },
         });
-        return result.body;
     }
 
     /**
@@ -154,14 +177,16 @@ export class CatalogService {
      * @returns Mood
      * @throws ApiError
      */
-    public static async catalogMoodsRetrieve(
+    public static catalogMoodsRetrieve(
         uid: string,
-    ): Promise<Mood> {
-        const result = await __request({
+    ): CancelablePromise<Mood> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/moods/${uid}/`,
+            url: '/api/v1/catalog/moods/{uid}/',
+            path: {
+                'uid': uid,
+            },
         });
-        return result.body;
     }
 
     /**
@@ -172,15 +197,15 @@ export class CatalogService {
      * @returns PaginatedCatalogPlaylistList
      * @throws ApiError
      */
-    public static async catalogPlaylistsList(
+    public static catalogPlaylistsList(
         limit?: number,
         objKey?: string,
         offset?: number,
         userRating?: number,
-    ): Promise<PaginatedCatalogPlaylistList> {
-        const result = await __request({
+    ): CancelablePromise<PaginatedCatalogPlaylistList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/playlists/`,
+            url: '/api/v1/catalog/playlists/',
             query: {
                 'limit': limit,
                 'obj_key': objKey,
@@ -188,7 +213,6 @@ export class CatalogService {
                 'user_rating': userRating,
             },
         });
-        return result.body;
     }
 
     /**
@@ -196,14 +220,27 @@ export class CatalogService {
      * @returns CatalogPlaylist
      * @throws ApiError
      */
-    public static async catalogPlaylistsRetrieve(
+    public static catalogPlaylistsRetrieve(
         uid: string,
-    ): Promise<CatalogPlaylist> {
-        const result = await __request({
+    ): CancelablePromise<CatalogPlaylist> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/playlists/${uid}/`,
+            url: '/api/v1/catalog/playlists/{uid}/',
+            path: {
+                'uid': uid,
+            },
         });
-        return result.body;
+    }
+
+    /**
+     * @returns CatalogPlaylist
+     * @throws ApiError
+     */
+    public static catalogPlaylistsTagsRetrieve(): CancelablePromise<CatalogPlaylist> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/catalog/playlists/tags/',
+        });
     }
 
     /**
@@ -212,19 +249,18 @@ export class CatalogService {
      * @returns PaginatedReleaseList
      * @throws ApiError
      */
-    public static async catalogReleasesList(
+    public static catalogReleasesList(
         limit?: number,
         offset?: number,
-    ): Promise<PaginatedReleaseList> {
-        const result = await __request({
+    ): CancelablePromise<PaginatedReleaseList> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/releases/`,
+            url: '/api/v1/catalog/releases/',
             query: {
                 'limit': limit,
                 'offset': offset,
             },
         });
-        return result.body;
     }
 
     /**
@@ -232,14 +268,16 @@ export class CatalogService {
      * @returns Release
      * @throws ApiError
      */
-    public static async catalogReleasesRetrieve(
+    public static catalogReleasesRetrieve(
         uid: string,
-    ): Promise<Release> {
-        const result = await __request({
+    ): CancelablePromise<Release> {
+        return __request(OpenAPI, {
             method: 'GET',
-            path: `/api/v1/catalog/releases/${uid}/`,
+            url: '/api/v1/catalog/releases/{uid}/',
+            path: {
+                'uid': uid,
+            },
         });
-        return result.body;
     }
 
 }
