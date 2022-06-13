@@ -93,6 +93,7 @@ class AudioPlayer {
     }, POLL_INTERVAL);
 
     eventBus.on("player:controls", (e) => {
+      console.warn("DEPRECIATED: player:controls", e);
       switch (e.do) {
         case "play": {
           const { url, startTime } = e;

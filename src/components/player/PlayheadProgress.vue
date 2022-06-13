@@ -1,5 +1,7 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+
+export default defineComponent({
   props: {
     isLive: {
       type: Boolean,
@@ -17,21 +19,31 @@ export default {
       type: Number,
     },
   },
-  methods: {
-    seek(e) {
-      if (this.isLive) {
+  emits: ["seek"],
+  setup(props, { emit }) {
+    const root = ref<HTMLElement | null>(null);
+    const seek = (e: PointerEvent) => {
+      if (props.isLive) {
         console.warn("no seek in live mode!");
         return;
       }
-      const relPosition = e.offsetX / this.$el.getBoundingClientRect().width;
-      this.$emit("seek", relPosition);
-    },
+      if (!root.value) {
+        return 0;
+      }
+      const relPosition = e.offsetX / root.value.getBoundingClientRect().width;
+      emit("seek", relPosition);
+    };
+    return {
+      root,
+      seek,
+    };
   },
-};
+});
 </script>
 
 <template>
   <div
+    ref="root"
     class="playhead-progress"
     :class="{
       'is-live': isLive,
