@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.32 (2022-06-13)
+### Fix
+* Implement icecast based stream for ios devices ([`ddc6253`](https://github.com/digris/obr-web/commit/ddc6253a6440bae14971264ed9d8ef91124b7008))
+
 ## v0.0.31 (2022-06-08)
 ### Fix
 * Implement inline subscription translations ([`89e2595`](https://github.com/digris/obr-web/commit/89e259596b63aa9465e25d3c75678ca0d718a34e))
