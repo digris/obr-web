@@ -1,13 +1,8 @@
 import settings from "@/settings";
 import eventBus from "@/eventBus";
-// import { getMediaFormat } from "@/utils/browser";
+import { getStreamMediaFormat } from "@/utils/browser";
 
 const { STREAM_ENDPOINTS } = settings;
-
-export enum MediaSuffix {
-  HLS = "hls",
-  DASH = "dash",
-}
 
 const getUrl = (format: string) => {
   // @ts-ignore
@@ -15,8 +10,8 @@ const getUrl = (format: string) => {
 };
 
 const getStreamUrl = (noCache = true) => {
-  // const mediaFormat = getMediaFormat();
-  const mediaFormat = "hls";
+  const mediaFormat = getStreamMediaFormat();
+  // const mediaFormat = "hls";
   let url = getUrl(mediaFormat);
   if (noCache) {
     url = `${url}?${Date.now()}`;

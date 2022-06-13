@@ -1,6 +1,7 @@
 import Bowser from "bowser";
 
 const parser = Bowser.getParser(window.navigator.userAgent);
+const osName = parser.getOSName(true);
 const browserName = parser.getBrowserName(true);
 
 const getMediaFormat = () => {
@@ -12,4 +13,13 @@ const getMediaFormat = () => {
   return "dash";
 };
 
-export { getMediaFormat };
+const getStreamMediaFormat = () => {
+  // returns (best) supported media format
+  // either `hls` or icecast
+  if (osName === "ios") {
+    return "icecast";
+  }
+  return "hls";
+};
+
+export { getMediaFormat, getStreamMediaFormat };
