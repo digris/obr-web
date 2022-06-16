@@ -71,10 +71,10 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       color: #fff;
-      background: #0004ff;
+      background: rgb(var(--c-black));
       border-radius: 12px;
     }
   }
