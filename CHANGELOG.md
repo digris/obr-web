@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.33 (2022-06-16)
+### Fix
+* Change tag count background ([`0be2624`](https://github.com/digris/obr-web/commit/0be262461ed5abf51a251bc86a06bb3cf20b56e7))
+
 ## v0.0.32 (2022-06-13)
 ### Fix
 * Implement icecast based stream for ios devices ([`ddc6253`](https://github.com/digris/obr-web/commit/ddc6253a6440bae14971264ed9d8ef91124b7008))
