@@ -2,6 +2,7 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
+import { usePlayerControls } from "@/composables/player";
 import eventBus from "@/eventBus";
 import Progress from "./PlayheadProgress.vue";
 import ButtonPlay from "./button/ButtonPlay.vue";
@@ -18,6 +19,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const { pause, seek, resume: play } = usePlayerControls();
     const playerState = computed(() => store.getters["player/playerState"]);
     const isLive = computed(() => playerState.value && playerState.value.isLive);
     const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
@@ -54,21 +56,21 @@ export default defineComponent({
     const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
     const hasNext = computed(() => store.getters["queue/nextIndex"] !== null);
 
-    const pause = () => {
-      eventBus.emit("player:controls", { do: "pause" });
-    };
+    // const pause = () => {
+    //   eventBus.emit("player:controls", { do: "pause" });
+    // };
 
-    const play = () => {
-      eventBus.emit("player:controls", { do: "resume" });
-    };
+    // const play = () => {
+    //   eventBus.emit("player:controls", { do: "resume" });
+    // };
 
-    const seek = (pos: number) => {
-      const event = {
-        do: "seek",
-        relPosition: pos,
-      };
-      eventBus.emit("player:controls", event);
-    };
+    // const seek = (pos: number) => {
+    //   const event = {
+    //     do: "seek",
+    //     relPosition: pos,
+    //   };
+    //   eventBus.emit("player:controls", event);
+    // };
 
     const playNext = () => {
       eventBus.emit("queue:controls:playNext");

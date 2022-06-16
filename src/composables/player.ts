@@ -1,6 +1,5 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
-import eventBus from "@/eventBus";
 
 const usePlayerState = () => {
   const store = useStore();
@@ -35,22 +34,17 @@ const usePlayerState = () => {
 
 const usePlayerControls = () => {
   const audioPlayer = window.audioPlayer;
-  const play = () => {
-    eventBus.emit("player:controls", { do: "play" });
+  const play = (url: string, startTime = 0) => {
+    audioPlayer.play(url, startTime);
   };
   const pause = () => {
-    eventBus.emit("player:controls", { do: "pause" });
+    audioPlayer.pause();
   };
   const resume = () => {
-    eventBus.emit("player:controls", { do: "resume" });
+    audioPlayer.resume();
   };
   const seek = (pos: number) => {
     audioPlayer.seek(pos);
-    // const event = {
-    //   do: "seek",
-    //   relPosition: pos,
-    // };
-    // eventBus.emit("player:controls", event);
   };
   return {
     play,

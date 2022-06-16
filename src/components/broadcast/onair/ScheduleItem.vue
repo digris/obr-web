@@ -1,10 +1,9 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+import { usePlayerControls } from "@/composables/player";
 import { useStreamControls } from "@/composables/stream";
 import { useQueueControls } from "@/composables/queue";
 import { DateTime } from "luxon";
-import eventBus from "@/eventBus";
-// import { playStream } from "@/player/stream";
 import { requireSubscription } from "@/utils/account";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayButton from "./button/Play.vue";
@@ -31,6 +30,7 @@ export default defineComponent({
   },
   emits: ["play", "pause"],
   setup(props, { emit }) {
+    const { pause } = usePlayerControls();
     const { startPlayStream } = useStreamControls();
     const { enqueueObj, startPlayCurrent } = useQueueControls();
     // eslint-disable-next-line arrow-body-style
@@ -58,13 +58,6 @@ export default defineComponent({
     const playMedia = requireSubscription(async (media: object) => {
       await enqueueObj(media, "replace");
       await startPlayCurrent(true);
-      // const payload = {
-      //   mode: "replace",
-      //   media: [media],
-      //   // TODO: annotate scope with corresponding playlist
-      //   scope: [],
-      // };
-      // eventBus.emit("queue:controls:enqueue", payload);
     });
     const play = () => {
       if (props.isCurrent) {
@@ -76,10 +69,10 @@ export default defineComponent({
         playMedia(props.scheduleItem.media);
       }
     };
-    const pause = () => {
-      eventBus.emit("player:controls", { do: "pause" });
-      emit("pause");
-    };
+    // const pause = () => {
+    //   eventBus.emit("player:controls", { do: "pause" });
+    //   emit("pause");
+    // };
     return {
       isPlaceholder,
       objKey,
