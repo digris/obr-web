@@ -1,7 +1,14 @@
 import { useIntervalFn } from "@vueuse/core";
+import * as Sentry from "@sentry/vue";
 import { isEqual } from "lodash-es";
 import store from "@/store";
 import eventBus from "@/eventBus";
+
+const updateSentryScope = (user: any) => {
+  Sentry.configureScope(function (scope) {
+    scope.setUser(user);
+  });
+};
 
 class AccountHandler {
   constructor() {
@@ -10,6 +17,7 @@ class AccountHandler {
       async (newUser, oldUser) => {
         if (!isEqual(newUser, oldUser)) {
           console.debug("user changed:", newUser, oldUser);
+          updateSentryScope(newUser);
           // await store.dispatch('rating/clearRatings');
         }
       }
