@@ -5,6 +5,7 @@ import { createPinia } from "pinia";
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 import OpenReplay from "@openreplay/tracker";
+import trackerAxios from "@openreplay/tracker-axios";
 import settings from "@/settings";
 import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
@@ -71,7 +72,12 @@ app.mount("#app");
 
 const tracker = new OpenReplay({
   projectKey: settings.OPENREPLAY_PROJECT_KEY,
+  __DISABLE_SECURE_MODE: settings.DEBUG,
+  onStart: ({ sessionToken }) => {
+    Sentry.setTag("openReplaySessionToken", sessionToken);
+  },
 });
+tracker.use(trackerAxios());
 tracker.start().then(() => {});
 
 // @ts-ignore
