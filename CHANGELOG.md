@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.34 (2022-06-17)
+### Fix
+* Add open-replay session recording ([`a9fd568`](https://github.com/digris/obr-web/commit/a9fd5682f3c09f8c66f03fd67321503ae3f15714))
+
 ## v0.0.33 (2022-06-16)
 ### Fix
 * Change tag count background ([`0be2624`](https://github.com/digris/obr-web/commit/0be262461ed5abf51a251bc86a06bb3cf20b56e7))
