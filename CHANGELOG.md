@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.36 (2022-06-17)
+### Fix
+* Add open-replay assist integration ([`21afd6a`](https://github.com/digris/obr-web/commit/21afd6ab2597f4443d9857cd7755edaf8acc555e))
+
 ## v0.0.35 (2022-06-17)
 ### Fix
 * Add open-replay axios integration ([`b428471`](https://github.com/digris/obr-web/commit/b42847137a96b4cb9ffd1b7ffe4990eef3dd4d1f))
