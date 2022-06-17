@@ -475,6 +475,7 @@ SETTINGS_EXPORT = [
     "GIT_SHORT_SHA",
     "GOOGLE_GTM_ID",
     "SENTRY_DSN",
+    "OPENREPLAY_PROJECT_KEY",
     "STRIPE_PUBLISHABLE_KEY",
 ]
 
@@ -545,10 +546,15 @@ SLACK_RATING_WEBHOOK = env(
 
 
 ##################################################################
-# error reporting
+# error reporting & co
 ##################################################################
 SENTRY_DSN = env(
     "SENTRY_DSN",
+    default=None,
+)
+
+OPENREPLAY_PROJECT_KEY = env(
+    "OPENREPLAY_PROJECT_KEY",
     default=None,
 )
 

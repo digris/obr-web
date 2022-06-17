@@ -10,6 +10,12 @@ const updateSentryScope = (user: any) => {
   });
 };
 
+const updateOpenRelayScope = (user: any) => {
+  const id = user ? user.email : null;
+  // @ts-ignore
+  window.tracker.setUserID(id);
+};
+
 class AccountHandler {
   constructor() {
     store.watch(
@@ -18,6 +24,7 @@ class AccountHandler {
         if (!isEqual(newUser, oldUser)) {
           console.debug("user changed:", newUser, oldUser);
           updateSentryScope(newUser);
+          updateOpenRelayScope(newUser);
           // await store.dispatch('rating/clearRatings');
         }
       }

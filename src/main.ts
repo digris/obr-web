@@ -4,6 +4,7 @@ import { createI18n } from "vue-i18n";
 import { createPinia } from "pinia";
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
+import OpenReplay from "@openreplay/tracker";
 import settings from "@/settings";
 import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
@@ -68,6 +69,11 @@ Sentry.init({
 
 app.mount("#app");
 
+const tracker = new OpenReplay({
+  projectKey: settings.OPENREPLAY_PROJECT_KEY,
+});
+tracker.start().then(() => {});
+
 // @ts-ignore
 window.pinia = pinia;
 
@@ -79,3 +85,6 @@ window.router = router;
 
 // @ts-ignore
 window.store = store;
+
+// @ts-ignore
+window.tracker = tracker;
