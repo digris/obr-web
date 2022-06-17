@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 import OpenReplay from "@openreplay/tracker";
 import trackerAxios from "@openreplay/tracker-axios";
+import trackerAssist from "@openreplay/tracker-assist";
 import settings from "@/settings";
 import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
@@ -78,6 +79,7 @@ const tracker = new OpenReplay({
   },
 });
 tracker.use(trackerAxios());
+tracker.use(trackerAssist());
 tracker.start().then(() => {});
 
 // @ts-ignore

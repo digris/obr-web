@@ -1,0 +1,13 @@
+diff --git a/node_modules/@openreplay/tracker-assist/lib/Assist.js b/node_modules/@openreplay/tracker-assist/lib/Assist.js
+index 5f5ccfe..6fe5133 100644
+--- a/node_modules/@openreplay/tracker-assist/lib/Assist.js
++++ b/node_modules/@openreplay/tracker-assist/lib/Assist.js
+@@ -8,7 +8,7 @@ import ConfirmWindow from './ConfirmWindow/ConfirmWindow.js';
+ import { callConfirmDefault } from './ConfirmWindow/defaults.js';
+ // TODO: fully specified  strict check (everywhere)
+ //@ts-ignore  peerjs hack for webpack5 (?!) TODO: ES/node modules;
+-Peer = Peer.default || Peer;
++// Peer = Peer.default || Peer;
+ var CallingState;
+ (function (CallingState) {
+     CallingState[CallingState["Requesting"] = 0] = "Requesting";

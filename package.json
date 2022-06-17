@@ -9,11 +9,13 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
     "fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./src/typings/api/"
+    "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./src/typings/api/",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@openreplay/tracker": "^3.5.12",
+    "@openreplay/tracker-assist": "^3.5.11",
     "@openreplay/tracker-axios": "^3.5.1",
     "@sentry/tracing": "^6.18.2",
     "@sentry/vue": "^6.18.2",
@@ -26,7 +28,9 @@
     "luxon": "^2.4",
     "mitt": "^3.0.0",
     "mux.js": "^6.0.1",
+    "patch-package": "^6.4.7",
     "pinia": "^2.0.0-rc.10",
+    "postinstall-postinstall": "^2.1.0",
     "qs": "^6.10.3",
     "sass": "^1.49.9",
     "shaka-player": "4.1.0",
