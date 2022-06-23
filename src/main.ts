@@ -16,6 +16,8 @@ import createAccountHandler from "@/utils/account";
 import creadeScheduleHandler from "@/broadcast/schedule";
 import createPlayerStateHandler from "@/player/handler";
 
+import { APIClient } from "@/api/client";
+
 import App from "./App.vue";
 import store from "./store";
 import router from "./router";
@@ -78,7 +80,11 @@ const tracker = new OpenReplay({
     Sentry.setTag("openReplaySessionToken", sessionToken);
   },
 });
-tracker.use(trackerAxios());
+tracker.use(
+  trackerAxios({
+    instance: APIClient,
+  })
+);
 tracker.use(trackerAssist());
 tracker.start().then(() => {});
 
