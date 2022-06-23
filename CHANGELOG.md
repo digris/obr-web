@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.37 (2022-06-23)
+### Fix
+* Add robots.txt view ([`6a851f4`](https://github.com/digris/obr-web/commit/6a851f4d135d282481bcf0312a654a9c976f7f1c))
+
 ## v0.0.36 (2022-06-17)
 ### Fix
 * Add open-replay assist integration ([`21afd6a`](https://github.com/digris/obr-web/commit/21afd6ab2597f4443d9857cd7755edaf8acc555e))
