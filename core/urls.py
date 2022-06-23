@@ -20,6 +20,7 @@ urlpatterns = i18n_patterns(
 
 urlpatterns += [
     path("", include("manifest.urls", namespace="manifest")),
+    path("", include("robots.urls", namespace="robots")),
     # path("api/v1/", include("core.urls_api", namespace="api")),
     path("admin/", admin.site.urls),
     path("social/", include("social_django.urls", namespace="social")),
