@@ -7,6 +7,7 @@ const SCOPE_DISPLAY = {
   discogs: "Discogs",
   soundcloud: "SoundCloud",
   official: "Official website",
+  obp: "OBP",
 };
 
 export default defineComponent({

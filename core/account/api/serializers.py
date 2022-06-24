@@ -65,6 +65,11 @@ class UserSerializer(
     FlexFieldsSerializerMixin,
     serializers.ModelSerializer,
 ):
+    is_admin = serializers.BooleanField(
+        source="is_superuser",
+        read_only=True,
+    )
+
     class Meta:
         model = User
         fields = [
@@ -74,6 +79,8 @@ class UserSerializer(
             "date_joined",
             "first_name",
             "last_name",
+            "is_staff",
+            "is_admin",
         ]
         expandable_fields = {
             "settings": SettingsSerializer,

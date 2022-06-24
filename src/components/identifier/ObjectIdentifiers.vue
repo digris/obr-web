@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-
+import { useAccount } from "@/composables/account";
+import { useObjKey } from "@/composables/obj";
 import Identifier from "./Identifier.vue";
 
 export default defineComponent({
@@ -26,16 +27,31 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const keyPrefix = computed(() => {
-      return props.obj?.uid;
-    });
-    const identifiers = computed(() => {
+    const { isStaff } = useAccount();
+    const { objKey } = useObjKey(props.obj);
+    const keyPrefix = computed(() => props.obj?.uid);
+    const objIdentifiers = computed(() => {
       // eslint-disable-next-line max-len
       return props.obj && props.obj.identifiers ? props.obj.identifiers.slice(0, props.limit) : [];
+    });
+    const extraIdentifiers = computed(() => {
+      if (isStaff.value) {
+        return [
+          {
+            scope: "obp",
+            value: `/api/v1/redirect/obp/${objKey.value}/`,
+          },
+        ];
+      }
+      return [];
+    });
+    const identifiers = computed(() => {
+      return [...objIdentifiers.value, ...extraIdentifiers.value];
     });
     return {
       keyPrefix,
       identifiers,
+      isStaff,
     };
   },
 });
@@ -51,7 +67,7 @@ export default defineComponent({
     <Identifier
       class="identifiers__identifier"
       v-for="identifier in identifiers"
-      :key="`obj-identifier-${keyPrefix}-${identifier.uid}`"
+      :key="`obj-identifier-${keyPrefix}-${identifier?.uid ?? ''}`"
       :scope="identifier.scope"
       :value="identifier.value"
     />
