@@ -39,6 +39,7 @@ class Queue {
     eventBus.on("queue:controls:enqueue", async (payload) => {
       // @ts-ignore
       const { media, mode, scope } = { ...payload };
+      // console.debug('queue enqueue media', media);
       switch (mode) {
         case "replace": {
           // console.debug('replace');

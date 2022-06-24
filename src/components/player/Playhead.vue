@@ -56,22 +56,6 @@ export default defineComponent({
     const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
     const hasNext = computed(() => store.getters["queue/nextIndex"] !== null);
 
-    // const pause = () => {
-    //   eventBus.emit("player:controls", { do: "pause" });
-    // };
-
-    // const play = () => {
-    //   eventBus.emit("player:controls", { do: "resume" });
-    // };
-
-    // const seek = (pos: number) => {
-    //   const event = {
-    //     do: "seek",
-    //     relPosition: pos,
-    //   };
-    //   eventBus.emit("player:controls", event);
-    // };
-
     const playNext = () => {
       eventBus.emit("queue:controls:playNext");
     };

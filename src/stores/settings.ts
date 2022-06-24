@@ -3,6 +3,7 @@ import { useStorage, useNavigatorLanguage } from "@vueuse/core";
 
 interface State {
   volume: number;
+  shuffle: Boolean;
   maxBandwidth: number;
   locale: string;
 }
@@ -15,6 +16,7 @@ const getDefaultLanguage = () => {
 export const useSettingsStore = defineStore("settings", {
   state: (): State => ({
     volume: useStorage("settings/player/volume", 100),
+    shuffle: useStorage("settings/player/shuffle", false),
     maxBandwidth: useStorage("settings/stream/maxBandwidth", 200000),
     locale: useStorage("settings/locale", getDefaultLanguage()),
   }),

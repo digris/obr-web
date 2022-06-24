@@ -8,6 +8,7 @@ import Playhead from "./Playhead.vue";
 import OnAir from "./button/OnAir.vue";
 import Queue from "./Queue.vue";
 import Circle from "./button/Circle.vue";
+import ShuffleControl from "./ShuffleControl.vue";
 import VolumeControl from "./VolumeControl.vue";
 import QueueControl from "./QueueControl.vue";
 
@@ -19,6 +20,7 @@ export default defineComponent({
     Circle,
     Queue,
     UserRating,
+    ShuffleControl,
     VolumeControl,
     QueueControl,
   },
@@ -95,6 +97,7 @@ export default defineComponent({
           <Playhead v-else />
         </div>
         <div class="right">
+          <ShuffleControl />
           <VolumeControl />
           <Circle :size="48" :outlined="false">
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />

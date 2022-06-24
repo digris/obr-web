@@ -27,6 +27,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    inactive: {
+      type: Boolean,
+      default: false,
+    },
     backgroundColor: {
       type: String,
       default: null,
@@ -69,6 +73,7 @@ export default defineComponent({
       'is-outlined': outlined,
       'is-active': active,
       'is-disabled': disabled,
+      'is-inactive': inactive,
       'has-bg-color': backgroundColor,
       'has-hover-bg-color': hoverBackgroundColor,
     }"
@@ -103,6 +108,12 @@ export default defineComponent({
   &.is-disabled {
     opacity: 0.8;
     pointer-events: none;
+    > :deep(*) {
+      opacity: 0.4;
+    }
+  }
+  &.is-inactive {
+    opacity: 0.8;
     > :deep(*) {
       opacity: 0.4;
     }
