@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.39 (2022-06-28)
+### Fix
+* Add shuffle controls ([#36](https://github.com/digris/obr-web/issues/36)) ([`aa1869c`](https://github.com/digris/obr-web/commit/aa1869ced80fa6c7bacd323726616028fad95b3f))
+
 ## v0.0.38 (2022-06-24)
 ### Fix
 * Add shuffle icon and ux logic (handling t.b.d.) ([`b68d339`](https://github.com/digris/obr-web/commit/b68d3394368edc292cafe634802a6e61bd916acc))
