@@ -26,6 +26,7 @@ gcloud functions deploy \
     --runtime python38 \
     --region europe-west6 \
     --source ./functions/storage-trigger/ \
+    --timeout 300 \
     --trigger-bucket obr-master
 ```
 
