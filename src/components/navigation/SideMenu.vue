@@ -57,6 +57,10 @@ export default defineComponent({
           title: t("menu.donate"),
         },
         {
+          path: "/developers/",
+          title: t("menu.developers"),
+        },
+        {
           path: "/legal/imprint/",
           title: t("menu.imprint"),
         },
