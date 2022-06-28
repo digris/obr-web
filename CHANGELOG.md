@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.40 (2022-06-28)
+### Fix
+* Disable caching on SPA views ([`3902700`](https://github.com/digris/obr-web/commit/39027000c3a8be3f7dd39109f222f4063f03ee01))
+
 ## v0.0.39 (2022-06-28)
 ### Fix
 * Add shuffle controls ([#36](https://github.com/digris/obr-web/issues/36)) ([`aa1869c`](https://github.com/digris/obr-web/commit/aa1869ced80fa6c7bacd323726616028fad95b3f))
