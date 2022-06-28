@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
+import { useQueueControls } from "@/composables/queue";
 
 import IconShuffle from "@/components/ui/icon/IconShuffle.vue";
 import Circle from "./button/Circle.vue";
@@ -12,12 +13,16 @@ export default defineComponent({
     Circle,
   },
   setup() {
-    const { shuffle } = storeToRefs(useSettingsStore());
+    const { shuffleMode } = storeToRefs(useSettingsStore());
+    const { shuffleQueue } = useQueueControls();
     const onClick = () => {
-      shuffle.value = !shuffle.value;
+      shuffleMode.value = !shuffleMode.value;
+      if (shuffleMode.value) {
+        shuffleQueue();
+      }
     };
     return {
-      shuffle,
+      shuffleMode,
       onClick,
     };
   },
@@ -28,7 +33,7 @@ export default defineComponent({
   <Circle
     class="shuffle-control"
     :size="48"
-    :inactive="!shuffle"
+    :inactive="!shuffleMode"
     :outlined="false"
     @click.prevent="onClick"
   >

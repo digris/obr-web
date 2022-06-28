@@ -1,7 +1,9 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { storeToRefs } from "pinia";
+import { shuffle } from "lodash-es";
 
-import queue from "@/player/queue";
+import { useSettingsStore } from "@/stores/settings";
 import { getMedia } from "@/api/catalog";
 import { usePlayerState } from "@/composables/player";
 
@@ -20,8 +22,11 @@ const useQueueState = () => {
 };
 
 const useQueueControls = () => {
+  const queue = window.queue;
+  const store = useStore();
   const { isLive, isPlaying } = usePlayerState();
   const { previousIndex } = useQueueState();
+  const { shuffleMode } = storeToRefs(useSettingsStore());
   const hasPrevious = computed(() => previousIndex.value !== null);
   const hasNext = computed(() => !!isLive);
   const playPrevious = async () => {
@@ -37,15 +42,14 @@ const useQueueControls = () => {
   const removeAtIndex = async (index: number) => {
     await queue.removeAtIndex(index);
   };
-  const store = useStore();
   const enqueueMedia = async (media: Array<object>, mode = "append", scope = []) => {
-    console.debug("enqueueMedia", media, mode, scope);
+    if (shuffleMode.value) {
+      media = shuffle(media);
+    }
     await store.dispatch("queue/enqueue", { media, mode, scope });
     // await queue.startPlayCurrent();
   };
   const enqueueObj = async (obj: object, mode = "append") => {
-    console.debug("enqueueObj", obj, mode);
-    // const media = [];
     // @ts-ignore
     const objKey = `${obj.ct}:${obj.uid}`;
     const filter = {
@@ -53,7 +57,6 @@ const useQueueControls = () => {
     };
     const { results } = await getMedia(100, 0, filter);
     const scope = [objKey];
-    console.table(results);
     await store.dispatch("queue/enqueue", { media: results, mode, scope });
   };
   const startPlayCurrent = async (force = false) => {
@@ -62,6 +65,9 @@ const useQueueControls = () => {
     }
     await queue.startPlayCurrent();
   };
+  const shuffleQueue = async () => {
+    await store.dispatch("queue/shuffleQueue");
+  };
   return {
     hasPrevious,
     hasNext,
@@ -69,10 +75,10 @@ const useQueueControls = () => {
     playNext,
     playFromIndex,
     removeAtIndex,
-    //
     enqueueMedia,
     enqueueObj,
     startPlayCurrent,
+    shuffleQueue,
   };
 };
 

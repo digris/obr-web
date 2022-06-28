@@ -1,4 +1,5 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state", "getters"] }] */
+import { shuffle } from "lodash-es";
 
 export interface Queue {
   media: Array<object>;
@@ -35,10 +36,6 @@ const getters = {
     return null;
   },
   currentMedia: (state: State) => state.media[state.currentIndex],
-  // currentScope is implemented in store/player.ts
-  // currentScope: (state: State, getters: any) => {
-  //   return getters.currentMedia ? getters.currentMedia.scope : [];
-  // },
 };
 
 const mutations = {
@@ -71,6 +68,12 @@ const mutations = {
     if (state.currentIndex < 0) {
       state.currentIndex = media.length ? 0 : -1;
     }
+  },
+  SHUFFLE_MEDIA: (state: any) => {
+    const splitAt = state.currentIndex + 1;
+    const head = state.media.slice(0, splitAt);
+    const tail = state.media.slice(splitAt);
+    state.media = [...head, ...shuffle(tail)];
   },
 };
 
@@ -114,6 +117,10 @@ const actions = {
     } else {
       console.warn(`nothing to do for mode: ${mode}`);
     }
+  },
+  shuffleQueue: async (context: any) => {
+    console.debug("store: shuffleQueue", context);
+    context.commit("SHUFFLE_MEDIA");
   },
 };
 
