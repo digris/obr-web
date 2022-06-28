@@ -2,12 +2,15 @@ import logging
 
 from django.http import Http404
 from django.views.generic import TemplateView, View
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 
 from broadcast.utils import get_current_media
 
 logger = logging.getLogger(__name__)
 
 
+@method_decorator([never_cache], name="dispatch")
 class SPAIndexView(TemplateView):
     template_name = "index.html"
 
