@@ -22,7 +22,6 @@ class AccountHandler {
       (state: any) => state.account.user,
       async (newUser, oldUser) => {
         if (!isEqual(newUser, oldUser)) {
-          console.debug("user changed:", newUser, oldUser);
           updateSentryScope(newUser);
           updateOpenRelayScope(newUser);
           // await store.dispatch('rating/clearRatings');

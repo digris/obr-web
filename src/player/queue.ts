@@ -19,6 +19,7 @@ class Queue {
   nextIndex: any;
 
   constructor() {
+    console.debug("Queue - constructor");
     this.media = computed(() => store.getters["queue/media"]);
     this.currentMedia = computed(() => store.getters["queue/currentMedia"]);
     this.currentIndex = computed(() => store.getters["queue/currentIndex"]);
@@ -153,6 +154,6 @@ class Queue {
   }
 }
 
-const queue = new Queue();
+// const queue = new Queue();
 
-export default queue;
+export { Queue };

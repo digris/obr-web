@@ -102,7 +102,6 @@ class AudioPlayer {
         }
         case "seek": {
           const { relPosition } = e;
-          // console.debug('seek', relPosition);
           this.seek(relPosition);
           break;
         }
@@ -168,7 +167,6 @@ class AudioPlayer {
   }
 
   updateSettings(settings: object) {
-    console.debug("updateSettings", settings);
     this.player.configure(settings);
   }
 
