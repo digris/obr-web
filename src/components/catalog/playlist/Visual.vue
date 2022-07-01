@@ -43,6 +43,9 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+.visual-container {
+  padding-top: 42px;
+}
 .visual {
   display: flex;
   flex-direction: column;
