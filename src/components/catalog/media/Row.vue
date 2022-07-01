@@ -171,12 +171,6 @@ export default defineComponent({
           :outlined="false"
           background-color="rgb(var(--c-white))"
         />
-        <div class="state">
-          <div class="state__on-air" v-if="isOnair">R</div>
-          <div v-else class="state__queued">
-            <span v-if="isQueued && queuePosition > 0" v-text="queuePosition" />
-          </div>
-        </div>
       </div>
       <div class="name">
         <router-link
@@ -250,23 +244,6 @@ export default defineComponent({
   .play {
     position: relative;
     grid-area: play;
-    //padding-left: 0.5rem;
-
-    .state {
-      position: absolute;
-      opacity: 0.4;
-      top: -2px;
-      right: 40px;
-      font-size: 8px;
-      font-family: monospace;
-      -webkit-font-smoothing: none;
-      &__onair {
-        color: red;
-      }
-      &__queued {
-        color: black;
-      }
-    }
   }
 
   .name {
