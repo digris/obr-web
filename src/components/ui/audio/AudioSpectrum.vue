@@ -6,7 +6,8 @@ const drawCanvas = async (
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
-  bins: Uint8Array
+  bins: Uint8Array,
+  color: string
 ) => {
   ctx.canvas.width = width;
   ctx.canvas.height = height;
@@ -20,7 +21,8 @@ const drawCanvas = async (
     const value = bins[i] * heightFactor;
     const x = i * (barWidth * 2) + barWidth / 3;
     const h = value;
-    ctx.fillStyle = "rgb(0,0,0)";
+    // ctx.fillStyle = "rgb(0,0,0)";
+    ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
   }
 };
@@ -34,6 +36,10 @@ export default defineComponent({
     height: {
       type: Number,
       default: 48,
+    },
+    color: {
+      type: String,
+      default: "rgb(255,0,255)",
     },
   },
   setup(props) {
@@ -51,9 +57,6 @@ export default defineComponent({
         return;
       }
       const ctx = canvas.value?.getContext("2d");
-
-      let max = 0;
-
       const getDrawData = (analyser: AudioAnalyser) => {
         // we just need one channel here
         const a = analyser.a64;
@@ -71,21 +74,13 @@ export default defineComponent({
           avg(s.slice(8, 12)),
           avg(s.slice(12, 16)) * 1.1,
         ];
-
-        const newMax = Math.max(...bins);
-        if (newMax > max) {
-          console.debug("newMax", newMax);
-          max = newMax;
-        }
-
-        // console.debug(spectrumData[18]);
         return bins;
       };
 
       const drawLoop = () => {
         if (window.audioPlayer.analyser && ctx) {
           const spectrumData = getDrawData(window.audioPlayer.analyser);
-          drawCanvas(ctx, props.width, props.height, spectrumData);
+          drawCanvas(ctx, props.width, props.height, spectrumData, props.color);
         }
         requestAnimationFrame(drawLoop);
       };
