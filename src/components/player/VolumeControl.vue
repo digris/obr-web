@@ -19,9 +19,9 @@ export default defineComponent({
     const onClick = () => {
       isExpanded.value = !isExpanded.value;
     };
-    const onChange = () => {
-      isExpanded.value = false;
-    };
+    // const onChange = () => {
+    //   isExpanded.value = false;
+    // };
     const icon = computed(() => {
       if (volume.value < 1) {
         return IconSpeakerOff;
@@ -32,7 +32,7 @@ export default defineComponent({
       icon,
       volume,
       onClick,
-      onChange,
+      // onChange,
       isExpanded,
     };
   },
@@ -43,9 +43,11 @@ export default defineComponent({
   <Circle class="volume-control" :size="48" :outlined="false" @click.prevent="onClick">
     <component :is="icon" :size="48" color="rgb(var(--c-fg))" />
   </Circle>
-  <div v-if="isExpanded">
-    <input class="slider" type="range" min="0" max="100" v-model="volume" @change="onChange" />
-  </div>
+  <transition name="slide">
+    <div v-if="isExpanded">
+      <input class="slider" type="range" min="0" max="100" v-model="volume" />
+    </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -55,5 +57,24 @@ export default defineComponent({
 .slider {
   //position: absolute;
   bottom: 0;
+  width: 130px;
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: width 200ms, transform 200ms, opacity 200ms;
+  transform: scaleX(1);
+  width: 130px;
+  overflow: hidden;
+}
+.slide-enter-from {
+  transform: scaleX(0);
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+.slide-leave-to {
+  transform: scale(0);
+  width: 0;
+  overflow: hidden;
 }
 </style>
