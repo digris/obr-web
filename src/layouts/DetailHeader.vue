@@ -161,7 +161,7 @@ export default defineComponent({
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     .meta {
-      padding-left: 4rem;
+      padding-left: 1rem;
     }
     > .filterbar {
       background: transparent;

@@ -23,6 +23,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .body {
-  padding-bottom: 8rem;
+  padding-bottom: 4rem;
 }
 </style>
