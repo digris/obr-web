@@ -7,7 +7,7 @@ import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
-import Searchbar from "@/components/filter/SearchbarAlt.vue";
+import Searchbar from "@/components/filter/Searchbar.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import Visual from "@/components/catalog/mood/Visual.vue";
 
@@ -113,8 +113,13 @@ export default defineComponent({
           <ObjectTags class="tags" :obj="mood" :limit="4" />
         </template>
         <template #meta-panel>
+          (( Play All - T.B.D. ))
           <!--
-          <span>1h 25m</span>
+          <PlayAllSmall :obj-key="objKey">
+            <span
+              v-text="t('catalog.list.playAllTracks', 1)"
+            />
+          </PlayAllSmall>
           -->
         </template>
         <template #searchbar>
@@ -128,7 +133,7 @@ export default defineComponent({
         :initial-filter="initialFilter"
         :query="query"
         :disable-user-filter="false"
-        :disable-play-all="!showPlayAll"
+        :disable-play-all="true"
         @allLoaded="allMediaLoaded = true"
         @hasMore="allMediaLoaded = false"
       />

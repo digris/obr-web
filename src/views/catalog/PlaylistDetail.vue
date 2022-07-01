@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, ref, onActivated, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 
 import { playlistTitle } from "@/utils/catalog";
@@ -7,6 +8,7 @@ import { playlistTitle } from "@/utils/catalog";
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
+import PlayAllSmall from "@/components/catalog/media/PlayAllSmall.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
@@ -21,6 +23,7 @@ export default defineComponent({
     DetailPage,
     DetailHeader,
     LazyImage,
+    PlayAllSmall,
     Duration,
     PlayAction,
     ObjectTags,
@@ -37,6 +40,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const store = useStore();
     const isLoaded = ref(false);
     const playlist = computed(() => store.getters["catalog/playlistByUid"](props.uid));
@@ -58,6 +62,7 @@ export default defineComponent({
       }
     });
     return {
+      t,
       objKey,
       isLoaded,
       playlist,
@@ -93,13 +98,10 @@ export default defineComponent({
           <EditorInline v-if="playlist && playlist.editor" :editor="playlist.editor" />
         </template>
         <template #meta-panel>
-          <span v-if="playlist && playlist.numMedia"> {{ playlist.numMedia }} Tracks </span>
-          <span> • </span>
-          <Duration
-            v-if="playlist && playlist.duration"
-            :seconds="playlist.duration"
-            :round-seconds="60 * 5"
-          />
+          <PlayAllSmall v-if="playlist && playlist.numMedia" :obj-key="objKey">
+            <span v-text="t('catalog.list.playAllTracks', playlist.numMedia)" />
+            &nbsp; (<Duration :seconds="playlist.duration" :round-seconds="60 * 5" />)
+          </PlayAllSmall>
         </template>
       </DetailHeader>
     </template>
