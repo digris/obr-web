@@ -1,7 +1,6 @@
 <script lang="ts">
 import type { PropType } from "vue";
 import { defineComponent, ref, computed, watch } from "vue";
-import AudioSpectrum from "@/components/ui/audio/AudioSpectrumB.vue";
 
 type RGBAColor = Array<[number, number, number, number]>;
 
@@ -64,9 +63,6 @@ const drawCanvas = async (
 };
 
 export default defineComponent({
-  components: {
-    AudioSpectrum,
-  },
   props: {
     width: {
       type: Number,
@@ -150,7 +146,6 @@ export default defineComponent({
   <div class="visual-container" :style="containerStyle">
     <div class="visual" :style="visualStyle">
       <canvas ref="canvas" />
-      <AudioSpectrum class="spectrum" :width="width" :height="256" />
     </div>
   </div>
 </template>
@@ -161,11 +156,5 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-.spectrum {
-  position: fixed;
-  width: 100%;
-  bottom: 210px;
-  height: 256px;
 }
 </style>
