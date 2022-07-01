@@ -64,15 +64,14 @@ export default defineComponent({
     background: transparent;
   }
   &__body {
-    background: transparent;
-    :deep(.list-filter-container) {
-      padding-top: 1rem;
-      padding-left: 5rem;
-    }
+    background: rgb(var(--c-white));
+    //:deep(.list-filter-container) {
+    //  padding-top: 1rem;
+    //}
   }
   &__space {
     flex-grow: 1;
-    min-height: 8rem;
+    min-height: 4rem;
     background: rgb(var(--c-white));
   }
   &__appendix {
