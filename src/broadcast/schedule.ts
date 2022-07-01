@@ -20,12 +20,10 @@ class Schedule {
       (time) => {
         const current = store.getters["schedule/current"];
         if (current && current.timeStart <= time && current.timeEnd > time) {
-          // console.debug('current item matches - all fine!');
           return;
         }
         const schedule = store.getters["schedule/schedule"];
         if (!schedule.length) {
-          // console.debug('schedule empty');
           return;
         }
         const newCurrent = schedule.find((s: any) => s.timeStart <= time && s.timeEnd > time);

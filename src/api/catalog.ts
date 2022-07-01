@@ -104,7 +104,6 @@ async function getPlaylists(
   expand: Array<string> = []
 ) {
   const url = PLAYLIST_ENDPOINT;
-  console.debug("getPlaylists:", filter);
   const params = {
     limit,
     offset,

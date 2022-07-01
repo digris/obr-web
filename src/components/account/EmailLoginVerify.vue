@@ -32,11 +32,9 @@ export default defineComponent({
       token.value = value;
       tokenValid.value = tokenRegex.test(value);
       errors.value = [];
-      console.debug("value", value);
     };
 
     const submitForm = async () => {
-      console.debug("submit form");
       if (!tokenValid.value) {
         return;
       }

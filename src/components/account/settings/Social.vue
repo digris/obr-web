@@ -66,7 +66,6 @@ export default defineComponent({
       disconnected.value = annotateBackends(backends.disconnected);
     };
     const beginLogin = (backend: Backend) => {
-      console.debug("beginLogin", backend);
       let nextUrl = backend.connectUrl;
       if (props.next) {
         nextUrl += `?next=${props.next}`;
@@ -74,7 +73,6 @@ export default defineComponent({
       window.location.href = nextUrl;
     };
     const disconnect = async (backend: Backend) => {
-      console.debug("disconnect", backend);
       await disconnectSocialBackend(backend.provider, backend.uid);
       await fetchBackends();
     };
