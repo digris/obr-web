@@ -14,7 +14,8 @@ catalog:
     playlist: Show | Shows
     numMedia: 1 Track | {count} Tracks
   list:
-    playAllTracks: Track spielen | Alle {count} Tracks spielen
+#    playAllTracks: Track spielen | Alle {count} Tracks spielen
+    playAllTracks: Alle Tracks spielen | Alle {count} Tracks spielen
 menu:
   accountSettings: Konto Einstellungen
   home: Radio
