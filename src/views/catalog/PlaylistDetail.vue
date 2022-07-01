@@ -12,6 +12,9 @@ import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import EditorInline from "@/components/broadcast/editor/Inline.vue";
+import Visual from "@/components/catalog/playlist/Visual.vue";
+// import AudioMeter from "@/components/ui/audio/AudioMeter.vue";
+// import AudioSpectrum from "@/components/ui/audio/AudioSpectrum.vue";
 
 export default defineComponent({
   components: {
@@ -23,7 +26,9 @@ export default defineComponent({
     ObjectTags,
     MediaList,
     EditorInline,
-    // PlaylistName,
+    Visual,
+    // AudioMeter,
+    // AudioSpectrum,
   },
   props: {
     uid: {
@@ -66,6 +71,10 @@ export default defineComponent({
 
 <template>
   <DetailPage>
+    <!---->
+    <template #background="slotProps">
+      <Visual :height="slotProps.height" :width="slotProps.width" />
+    </template>
     <template #header>
       <DetailHeader v-if="playlist" :obj="playlist" :title="title" title-scope="Show">
         <template #visual>
@@ -94,6 +103,26 @@ export default defineComponent({
         </template>
       </DetailHeader>
     </template>
+    <!--
+    <div>
+      <div
+        :style="{
+          // width: '80px',
+          // height: '80px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }"
+      >
+        <AudioSpectrum />
+        <span>&nbsp;</span>
+        <AudioSpectrum
+          :width="32"
+          :height="32"
+        />
+      </div>
+    </div>
+    -->
     <MediaList
       v-if="playlist"
       :initial-filter="query.filter"

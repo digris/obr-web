@@ -94,7 +94,7 @@ export default defineComponent({
         </div>
         <div class="center">
           <OnAir v-if="isLive" />
-          <Playhead v-else />
+          <Playhead v-else :media="currentMedia" />
         </div>
         <div class="right">
           <ShuffleControl />

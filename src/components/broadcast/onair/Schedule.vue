@@ -51,6 +51,7 @@ export default defineComponent({
       v-for="(item, index) in items"
       :key="`schedule-item-${item ? item.key : index}`"
       :schedule-item="item"
+      :position="index"
       :has-focus="index === 1"
       :is-current="item === current"
       :class="`pos-${index}`"

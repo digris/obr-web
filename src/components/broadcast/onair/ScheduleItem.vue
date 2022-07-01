@@ -8,6 +8,8 @@ import { requireSubscription } from "@/utils/account";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayButton from "./button/Play.vue";
 
+const NUM_ITEMS_IN_VIEWPORT = 4;
+
 export default defineComponent({
   components: {
     LazyImage,
@@ -21,6 +23,10 @@ export default defineComponent({
     isCurrent: {
       type: Boolean,
       default: false,
+    },
+    position: {
+      type: Number,
+      default: 0,
     },
     scheduleItem: {
       type: Object,
@@ -50,7 +56,13 @@ export default defineComponent({
       }
       return null;
     });
+    const inViewport = computed(() => {
+      return props.position <= NUM_ITEMS_IN_VIEWPORT;
+    });
     const image = computed(() => {
+      if (!inViewport.value) {
+        return null;
+      }
       return release.value && release.value.image ? release.value.image : null;
     });
     const timeFormat = DateTime.TIME_WITH_SECONDS;

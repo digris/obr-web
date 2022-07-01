@@ -3,12 +3,14 @@ import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 import muxjs from "mux.js";
 import { DateTime } from "luxon";
-import { watch } from "vue";
+import { computed, ref, watch } from "vue";
 import eventBus from "@/eventBus";
 import store from "@/store";
 import { playStream } from "@/player/stream";
 import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
+import { createAudioAnalyser } from "@/player/analyser";
+import type { AudioAnalyser } from "@/player/analyser";
 
 shaka.dependencies.add("muxjs", muxjs);
 
@@ -54,6 +56,15 @@ const requestFilter = (type, request) => {
   }
 };
 
+const getFadeVolume = (start: number, end: number, time: number, reverse = false) => {
+  const duration = end - start;
+  const position = time - start;
+  const vol = position / duration;
+  const vol2 = reverse ? 1 - vol : vol;
+  return Math.sin((vol2 * Math.PI) / 2);
+  // return vol ? Math.log(vol * 100) / Math.log(100) : 0;
+};
+
 class AudioPlayer {
   audio; // ref to html5 audio element
 
@@ -69,6 +80,14 @@ class AudioPlayer {
     currentTime: null,
   };
 
+  startTime = 0;
+  endTime = 0;
+  fadeInTime = 0;
+  fadeOutTime = 0;
+  fadeVolume = ref(1);
+
+  analyser: AudioAnalyser | null;
+
   constructor() {
     // `audio` is the html5 audio element
     // `player` is the shaka player instance
@@ -78,6 +97,8 @@ class AudioPlayer {
     // set initial configuration & register network filters
     player.configure(SHAKA_CONFIG);
     networkingEngine.registerRequestFilter(requestFilter);
+
+    this.analyser = null;
 
     this.audio = audio;
     this.player = player;
@@ -135,12 +156,16 @@ class AudioPlayer {
       this.updateMaxBandwidth(maxBandwidth.value);
     }
 
+    const playbackVolume = computed(() => {
+      return volume.value * this.fadeVolume.value;
+    });
+
     if (volume.value > -1) {
-      this.updateVolume(volume.value);
+      this.updateVolume(playbackVolume.value);
     }
 
     watch(
-      () => volume.value,
+      () => playbackVolume.value,
       (newValue) => {
         this.updateVolume(newValue);
       }
@@ -223,16 +248,87 @@ class AudioPlayer {
     store.dispatch("player/updatePlayerState", playerState);
   }
 
-  play(url: string, startTime = 0) {
+  onTimeupdate() {
+    const ct = this.audio.currentTime;
+    // cue-out
+    if (this.endTime && ct > this.endTime) {
+      this.pause();
+      eventBus.emit("player:audio:ended");
+    }
+    // fade-in
+    if (this.fadeInTime && this.startTime < ct && ct < this.fadeInTime) {
+      const stepVolume = getFadeVolume(this.startTime, this.fadeInTime, ct);
+      this.fadeVolume.value = stepVolume;
+    } else if (this.fadeOutTime && this.endTime > ct && ct > this.fadeOutTime) {
+      const stepVolume = getFadeVolume(this.fadeOutTime, this.endTime, ct, true);
+      this.fadeVolume.value = stepVolume;
+    } else if (ct) {
+      if (this.fadeVolume.value !== 1) {
+        this.fadeVolume.value = 1;
+      }
+    }
+  }
+
+  removeEventHandlers() {
+    console.debug("removeEventHandlers");
+    this.audio.removeEventListener("timeupdate", this.onTimeupdate);
+  }
+
+  addEventHandlers() {
+    this.removeEventHandlers();
+    console.debug("addEventHandlers", this);
+    this.audio.addEventListener("timeupdate", this.onTimeupdate.bind(this), false);
+  }
+
+  async play(url: string, startTime = 0, endTime = 0, fadeIn = 0, fadeOut = 0) {
     // load url to shaka player, then trigger 'play' on audio element
-    this.player
-      .load(url, startTime)
-      .then(() => {
-        this.audio.play();
-      })
-      .catch((e: Error) => {
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.fadeInTime = fadeIn ? startTime + fadeIn : 0;
+    this.fadeOutTime = fadeOut ? endTime - fadeOut : 0;
+    this.fadeVolume.value = fadeIn ? 0 : 1;
+    if (fadeIn) {
+      this.audio.volume = 0;
+    }
+    console.debug("startTime", this.startTime);
+    console.debug("endTime", this.endTime);
+    console.debug("fadeInTime", this.fadeInTime);
+    console.debug("fadeOutTime", this.fadeOutTime);
+
+    try {
+      await this.player.load(url, startTime);
+      this.audio.play();
+    } catch (e) {
+      console.error(e);
+      this.removeEventHandlers();
+      return;
+    }
+
+    if (!this.analyser) {
+      try {
+        this.analyser = createAudioAnalyser(this.audio);
+      } catch (e) {
         console.error(e);
-      });
+      }
+    } else {
+      console.debug("analyser already connected");
+    }
+
+    this.addEventHandlers();
+
+    // this.player
+    //   .load(url, startTime)
+    //   .then(() => {
+    //     this.audio.play();
+    //   })
+    //   .catch((e: Error) => {
+    //     console.error(e);
+    //     notify({
+    //       level: "error",
+    //       ttl: 5,
+    //       body: `Error ${e.code}: unable to play media.`,
+    //     });
+    //   });
   }
 
   seek(relPosition: number) {
@@ -241,7 +337,15 @@ class AudioPlayer {
       return;
     }
     // @ts-ignore
-    const absPosition = relPosition * this.playerState.duration;
+    let absPosition = relPosition * this.playerState.duration;
+    console.debug("seek", absPosition, this.endTime);
+    if (this.startTime && absPosition < this.startTime) {
+      this.fadeVolume.value = this.fadeInTime ? 0 : 1;
+      absPosition = this.startTime;
+    }
+    if (this.endTime && absPosition > this.endTime) {
+      return false;
+    }
     this.audio.currentTime = absPosition;
     if (this.playerState.isPaused) {
       this.resume();
