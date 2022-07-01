@@ -7,7 +7,7 @@ import DetailHeader from "@/layouts/DetailHeader.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
-import Searchbar from "@/components/filter/SearchbarAlt.vue";
+import Searchbar from "@/components/filter/Searchbar.vue";
 import PlaylistList from "@/components/catalog/playlist/List.vue";
 
 export default defineComponent({

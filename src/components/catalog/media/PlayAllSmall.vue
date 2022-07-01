@@ -2,11 +2,13 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
+import CircleButton from "@/components/ui/button/CircleButton.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import IconPlay from "@/components/ui/icon/IconPlay.vue";
 
 export default defineComponent({
   components: {
+    CircleButton,
     PlayAction,
     IconPlay,
   },
@@ -19,7 +21,7 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const iconSize = 42;
+    const iconSize = 48;
     const iconColor = "rgb(var(--c-black))";
     return {
       t,
@@ -33,7 +35,9 @@ export default defineComponent({
 <template>
   <PlayAction class="play-all-small" :obj-key="objKey" :restart-queue="true">
     <div class="wrapper">
-      <IconPlay :size="36" color="black" />
+      <CircleButton :size="iconSize" :outlined="true">
+        <IconPlay :size="iconSize" color="black" />
+      </CircleButton>
       <slot name="default" />
     </div>
   </PlayAction>
@@ -47,6 +51,9 @@ export default defineComponent({
     cursor: pointer;
     margin-left: -20px;
     padding-right: 1rem;
+    .circle-button {
+      margin-right: 1rem;
+    }
   }
 }
 </style>

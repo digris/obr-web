@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 import { useI18n } from "vue-i18n";
 
-import Searchbar from '@/components/filter/SearchbarAlt.vue';
+import Searchbar from '@/components/filter/Searchbar.vue';
 
 export default defineComponent({
   props: {
