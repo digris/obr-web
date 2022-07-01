@@ -32,6 +32,7 @@ export default defineComponent({
     <div class="bar bar--1" />
     <div class="bar bar--2" />
     <div class="bar bar--3" />
+    <div class="bar bar--4" />
   </div>
 </template>
 <style lang="scss">
@@ -41,25 +42,25 @@ export default defineComponent({
     height: 0%;
   }
   10% {
-    height: 0%;
+    height: 10%;
   }
   100% {
-    height: 80%;
+    height: 100%;
   }
 }
 </style>
 <style lang="scss" scoped>
 .buffering {
   display: grid;
-  grid-column-gap: 2px;
-  grid-template-columns: 4px 4px 4px;
+  grid-column-gap: 3px;
+  grid-template-columns: 3px 3px 3px 3px;
   align-items: center;
-  width: 16px;
+  width: 22px;
   height: 14px;
 
   .bar {
-    width: 4px;
-    height: 10px;
+    width: 3px;
+    height: 14px;
     background: var(--color);
     animation: buffering 1200ms infinite;
     &--1 {
@@ -70,6 +71,9 @@ export default defineComponent({
     }
     &--3 {
       animation-delay: -400ms;
+    }
+    &--4 {
+      animation-delay: -200ms;
     }
   }
 }

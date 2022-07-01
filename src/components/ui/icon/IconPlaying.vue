@@ -13,10 +13,6 @@ export default defineComponent({
       type: String,
       default: "rgb(var(--c-page-bg))",
     },
-    pause: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup(props) {
     const style = computed(() => {
@@ -32,16 +28,11 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    :style="style"
-    class="playing"
-    :class="{
-      pause: pause,
-    }"
-  >
+  <div :style="style" class="playing">
     <div class="bar bar--1" />
     <div class="bar bar--2" />
     <div class="bar bar--3" />
+    <div class="bar bar--4" />
   </div>
 </template>
 <style lang="scss">
@@ -66,14 +57,14 @@ export default defineComponent({
 <style lang="scss" scoped>
 .playing {
   display: grid;
-  grid-column-gap: 2px;
-  grid-template-columns: 4px 4px 4px;
+  grid-column-gap: 3px;
+  grid-template-columns: 3px 3px 3px 3px;
   align-items: flex-end;
-  width: 16px;
+  width: 22px;
   height: 14px;
 
   .bar {
-    width: 4px;
+    width: 3px;
     height: 10px;
     background: var(--color);
     transition: height 200ms;
@@ -87,16 +78,6 @@ export default defineComponent({
     }
     &--3 {
       animation-delay: -350ms;
-    }
-  }
-
-  &.pause {
-    .bar {
-      height: 100%;
-      animation: unset;
-      &--2 {
-        opacity: 0;
-      }
     }
   }
 }
