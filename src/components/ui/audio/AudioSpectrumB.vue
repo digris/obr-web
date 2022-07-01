@@ -59,7 +59,7 @@ export default defineComponent({
       const getDrawData = (analyser: AudioAnalyser) => {
         // we just need one channel here
         const a = analyser.a1024;
-        const spectrumData = new Uint8Array(200);
+        const spectrumData = new Uint8Array(300);
         if (a && ctx) {
           a.getByteFrequencyData(spectrumData);
         }
