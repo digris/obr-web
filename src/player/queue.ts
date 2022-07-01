@@ -4,10 +4,13 @@ import store from "@/store";
 import { getMediaUrl } from "@/player/media";
 import { playStream } from "@/player/stream";
 import createMediaSessionHandler from "@/player/mediaSession";
+import type { AudioPlayer } from "@/player/audioPlayer";
 
 createMediaSessionHandler();
 
 class Queue {
+  audioPlayer: AudioPlayer;
+
   media: any;
 
   currentMedia: any;
@@ -19,7 +22,7 @@ class Queue {
   nextIndex: any;
 
   constructor() {
-    console.debug("Queue - constructor");
+    this.audioPlayer = window.audioPlayer;
     this.media = computed(() => store.getters["queue/media"]);
     this.currentMedia = computed(() => store.getters["queue/currentMedia"]);
     this.currentIndex = computed(() => store.getters["queue/currentIndex"]);
@@ -139,21 +142,22 @@ class Queue {
 
   startPlayCurrent() {
     // NOTE: not sure if there is no better way.. ;)
+    console.debug("player/queue: startPlayCurrent");
     const media = this.currentMedia.value;
     if (!media) {
       console.warn("unable to play: no current media");
       return;
     }
     const url = getMediaUrl(media);
-    const event = {
-      do: "play",
-      url,
-      startTime: 0,
-    };
-    eventBus.emit("player:controls", event);
+    const { cueIn: startTime, cueOut, fadeIn, fadeOut } = media;
+    const endTime = media.duration - cueOut;
+    console.debug("duration", media.duration);
+    console.debug("startTime", startTime);
+    console.debug("endTime", endTime);
+    console.debug("fadeIn", fadeIn);
+    console.debug("fadeOut", fadeOut);
+    this.audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
   }
 }
-
-// const queue = new Queue();
 
 export { Queue };

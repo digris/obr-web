@@ -18,6 +18,14 @@ export default defineComponent({
     relPosition: {
       type: Number,
     },
+    relCueIn: {
+      type: Number,
+      default: 0,
+    },
+    relCueOut: {
+      type: Number,
+      default: 100,
+    },
   },
   emits: ["seek"],
   setup(props, { emit }) {
@@ -62,6 +70,14 @@ export default defineComponent({
         height="8"
         class="progress-position"
       />
+      <rect
+        v-if="relCueIn || relCueOut"
+        y="18"
+        :x="`${relCueIn * 100}%`"
+        :width="`${(relCueOut - relCueIn) * 100}%`"
+        height="2"
+        class="cue-area"
+      />
     </svg>
   </div>
 </template>
@@ -81,6 +97,9 @@ export default defineComponent({
   }
   .progress-position {
     fill: rgba(var(--c-fg), 1);
+  }
+  .cue-area {
+    fill: rgba(var(--c-fg), 0.8);
   }
   &.is-buffering {
     svg {

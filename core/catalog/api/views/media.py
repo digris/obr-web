@@ -219,15 +219,33 @@ class MediaViewSet(
         playlist = Playlist.objects.get(uid=uid)
         qs_media_ids = qs.values_list("id", flat=True)
         media_ids = []
+        cue_fade = []
         for playlist_media in playlist.playlist_media.all():
-            # for playlist_media in playlist.airplayed_playlist_media:
             if playlist_media.media.id not in qs_media_ids:
                 continue
             media_ids.append(playlist_media.media.id)
+            cue_fade.append(
+                {
+                    "cue_in": playlist_media.cue_in,
+                    "cue_out": playlist_media.cue_out,
+                    "fade_in": playlist_media.fade_in,
+                    "fade_out": playlist_media.fade_out,
+                }
+            )
 
         # pylint: disable=consider-using-dict-comprehension
         d = {obj.id: obj for obj in qs}
         media = [d[index] for index in media_ids]
+
+        for index, m in enumerate(media):
+            m.cue_in = cue_fade[index]["cue_in"] / 1000.0
+            m.cue_out = cue_fade[index]["cue_out"] / 1000.0
+            m.fade_in = cue_fade[index]["fade_in"] / 1000.0
+            m.fade_out = cue_fade[index]["fade_out"] / 1000.0
+            # m.cue_in = 15
+            # m.cue_out = 15
+            # m.fade_in = 5
+            # m.fade_out = 5
 
         serializer = self.get_serializer(media, many=True)
         data = {

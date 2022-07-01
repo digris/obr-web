@@ -81,6 +81,22 @@ class MediaSerializer(
         read_only=True,
         allow_null=True,
     )
+    fade_in = serializers.IntegerField(
+        read_only=True,
+        default=0,
+    )
+    fade_out = serializers.IntegerField(
+        read_only=True,
+        default=0,
+    )
+    cue_in = serializers.IntegerField(
+        read_only=True,
+        default=0,
+    )
+    cue_out = serializers.IntegerField(
+        read_only=True,
+        default=0,
+    )
 
     class Meta:
         model = Media
@@ -96,6 +112,10 @@ class MediaSerializer(
             "latest_airplay",
             "num_airplays",
             "user_rating",
+            "fade_in",
+            "fade_out",
+            "cue_in",
+            "cue_out",
         ]
         expandable_fields = {
             "tags": (

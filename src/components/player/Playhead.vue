@@ -12,12 +12,19 @@ const dt2hhmmss = (dt: any) => dt.toISOString().substr(11, 8);
 const s2hhmmss = (s: number) => dt2hhmmss(new Date(s * 1000));
 
 export default defineComponent({
+  props: {
+    media: {
+      type: Object,
+      required: false,
+      default: () => null,
+    },
+  },
   components: {
     Progress,
     ButtonPlay,
     ButtonSkip,
   },
-  setup() {
+  setup(props) {
     const store = useStore();
     const { pause, seek, resume: play } = usePlayerControls();
     const playerState = computed(() => store.getters["player/playerState"]);
@@ -27,6 +34,13 @@ export default defineComponent({
     const currentTime = computed(() => playerState.value && playerState.value.currentTime);
     const duration = computed(() => playerState.value && playerState.value.duration);
     const relPosition = computed(() => playerState.value && playerState.value.relPosition);
+
+    const relCueIn = computed(() => {
+      return props.media.cueIn / duration.value;
+    });
+    const relCueOut = computed(() => {
+      return 1 - props.media.cueOut / duration.value;
+    });
 
     const strCurrentTime = computed(() => {
       if (!currentTime.value) {
@@ -71,6 +85,8 @@ export default defineComponent({
       currentTime,
       duration,
       relPosition,
+      relCueIn,
+      relCueOut,
       // times
       strCurrentTime,
       strTotalTime,
@@ -104,6 +120,8 @@ export default defineComponent({
         :is-playing="isPlaying"
         :is-buffering="isBuffering"
         :rel-position="relPosition"
+        :rel-cue-in="relCueIn"
+        :rel-cue-out="relCueOut"
         @seek="seek"
       />
     </div>
