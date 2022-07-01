@@ -42,7 +42,7 @@ export default defineComponent({
         <LazyImage :image="artist.image">
           <PlayAction
             :obj-key="objKey"
-            :size="64"
+            :size="86"
             :outlined="false"
             background-color="rgb(var(--c-white))"
           />
