@@ -43,15 +43,16 @@ export default defineComponent({
   align-items: center;
   height: 2.25rem;
   padding: 0.25rem 1rem;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-white));
   text-transform: lowercase;
   background: rgba(var(--c-page-fg), 0.1);
-  //border: 1px solid rgba(var(--c-page-fg), 0.2);
+  border: 1px solid rgba(var(--c-white), 0.2);
   border-radius: 1.125rem;
   cursor: pointer;
+  text-transform: capitalize;
   &.is-selected {
-    color: rgb(var(--c-white));
-    background: rgb(var(--c-black));
+    color: rgb(var(--c-black));
+    background: rgb(var(--c-white));
   }
   &__type {
     display: none;
@@ -74,17 +75,19 @@ export default defineComponent({
       width: 26px;
       height: 26px;
       color: #fff;
-      background: rgb(var(--c-black));
+      background: rgb(var(--c-white));
+      color: rgb(var(--c-black));
+      border: 1px solid rgba(var(--c-black), 0.2);
       border-radius: 12px;
     }
   }
   @include responsive.on-hover {
-    background: rgb(var(--c-gray-100));
+    background: rgb(var(--c-gray-800));
     .tag__count {
       display: flex;
     }
     &.is-selected {
-      background: rgba(var(--c-black), 0.8);
+      background: rgba(var(--c-white), 0.8);
     }
   }
 }
