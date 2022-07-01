@@ -1,15 +1,21 @@
 <script type="ts">
-import { ref, computed, defineComponent } from 'vue';
+import {
+  computed,
+  defineComponent, onMounted,
+  ref,
+  watch,
+} from 'vue';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
+import IconFilter from '@/components/ui/icon/IconFilter.vue';
 import IconSearch from '@/components/ui/icon/IconSearch.vue';
-import IconHashtag from '@/components/ui/icon/IconHashtag.vue';
 
 export default defineComponent({
   components: {
     CircleButton,
     IconSearch,
-    IconHashtag,
+    IconFilter,
   },
   props: {
     filter: {
@@ -18,11 +24,10 @@ export default defineComponent({
       default: () => {},
     },
   },
-  emits: [
-    'change',
-  ],
-  setup(props, { emit }) {
+  setup(props) {
     const store = useStore();
+    const route = useRoute();
+    const router = useRouter();
     const isExpanded = computed(() => store.getters['ui/filterExpanded']);
     const toggleFilter = () => {
       if (isExpanded.value) {
@@ -31,37 +36,58 @@ export default defineComponent({
         store.dispatch('ui/expandFilter');
       }
     };
-    const query = ref('');
-    const updateSearchQuery = () => {
-      const filter = { ...props.filter };
-      filter.q = query.value;
-      emit('change', filter);
+    const q = ref('');
+    const submitSearch = () => {
+      const newQuery = { ...props.filter };
+      newQuery.q = q.value;
+      const routeName = route.name || 'discoverPlaylists';
+      router.push({ name: routeName, query: newQuery });
     };
     const searchInput = (e) => {
       if (e.code === 'Escape') {
         e.target.value = '';
-        query.value = '';
-        updateSearchQuery();
+        q.value = '';
+        submitSearch();
         return;
       }
-      query.value = e.target.value;
+      q.value = e.target.value;
     };
+    const hasSearchQuery = computed(() => {
+      return (props.filter && props.filter.q);
+      // return true;
+    });
+    onMounted(() => {
+      q.value = props.filter.q || '';
+    });
+    watch(
+      () => props.filter,
+      async (newFilter) => {
+        q.value = newFilter.q;
+      },
+    );
     return {
       isExpanded,
       toggleFilter,
-      query,
+      q,
       searchInput,
-      updateSearchQuery,
+      submitSearch,
+      hasSearchQuery,
     };
   },
 });
 </script>
 <template>
   <div class="searchbar">
-    <form class="searchinput" @submit.prevent="updateSearchQuery">
-      <input :value="filter.q" @keyup="searchInput" />
+    <form
+      class="searchinput"
+      :class="{
+        'has-query': hasSearchQuery,
+      }"
+      @submit.prevent="submitSearch"
+    >
+      <input :value="q" @keyup="searchInput" />
     </form>
-    <CircleButton :size="48" :outlined="false" @click="updateSearchQuery">
+    <CircleButton :size="48" :outlined="false" @click="submitSearch">
       <IconSearch :size="48" :color="`rgb(var(--c-page-fg))`" />
     </CircleButton>
     <CircleButton
@@ -71,10 +97,7 @@ export default defineComponent({
       :color-var="`--c-black`"
       @click="toggleFilter"
     >
-      <IconHashtag
-        :size="48"
-        :color="isExpanded ? `rgb(var(--c-page-bg))` : `rgb(var(--c-page-fg))`"
-      />
+      <IconFilter :size="48" :color="isExpanded ? `rgb(var(--c-white))` : `rgb(var(--c-black))`" />
     </CircleButton>
   </div>
 </template>
@@ -91,15 +114,26 @@ export default defineComponent({
   height: 40px;
   > input {
     @include typo.default;
-    box-sizing: content-box;
+    //box-sizing: content-box;
+    box-sizing: border-box;
     height: 100%;
+    padding: 3px 0.5rem 0 1rem;
     color: rgb(var(--c-page-fg));
     background: transparent;
     border: 0;
     border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
+    transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
     &:focus {
-      border-bottom: 3px solid rgb(var(--c-page-fg));
+      background: rgba(var(--c-black), 0.1);
+      border-bottom: 3px solid rgba(var(--c-page-fg), 0);
       outline: none;
+    }
+  }
+  &.has-query {
+    > input {
+      color: rgb(var(--c-white));
+      background: rgb(var(--c-black));
+      border-radius: 22px;
     }
   }
 }
