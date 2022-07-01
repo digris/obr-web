@@ -49,16 +49,13 @@ export default defineComponent({
       return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = (backend: Backend) => {
-      console.debug("beginLogin", backend);
       let nextUrl = backend.connectUrl;
       if (props.next) {
         nextUrl += `?next=${props.next}`;
       }
-      console.debug("nextUrl", nextUrl);
       window.location.href = nextUrl;
     };
     const disconnect = async (backend: Backend) => {
-      console.debug("disconnect", backend);
       await disconnectSocialBackend(backend.provider, backend.uid);
       await fetchBackends();
     };

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, computed, watch, onMounted, onActivated, onDeactivated } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
@@ -87,7 +87,6 @@ export default {
     const fetchPlaylists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
       const expand = props.layout === "grid" ? [] : ["tags", "editor", "duration"];
-      console.debug(combinedFilter.value);
       const { count, next, results } = await getPlaylists(
         limit,
         offset,
@@ -128,15 +127,8 @@ export default {
       router.push({ name: routeName, query });
     };
     onMounted(() => {
-      console.debug("PlaylistList - onMounted");
       fetchPlaylists();
       fetchTags().then(() => {});
-    });
-    onActivated(() => {
-      console.debug("PlaylistList - onActivated", playlists.value.length);
-    });
-    onDeactivated(() => {
-      console.debug("PlaylistList - onDeactivated", playlists.value.length);
     });
     watch(
       () => combinedFilter.value,
