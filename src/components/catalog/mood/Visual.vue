@@ -150,11 +150,7 @@ export default defineComponent({
   <div class="visual-container" :style="containerStyle">
     <div class="visual" :style="visualStyle">
       <canvas ref="canvas" />
-      <AudioSpectrum
-        class="spectrum"
-        :width="width"
-        :height="256"
-      />
+      <AudioSpectrum class="spectrum" :width="width" :height="256" />
     </div>
   </div>
 </template>

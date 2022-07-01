@@ -37,10 +37,7 @@ export default defineComponent({
 <template>
   <div class="visual-container" :style="containerStyle">
     <div class="visual" :style="visualStyle">
-      <AudioSpectrum
-        :width="width"
-        :height="256"
-      />
+      <AudioSpectrum :width="width" :height="256" />
     </div>
   </div>
 </template>
