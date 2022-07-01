@@ -24,7 +24,7 @@ import AccountLogin from "@/components/account/Login.vue";
 import AccountEmailLogin from "@/components/account/EmailLogin.vue";
 import AccountSettings from "@/components/account/settings/Settings.vue";
 import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
-import SearchbarAlt from "@/components/filter/SearchbarAlt.vue";
+import Searchbar from "@/components/filter/Searchbar.vue";
 
 import { getUser } from "@/api/account";
 import { setBodyColorTheme } from "@/utils/color";
@@ -290,7 +290,7 @@ const routes = [
         name: "collectionMedia",
         components: {
           default: MediaList,
-          searchbar: SearchbarAlt,
+          searchbar: Searchbar,
         },
         props: {
           default: (route: any) => ({
@@ -307,7 +307,7 @@ const routes = [
         name: "collectionPlaylists",
         components: {
           default: PlaylistList,
-          searchbar: SearchbarAlt,
+          searchbar: Searchbar,
         },
         props: {
           default: (route: any) => ({
@@ -324,7 +324,7 @@ const routes = [
         name: "collectionArtists",
         components: {
           default: ArtistList,
-          searchbar: SearchbarAlt,
+          searchbar: Searchbar,
         },
         props: {
           default: (route: any) => ({

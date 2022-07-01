@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import AudioMeter from "@/components/ui/audio/AudioMeter.vue";
+import AudioSpectrum from "@/components/ui/audio/AudioSpectrum.vue";
 
 const BASE_SIZE = 48;
 
@@ -14,13 +14,9 @@ export default defineComponent({
       type: String,
       default: "rgb(var(--c-page-bg))",
     },
-    pause: {
-      type: Boolean,
-      default: false,
-    },
   },
   components: {
-    AudioMeter,
+    AudioSpectrum,
   },
   setup(props) {
     const style = computed(() => {
@@ -36,23 +32,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    :style="style"
-    class="playing"
-    :class="{
-      pause: pause,
-    }"
-  >
-    <AudioMeter />
+  <div :style="style" class="playing">
+    <AudioSpectrum :width="24" :height="24" :color="color" />
   </div>
 </template>
-<style lang="scss" scoped>
-.playing__ {
-  display: grid;
-  grid-column-gap: 2px;
-  grid-template-columns: 4px 4px 4px;
-  align-items: flex-end;
-  width: 16px;
-  height: 14px;
-}
-</style>

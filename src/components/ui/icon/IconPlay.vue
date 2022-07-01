@@ -23,7 +23,7 @@ export default defineComponent({
       return {
         fill: "transparent",
         stroke: props.color,
-        strokeWidth: (2.5 * BASE_SIZE) / props.size,
+        strokeWidth: 2.5,
         strokeMiterlimit: 10,
         transform: `scale(${props.size / BASE_SIZE})`,
       };
@@ -35,6 +35,11 @@ export default defineComponent({
 });
 </script>
 <template>
+  <!--
+  <pre
+    v-text="style"
+  />
+  -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="48px"

@@ -17,7 +17,9 @@ export default defineComponent({
   setup(props) {
     const style = computed(() => {
       return {
-        fill: props.color,
+        fill: "transparent",
+        stroke: props.color,
+        strokeWidth: 3,
         transform: `scale(${props.size / BASE_SIZE})`,
       };
     });
@@ -35,7 +37,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <rect x="17" y="15" width="4" height="18" />
-    <rect x="27" y="15" width="4" height="18" />
+    <rect x="15" y="14" width="6" height="20" />
+    <rect x="27" y="14" width="6" height="20" />
   </svg>
 </template>
