@@ -218,10 +218,14 @@ export default {
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 .list-filter-container {
-  @include container.default;
-  margin-bottom: 1rem;
-  //padding-left: 5rem;
+  background: rgb(var(--c-black));
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  .list-filter {
+    @include container.default;
+  }
 }
+
 .media-list {
   //margin: 0 0 8rem;
   background: rgb(var(--c-white));

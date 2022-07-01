@@ -143,9 +143,8 @@ export default {
 };
 </script>
 <template>
-  <div class="list-filter-container">
+  <div v-if="showUserFilter" class="list-filter-container">
     <ListFilter
-      v-if="showUserFilter"
       :filter="userFilter"
       :tag-list="tagList"
       :is-loading="tagListLoading"
@@ -166,8 +165,13 @@ export default {
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 .list-filter-container {
-  @include container.default;
+  background: rgb(var(--c-black));
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   margin-bottom: 1rem;
+  .list-filter {
+    @include container.default;
+  }
 }
 
 @mixin grid {
