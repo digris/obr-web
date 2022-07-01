@@ -47,19 +47,21 @@ export default defineComponent({
 @use "@/style/elements/button";
 .notifications {
   position: fixed;
-  top: 100px;
-  right: 24px;
+  top: 78px;
+  left: 0;
+  right: 0;
   z-index: 25;
 }
 
 .message {
   position: relative;
   min-width: 300px;
-  max-width: 300px;
-  min-height: 3rem;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
+  max-width: 100%;
+  min-height: 2.5rem;
+  //margin-bottom: 0.5rem;
+  padding: 1rem 2rem;
   background: rgb(var(--c-black));
+  border-bottom: 2px solid rgb(var(--c-black));
   .close {
     position: absolute;
     top: 0;
@@ -67,7 +69,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 1rem;
     cursor: pointer;
   }
   .body {
@@ -84,6 +86,10 @@ export default defineComponent({
   &.is-success {
     color: rgb(var(--c-black));
     background: rgb(var(--c-success));
+  }
+  &.is-error {
+    color: rgb(var(--c-black));
+    background: rgb(var(--c-error));
   }
 }
 </style>
