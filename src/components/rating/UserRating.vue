@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, ref, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { debounce } from "lodash-es";
 
@@ -39,8 +39,22 @@ export default defineComponent({
     const userRating = computed(() => {
       return store.getters["rating/ratingByKey"](props.objKey);
     });
+    const isFlipped = ref(false);
+    const flipIcon = async () => {
+      isFlipped.value = true;
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          isFlipped.value = false;
+          resolve();
+        }, 200);
+      });
+    };
     const rate = debounce(
       async (value: number) => {
+        // flipIcon().then(() => {
+        //   console.debug('flip complete');
+        // });
+        await flipIcon();
         const vote = {
           key: props.objKey,
           value,
@@ -66,13 +80,21 @@ export default defineComponent({
       userRating,
       rate,
       style,
+      isFlipped,
     };
   },
 });
 </script>
 
 <template>
-  <div v-if="userRating" class="user-rating" :style="style">
+  <div
+    v-if="userRating"
+    class="user-rating"
+    :class="{
+      'is-flipped': isFlipped,
+    }"
+    :style="style"
+  >
     <IconHeart
       v-if="userRating.value === 1"
       :size="iconSize"
@@ -95,6 +117,9 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 200ms ease-in-out, transform 200ms ease-in;
+  &.is-flipped {
+    transform: rotateY(89deg);
+  }
 }
 </style>
