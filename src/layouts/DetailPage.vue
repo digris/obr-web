@@ -81,7 +81,6 @@ export default defineComponent({
   }
 }
 .background {
-  background: yellow;
   position: absolute;
   z-index: 1;
   top: 0;
