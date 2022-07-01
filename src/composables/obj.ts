@@ -9,4 +9,20 @@ const useObjKey = (obj: object) => {
   };
 };
 
-export { useObjKey };
+const useObjCtUid = (objKey: string) => {
+  const parts = computed(() => {
+    return objKey.split(":");
+  });
+  const objCt = computed(() => {
+    return parts.value[0];
+  });
+  const objUid = computed(() => {
+    return parts.value[1];
+  });
+  return {
+    objCt,
+    objUid,
+  };
+};
+
+export { useObjKey, useObjCtUid };

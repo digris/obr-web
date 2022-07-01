@@ -2,7 +2,8 @@
 import { computed, defineComponent, ref } from "vue";
 import { useMagicKeys } from "@vueuse/core";
 import { usePlayerState, usePlayerControls } from "@/composables/player";
-import { useQueueControls } from "@/composables/queue";
+import { useQueueControls, useQueueState } from "@/composables/queue";
+import { useObjCtUid } from "@/composables/obj";
 import { requireSubscription } from "@/utils/account";
 import { getMedia } from "@/api/catalog";
 import { getContrastColor } from "@/utils/color";
@@ -57,8 +58,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
+    const { objCt, objUid } = useObjCtUid(props.objKey);
     const { shift: shiftKey } = useMagicKeys();
-    const { enqueueMedia, startPlayCurrent } = useQueueControls();
+    const { queuedMedia, currentIndex: currentQueueIndex } = useQueueState();
+    const { enqueueMedia, startPlayCurrent, playFromIndex } = useQueueControls();
     const {
       isPlaying,
       isBuffering,
@@ -70,6 +73,25 @@ export default defineComponent({
     const { pause, resume } = usePlayerControls();
     const inScope = computed(() => {
       return currentScope.value.includes(props.objKey);
+    });
+    const queueIndex = computed(() => {
+      if (currentQueueIndex.value < 0) {
+        console.debug("queueIndex: queue empty");
+        return null;
+      }
+      const index = queuedMedia.value.findIndex((obj: object) => {
+        return obj.uid === objUid.value && obj.ct === objCt.value;
+      });
+      if (index < 0) {
+        return null;
+      }
+      return index;
+    });
+    const queuePosition = computed(() => {
+      return queueIndex.value !== null ? queueIndex.value - currentQueueIndex.value : null;
+    });
+    const inQueue = computed(() => {
+      return queuePosition.value !== null;
     });
     const objIsPlaying = computed(() => inScope.value && isPlaying.value);
     const objIsBuffering = computed(() => inScope.value && isBuffering.value);
@@ -101,6 +123,12 @@ export default defineComponent({
     });
     const isLoading = ref(false);
     const play = async () => {
+      // play directly if obj is already in the queue
+      if (inQueue.value && queueIndex.value !== null) {
+        await playFromIndex(queueIndex.value);
+        return;
+      }
+
       isLoading.value = true;
       const filter = { ...props.filter };
       const ordering = props.ordering;
@@ -135,10 +163,14 @@ export default defineComponent({
       isPaused: objIsPaused,
       isLoading,
       inScope,
+      inQueue,
+      queuePosition,
       buttonCssVars,
       buttonColor,
       //
       shiftKey,
+      objCt,
+      objUid,
     };
   },
 });
@@ -151,6 +183,7 @@ export default defineComponent({
       class="container"
       :class="{
         'is-loading': isLoading,
+        'in-queue': inQueue,
       }"
     >
       <slot name="default">
@@ -166,6 +199,11 @@ export default defineComponent({
           :background-color="backgroundColor"
           :hover-background-color="hoverBackgroundColor"
         />
+        <div class="state">
+          <div v-if="inQueue && queuePosition" class="in-queue">
+            <span v-text="queuePosition" />
+          </div>
+        </div>
       </slot>
     </div>
     <div v-if="isPaused && size > 86" class="hint"></div>
@@ -177,6 +215,17 @@ export default defineComponent({
   position: relative;
   .is-loading {
     cursor: wait;
+  }
+  .state {
+    pointer-events: none;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 6px;
+    right: 10px;
+    font-size: 8px;
+    font-family: monospace;
   }
 }
 </style>

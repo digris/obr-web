@@ -13,11 +13,13 @@ const useQueueState = () => {
   const currentIndex = computed(() => store.getters["queue/currentIndex"]);
   const nextIndex = computed(() => store.getters["queue/nextIndex"]);
   const numMedia = computed(() => store.getters["queue/numMedia"]);
+  const queuedMedia = computed(() => store.getters["queue/media"]);
   return {
     previousIndex,
     currentIndex,
     nextIndex,
     queueLength: numMedia,
+    queuedMedia,
   };
 };
 
@@ -69,6 +71,7 @@ const useQueueControls = () => {
     await store.dispatch("queue/shuffleQueue");
   };
   return {
+    queue,
     hasPrevious,
     hasNext,
     playPrevious,
