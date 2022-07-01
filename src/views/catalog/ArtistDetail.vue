@@ -105,16 +105,9 @@ export default defineComponent({
           <ObjectIdentifiers class="identifiers" :obj="artist" :limit="4" />
         </template>
         <template #meta-panel>
-          <PlayAllSmall :obj-key="objKey">
-            <span
-              v-if="artist && artist.numMedia"
-              v-text="t('catalog.ct.numMedia', artist.numMedia)"
-            />
-            <span>&nbsp;•&nbsp;</span>
-            <Duration
-              v-if="artist && artist.mediaTotalDuration"
-              :seconds="artist.mediaTotalDuration"
-            />
+          <PlayAllSmall v-if="artist && artist.numMedia > 1" :obj-key="objKey">
+            <span v-text="t('catalog.list.playAllTracks', artist.numMedia)" />
+            &nbsp; (<Duration :seconds="artist.mediaTotalDuration" />)
           </PlayAllSmall>
         </template>
       </DetailHeader>
