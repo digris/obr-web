@@ -1,6 +1,7 @@
 <script lang="ts">
 import { ref, computed, defineComponent, watch, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useI18n } from "vue-i18n";
 import { debounce } from "lodash-es";
 
 import notify from "@/utils/notification";
@@ -11,29 +12,6 @@ import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import RadioInput from "@/components/ui/form/RadioInput.vue";
 import TextareaInput from "@/components/ui/form/TextareaInput.vue";
-
-const REASONS = [
-  {
-    value: "track",
-    label: "Ich mag diesen Track nicht",
-  },
-  {
-    value: "genre",
-    label: "Ich mag diese Art von Musik nicht",
-  },
-  {
-    value: "emission",
-    label: "Ich mag diese Sendung nicht",
-  },
-  {
-    value: "daytime",
-    label: "Der Track oder die Sendung passen nicht zur Tageszeit",
-  },
-  {
-    value: "repetition",
-    label: "Ich habe diesen Track schon zu oft gehört",
-  },
-];
 
 export default defineComponent({
   props: {
@@ -51,6 +29,7 @@ export default defineComponent({
     TextareaInput,
   },
   setup(props) {
+    const { t } = useI18n();
     const store = useStore();
     const objKey = computed(() => {
       return `${props.media.ct}:${props.media.uid}`;
@@ -62,7 +41,6 @@ export default defineComponent({
       return userRating.value?.value;
     });
     const promptVisible = ref(false);
-    const scopes = computed(() => REASONS);
     const scope = ref("track");
     const comment = ref("");
     const showPrompt = () => {
@@ -72,8 +50,19 @@ export default defineComponent({
       comment.value = "";
       promptVisible.value = false;
     };
+    const isFlipped = ref(0);
+    const flipIcon = async (value: number) => {
+      isFlipped.value = value;
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          isFlipped.value = 0;
+          resolve();
+        }, 200);
+      });
+    };
     const rate = debounce(
       async (value: number) => {
+        await flipIcon(value);
         const vote = {
           key: objKey.value,
           value: userRatingValue.value === value ? null : value,
@@ -87,6 +76,30 @@ export default defineComponent({
       200,
       { leading: true, trailing: false }
     );
+    const downvoteScopes = computed(() => {
+      return [
+        {
+          value: "track",
+          label: t("rating.downvoteScope.track"),
+        },
+        {
+          value: "genre",
+          label: "Ich mag diese Art von Musik nicht",
+        },
+        {
+          value: "emission",
+          label: "Ich mag diese Sendung nicht",
+        },
+        {
+          value: "daytime",
+          label: "Der Track oder die Sendung passen nicht zur Tageszeit",
+        },
+        {
+          value: "repetition",
+          label: "Ich habe diesen Track schon zu oft gehört",
+        },
+      ];
+    });
     const downvote = async () => {
       const vote = {
         key: objKey.value,
@@ -96,7 +109,7 @@ export default defineComponent({
       };
       hidePrompt();
       await store.dispatch("rating/updateRating", vote);
-      notify({
+      await notify({
         level: "success",
         ttl: 5,
         body: "Vielen Dank für dein feedback!",
@@ -118,11 +131,13 @@ export default defineComponent({
       await fetchRating(key);
     });
     return {
+      t,
       userRating,
       userRatingValue,
       rate,
+      isFlipped,
       promptVisible,
-      scopes,
+      downvoteScopes,
       scope,
       comment,
       hidePrompt,
@@ -137,24 +152,38 @@ export default defineComponent({
     <div class="total">?</div>
     <div>
       <CircleButton :size="48" @click="rate(1)">
-        <IconHeart :size="48" :outlined="userRatingValue !== 1" color="rgb(var(--c-page-fg))" />
+        <div
+          class="flip-container"
+          :class="{
+            'is-flipped': isFlipped === 1,
+          }"
+        >
+          <IconHeart :size="48" :outlined="userRatingValue !== 1" color="rgb(var(--c-page-fg))" />
+        </div>
       </CircleButton>
     </div>
     <div>
       <CircleButton :size="48" @click="rate(-1)">
-        <IconFlash :size="48" :outlined="userRatingValue !== -1" color="rgb(var(--c-page-fg))" />
+        <div
+          class="flip-container"
+          :class="{
+            'is-flipped': isFlipped === -1,
+          }"
+        >
+          <IconFlash :size="48" :outlined="userRatingValue !== -1" color="rgb(var(--c-page-fg))" />
+        </div>
       </CircleButton>
     </div>
     <div class="total">?</div>
   </div>
-  <OverlayPanel :is-visible="promptVisible" @close="hidePrompt" title="Was stört dich?">
+  <OverlayPanel :is-visible="promptVisible" @close="hidePrompt" :title="t('rating.downvoteTitle')">
     <div class="prompt">
       <div class="prompt__lead">
-        <p>Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!</p>
+        <p v-text="t('rating.downvoteLead')" />
       </div>
       <div class="prompt__scopes">
         <RadioInput
-          v-for="s in scopes"
+          v-for="s in downvoteScopes"
           v-model="scope"
           name="scope"
           :key="`scope-${s.value}`"
@@ -190,6 +219,14 @@ export default defineComponent({
     @include typo.dim;
     @include typo.light;
     opacity: 0;
+  }
+  .flip-container {
+    width: 48px;
+    height: 48px;
+    transition: opacity 200ms ease-in-out, transform 200ms ease-in;
+    &.is-flipped {
+      transform: rotateY(89deg);
+    }
   }
 }
 .prompt {

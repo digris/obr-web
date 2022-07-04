@@ -38,8 +38,13 @@ export default defineComponent({
 @use "@/style/abstracts/responsive";
 .media-artists {
   display: inline-flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .artist {
+  // NOTE: this adds ellipsis to *all* child elements
+  overflow: hidden;
+  text-overflow: ellipsis;
   &__join {
     margin-right: 0.25rem;
     margin-left: 0.25rem;

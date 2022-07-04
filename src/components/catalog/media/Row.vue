@@ -261,15 +261,19 @@ export default defineComponent({
   .artist {
     grid-area: artist;
     overflow: hidden;
+    > div {
+      overflow: hidden;
+    }
   }
 
   .release {
     grid-area: release;
     min-width: 0;
-    > a {
+    //overflow: hidden;
+    > div {
       overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      //white-space: nowrap;
+      //text-overflow: ellipsis;
     }
   }
 

@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
 import { usePlayerState, usePlayerControls } from "@/composables/player";
 
 import Duration from "@/components/ui/time/Duration.vue";
-import Progress from "../PlayheadProgress.vue";
+import Progress from "./PlayheadProgress.vue";
 
 export default defineComponent({
   components: {

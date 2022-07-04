@@ -42,3 +42,8 @@ player:
   favoritesRemove: Aus Favoriten entfernen
   bannedAdd: Mag ich nicht
   bannedRemove: Mag ich doch
+rating:
+  downvoteTitle: Was stört dich?
+  downvoteLead: Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!
+  downvoteScope:
+    track: Ich mag diesen Titel nicht

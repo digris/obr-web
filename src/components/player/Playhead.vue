@@ -1,202 +1,169 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
-import { DateTime } from "luxon";
-import { usePlayerControls } from "@/composables/player";
-import eventBus from "@/eventBus";
-import Progress from "./PlayheadProgress.vue";
-import ButtonPlay from "./button/ButtonPlay.vue";
-import ButtonSkip from "./button/ButtonSkip.vue";
-
-const dt2hhmmss = (dt: any) => dt.toISOString().substr(11, 8);
-const s2hhmmss = (s: number) => dt2hhmmss(new Date(s * 1000));
+import { computed, defineComponent, ref } from "vue";
+import { useMouseInElement, useElementSize } from "@vueuse/core";
+import { usePlayerState } from "@/composables/player";
+import PlayheadHandle from "@/components/player/PlayheadHandle.vue";
+import PlayheadTime from "@/components/player/PlayheadTime.vue";
 
 export default defineComponent({
-  props: {
-    media: {
-      type: Object,
-      required: false,
-      default: () => null,
-    },
-  },
   components: {
-    Progress,
-    ButtonPlay,
-    ButtonSkip,
+    PlayheadHandle,
+    PlayheadTime,
   },
-  setup(props) {
-    const store = useStore();
-    const { pause, seek, resume: play } = usePlayerControls();
-    const playerState = computed(() => store.getters["player/playerState"]);
-    const isLive = computed(() => playerState.value && playerState.value.isLive);
-    const isPlaying = computed(() => playerState.value && playerState.value.isPlaying);
-    const isBuffering = computed(() => playerState.value && playerState.value.isBuffering);
-    const currentTime = computed(() => playerState.value && playerState.value.currentTime);
-    const duration = computed(() => playerState.value && playerState.value.duration);
-    const relPosition = computed(() => playerState.value && playerState.value.relPosition);
-
-    const relCueIn = computed(() => {
-      return props.media.cueIn / duration.value;
-    });
-    const relCueOut = computed(() => {
-      return 1 - props.media.cueOut / duration.value;
-    });
-
-    const strCurrentTime = computed(() => {
-      if (!currentTime.value) {
-        return "00:00:00";
-      }
-      if (isLive.value) {
-        const dt = DateTime.fromJSDate(currentTime.value);
-        return dt.toLocaleString({
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        });
-      }
-      return s2hhmmss(currentTime.value);
-    });
-
-    const strTotalTime = computed(() => {
-      if (isLive.value) {
-        return "--:--:--";
-      }
-      if (!duration.value) {
-        return "00:00:00";
-      }
-      return s2hhmmss(duration.value);
-    });
-
-    const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
-    const hasNext = computed(() => store.getters["queue/nextIndex"] !== null);
-
-    const playNext = () => {
-      eventBus.emit("queue:controls:playNext");
-    };
-
-    const playPrevious = () => {
-      eventBus.emit("queue:controls:playPrevious");
-    };
-
-    return {
+  emits: ["seek"],
+  setup(props, { emit }) {
+    const root = ref<HTMLElement | null>(null);
+    // const isHover = ref(false);
+    const { x: mouseX, isOutside } = useMouseInElement(root);
+    const { width } = useElementSize(root);
+    const {
       isLive,
       isPlaying,
       isBuffering,
-      currentTime,
+      relPosition: position,
+      currentMedia: media,
       duration,
-      relPosition,
-      relCueIn,
-      relCueOut,
-      // times
-      strCurrentTime,
-      strTotalTime,
-      // controls
-      hasNext,
-      hasPrevious,
-      pause,
-      play,
+    } = usePlayerState();
+    const isHover = computed(() => {
+      return !isOutside.value;
+    });
+    const playheadTime = computed(() => {
+      if (isOutside.value) {
+        return null;
+      }
+      return (duration.value * mouseX.value) / width.value;
+    });
+    const playheadTimeX = computed(() => {
+      if (isOutside.value) {
+        return null;
+      }
+      // dom element is 60px wide
+      const posX = mouseX.value - 36;
+      return Math.max(Math.min(posX, width.value - 66), 6);
+    });
+    const playheadHandleX = computed(() => {
+      if (isOutside.value) {
+        return null;
+      }
+      // dom element is 20px wide
+      const posX = width.value * position.value - 10;
+      return Math.max(Math.min(posX, width.value - 20), 0);
+    });
+    const cueIn = computed(() => {
+      return media.value?.cueIn / duration.value;
+    });
+    const cueOut = computed(() => {
+      return 1 - media.value?.cueOut / duration.value;
+    });
+    const seek = (e: PointerEvent) => {
+      if (isLive.value) {
+        console.warn("no seek in live mode!");
+        return;
+      }
+      if (!root.value) {
+        return 0;
+      }
+      // const seekTo = e.offsetX / root.value.getBoundingClientRect().width;
+      const seekTo = e.offsetX / width.value;
+      emit("seek", seekTo);
+    };
+    return {
+      root,
+      isHover,
+      playheadTime,
+      playheadTimeX,
+      playheadHandleX,
+      mouseX,
+      isLive,
+      isPlaying,
+      isBuffering,
+      position,
+      cueIn,
+      cueOut,
       seek,
-      playNext,
-      playPrevious,
     };
   },
 });
 </script>
 
 <template>
-  <div class="playhead">
-    <div class="actions">
-      <ButtonPlay :is-playing="isPlaying" :is-buffering="isBuffering" @pause="pause" @play="play" />
-    </div>
-    <div class="progress">
-      <div class="time time--current">
-        <span>{{ strCurrentTime }}</span>
-      </div>
-      <div class="time time--total">
-        <span>{{ strTotalTime }}</span>
-      </div>
-      <Progress
-        :is-live="isLive"
-        :is-playing="isPlaying"
-        :is-buffering="isBuffering"
-        :rel-position="relPosition"
-        :rel-cue-in="relCueIn"
-        :rel-cue-out="relCueOut"
-        @seek="seek"
+  <div
+    ref="root"
+    class="playhead-progress"
+    :class="{
+      'is-hover': isHover,
+      'is-live': isLive,
+      'is-playing': isPlaying,
+      'is-buffering': isBuffering,
+    }"
+  >
+    <svg viewBox="0 0 1000 32" preserveAspectRatio="none" fill="transparent" @click="seek">
+      <rect x="0" y="0" width="100%" height="32" />
+      <rect x="0" y="14" width="100%" height="4" class="progress-total" />
+      <rect
+        v-if="position"
+        x="0"
+        y="14"
+        :width="`${position * 100}%`"
+        height="4"
+        class="progress-position"
       />
-    </div>
-    <div class="actions">
-      <ButtonSkip v-if="!isLive" :size="48" :disabled="!hasNext" @click.prevent="playNext" />
-    </div>
+      <rect v-if="cueIn" y="16" :x="`${cueIn * 100}%`" width="2" height="10" class="cue-point" />
+      <rect v-if="cueOut" y="16" :x="`${cueOut * 100}%`" width="1" height="10" class="cue-point" />
+    </svg>
+    <PlayheadHandle :is-visible="isHover" :style="{ left: `${playheadHandleX}px` }" />
+    <PlayheadTime :time="playheadTime" :style="{ left: `${playheadTimeX}px` }" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/elements/container";
-@use "@/style/base/typo";
-
-@mixin actions {
-  //display: grid;
-  //grid-gap: 0.5rem;
-  display: flex;
-  .action {
-    display: inline-block;
-    width: 1.5rem;
-    height: 1.5rem;
-    margin: 0 0.25rem;
-    color: rgb(var(--c-bg));
-    background: rgba(var(--c-fg), 0.5);
-    border: none;
-    border-radius: 0.75rem;
+.playhead-progress {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  svg {
+    width: 100%;
+    height: 32px;
     cursor: pointer;
-    transition: background 100ms;
-    &:hover {
-      background: rgba(var(--c-fg), 0.9);
+  }
+  .progress-total {
+    transition: fill 100ms;
+    fill: rgba(var(--c-fg), 0.2);
+  }
+  .progress-position {
+    transition: fill 100ms;
+    fill: rgba(var(--c-fg), 0.5);
+  }
+  .cue-point {
+    fill: rgba(var(--c-fg), 1);
+  }
+  &.is-buffering {
+    svg {
+      cursor: wait;
+    }
+  }
+  &.is-hover {
+    .progress-position {
+      fill: rgba(var(--c-fg), 1);
+    }
+  }
+  &.is-live {
+    svg {
+      cursor: not-allowed;
+    }
+    .progress-total {
+      fill: rgba(var(--c-fg), 0.2);
     }
   }
 }
-
-.playhead {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  width: 100%;
-  min-height: 48px;
-  .actions,
-  .progress,
-  .time {
-    display: flex;
-    align-items: center;
-  }
-  .actions {
-    @include actions;
-  }
-  .progress {
-    position: relative;
-    margin: 0 1rem;
-    .time {
-      @include typo.small;
-      @include typo.bold;
-      position: absolute;
-      top: 0;
-      display: flex;
-      justify-content: center;
-      padding: 0 1px;
-      &--current {
-        left: 0;
-      }
-      &--total {
-        @include typo.dim;
-        right: 0;
-      }
-    }
-  }
-  .info {
-    display: flex;
-    align-items: center;
-    padding-left: 0.5rem;
-    .bandwidth {
-      @include typo.small;
-    }
-  }
+.playhead-handle {
+  pointer-events: none;
+  position: absolute;
+  top: 5px;
+}
+.playhead-time {
+  pointer-events: none;
+  position: absolute;
+  top: -13px;
 }
 </style>
