@@ -5,27 +5,30 @@ import { getContrastColor } from "@/utils/color";
 import UserRating from "@/components/rating/UserRating.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import Playhead from "./Playhead.vue";
-import OnAir from "./button/OnAir.vue";
 import Queue from "./Queue.vue";
 import Circle from "./button/Circle.vue";
+import PlayerControl from "./PlayerControl.vue";
 import ShuffleControl from "./ShuffleControl.vue";
 import VolumeControl from "./VolumeControl.vue";
 import QueueControl from "./QueueControl.vue";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 export default defineComponent({
   components: {
     CurrentMedia,
     Playhead,
-    OnAir,
     Circle,
     Queue,
     UserRating,
+    PlayerControl,
     ShuffleControl,
     VolumeControl,
     QueueControl,
   },
   setup() {
     const store = useStore();
+    const { seek } = usePlayerControls();
+    const { relPosition } = usePlayerState();
     const liveTimeOffset = ref(-10);
     const playerState = computed(() => store.getters["player/playerState"]);
     const isLive = computed(() => store.getters["player/isLive"]);
@@ -79,6 +82,9 @@ export default defineComponent({
       queueNumMedia,
       hideQueue,
       toggleQueue,
+      //
+      seek,
+      relPosition,
     };
   },
 });
@@ -88,13 +94,17 @@ export default defineComponent({
   <Queue :is-visible="queueVisible && queueNumMedia > 0" @close="hideQueue" />
   <transition name="slide">
     <div v-if="isVisible" class="player" :style="cssVars">
+      <Playhead class="playhead" @seek="seek" />
       <div class="container">
         <div class="left">
           <CurrentMedia :media="currentMedia" />
         </div>
         <div class="center">
+          <PlayerControl :is-live="isLive" />
+          <!--
           <OnAir v-if="isLive" />
           <Playhead v-else :media="currentMedia" />
+          -->
         </div>
         <div class="right">
           <ShuffleControl />
@@ -130,12 +140,18 @@ $player-height: 72px;
   height: $player-height;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
-  border-top: 1px solid rgba(var(--c-page-fg), 0.2);
   transition: background 1000ms;
+}
+
+.playhead {
+  position: absolute;
+  //background: rgba(255,0,255,0.2);
+  bottom: 52px;
 }
 
 .container {
   @include container.default;
+  padding-top: 0.25rem;
   display: grid;
   grid-template-columns: 4fr 6fr 4fr;
   .left,
@@ -151,10 +167,6 @@ $player-height: 72px;
   }
   .center {
     justify-content: center;
-    .on-air__ {
-      padding: 12px 24px;
-      color: rgb(var(--c-white));
-    }
   }
   .right {
     justify-content: flex-end;

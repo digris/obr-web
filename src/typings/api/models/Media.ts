@@ -22,5 +22,9 @@ export type Media = {
     readonly latestAirplay?: string | null;
     readonly numAirplays?: number | null;
     readonly userRating?: number | null;
+    readonly fadeIn?: number;
+    readonly fadeOut?: number;
+    readonly cueIn?: number;
+    readonly cueOut?: number;
 };
 

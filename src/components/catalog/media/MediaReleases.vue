@@ -18,7 +18,7 @@ export default defineComponent({
 <template>
   <div v-if="releases.length" class="media-releases">
     <span v-for="(release, index) in releases" :key="`media-release-${index}`" class="release">
-      <span class="releaset__name" v-text="release.name" />
+      <span class="release__name" v-text="release.name" />
     </span>
   </div>
 </template>
@@ -28,6 +28,8 @@ export default defineComponent({
   display: inline-flex;
 }
 .release {
+  overflow: hidden;
+  text-overflow: ellipsis;
   &__name {
     white-space: nowrap;
   }

@@ -51,9 +51,6 @@ export default defineComponent({
     };
     const rate = debounce(
       async (value: number) => {
-        // flipIcon().then(() => {
-        //   console.debug('flip complete');
-        // });
         await flipIcon();
         const vote = {
           key: props.objKey,
