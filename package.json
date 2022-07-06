@@ -38,6 +38,7 @@
     "vue": "^3.2.31",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.12",
+    "vue3-runtime-template": "^1.0.2",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

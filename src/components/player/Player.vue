@@ -6,6 +6,7 @@ import UserRating from "@/components/rating/UserRating.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import Playhead from "./Playhead.vue";
 import Queue from "./Queue.vue";
+import OnAir from "./button/OnAir.vue";
 import Circle from "./button/Circle.vue";
 import PlayerControl from "./PlayerControl.vue";
 import VolumeControl from "./VolumeControl.vue";
@@ -16,6 +17,7 @@ export default defineComponent({
   components: {
     CurrentMedia,
     Playhead,
+    OnAir,
     Circle,
     Queue,
     UserRating,
@@ -100,6 +102,7 @@ export default defineComponent({
           <PlayerControl />
         </div>
         <div class="right">
+          <OnAir />
           <VolumeControl />
           <Circle :size="48" :outlined="false">
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />

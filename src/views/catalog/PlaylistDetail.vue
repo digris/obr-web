@@ -7,6 +7,7 @@ import { playlistTitle } from "@/utils/catalog";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAllSmall from "@/components/catalog/media/PlayAllSmall.vue";
 import Duration from "@/components/ui/time/Duration.vue";
@@ -15,13 +16,12 @@ import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import EditorInline from "@/components/broadcast/editor/Inline.vue";
 import Visual from "@/components/catalog/playlist/Visual.vue";
-// import AudioMeter from "@/components/ui/audio/AudioMeter.vue";
-// import AudioSpectrum from "@/components/ui/audio/AudioSpectrum.vue";
 
 export default defineComponent({
   components: {
     DetailPage,
     DetailHeader,
+    DetailHeaderLoading,
     LazyImage,
     PlayAllSmall,
     Duration,
@@ -30,8 +30,6 @@ export default defineComponent({
     MediaList,
     EditorInline,
     Visual,
-    // AudioMeter,
-    // AudioSpectrum,
   },
   props: {
     uid: {
@@ -104,6 +102,7 @@ export default defineComponent({
           </PlayAllSmall>
         </template>
       </DetailHeader>
+      <DetailHeaderLoading v-else title-scope="Show" />
     </template>
     <!--
     <div>

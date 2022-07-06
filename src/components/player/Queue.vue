@@ -53,6 +53,9 @@ export default defineComponent({
 });
 </script>
 <template>
+  <transition name="fade">
+    <div v-if="isVisible" @click="close" class="mask" />
+  </transition>
   <transition name="slide">
     <div
       v-if="isVisible"
@@ -72,10 +75,19 @@ export default defineComponent({
           />
         </transition-group>
       </div>
-      <div class="actions">
+    </div>
+  </transition>
+  <transition name="slide">
+    <div class="actions" v-if="isVisible">
+      <div class="container">
         <div class="button" v-text="'Clear queue'" @click="clearQueue" />
         <ShuffleControl />
-        <Circle :size="48" background-color="rgb(var(--c-white))">
+        <Circle
+          :size="48"
+          @click="close"
+          background-color="rgb(var(--c-white))"
+          hover-background-color="rgba(var(--c-white), 0.8)"
+        >
           <IconCaret :size="48" direction="down" color="rgb(var(--c-black))" />
         </Circle>
       </div>
@@ -86,7 +98,18 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 
+.mask {
+  z-index: 19;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(var(--c-black), 0.8);
+}
+
 .queue {
+  z-index: 20;
   position: fixed;
   width: 100%;
   min-height: 100px;
@@ -104,16 +127,14 @@ export default defineComponent({
     padding-top: 2rem;
     padding-bottom: 76px;
   }
-  .actions {
+}
+
+.actions {
+  z-index: 21;
+  .container {
     @include container.default;
-    //backdrop-filter: blur(8px);
-    position: fixed;
-    bottom: 72px;
-    padding-top: 1.5rem;
-    padding-bottom: 0.75rem;
-    //background: rgba(var(--c-black), 0.9);
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(var(--c-black), 0.9) 10%);
-    //background: #00e8a7;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -121,6 +142,15 @@ export default defineComponent({
       margin-left: 0.5rem;
     }
   }
+  //backdrop-filter: blur(8px);
+  position: fixed;
+  bottom: 72px;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  //background: rgba(var(--c-black), 0.9);
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(var(--c-black), 0.9) 10%);
+  //background: #00e8a7;
 }
 
 // NOTE: generalise button styling if also used at other place(s)
@@ -138,7 +168,19 @@ export default defineComponent({
   }
 }
 
-//queue panel transition
+// mask transition
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 200ms;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+
+// queue panel transition
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
