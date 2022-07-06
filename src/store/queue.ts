@@ -76,8 +76,8 @@ const mutations = {
     state.media = [...head, ...shuffle(tail)];
   },
   CLEAR_MEDIA: (state: any) => {
-    console.debug("clear media", state);
-    // state.media = [state.media[state.currentIndex]];
+    state.media = state.media.slice(state.currentIndex, state.currentIndex + 1);
+    state.currentIndex = 0;
   },
 };
 

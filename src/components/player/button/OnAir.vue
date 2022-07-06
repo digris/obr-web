@@ -1,42 +1,20 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import { usePlayerState, usePlayerControls } from "@/composables/player";
-
-import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
-import IconPause from "@/components/ui/icon/IconPause.vue";
-import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
-import IconPlay from "@/components/ui/icon/IconPlay.vue";
+import { defineComponent } from "vue";
+import { usePlayerState } from "@/composables/player";
+import { useStreamControls } from "@/composables/stream";
 
 export default defineComponent({
   setup() {
-    const isHover = ref(false);
-    const { isLive, isPlaying, isBuffering } = usePlayerState();
-    const { resume, pause } = usePlayerControls();
-    const icon = computed(() => {
-      if (isBuffering.value) {
-        return IconBuffering;
-      }
-      if (isPlaying.value && isHover.value) {
-        return IconPause;
-      }
-      if (isPlaying.value) {
-        return IconPlaying;
-      }
-      return IconPlay;
-    });
+    const { isLive } = usePlayerState();
+    const { startPlayStream } = useStreamControls();
     const click = () => {
-      if (isBuffering.value || isPlaying.value) {
-        pause();
-      } else {
-        resume();
+      if (isLive.value) {
+        return;
       }
+      startPlayStream();
     };
     return {
-      isHover,
       isLive,
-      isPlaying,
-      isBuffering,
-      icon,
       click,
     };
   },
@@ -44,44 +22,33 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="on-air">
-    <div
-      class="button"
-      @click.prevent="click"
-      @mouseover="isHover = true"
-      @mouseleave="isHover = false"
-    >
-      <div class="button__icon">
-        <component :is="icon" :size="48" color="rgb(var(--c-fg))" />
-      </div>
-      <div class="button__text">Live On-Air</div>
-    </div>
+  <div @click.prevent="click" class="on-air" :class="{ 'is-live': isLive }">
+    <div class="on-air__text" v-text="`Radio`" />
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .on-air {
   display: flex;
   align-items: center;
   justify-content: center;
-  .button {
-    display: flex;
-    align-items: center;
-    height: 48px;
+  height: 1.5rem;
+  border-radius: 0.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(var(--c-fg), 0.25);
+  transition: border 100ms, background 100ms;
+  &__text {
+    @include typo.small;
     color: rgb(var(--c-fg));
-    border: 3px solid rgb(var(--c-fg));
-    border-radius: 24px;
+  }
+  &:not(.is-live) {
     cursor: pointer;
-    &__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 48px;
-    }
-    &__text {
-      padding-right: 1.25rem;
-    }
+  }
+  &.is-live,
+  &:hover {
+    background: rgb(var(--c-red));
+    border-color: transparent;
   }
 }
 </style>
