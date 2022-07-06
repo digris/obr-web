@@ -18,6 +18,7 @@ export default defineComponent({
     const { width } = useElementSize(root);
     const {
       isLive,
+      isOndemand,
       isPlaying,
       isBuffering,
       relPosition: position,
@@ -75,6 +76,7 @@ export default defineComponent({
       playheadHandleX,
       mouseX,
       isLive,
+      isOndemand,
       isPlaying,
       isBuffering,
       position,
@@ -93,6 +95,7 @@ export default defineComponent({
     :class="{
       'is-hover': isHover,
       'is-live': isLive,
+      'is-ondemand': isOndemand,
       'is-playing': isPlaying,
       'is-buffering': isBuffering,
     }"
@@ -100,19 +103,32 @@ export default defineComponent({
     <svg viewBox="0 0 1000 32" preserveAspectRatio="none" fill="transparent" @click="seek">
       <rect x="0" y="0" width="100%" height="32" />
       <rect x="0" y="14" width="100%" height="4" class="progress-total" />
-      <rect
-        v-if="position"
-        x="0"
-        y="14"
-        :width="`${position * 100}%`"
-        height="4"
-        class="progress-position"
-      />
-      <rect v-if="cueIn" y="16" :x="`${cueIn * 100}%`" width="2" height="10" class="cue-point" />
-      <rect v-if="cueOut" y="16" :x="`${cueOut * 100}%`" width="1" height="10" class="cue-point" />
+      <g v-if="isOndemand">
+        <rect
+          v-if="position"
+          x="0"
+          y="14"
+          :width="`${position * 100}%`"
+          height="4"
+          class="progress-position"
+        />
+        <rect v-if="cueIn" y="10" :x="`${cueIn * 100}%`" width="1" height="10" class="cue-point" />
+        <rect
+          v-if="cueOut"
+          y="10"
+          :x="`${cueOut * 100}%`"
+          width="1"
+          height="10"
+          class="cue-point"
+        />
+      </g>
     </svg>
-    <PlayheadHandle :is-visible="isHover" :style="{ left: `${playheadHandleX}px` }" />
-    <PlayheadTime :time="playheadTime" :style="{ left: `${playheadTimeX}px` }" />
+    <PlayheadHandle
+      v-if="isOndemand"
+      :is-visible="isHover"
+      :style="{ left: `${playheadHandleX}px` }"
+    />
+    <PlayheadTime v-if="isOndemand" :time="playheadTime" :style="{ left: `${playheadTimeX}px` }" />
   </div>
 </template>
 
@@ -124,7 +140,6 @@ export default defineComponent({
   svg {
     width: 100%;
     height: 32px;
-    cursor: pointer;
   }
   .progress-total {
     transition: fill 100ms;
@@ -147,10 +162,12 @@ export default defineComponent({
       fill: rgba(var(--c-fg), 1);
     }
   }
-  &.is-live {
+  &.is-ondemand {
     svg {
-      cursor: not-allowed;
+      cursor: pointer;
     }
+  }
+  &.is-live {
     .progress-total {
       fill: rgba(var(--c-fg), 0.2);
     }

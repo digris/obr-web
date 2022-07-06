@@ -26,7 +26,9 @@ export default defineComponent({
     <div class="action__icon">
       <slot name="icon"></slot>
     </div>
-    <div class="action__name" v-text="label" />
+    <div class="action__name">
+      <span v-text="label" />
+    </div>
   </div>
 </template>
 
@@ -48,14 +50,16 @@ export default defineComponent({
     height: 48px;
   }
   &__name {
-    display: flex;
+    display: inline-flex;
     flex-grow: 1;
     align-items: center;
     justify-content: flex-start;
     height: 48px;
     padding-right: 1rem;
-    &:first-letter {
-      text-transform: uppercase;
+    > span {
+      &:first-letter {
+        text-transform: uppercase;
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 // import applyConverters from 'axios-case-converter';
 import axios from "axios";
 import qs from "qs";
+import notify from "@/utils/notification";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -23,5 +24,16 @@ const APIClient = axios.create({
 const paramsSerializer = (params: any) => {
   return qs.stringify(params);
 };
+
+APIClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    notify({
+      level: "error",
+      ttl: 5,
+      body: `${error}`,
+    });
+  }
+);
 
 export { APIClient, paramsSerializer };

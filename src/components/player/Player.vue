@@ -8,7 +8,6 @@ import Playhead from "./Playhead.vue";
 import Queue from "./Queue.vue";
 import Circle from "./button/Circle.vue";
 import PlayerControl from "./PlayerControl.vue";
-import ShuffleControl from "./ShuffleControl.vue";
 import VolumeControl from "./VolumeControl.vue";
 import QueueControl from "./QueueControl.vue";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
@@ -21,7 +20,6 @@ export default defineComponent({
     Queue,
     UserRating,
     PlayerControl,
-    ShuffleControl,
     VolumeControl,
     QueueControl,
   },
@@ -71,7 +69,6 @@ export default defineComponent({
     };
     return {
       isVisible,
-      isLive,
       liveTimeOffset,
       playerState,
       currentMedia,
@@ -100,14 +97,9 @@ export default defineComponent({
           <CurrentMedia :media="currentMedia" />
         </div>
         <div class="center">
-          <PlayerControl :is-live="isLive" />
-          <!--
-          <OnAir v-if="isLive" />
-          <Playhead v-else :media="currentMedia" />
-          -->
+          <PlayerControl />
         </div>
         <div class="right">
-          <ShuffleControl />
           <VolumeControl />
           <Circle :size="48" :outlined="false">
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />

@@ -75,6 +75,10 @@ const mutations = {
     const tail = state.media.slice(splitAt);
     state.media = [...head, ...shuffle(tail)];
   },
+  CLEAR_MEDIA: (state: any) => {
+    console.debug("clear media", state);
+    // state.media = [state.media[state.currentIndex]];
+  },
 };
 
 const actions = {
@@ -119,8 +123,10 @@ const actions = {
     }
   },
   shuffleQueue: async (context: any) => {
-    console.debug("store: shuffleQueue", context);
     context.commit("SHUFFLE_MEDIA");
+  },
+  clearQueue: async (context: any) => {
+    context.commit("CLEAR_MEDIA");
   },
 };
 

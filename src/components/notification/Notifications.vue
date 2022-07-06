@@ -60,8 +60,8 @@ export default defineComponent({
   min-height: 2.5rem;
   //margin-bottom: 0.5rem;
   padding: 1rem 2rem;
-  background: rgb(var(--c-black));
-  border-bottom: 2px solid rgb(var(--c-black));
+  background: rgb(var(--c-live-fg-inverse));
+  border-bottom: 2px solid rgb(var(--c-live-fg));
   .close {
     position: absolute;
     top: 0;
@@ -84,11 +84,11 @@ export default defineComponent({
     }
   }
   &.is-success {
-    color: rgb(var(--c-black));
+    //color: rgb(var(--c-black));
     background: rgb(var(--c-success));
   }
   &.is-error {
-    color: rgb(var(--c-black));
+    //color: rgb(var(--c-black));
     background: rgb(var(--c-error));
   }
 }

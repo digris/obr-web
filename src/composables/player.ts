@@ -5,6 +5,7 @@ const usePlayerState = () => {
   const store = useStore();
   const playerState = computed(() => store.getters["player/playerState"]);
   const isLive = computed(() => playerState.value?.isLive);
+  const isOndemand = computed(() => !playerState.value?.isLive);
   const isPlaying = computed(() => playerState.value?.isPlaying);
   const isBuffering = computed(() => playerState.value?.isBuffering);
   const issPaused = computed(() => playerState.value?.isPaused);
@@ -19,6 +20,7 @@ const usePlayerState = () => {
   return {
     playerState,
     isLive,
+    isOndemand,
     isPlaying,
     isBuffering,
     issPaused,
