@@ -70,6 +70,9 @@ const useQueueControls = () => {
   const shuffleQueue = async () => {
     await store.dispatch("queue/shuffleQueue");
   };
+  const clearQueue = async () => {
+    await store.dispatch("queue/clearQueue");
+  };
   return {
     queue,
     hasPrevious,
@@ -82,6 +85,7 @@ const useQueueControls = () => {
     enqueueObj,
     startPlayCurrent,
     shuffleQueue,
+    clearQueue,
   };
 };
 

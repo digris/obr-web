@@ -105,7 +105,12 @@ export default defineComponent({
       @click="rate(1)"
       :color="`rgba(var(${colorVar}), 0.8)`"
     />
-    <IconFlash v-if="userRating.value === -1" :size="iconSize" @click="rate(null)" />
+    <IconFlash
+      v-if="userRating.value === -1"
+      :size="iconSize"
+      :color="`rgba(var(${colorVar}), 0.8)`"
+      @click="rate(null)"
+    />
   </div>
 </template>
 

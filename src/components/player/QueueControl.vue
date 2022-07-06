@@ -1,15 +1,13 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 
-import IconQueue from "@/components/ui/icon/IconQueue.vue";
-import IconCaret from "@/components/ui/icon/IconCaret.vue";
 import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
+import IconQueue from "@/components/ui/icon/IconQueue.vue";
 import Circle from "./button/Circle.vue";
 
 export default defineComponent({
   components: {
     IconQueue,
-    IconCaret,
     AnimatedNumber,
     Circle,
   },
@@ -57,15 +55,17 @@ export default defineComponent({
     class="queue-control"
     :size="48"
     :outlined="false"
-    :active="queueVisible"
     :disabled="numQueued < 1"
     @click.prevent="onClick"
     :style="{
       color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
     }"
   >
+    <!--
     <IconCaret v-if="queueVisible" :size="48" direction="down" color="rgb(var(--c-bg))" />
     <IconQueue v-else :size="48" color="rgb(var(--c-fg))" :num-queued="numQueued" />
+    -->
+    <IconQueue :size="48" color="rgb(var(--c-fg))" :num-queued="numQueued" />
     <div
       v-if="numQueued > 0"
       class="number"

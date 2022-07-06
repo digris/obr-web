@@ -21,7 +21,9 @@ export default defineComponent({
   setup(props) {
     const style = computed(() => {
       return {
-        fill: props.color,
+        fill: "transparent",
+        stroke: props.color,
+        strokeWidth: 2.5,
         transform: `scale(${props.size / BASE_SIZE}) rotate(${props.rotate}deg)`,
       };
     });
@@ -39,7 +41,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <polygon class="fill" points="30,24 15,15 15,33" />
-    <rect class="fill" x="30.5" y="15" width="3" height="18" />
+    <polygon points="30,24 15,15 15,33" />
+    <rect x="33.5" y="15" width="0.1" height="18" />
   </svg>
 </template>

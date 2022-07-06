@@ -2,6 +2,7 @@
 import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 import muxjs from "mux.js";
+import notify from "@/utils/notification";
 import { DateTime } from "luxon";
 import { computed, ref, watch } from "vue";
 import eventBus from "@/eventBus";
@@ -300,6 +301,11 @@ class AudioPlayer {
       this.audio.play();
     } catch (e) {
       console.error(e);
+      notify({
+        level: "error",
+        ttl: 5,
+        body: `Error ${e.code}: unable to play media.`,
+      });
       this.removeEventHandlers();
       return;
     }

@@ -1,11 +1,18 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useQueueControls } from "@/composables/queue";
 import QueueMedia from "@/components/player/QueueMedia.vue";
+import ShuffleControl from "./ShuffleControl.vue";
+import IconCaret from "@/components/ui/icon/IconCaret.vue";
+import Circle from "./button/Circle.vue";
 
 export default defineComponent({
   components: {
     QueueMedia,
+    ShuffleControl,
+    IconCaret,
+    Circle,
   },
   props: {
     isVisible: {
@@ -20,6 +27,7 @@ export default defineComponent({
   emits: ["close"],
   setup(props, { emit }) {
     const store = useStore();
+    const { clearQueue } = useQueueControls();
     const mediaList = computed(() => store.getters["queue/media"]);
     // const currentIndex = computed(() => store.getters['queue/currentIndex']);
     const currentMedia = computed(() => store.getters["queue/currentMedia"]);
@@ -39,6 +47,7 @@ export default defineComponent({
       mediaList,
       // currentIndex,
       currentMedia,
+      clearQueue,
     };
   },
 });
@@ -63,19 +72,19 @@ export default defineComponent({
           />
         </transition-group>
       </div>
+      <div class="actions">
+        <div class="button" v-text="'Clear queue'" @click="clearQueue" />
+        <ShuffleControl />
+        <Circle :size="48" background-color="rgb(var(--c-white))">
+          <IconCaret :size="48" direction="down" color="rgb(var(--c-black))" />
+        </Circle>
+      </div>
     </div>
   </transition>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
-
-.container {
-  @include container.default;
-  //padding: 2rem 0;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
 
 .queue {
   position: fixed;
@@ -89,6 +98,43 @@ export default defineComponent({
   overscroll-behavior: contain;
   &::-webkit-scrollbar {
     display: none;
+  }
+  .container {
+    @include container.default;
+    padding-top: 2rem;
+    padding-bottom: 76px;
+  }
+  .actions {
+    @include container.default;
+    //backdrop-filter: blur(8px);
+    position: fixed;
+    bottom: 72px;
+    padding-top: 1.5rem;
+    padding-bottom: 0.75rem;
+    //background: rgba(var(--c-black), 0.9);
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(var(--c-black), 0.9) 10%);
+    //background: #00e8a7;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    > div {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+// NOTE: generalise button styling if also used at other place(s)
+.button {
+  cursor: pointer;
+  height: 48px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  color: rgb(var(--c-white));
+  background: rgba(var(--c-white), 0.2);
+  &:hover {
+    background: rgba(var(--c-white), 0.25);
   }
 }
 

@@ -15,22 +15,16 @@ export default defineComponent({
     ButtonSkip,
     ButtonPlay,
   },
-  props: {
-    isLive: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props) {
+  setup() {
     const store = useStore();
     const { pause, resume: play } = usePlayerControls();
-    const { isPlaying, isBuffering, currentTime, duration } = usePlayerState();
+    const { isLive, isOndemand, isPlaying, isBuffering, currentTime, duration } = usePlayerState();
 
     const currentTimeDisplay = computed(() => {
       if (!currentTime.value) {
         return "00:00:00";
       }
-      if (props.isLive) {
+      if (isLive.value) {
         const dt = DateTime.fromJSDate(currentTime.value);
         return dt.toLocaleString({
           hour: "2-digit",
@@ -42,7 +36,7 @@ export default defineComponent({
     });
 
     const totalTimeDisplay = computed(() => {
-      if (props.isLive) {
+      if (isLive.value) {
         return "--:--:--";
       }
       return s2hhmmss(duration.value);
@@ -59,6 +53,8 @@ export default defineComponent({
       eventBus.emit("queue:controls:playPrevious");
     };
     return {
+      isLive,
+      isOndemand,
       hasNext,
       hasPrevious,
       isPlaying,
@@ -77,11 +73,17 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="player-control">
-    <div class="time">
-      {{ currentTimeDisplay }}
+  <div
+    class="player-control"
+    :class="{
+      'is-live': isLive,
+      'is-ondemand': isOndemand,
+    }"
+  >
+    <div class="left">
+      <div class="time" v-text="currentTimeDisplay" />
+      <ButtonSkip :size="48" :rotate="180" :disabled="!hasPrevious" @click.prevent="playPrevious" />
     </div>
-    <ButtonSkip :size="48" :rotate="180" :disabled="!hasPrevious" @click.prevent="playPrevious" />
     <ButtonPlay
       :is-playing="isPlaying"
       :is-buffering="isBuffering"
@@ -90,9 +92,9 @@ export default defineComponent({
       @pause="pause"
       @play="play"
     />
-    <ButtonSkip :size="48" :disabled="!hasNext" @click.prevent="playNext" />
-    <div class="time">
-      {{ totalTimeDisplay }}
+    <div class="right">
+      <ButtonSkip :size="48" :disabled="!hasNext" @click.prevent="playNext" />
+      <div class="time" v-text="totalTimeDisplay" />
     </div>
   </div>
 </template>
@@ -100,12 +102,26 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 .player-control {
-  display: grid;
-  grid-template-columns: auto 48px 48px 48px auto;
-  grid-column-gap: 0.5rem;
-  align-items: center;
+  display: flex;
+  //align-items: center;
+  //justify-content: center;
+  .left,
+  .right {
+    display: flex;
+    align-items: center;
+    transition: opacity 500ms;
+  }
   .time {
     @include typo.small;
+    margin: 0 0.5rem;
+    width: 54px;
+    overflow: hidden;
+  }
+  &.is-live {
+    .left,
+    .right {
+      opacity: 0;
+    }
   }
 }
 </style>
