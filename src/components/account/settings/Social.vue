@@ -138,7 +138,8 @@ export default defineComponent({
   opacity: 0.5;
 }
 .backend {
-  display: flex;
+  display: grid;
+  grid-template-columns: 32px auto 120px;
   align-items: center;
   margin-bottom: 0.5rem;
   padding: 0.25rem 0.25rem 0.25rem 1rem;

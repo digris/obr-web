@@ -43,7 +43,10 @@ export default defineComponent({
     const isLoaded = ref(false);
     const playlist = computed(() => store.getters["catalog/playlistByUid"](props.uid));
     const title = computed(() => playlistTitle(playlist.value));
-    const objKey = computed(() => `${playlist.value?.ct}:${playlist.value?.uid}`);
+    // const objKey = computed(() => `${playlist.value?.ct}:${playlist.value?.uid}`);
+    const objKey = computed(() => {
+      return `catalog.playlist:${props.uid}`;
+    });
     const mediaList = computed(() => {
       return playlist.value.mediaSet.reduce((a: any, b: any) => a.concat({ ...b.media, ...b }), []);
     });
@@ -74,7 +77,6 @@ export default defineComponent({
 
 <template>
   <DetailPage>
-    <!---->
     <template #background="slotProps">
       <Visual :height="slotProps.height" :width="slotProps.width" />
     </template>
@@ -104,28 +106,8 @@ export default defineComponent({
       </DetailHeader>
       <DetailHeaderLoading v-else title-scope="Show" />
     </template>
-    <!--
-    <div>
-      <div
-        :style="{
-          // width: '80px',
-          // height: '80px',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }"
-      >
-        <AudioSpectrum />
-        <span>&nbsp;</span>
-        <AudioSpectrum
-          :width="32"
-          :height="32"
-        />
-      </div>
-    </div>
-    -->
     <MediaList
-      v-if="playlist"
+      v-if="objKey"
       :initial-filter="query.filter"
       :disable-user-filter="true"
       :disable-play-all="true"

@@ -99,12 +99,9 @@ export default defineComponent({
       <div>
         <CodeInput :code="codeInput" :valid="isValid" @input="handleCodeInput" />
       </div>
-      <div>
-        <pre v-text="errors" class="_debug"></pre>
+      <div v-if="errors">
+        <APIErrors :errors="errors" />
       </div>
-    </section>
-    <section v-if="errors" class="section errors">
-      <APIErrors :errors="errors" />
     </section>
     <section v-if="voucher" class="section voucher">
       <div>

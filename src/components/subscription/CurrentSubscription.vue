@@ -75,10 +75,10 @@ export default defineComponent({
   color: rgb(var(--c-black));
   cursor: pointer;
   &.is-active {
-    color: rgb(var(--c-success));
+    color: rgb(var(--c-green));
   }
   &.is-expired {
-    color: rgb(var(--c-warning));
+    color: rgb(var(--c-red));
   }
   /*
   .details {

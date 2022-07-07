@@ -28,11 +28,15 @@ const paramsSerializer = (params: any) => {
 APIClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    notify({
-      level: "error",
-      ttl: 5,
-      body: `${error}`,
-    });
+    // console.debug('EC', error.code);
+    if (error.code > 499) {
+      notify({
+        level: "error",
+        ttl: 5,
+        body: `${error}`,
+      });
+    }
+    throw error;
   }
 );
 
