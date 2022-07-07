@@ -55,7 +55,7 @@ export default defineComponent({
       </div>
     </div>
     <div class="bottom">
-      <div class="meta">...</div>
+      <div class="meta" />
     </div>
   </div>
 </template>
@@ -132,8 +132,14 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
-      :deep(.image) {
+      .image {
         @include visual-image;
+        height: 50vh;
+        min-height: 280px;
+        max-height: 620px;
+        background: rgba(var(--c-white), 0.1);
+        aspect-ratio: 1;
+        border-radius: 50%;
       }
     }
     .body {

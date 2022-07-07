@@ -182,7 +182,7 @@ export default defineComponent({
   }
   &.is-selected {
     color: rgb(var(--c-white));
-    background: rgb(var(--c-black));
+    background: rgb(var(--c-green));
   }
   .price {
     font-size: 200%;

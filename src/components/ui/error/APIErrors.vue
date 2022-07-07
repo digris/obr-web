@@ -7,6 +7,10 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    debug: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const hasErrors = computed(() => props.errors.length);
@@ -29,9 +33,10 @@ export default defineComponent({
         {{ error.message }}
       </p>
       <p v-else class="error__message">An error occurred. Sorry.</p>
-      <code class="error__status">
+      <code v-if="error.status" class="error__status">
         <div class="status-code">#{{ error.status }}</div>
       </code>
+      <pre v-if="debug" class="debug" v-text="error" />
     </div>
   </div>
 </template>
@@ -39,9 +44,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 .errors {
-  padding: 1rem;
-  color: rgb(var(--c-white));
-  background: rgb(var(--c-error));
+  padding: 0.75rem;
+  color: rgb(var(--c-black));
+  background: rgba(var(--c-red), 0.66);
+  border-radius: 3px;
 }
 .error {
   position: relative;
@@ -55,7 +61,7 @@ export default defineComponent({
     @include typo.small;
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 4px;
   }
 }
 .error:not(:last-child) {
