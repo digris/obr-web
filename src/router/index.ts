@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { isEqual } from "lodash-es";
+import { DateTime } from "luxon";
 import store from "@/store";
 import NotFound from "@/views/NotFound.vue";
 // import OnAir from '@/views/OnAir.vue';
@@ -46,8 +47,30 @@ const routes = [
   },
   {
     path: "/program/",
+    name: "programRedirect",
+    redirect: () => {
+      const now = DateTime.now();
+      return {
+        name: "program",
+        params: {
+          date: now.toISODate(),
+        },
+      };
+    },
+  },
+  {
+    path: "/program/:date(\\d{4}-\\d{2}-\\d{2})/",
+    // path: "/program/:date(\\d{4}-\\d{2}-\\d{2})/:time(\\d{2}:\\d{2})?/",
     name: "program",
-    component: Program,
+    components: {
+      default: Program,
+    },
+    props: {
+      default: (route: any) => ({
+        date: DateTime.fromISO(route.params.date),
+        // timeStr: route.params.time,
+      }),
+    },
   },
   {
     path: "/discover/",

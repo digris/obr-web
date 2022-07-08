@@ -1,16 +1,21 @@
 <script lang="ts">
 import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 import { DateTime } from "luxon";
+import { getEmission } from "@/api/broadcast";
 import { playStream } from "@/player/stream";
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import IconClose from "@/components/ui/icon/IconClose.vue";
 
 export default defineComponent({
   components: {
     ButtonPlay,
     PlayAction,
     ObjectTags,
+    CircleButton,
+    IconClose,
   },
   props: {
     emission: {
@@ -24,9 +29,11 @@ export default defineComponent({
   },
   emits: ["navigate"],
   setup(props, { emit }) {
-    const root = ref(null);
+    // const root = ref(null);
+    const root = ref<HTMLElement | null>(null);
     const now = ref(DateTime.now());
     const timer = ref(null);
+    const isExpanded = ref(false);
     const isPast = computed(() => {
       return props.emission.timeEnd < now.value;
     });
@@ -37,12 +44,21 @@ export default defineComponent({
       return props.emission.timeStart < now.value && props.emission.timeEnd > now.value;
     });
 
-    const scrollIntoView = () => {
-      // @ts-ignore
-      root.value.scrollIntoViewIfNeeded({
-        block: "end",
-        behavior: "smooth",
-      });
+    const scrollIntoView = (force = false) => {
+      if (!root.value) {
+        return;
+      }
+      if (force) {
+        root.value.scrollIntoView({
+          block: "start",
+          behavior: "smooth",
+        });
+      } else {
+        root.value.scrollIntoViewIfNeeded({
+          block: "end",
+          behavior: "smooth",
+        });
+      }
     };
     onActivated(() => {
       if (isCurrent.value) {
@@ -113,6 +129,23 @@ export default defineComponent({
       }
       return props.emission.timeStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
+    const mediaSet = ref([]);
+    const showMedia = async () => {
+      isExpanded.value = true;
+      const data = await getEmission(props.emission.uid);
+      mediaSet.value = data.mediaSet;
+      scrollIntoView(true);
+    };
+    const hideMedia = () => {
+      isExpanded.value = false;
+    };
+    const toggleMedia = () => {
+      if (isExpanded.value) {
+        hideMedia();
+      } else {
+        showMedia();
+      }
+    };
     return {
       root,
       isPast,
@@ -125,6 +158,11 @@ export default defineComponent({
       title,
       tagsDisplay,
       timeStartDisplay,
+      isExpanded,
+      showMedia,
+      hideMedia,
+      toggleMedia,
+      mediaSet,
     };
   },
 });
@@ -138,6 +176,7 @@ export default defineComponent({
       'is-past': isPast,
       'is-current': isCurrent,
       'is-upcoming': isUpcoming,
+      'is-expanded': isExpanded,
     }"
   >
     <div class="container">
@@ -182,6 +221,17 @@ export default defineComponent({
       <ObjectTags class="tags" :obj="emission" :limit="4" />
       <div class="time-start">
         {{ timeStartDisplay }}
+      </div>
+      <div class="actions">
+        <CircleButton :size="48" @click="toggleMedia">
+          <IconClose :size="48" color="rgb(var(--c-black))" />
+        </CircleButton>
+      </div>
+    </div>
+    <div v-if="mediaSet && isExpanded" class="media-set">
+      <!--      <pre v-text="mediaSet" />-->
+      <div v-for="(media, index) in mediaSet" :key="`emission-media-${index}`">
+        {{ media.uid }}
       </div>
     </div>
   </div>
@@ -228,6 +278,29 @@ export default defineComponent({
     cursor: default;
     opacity: 0.5;
   }
+
+  &.is-expanded {
+    position: relative;
+    color: rgb(var(--c-white));
+    background-color: rgb(var(--c-black));
+    &:hover {
+      background-color: rgb(var(--c-gray-900));
+    }
+    .container {
+      background: darkorange;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    .media-set {
+      position: relative;
+      max-height: 100vh;
+      overflow: hidden;
+      //background: white;
+      border-left: solid 0.5rem deeppink;
+      //z-index: 30;
+    }
+  }
 }
 
 .container {
@@ -236,9 +309,9 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-areas:
-    "play name editor  time-start"
-    "play name tags    time-start";
-  grid-template-columns: 1fr 9fr 8fr 2fr;
+    "play name editor  time-start actions"
+    "play name tags    time-start actions";
+  grid-template-columns: 48px 9fr 8fr 2fr 48px;
   padding: 0.75rem 0.5rem;
 
   > div {
@@ -277,6 +350,10 @@ export default defineComponent({
     grid-area: time-start;
     @include typo.large;
     justify-content: flex-end;
+  }
+
+  .actions {
+    grid-area: actions;
   }
 }
 </style>

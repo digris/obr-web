@@ -76,7 +76,6 @@ export default defineComponent({
     });
     const queueIndex = computed(() => {
       if (currentQueueIndex.value < 0) {
-        console.debug("queueIndex: queue empty");
         return null;
       }
       const index = queuedMedia.value.findIndex((obj: object) => {

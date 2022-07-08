@@ -1,8 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent, ref, PropType } from "vue";
+import { computed, defineComponent, ref } from "vue";
+import type { PropType } from "vue";
+// import { types } from 'sass';
+// import Number = types.Number;
 
 type Option = {
-  code?: string;
+  value?: string;
   name?: string;
   selected?: boolean;
 };
@@ -10,8 +13,8 @@ type Option = {
 export default defineComponent({
   props: {
     modelValue: {
-      type: String,
-      default: "",
+      type: [String, Number],
+      default: null,
       required: true,
     },
     options: {
@@ -49,7 +52,7 @@ export default defineComponent({
       return props.options.map((t: Option) => {
         return {
           ...t,
-          selected: t.code === props.modelValue,
+          selected: t.value === props.modelValue,
         };
       });
     });
@@ -68,9 +71,9 @@ export default defineComponent({
     <select :id="id" :value="modelValue" @input="update($event.target.value)">
       <option
         v-for="option in annotatedOptions"
-        :key="`${id}-${option.code}`"
-        :value="option.code"
-        :selected="!!option.selected"
+        :key="`${id}-${option.value}`"
+        :value="option.value"
+        :selected="true"
         v-text="option.name"
       />
     </select>
@@ -89,8 +92,9 @@ export default defineComponent({
     cursor: unset;
   }
   select {
-    @include typo.large;
-    @include typo.bold;
+    //@include typo.large;
+    //@include typo.bold;
+    height: 48px;
     display: grid;
     width: 100%;
     padding: 0.25em 0.5em;
