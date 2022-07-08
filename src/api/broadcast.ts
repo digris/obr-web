@@ -4,14 +4,19 @@ import settings from "@/settings";
 const SCHEDULE_ENDPOINT = `${settings.API_BASE_URL}broadcast/schedule/`;
 const PROGRAM_ENDPOINT = `${settings.API_BASE_URL}broadcast/program/`;
 const EDITOR_ENDPOINT = `${settings.API_BASE_URL}broadcast/editors/`;
+const EMISSION_ENDPOINT = `${settings.API_BASE_URL}broadcast/emissions/`;
 
 async function getSchedule(params: Object = {}) {
   const response = await APIClient.get(SCHEDULE_ENDPOINT, { params });
   return response.data;
 }
 
-async function getProgram() {
-  const response = await APIClient.get(PROGRAM_ENDPOINT);
+async function getProgram(date: string) {
+  const url = PROGRAM_ENDPOINT;
+  const params = {
+    date,
+  };
+  const response = await APIClient.get(url, { params });
   return response.data;
 }
 
@@ -34,4 +39,13 @@ async function getEditor(uid: string) {
   return response.data;
 }
 
-export { getSchedule, getProgram, getEditors, getEditor };
+async function getEmission(uid: string) {
+  const url = `${EMISSION_ENDPOINT}${uid}/`;
+  const params = {
+    expand: ["media_set"],
+  };
+  const response = await APIClient.get(url, { params });
+  return response.data;
+}
+
+export { getSchedule, getProgram, getEditors, getEditor, getEmission };

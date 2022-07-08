@@ -1,5 +1,5 @@
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.db.models import Q
 from django.utils import timezone
@@ -34,8 +34,17 @@ class ProgramView(GenericAPIView):
 
     def get(self, request):
         now = timezone.now()  # UTC
-        # we want to set start / end in naive / local time
-        naive = timezone.make_naive(now)
+        if date := request.query_params.get("date"):
+            now = datetime.strptime(date, "%Y-%m-%d")
+        else:
+            now = timezone.now()  # UTC
+
+        # we want to set start / end in naive / local time for offset calculations
+        if timezone.is_naive(now):
+            naive = now
+        else:
+            naive = timezone.make_naive(now)
+
         naive_time_from = naive.replace(hour=6, minute=0, second=0, microsecond=0)
         time_from = timezone.make_aware(naive_time_from)  # now with timezone - CE(S)T)
         time_until = time_from + timedelta(seconds=60 * 60 * 24 - 1)  # 24h - 1s

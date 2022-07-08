@@ -33,8 +33,8 @@ const mutations = {
 };
 
 const actions = {
-  loadProgram: async (context: any) => {
-    const program = await getProgram();
+  loadEmissions: async (context: any, date: string) => {
+    const program = await getProgram(date);
     context.commit("SET_EMISSIONS", program.emissions);
   },
 };
