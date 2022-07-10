@@ -4,7 +4,7 @@ import { useStore } from "vuex";
 import { useRouteHash } from "@vueuse/router";
 import { isEqual } from "lodash-es";
 import Filter from "./Filter.vue";
-import Emission from "./Emission.vue";
+import Emission from "./emission/Emission.vue";
 import { DateTime } from "luxon";
 import { zeroPad } from "@/utils/format";
 

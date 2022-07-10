@@ -119,6 +119,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 {
                     "media": playlist_media.media,
                     "uid": playlist_media.uid,
+                    "media_uid": playlist_media.media.uid,
                     "key": f"{self.uid}-{playlist_media.uid}",
                     "cue_in": playlist_media.cue_in,
                     "cue_out": playlist_media.cue_out,
