@@ -110,7 +110,7 @@ def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False)
             # looks like a bare date without time information
             end = end.replace(hour=23, minute=59, second=59)
     else:
-        schedule_ahead = 60 * 60 * 4  # 4 hours
+        schedule_ahead = 60 * 60 * 24  # 24 hours
         end = datetime.now() + timedelta(seconds=schedule_ahead)
 
     logger.debug(f"fetch emissions from {start:%Y-%m-%d %H:%M} to {end:%Y-%m-%d %H:%M}")

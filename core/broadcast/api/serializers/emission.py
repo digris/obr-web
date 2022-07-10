@@ -25,8 +25,9 @@ class EmissionPlaylistSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
-class EmissionMediaSerializer(serializers.Serializer):
+class EmissionMediaSetSerializer(serializers.Serializer):
     uid = serializers.CharField()
+    media_uid = serializers.CharField()
     cue_in = serializers.IntegerField()
     cue_out = serializers.IntegerField()
     fade_in = serializers.IntegerField()
@@ -50,7 +51,7 @@ class EmissionSerializer(
     playlist = EmissionPlaylistSerializer(
         read_only=True,
     )
-    media_set = EmissionMediaSerializer(
+    media_set = EmissionMediaSetSerializer(
         source="get_media_set",
         many=True,
     )
