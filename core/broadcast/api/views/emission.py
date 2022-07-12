@@ -6,6 +6,7 @@ from rest_framework.exceptions import ParseError
 
 from broadcast.api import serializers
 from broadcast.models import Emission
+from stats.models import Emission as ArchivedEmission
 
 logger = logging.getLogger(__name__)
 
@@ -13,19 +14,13 @@ PROGRAM_MAX_EMISSIONS = 100
 
 
 class EmissionViewSet(
-    mixins.ListModelMixin,
+    # mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
     queryset = Emission.objects.all()
     serializer_class = serializers.EmissionSerializer
     lookup_field = "uid"
-
-    def get_queryset(self):
-        qs = self.queryset.select_related("playlist",).prefetch_related(
-            "playlist__images",
-        )
-        return qs
 
     def get_object(self):
         try:
@@ -34,6 +29,7 @@ class EmissionViewSet(
         except AssertionError as e:
             raise ParseError(f"Invalid UID: {self.kwargs['uid']}") from e
 
-        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
+        if obj := Emission.objects.filter(uid=obj_uid).first():
+            return obj
 
-        return obj
+        return get_object_or_404(ArchivedEmission, uid=obj_uid)

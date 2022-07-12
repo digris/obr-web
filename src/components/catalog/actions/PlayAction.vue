@@ -190,6 +190,7 @@ export default defineComponent({
           :is-active="inScope"
           :is-playing="isPlaying && !shiftKey"
           :is-buffering="isLoading || isBuffering"
+          :in-queue="queuePosition > 0"
           :size="size"
           :outlined="outlined"
           :shadowed="shadowed"
@@ -218,7 +219,8 @@ export default defineComponent({
   .state {
     pointer-events: none;
     position: absolute;
-    display: flex;
+    display: none;
+    //display: flex;
     align-items: center;
     justify-content: center;
     top: 6px;

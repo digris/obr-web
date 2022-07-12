@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
 import IconPlay from "@/components/ui/icon/IconPlay.vue";
+import IconPlayQueued from "@/components/ui/icon/IconPlayQueued.vue";
 import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
 import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
 import IconPause from "@/components/ui/icon/IconPause.vue";
@@ -44,6 +45,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    inQueue: {
+      type: Boolean,
+      default: false,
+    },
     outlined: {
       type: Boolean,
       default: true,
@@ -77,6 +82,9 @@ export default defineComponent({
       }
       if (props.isPlaying) {
         return IconPlaying;
+      }
+      if (props.inQueue) {
+        return IconPlayQueued;
       }
       return IconPlay;
     });

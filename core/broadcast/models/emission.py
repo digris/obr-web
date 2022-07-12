@@ -6,6 +6,9 @@ from django.utils import timezone
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 
 
+MEDIA_MIN_DURATION = 12
+
+
 class EmissionQuerySet(models.QuerySet):
     def upcoming(self):
         now = timezone.now()
@@ -111,6 +114,9 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 "media__releases__images",
             )
         )
+        qs = qs.filter(
+            media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
+        )
         for playlist_media in qs:
             time_start = time_base + time_offset
             time_end = time_start + playlist_media.effective_duration
@@ -119,7 +125,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 {
                     "media": playlist_media.media,
                     "uid": playlist_media.uid,
-                    "media_uid": playlist_media.media.uid,
+                    # "media_uid": playlist_media.media.uid,
                     "key": f"{self.uid}-{playlist_media.uid}",
                     "cue_in": playlist_media.cue_in,
                     "cue_out": playlist_media.cue_out,
