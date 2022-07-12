@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { EmissionMedia } from './EmissionMedia';
+import type { EmissionMediaSet } from './EmissionMediaSet';
 import type { EmissionPlaylist } from './EmissionPlaylist';
 
 /**
@@ -19,6 +19,6 @@ export type Emission = {
     timeStart?: string | null;
     timeEnd?: string | null;
     readonly duration?: string;
-    mediaSet: Array<EmissionMedia>;
+    mediaSet: Array<EmissionMediaSet>;
 };
 

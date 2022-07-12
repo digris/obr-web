@@ -4,7 +4,6 @@
 import type { Editor } from '../models/Editor';
 import type { Emission } from '../models/Emission';
 import type { PaginatedEditorList } from '../models/PaginatedEditorList';
-import type { PaginatedEmissionList } from '../models/PaginatedEmissionList';
 import type { Program } from '../models/Program';
 import type { Schedule } from '../models/Schedule';
 
@@ -47,26 +46,6 @@ export class BroadcastService {
             url: '/api/v1/broadcast/editors/{uid}/',
             path: {
                 'uid': uid,
-            },
-        });
-    }
-
-    /**
-     * @param limit Number of results to return per page.
-     * @param offset The initial index from which to return the results.
-     * @returns PaginatedEmissionList
-     * @throws ApiError
-     */
-    public static broadcastEmissionsList(
-        limit?: number,
-        offset?: number,
-    ): CancelablePromise<PaginatedEmissionList> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/broadcast/emissions/',
-            query: {
-                'limit': limit,
-                'offset': offset,
             },
         });
     }
