@@ -2,14 +2,22 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { MediaArtist } from './MediaArtist';
+import type { Release } from './Release';
+
+/**
+ * A ModelSerializer that takes additional arguments for
+ * "fields", "omit" and "expand" in order to
+ * control which fields are displayed, and whether to replace simple
+ * values with complex, nested serializations
+ */
 export type EmissionMedia = {
-    uid: string;
-    cueIn: number;
-    cueOut: number;
-    fadeIn: number;
-    fadeOut: number;
-    fadeCross: number;
-    timeStart: string;
-    timeEnd: string;
+    readonly url?: string;
+    readonly ct?: string;
+    readonly uid?: string;
+    name: string;
+    readonly artistDisplay?: string;
+    readonly artists?: Array<MediaArtist>;
+    readonly releases?: Array<Release>;
 };
 

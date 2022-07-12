@@ -12,6 +12,7 @@ export type { ConnectedSocialBackendRequest } from './models/ConnectedSocialBack
 export type { Editor } from './models/Editor';
 export type { Emission } from './models/Emission';
 export type { EmissionMedia } from './models/EmissionMedia';
+export type { EmissionMediaSet } from './models/EmissionMediaSet';
 export type { EmissionPlaylist } from './models/EmissionPlaylist';
 export type { Image } from './models/Image';
 export type { Media } from './models/Media';
@@ -20,7 +21,6 @@ export type { Mood } from './models/Mood';
 export type { PaginatedArtistList } from './models/PaginatedArtistList';
 export type { PaginatedCatalogPlaylistList } from './models/PaginatedCatalogPlaylistList';
 export type { PaginatedEditorList } from './models/PaginatedEditorList';
-export type { PaginatedEmissionList } from './models/PaginatedEmissionList';
 export type { PaginatedMediaList } from './models/PaginatedMediaList';
 export type { PaginatedMoodList } from './models/PaginatedMoodList';
 export type { PaginatedReleaseList } from './models/PaginatedReleaseList';
