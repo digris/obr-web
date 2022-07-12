@@ -2,7 +2,8 @@ from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
 from broadcast.models import Emission
-from catalog.models import Playlist
+from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
+from catalog.models import Playlist, Media
 from image.api.serializers import ImageSerializer
 
 
@@ -25,9 +26,24 @@ class EmissionPlaylistSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
 
+class EmissionMediaSerializer(CatalogMediaSerializer):
+    class Meta:
+        model = Media
+        fields = [
+            "url",
+            "ct",
+            "uid",
+            "name",
+            "artist_display",
+            "artists",
+            "releases",
+            "duration",
+        ]
+
+
 class EmissionMediaSetSerializer(serializers.Serializer):
     uid = serializers.CharField()
-    media_uid = serializers.CharField()
+    # media_uid = serializers.CharField()
     cue_in = serializers.IntegerField()
     cue_out = serializers.IntegerField()
     fade_in = serializers.IntegerField()
@@ -35,6 +51,7 @@ class EmissionMediaSetSerializer(serializers.Serializer):
     fade_cross = serializers.IntegerField()
     time_start = serializers.DateTimeField()
     time_end = serializers.DateTimeField()
+    media = EmissionMediaSerializer()
 
 
 class EmissionSerializer(

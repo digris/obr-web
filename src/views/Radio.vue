@@ -2,7 +2,7 @@
 import { computed, ref, watch, defineComponent } from "vue";
 import { useWindowSize, useFullscreen } from "@vueuse/core";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import eventBus from "@/eventBus";
 import StationTime from "@/components/broadcast/onair/station-time/StationTime.vue";
 import Schedule from "@/components/broadcast/onair/Schedule.vue";
@@ -27,6 +27,7 @@ export default defineComponent({
   setup() {
     const root = ref();
     const route = useRoute();
+    const router = useRouter();
     const store = useStore();
     const current = computed(() => store.getters["schedule/current"]);
     const next = computed(() => store.getters["schedule/next"]);
@@ -111,7 +112,12 @@ export default defineComponent({
     });
     const programVisible = ref(false);
     const toggleProgram = () => {
-      programVisible.value = !programVisible.value;
+      // NOTE: for the moment we navigate to the program view
+      // programVisible.value = !programVisible.value;
+      router.push({
+        name: "programRedirect",
+        query: { back: "/" },
+      });
     };
     const hideProgram = () => {
       programVisible.value = false;

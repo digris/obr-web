@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime, timedelta
-
+from itertools import chain
 from django.db.models import Q
 from django.utils import timezone
 from rest_framework import status
@@ -9,6 +9,7 @@ from rest_framework.response import Response
 
 from broadcast.api import serializers
 from broadcast.models import Emission
+from stats.models import Emission as ArchivedEmission
 
 logger = logging.getLogger(__name__)
 
@@ -18,9 +19,23 @@ PROGRAM_MAX_EMISSIONS = 100
 class ProgramView(GenericAPIView):
     serializer_class = serializers.ProgramSerializer
 
-    def get_queryset(self):
+    def get_emission_queryset(self):
         qs = (
             Emission.objects.all()
+            .select_related(
+                "playlist",
+                "playlist__editor",
+                "playlist__series",
+            )
+            .prefetch_related(
+                "playlist__tags",
+            )
+        )
+        return qs
+
+    def get_archived_emission_queryset(self):
+        qs = (
+            ArchivedEmission.objects.all()
             .select_related(
                 "playlist",
                 "playlist__editor",
@@ -50,14 +65,22 @@ class ProgramView(GenericAPIView):
         time_until = time_from + timedelta(seconds=60 * 60 * 24 - 1)  # 24h - 1s
 
         qs = (
-            self.get_queryset()
+            self.get_emission_queryset()
             .filter(Q(time_start__gte=time_from) & Q(time_start__lte=time_until))
             .order_by(
                 "time_start",
             )
         )
 
-        if qs.count() > PROGRAM_MAX_EMISSIONS:
+        archived_qs = (
+            self.get_archived_emission_queryset()
+            .filter(Q(time_start__gte=time_from) & Q(time_start__lte=time_until))
+            .order_by(
+                "time_start",
+            )
+        )
+
+        if qs.count() + archived_qs.count() > PROGRAM_MAX_EMISSIONS:
             return Response(
                 {
                     "message": f"Too many emissions in range. Count: {qs.count()} - max: {PROGRAM_MAX_EMISSIONS}",
@@ -65,11 +88,17 @@ class ProgramView(GenericAPIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        union_qs = list(chain(qs, archived_qs))
+
+        union_qs = sorted(union_qs, key=lambda x: x.time_start)
+
+        print(union_qs)
+
         serializer = self.serializer_class(
             {
                 "time_from": time_from,
                 "time_until": time_until,
-                "emissions": qs,
+                "emissions": union_qs,
             },
             context={
                 "request": request,

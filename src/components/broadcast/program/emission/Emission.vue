@@ -2,7 +2,6 @@
 import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 import { DateTime } from "luxon";
 import { getEmission } from "@/api/broadcast";
-import { getPlaylist } from "@/api/catalog";
 import { playStream } from "@/player/stream";
 import EmissionRow from "./EmissionRow.vue";
 import MediaSet from "./MediaSet.vue";
@@ -126,7 +125,7 @@ export default defineComponent({
     });
     const cssVars = computed(() => {
       let fg = "var(--c-black)";
-      let bg = "var(--c-white)";
+      let bg = "var(--c-gray-50)";
       let bgHover = "var(--c-gray-50)";
 
       if (isExpanded.value) {
@@ -142,7 +141,8 @@ export default defineComponent({
       }
 
       if (isUpcoming.value) {
-        bg = "var(--c-gray-50)";
+        // bg = "var(--c-gray-50)";
+        bg = "var(--c-white)";
         fg = "var(--c-gray-400)";
       }
       return {
@@ -154,21 +154,6 @@ export default defineComponent({
     const mediaSet = ref([]);
     const loadMediaSet = async () => {
       const mediaSetData = await getEmission(props.emission.uid);
-      const playlistData = await getPlaylist(props.emission.playlist.uid);
-      const media = [];
-      console.debug("mediaSetData", mediaSetData);
-      console.debug("playlistData", playlistData);
-      playlistData.mediaSet.forEach((m: object) => {
-        console.debug("m", m.media.uid);
-        const timeStart = mediaSetData.mediaSet.find(
-          (msm: object) => msm.mediaUid === m.media.uid
-        ).timeStart;
-        media.push({
-          ...m,
-          timeStart,
-        });
-      });
-      console.debug("media", media);
       mediaSet.value = mediaSetData.mediaSet;
     };
     const showMedia = async () => {
@@ -230,8 +215,8 @@ export default defineComponent({
       :is-expanded="isExpanded"
       @toggle-expanded="toggleExpanded"
     />
-    <transition name="slide">
-      <MediaSet class="media-set" v-if="mediaSet && isExpanded" :media-set="mediaSet" />
+    <transition>
+      <MediaSet class="media-set" v-if="isExpanded" :media-set="mediaSet" />
     </transition>
   </div>
 </template>
@@ -254,12 +239,11 @@ export default defineComponent({
   /*
   &.is-past {
     color: rgb(var(--c-black));
-    //background-color: rgb(var(--c-gray-100));
+    background-color: rgb(var(--c-gray-100));
     &:hover {
       background-color: rgb(var(--c-gray-100));
     }
   }
-
   &.is-current {
     color: rgb(var(--c-white));
     background-color: rgb(var(--c-black));
@@ -293,7 +277,7 @@ export default defineComponent({
     }
     .media-set {
       position: relative;
-      max-height: 100vh;
+      min-height: 72px;
       overflow: hidden;
       //background: white;
       border-left: solid 0.5rem rgb(var(--c-bg));

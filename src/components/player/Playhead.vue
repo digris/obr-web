@@ -169,7 +169,7 @@ export default defineComponent({
   }
   &.is-live {
     .progress-total {
-      fill: rgba(var(--c-fg), 0.2);
+      fill: rgba(var(--c-fg), 0);
     }
   }
 }

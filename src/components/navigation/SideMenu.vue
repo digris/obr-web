@@ -20,8 +20,8 @@ export default defineComponent({
       isVisible.value = false;
     };
     const navigate = async (e: any) => {
-      await router.push(e);
       isVisible.value = false;
+      await router.push(e);
     };
     eventBus.on("side-menu:show", () => {
       isVisible.value = true;

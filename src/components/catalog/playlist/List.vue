@@ -222,7 +222,7 @@ export default {
 
 .playlist-list {
   margin-bottom: 0;
-  background: rgb(var(--c-white));
+  //background: rgb(var(--c-white));
   .list-container {
     &.layout--grid {
       @include container.default;

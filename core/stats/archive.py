@@ -141,6 +141,14 @@ def archive_airplays(database="default"):
 
     catalog_airplay_qs.delete()
 
+    # bulk_create does not handle `save` (where uid is derived from uuid)
+    for e in Emission.objects.filter(
+        uid__isnull=True,
+    ):
+        Emission.objects.filter(id=e.id,).update(
+            uid=e.get_uid(),
+        )
+
     # for airplay in airplay_qs:
     #     try:
     #         airplay.delete()

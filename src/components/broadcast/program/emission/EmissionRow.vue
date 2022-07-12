@@ -208,6 +208,7 @@ export default defineComponent({
         @play="play"
         @pause="pause"
       />
+      <!--
       <ButtonPlay
         v-if="isUpcoming"
         :style="{
@@ -216,6 +217,7 @@ export default defineComponent({
         }"
         :disabled="true"
       />
+      -->
     </div>
     <div class="name">
       <router-link v-if="!isUpcoming" :to="routeTo" @click="navigate">
@@ -234,7 +236,13 @@ export default defineComponent({
     </div>
     <div v-if="isPast || isCurrent" class="actions">
       <CircleButton :size="48" :outlined="false">
-        <UserRating :obj-key="objKey" :icon-size="48" :autoload="true" :hide-if-unset="!isHover" />
+        <UserRating
+          :obj-key="objKey"
+          :icon-size="48"
+          :autoload="true"
+          :hide-if-unset="!isHover"
+          color-var="--c-fg"
+        />
       </CircleButton>
       <CircleButton :size="48" @click="toggleExpanded" :outlined="false">
         <IconMinus v-if="isExpanded" :size="48" />
