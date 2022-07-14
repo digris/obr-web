@@ -3,7 +3,7 @@ import { useStorage, useNavigatorLanguage } from "@vueuse/core";
 
 interface State {
   volume: number;
-  shuffleMode: Boolean;
+  shuffleMode: boolean;
   maxBandwidth: number;
   locale: string;
 }

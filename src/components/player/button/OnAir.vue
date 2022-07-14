@@ -23,7 +23,7 @@ export default defineComponent({
 
 <template>
   <div @click.prevent="click" class="on-air" :class="{ 'is-live': isLive }">
-    <div class="on-air__text" v-text="`Radio`" />
+    <div class="on-air__text" v-text="`Live`" />
   </div>
 </template>
 

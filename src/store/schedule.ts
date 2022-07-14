@@ -6,7 +6,7 @@ import { getSchedule } from "@/api/broadcast";
 
 export interface State {
   schedule: Array<any>;
-  current: Object | null;
+  current?: any;
 }
 
 const state: State = {
@@ -55,7 +55,7 @@ const mutations = {
     });
     state.schedule = parsedSchedule;
   },
-  SET_CURRENT: (state: State, current: Object) => {
+  SET_CURRENT: (state: State, current: any) => {
     state.current = current;
   },
 };
@@ -76,7 +76,7 @@ const actions = {
     // console.table(schedule);
     context.commit("SET_SCHEDULE", schedule);
   },
-  updateCurrent: async (context: any, current: Object) => {
+  updateCurrent: async (context: any, current: any) => {
     context.commit("SET_CURRENT", current);
   },
 };
