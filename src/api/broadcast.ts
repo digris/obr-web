@@ -6,7 +6,7 @@ const PROGRAM_ENDPOINT = `${settings.API_BASE_URL}broadcast/program/`;
 const EDITOR_ENDPOINT = `${settings.API_BASE_URL}broadcast/editors/`;
 const EMISSION_ENDPOINT = `${settings.API_BASE_URL}broadcast/emissions/`;
 
-async function getSchedule(params: Object = {}) {
+async function getSchedule(params: any) {
   const response = await APIClient.get(SCHEDULE_ENDPOINT, { params });
   return response.data;
 }

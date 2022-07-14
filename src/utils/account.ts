@@ -44,25 +44,6 @@ export default function () {
 }
 
 // eslint-disable-next-line arrow-body-style
-const requireLogin = (fn: Function, message: string) => {
-  // eslint-disable-next-line func-names
-  return function (...args: any) {
-    const user = store.getters["account/user"];
-    if (!user) {
-      const event = {
-        intent: "login",
-        next: window.location.pathname,
-        message,
-      };
-      eventBus.emit("account:authenticate", event);
-      return false;
-    }
-    // @ts-ignore
-    return fn.apply(this, args);
-  };
-};
-
-// eslint-disable-next-line arrow-body-style
 const requireSubscription = (fn: Function, message = "") => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
@@ -100,4 +81,4 @@ const requireSubscription = (fn: Function, message = "") => {
   };
 };
 
-export { requireLogin, requireSubscription };
+export { requireSubscription };

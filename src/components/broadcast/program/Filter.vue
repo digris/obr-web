@@ -8,8 +8,8 @@ import { zeroPad } from "@/utils/format";
 import SelectInput from "@/components/ui/form/SelectInput.vue";
 
 export type Time = {
-  hour: Number;
-  minute: Number;
+  hour: number;
+  minute: number;
 };
 
 export type Filter = {
