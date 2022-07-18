@@ -27,19 +27,28 @@ module.exports = {
     "@typescript-eslint/no-shadow": ["error"],
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
-    // "vue/max-attributes-per-line": [
-    //   "error",
-    //   {
-    //     "singleline": {
-    //       "max": 1,
-    //       "allowFirstLine": false
-    //     },
-    //     "multiline": {
-    //       "max": 1,
-    //       "allowFirstLine": false
-    //     }
-    //   }
-    // ],
+    /*
+    "vue/max-attributes-per-line": [
+      "error",
+      {
+        singleline: {
+          max: 1,
+        },
+        multiline: {
+          max: 1,
+        },
+      },
+    ],
+    */
+    /*
+    "vue/first-attribute-linebreak": [
+      "error",
+      {
+        singleline: "ignore",
+        multiline: "below",
+      },
+    ],
+    */
     "vue/html-closing-bracket-newline": [
       "error",
       {
