@@ -87,16 +87,10 @@ export default defineComponent({
     >
       <input :value="q" @keyup="searchInput" />
     </form>
-    <CircleButton :size="48" :outlined="false" @click="submitSearch">
+    <CircleButton :size="48" @click="submitSearch">
       <IconSearch :size="48" :color="`rgb(var(--c-page-fg))`" />
     </CircleButton>
-    <CircleButton
-      :size="48"
-      :outlined="false"
-      :active="isExpanded"
-      :color-var="`--c-black`"
-      @click="toggleFilter"
-    >
+    <CircleButton :size="48" :active="isExpanded" :color-var="`--c-black`" @click="toggleFilter">
       <IconFilter :size="48" :color="isExpanded ? `rgb(var(--c-white))` : `rgb(var(--c-black))`" />
     </CircleButton>
   </div>

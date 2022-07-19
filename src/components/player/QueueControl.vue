@@ -54,7 +54,6 @@ export default defineComponent({
   <Circle
     class="queue-control"
     :size="48"
-    :outlined="false"
     :disabled="numQueued < 1"
     @click.prevent="onClick"
     :style="{

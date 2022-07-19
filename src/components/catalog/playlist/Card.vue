@@ -69,7 +69,7 @@ export default defineComponent({
           <PlayAction
             :obj-key="objKey"
             :size="86"
-            :outlined="false"
+            :outlined="true"
             background-color="rgb(var(--c-white))"
           />
         </LazyImage>
@@ -88,7 +88,7 @@ export default defineComponent({
         <RelativeDateTime class="secondary" :date-time="latestEmission" />
       </div>
       <div class="actions">
-        <CircleButton :size="36" :outlined="false">
+        <CircleButton :size="36">
           <UserRating :obj-key="objKey" :icon-size="40" />
         </CircleButton>
         <ContextMenu :obj="playlist" :icon-size="36" />

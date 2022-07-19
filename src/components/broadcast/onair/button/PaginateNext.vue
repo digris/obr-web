@@ -34,7 +34,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleButton :size="size" :disabled="disabled" :outlined="false">
+  <CircleButton :size="size" :disabled="disabled">
     <IconPaginate :size="iconSize" :rotate="rotate" color="rgb(var(--c-page-fg))" />
   </CircleButton>
 </template>

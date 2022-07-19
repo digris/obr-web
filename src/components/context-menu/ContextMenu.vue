@@ -114,7 +114,7 @@ export default defineComponent({
     }"
   >
     <div class="context-menu__icon" @click.prevent="show">
-      <CircleButton :size="iconSize" :outlined="false">
+      <CircleButton :size="iconSize">
         <IconContext :size="iconSize" :color="iconColor" />
       </CircleButton>
     </div>

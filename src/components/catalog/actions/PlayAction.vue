@@ -42,7 +42,7 @@ export default defineComponent({
     },
     outlined: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     backgroundColor: {
       type: String,
