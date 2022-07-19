@@ -33,10 +33,12 @@ export default defineComponent({
   <Circle
     class="shuffle-control"
     :size="48"
-    :inactive="!shuffleMode"
-    background-color="rgb(var(--c-white))"
+    :background-color="shuffleMode ? 'rgb(var(--c-white))' : 'rgb(var(--c-black))'"
+    :hover-background-color="
+      shuffleMode ? 'rgba(var(--c-white), 0.9)' : 'rgba(var(--c-white), 0.1)'
+    "
     @click.prevent="onClick"
   >
-    <IconShuffle :size="48" color="rgb(var(--c-black))" />
+    <IconShuffle :size="48" :color="shuffleMode ? 'rgb(var(--c-black))' : 'rgb(var(--c-white))'" />
   </Circle>
 </template>

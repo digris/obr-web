@@ -80,15 +80,15 @@ export default defineComponent({
   <transition name="slide">
     <div class="actions" v-if="isVisible">
       <div class="container">
-        <div class="button" v-text="'Clear queue'" @click="clearQueue" />
         <ShuffleControl />
+        <div class="button" v-text="'Clear queue'" @click="clearQueue" />
         <Circle
           :size="48"
           @click="close"
-          background-color="rgb(var(--c-white))"
-          hover-background-color="rgba(var(--c-white), 0.8)"
+          background-color="rgb(var(--c-black))"
+          hover-background-color="rgba(var(--c-white), 0.1)"
         >
-          <IconCaret :size="48" direction="down" color="rgb(var(--c-black))" />
+          <IconCaret :size="48" direction="down" color="rgb(var(--c-white))" />
         </Circle>
       </div>
     </div>
@@ -125,12 +125,13 @@ export default defineComponent({
   .container {
     @include container.default;
     padding-top: 2rem;
-    padding-bottom: 76px;
+    padding-bottom: 92px;
   }
 }
 
 .actions {
   z-index: 21;
+  border-top: 1px solid rgba(var(--c-white), 0.25);
   .container {
     @include container.default;
     padding-top: 0.5rem;
@@ -162,9 +163,12 @@ export default defineComponent({
   align-items: center;
   padding: 0 1.5rem;
   color: rgb(var(--c-white));
-  background: rgba(var(--c-white), 0.2);
+  //background: rgba(var(--c-white), 0.2);
+  border: 1px solid rgba(var(--c-white), 0.2);
+  transition: background-color 200ms;
   &:hover {
-    background: rgba(var(--c-white), 0.25);
+    border-color: transparent;
+    background: rgba(var(--c-white), 0.1);
   }
 }
 
