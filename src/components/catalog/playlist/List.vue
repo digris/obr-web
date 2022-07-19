@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
+import { useDevice } from "@/composables/device";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
@@ -48,6 +49,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const { isDesktop } = useDevice();
     const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
@@ -143,6 +145,7 @@ export default {
       }
     );
     return {
+      isDesktop,
       combinedFilter,
       tagList,
       tagListLoading,
@@ -170,7 +173,7 @@ export default {
     />
   </div>
   <div class="playlist-list">
-    <div v-if="layout === 'table'" class="table-header">
+    <div v-if="layout === 'table' && isDesktop" class="table-header">
       <PlaylistRowHeader />
     </div>
     <LoadingMore v-if="numResults === -1" :layout="layout" :class="`layout--${layout}`" />

@@ -4,6 +4,7 @@ import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
 import { DateTime } from "luxon";
+import { useDevice } from "@/composables/device";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
@@ -51,6 +52,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const { isDesktop } = useDevice();
     const now = ref(DateTime.now());
     const timer = ref(null);
     const numResults = ref(0);
@@ -168,6 +170,7 @@ export default {
       }
     );
     return {
+      isDesktop,
       combinedFilter,
       tagList,
       ordering,
@@ -200,7 +203,7 @@ export default {
     <PlayAll :num-total="numResults" :filter="combinedFilter" :ordering="ordering" />
   </div>
   <div class="media-list">
-    <div class="table-header">
+    <div v-if="isDesktop" class="table-header">
       <MediaRowHeader />
     </div>
     <div class="table">
