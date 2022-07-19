@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.41 (2022-07-19)
+### Fix
+* Add mobile program views ([`f7dfcf3`](https://github.com/digris/obr-web/commit/f7dfcf31492b3b8ba1529dc12f66a64e7dc3dd9b))
+
 ## v0.0.40 (2022-06-28)
 ### Fix
 * Disable caching on SPA views ([`3902700`](https://github.com/digris/obr-web/commit/39027000c3a8be3f7dd39109f222f4063f03ee01))
