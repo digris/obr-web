@@ -1,4 +1,5 @@
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 
 @mixin block-spacing() {
   margin-bottom: 0.5rem;
@@ -39,22 +40,57 @@
   border-spacing: 0;
   width: 100%;
   > thead {
-    color: rgb(var(--c-page-bg));
-    background: rgb(var(--c-page-fg));
+    color: rgb(var(--c-page-fg));
+    background: rgb(var(--c-page-bg));
     font-weight: inherit;
     th {
-      padding: 0.5rem;
+      padding: 0.3rem;
       text-align: left;
       font-weight: inherit;
+      border-top: 2px solid rgb(var(--c-page-fg));
+      border-bottom: 2px solid rgb(var(--c-page-fg));
+      &:first-child {
+        padding-left: 0;
+      }
+      &:not(:last-child) {
+        border-right: 1px solid rgba(var(--c-page-fg), 0.25);
+      }
     }
   }
   > tbody {
     td {
-      padding: 0.5rem;
-      border-bottom: 3px solid rgb(var(--c-page-fg));
+      padding: 0.3rem;
+      border-bottom: 1px solid rgba(var(--c-page-fg), 0.25);
       user-select: text;
+      &:first-child {
+        padding-left: 0;
+      }
       &:not(:last-child) {
-        border-right: 3px solid rgb(var(--c-page-fg));
+        border-right: 1px solid rgba(var(--c-page-fg), 0.25);
+      }
+    }
+  }
+  @include responsive.bp-small {
+    > thead {
+      display: none;
+    }
+    > tbody {
+      > tr {
+        display: flex;
+        flex-direction: column;
+        padding-top: 1rem;
+        > td {
+          &:first-child {
+            padding-left: 0.3rem;
+          }
+          &:not(:last-child) {
+            border-right: none;
+          }
+          &:last-child {
+            border-bottom: 2px solid rgb(var(--c-page-fg));
+          }
+          text-align: left;
+        }
       }
     }
   }

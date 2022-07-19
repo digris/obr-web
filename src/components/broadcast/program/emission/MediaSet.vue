@@ -77,6 +77,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 .media-set {
   .media-row {
     &:not(&:first-child) {
@@ -93,6 +94,10 @@ export default defineComponent({
     padding: 1rem 1rem 1rem calc(2rem + 48px);
     .next-start {
       @include typo.large;
+    }
+    @include responsive.bp-small {
+      padding: 1rem;
+      justify-content: center;
     }
   }
 }

@@ -60,7 +60,7 @@ export default defineComponent({
       <span class="subtitle--label" v-text="media.artists.length === 1 ? 'Artist' : 'Artists'" />
       <MediaArtists :artists="media.artists" />
     </div>
-    <div class="subtitle">
+    <div class="subtitle subtitle--releases">
       <span class="subtitle--label" v-text="`Album`" />
       <MediaReleases :releases="media.releases" />
     </div>
@@ -91,6 +91,12 @@ export default defineComponent({
   }
   .media-releases {
     display: inline;
+  }
+  :deep {
+    a,
+    span {
+      white-space: initial;
+    }
   }
 }
 a {

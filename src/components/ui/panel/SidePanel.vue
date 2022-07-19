@@ -86,7 +86,7 @@ export default defineComponent({
     align-items: center;
     justify-content: flex-end;
     height: 75px;
-    margin: 0 4rem 0.5rem;
+    margin: 0 1.5rem 0.5rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
     @include responsive.bp-medium {
       margin: 0 1rem 0.5rem;
@@ -94,13 +94,13 @@ export default defineComponent({
   }
   &__body {
     flex-grow: 1;
-    padding: 0 4rem 1rem;
+    padding: 0 1.5rem 1rem;
     @include responsive.bp-medium {
       padding: 0 1rem 1rem;
     }
   }
   &__footer {
-    padding: 1rem 4rem;
+    padding: 1rem 1.5rem;
     @include responsive.bp-medium {
       padding: 0 1rem 1rem;
     }

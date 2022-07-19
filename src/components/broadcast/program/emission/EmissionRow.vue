@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 import { DateTime } from "luxon";
+import { useDevice } from "@/composables/device";
 import { getEmission } from "@/api/broadcast";
 import { playStream } from "@/player/stream";
 import { useObjKey } from "@/composables/obj";
@@ -55,6 +56,7 @@ export default defineComponent({
     const root = ref<HTMLElement | null>(null);
     const { objKey } = useObjKey(props.emission.playlist);
     const isHover = ref(false);
+    const { isDesktop } = useDevice();
     const now = ref(DateTime.now());
     const timer = ref(null);
 
@@ -174,6 +176,7 @@ export default defineComponent({
       root,
       objKey,
       isHover,
+      isDesktop,
       routeTo,
       play,
       pause,
@@ -235,7 +238,7 @@ export default defineComponent({
       {{ timeStartDisplay }}
     </div>
     <div v-if="isPast || isCurrent" class="actions">
-      <CircleButton :size="48" :outlined="false">
+      <CircleButton v-if="isDesktop" :size="48" :outlined="false">
         <UserRating
           :obj-key="objKey"
           :icon-size="48"
@@ -278,6 +281,7 @@ export default defineComponent({
     position: relative;
     grid-area: play;
     max-height: 48px;
+    align-self: center;
   }
 
   .name {
@@ -309,6 +313,28 @@ export default defineComponent({
 
   .actions {
     grid-area: actions;
+  }
+  @include responsive.bp-small {
+    grid-row-gap: 0;
+    grid-column-gap: 0.5rem;
+    grid-template-areas:
+      "play name   time-start actions"
+      "play editor time-start actions";
+    grid-template-columns: 48px 8fr 4fr 48px;
+    min-height: 60px;
+    .tags {
+      display: none;
+    }
+    .name {
+      line-height: 1.25rem;
+      align-self: end;
+    }
+    .editor {
+      @include typo.dim;
+      @include typo.light;
+      line-height: 1.25rem;
+      align-self: start;
+    }
   }
 }
 </style>

@@ -47,10 +47,10 @@ body {
 }
 
 @mixin light {
-  font-weight: 200;
+  font-weight: 400;
 }
 
-@mixin dim($r: 0.5) {
+@mixin dim($r: 0.33) {
   opacity: 1 * $r;
 }
 

@@ -41,9 +41,10 @@ export default defineComponent({
 @use "@/style/base/typo";
 .language-chooser {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 0.5rem;
   .language {
-    @include typo.tiny;
+    //@include typo.tiny;
     @include typo.uppercase;
     height: 24px;
     width: 24px;

@@ -143,7 +143,7 @@ export default defineComponent({
     margin-bottom: 1.5rem;
   }
   .filter-container {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;

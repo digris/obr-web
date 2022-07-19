@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { DateTime } from "luxon";
-
+import { useDevice } from "@/composables/device";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
@@ -26,6 +26,7 @@ export default defineComponent({
   },
   setup(props) {
     const isHover = ref(false);
+    const { isDesktop } = useDevice();
     const media = computed(() => {
       return props.emissionMedia?.media;
     });
@@ -42,6 +43,7 @@ export default defineComponent({
       media,
       objKey,
       isHover,
+      isDesktop,
       timeStartDisplay,
     };
   },
@@ -54,7 +56,7 @@ export default defineComponent({
       <PlayAction
         :obj-key="objKey"
         :size="48"
-        :outlined="false"
+        :outlined="true"
         background-color="rgb(var(--c-white))"
       />
     </div>
@@ -82,7 +84,7 @@ export default defineComponent({
       {{ timeStartDisplay }}
     </div>
     <div class="actions">
-      <CircleButton :size="48" :outlined="false">
+      <CircleButton v-if="isDesktop" :size="48" :outlined="false">
         <UserRating :obj-key="objKey" :icon-size="48" :autoload="true" :hide-if-unset="!isHover" />
       </CircleButton>
       <ContextMenu :obj="media" />
@@ -101,9 +103,9 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-areas:
-    "play name editor  time-start actions"
-    "play name tags    time-start actions";
-  grid-template-columns: 48px 9fr 8fr 2fr 96px;
+    "play name artist  time-start actions"
+    "play name release    time-start actions";
+  grid-template-columns: 48px 9fr 8fr 2fr 48px;
   padding: 0.75rem 1.5rem 0.75rem 1rem;
   color: rgb(var(--c-black));
   //background-color: rgb(var(--c-white));
@@ -117,6 +119,7 @@ export default defineComponent({
     position: relative;
     grid-area: play;
     max-height: 48px;
+    align-self: center;
   }
 
   .name {
@@ -131,13 +134,13 @@ export default defineComponent({
     }
   }
 
-  .editor {
-    grid-area: editor;
+  .artist {
+    grid-area: artist;
     overflow: hidden;
   }
 
-  .tags {
-    grid-area: tags;
+  .release {
+    grid-area: release;
   }
 
   .time-start {
@@ -148,6 +151,31 @@ export default defineComponent({
 
   .actions {
     grid-area: actions;
+  }
+
+  @include responsive.bp-small {
+    grid-row-gap: 0;
+    grid-column-gap: 0.5rem;
+    grid-template-areas:
+      "play name   time-start actions"
+      "play artist time-start actions";
+    grid-template-columns: 48px 8fr 4fr 48px;
+    min-height: 60px;
+    padding-left: 0;
+    .release {
+      display: none;
+    }
+    .name {
+      line-height: 1.25rem;
+      align-self: end;
+    }
+    .artist {
+      @include typo.dim;
+      @include typo.light;
+      line-height: 1.25rem;
+      align-self: start;
+      white-space: nowrap;
+    }
   }
 }
 </style>

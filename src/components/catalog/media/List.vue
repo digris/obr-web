@@ -229,5 +229,8 @@ export default {
 .media-list {
   //margin: 0 0 8rem;
   background: rgb(var(--c-white));
+  .table-header {
+    background: yellow;
+  }
 }
 </style>

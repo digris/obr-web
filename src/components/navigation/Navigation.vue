@@ -4,8 +4,8 @@ import eventBus from "@/eventBus";
 import Logo from "@/components/ui/logo/Logo.vue";
 import MainMenu from "@/components/navigation/MainMenu.vue";
 import AccountMenu from "@/components/navigation/AccountMenu.vue";
-import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
 import SubscriptionStatus from "@/components/navigation/SubscriptionStatus.vue";
+import ToggleSearchButton from "@/components/navigation/ToggleSearchButton.vue";
 import ToggleMenuButton from "@/components/navigation/ToggleMenuButton.vue";
 
 export default defineComponent({
@@ -13,8 +13,8 @@ export default defineComponent({
     Logo,
     MainMenu,
     AccountMenu,
-    LanguageChooser,
     SubscriptionStatus,
+    ToggleSearchButton,
     ToggleMenuButton,
   },
   setup() {
@@ -35,10 +35,12 @@ export default defineComponent({
       <span>open broadcast</span>
     </router-link>
     <MainMenu class="menu menu--main" />
-    <div class="language-subscription-account">
-      <LanguageChooser />
+    <div class="subscription-account">
       <SubscriptionStatus class="menu menu--subscription" />
       <AccountMenu class="menu menu--account" />
+    </div>
+    <div class="menu-toggle" @click.prevent="showSideMenu">
+      <ToggleSearchButton />
     </div>
     <div class="menu-toggle" @click.prevent="showSideMenu">
       <ToggleMenuButton />
@@ -54,7 +56,7 @@ export default defineComponent({
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 242px 1fr 170px 72px;
+  grid-template-columns: 242px 1fr 170px 72px 48px;
   width: 100%;
   height: 78px;
   background: rgba(var(--c-page-bg), 0.6);
@@ -63,7 +65,7 @@ export default defineComponent({
   backdrop-filter: blur(24px);
   @include responsive.bp-small {
     height: 66px;
-    grid-template-columns: 160px 1fr 120px;
+    grid-template-columns: 160px 1fr 48px 48px;
   }
   .brand {
     @include live-color.fg;
@@ -83,6 +85,7 @@ export default defineComponent({
     @include responsive.bp-small {
       padding-left: 0.625rem;
       padding-right: 0.625rem;
+      line-height: 1.25rem;
       .logo {
         width: 60px;
       }
@@ -101,7 +104,7 @@ export default defineComponent({
       display: none;
     }
   }
-  .language-subscription-account {
+  .subscription-account {
     display: flex;
     align-items: center;
     justify-content: flex-end;

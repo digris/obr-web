@@ -5,8 +5,7 @@ import { range } from "lodash-es";
 import { useI18n } from "vue-i18n";
 import { DateTime } from "luxon";
 import { zeroPad } from "@/utils/format";
-// import SelectInput from "@/components/ui/form/SelectInput.vue";
-import DatetInput from "@/components/ui/form/DatetInput.vue";
+import SelectInput from "@/components/ui/form/SelectInput.vue";
 
 export type Time = {
   hour: number;
@@ -20,8 +19,7 @@ export type Filter = {
 
 export default defineComponent({
   components: {
-    // SelectInput,
-    DatetInput,
+    SelectInput,
   },
   props: {
     modelValue: {
@@ -44,11 +42,6 @@ export default defineComponent({
     const day = ref(date.value.day);
     const month = ref(date.value.month);
     const year = ref(date.value.year);
-    const dateInput = ref(date.value.toISODate());
-    const dateInputMin = "2019-01-01";
-    const dateInputMax = computed(() => {
-      return today.toISODate();
-    });
     // const day = ref(7);
     const dayOpts = computed(() => {
       // const date = props.modelValue.date;
@@ -96,12 +89,11 @@ export default defineComponent({
       });
     });
     const userFilter = computed(() => {
-      // const filterDate = DateTime.fromObject({
-      //   day: day.value,
-      //   month: month.value,
-      //   year: year.value,
-      // });
-      const filterDate = DateTime.fromISO(dateInput.value);
+      const filterDate = DateTime.fromObject({
+        day: day.value,
+        month: month.value,
+        year: year.value,
+      });
       const filterTime = {
         hour: hour.value,
         minute: minute.value,
@@ -117,9 +109,6 @@ export default defineComponent({
     watch(() => userFilter.value, update);
     return {
       today,
-      dateInput,
-      dateInputMin,
-      dateInputMax,
       day,
       dayOpts,
       month,
@@ -137,15 +126,10 @@ export default defineComponent({
 <template>
   <div>
     <div class="filter">
-      <DatetInput v-model="dateInput" :min="dateInputMin" :max="dateInputMax" />
-      <!--
       <SelectInput v-model="day" :options="dayOpts" />
       <SelectInput v-model="month" :options="monthOpts" />
       <SelectInput v-model="year" :options="yearOpts" />
-      -->
-      <!--
       <SelectInput v-model="hour" :options="hourOpts" />
-      -->
     </div>
   </div>
 </template>
@@ -154,25 +138,12 @@ export default defineComponent({
 .filter {
   position: relative;
   height: 48px;
-  display: flex;
-  min-width: 200px;
-  //display: grid;
-  //grid-template-columns: 120px 120px 120px 120px;
-  //grid-template-columns: 160px;
-  //grid-column-gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 120px 120px 120px 120px;
+  grid-column-gap: 0.5rem;
   > select {
     background: white;
     padding: 0 0.5rem;
-  }
-  > .date-input {
-    width: 100%;
-    :deep(> input) {
-      width: 200px;
-      padding: 0 0.5rem;
-      font-size: 1rem;
-      text-align: center;
-      font-family: var(--font-family);
-    }
   }
 }
 </style>

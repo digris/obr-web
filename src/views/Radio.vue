@@ -11,8 +11,6 @@ import FocusedMedia from "@/components/broadcast/onair/FocusedMedia.vue";
 import FocusedMobile from "@/components/broadcast/onair/FocusedMobile.vue";
 import PaginateButton from "@/components/broadcast/onair/button/PaginateNext.vue";
 import Rating from "@/components/broadcast/onair/rating/Rating.vue";
-import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
-import Program from "@/components/broadcast/program/Program.vue";
 
 export default defineComponent({
   components: {
@@ -23,8 +21,6 @@ export default defineComponent({
     FocusedMobile,
     PaginateButton,
     Rating,
-    OverlayPanel,
-    Program,
   },
   setup() {
     const root = ref();
@@ -39,7 +35,7 @@ export default defineComponent({
     const itemSize = computed(() => {
       const maxForWidth = vpWidth.value * 0.4; // 3/4/3 grid
       const maxForHeight = vpHeight.value - 360; // height - navigation, spacing, player etc.
-      // const maxForHeight = vpWidth.value * 0.3; // height - navigation, spacing, player etc.
+      // const maxForHeight = vpWidt h.value * 0.3; // height - navigation, spacing, player etc.
       // const size = Math.max(Math.min(maxForWidth, maxForHeight, 1200), 240);
       const size = Math.max(Math.min(maxForWidth, maxForHeight, 1200), 240);
       return Math.round(size);
@@ -110,17 +106,12 @@ export default defineComponent({
     const hasNext = computed(() => {
       return items.value[calculatedOffset.value - 1] !== undefined;
     });
-    const programVisible = ref(false);
-    const toggleProgram = () => {
+    const showProgram = () => {
       // NOTE: for the moment we navigate to the program view
-      // programVisible.value = !programVisible.value;
       router.push({
         name: "programRedirect",
         query: { back: "/" },
       });
-    };
-    const hideProgram = () => {
-      programVisible.value = false;
     };
     const stationTimeOverwrite = computed(() => {
       if (!(current.value && focused.value)) {
@@ -182,9 +173,7 @@ export default defineComponent({
       setFocus,
       releaseFocus,
       //
-      programVisible,
-      toggleProgram,
-      hideProgram,
+      showProgram,
       //
       toggleFullscreen,
     };
@@ -196,7 +185,7 @@ export default defineComponent({
   <div ref="root" class="on-air" :style="cssVars">
     <StationTime
       @release-focus="releaseFocus"
-      @toggle-program="toggleProgram"
+      @toggle-program="showProgram"
       :time-overwrite="stationTimeOverwrite"
     />
     <pre
@@ -239,9 +228,6 @@ export default defineComponent({
       @on-focus="setFocus"
     />
   </div>
-  <OverlayPanel :is-visible="programVisible" @close="hideProgram" title="Heute">
-    <Program class="program" :current-link-to-home="false" @navigate="hideProgram" />
-  </OverlayPanel>
 </template>
 
 <style lang="scss" scoped>
@@ -319,8 +305,5 @@ export default defineComponent({
       display: none;
     }
   }
-}
-.program {
-  margin-bottom: 8rem;
 }
 </style>

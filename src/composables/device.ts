@@ -6,8 +6,12 @@ const useDevice = () => {
   const isMobile = computed(() => {
     return width.value && width.value < 500;
   });
+  const isDesktop = computed(() => {
+    return !isMobile.value;
+  });
   return {
     isMobile,
+    isDesktop,
     windowSize: { width, height },
   };
 };

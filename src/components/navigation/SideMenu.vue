@@ -5,10 +5,12 @@ import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
+import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
 
 export default defineComponent({
   components: {
     SidePanel,
+    LanguageChooser,
   },
   setup() {
     const router = useRouter();
@@ -166,6 +168,12 @@ export default defineComponent({
         <a href="#" @click.prevent="logout" v-text="t('menu.logout')" />
       </section>
     </div>
+    <template #footer>
+      <div class="footer">
+        <div class="ui-mode-chooser">DM</div>
+        <LanguageChooser class="language-chooser" />
+      </div>
+    </template>
   </SidePanel>
 </template>
 
@@ -199,6 +207,16 @@ export default defineComponent({
         opacity: 0.5;
       }
     }
+  }
+}
+.footer {
+  display: flex;
+  min-height: 2rem;
+  align-items: center;
+  border-top: 1px solid rgb(var(--c-gray-200));
+  padding-top: 0.5rem;
+  .ui-mode-chooser {
+    flex-grow: 1;
   }
 }
 </style>
