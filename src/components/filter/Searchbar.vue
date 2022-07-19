@@ -7,6 +7,8 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import { useDevice } from "@/composables/device";
+
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconFilter from '@/components/ui/icon/IconFilter.vue';
 import IconSearch from '@/components/ui/icon/IconSearch.vue';
@@ -28,6 +30,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const { isDesktop } = useDevice();
     const isExpanded = computed(() => store.getters['ui/filterExpanded']);
     const toggleFilter = () => {
       if (isExpanded.value) {
@@ -66,6 +69,7 @@ export default defineComponent({
       },
     );
     return {
+      isDesktop,
       isExpanded,
       toggleFilter,
       q,
@@ -79,6 +83,7 @@ export default defineComponent({
 <template>
   <div class="searchbar">
     <form
+      v-if="isDesktop"
       class="searchinput"
       :class="{
         'has-query': hasSearchQuery,
@@ -87,7 +92,7 @@ export default defineComponent({
     >
       <input :value="q" @keyup="searchInput" />
     </form>
-    <CircleButton :size="48" @click="submitSearch">
+    <CircleButton v-if="isDesktop" :size="48" @click="submitSearch">
       <IconSearch :size="48" :color="`rgb(var(--c-page-fg))`" />
     </CircleButton>
     <CircleButton :size="48" :active="isExpanded" :color-var="`--c-black`" @click="toggleFilter">
