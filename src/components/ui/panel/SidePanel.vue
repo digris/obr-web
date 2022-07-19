@@ -71,7 +71,7 @@ export default defineComponent({
   flex-direction: column;
   width: 100%;
   max-width: 50vw;
-  min-width: 500px;
+  min-width: 50vw;
   height: 100%;
   color: rgb(var(--c-black));
   font-weight: 500;
@@ -89,7 +89,7 @@ export default defineComponent({
     margin: 0 4rem 0.5rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
     @include responsive.bp-medium {
-      margin: 0 1rem 1rem;
+      margin: 0 1rem 0.5rem;
     }
   }
   &__body {

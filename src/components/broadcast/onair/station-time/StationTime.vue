@@ -99,10 +99,10 @@ export default defineComponent({
 @use "sass:math";
 @use "@/style/base/live-color";
 @use "@/style/elements/container";
+@use "@/style/abstracts/responsive";
 $width: 200px;
 $height: 48px;
 .station-time {
-  //@include container.default;
   display: grid;
   grid-template-columns: 48px 1fr 48px;
   align-items: center;
@@ -113,6 +113,9 @@ $height: 48px;
   padding: 1.5rem 0 1rem;
   .actions {
     height: 48px;
+  }
+  @include responsive.bp-small {
+    padding: 0 0.625rem;
   }
 }
 .container {
@@ -148,6 +151,9 @@ $height: 48px;
     }
     .icon {
       display: none;
+    }
+    @include responsive.bp-small {
+      font-size: 40px;
     }
   }
   &.is-past {

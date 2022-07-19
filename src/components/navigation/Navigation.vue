@@ -62,7 +62,8 @@ export default defineComponent({
   transition: background 1000ms;
   backdrop-filter: blur(24px);
   @include responsive.bp-small {
-    grid-template-columns: 120px 1fr 120px;
+    height: 66px;
+    grid-template-columns: 160px 1fr 120px;
   }
   .brand {
     @include live-color.fg;
@@ -78,6 +79,13 @@ export default defineComponent({
     &:hover {
       background: rgba(var(--c-page-fg), 0.1);
       transition: color, background-color 200ms;
+    }
+    @include responsive.bp-small {
+      padding-left: 0.625rem;
+      padding-right: 0.625rem;
+      .logo {
+        width: 60px;
+      }
     }
   }
   .menu {
@@ -105,6 +113,9 @@ export default defineComponent({
     .language-chooser {
       padding-right: 1rem;
       margin-top: -12px;
+      @include responsive.bp-small {
+        display: none;
+      }
     }
   }
   .menu-toggle {

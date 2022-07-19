@@ -8,6 +8,7 @@ import StationTime from "@/components/broadcast/onair/station-time/StationTime.v
 import Schedule from "@/components/broadcast/onair/Schedule.vue";
 import FocusedEmission from "@/components/broadcast/onair/FocusedEmission.vue";
 import FocusedMedia from "@/components/broadcast/onair/FocusedMedia.vue";
+import FocusedMobile from "@/components/broadcast/onair/FocusedMobile.vue";
 import PaginateButton from "@/components/broadcast/onair/button/PaginateNext.vue";
 import Rating from "@/components/broadcast/onair/rating/Rating.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
@@ -19,6 +20,7 @@ export default defineComponent({
     Schedule,
     FocusedEmission,
     FocusedMedia,
+    FocusedMobile,
     PaginateButton,
     Rating,
     OverlayPanel,
@@ -88,8 +90,6 @@ export default defineComponent({
       }
     };
     const releaseFocus = () => {
-      console.debug("releaseFocus");
-      console.debug("calculatedOffset", calculatedOffset.value);
       for (let i = 0; i < calculatedOffset.value; i += 1) {
         setTimeout(() => {
           paginate(-1);
@@ -226,6 +226,9 @@ export default defineComponent({
       <FocusedMedia v-if="focused && focused.media" :media="focused.media" :item="focused" />
       <PaginateButton :disabled="!hasNext" @click="paginate(-1)" />
     </div>
+    <div class="mobile-meta">
+      <FocusedMobile v-if="focused && focused.media" :media="focused.media" :item="focused" />
+    </div>
     <div class="actions">
       <Rating v-if="focused && focused.media" :media="focused.media" />
     </div>
@@ -267,6 +270,9 @@ export default defineComponent({
       height: var(--item-size);
       margin-bottom: 40px;
       background: rgb(var(--c-black));
+      @include responsive.bp-small {
+        background: transparent;
+      }
     }
   }
   .right {
@@ -291,11 +297,21 @@ export default defineComponent({
       left: 2rem;
     }
   }
+  .mobile-meta {
+    display: none;
+  }
   //TODO: just a quick fix..
   @include responsive.bp-small {
+    .mobile-meta {
+      grid-area: mobile-meta;
+      display: flex;
+      width: 100%;
+      margin: 1rem 0 1rem;
+    }
     grid-template-areas:
       "station-time"
       "center"
+      "mobile-meta"
       "actions";
     grid-template-columns: auto;
     .left,

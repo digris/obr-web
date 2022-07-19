@@ -135,6 +135,7 @@ export default defineComponent({
   }
   //TODO: just a quick fix..
   @include responsive.bp-small {
+    top: 78px;
     .schedule-item {
       &:not(:nth-child(2)) {
         display: none;

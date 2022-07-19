@@ -1,9 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { DateTime } from "luxon";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
-import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 
 export default defineComponent({
   props: {
@@ -19,7 +17,6 @@ export default defineComponent({
   },
   components: {
     MediaArtists,
-    MediaReleases,
   },
   setup(props) {
     const title = computed(() => {
@@ -33,18 +30,9 @@ export default defineComponent({
         },
       };
     });
-    const timeDisplay = computed(() => {
-      if (!props.item) {
-        return null;
-      }
-      return `${props.item.timeStart.toLocaleString(
-        DateTime.TIME_24_WITH_SECONDS
-      )} - ${props.item.timeEnd.toLocaleString(DateTime.TIME_24_WITH_SECONDS)}`;
-    });
     return {
       title,
       link,
-      timeDisplay,
     };
   },
 });
@@ -52,29 +40,24 @@ export default defineComponent({
 
 <template>
   <div class="metadata metadata--media">
-    <div class="context">Track:</div>
     <div class="title">
       <router-link :to="`/discover/tracks/${media.uid}/`" v-text="title" />
     </div>
     <div class="subtitle subtitle--artists">
-      <span class="subtitle--label" v-text="media.artists.length === 1 ? 'Artist' : 'Artists'" />
       <MediaArtists :artists="media.artists" />
     </div>
-    <div class="subtitle">
-      <span class="subtitle--label" v-text="`Album`" />
-      <MediaReleases :releases="media.releases" />
-    </div>
-    <br />
-    <div v-if="timeDisplay" v-text="timeDisplay" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/base/live-color";
-@use "@/style/abstracts/responsive";
-.context {
-  @include typo.default;
+.metadata {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.625rem;
+  width: 100%;
 }
 .title {
   @include typo.large;
@@ -82,21 +65,7 @@ export default defineComponent({
 .subtitle {
   margin-top: 0;
   &--artists {
-    margin-top: 0.75rem;
-  }
-  &--label {
-    &:after {
-      content: ": ";
-    }
-  }
-  .media-releases {
-    display: inline;
-  }
-}
-a {
-  transition: color, background-color 200ms;
-  @include responsive.on-hover {
-    @include live-color.bg-inverse(0.1);
+    margin-top: 0.25rem;
   }
 }
 </style>

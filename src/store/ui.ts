@@ -25,7 +25,7 @@ const state: State = {
     height: 0,
     width: 0,
   },
-  filterExpanded: true,
+  filterExpanded: false,
 };
 
 const getters = {
