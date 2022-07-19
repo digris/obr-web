@@ -15,7 +15,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleButton :size="48" :outlined="false">
+  <CircleButton :size="48">
     <IconMenu :size="48" />
   </CircleButton>
 </template>

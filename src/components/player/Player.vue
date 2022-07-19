@@ -104,7 +104,7 @@ export default defineComponent({
         <div class="right">
           <OnAir />
           <VolumeControl />
-          <Circle :size="48" :outlined="false">
+          <Circle :size="48">
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
           <QueueControl

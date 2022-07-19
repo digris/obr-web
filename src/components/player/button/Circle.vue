@@ -9,7 +9,7 @@ export default defineComponent({
     },
     outlined: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     outlineWidth: {
       type: Number,

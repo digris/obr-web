@@ -40,7 +40,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Circle class="volume-control" :size="48" :outlined="false" @click.prevent="onClick">
+  <Circle class="volume-control" :size="48" @click.prevent="onClick">
     <component :is="icon" :size="48" color="rgb(var(--c-fg))" />
   </Circle>
   <transition name="slide">

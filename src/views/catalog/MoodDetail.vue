@@ -103,7 +103,7 @@ export default defineComponent({
               :obj-key="objKey"
               :filter="combinedFilter"
               :size="96"
-              :outlined="false"
+              :outlined="true"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
             />

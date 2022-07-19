@@ -134,7 +134,7 @@ export default defineComponent({
           </div>
         </div>
         <div class="right">
-          <Circle :size="40" :outlined="false">
+          <Circle :size="40">
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
           <Circle

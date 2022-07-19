@@ -89,7 +89,7 @@ export default defineComponent({
             <PlayAction
               :obj-key="objKey"
               :size="96"
-              :outlined="false"
+              :outlined="true"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
               hover-background-color="rgb(var(--c-gray-200))"

@@ -14,7 +14,7 @@ export default defineComponent({
     },
     outlined: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   setup(props, { attrs, emit }) {

@@ -34,7 +34,6 @@ export default defineComponent({
     class="shuffle-control"
     :size="48"
     :inactive="!shuffleMode"
-    :outlined="false"
     background-color="rgb(var(--c-white))"
     @click.prevent="onClick"
   >

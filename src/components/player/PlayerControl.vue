@@ -87,6 +87,7 @@ export default defineComponent({
     <ButtonPlay
       :is-playing="isPlaying"
       :is-buffering="isBuffering"
+      :outlined="true"
       :outline-width="2"
       :outline-opacity="1"
       @pause="pause"

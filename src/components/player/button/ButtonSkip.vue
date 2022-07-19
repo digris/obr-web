@@ -30,7 +30,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Circle :size="size" :disabled="disabled" :outlined="false">
+  <Circle :size="size" :disabled="disabled">
     <IconSkip :size="size" :rotate="rotate" :color="color" />
   </Circle>
 </template>
