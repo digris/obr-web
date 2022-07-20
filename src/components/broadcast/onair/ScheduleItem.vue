@@ -65,6 +65,14 @@ export default defineComponent({
       }
       return release.value && release.value.image ? release.value.image : null;
     });
+    const cssVars = computed(() => {
+      if (!image.value && image.value.rgb) {
+        return {};
+      }
+      return {
+        "--c-bg": image.value.rgb.join(","),
+      };
+    });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const playMedia = requireSubscription(async (media: object) => {
@@ -88,6 +96,7 @@ export default defineComponent({
     return {
       isPlaceholder,
       objKey,
+      cssVars,
       media,
       release,
       image,
@@ -102,6 +111,7 @@ export default defineComponent({
 <template>
   <div
     class="schedule-item"
+    :style="cssVars"
     :class="{
       'has-focus': hasFocus,
       'is-placeholder': isPlaceholder,
@@ -141,6 +151,12 @@ export default defineComponent({
   }
   .actions {
     position: absolute;
+    .circle-button {
+      background: rgba(var(--c-bg), 1);
+      &:hover {
+        background: rgba(var(--c-bg), 0.8);
+      }
+    }
   }
 }
 </style>

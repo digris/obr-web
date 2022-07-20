@@ -55,7 +55,7 @@ export default defineComponent({
         <div class="secondary" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
       </div>
       <div class="actions">
-        <CircleButton :size="36">
+        <CircleButton :scale="0.75">
           <UserRating :obj-key="objKey" :icon-size="40" />
         </CircleButton>
         <ContextMenu :obj="artist" :icon-size="36" />

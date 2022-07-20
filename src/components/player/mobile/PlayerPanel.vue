@@ -68,7 +68,7 @@ export default defineComponent({
   <transition name="slide">
     <div v-if="isVisible" class="player-panel">
       <div class="header">
-        <CircleButton @click="close" :size="48" color-var="--c-fg">
+        <CircleButton @click="close" color-var="--c-fg">
           <IconClose :size="48" color="rgb(var(--c-fg))" />
         </CircleButton>
       </div>

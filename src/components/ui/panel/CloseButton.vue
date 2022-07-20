@@ -12,7 +12,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleButton :size="48">
+  <CircleButton>
     <IconClose :size="48" color="rgb(var(--c-black))" />
   </CircleButton>
 </template>

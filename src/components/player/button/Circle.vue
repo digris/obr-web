@@ -1,11 +1,16 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
+import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
-    size: {
+    // size: {
+    //   type: Number,
+    //   default: 24,
+    // },
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
     },
     outlined: {
       type: Boolean,
@@ -41,16 +46,17 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { iconSize } = useIconSize(props.scale);
     const style = computed(() => {
       return {
-        height: `${props.size}px`,
-        width: `${props.size}px`,
-        borderRadius: `${props.size / 2}px`,
+        // height: `${iconSize.value}px`,
+        // width: `${iconSize.value}px`,
+        // borderRadius: `${iconSize.value / 2}px`,
       };
     });
     const cssVars = computed(() => {
       return {
-        "--size": `${props.size}px`,
+        "--size": `${iconSize.value}px`,
         "--c-circle-bg-color": props.backgroundColor,
         "--outline-width": `${props.outlineWidth}px`,
         "--outline-opacity": props.outlineOpacity,

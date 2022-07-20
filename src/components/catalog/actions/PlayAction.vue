@@ -100,8 +100,8 @@ export default defineComponent({
         return {};
       }
       return {
-        width: `${props.size}px`,
-        height: `${props.size}px`,
+        // width: `${props.size}px`,
+        // height: `${props.size}px`,
       };
     });
     const buttonCssVars = computed(() => {

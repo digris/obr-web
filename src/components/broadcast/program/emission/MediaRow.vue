@@ -84,7 +84,7 @@ export default defineComponent({
       {{ timeStartDisplay }}
     </div>
     <div class="actions">
-      <CircleButton v-if="isDesktop" :size="48">
+      <CircleButton v-if="isDesktop">
         <UserRating :obj-key="objKey" :icon-size="48" :autoload="true" :hide-if-unset="!isHover" />
       </CircleButton>
       <ContextMenu :obj="media" />

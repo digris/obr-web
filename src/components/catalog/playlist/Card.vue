@@ -88,7 +88,7 @@ export default defineComponent({
         <RelativeDateTime class="secondary" :date-time="latestEmission" />
       </div>
       <div class="actions">
-        <CircleButton :size="36">
+        <CircleButton :scale="0.75">
           <UserRating :obj-key="objKey" :icon-size="40" />
         </CircleButton>
         <ContextMenu :obj="playlist" :icon-size="36" />

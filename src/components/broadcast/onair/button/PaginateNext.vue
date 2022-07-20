@@ -1,11 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconPaginate from "@/components/ui/icon/IconPaginate.vue";
-
-const SIZE = 120;
-const ICON_SIZE = 120;
 
 export default defineComponent({
   components: {
@@ -23,18 +20,13 @@ export default defineComponent({
     },
   },
   setup() {
-    const size = ref(SIZE);
-    const iconSize = ref(ICON_SIZE);
-    return {
-      size,
-      iconSize,
-    };
+    return {};
   },
 });
 </script>
 
 <template>
-  <CircleButton :size="size" :disabled="disabled">
-    <IconPaginate :size="iconSize" :rotate="rotate" color="rgb(var(--c-page-fg))" />
+  <CircleButton :scale="2.5" :disabled="disabled">
+    <IconPaginate :size="120" :rotate="rotate" color="rgb(var(--c-page-fg))" />
   </CircleButton>
 </template>

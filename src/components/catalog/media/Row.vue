@@ -165,12 +165,7 @@ export default defineComponent({
   >
     <div class="container">
       <div class="play">
-        <PlayAction
-          :obj-key="objKey"
-          :size="48"
-          :outlined="true"
-          background-color="rgb(var(--c-white))"
-        />
+        <PlayAction :obj-key="objKey" :outlined="true" background-color="rgb(var(--c-white))" />
       </div>
       <div class="name">
         <router-link
@@ -194,7 +189,7 @@ export default defineComponent({
       </div>
       <Duration class="duration" :seconds="media.duration" />
       <div class="actions">
-        <CircleButton :size="48">
+        <CircleButton>
           <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
         </CircleButton>
         <ContextMenu :obj="media" />
