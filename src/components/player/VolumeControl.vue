@@ -1,16 +1,14 @@
 <script lang="ts">
-import { ref, defineComponent, computed } from "vue";
+import { ref, defineComponent } from "vue";
 import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
 
 import IconSpeaker from "@/components/ui/icon/IconSpeaker.vue";
-import IconSpeakerOff from "@/components/ui/icon/IconSpeakerOff.vue";
 import Circle from "./button/Circle.vue";
 
 export default defineComponent({
   components: {
     IconSpeaker,
-    IconSpeakerOff,
     Circle,
   },
   setup() {
@@ -19,20 +17,9 @@ export default defineComponent({
     const onClick = () => {
       isExpanded.value = !isExpanded.value;
     };
-    // const onChange = () => {
-    //   isExpanded.value = false;
-    // };
-    const icon = computed(() => {
-      if (volume.value < 1) {
-        return IconSpeakerOff;
-      }
-      return IconSpeaker;
-    });
     return {
-      icon,
       volume,
       onClick,
-      // onChange,
       isExpanded,
     };
   },
@@ -41,7 +28,7 @@ export default defineComponent({
 
 <template>
   <Circle class="volume-control" :size="48" @click.prevent="onClick">
-    <component :is="icon" :size="48" color="rgb(var(--c-fg))" />
+    <IconSpeaker :volume="volume * 100" />
   </Circle>
   <transition name="slide">
     <div v-if="isExpanded">

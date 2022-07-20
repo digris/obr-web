@@ -18,9 +18,8 @@ export default defineComponent({
     const color = computed(() => `rgb(var(${props.colorVar}))`);
     const style = computed(() => {
       return {
-        fill: "none",
-        stroke: color.value,
-        strokeWidth: 3,
+        fill: color.value,
+        stroke: "none",
         width: `${size.value}px`,
         height: `${size.value}px`,
       };
@@ -33,16 +32,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="48px"
-    width="48px"
-    viewBox="0 0 48 48"
-    :style="style"
-  >
-    <line x1="15" y1="19" x2="15" y2="34" />
-    <line x1="21" y1="14" x2="21" y2="34" />
-    <line x1="27" y1="21" x2="27" y2="34" />
-    <line x1="33" y1="16" x2="33" y2="34" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" :style="style">
+    <rect x="14" y="26" width="20" height="3" />
+    <rect x="14" y="32" width="20" height="3" />
+    <polygon points="14,13 22,17.5 14,22" />
   </svg>
 </template>

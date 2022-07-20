@@ -14,7 +14,7 @@ export default defineComponent({
     },
     outlined: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   setup(props, { attrs, emit }) {
@@ -47,7 +47,7 @@ export default defineComponent({
     <div class="panel" @click="handleEdit">
       <slot name="default" />
       <div v-if="isEditable" class="panel-icon">
-        <IconEdit :size="36" />
+        <IconEdit :scale="0.75" />
       </div>
     </div>
   </section>

@@ -34,7 +34,6 @@ export default defineComponent({
     const close = () => {
       emit("close");
     };
-
     onMounted(() => {
       document.addEventListener("keydown", (e) => {
         if (props.isVisible && e.code === "KeyX") {
@@ -45,7 +44,6 @@ export default defineComponent({
     return {
       close,
       mediaList,
-      // currentIndex,
       currentMedia,
       clearQueue,
     };
@@ -61,6 +59,8 @@ export default defineComponent({
       v-if="isVisible"
       class="queue"
       :style="{
+        '--c-bg': 'var(--c-black)',
+        '--c-fg': 'var(--c-white)',
         bottom: `${bottom}px`,
       }"
     >
@@ -78,7 +78,14 @@ export default defineComponent({
     </div>
   </transition>
   <transition name="slide">
-    <div class="actions" v-if="isVisible">
+    <div
+      v-if="isVisible"
+      class="actions"
+      :style="{
+        '--c-bg': 'var(--c-black)',
+        '--c-fg': 'var(--c-white)',
+      }"
+    >
       <div class="container">
         <ShuffleControl />
         <div class="button" v-text="'Clear queue'" @click="clearQueue" />

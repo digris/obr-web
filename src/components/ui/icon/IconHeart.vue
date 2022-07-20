@@ -1,17 +1,16 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-
-const BASE_SIZE = 48;
+import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
-    color: {
-      type: String,
-      default: "rgb(var(--c-page-bg))",
-    },
-    size: {
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
+    },
+    colorVar: {
+      type: String,
+      default: "--c-fg",
     },
     outlined: {
       type: Boolean,
@@ -19,16 +18,14 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { iconSize: size } = useIconSize(props.scale);
+    const color = computed(() => `rgb(var(${props.colorVar}))`);
     const style = computed(() => {
-      if (props.outlined) {
-        return {
-          fill: props.color,
-          transform: `scale(${props.size / BASE_SIZE})`,
-        };
-      }
       return {
-        fill: props.color,
-        transform: `scale(${props.size / BASE_SIZE})`,
+        fill: color.value,
+        stroke: "none",
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {
@@ -37,6 +34,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <template>
   <!-- eslint-disable max-len -->
   <svg
@@ -71,20 +69,6 @@ svg {
     shape-rendering: geometricprecision;
   }
 }
-
-/*
-@keyframes bounce-in {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-*/
 
 .fade-enter-active {
   transition: opacity 200ms;

@@ -5,6 +5,7 @@ import type { Tag } from "@/typings/api/models/Tag";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
@@ -15,6 +16,7 @@ export default defineComponent({
   components: {
     DetailPage,
     DetailHeader,
+    DetailHeaderLoading,
     PlayAction,
     ObjectTags,
     Searchbar,
@@ -34,7 +36,10 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const mood = computed(() => store.getters["catalog/moodByUid"](props.uid));
-    const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
+    // const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
+    const objKey = computed(() => {
+      return `catalog.mood:${props.uid}`;
+    });
     const initialFilter = computed(() => {
       return {
         tags: mood.value.tags.map((t: Tag) => t.uid),
@@ -86,6 +91,7 @@ export default defineComponent({
     </template>
     <template #header>
       <DetailHeader
+        v-if="mood"
         :obj="mood"
         :show-context-menu="false"
         title-scope="Stimmung"
@@ -102,10 +108,11 @@ export default defineComponent({
             <PlayAction
               :obj-key="objKey"
               :filter="combinedFilter"
-              :size="96"
+              :icon-scale="2"
               :outlined="true"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
+              hover-background-color="rgba(var(--c-white), 0.8)"
             />
           </div>
         </template>
@@ -126,9 +133,11 @@ export default defineComponent({
           <Searchbar :filter="combinedFilter" />
         </template>
       </DetailHeader>
+      <DetailHeaderLoading v-else title-scope="Mood" />
     </template>
     <template #default>
       <MediaList
+        v-if="objKey"
         class="media-list"
         :initial-filter="initialFilter"
         :query="query"

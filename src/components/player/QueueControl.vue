@@ -53,18 +53,13 @@ export default defineComponent({
 <template>
   <Circle
     class="queue-control"
-    :size="48"
     :disabled="numQueued < 1"
     @click.prevent="onClick"
     :style="{
       color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
     }"
   >
-    <!--
-    <IconCaret v-if="queueVisible" :size="48" direction="down" color="rgb(var(--c-bg))" />
-    <IconQueue v-else :size="48" color="rgb(var(--c-fg))" :num-queued="numQueued" />
-    -->
-    <IconQueue :size="48" color="rgb(var(--c-fg))" :num-queued="numQueued" />
+    <IconQueue color-var="--c-fg" :num-queued="numQueued" />
     <div
       v-if="numQueued > 0"
       class="number"

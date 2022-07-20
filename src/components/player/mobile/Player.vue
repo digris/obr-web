@@ -147,11 +147,7 @@ export default defineComponent({
               color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
             }"
           >
-            <IconQueue
-              :size="40"
-              :color="queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))'"
-              :num-queued="queueLength"
-            />
+            <IconQueue :color-var="queueVisible ? '--c-bg' : '--c-fg'" :num-queued="queueLength" />
           </Circle>
         </div>
       </div>

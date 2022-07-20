@@ -116,10 +116,6 @@ export default defineComponent({
   <div
     ref="root"
     class="media-row"
-    :style="{
-      '--c-fg': 'var(--c-white)',
-      '--c-bg': 'var(--c-black)',
-    }"
     :class="{
       'is-current': isCurrent,
     }"
@@ -146,10 +142,10 @@ export default defineComponent({
     </div>
     <div class="actions">
       <CircleButton color-var="--c-white">
-        <UserRating color-var="--c-fg" :obj-key="objKey" :icon-size="48" />
+        <UserRating color-var="--c-fg" :obj-key="objKey" />
       </CircleButton>
       <CircleButton color-var="--c-fg" @click="remove" :disabled="!canRemove">
-        <IconRemove color="rgb(var(--c-fg))" :size="36" />
+        <IconRemove color="rgb(var(--c-fg))" :scale="0.75" />
       </CircleButton>
     </div>
   </div>

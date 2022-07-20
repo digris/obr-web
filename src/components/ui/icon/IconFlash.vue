@@ -1,17 +1,16 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-
-const BASE_SIZE = 48;
+import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
-    color: {
-      type: String,
-      default: "rgb(var(--c-page-bg))",
-    },
-    size: {
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
+    },
+    colorVar: {
+      type: String,
+      default: "--c-fg",
     },
     outlined: {
       type: Boolean,
@@ -19,22 +18,23 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { iconSize: size } = useIconSize(props.scale);
+    const color = computed(() => `rgb(var(${props.colorVar}))`);
     const style = computed(() => {
+      const baseStyle = {
+        fill: "none",
+        stroke: color.value,
+        strokeMiterlimit: 10,
+        strokeWidth: (2.5 * 48) / size.value,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
+      };
       if (props.outlined) {
-        return {
-          stroke: props.color,
-          fill: "transparent",
-          strokeMiterlimit: 10,
-          transform: `scale(${props.size / BASE_SIZE})`,
-          strokeWidth: (3 * BASE_SIZE) / props.size,
-        };
+        return baseStyle;
       }
       return {
-        stroke: props.color,
-        fill: props.color,
-        strokeMiterlimit: 10,
-        transform: `scale(${props.size / BASE_SIZE})`,
-        strokeWidth: (3 * BASE_SIZE) / props.size,
+        ...baseStyle,
+        fill: color.value,
       };
     });
     return {
@@ -43,6 +43,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <template>
   <!-- eslint-disable max-len -->
   <svg

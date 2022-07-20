@@ -95,8 +95,12 @@ export default defineComponent({
     <CircleButton v-if="isDesktop" :size="48" @click="submitSearch">
       <IconSearch :size="48" :color="`rgb(var(--c-page-fg))`" />
     </CircleButton>
-    <CircleButton :active="isExpanded" :color-var="`--c-black`" @click="toggleFilter">
-      <IconFilter :size="48" :color="isExpanded ? `rgb(var(--c-white))` : `rgb(var(--c-black))`" />
+    <CircleButton
+      :filled="isExpanded"
+      :hover-background-opacity="isExpanded ? 0.8 : 0.1"
+      @click="toggleFilter"
+    >
+      <IconFilter :size="48" :color-var="isExpanded ? `--c-white` : `--c-fg`" />
     </CircleButton>
   </div>
 </template>

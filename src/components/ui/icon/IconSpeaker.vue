@@ -1,25 +1,32 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-
-const BASE_SIZE = 64;
+import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
-    size: {
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
     },
-    color: {
+    colorVar: {
       type: String,
-      default: "rgb(var(--c-page-fg))",
+      default: "--c-fg",
+    },
+    volume: {
+      type: Number,
+      default: 100,
     },
   },
   setup(props) {
+    const { iconSize: size } = useIconSize(props.scale);
+    const color = computed(() => `rgb(var(${props.colorVar}))`);
     const style = computed(() => {
       return {
-        fill: props.color,
-        stroke: "transparent",
-        transform: `scale(${props.size / BASE_SIZE})`,
+        fill: "none",
+        stroke: color.value,
+        strokeWidth: (2 * 48) / size.value,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {
@@ -28,6 +35,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -36,6 +44,8 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <path d="M14 30V18H22L32 8V40L22 30ZM17 27H23.35L29 32.45V15.6L23.35 21H17ZM23 24Z" />
+    <polygon class="st1" points="19.1,20.1 13.5,20.1 13.5,27.7 19.1,27.7 26.6,34 26.6,13.8 " />
+    <path v-if="volume > 0" class="st1" d="M31.9,19.1c1.6,1.3,2.6,3.2,2.6,5.3c0,2-1,3.9-2.6,5.2" />
+    <line v-if="volume === 0" x1="12" y1="12" x2="36" y2="36" />
   </svg>
 </template>

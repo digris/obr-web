@@ -36,9 +36,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    size: {
+    iconScale: {
       type: Number,
-      default: 48,
+      default: 1,
     },
     outlined: {
       type: Boolean,
@@ -57,19 +57,12 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props, { slots }) {
+  setup(props) {
     const { objCt, objUid } = useObjCtUid(props.objKey);
     const { shift: shiftKey } = useMagicKeys();
     const { queuedMedia, currentIndex: currentQueueIndex } = useQueueState();
     const { enqueueMedia, startPlayCurrent, playFromIndex } = useQueueControls();
-    const {
-      isPlaying,
-      isBuffering,
-      issPaused,
-      //
-      currentScope,
-      currentColor,
-    } = usePlayerState();
+    const { isPlaying, isBuffering, issPaused, currentScope, currentColor } = usePlayerState();
     const { pause, resume } = usePlayerControls();
     const inScope = computed(() => {
       return currentScope.value.includes(props.objKey);
@@ -96,13 +89,7 @@ export default defineComponent({
     const objIsBuffering = computed(() => inScope.value && isBuffering.value);
     const objIsPaused = computed(() => inScope.value && issPaused.value);
     const actionStyle = computed(() => {
-      if (slots.default) {
-        return {};
-      }
-      return {
-        // width: `${props.size}px`,
-        // height: `${props.size}px`,
-      };
+      return {};
     });
     const buttonCssVars = computed(() => {
       if (inScope.value && currentColor.value) {
@@ -191,7 +178,7 @@ export default defineComponent({
           :is-playing="isPlaying && !shiftKey"
           :is-buffering="isLoading || isBuffering"
           :in-queue="queuePosition > 0"
-          :size="size"
+          :icon-scale="iconScale"
           :outlined="outlined"
           :shadowed="shadowed"
           :style="buttonCssVars"
@@ -206,7 +193,6 @@ export default defineComponent({
         </div>
       </slot>
     </div>
-    <div v-if="isPaused && size > 86" class="hint"></div>
   </div>
 </template>
 
@@ -220,7 +206,6 @@ export default defineComponent({
     pointer-events: none;
     position: absolute;
     display: none;
-    //display: flex;
     align-items: center;
     justify-content: center;
     top: 6px;

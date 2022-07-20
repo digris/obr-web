@@ -39,6 +39,6 @@ export default defineComponent({
     "
     @click.prevent="onClick"
   >
-    <IconShuffle :size="48" :color="shuffleMode ? 'rgb(var(--c-black))' : 'rgb(var(--c-white))'" />
+    <IconShuffle :color-var="shuffleMode ? '--c-black' : '--c-white'" />
   </Circle>
 </template>
