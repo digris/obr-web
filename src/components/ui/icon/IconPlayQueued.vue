@@ -1,32 +1,28 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-
-const BASE_SIZE = 48;
+import { defineComponent, computed } from "vue";
+import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
-    size: {
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
     },
-    color: {
+    colorVar: {
       type: String,
-      default: "rgb(var(--c-page-bg))",
+      default: "--c-fg",
     },
-    // marked: {
-    //   type: Boolean,
-    //   default: false,
-    // },
   },
   setup(props) {
+    const { iconSize: size } = useIconSize(props.scale);
+    const color = computed(() => `rgb(var(${props.colorVar}))`);
     const style = computed(() => {
       return {
-        fill: "none",
-        stroke: "none",
-        // stroke: props.color,
+        fill: "transparent",
+        stroke: color.value,
         strokeWidth: 2.5,
-        strokeMiterlimit: 10,
-        transform: `scale(${props.size / BASE_SIZE})`,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {
@@ -35,12 +31,8 @@ export default defineComponent({
   },
 });
 </script>
+
 <template>
-  <!--
-  <pre
-    v-text="style"
-  />
-  -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="48px"

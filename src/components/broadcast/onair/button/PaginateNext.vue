@@ -27,6 +27,6 @@ export default defineComponent({
 
 <template>
   <CircleButton :scale="2.5" :disabled="disabled">
-    <IconPaginate :size="120" :rotate="rotate" color="rgb(var(--c-page-fg))" />
+    <IconPaginate :scale="2.5" :rotate="rotate" color-var="--c-page-fg" />
   </CircleButton>
 </template>

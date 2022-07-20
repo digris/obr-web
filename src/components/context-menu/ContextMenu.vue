@@ -7,6 +7,7 @@ import {
 } from 'vue';
 
 import { onClickOutside } from '@vueuse/core';
+import { useIconSize } from "@/composables/icon";
 import eventBus from '@/eventBus';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
@@ -28,9 +29,9 @@ export default defineComponent({
         ordering: [],
       }),
     },
-    iconSize: {
+    iconScale: {
       type: Number,
-      default: 48,
+      default: 1,
     },
   },
   components: {
@@ -43,7 +44,7 @@ export default defineComponent({
     const root = ref(null);
     const menu = ref(null);
     const menuPosition = ref('bottom');
-    const iconColor = 'rgb(var(--c-black))';
+    const { iconSize } = useIconSize(props.scale);
     const isVisible = ref(false);
     const isObj = computed(() => Object.keys(props.obj).length);
     const show = (e) => {
@@ -92,7 +93,7 @@ export default defineComponent({
       root,
       menu,
       menuPosition,
-      iconColor,
+      iconSize,
       isVisible,
       isObj,
       show,
@@ -114,8 +115,8 @@ export default defineComponent({
     }"
   >
     <div class="context-menu__icon" @click.prevent="show">
-      <CircleButton :size="iconSize">
-        <IconContext :size="iconSize" :color="iconColor" />
+      <CircleButton :scale="iconScale">
+        <IconContext :scale="iconScale" />
       </CircleButton>
     </div>
     <transition name="slide">

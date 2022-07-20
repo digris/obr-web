@@ -16,6 +16,12 @@ export default defineComponent({
 
 <template>
   <CircleButton>
-    <IconSearch :size="48" color="rgb(var(--c-live-fg))" />
+    <IconSearch color-var="--c-page-fg" />
   </CircleButton>
 </template>
+
+<style lang="scss" scoped>
+:deep(svg) {
+  transition: fill 100ms 400ms, stroke 100ms 400ms;
+}
+</style>

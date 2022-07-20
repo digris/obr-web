@@ -68,7 +68,7 @@ export default defineComponent({
         <LazyImage :image="playlist.image">
           <PlayAction
             :obj-key="objKey"
-            :size="86"
+            :icon-scale="2"
             :outlined="true"
             background-color="rgb(var(--c-white))"
           />
@@ -89,9 +89,9 @@ export default defineComponent({
       </div>
       <div class="actions">
         <CircleButton :scale="0.75">
-          <UserRating :obj-key="objKey" :icon-size="40" />
+          <UserRating :obj-key="objKey" :icon-scale="0.75" />
         </CircleButton>
-        <ContextMenu :obj="playlist" :icon-size="36" />
+        <ContextMenu :obj="playlist" :icon-scale="0.75" />
       </div>
     </div>
   </div>

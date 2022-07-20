@@ -4,19 +4,31 @@ import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
+    // size: {
+    //   type: Number,
+    //   default: 24,
+    // },
     scale: {
       type: Number,
       default: 1,
     },
-    colorVar: {
-      type: String,
-      default: "--c-fg",
-    },
-    hoverBackgroundOpacity: {
-      type: Number,
-      default: 0.1,
-    },
     outlined: {
+      type: Boolean,
+      default: false,
+    },
+    hasShadow: {
+      type: Boolean,
+      default: false,
+    },
+    filled: {
+      type: Boolean,
+      default: false,
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -32,17 +44,13 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    filled: {
-      type: Boolean,
-      default: false,
-    },
-    fillColorVar: {
+    colorVar: {
       type: String,
-      default: "--c-fg",
+      default: "--c-page-fg",
     },
-    disabled: {
-      type: Boolean,
-      default: false,
+    activeColorVar: {
+      type: String,
+      default: "--c-page-fg-inverse",
     },
   },
   setup(props) {
@@ -61,14 +69,15 @@ export default defineComponent({
       '--icon-size': iconSize,
       '--size': `${iconSize}px`,
       '--c-main': `var(${colorVar})`,
-      '--c-fill': `var(${fillColorVar})`,
+      '--c-active': `var(${activeColorVar})`,
       '--outline-opacity': outlineOpacity,
       '--outline-width': `${outlineWidth}px`,
-      '--hover-background-opacity': hoverBackgroundOpacity,
       '--outline-hover-color': outlineOnHover ? 'rgba(var(--c-main)' : 'transparent',
     }"
     :class="{
       'is-outlined': outlined,
+      'has-shadow': hasShadow,
+      'is-active': active,
       'is-filled': filled,
       'is-disabled': disabled,
     }"
@@ -80,7 +89,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 .circle-button {
-  display: inline-grid;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--size);
@@ -90,34 +99,36 @@ export default defineComponent({
   border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
-
   &.is-outlined {
     border-color: rgba(var(--c-main), var(--outline-opacity));
   }
-
   &.is-filled {
-    background: rgb(var(--c-fill));
+    background: rgb(var(--c-main));
   }
-
+  &.is-active {
+    color: rgb(var(--c-active));
+    background: rgba(var(--c-main), 0.9);
+    &:hover {
+      background: rgba(var(--c-main), 0.7);
+    }
+  }
   &.is-disabled {
     opacity: 0.2;
     pointer-events: none;
   }
-
+  &.has-shadow {
+    box-shadow: rgba(var(--c-main), 0.2) 0 0 3px 0;
+  }
   @include responsive.hover-supported {
     transition: background 1000ms, color 200ms, border 200ms;
   }
-
   @include responsive.on-hover {
-    background: rgba(var(--c-main), var(--hover-background-opacity));
+    background: rgba(var(--c-main), 0.1);
     border-color: var(--outline-hover-color);
   }
-
-  /*
   @include responsive.on-tap {
     background: rgba(var(--c-main), 0.1);
     border-color: var(--outline-hover-color);
   }
-  */
 }
 </style>

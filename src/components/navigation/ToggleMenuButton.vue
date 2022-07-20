@@ -16,6 +16,12 @@ export default defineComponent({
 
 <template>
   <CircleButton>
-    <IconMenu :size="48" />
+    <IconMenu color-var="--c-page-fg" />
   </CircleButton>
 </template>
+
+<style lang="scss" scoped>
+:deep(svg) {
+  transition: fill 100ms 400ms, stroke 100ms 400ms;
+}
+</style>

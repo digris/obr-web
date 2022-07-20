@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-
-const BASE_SIZE = 48;
+import { useIconSize } from "@/composables/icon";
 
 enum Rotate {
   down = 0,
@@ -12,28 +11,32 @@ enum Rotate {
 
 export default defineComponent({
   props: {
-    size: {
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
     },
-    color: {
+    colorVar: {
       type: String,
-      default: "rgb(var(--c-page-fg))",
+      default: "--c-fg",
     },
     direction: {
       type: String,
-      default: "right",
+      default: Rotate.right,
     },
   },
   setup(props) {
+    const { iconSize: size } = useIconSize(props.scale);
+    const color = computed(() => `rgb(var(${props.colorVar}))`);
     const style = computed(() => {
-      const rotate = Rotate[props.direction];
+      const rotate: Rotate = Rotate[props.direction as keyof typeof Rotate];
       return {
         fill: "none",
-        stroke: props.color,
-        strokeWidth: (2 * BASE_SIZE) / props.size,
+        stroke: color.value,
+        strokeWidth: (3 * 48) / size.value,
         strokeMiterlimit: 10,
-        transform: `scale(${props.size / BASE_SIZE}) rotate(${rotate}deg)`,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
+        transform: `rotate(${rotate}deg)`,
       };
     });
     return {
@@ -42,6 +45,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -2,6 +2,7 @@
 import { computed, ref, defineComponent, onMounted } from "vue";
 import { useStore } from "vuex";
 import { debounce } from "lodash-es";
+import { useIconSize } from "@/composables/icon";
 
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
@@ -17,9 +18,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    iconSize: {
+    iconScale: {
       type: Number,
-      default: 48,
+      default: 1,
     },
     colorVar: {
       type: String,
@@ -36,6 +37,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
+    const { iconSize } = useIconSize(props.iconScale);
     const userRating = computed(() => {
       return store.getters["rating/ratingByKey"](props.objKey);
     });
@@ -63,8 +65,8 @@ export default defineComponent({
     );
     const style = computed(() => {
       return {
-        height: `${props.iconSize}px`,
-        width: `${props.iconSize}px`,
+        height: `${iconSize.value}px`,
+        width: `${iconSize.value}px`,
         opacity: props.hideIfUnset && userRating.value.value === null ? 0 : 1,
       };
     });
@@ -77,6 +79,7 @@ export default defineComponent({
       userRating,
       rate,
       style,
+      iconSize,
       isFlipped,
     };
   },
@@ -94,20 +97,20 @@ export default defineComponent({
   >
     <IconHeart
       v-if="userRating.value === 1"
-      :size="iconSize"
+      :scale="iconScale"
       @click="rate(null)"
       :color="`rgba(var(${colorVar}), 0.8)`"
     />
     <IconHeart
       v-if="userRating.value === null"
-      :size="iconSize"
+      :scale="iconScale"
       :outlined="true"
       @click="rate(1)"
       :color="`rgba(var(${colorVar}), 0.8)`"
     />
     <IconFlash
       v-if="userRating.value === -1"
-      :size="iconSize"
+      :scale="iconScale"
       :color="`rgba(var(${colorVar}), 0.8)`"
       @click="rate(null)"
     />

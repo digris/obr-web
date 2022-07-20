@@ -94,3 +94,10 @@
     --t-lh-tiny: 0.625rem;
   }
 }
+
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+:root {
+  --c-fg: var(--c-black);
+  --c-bg: var(--c-white);
+}

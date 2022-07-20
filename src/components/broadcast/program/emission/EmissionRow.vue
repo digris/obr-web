@@ -248,8 +248,8 @@ export default defineComponent({
         />
       </CircleButton>
       <CircleButton @click="toggleExpanded">
-        <IconMinus v-if="isExpanded" :size="48" />
-        <IconPlus v-else :size="48" />
+        <IconMinus v-if="isExpanded" />
+        <IconPlus v-else />
       </CircleButton>
     </div>
   </div>

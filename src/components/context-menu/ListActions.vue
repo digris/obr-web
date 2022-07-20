@@ -28,8 +28,7 @@ export default defineComponent({
   emits: ["close"],
   setup(props, { emit }) {
     const { t } = useI18n();
-    const iconSize = 42;
-    const iconColor = "rgb(var(--c-black))";
+    const iconScale = 0.875;
     const { enqueueMedia, startPlayCurrent } = useQueueControls();
     const enqueue = async (mode: string) => {
       const filter = { ...props.filter };
@@ -48,8 +47,7 @@ export default defineComponent({
     });
     return {
       t,
-      iconSize,
-      iconColor,
+      iconScale,
       //
       enqueueNext,
       enqueueEnd,
@@ -63,12 +61,12 @@ export default defineComponent({
     <section>
       <Action @click="enqueueNext" :label="t('player.enqueueNext')">
         <template #icon>
-          <IconEnueue :size="iconSize" :color="iconColor" />
+          <IconEnueue :scale="iconScale" />
         </template>
       </Action>
       <Action @click="enqueueEnd" :label="t('player.enqueueEnd')">
         <template #icon>
-          <IconEnueue :size="iconSize" :color="iconColor" :flip-y="true" />
+          <IconEnueue :scale="iconScale" :flip-y="true" />
         </template>
       </Action>
     </section>

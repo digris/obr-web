@@ -30,8 +30,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useI18n();
     const { objKey } = useObjKey(props.obj);
-    const iconSize = 42;
-    const iconColor = "rgb(var(--c-black))";
+    const iconScale = 0.875;
     const { userRating, isFavorite, isBanned, rate } = useObjRating(objKey.value);
     const canBan = computed(() => {
       return props.obj?.ct && props.obj.ct === "catalog.media";
@@ -55,8 +54,7 @@ export default defineComponent({
     });
     return {
       t,
-      iconSize,
-      iconColor,
+      iconScale,
       //
       userRating,
       isFavorite,
@@ -76,36 +74,36 @@ export default defineComponent({
     <section>
       <Action @click="enqueueNext" :label="t('player.enqueueNext')">
         <template #icon>
-          <IconEnueue :size="iconSize" :color="iconColor" />
+          <IconEnueue :scale="iconScale" />
         </template>
       </Action>
       <Action @click="enqueueEnd" :label="t('player.enqueueEnd')">
         <template #icon>
-          <IconEnueue :size="iconSize" :color="iconColor" :flip-y="true" />
+          <IconEnueue :scale="iconScale" :flip-y="true" />
         </template>
       </Action>
     </section>
     <section>
       <Action v-if="!isFavorite" @click="rate(1)" :label="t('player.favoritesAdd')">
         <template #icon>
-          <IconHeart :size="iconSize" :color="iconColor" :outlined="true" />
+          <IconHeart :scale="iconScale" :outlined="true" />
         </template>
       </Action>
       <Action v-else @click="rate(null)" :label="t('player.favoritesRemove')">
         <template #icon>
-          <IconHeart :size="iconSize" :color="iconColor" />
+          <IconHeart :scale="iconScale" />
         </template>
       </Action>
     </section>
     <section v-if="canBan">
       <Action v-if="!isBanned" @click="rate(-1)" :label="t('player.bannedAdd')">
         <template #icon>
-          <IconFlash :size="iconSize" :color="iconColor" :outlined="true" />
+          <IconFlash :scale="iconScale" :outlined="true" />
         </template>
       </Action>
       <Action v-else @click="rate(0)" :label="t('player.bannedRemove')">
         <template #icon>
-          <IconFlash :size="iconSize" :color="iconColor" />
+          <IconFlash :scale="iconScale" />
         </template>
       </Action>
     </section>

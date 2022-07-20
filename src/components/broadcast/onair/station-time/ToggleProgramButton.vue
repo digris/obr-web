@@ -13,6 +13,6 @@ export default defineComponent({
 
 <template>
   <CircleButton>
-    <IconProgram :size="48" />
+    <IconProgram />
   </CircleButton>
 </template>

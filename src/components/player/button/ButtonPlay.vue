@@ -15,9 +15,9 @@ export default defineComponent({
     IconPause,
   },
   props: {
-    size: {
+    iconScale: {
       type: Number,
-      default: 48,
+      default: 1,
     },
     color: {
       type: String,
@@ -119,7 +119,7 @@ export default defineComponent({
     @mouseover="onHover"
     @mouseleave="onHout"
     @click.prevent="handleClick"
-    :size="size"
+    :scale="iconScale"
     :outlined="outlined"
     :outline-width="outlineWidth"
     :outline-opacity="outlineOpacity"
@@ -134,7 +134,7 @@ export default defineComponent({
       'has-shadow': shadowed,
     }"
   >
-    <component :is="icon" :size="size" :color="color" />
+    <component :is="icon" :scale="iconScale" :color="color" />
   </Circle>
 </template>
 <style lang="scss" scoped>
