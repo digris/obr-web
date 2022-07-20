@@ -99,7 +99,7 @@ export default defineComponent({
       </div>
       -->
       <div class="actions">
-        <CircleButton :size="48">
+        <CircleButton>
           <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
         </CircleButton>
         <ContextMenu :obj="playlist" />

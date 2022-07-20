@@ -15,7 +15,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <CircleButton :size="48">
+  <CircleButton>
     <IconSearch :size="48" color="rgb(var(--c-live-fg))" />
   </CircleButton>
 </template>

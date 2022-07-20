@@ -1,11 +1,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
-    size: {
+    // size: {
+    //   type: Number,
+    //   default: 24,
+    // },
+    scale: {
       type: Number,
-      default: 24,
+      default: 1,
     },
     outlined: {
       type: Boolean,
@@ -47,10 +52,12 @@ export default defineComponent({
       type: String,
       default: "--c-page-fg-inverse",
     },
-    progress: {
-      type: Number,
-      default: null,
-    },
+  },
+  setup(props) {
+    const { iconSize } = useIconSize(props.scale);
+    return {
+      iconSize,
+    };
   },
 });
 </script>
@@ -59,7 +66,8 @@ export default defineComponent({
   <div
     class="circle-button"
     :style="{
-      '--size': `${size}px`,
+      '--icon-size': iconSize,
+      '--size': `${iconSize}px`,
       '--c-main': `var(${colorVar})`,
       '--c-active': `var(${activeColorVar})`,
       '--outline-opacity': outlineOpacity,
@@ -72,7 +80,6 @@ export default defineComponent({
       'is-active': active,
       'is-filled': filled,
       'is-disabled': disabled,
-      'is-progress': progress !== null,
     }"
   >
     <slot name="default" />

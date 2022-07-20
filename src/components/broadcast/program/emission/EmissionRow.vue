@@ -238,7 +238,7 @@ export default defineComponent({
       {{ timeStartDisplay }}
     </div>
     <div v-if="isPast || isCurrent" class="actions">
-      <CircleButton v-if="isDesktop" :size="48">
+      <CircleButton v-if="isDesktop">
         <UserRating
           :obj-key="objKey"
           :icon-size="48"
@@ -247,7 +247,7 @@ export default defineComponent({
           color-var="--c-fg"
         />
       </CircleButton>
-      <CircleButton :size="48" @click="toggleExpanded">
+      <CircleButton @click="toggleExpanded">
         <IconMinus v-if="isExpanded" :size="48" />
         <IconPlus v-else :size="48" />
       </CircleButton>

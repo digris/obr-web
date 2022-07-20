@@ -86,10 +86,12 @@ export default defineComponent({
 
 <template>
   <CircleButton
-    :size="120"
+    :scale="2.5"
     :outline-opacity="1"
     :outline-width="6"
     :filled="isFilled"
+    :outlined="true"
+    :outline-on-hover="true"
     @mouseover="isHover = true"
     @mouseleave="isHover = false"
     @click="handleClick"

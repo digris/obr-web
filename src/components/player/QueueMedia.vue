@@ -145,10 +145,10 @@ export default defineComponent({
       <MediaReleases :link="false" :releases="media.releases" />
     </div>
     <div class="actions">
-      <CircleButton color-var="--c-white" :size="48">
+      <CircleButton color-var="--c-white">
         <UserRating color-var="--c-fg" :obj-key="objKey" :icon-size="48" />
       </CircleButton>
-      <CircleButton color-var="--c-fg" @click="remove" :disabled="!canRemove" :size="48">
+      <CircleButton color-var="--c-fg" @click="remove" :disabled="!canRemove">
         <IconRemove color="rgb(var(--c-fg))" :size="36" />
       </CircleButton>
     </div>

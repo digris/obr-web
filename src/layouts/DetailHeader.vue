@@ -70,7 +70,7 @@ export default defineComponent({
       </div>
       <div class="title" />
       <div class="actions">
-        <CircleButton v-if="showContextMenu" :size="48">
+        <CircleButton v-if="showContextMenu">
           <UserRating :obj-key="objKey" :autoload="true" />
         </CircleButton>
         <ContextMenu v-if="showContextMenu" :obj="obj" />
