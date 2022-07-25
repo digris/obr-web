@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useI18n } from "vue-i18n";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
@@ -18,25 +17,34 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    filter: {
+      type: Object,
+      required: false,
+      default: () => {},
+    },
+    ordering: {
+      type: Array,
+      default: () => [],
+    },
   },
   setup() {
-    const { t } = useI18n();
-    const iconSize = 48;
-    const iconColor = "rgb(var(--c-black))";
-    return {
-      t,
-      iconSize,
-      iconColor,
-    };
+    return {};
   },
 });
 </script>
 
 <template>
-  <PlayAction class="play-all-small" :obj-key="objKey" :restart-queue="true">
+  <PlayAction
+    class="play-all-small"
+    :obj-key="objKey"
+    :filter="filter"
+    :ordering="ordering"
+    :restart-queue="true"
+    mode="replace"
+  >
     <div class="wrapper">
-      <CircleButton :size="iconSize" :outlined="true">
-        <IconPlay :size="iconSize" color="black" />
+      <CircleButton :outlined="true">
+        <IconPlay color="black" />
       </CircleButton>
       <slot name="default" />
     </div>
@@ -49,7 +57,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: -20px;
+    //margin-left: -20px;
     padding-right: 1rem;
     .circle-button {
       margin-right: 1rem;

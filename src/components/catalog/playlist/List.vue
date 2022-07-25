@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
+import { defineComponent, ref, computed, watch, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
@@ -12,7 +12,7 @@ import PlaylistRowHeader from "@/components/catalog/playlist/RowHeader.vue";
 import PlaylistRow from "@/components/catalog/playlist/Row.vue";
 import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 
-export default {
+export default defineComponent({
   components: {
     ListFilter,
     LoadingMore,
@@ -45,7 +45,7 @@ export default {
       default: "grid",
     },
   },
-  setup(props: any) {
+  setup(props) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -160,7 +160,7 @@ export default {
       updateUserFilter,
     };
   },
-};
+});
 </script>
 
 <template>

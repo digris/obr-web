@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 
-const formatJSON = (value: object) => {
+const formatJSON = (value: any) => {
   let json = JSON.stringify(value, null, 4);
   json = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   return json.replace(

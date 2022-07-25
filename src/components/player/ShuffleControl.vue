@@ -32,7 +32,6 @@ export default defineComponent({
 <template>
   <Circle
     class="shuffle-control"
-    :size="48"
     :background-color="shuffleMode ? 'rgb(var(--c-white))' : 'rgb(var(--c-black))'"
     :hover-background-color="
       shuffleMode ? 'rgba(var(--c-white), 0.9)' : 'rgba(var(--c-white), 0.1)'

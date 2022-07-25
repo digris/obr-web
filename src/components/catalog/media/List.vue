@@ -1,5 +1,7 @@
 <script lang="ts">
-import { computed, onMounted, onActivated, ref, watch, onUnmounted } from "vue";
+import { defineComponent, computed, onMounted, onActivated, ref, watch, onUnmounted } from "vue";
+
+import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
@@ -8,15 +10,17 @@ import { useDevice } from "@/composables/device";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
-import PlayAll from "@/components/catalog/media/PlayAll.vue";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import MediaRowHeader from "@/components/catalog/media/RowHeader.vue";
 import MediaRow from "@/components/catalog/media/Row.vue";
 import { getMedia, getMediaTags } from "@/api/catalog";
 
-export default {
+export default defineComponent({
   components: {
     ListFilter,
-    PlayAll,
+    PlayAllAction,
+    ContextMenu,
     MediaRowHeader,
     MediaRow,
     LoadingMore,
@@ -34,7 +38,7 @@ export default {
       type: Object,
       default: () => null,
     },
-    disablePlayAll: {
+    showListActions: {
       type: Boolean,
       default: false,
     },
@@ -48,7 +52,8 @@ export default {
     },
   },
   emits: ["allLoaded", "hasMore"],
-  setup(props: any, { emit }) {
+  setup(props, { emit }) {
+    const { t } = useI18n();
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -170,6 +175,7 @@ export default {
       }
     );
     return {
+      t,
       isDesktop,
       combinedFilter,
       tagList,
@@ -187,7 +193,7 @@ export default {
       now,
     };
   },
-};
+});
 </script>
 
 <template>
@@ -199,8 +205,16 @@ export default {
       @change="updateUserFilter"
     />
   </div>
-  <div v-if="!disablePlayAll && numResults > 0">
-    <PlayAll :num-total="numResults" :filter="combinedFilter" :ordering="ordering" />
+  <div v-if="showListActions && numResults > 0" class="list-action-container">
+    <PlayAllAction :filter="combinedFilter" :ordering="ordering">
+      <span v-text="t('catalog.list.playAllTracks', numResults)" />
+    </PlayAllAction>
+    <ContextMenu
+      :list="{
+        filter: combinedFilter,
+        ordering,
+      }"
+    />
   </div>
   <div class="media-list">
     <div v-if="isDesktop" class="table-header">
@@ -227,6 +241,18 @@ export default {
   .list-filter {
     @include container.default;
   }
+}
+
+.list-action-container {
+  @include container.default;
+  display: grid;
+  grid-row-gap: 0;
+  grid-column-gap: 1rem;
+  grid-template-columns: auto 48px;
+  color: rgb(var(--c-black));
+  background: rgb(var(--c-gray-500));
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .media-list {

@@ -2,7 +2,7 @@ import settings from "@/settings";
 
 const { IMAGE_RESIZER_ENDPOINT } = settings;
 
-const getImageSrc = (image: object, size = 800) => {
+const getImageSrc = (image: any, size = 800) => {
   // @ts-ignore
   if (image && image.path) {
     // @ts-ignore
@@ -11,7 +11,7 @@ const getImageSrc = (image: object, size = 800) => {
   return null;
 };
 
-const getImageColor = (image: object) => {
+const getImageColor = (image: any) => {
   // @ts-ignore
   if (image && image.rgb) {
     // @ts-ignore

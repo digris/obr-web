@@ -1,4 +1,4 @@
-const playlistTitle = (playlist: object) => {
+const playlistTitle = (playlist: any) => {
   // @ts-ignore
   const name = playlist.series ? playlist.series.name : playlist.name;
   // @ts-ignore

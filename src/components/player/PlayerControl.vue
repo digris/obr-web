@@ -36,10 +36,7 @@ export default defineComponent({
     });
 
     const totalTimeDisplay = computed(() => {
-      if (isLive.value) {
-        return "--:--:--";
-      }
-      return s2hhmmss(duration.value);
+      return duration.value ? s2hhmmss(duration.value) : "";
     });
 
     const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
@@ -82,7 +79,7 @@ export default defineComponent({
   >
     <div class="left">
       <div class="time" v-text="currentTimeDisplay" />
-      <ButtonSkip :size="48" :rotate="180" :disabled="!hasPrevious" @click.prevent="playPrevious" />
+      <ButtonSkip :rotate="180" :disabled="!hasPrevious" @click.prevent="playPrevious" />
     </div>
     <ButtonPlay
       :is-playing="isPlaying"
@@ -94,7 +91,7 @@ export default defineComponent({
       @play="play"
     />
     <div class="right">
-      <ButtonSkip :size="48" :disabled="!hasNext" @click.prevent="playNext" />
+      <ButtonSkip :disabled="!hasNext" @click.prevent="playNext" />
       <div class="time" v-text="totalTimeDisplay" />
     </div>
   </div>

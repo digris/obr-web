@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import { defineComponent, ref, computed, watch } from "vue";
+import { defineComponent, ref, computed, watch, onMounted } from "vue";
 
 type RGBAColor = Array<[number, number, number, number]>;
 
@@ -78,7 +78,7 @@ export default defineComponent({
     },
     rayConfig: {
       type: Array as PropType<Array<RayConfig>>,
-      required: true,
+      default: () => [],
     },
   },
   setup(props) {
@@ -127,6 +127,9 @@ export default defineComponent({
         await drawCanvas(ctx, props.width, props.height, 92, rays.value);
       }
     };
+    onMounted(async () => {
+      await updateCanvas();
+    });
     watch(
       () => size.value,
       async () => {

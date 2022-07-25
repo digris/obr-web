@@ -7,7 +7,7 @@ import { setPageTitle } from "@/utils/page";
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
-import PlayAllSmall from "@/components/catalog/media/PlayAllSmall.vue";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
@@ -19,7 +19,7 @@ export default defineComponent({
     DetailPage,
     DetailHeader,
     LazyImage,
-    PlayAllSmall,
+    PlayAllAction,
     Duration,
     PlayAction,
     ObjectTags,
@@ -88,11 +88,10 @@ export default defineComponent({
           <LazyImage class="image" :image="artist.image">
             <PlayAction
               :obj-key="objKey"
-              :size="96"
+              :icon-scale="2"
               :outlined="true"
-              :shadowed="true"
-              background-color="rgb(var(--c-white))"
-              hover-background-color="rgb(var(--c-gray-200))"
+              :filled="true"
+              :color="[0, 0, 0]"
             />
           </LazyImage>
         </template>
@@ -105,18 +104,13 @@ export default defineComponent({
           <ObjectIdentifiers class="identifiers" :obj="artist" :limit="4" />
         </template>
         <template #meta-panel>
-          <PlayAllSmall v-if="artist && artist.numMedia > 1" :obj-key="objKey">
+          <PlayAllAction v-if="artist && artist.numMedia > 1" :obj-key="objKey">
             <span v-text="t('catalog.list.playAllTracks', artist.numMedia)" />
             &nbsp; (<Duration :seconds="artist.mediaTotalDuration" />)
-          </PlayAllSmall>
+          </PlayAllAction>
         </template>
       </DetailHeader>
-      <MediaList
-        v-if="artist"
-        :initial-filter="query.filter"
-        :disable-user-filter="true"
-        :disable-play-all="true"
-      />
+      <MediaList v-if="artist" :initial-filter="query.filter" :disable-user-filter="true" />
     </template>
   </DetailPage>
 </template>

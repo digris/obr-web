@@ -4,16 +4,7 @@ from rest_framework import serializers
 from catalog.api.serializers.release import ReleaseSerializer
 from catalog.models import Media, MediaArtists
 from tagging.api.serializers import TagSerializer
-
-
-class DurationInSecondsSerializer(
-    serializers.Serializer,
-):
-    def to_representation(self, instance):
-        if not instance:
-            return None
-
-        return instance.seconds
+from api_extra.serializers import DurationInSecondsSerializer
 
 
 class MediaArtistSerializer(

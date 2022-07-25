@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, ref, onActivated, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import type { Tag } from "@/typings/api/models/Tag";
 
@@ -7,6 +8,7 @@ import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
 import MediaList from "@/components/catalog/media/List.vue";
@@ -18,6 +20,7 @@ export default defineComponent({
     DetailHeader,
     DetailHeaderLoading,
     PlayAction,
+    PlayAllAction,
     ObjectTags,
     Searchbar,
     MediaList,
@@ -34,6 +37,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const store = useStore();
     const mood = computed(() => store.getters["catalog/moodByUid"](props.uid));
     // const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
@@ -41,8 +45,11 @@ export default defineComponent({
       return `catalog.mood:${props.uid}`;
     });
     const initialFilter = computed(() => {
+      if (!mood.value) {
+        return {};
+      }
       return {
-        tags: mood.value.tags.map((t: Tag) => t.uid),
+        tags: mood.value.tags.map((tag: Tag) => tag.uid),
       };
     });
     const userFilter = computed(() => {
@@ -57,9 +64,6 @@ export default defineComponent({
       merged.tags = tags;
       return merged;
     });
-    const showPlayAll = computed(() => {
-      return (userFilter.value?.tags || []).length || userFilter.value?.q;
-    });
     onActivated(() => {
       if (!mood.value) {
         store.dispatch("catalog/loadMood", props.uid);
@@ -67,11 +71,11 @@ export default defineComponent({
     });
     const allMediaLoaded = ref(false);
     return {
+      t,
       objKey,
       mood,
       initialFilter,
       userFilter,
-      showPlayAll,
       combinedFilter,
       allMediaLoaded,
     };
@@ -83,6 +87,7 @@ export default defineComponent({
   <DetailPage :appendix-visible="allMediaLoaded">
     <template #background="slotProps">
       <Visual
+        v-if="mood"
         :color="mood.rgb"
         :ray-config="mood.rays"
         :height="slotProps.height"
@@ -110,9 +115,8 @@ export default defineComponent({
               :filter="combinedFilter"
               :icon-scale="2"
               :outlined="true"
-              :shadowed="true"
-              background-color="rgb(var(--c-white))"
-              hover-background-color="rgba(var(--c-white), 0.8)"
+              :filled="true"
+              :color="[0, 0, 0]"
             />
           </div>
         </template>
@@ -120,14 +124,9 @@ export default defineComponent({
           <ObjectTags class="tags" :obj="mood" :limit="4" />
         </template>
         <template #meta-panel>
-          (( Play All - T.B.D. ))
-          <!--
-          <PlayAllSmall :obj-key="objKey">
-            <span
-              v-text="t('catalog.list.playAllTracks', 1)"
-            />
-          </PlayAllSmall>
-          -->
+          <PlayAllAction :obj-key="objKey">
+            <span v-text="t('catalog.list.playAllTracks', 1)" />
+          </PlayAllAction>
         </template>
         <template #searchbar>
           <Searchbar :filter="combinedFilter" />
@@ -138,11 +137,9 @@ export default defineComponent({
     <template #default>
       <MediaList
         v-if="objKey"
-        class="media-list"
         :initial-filter="initialFilter"
         :query="query"
         :disable-user-filter="false"
-        :disable-play-all="true"
         @allLoaded="allMediaLoaded = true"
         @hasMore="allMediaLoaded = false"
       />

@@ -11,18 +11,20 @@ import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
-import IconPlus from "@/components/ui/icon/IconPlus.vue";
-import IconMinus from "@/components/ui/icon/IconMinus.vue";
+// import IconPlus from "@/components/ui/icon/IconPlus.vue";
+// import IconMinus from "@/components/ui/icon/IconMinus.vue";
+import IconCaret from "@/components/ui/icon/IconCaret.vue";
 
 export default defineComponent({
   components: {
-    IconMinus,
     ButtonPlay,
     PlayAction,
     ObjectTags,
     UserRating,
     CircleButton,
-    IconPlus,
+    // IconPlus,
+    // IconMinus,
+    IconCaret,
   },
   props: {
     emission: {
@@ -196,11 +198,9 @@ export default defineComponent({
     <div class="play">
       <PlayAction
         v-if="isPast"
-        :style="{
-          '--c-fg': 'var(--c-black)',
-          '--c-bg': 'var(--c-white)',
-        }"
         :obj-key="`${emission.playlist.ct}:${emission.playlist.uid}`"
+        :outlined="true"
+        :color="[0, 0, 0]"
       />
       <ButtonPlay
         v-if="isCurrent"
@@ -211,16 +211,6 @@ export default defineComponent({
         @play="play"
         @pause="pause"
       />
-      <!--
-      <ButtonPlay
-        v-if="isUpcoming"
-        :style="{
-          '--c-fg': 'var(--c-black)',
-          '--c-bg': 'var(--c-white)',
-        }"
-        :disabled="true"
-      />
-      -->
     </div>
     <div class="name">
       <router-link v-if="!isUpcoming" :to="routeTo" @click="navigate">
@@ -241,15 +231,17 @@ export default defineComponent({
       <CircleButton v-if="isDesktop">
         <UserRating
           :obj-key="objKey"
-          :icon-size="48"
           :autoload="true"
           :hide-if-unset="!isHover"
           color-var="--c-fg"
         />
       </CircleButton>
       <CircleButton @click="toggleExpanded">
+        <IconCaret :direction="isExpanded ? 'up' : 'down'" />
+        <!--
         <IconMinus v-if="isExpanded" />
         <IconPlus v-else />
+        -->
       </CircleButton>
     </div>
   </div>

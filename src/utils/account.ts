@@ -12,8 +12,9 @@ const updateSentryScope = (user: any) => {
 
 const updateOpenRelayScope = (user: any) => {
   const id = user ? user.email : null;
-  // @ts-ignore
-  window.tracker.setUserID(id);
+  if (window.tracker) {
+    window.tracker.setUserID(id);
+  }
 };
 
 class AccountHandler {

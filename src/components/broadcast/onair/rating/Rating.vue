@@ -158,7 +158,7 @@ export default defineComponent({
             'is-flipped': isFlipped === 1,
           }"
         >
-          <IconHeart :size="48" :outlined="userRatingValue !== 1" color="rgb(var(--c-page-fg))" />
+          <IconHeart :outlined="userRatingValue !== 1" color="rgb(var(--c-page-fg))" />
         </div>
       </CircleButton>
     </div>
@@ -170,7 +170,7 @@ export default defineComponent({
             'is-flipped': isFlipped === -1,
           }"
         >
-          <IconFlash :size="48" :outlined="userRatingValue !== -1" color="rgb(var(--c-page-fg))" />
+          <IconFlash :outlined="userRatingValue !== -1" color="rgb(var(--c-page-fg))" />
         </div>
       </CircleButton>
     </div>

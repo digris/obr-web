@@ -75,13 +75,13 @@ async function getSubscription() {
 //   return response.data;
 // }
 
-async function updateUser(payload: object) {
+async function updateUser(payload: any) {
   const url = `${ACCOUNT_ENDPOINT}users/me/`;
   const response = await APIClient.patch(url, payload);
   return response.data;
 }
 
-async function updateAddress(payload: object) {
+async function updateAddress(payload: any) {
   const url = `${ACCOUNT_ENDPOINT}address/`;
   const response = await APIClient.patch(url, payload);
   return response.data;

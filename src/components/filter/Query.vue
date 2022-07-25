@@ -28,13 +28,7 @@ export default defineComponent({
 <template>
   <div class="query is-selected" @click.prevent="click">
     {{ q }}
-    <IconRemove class="query__clear" color="rgb(var(--c-white))" :size="24" />
-    <!--
-    <small
-      class="query__clear"
-      v-text="`x`"
-    />
-    -->
+    <IconRemove class="query__clear" color-var="--c-white" :scale="0.5" />
   </div>
 </template>
 

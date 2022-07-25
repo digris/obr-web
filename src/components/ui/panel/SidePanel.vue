@@ -58,7 +58,7 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 100;
+  z-index: 111;
   background: rgba(var(--c-black), 0.9);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
@@ -66,7 +66,7 @@ export default defineComponent({
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 101;
+  z-index: 112;
   display: flex;
   flex-direction: column;
   width: 100%;

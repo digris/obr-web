@@ -7,7 +7,7 @@ import { getContrastColor, getMediaColor } from "@/utils/color";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconRemove from "@/components/ui/icon/IconRemove.vue";
-import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 import UserRating from "@/components/rating/UserRating.vue";
@@ -15,7 +15,7 @@ import UserRating from "@/components/rating/UserRating.vue";
 export default defineComponent({
   components: {
     CircleButton,
-    ButtonPlay,
+    PlayAction,
     MediaArtists,
     MediaReleases,
     UserRating,
@@ -121,18 +121,10 @@ export default defineComponent({
     }"
   >
     <div class="play">
-      <ButtonPlay
-        @click="play"
-        @pause="pause"
-        :is-active="isCurrent"
-        :is-playing="isCurrent && isPlaying"
-        :is-buffering="isCurrent && isBuffering"
-        :style="buttonCssVars"
-        :color="`rgb(${buttonColor.join(',')})`"
-      />
+      <PlayAction :obj-key="objKey" :color="[255, 255, 255]" />
     </div>
     <div class="name">
-      <span>{{ media.name }}</span>
+      <span v-text="media.name" />
     </div>
     <div class="artist">
       <MediaArtists :link="false" :artists="media.artists" />
@@ -145,7 +137,7 @@ export default defineComponent({
         <UserRating color-var="--c-fg" :obj-key="objKey" />
       </CircleButton>
       <CircleButton color-var="--c-fg" @click="remove" :disabled="!canRemove">
-        <IconRemove color="rgb(var(--c-fg))" :scale="0.75" />
+        <IconRemove :scale="0.75" />
       </CircleButton>
     </div>
   </div>
@@ -237,7 +229,8 @@ export default defineComponent({
     //TODO: just a quick fix
     .play,
     .actions {
-      transform: scale(calc(40 / 48));
+      color: yellow;
+      //transform: scale(calc(40 / 48));
     }
     .release,
     .airplays,

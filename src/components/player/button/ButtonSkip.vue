@@ -9,14 +9,6 @@ export default defineComponent({
     IconSkip,
   },
   props: {
-    size: {
-      type: Number,
-      default: 48,
-    },
-    color: {
-      type: String,
-      default: "rgb(var(--c-fg))",
-    },
     rotate: {
       type: Number,
       default: 0,
@@ -30,7 +22,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Circle :size="size" :disabled="disabled">
-    <IconSkip :size="size" :rotate="rotate" :color="color" />
+  <Circle :disabled="disabled">
+    <IconSkip :rotate="rotate" />
   </Circle>
 </template>

@@ -140,13 +140,6 @@ $z-feedback: 9;
     padding: 4rem 1rem 1rem 1rem;
     color: rgb(var(--c-black));
     background: rgb(var(--c-selected));
-    /* stylelint-disable-next-line selector-pseudo-element-no-unknown
-    ::v-deep {
-      .title {
-        color: #55ff55;
-      }
-    }
-    */
   }
 }
 

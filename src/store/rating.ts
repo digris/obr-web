@@ -43,7 +43,7 @@ const actions = {
       }
     });
   },
-  updateRating: async (context: any, vote: object) => {
+  updateRating: async (context: any, vote: any) => {
     // @ts-ignore
     const { key, ...rating } = vote;
     context.commit("SET_RATING", { key, rating });
