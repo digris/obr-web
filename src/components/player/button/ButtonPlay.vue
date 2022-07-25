@@ -1,37 +1,32 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
+import type { PropType } from "vue";
+import { useIconSize } from "@/composables/icon";
+import { getContrastColor } from "@/utils/color";
 import IconPlay from "@/components/ui/icon/IconPlay.vue";
 import IconPlayQueued from "@/components/ui/icon/IconPlayQueued.vue";
 import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
 import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
 import IconPause from "@/components/ui/icon/IconPause.vue";
-import Circle from "./Circle.vue";
 
 export default defineComponent({
-  components: {
-    Circle,
-    IconPlay,
-    IconPlaying,
-    IconPause,
-  },
+  components: {},
   props: {
-    iconScale: {
+    scale: {
       type: Number,
       default: 1,
     },
-    color: {
-      type: String,
-      default: "rgb(var(--c-fg))",
+    baseColor: {
+      type: Array as PropType<Array<number>>,
+      default: () => [10, 10, 10],
     },
-    // backgroundColor:
-    // default is transparent, using 'color' if isActive
-    backgroundColor: {
-      type: String,
-      default: null,
+    activeColor: {
+      type: Array as PropType<Array<number>>,
+      default: () => [10, 10, 10],
     },
-    hoverBackgroundColor: {
-      type: String,
-      default: null,
+    fillColor: {
+      type: Array as PropType<Array<number>>,
+      default: () => [10, 10, 10],
     },
     isPlaying: {
       type: Boolean,
@@ -50,6 +45,10 @@ export default defineComponent({
       default: false,
     },
     outlined: {
+      type: Boolean,
+      default: false,
+    },
+    filled: {
       type: Boolean,
       default: false,
     },
@@ -72,6 +71,7 @@ export default defineComponent({
   },
   emits: ["play", "pause"],
   setup(props, { emit }) {
+    const { iconSize } = useIconSize(props.scale);
     const isHover = ref(false);
     const icon = computed(() => {
       if (props.isBuffering) {
@@ -103,19 +103,71 @@ export default defineComponent({
     const onHout = () => {
       isHover.value = false;
     };
+    const fgColor = computed(() => {
+      if (props.isActive) {
+        return getContrastColor(props.activeColor);
+      }
+      return props.baseColor;
+    });
+    const bgColor = computed(() => {
+      if (props.isActive) {
+        return props.activeColor;
+      }
+      return props.fillColor;
+    });
+    const isOutlined = computed(() => {
+      return props.outlined;
+    });
+    const isFilled = computed(() => {
+      if (props.isActive) {
+        return true;
+      }
+      return props.filled;
+    });
+    const hoverBgOpacity = computed(() => {
+      if (isFilled.value) {
+        return 0.8;
+      }
+      return 0.1;
+    });
     return {
       icon,
+      iconSize,
       isHover,
       onHover,
       onHout,
       handleClick,
+      //
+      fgColor,
+      bgColor,
+      isOutlined,
+      isFilled,
+      hoverBgOpacity,
     };
   },
 });
 </script>
 
 <template>
-  <Circle
+  <div
+    class="button-play"
+    :class="{
+      'is-outlined': isOutlined,
+      'is-filled': isFilled,
+    }"
+    :style="{
+      '--size': `${iconSize}px`,
+      '--c-fg': fgColor.join(','),
+      '--c-bg': bgColor.join(','),
+      '--hover-bg-opacity': hoverBgOpacity,
+      '--outline-width': `${outlineWidth}px`,
+      '--outline-opacity': outlineOpacity,
+    }"
+  >
+    <component :is="icon" :scale="scale" />
+  </div>
+  <!--
+  <CircleButton
     @mouseover="onHover"
     @mouseleave="onHout"
     @click.prevent="handleClick"
@@ -124,31 +176,37 @@ export default defineComponent({
     :outline-width="outlineWidth"
     :outline-opacity="outlineOpacity"
     :disabled="disabled"
-    :active="isActive"
-    :background-color="backgroundColor"
-    :hover-background-color="isPlaying ? 'rgb(var(--c-fg))' : hoverBackgroundColor"
-    :class="{
-      'is-playing': isPlaying,
-      'is-buffering': isBuffering,
-      'is-hover': isHover,
-      'has-shadow': shadowed,
+    :filled="isActive"
+    :hover-background-opacity="0.9"
+    :style="{
+      '--c-fg': colorValue.join(','),
+      '--c-fill': fillColorValue.join(','),
     }"
   >
-    <component :is="icon" :scale="iconScale" :color="color" />
-  </Circle>
+    <component :is="icon" :scale="iconScale" />
+  </CircleButton>
+  -->
 </template>
+
 <style lang="scss" scoped>
-.circle-button {
-  &.has-shadow {
-    box-shadow: 0 0 8px rgb(0 0 0 / 50%);
+@use "@/style/abstracts/responsive";
+.button-play {
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  border: var(--outline-width) solid transparent;
+  border-radius: calc(var(--size) / 2);
+  cursor: pointer;
+  transition: background-color 750ms;
+  &.is-outlined {
+    border-color: rgba(var(--c-fg), var(--outline-opacity));
   }
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 100ms;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+  &.is-filled {
+    background: rgb(var(--c-bg));
+  }
+  &:hover {
+    transition: background-color 200ms;
+    background: rgba(var(--c-bg), var(--hover-bg-opacity));
+  }
 }
 </style>

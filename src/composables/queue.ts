@@ -51,7 +51,7 @@ const useQueueControls = () => {
     await store.dispatch("queue/enqueue", { media, mode, scope });
     // await queue.startPlayCurrent();
   };
-  const enqueueObj = async (obj: object, mode = "append") => {
+  const enqueueObj = async (obj: any, mode = "append") => {
     // @ts-ignore
     const objKey = `${obj.ct}:${obj.uid}`;
     const filter = {

@@ -21,7 +21,7 @@ const getters = {
   media: (state: any) => state.media,
   numMedia: (state: any) => state.media.length,
   // @ts-ignore
-  totalDuration: (state: any) => state.media.reduce((a: number, m: object) => a + m.duration, 0),
+  totalDuration: (state: any) => state.media.reduce((a: number, m: any) => a + m.duration, 0),
   currentIndex: (state: any) => state.currentIndex,
   previousIndex: (state: any) => {
     if (state.media[state.currentIndex - 1]) {

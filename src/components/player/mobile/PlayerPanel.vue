@@ -69,7 +69,7 @@ export default defineComponent({
     <div v-if="isVisible" class="player-panel">
       <div class="header">
         <CircleButton @click="close" color-var="--c-fg">
-          <IconClose :size="48" color="rgb(var(--c-fg))" />
+          <IconClose />
         </CircleButton>
       </div>
       <div class="visual">
@@ -98,7 +98,6 @@ export default defineComponent({
           class="play-button"
           :is-playing="isPlaying"
           :is-buffering="isBuffering"
-          :size="60"
           :outline-width="2"
           :outline-opacity="1"
           @pause="pause"

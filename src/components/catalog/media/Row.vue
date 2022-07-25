@@ -1,11 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
-import { useStore } from "vuex";
 import { DateTime } from "luxon";
 import { useObjKey } from "@/composables/obj";
-import eventBus from "@/eventBus";
-import { getContrastColor } from "@/utils/color";
-import { requireSubscription } from "@/utils/account";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
@@ -17,12 +13,6 @@ import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 
 export default defineComponent({
-  props: {
-    media: {
-      type: Object,
-      required: true,
-    },
-  },
   components: {
     CircleButton,
     ContextMenu,
@@ -33,49 +23,17 @@ export default defineComponent({
     RelativeDateTime,
     Duration,
   },
+  props: {
+    media: {
+      type: Object,
+      required: true,
+    },
+  },
   setup(props) {
-    const store = useStore();
     const { objKey } = useObjKey(props.media);
     const isHover = ref(false);
     const release = computed(() => {
       return props.media.releases && props.media.releases.length ? props.media.releases[0] : null;
-    });
-    const currentMedia = computed(() => {
-      return store.getters["queue/currentMedia"];
-    });
-    const isCurrent = computed(() => {
-      return currentMedia.value && props.media.uid === currentMedia.value.uid;
-    });
-    const queuedMedia = computed(() => {
-      return store.getters["queue/media"];
-    });
-    const isQueued = computed(() => {
-      // @ts-ignore
-      return queuedMedia.value.findIndex((i: object) => i.uid === props.media.uid) > -1;
-    });
-    const queuedIndex = computed(() => {
-      return store.getters["queue/currentIndex"];
-    });
-    const queuePosition = computed(() => {
-      if (queuedIndex.value < 0) {
-        return null;
-      }
-      // @ts-ignore
-      const index = queuedMedia.value.findIndex((i: object) => i.uid === props.media.uid);
-      if (index < 0) {
-        return null;
-      }
-      return index - queuedIndex.value;
-    });
-    const playerState = computed(() => {
-      return isCurrent.value ? store.getters["player/playerState"] : null;
-    });
-    const isLive = computed(() => playerState.value && playerState.value.isLive);
-    const isPlaying = computed(() => {
-      return playerState.value && playerState.value.isPlaying && !isLive.value;
-    });
-    const isBuffering = computed(() => {
-      return playerState.value && playerState.value.isBuffering && !isLive.value;
     });
     const latestAirplay = computed(() => {
       if (!props.media.latestAirplay) {
@@ -83,89 +41,25 @@ export default defineComponent({
       }
       return DateTime.fromISO(props.media.latestAirplay);
     });
-    const currentOnairMedia = computed(() => {
-      return store.getters["schedule/currentMedia"];
-    });
-    const isOnair = computed(() => {
-      return currentOnairMedia.value && props.media.uid === currentOnairMedia.value.uid;
-    });
     const color = computed(() => {
       return release.value && release.value.image ? release.value.image.rgb : null;
     });
-    const contrastColor = computed(() => {
-      if (color.value && isCurrent.value && !isLive.value) {
-        return getContrastColor(color.value);
-      }
-      return [0, 0, 0];
-    });
-    const cssVars = computed(() => {
-      if (!color.value) {
-        return {};
-      }
-      const rgb = color.value.join(",");
-      const rgbContrast = contrastColor.value.join(",");
-      return {
-        "--c-color": rgb,
-        "--c-contrast-color": rgbContrast,
-      };
-    });
-    const buttonCssVars = computed(() => {
-      if (color.value && isCurrent.value) {
-        return {
-          "--c-fg": color.value.join(","),
-        };
-      }
-      return {
-        "--c-fg": "0,0,0",
-      };
-    });
-    const play = requireSubscription((media: object) => {
-      const payload = {
-        media: [media],
-      };
-      eventBus.emit("queue:controls:enqueue", payload);
-    });
-    const pause = () => {
-      eventBus.emit("player:controls", { do: "pause" });
-    };
     return {
       objKey,
       isHover,
       release,
       color,
-      contrastColor,
-      cssVars,
-      buttonCssVars,
-      // playerState,
-      isPlaying,
-      isBuffering,
-      isCurrent,
-      isLive,
-      isQueued,
-      queuePosition,
-      isOnair,
       latestAirplay,
-      play,
-      pause,
     };
   },
 });
 </script>
 
 <template>
-  <div
-    class="media-row"
-    :style="cssVars"
-    :class="{
-      'is-current': isCurrent,
-      'is-onair': isOnair,
-    }"
-    @mouseenter="isHover = true"
-    @mouseleave="isHover = false"
-  >
+  <div class="media-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
     <div class="container">
       <div class="play">
-        <PlayAction :obj-key="objKey" :outlined="true" background-color="rgb(var(--c-white))" />
+        <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />
       </div>
       <div class="name">
         <router-link
@@ -190,7 +84,7 @@ export default defineComponent({
       <Duration class="duration" :seconds="media.duration" />
       <div class="actions">
         <CircleButton>
-          <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
+          <UserRating :obj-key="objKey" :hide-if-unset="!isHover" />
         </CircleButton>
         <ContextMenu :obj="media" />
       </div>

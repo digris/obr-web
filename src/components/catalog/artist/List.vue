@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, onMounted, computed, watch } from "vue";
+import { defineComponent, ref, onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
@@ -10,7 +10,7 @@ import ListFilter from "@/components/filter/ListFilter.vue";
 import ArtistCard from "@/components/catalog/artist/Card.vue";
 import { getArtists, getArtistsTags } from "@/api/catalog";
 
-export default {
+export default defineComponent({
   components: {
     ListFilter,
     LoadingMore,
@@ -39,7 +39,7 @@ export default {
       default: false,
     },
   },
-  setup(props: any) {
+  setup(props) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
@@ -140,7 +140,7 @@ export default {
       updateUserFilter,
     };
   },
-};
+});
 </script>
 <template>
   <div v-if="showUserFilter" class="list-filter-container">

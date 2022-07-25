@@ -9,7 +9,7 @@ import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
-import PlayAllSmall from "@/components/catalog/media/PlayAllSmall.vue";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
@@ -23,7 +23,7 @@ export default defineComponent({
     DetailHeader,
     DetailHeaderLoading,
     LazyImage,
-    PlayAllSmall,
+    PlayAllAction,
     Duration,
     PlayAction,
     ObjectTags,
@@ -86,10 +86,10 @@ export default defineComponent({
           <LazyImage class="image" :image="playlist.image">
             <PlayAction
               :obj-key="objKey"
-              :size="96"
+              :icon-scale="2"
               :outlined="true"
-              :shadowed="true"
-              background-color="rgb(var(--c-white))"
+              :filled="true"
+              :color="[0, 0, 0]"
             />
           </LazyImage>
         </template>
@@ -98,10 +98,10 @@ export default defineComponent({
           <EditorInline v-if="playlist && playlist.editor" :editor="playlist.editor" />
         </template>
         <template #meta-panel>
-          <PlayAllSmall v-if="playlist && playlist.numMedia" :obj-key="objKey">
+          <PlayAllAction v-if="playlist && playlist.numMedia" :obj-key="objKey">
             <span v-text="t('catalog.list.playAllTracks', playlist.numMedia)" />
             &nbsp; (<Duration :seconds="playlist.duration" :round-seconds="60 * 5" />)
-          </PlayAllSmall>
+          </PlayAllAction>
         </template>
       </DetailHeader>
       <DetailHeaderLoading v-else title-scope="Show" />
@@ -110,7 +110,6 @@ export default defineComponent({
       v-if="objKey"
       :initial-filter="query.filter"
       :disable-user-filter="true"
-      :disable-play-all="true"
       :hide-upcoming="true"
     />
   </DetailPage>

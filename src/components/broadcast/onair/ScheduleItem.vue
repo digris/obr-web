@@ -66,16 +66,16 @@ export default defineComponent({
       return release.value && release.value.image ? release.value.image : null;
     });
     const cssVars = computed(() => {
-      if (!image.value && image.value.rgb) {
-        return {};
+      if (image.value && image.value.rgb) {
+        return {
+          "--c-bg": image.value.rgb.join(","),
+        };
       }
-      return {
-        "--c-bg": image.value.rgb.join(","),
-      };
+      return {};
     });
     const timeFormat = DateTime.TIME_WITH_SECONDS;
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const playMedia = requireSubscription(async (media: object) => {
+    const playMedia = requireSubscription(async (media: any) => {
       await enqueueObj(media, "replace");
       await startPlayCurrent(true);
     });

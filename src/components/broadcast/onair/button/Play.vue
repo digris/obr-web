@@ -98,7 +98,7 @@ export default defineComponent({
   >
     <component
       :is="icon"
-      :size="96"
+      :scale="2"
       :color="isFilled ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
       :pause="isPlaying && isHover"
     />

@@ -138,8 +138,8 @@ const routes = [
         },
         props: {
           default: (route: any) => ({
-            // query: route.query,
             query: parseFilterQuery(route.query),
+            showListActions: true,
           }),
           header: (route: any) => ({
             filter: route.query,
@@ -295,7 +295,7 @@ const routes = [
     name: "collection",
     component: Collection,
     /*
-    beforeEnter: async (to: object, from: object, next: any) => {
+    beforeEnter: async (to: any, from: any, next: any) => {
       const authenticated = await isAuthenticated();
       if (!authenticated) {
         next({ name: 'accountLogin' });
@@ -319,6 +319,7 @@ const routes = [
           default: (route: any) => ({
             scope: "collection",
             query: route.query,
+            showListActions: true,
           }),
           searchbar: (route: any) => ({
             filter: route.query,
@@ -373,7 +374,7 @@ const routes = [
         path: "login/",
         name: "accountLogin",
         component: AccountLogin,
-        beforeEnter: async (to: object, from: object, next: any) => {
+        beforeEnter: async (to: any, from: any, next: any) => {
           const authenticated = await isAuthenticated();
           if (authenticated) {
             next({ name: "accountSettings" });
@@ -386,7 +387,7 @@ const routes = [
         path: "settings/",
         name: "accountSettings",
         component: AccountSettings,
-        beforeEnter: async (to: object, from: object, next: any) => {
+        beforeEnter: async (to: any, from: any, next: any) => {
           const authenticated = await isAuthenticated();
           if (!authenticated) {
             next({ name: "accountLogin" });

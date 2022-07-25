@@ -58,12 +58,7 @@ export default defineComponent({
   <div class="playlist-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
     <div class="container">
       <div class="play">
-        <PlayAction
-          :obj-key="objKey"
-          :size="48"
-          :outlined="true"
-          background-color="rgb(var(--c-white))"
-        />
+        <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />
       </div>
       <div class="name">
         <router-link
@@ -100,7 +95,7 @@ export default defineComponent({
       -->
       <div class="actions">
         <CircleButton>
-          <UserRating :obj-key="objKey" :icon-size="48" :hide-if-unset="!isHover" />
+          <UserRating :obj-key="objKey" :hide-if-unset="!isHover" />
         </CircleButton>
         <ContextMenu :obj="playlist" />
       </div>

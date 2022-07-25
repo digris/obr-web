@@ -4,6 +4,7 @@ import { useStore } from "vuex";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
@@ -16,6 +17,7 @@ export default defineComponent({
   components: {
     DetailPage,
     DetailHeader,
+    DetailHeaderLoading,
     LazyImage,
     Duration,
     PlayAction,
@@ -70,12 +72,12 @@ export default defineComponent({
 <template>
   <DetailPage>
     <template #header>
-      <DetailHeader :obj="media" title-scope="Track" :title="media.name">
+      <DetailHeader v-if="media" :obj="media" title-scope="Track" :title="media.name">
         <template #visual>
           <LazyImage class="image" :image="image">
             <PlayAction
               :obj-key="objKey"
-              :size="96"
+              :scale="2"
               :outlined="true"
               :shadowed="true"
               background-color="rgb(var(--c-white))"
@@ -105,13 +107,9 @@ export default defineComponent({
           <Duration :seconds="media.duration" />
         </template>
       </DetailHeader>
+      <DetailHeaderLoading v-else />
     </template>
-    <PlaylistList
-      :initial-filter="query.filter"
-      :disable-user-filter="true"
-      :disable-play-all="true"
-      layout="table"
-    />
+    <PlaylistList :initial-filter="query.filter" :disable-user-filter="true" layout="table" />
   </DetailPage>
 </template>
 

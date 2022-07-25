@@ -27,7 +27,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Circle class="volume-control" :size="48" @click.prevent="onClick">
+  <Circle class="volume-control" @click.prevent="onClick">
     <IconSpeaker :volume="volume * 100" />
   </Circle>
   <transition name="slide">

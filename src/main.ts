@@ -44,6 +44,8 @@ import de from "@/locales/de.yml";
 // @ts-ignore
 import en from "@/locales/en.yml";
 
+// import { numberFormats } from "@/locales/formats";
+
 const i18n = createI18n({
   legacy: false,
   locale: settingsStore.locale,
@@ -52,6 +54,7 @@ const i18n = createI18n({
     de,
     en,
   },
+  // numberFormats,
 });
 
 app.use(router);
@@ -59,34 +62,45 @@ app.use(store);
 app.use(i18n);
 app.directive("tooltip", TooltipDirective);
 
-Sentry.init({
-  app,
-  dsn: settings.SENTRY_DSN,
-  integrations: [
-    new Integrations.BrowserTracing({
-      routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracingOrigins: ["local.obr-next", "next.openbroadcast.ch", "openbroadcast.ch", /^\//],
-    }),
-  ],
-  tracesSampleRate: 1.0,
-});
+declare global {
+  interface Window {
+    tracker: OpenReplay;
+  }
+}
+
+if (settings.SENTRY_DSN) {
+  Sentry.init({
+    app,
+    dsn: settings.SENTRY_DSN,
+    integrations: [
+      new Integrations.BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+        tracingOrigins: ["local.obr-next", "next.openbroadcast.ch", "openbroadcast.ch", /^\//],
+      }),
+    ],
+    tracesSampleRate: 1.0,
+  });
+}
+
+let tracker = null;
+if (settings.OPENREPLAY_PROJECT_KEY) {
+  tracker = new OpenReplay({
+    projectKey: settings.OPENREPLAY_PROJECT_KEY,
+    __DISABLE_SECURE_MODE: settings.DEBUG,
+    onStart: ({ sessionToken }) => {
+      Sentry.setTag("openReplaySessionToken", sessionToken);
+    },
+  });
+  tracker.use(
+    trackerAxios({
+      instance: APIClient,
+    })
+  );
+  tracker.use(trackerAssist());
+  tracker.start().then(() => {});
+}
 
 app.mount("#app");
-
-const tracker = new OpenReplay({
-  projectKey: settings.OPENREPLAY_PROJECT_KEY,
-  __DISABLE_SECURE_MODE: settings.DEBUG,
-  onStart: ({ sessionToken }) => {
-    Sentry.setTag("openReplaySessionToken", sessionToken);
-  },
-});
-tracker.use(
-  trackerAxios({
-    instance: APIClient,
-  })
-);
-tracker.use(trackerAssist());
-tracker.start().then(() => {});
 
 // @ts-ignore
 window.pinia = pinia;

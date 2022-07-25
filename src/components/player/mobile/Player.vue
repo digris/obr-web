@@ -120,7 +120,6 @@ export default defineComponent({
       <div class="container">
         <div class="left">
           <ButtonPlay
-            :size="40"
             :is-playing="isPlaying"
             :is-buffering="isBuffering"
             @pause="pause"
@@ -134,12 +133,11 @@ export default defineComponent({
           </div>
         </div>
         <div class="right">
-          <Circle :size="40">
+          <Circle>
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
           <Circle
             v-if="queueLength > 0"
-            :size="40"
             :active="queueVisible"
             :disabled="queueLength < 1"
             @click.prevent="toggleQueue"

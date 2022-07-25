@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
+import type { PropType } from "vue";
 import { useMagicKeys } from "@vueuse/core";
 import { usePlayerState, usePlayerControls } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
@@ -42,19 +43,15 @@ export default defineComponent({
     },
     outlined: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    backgroundColor: {
-      type: String,
-      default: null,
-    },
-    hoverBackgroundColor: {
-      type: String,
-      default: null,
-    },
-    shadowed: {
+    filled: {
       type: Boolean,
       default: false,
+    },
+    color: {
+      type: Array as PropType<Array<number>>,
+      default: () => [0, 100, 200],
     },
   },
   setup(props) {
@@ -71,7 +68,7 @@ export default defineComponent({
       if (currentQueueIndex.value < 0) {
         return null;
       }
-      const index = queuedMedia.value.findIndex((obj: object) => {
+      const index = queuedMedia.value.findIndex((obj: any) => {
         return obj.uid === objUid.value && obj.ct === objCt.value;
       });
       if (index < 0) {
@@ -88,25 +85,22 @@ export default defineComponent({
     const objIsPlaying = computed(() => inScope.value && isPlaying.value);
     const objIsBuffering = computed(() => inScope.value && isBuffering.value);
     const objIsPaused = computed(() => inScope.value && issPaused.value);
-    const actionStyle = computed(() => {
-      return {};
+
+    const baseColor = computed(() => {
+      return props.color;
     });
-    const buttonCssVars = computed(() => {
-      if (inScope.value && currentColor.value) {
-        return {
-          "--c-fg": currentColor.value.join(","),
-        };
+
+    const activeColor = computed(() => {
+      return currentColor.value;
+    });
+
+    const fillColor = computed(() => {
+      if (props.filled) {
+        return getContrastColor(baseColor.value);
       }
-      return {
-        "--c-fg": "0,0,0",
-      };
+      return props.color;
     });
-    const buttonColor = computed(() => {
-      if (inScope.value && currentColor.value) {
-        return getContrastColor(currentColor.value);
-      }
-      return [0, 0, 0];
-    });
+
     const isLoading = ref(false);
     const play = async () => {
       // play directly if obj is already in the queue
@@ -142,7 +136,6 @@ export default defineComponent({
       }
     });
     return {
-      actionStyle,
       onClick,
       isPlaying: objIsPlaying,
       isBuffering: objIsBuffering,
@@ -151,25 +144,26 @@ export default defineComponent({
       inScope,
       inQueue,
       queuePosition,
-      buttonCssVars,
-      buttonColor,
       //
       shiftKey,
       objCt,
       objUid,
+      //
+      baseColor,
+      activeColor,
+      fillColor,
     };
   },
 });
 </script>
 
 <template>
-  <div class="play-action" :style="actionStyle">
+  <div class="play-action">
     <div
       @click="onClick"
       class="container"
       :class="{
         'is-loading': isLoading,
-        'in-queue': inQueue,
       }"
     >
       <slot name="default">
@@ -178,19 +172,13 @@ export default defineComponent({
           :is-playing="isPlaying && !shiftKey"
           :is-buffering="isLoading || isBuffering"
           :in-queue="queuePosition > 0"
-          :icon-scale="iconScale"
+          :scale="iconScale"
           :outlined="outlined"
-          :shadowed="shadowed"
-          :style="buttonCssVars"
-          :color="`rgb(${buttonColor.join(',')})`"
-          :background-color="backgroundColor"
-          :hover-background-color="hoverBackgroundColor"
+          :filled="filled"
+          :base-color="baseColor"
+          :active-color="activeColor"
+          :fill-color="fillColor"
         />
-        <div class="state">
-          <div v-if="inQueue && queuePosition" class="in-queue">
-            <span v-text="queuePosition" />
-          </div>
-        </div>
       </slot>
     </div>
   </div>
@@ -198,20 +186,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .play-action {
+  display: inline-grid;
   position: relative;
+  .container {
+    display: inline-grid;
+  }
   .is-loading {
     cursor: wait;
-  }
-  .state {
-    pointer-events: none;
-    position: absolute;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    top: 6px;
-    right: 10px;
-    font-size: 8px;
-    font-family: monospace;
   }
 }
 </style>

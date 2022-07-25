@@ -82,7 +82,7 @@ export default defineComponent({
           class="second"
         >{{ second }}</span>
         -->
-        <IconClose class="icon" :size="36" color="rgb(var(--c-page-fg-inverse))" />
+        <IconClose class="icon" :scale="0.75" color="rgb(var(--c-page-fg-inverse))" />
       </div>
     </div>
     <div class="actions"></div>

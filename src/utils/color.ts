@@ -1,6 +1,6 @@
 const CONTRAST_BREAKPOINT = 86;
 
-const getMediaColor = (media: object) => {
+const getMediaColor = (media: any) => {
   // @ts-ignore
   if (!(media.releases && media.releases.length)) {
     return null;

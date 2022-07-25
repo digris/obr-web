@@ -192,7 +192,7 @@ class AudioPlayer {
     });
   }
 
-  updateSettings(settings: object) {
+  updateSettings(settings: any) {
     this.player.configure(settings);
   }
 

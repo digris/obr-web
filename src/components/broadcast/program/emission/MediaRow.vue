@@ -53,12 +53,7 @@ export default defineComponent({
 <template>
   <div class="media-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
     <div class="play">
-      <PlayAction
-        :obj-key="objKey"
-        :size="48"
-        :outlined="true"
-        background-color="rgb(var(--c-white))"
-      />
+      <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />
     </div>
     <div class="name">
       <router-link
@@ -85,7 +80,7 @@ export default defineComponent({
     </div>
     <div class="actions">
       <CircleButton v-if="isDesktop">
-        <UserRating :obj-key="objKey" :icon-size="48" :autoload="true" :hide-if-unset="!isHover" />
+        <UserRating :obj-key="objKey" :autoload="true" :hide-if-unset="!isHover" />
       </CircleButton>
       <ContextMenu :obj="media" />
     </div>

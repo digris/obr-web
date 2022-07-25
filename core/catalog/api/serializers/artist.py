@@ -5,16 +5,7 @@ from catalog.models import Artist
 from image.api.serializers import ImageSerializer
 from tagging.api.serializers import TagSerializer
 from identifier.api.serializers import IdentifierSerializer
-
-
-class DurationInSecondsSerializer(
-    serializers.Serializer,
-):
-    def to_representation(self, instance):
-        if not instance:
-            return None
-
-        return instance.seconds
+from api_extra.serializers import DurationInSecondsSerializer
 
 
 class ArtistSerializer(

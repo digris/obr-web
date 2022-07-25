@@ -68,9 +68,10 @@ export default defineComponent({
         <LazyImage :image="playlist.image">
           <PlayAction
             :obj-key="objKey"
-            :icon-scale="2"
+            :icon-scale="1.5"
             :outlined="true"
-            background-color="rgb(var(--c-white))"
+            :filled="true"
+            :color="[0, 0, 0]"
           />
         </LazyImage>
       </div>

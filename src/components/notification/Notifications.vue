@@ -11,7 +11,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const messages = computed(() => store.getters["notification/messages"]);
-    const setSeen = (message: object) => {
+    const setSeen = (message: any) => {
       store.dispatch("notification/setMessageSeen", message);
     };
     return {

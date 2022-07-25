@@ -53,7 +53,7 @@ export default defineComponent({
         };
         return colors;
       } catch (e) {
-        // console.debug(e);
+        console.warn(e);
       }
       return {
         "--c-bg": isLive.value ? "255, 255, 255" : "0, 0, 0",
@@ -104,7 +104,7 @@ export default defineComponent({
         <div class="right">
           <OnAir />
           <VolumeControl />
-          <Circle :size="48">
+          <Circle>
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
           </Circle>
           <QueueControl
@@ -141,7 +141,7 @@ $player-height: 72px;
 .playhead {
   position: absolute;
   //background: rgba(255,0,255,0.2);
-  bottom: 52px;
+  bottom: 54px;
 }
 
 .container {

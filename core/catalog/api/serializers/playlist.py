@@ -7,16 +7,7 @@ from broadcast.models.emission import Emission
 from catalog.models import Playlist, PlaylistMedia
 from image.api.serializers import ImageSerializer
 from tagging.api.serializers import TagSerializer
-
-
-class DurationInSecondsSerializer(
-    serializers.Serializer,
-):
-    def to_representation(self, instance):
-        if not instance:
-            return None
-
-        return instance.seconds
+from api_extra.serializers import DurationInSecondsSerializer
 
 
 class PlaylistMediaSerializer(
@@ -153,7 +144,10 @@ class PlaylistSerializer(
                     "many": True,
                 },
             ),
-            "duration": (DurationInSecondsSerializer,),
+            "duration": (
+                DurationInSecondsSerializer,
+                {},
+            ),
             "editor": (
                 PlaylistEditorSerializer,
                 {

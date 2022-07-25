@@ -1,6 +1,6 @@
 import { computed } from "vue";
 
-const useObjKey = (obj: object) => {
+const useObjKey = (obj: any) => {
   const objKey = computed(() => {
     return obj?.ct && obj?.uid ? `${obj.ct}:${obj.uid}` : "";
   });

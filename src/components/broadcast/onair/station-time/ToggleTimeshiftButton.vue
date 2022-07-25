@@ -13,6 +13,6 @@ export default defineComponent({
 
 <template>
   <CircleButton>
-    <IconTimeshift :size="48" />
+    <IconTimeshift />
   </CircleButton>
 </template>

@@ -26,6 +26,7 @@ export default defineComponent({
       };
     });
     return {
+      color,
       style,
     };
   },

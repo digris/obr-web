@@ -18,7 +18,7 @@ const getSuffix = (format: string) => {
   return SUFFIX_MAP[format];
 };
 
-const getMediaUrl = (media: object) => {
+const getMediaUrl = (media: any) => {
   const mediaFormat = getMediaFormat();
   const suffix = getSuffix(mediaFormat);
   // if (DEBUG) {

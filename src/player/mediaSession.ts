@@ -22,6 +22,8 @@ class MediaSessionHandler {
           this.setupBindings(isLive);
         }
       );
+    } else {
+      this.session = null;
     }
   }
 

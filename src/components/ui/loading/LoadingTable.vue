@@ -8,9 +8,7 @@ export default defineComponent({
       default: 4,
     },
   },
-  setup(props) {
-    console.debug("props", props);
-  },
+  setup() {},
 });
 </script>
 <template>

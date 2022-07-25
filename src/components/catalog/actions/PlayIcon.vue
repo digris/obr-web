@@ -26,7 +26,7 @@ export default defineComponent({
 <template>
   <div class="play-icon">
     <PlayAction :obj-key="objKey" :filter="filter">
-      <IconPlay :size="48" color="rgb(var(--c-white))" />
+      <IconPlay color="rgb(var(--c-white))" />
     </PlayAction>
   </div>
 </template>

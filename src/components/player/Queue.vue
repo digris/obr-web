@@ -90,12 +90,11 @@ export default defineComponent({
         <ShuffleControl />
         <div class="button" v-text="'Clear queue'" @click="clearQueue" />
         <Circle
-          :size="48"
           @click="close"
           background-color="rgb(var(--c-black))"
           hover-background-color="rgba(var(--c-white), 0.1)"
         >
-          <IconCaret :size="48" direction="down" color="rgb(var(--c-white))" />
+          <IconCaret direction="down" color-var="--c-white" />
         </Circle>
       </div>
     </div>
