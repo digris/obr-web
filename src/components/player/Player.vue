@@ -41,6 +41,15 @@ export default defineComponent({
       }
       return `${currentMedia.value?.ct}:${currentMedia.value?.uid}`;
     });
+    const fgColor = computed(() => {
+      try {
+        const bg = currentMedia.value.releases[0].image.rgb;
+        return getContrastColor(bg);
+      } catch (e) {
+        console.warn(e);
+      }
+      return [128, 128, 128];
+    });
     const cssVars = computed(() => {
       try {
         const bg = currentMedia.value.releases[0].image.rgb;
@@ -76,6 +85,7 @@ export default defineComponent({
       currentMedia,
       currentScope,
       objKey,
+      fgColor,
       cssVars,
       queueVisible,
       queueNumMedia,
@@ -99,7 +109,7 @@ export default defineComponent({
           <CurrentMedia :media="currentMedia" />
         </div>
         <div class="center">
-          <PlayerControl />
+          <PlayerControl :fg-color="fgColor" />
         </div>
         <div class="right">
           <OnAir />

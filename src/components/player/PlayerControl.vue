@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
+import type { PropType } from "vue";
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
@@ -14,6 +15,12 @@ export default defineComponent({
   components: {
     ButtonSkip,
     ButtonPlay,
+  },
+  props: {
+    fgColor: {
+      type: Array as PropType<Array<number>>,
+      default: () => [0, 0, 0],
+    },
   },
   setup() {
     const store = useStore();
@@ -87,6 +94,7 @@ export default defineComponent({
       :outlined="true"
       :outline-width="2"
       :outline-opacity="1"
+      :base-color="fgColor"
       @pause="pause"
       @play="play"
     />

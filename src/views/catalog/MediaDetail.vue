@@ -77,10 +77,10 @@ export default defineComponent({
           <LazyImage class="image" :image="image">
             <PlayAction
               :obj-key="objKey"
-              :scale="2"
+              :icon-scale="2"
               :outlined="true"
-              :shadowed="true"
-              background-color="rgb(var(--c-white))"
+              :filled="true"
+              :color="[0, 0, 0]"
             />
           </LazyImage>
         </template>

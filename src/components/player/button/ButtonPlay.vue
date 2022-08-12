@@ -154,6 +154,7 @@ export default defineComponent({
     :class="{
       'is-outlined': isOutlined,
       'is-filled': isFilled,
+      'is-hover': isHover,
     }"
     :style="{
       '--size': `${iconSize}px`,
@@ -165,27 +166,13 @@ export default defineComponent({
     }"
   >
     <component :is="icon" :scale="scale" />
+    <div
+      @click.prevent="handleClick"
+      @mouseover.stop="onHover"
+      @mouseout.stop="onHout"
+      class="trigger-area"
+    />
   </div>
-  <!--
-  <CircleButton
-    @mouseover="onHover"
-    @mouseleave="onHout"
-    @click.prevent="handleClick"
-    :scale="iconScale"
-    :outlined="outlined"
-    :outline-width="outlineWidth"
-    :outline-opacity="outlineOpacity"
-    :disabled="disabled"
-    :filled="isActive"
-    :hover-background-opacity="0.9"
-    :style="{
-      '--c-fg': colorValue.join(','),
-      '--c-fill': fillColorValue.join(','),
-    }"
-  >
-    <component :is="icon" :scale="iconScale" />
-  </CircleButton>
-  -->
 </template>
 
 <style lang="scss" scoped>
@@ -208,5 +195,12 @@ export default defineComponent({
     transition: background-color 200ms;
     background: rgba(var(--c-bg), var(--hover-bg-opacity));
   }
+}
+.trigger-area {
+  background: transparent;
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: calc(var(--size) / 2);
 }
 </style>

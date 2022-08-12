@@ -40,9 +40,50 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <line x1="15" y1="19" x2="15" y2="34" />
-    <line x1="21" y1="14" x2="21" y2="34" />
-    <line x1="27" y1="21" x2="27" y2="34" />
-    <line x1="33" y1="16" x2="33" y2="34" />
+    <line x1="15" y1="0" x2="15" y2="20" />
+    <line x1="21" y1="0" x2="21" y2="20" />
+    <line x1="27" y1="0" x2="27" y2="20" />
+    <line x1="33" y1="0" x2="33" y2="20" />
   </svg>
 </template>
+
+<style lang="scss">
+//TODO: how to implement keyframes / animations scoped?
+@keyframes eq {
+  0%,
+  80%,
+  100% {
+    transform: scaleY(40%);
+  }
+  35% {
+    transform: scaleY(100%);
+  }
+  50% {
+    transform: scaleY(60%);
+  }
+  80% {
+    transform: scaleY(80%);
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+svg {
+  transform: rotate(180deg) translateY(25%);
+  line {
+    animation: eq 1200ms infinite;
+    &:nth-child(1) {
+      animation-delay: -550ms;
+    }
+    &:nth-child(2) {
+      animation-delay: -700ms;
+    }
+    &:nth-child(3) {
+      animation-delay: -350ms;
+    }
+    &:nth-child(4) {
+      animation-delay: -250ms;
+    }
+  }
+}
+</style>
