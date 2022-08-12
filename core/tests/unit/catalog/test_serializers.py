@@ -1,5 +1,4 @@
 import pytest
-from django.contrib.admin.sites import AdminSite
 from mixer.backend.django import mixer
 from datetime import timedelta
 from catalog.models.media import Media
@@ -17,7 +16,7 @@ class TestMediaSerializer:
 
     def test_missing_duration_in_seconds(self):
         serializer = DurationInSecondsSerializer(None)
-        assert serializer.to_representation(None) is None
+        assert serializer.to_representation(None) is 0
 
 
 @pytest.mark.django_db
