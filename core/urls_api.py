@@ -33,6 +33,11 @@ def api_root(request, format=None):
                 request=request,
                 format=format,
             ),
+            "swagger-docs/": reverse(
+                "api:swagger-ui",
+                request=request,
+                format=format,
+            ),
             "version/": reverse(
                 "api:version:version",
                 request=request,

@@ -124,7 +124,7 @@ export default defineComponent({
       await startPlayCurrent(true);
       isLoading.value = false;
     };
-    const onClick = requireSubscription(async (e) => {
+    const onClick = requireSubscription(async (e: MouseEvent) => {
       if (e.shiftKey || props.restartQueue) {
         await play();
       } else if (objIsPlaying.value || isBuffering.value) {
@@ -160,7 +160,7 @@ export default defineComponent({
 <template>
   <div class="play-action">
     <div
-      @click="onClick"
+      @click.prevent="onClick"
       class="container"
       :class="{
         'is-loading': isLoading,

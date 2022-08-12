@@ -42,6 +42,10 @@ export default defineComponent({
     :style="style"
   >
     <polygon :stroke="color" points="34.7,24 22,30.4 22,17.6" />
-    <polygon :fill="color" points="18.2,30.8 18.2,17.2 18.2,14.4 15.8,13.1 15.8,34.9 18.2,33.6" />
+    <polygon
+      :fill="color"
+      stroke-width="0"
+      points="18.2,30.8 18.2,17.2 18.2,14.4 15.8,13.1 15.8,34.9 18.2,33.6"
+    />
   </svg>
 </template>
