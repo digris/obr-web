@@ -2,14 +2,12 @@
 import { computed, defineComponent, ref } from "vue";
 import { usePlayerState } from "@/composables/player";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
-import IconPlay from "@/components/ui/icon/IconPlay.vue";
-import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
-import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
+import IconLogo from "@/components/ui/icon/IconLogo.vue";
 
 export default defineComponent({
   components: {
     CircleButton,
-    IconPlay,
+    IconLogo,
   },
   props: {
     media: {
@@ -49,18 +47,17 @@ export default defineComponent({
       }
       return playerState.value && playerState.value.relPosition;
     });
-    const icon = computed(() => {
+    const iconMode = computed(() => {
       if (isBuffering.value) {
-        return IconBuffering;
+        return "pause";
       }
       if (isPlaying.value && isHover.value) {
-        // return IconPause;
-        return IconPlaying;
+        return "pause";
       }
       if (isPlaying.value) {
-        return IconPlaying;
+        return "playing";
       }
-      return IconPlay;
+      return "play";
     });
     const isFilled = computed(() => {
       return isPlaying.value || isBuffering.value;
@@ -78,7 +75,7 @@ export default defineComponent({
       isPlaying,
       isFilled,
       progress,
-      icon,
+      iconMode,
     };
   },
 });
@@ -86,21 +83,17 @@ export default defineComponent({
 
 <template>
   <CircleButton
-    :scale="2.5"
+    :scale="3.35"
     :outline-opacity="1"
     :outline-width="6"
     :filled="isFilled"
     :outlined="true"
     :outline-on-hover="true"
+    color-var="--c-page-fg"
     @mouseover="isHover = true"
     @mouseleave="isHover = false"
     @click="handleClick"
   >
-    <component
-      :is="icon"
-      :scale="2"
-      :color="isFilled ? 'rgb(var(--c-page-fg-inverse))' : 'rgb(var(--c-page-fg))'"
-      :pause="isPlaying && isHover"
-    />
+    <IconLogo :mode="iconMode" :scale="3.35" :outline-width="1.8" color-var="--c-page-fg" />
   </CircleButton>
 </template>

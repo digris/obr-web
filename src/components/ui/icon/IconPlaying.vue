@@ -69,7 +69,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 svg {
-  transform: rotate(180deg) translateY(25%);
+  transform: rotate(180deg) translateY(28%);
   line {
     animation: eq 1200ms infinite;
     &:nth-child(1) {

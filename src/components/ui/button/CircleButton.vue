@@ -74,25 +74,33 @@ export default defineComponent({
     }"
   >
     <slot name="default" />
+    <div v-if="outlined" class="outline" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 .circle-button {
-  display: inline-grid;
+  //display: inline-grid;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--size);
   min-width: var(--size);
   height: var(--size);
   min-height: var(--size);
-  border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
 
-  &.is-outlined {
-    border-color: rgba(var(--c-main), var(--outline-opacity));
+  .outline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: var(--outline-width) solid rgba(var(--c-main), var(--outline-opacity));
+    border-radius: calc(var(--size) / 2);
   }
 
   &.is-filled {
@@ -106,11 +114,16 @@ export default defineComponent({
 
   @include responsive.hover-supported {
     transition: background 1000ms, color 200ms, border 200ms;
+    .outline {
+      transition: inherit;
+    }
   }
 
   @include responsive.on-hover {
     background: rgba(var(--c-main), var(--hover-background-opacity));
-    border-color: var(--outline-hover-color);
+    .outline {
+      border-color: var(--outline-hover-color);
+    }
   }
 
   /*

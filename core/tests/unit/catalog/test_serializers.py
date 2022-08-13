@@ -16,7 +16,7 @@ class TestMediaSerializer:
 
     def test_missing_duration_in_seconds(self):
         serializer = DurationInSecondsSerializer(None)
-        assert serializer.to_representation(None) is 0
+        assert serializer.to_representation(None) == 0
 
 
 @pytest.mark.django_db

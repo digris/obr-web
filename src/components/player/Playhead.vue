@@ -122,6 +122,9 @@ export default defineComponent({
           class="cue-point"
         />
       </g>
+      <g v-else>
+        <rect x="0" y="14" width="100%" height="1" class="progress-placeholder" />
+      </g>
     </svg>
     <PlayheadHandle
       v-if="isOndemand"
@@ -148,6 +151,9 @@ export default defineComponent({
   .progress-position {
     transition: fill 100ms;
     fill: rgba(var(--c-fg), 0.5);
+  }
+  .progress-placeholder {
+    fill: rgba(var(--c-fg), 0.2);
   }
   .cue-point {
     fill: rgba(var(--c-fg), 1);

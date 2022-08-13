@@ -13,6 +13,6 @@ export default defineComponent({
 
 <template>
   <CircleButton>
-    <IconProgram />
+    <IconProgram color-var="--c-page-fg" />
   </CircleButton>
 </template>

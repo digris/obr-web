@@ -166,6 +166,7 @@ export default defineComponent({
     }"
   >
     <component :is="icon" :scale="scale" />
+    <div v-if="isOutlined" class="outline" />
     <div
       @click.prevent="handleClick"
       @mouseover.stop="onHover"
@@ -178,15 +179,21 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/abstracts/responsive";
 .button-play {
+  position: relative;
   display: inline-grid;
   align-items: center;
   justify-content: center;
-  border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background-color 750ms;
-  &.is-outlined {
-    border-color: rgba(var(--c-fg), var(--outline-opacity));
+  .outline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: var(--outline-width) solid rgba(var(--c-fg), var(--outline-opacity));
+    border-radius: calc(var(--size) / 2);
   }
   &.is-filled {
     background: rgb(var(--c-bg));

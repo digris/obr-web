@@ -2,17 +2,19 @@
 import { defineComponent } from "vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconPType from "@/components/ui/icon/IconPType.vue";
+import IconLogo from "@/components/ui/icon/IconLogo.vue";
 
 export default defineComponent({
   components: {
     CircleButton,
     IconPType,
+    IconLogo,
   },
   setup() {
     const stageVarsA = {
       "--c-fg": "0,0,0",
       "--c-fg-inverse": "255,255,255",
-      "--c-bg": "200,0,100",
+      "--c-bg": "200,255,255",
       "--c-active": "255,0,255",
     };
     const stageVarsB = {
@@ -30,6 +32,52 @@ export default defineComponent({
 </script>
 <template>
   <div class="ptype-view">
+    <div class="stage" :style="stageVarsA">
+      <pre v-text="stageVarsA" />
+      <div class="row">
+        <div>
+          <CircleButton
+            :outlined="true"
+            :outline-width="2"
+            :outline-opacity="1"
+            :outline-on-hover="true"
+          >
+            <IconLogo :scale="1" />
+          </CircleButton>
+        </div>
+        <div>
+          <CircleButton
+            :outlined="true"
+            :outline-width="3"
+            :outline-opacity="1"
+            :outline-on-hover="true"
+            :scale="2"
+          >
+            <IconLogo :scale="2" mode="play" />
+          </CircleButton>
+        </div>
+        <div>
+          <CircleButton
+            :outlined="true"
+            :outline-width="2"
+            :outline-opacity="1"
+            :outline-on-hover="true"
+          >
+            <IconLogo :scale="1" mode="pause" />
+          </CircleButton>
+        </div>
+        <div>
+          <CircleButton
+            :outlined="true"
+            :outline-width="2"
+            :outline-opacity="1"
+            :outline-on-hover="true"
+          >
+            <IconLogo :scale="1" mode="playing" />
+          </CircleButton>
+        </div>
+      </div>
+    </div>
     <div class="stage" :style="stageVarsA">
       <pre v-text="stageVarsA" />
       <div class="row">
