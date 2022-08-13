@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 OBP_URL = "https://www.openbroadcast.org"
 OBP_URL_MAP = {
     "catalog.artist": "content/library/artists",
+    "broadcast.editor": "network/users",
 }
 
 
