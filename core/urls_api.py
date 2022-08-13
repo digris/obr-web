@@ -94,6 +94,10 @@ urlpatterns = [
         include("catalog.api.urls", "catalog"),
     ),
     path(
+        "redirect/",
+        include("redirect.api.urls", "redirect"),
+    ),
+    path(
         "broadcast/",
         include("broadcast.api.urls", "broadcast"),
     ),

@@ -171,7 +171,7 @@ export default defineComponent({
           :is-active="inScope"
           :is-playing="isPlaying && !shiftKey"
           :is-buffering="isLoading || isBuffering"
-          :in-queue="queuePosition > 0"
+          :in-queue="queuePosition > 0 || queuePosition < 0"
           :scale="iconScale"
           :outlined="outlined"
           :filled="filled"
