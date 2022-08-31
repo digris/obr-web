@@ -19,10 +19,6 @@ const getters = {
   time: (state: State) => {
     return state.playheadTime ? state.playheadTime : state.stationTime;
   },
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  offset: (state: State, getters: any) => {
-    return Math.floor((getters.stationTime - getters.time) / 1000);
-  },
 };
 
 const mutations = {

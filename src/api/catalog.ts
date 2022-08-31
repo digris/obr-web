@@ -55,10 +55,7 @@ async function getArtistsTags(filter: any) {
 async function getArtist(uid: string) {
   const url = `${ARTIST_ENDPOINT}${uid}/`;
   const params = {
-    expand: [
-      "tags",
-      "identifiers", // TODO: implement in serializer
-    ],
+    expand: ["tags", "identifiers"],
   };
   const response = await APIClient.get(url, { params });
   return response.data;
@@ -88,7 +85,7 @@ async function getMediaTags(filter: any) {
 async function getMediaDetail(uid: string) {
   const url = `${MEDIA_ENDPOINT}${uid}/`;
   const params = {
-    expand: ["tags"],
+    expand: ["tags", "identifiers"],
   };
   const response = await APIClient.get(url, { params });
   return response.data;

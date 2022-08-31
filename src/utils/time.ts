@@ -1,7 +1,7 @@
 import { DateTime } from "luxon";
 import store from "@/store";
 
-const TIME_OFFSET = -20;
+const TIME_OFFSET = -27;
 
 class StationTimeHandler {
   constructor() {

@@ -51,11 +51,11 @@ export default defineComponent({
       if (isBuffering.value) {
         return "pause";
       }
-      if (isPlaying.value && isHover.value) {
-        return "pause";
-      }
+      // if (isPlaying.value && isHover.value) {
+      //   return "pause";
+      // }
       if (isPlaying.value) {
-        return "playing";
+        return "pause";
       }
       return "play";
     });

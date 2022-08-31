@@ -79,6 +79,7 @@ MIDDLEWARE = [
     # "request_logging.middleware.LoggingMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
     "geolocation.middleware.GeolocationMiddleware",
+    "client_mode.middleware.ClientModeMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -104,7 +105,7 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "base.context_processors.version",
-                "geolocation.context_processors.geolocation",
+                "client_mode.context_processors.client_mode",
             ],
         },
     },

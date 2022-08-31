@@ -49,6 +49,7 @@ export default defineComponent({
       return [...objIdentifiers.value, ...extraIdentifiers.value];
     });
     return {
+      objKey,
       keyPrefix,
       identifiers,
       isStaff,
@@ -64,6 +65,7 @@ export default defineComponent({
       '--spacing': spacing,
     }"
   >
+    <pre v-text="{ objKey, keyPrefix }" />
     <Identifier
       class="identifiers__identifier"
       v-for="identifier in identifiers"

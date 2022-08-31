@@ -1,9 +1,20 @@
-import { computed } from "vue";
+import { computed, ref, isRef, isReactive, unref, watchEffect } from "vue";
 
 const useObjKey = (obj: any) => {
-  const objKey = computed(() => {
-    return obj?.ct && obj?.uid ? `${obj.ct}:${obj.uid}` : "";
-  });
+  const objKey = ref("");
+  const setObjKey = () => {
+    const o = unref(obj);
+    objKey.value = o?.ct && o?.uid ? `${o.ct}:${o.uid}` : "";
+  };
+  if (isRef(obj) || isReactive(obj)) {
+    watchEffect(setObjKey);
+  } else {
+    // watchEffect(setObjKey);
+    setObjKey();
+  }
+  // const objKey = computed(() => {
+  //   return obj?.ct && obj?.uid ? `${obj.ct}:${obj.uid}` : "";
+  // });
   return {
     objKey,
   };

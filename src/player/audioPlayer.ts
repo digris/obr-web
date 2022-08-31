@@ -234,7 +234,7 @@ class AudioPlayer {
     if (playheadTime) {
       store.dispatch(
         "time/setPlayheadTime",
-        DateTime.fromJSDate(playheadTime).plus({ seconds: +0 })
+        DateTime.fromJSDate(playheadTime).plus({ seconds: -7 })
       );
     } else {
       store.dispatch("time/setPlayheadTime", null);

@@ -4,6 +4,7 @@ from rest_framework import serializers
 from catalog.api.serializers.release import ReleaseSerializer
 from catalog.models import Media, MediaArtists
 from tagging.api.serializers import TagSerializer
+from identifier.api.serializers import IdentifierSerializer
 from api_extra.serializers import DurationInSecondsSerializer
 
 
@@ -113,6 +114,14 @@ class MediaSerializer(
                 TagSerializer,
                 {
                     "many": True,
+                },
+            ),
+            "identifiers": (
+                IdentifierSerializer,
+                {
+                    "many": True,
+                    "required": False,
+                    "allow_null": True,
                 },
             ),
         }

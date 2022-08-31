@@ -1,12 +1,13 @@
 import store from "@/store";
 import eventBus from "@/eventBus";
+import settings from "@/settings";
 import { getImageSrc } from "@/utils/image";
 
 class MediaSessionHandler {
   session: null;
 
   constructor() {
-    if ("mediaSession" in navigator) {
+    if ("mediaSession" in navigator && settings.CLIENT_MODE_APP === "web") {
       // @ts-ignore
       this.session = navigator.mediaSession;
       this.setupBindings(true);

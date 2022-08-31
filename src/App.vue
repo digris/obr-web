@@ -12,6 +12,7 @@ import Player from "@/components/player/Player.vue";
 import MobilePlayer from "@/components/player/mobile/Player.vue";
 import Notifications from "@/components/notification/Notifications.vue";
 import ClaimVoucher from "@/components/subscription/voucher/Claim.vue";
+import DebugPanel from "@/components/dev/DebugPanel.vue";
 
 declare global {
   interface Window {
@@ -30,6 +31,7 @@ export default defineComponent({
     Subscribe,
     Player,
     ClaimVoucher,
+    DebugPanel,
   },
   setup() {
     const store = useStore();
@@ -65,4 +67,5 @@ export default defineComponent({
   <Subscribe />
   <ClaimVoucher />
   <component :is="playerComponent" />
+  <DebugPanel />
 </template>

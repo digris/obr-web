@@ -56,11 +56,11 @@ export default defineComponent({
     >
       <CurrentSubscription />
     </Section>
+    <Stream />
     <Email v-if="user" :user="user" @updated="reloadUser" />
     <Password />
     <Personal :user="user" @updated="reloadUser" />
     <Address :address="address" @updated="reloadUser" />
     <Social />
-    <Stream />
   </div>
 </template>

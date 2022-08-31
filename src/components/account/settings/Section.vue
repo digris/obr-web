@@ -60,10 +60,11 @@ export default defineComponent({
   .title {
     padding-bottom: 0.4rem;
   }
+  /*
   .panel {
-    //@include typo.large;
     padding-top: 0.75rem;
   }
+  */
   &.is-outlined {
     .panel {
       padding: 0.75rem;

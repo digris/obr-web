@@ -8,18 +8,18 @@ const BANDWITH_CHOICES = [
   {
     value: 720000,
     title: "512 Kb/s",
-    description: "HiFi - 200 Mb/h",
+    description: "HiFi · 200 Mb/h",
   },
   {
     value: 200000,
     title: "128 Kb/s",
-    description: "Eco: - 50 Mb/h",
+    description: "Eco · 50 Mb/h",
   },
-  {
-    value: 56000,
-    title: "36 Kb/s",
-    description: "Super-Eco: 15 Mb/h",
-  },
+  // {
+  //   value: 56000,
+  //   title: "36 Kb/s",
+  //   description: "Super-Eco: 15 Mb/h",
+  // },
 ];
 
 export default defineComponent({
@@ -73,12 +73,12 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/abstracts/responsive";
 .info {
-  padding: 0.5rem 2rem 1rem 0;
+  padding: 0 2rem 1rem 0;
   opacity: 0.5;
 }
 .options {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   .option {
     cursor: pointer;
@@ -94,6 +94,15 @@ export default defineComponent({
       color: rgb(var(--c-white));
       background: rgb(var(--c-black));
       border-color: rgb(var(--c-black));
+    }
+  }
+  @include responsive.bp-small {
+    grid-template-columns: unset;
+    .option {
+      display: flex;
+      .title {
+        flex-grow: 1;
+      }
     }
   }
 }

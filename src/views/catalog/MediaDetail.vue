@@ -9,6 +9,7 @@ import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 import PlaylistList from "@/components/catalog/playlist/List.vue";
@@ -22,6 +23,7 @@ export default defineComponent({
     Duration,
     PlayAction,
     ObjectTags,
+    ObjectIdentifiers,
     MediaArtists,
     MediaReleases,
     PlaylistList,
@@ -92,6 +94,7 @@ export default defineComponent({
             <MediaReleases :releases="media.releases" />
           </div>
           <ObjectTags class="tags" :obj="media" :limit="4" />
+          <ObjectIdentifiers class="identifiers" :obj="media" :limit="4" />
         </template>
         <template #meta-panel>
           <!--

@@ -33,12 +33,6 @@ export default defineComponent({
     const minute = computed(() => {
       return zeroPad(time.value.minute);
     });
-    const second = computed(() => {
-      return zeroPad(time.value.second);
-    });
-    const offset = computed(() => {
-      return store.getters["time/offset"];
-    });
     const releaseFocus = () => {
       emit("releaseFocus");
     };
@@ -49,9 +43,6 @@ export default defineComponent({
       time,
       hour,
       minute,
-      second,
-      // isTimeshifted,
-      offset,
       toggleProgram,
       releaseFocus,
     };
@@ -74,14 +65,6 @@ export default defineComponent({
         <span class="hour" v-text="hour" />
         <span class="separator separator--minute" v-text="`:`" />
         <span class="minute" v-text="minute" />
-        <!--
-        <span
-          class="separator separator--second"
-        >:</span>
-        <span
-          class="second"
-        >{{ second }}</span>
-        -->
         <IconClose class="icon" :scale="0.75" color-var="--c-page-fg-inverse" />
       </div>
     </div>
@@ -140,8 +123,7 @@ $height: 48px;
       justify-self: center;
     }
     .hour,
-    .minute,
-    .second {
+    .minute {
       font-weight: 600;
       font-size: 1em;
     }
@@ -188,10 +170,6 @@ $height: 48px;
     border: 3px solid transparent;
     border-color: inherit;
     border-radius: math.div($height, 2);
-    .offset {
-      grid-column-start: 2;
-      justify-self: center;
-    }
   }
 }
 </style>
