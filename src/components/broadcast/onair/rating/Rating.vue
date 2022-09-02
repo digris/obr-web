@@ -151,7 +151,7 @@ export default defineComponent({
   <div class="rating">
     <div class="total">?</div>
     <div>
-      <CircleButton @click="rate(1)">
+      <CircleButton @click="rate(1)" :outlined="true">
         <div
           class="flip-container"
           :class="{
@@ -163,7 +163,7 @@ export default defineComponent({
       </CircleButton>
     </div>
     <div>
-      <CircleButton @click="rate(-1)">
+      <CircleButton @click="rate(-1)" :outlined="true">
         <div
           class="flip-container"
           :class="{
