@@ -21,8 +21,12 @@ export default defineComponent({
     const showSideMenu = () => {
       eventBus.emit("side-menu:show");
     };
+    const showGlobalSearch = () => {
+      eventBus.emit("global-search:show");
+    };
     return {
       showSideMenu,
+      showGlobalSearch,
     };
   },
 });
@@ -39,7 +43,7 @@ export default defineComponent({
       <SubscriptionStatus class="menu menu--subscription" />
       <AccountMenu class="menu menu--account" />
     </div>
-    <div class="menu-toggle" @click.prevent="showSideMenu">
+    <div class="menu-toggle" @click.prevent="showGlobalSearch">
       <ToggleSearchButton />
     </div>
     <div class="menu-toggle" @click.prevent="showSideMenu">
@@ -79,7 +83,9 @@ export default defineComponent({
       margin-right: 12px;
     }
     &:hover {
-      background: rgba(var(--c-page-fg), 0.1);
+      &:not(&.router-link-exact-active) {
+        background: rgba(var(--c-page-fg), 0.1);
+      }
       transition: color, background-color 200ms;
     }
     @include responsive.bp-small {
@@ -126,6 +132,9 @@ export default defineComponent({
     align-items: center;
     justify-content: flex-end;
     padding: 0 1rem;
+    @include responsive.bp-small {
+      padding-right: 0.625rem;
+    }
   }
 }
 </style>

@@ -89,7 +89,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Verbundene Konten" :outlined="false">
+  <Section title="Verbundene Accounts" :outlined="false">
     <div class="info">
       <p>
         Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
@@ -136,6 +136,9 @@ export default defineComponent({
 .info {
   padding: 0.5rem 2rem 1rem 0;
   opacity: 0.5;
+  @include responsive.bp-medium {
+    @include typo.small;
+  }
 }
 .backend {
   display: grid;
@@ -171,6 +174,7 @@ export default defineComponent({
     background: rgba(var(--c-black), 0.1);
     border: 0;
     cursor: pointer;
+    color: rgb(0, 0, 0);
     &:disabled {
       cursor: not-allowed;
     }

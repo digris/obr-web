@@ -24,6 +24,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 @use "@/style/base/typo";
 .account {
@@ -33,5 +34,8 @@ export default defineComponent({
 .header {
   @include typo.x-large;
   margin: 2rem 0 2rem;
+  @include responsive.bp-medium {
+    margin: 0.625rem 0;
+  }
 }
 </style>

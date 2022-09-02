@@ -6,6 +6,7 @@ import { AudioPlayer } from "@/player/audioPlayer";
 import { Queue } from "@/player/queue";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
+import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
 import AuthPanel from "@/components/account/AuthPanel.vue";
 import Subscribe from "@/components/subscription/Subscribe.vue";
 import Player from "@/components/player/Player.vue";
@@ -26,6 +27,7 @@ export default defineComponent({
   components: {
     Navigation,
     SideMenu,
+    GlobalSearch,
     Notifications,
     AuthPanel,
     Subscribe,
@@ -58,6 +60,7 @@ export default defineComponent({
 <template>
   <Navigation />
   <SideMenu />
+  <GlobalSearch />
   <Notifications />
   <router-view v-slot="{ Component }">
     <keep-alive>

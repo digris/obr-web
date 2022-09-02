@@ -30,6 +30,8 @@ menu:
   imprint: Impressum
   terms: AGB
   logout: Abmelden
+search:
+  search: Suche
 text:
   duration: Dauer
   airtime: Airtime

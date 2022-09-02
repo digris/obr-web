@@ -25,6 +25,8 @@ menu:
   developers: Developers
   about: About
   terms: Terms & Conditions
+search:
+  search: search
 text:
   duration: duration
   airtime: airtime

@@ -45,11 +45,15 @@ export default defineComponent({
 <template>
   <Section title="Streaming" :outlined="false">
     <div class="info">
-      <p>
+      <p class="full">
         Per "default" liefern wir dir unseren Content in der bestmöglichen Qualität.
         <br />
         Die Übertragungsrate wird laufend an die Qualität deiner Internetverbindung angepasst.
         <br />
+        Zur Minimierung deines Datenvolumens / der Umweltbelastung kannst du eine maximale
+        Übertragungsrate festlegen:
+      </p>
+      <p class="minimal">
         Zur Minimierung deines Datenvolumens / der Umweltbelastung kannst du eine maximale
         Übertragungsrate festlegen:
       </p>
@@ -75,6 +79,21 @@ export default defineComponent({
 .info {
   padding: 0 2rem 1rem 0;
   opacity: 0.5;
+  .full {
+    display: block;
+  }
+  .minimal {
+    display: none;
+  }
+  @include responsive.bp-medium {
+    .full {
+      display: none;
+    }
+    .minimal {
+      @include typo.small;
+      display: block;
+    }
+  }
 }
 .options {
   display: grid;
@@ -92,12 +111,13 @@ export default defineComponent({
     }
     &.is-current {
       color: rgb(var(--c-white));
-      background: rgb(var(--c-black));
-      border-color: rgb(var(--c-black));
+      background: rgb(var(--c-green));
+      border-color: rgb(var(--c-green));
     }
   }
   @include responsive.bp-small {
     grid-template-columns: unset;
+    grid-gap: 0.5rem;
     .option {
       display: flex;
       .title {

@@ -182,6 +182,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/section";
 @use "@/style/base/typo";
 .side-menu {
@@ -198,17 +199,30 @@ export default defineComponent({
     &:not(:last-child) {
       border-bottom: 1px solid rgb(var(--c-gray-200));
     }
+    > a {
+      line-height: 150%;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
     &--primary {
       > a {
         @include typo.bold;
         font-size: 4rem;
-        line-height: 4rem !important;
+        line-height: 100%;
       }
     }
-    > a {
-      line-height: 1.5rem;
-      &:hover {
-        opacity: 0.5;
+  }
+  @include responsive.bp-small {
+    .section {
+      padding: 10px 0;
+      &:first-child {
+        padding-top: 2px;
+      }
+      &--primary {
+        > a {
+          font-size: 2.5rem;
+        }
       }
     }
   }

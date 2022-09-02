@@ -54,11 +54,16 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 .section {
   margin: 2rem 0;
   .title {
     padding-bottom: 0.4rem;
+    @include responsive.bp-medium {
+      @include typo.small;
+      padding-bottom: 0.6rem;
+    }
   }
   /*
   .panel {

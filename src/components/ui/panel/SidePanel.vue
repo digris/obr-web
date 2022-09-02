@@ -38,7 +38,12 @@ export default defineComponent({
   <transition name="slide">
     <div v-if="isVisible" class="side-panel">
       <div class="side-panel__header">
-        <CloseButton @click.prevent="close" />
+        <div class="slot">
+          <slot name="header" />
+        </div>
+        <div class="close">
+          <CloseButton @click.prevent="close" />
+        </div>
       </div>
       <div class="side-panel__body">
         <slot name="default" />
@@ -77,6 +82,7 @@ export default defineComponent({
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
+  transition: background 400ms;
 
   @include responsive.bp-medium {
     max-width: unset;
@@ -89,21 +95,27 @@ export default defineComponent({
     height: 75px;
     margin: 0 1.5rem 0.5rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
+    .slot {
+      flex-grow: 1;
+    }
+    .close {
+    }
     @include responsive.bp-medium {
-      margin: 0 1rem 0.5rem;
+      height: 60px;
+      margin: 0 0.5rem 0.5rem;
     }
   }
   &__body {
     flex-grow: 1;
     padding: 0 1.5rem 1rem;
     @include responsive.bp-medium {
-      padding: 0 1rem 1rem;
+      padding: 0 0.625rem 0.5rem;
     }
   }
   &__footer {
     padding: 1rem 1.5rem;
     @include responsive.bp-medium {
-      padding: 0 1rem 1rem;
+      padding: 0 0.625rem 0;
     }
   }
 }
@@ -121,7 +133,7 @@ export default defineComponent({
 
 .slide-enter-active,
 .slide-leave-active {
-  transition: transform 200ms;
+  transition: transform 200ms ease-out;
 }
 .slide-enter-from {
   transform: translate(100%, 0);
