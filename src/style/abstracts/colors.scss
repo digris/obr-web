@@ -44,8 +44,9 @@ $color-palette: (
 );
 
 $color-palette-dark: (
-  //black: (255, 255, 255),
-  //white: (20, 20, 20),
+  black: (255, 255, 255),
+  white: (20, 20, 20),
+  page-fg-inverse: (20, 20, 20),
 );
 
 $page-color-light: (

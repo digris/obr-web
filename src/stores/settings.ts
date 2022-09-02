@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { useStorage, useNavigatorLanguage } from "@vueuse/core";
 
 interface State {
+  theme: "light" | "dark" | null;
   volume: number;
   shuffleMode: boolean;
   maxBandwidth: number;
@@ -15,6 +16,7 @@ const getDefaultLanguage = () => {
 
 export const useSettingsStore = defineStore("settings", {
   state: (): State => ({
+    theme: useStorage("settings/theme", null),
     volume: useStorage("settings/player/volume", 100),
     shuffleMode: useStorage("settings/player/shuffleMode", false),
     maxBandwidth: useStorage("settings/stream/maxBandwidth", 200000),

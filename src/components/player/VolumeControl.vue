@@ -1,7 +1,7 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
-import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
+import { useSettingsStore } from "@/stores/settings";
 
 import IconSpeaker from "@/components/ui/icon/IconSpeaker.vue";
 import Circle from "./button/Circle.vue";

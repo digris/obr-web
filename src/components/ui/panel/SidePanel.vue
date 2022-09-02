@@ -59,7 +59,8 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   z-index: 111;
-  background: rgba(var(--c-black), 0.9);
+  //background: rgba(var(--c-black), 0.9);
+  background: rgba(0, 0, 0, 0.9);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
 .side-panel {

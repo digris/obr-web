@@ -82,6 +82,7 @@ export default defineComponent({
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
+  //background: rgb(0, 0, 0);
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -99,7 +100,6 @@ export default defineComponent({
     padding-bottom: 1rem;
     background: rgb(var(--c-white));
     z-index: 50;
-    background: rgba(255, 255, 255, 0.9);
   }
 
   .container {

@@ -24,14 +24,6 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    @each $name, $color in $color-palette-dark {
-      --c-#{"" + $name}: #{$color};
-    }
-  }
-}
-
 [data-page-color="live"] {
   --c-page-bg: var(--c-live-bg);
   --c-page-fg: var(--c-live-fg);
@@ -47,6 +39,35 @@
 [data-page-color="dark"] {
   @each $name, $color in $page-color-dark {
     --c-#{"" + $name}: #{$color};
+  }
+}
+
+//@media (prefers-color-scheme: dark) {
+//  :root {
+//    @each $name, $color in $color-palette-dark {
+//      --c-#{"" + $name}: #{$color};
+//    }
+//  }
+//}
+
+// NOTE: just for testing the switch. logic needs to be reworked.
+[data-theme="dark"] {
+  @each $name, $color in $color-palette-dark {
+    --c-#{"" + $name}: #{$color};
+  }
+  &[data-page-color="light"] {
+    --c-white: 30, 30, 30;
+    --c-black: 255, 255, 255;
+    --c-page-bg: 30, 30, 30;
+    --c-page-fg: 255, 255, 255;
+    --c-fg: 255, 255, 255;
+  }
+  &[data-page-color="dark"] {
+    --c-white: 30, 30, 30;
+    --c-black: 255, 255, 255;
+    --c-page-bg: 50, 50, 50;
+    --c-page-fg: 255, 255, 255;
+    --c-fg: 255, 255, 255;
   }
 }
 

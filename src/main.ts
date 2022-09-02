@@ -10,6 +10,7 @@ import trackerAssist from "@openreplay/tracker-assist";
 import settings from "@/settings";
 import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
+import setDocumentTheme from "@/utils/theme";
 import createUIStateHandler from "@/utils/ui";
 import createStationTimeHandler from "@/utils/time";
 import createAccountHandler from "@/utils/account";
@@ -38,6 +39,8 @@ const app = createApp(App);
 app.use(pinia);
 
 const settingsStore = useSettingsStore();
+
+setDocumentTheme();
 
 // @ts-ignore
 import de from "@/locales/de.yml";

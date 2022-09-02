@@ -131,7 +131,7 @@ export default {
   img {
     min-width: 100%;
     max-width: 100%;
-    background: rgb(var(--c-color));
+    background: rgba(var(--c-color), 0.5);
     opacity: 1;
     filter: var(--image-filter);
     transition: opacity 100ms;
