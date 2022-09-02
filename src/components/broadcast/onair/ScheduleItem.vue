@@ -7,6 +7,7 @@ import { DateTime } from "luxon";
 import { requireSubscription } from "@/utils/account";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayButton from "./button/Play.vue";
+import Ticker from "./Ticker.vue";
 
 const NUM_ITEMS_IN_VIEWPORT = 4;
 
@@ -14,6 +15,7 @@ export default defineComponent({
   components: {
     LazyImage,
     PlayButton,
+    Ticker,
   },
   props: {
     hasFocus: {
@@ -124,6 +126,7 @@ export default defineComponent({
     <div class="actions">
       <PlayButton :media="media" @play="play" @pause="pause" />
     </div>
+    <Ticker v-if="release && release.isNew" text="New Release" />
   </div>
 </template>
 
@@ -157,6 +160,13 @@ export default defineComponent({
         background: rgba(var(--c-bg), 0.8);
       }
     }
+  }
+  .ticker {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    font-size: 2rem;
   }
 }
 </style>

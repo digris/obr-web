@@ -17,6 +17,9 @@ class ReleaseSerializer(
     num_media = serializers.IntegerField(
         read_only=True,
     )
+    is_new = serializers.BooleanField(
+        read_only=True,
+    )
 
     class Meta:
         model = Media
@@ -26,5 +29,6 @@ class ReleaseSerializer(
             "uid",
             "name",
             "num_media",
+            "is_new",
             "image",
         ]

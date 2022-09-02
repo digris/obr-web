@@ -65,7 +65,6 @@ export default defineComponent({
       '--spacing': spacing,
     }"
   >
-    <pre v-text="{ objKey, keyPrefix }" />
     <Identifier
       class="identifiers__identifier"
       v-for="identifier in identifiers"
