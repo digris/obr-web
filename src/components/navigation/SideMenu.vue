@@ -6,11 +6,13 @@ import { useI18n } from "vue-i18n";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
+import ToggleModeButton from "@/components/navigation/ToggleModeButton.vue";
 
 export default defineComponent({
   components: {
     SidePanel,
     LanguageChooser,
+    ToggleModeButton,
   },
   setup() {
     const router = useRouter();
@@ -170,7 +172,9 @@ export default defineComponent({
     </div>
     <template #footer>
       <div class="footer">
-        <div class="ui-mode-chooser">DM</div>
+        <div class="ui-mode-chooser">
+          <ToggleModeButton />
+        </div>
         <LanguageChooser class="language-chooser" />
       </div>
     </template>
@@ -215,6 +219,7 @@ export default defineComponent({
   align-items: center;
   border-top: 1px solid rgb(var(--c-gray-200));
   padding-top: 0.5rem;
+  padding-bottom: 1rem;
   .ui-mode-chooser {
     flex-grow: 1;
   }

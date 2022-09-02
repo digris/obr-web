@@ -2,6 +2,7 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useWindowSize } from "@vueuse/core";
+import { useDark } from "@vueuse/core";
 import { AudioPlayer } from "@/player/audioPlayer";
 import { Queue } from "@/player/queue";
 import Navigation from "@/components/navigation/Navigation.vue";
@@ -35,6 +36,8 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    useDark();
+
     const user = computed(() => store.getters["account/user"]);
 
     window.audioPlayer = new AudioPlayer();
