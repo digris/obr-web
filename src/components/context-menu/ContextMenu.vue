@@ -177,6 +177,7 @@ export default defineComponent({
         width: 100%;
         border-radius: unset;
         box-shadow: unset;
+        padding-bottom: 120px;
       }
     }
   }

@@ -41,6 +41,7 @@ export default defineComponent({
   </div>
 </template>
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/container";
 @use "@/style/elements/list-menu";
@@ -50,6 +51,10 @@ export default defineComponent({
   @include typo.bold;
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+  @include responsive.bp-medium {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+  }
 }
 .list-menu {
   @include container.default;

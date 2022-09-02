@@ -30,9 +30,10 @@
   @include responsive.bp-small {
     flex-direction: column;
     .menu {
+      overflow-x: scroll;
       &--primary {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
       }
     }
   }
