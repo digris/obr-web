@@ -100,6 +100,9 @@ export default defineComponent({
     padding-bottom: 1rem;
     background: rgb(var(--c-white));
     z-index: 50;
+    @include responsive.bp-small {
+      height: 60px;
+    }
   }
 
   .container {
@@ -141,7 +144,7 @@ export default defineComponent({
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 100ms;
+  transition: opacity 200ms;
 }
 .fade-enter-from {
   opacity: 0;

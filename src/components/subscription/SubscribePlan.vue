@@ -149,6 +149,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/section";
 @use "@/style/elements/button";
@@ -167,6 +168,9 @@ export default defineComponent({
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 1fr 1fr;
+  @include responsive.bp-medium {
+    grid-template-columns: unset;
+  }
 }
 @mixin option {
   display: flex;
@@ -199,6 +203,45 @@ export default defineComponent({
   .until-date {
     padding: 0;
   }
+  //@include responsive.bp-medium {
+  //  padding: 0.25rem 0.5rem 0.5rem;
+  //  .price {
+  //    font-size: 120%;
+  //  }
+  //  .separator {
+  //    display: none;
+  //  }
+  //  .title {
+  //    @include typo.small;
+  //    padding-top: 0.25rem;
+  //  }
+  //  .until-date {
+  //    @include typo.small;
+  //  }
+  //}
+  @include responsive.bp-medium {
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    display: grid;
+    grid-gap: 0.25rem;
+    grid-template-areas:
+      "title price"
+      "date  price";
+    .separator {
+      display: none;
+    }
+    .price {
+      grid-area: price;
+      font-size: 120%;
+      justify-self: end;
+    }
+    .title {
+      grid-area: title;
+    }
+    .until-date {
+      grid-area: date;
+      @include typo.small;
+    }
+  }
 }
 .options {
   @include options;
@@ -213,6 +256,11 @@ export default defineComponent({
   }
   .price {
     @include typo.large;
+    @include typo.bold;
+    @include responsive.bp-medium {
+      color: rgb(var(--c-green));
+      font-size: 150%;
+    }
   }
 }
 .actions {
@@ -224,6 +272,9 @@ export default defineComponent({
     min-width: 33%;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
+    @include responsive.bp-medium {
+      width: 100%;
+    }
   }
 }
 </style>

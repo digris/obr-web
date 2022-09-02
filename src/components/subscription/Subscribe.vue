@@ -119,7 +119,9 @@ export default defineComponent({
       </div>
     </template>
     <template #footer>
+      <!--
       <div class="legal">(( Legal shizzle... ))</div>
+      -->
     </template>
   </OverlayPanel>
 </template>
