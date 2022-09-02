@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { DateTime } from "luxon";
@@ -15,13 +15,13 @@ export default defineComponent({
     const { t } = useI18n();
     const store = useStore();
     const subscription = computed(() => store.getters["account/subscription"]);
-    const now = ref(DateTime.now());
+    const now = DateTime.now();
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {
         return null;
       }
       const activeUntil = DateTime.fromISO(subscription.value.activeUntil);
-      const diff = activeUntil.diff(now.value, ["days"]);
+      const diff = activeUntil.diff(now, ["days"]);
       return Math.round(diff.days);
     });
     const isActive = computed(() => subscription.value && subscription.value.isActive);
