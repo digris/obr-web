@@ -43,7 +43,7 @@ export default defineComponent({
       <SubscriptionStatus class="menu menu--subscription" />
       <AccountMenu class="menu menu--account" />
     </div>
-    <div class="menu-toggle" @click.prevent="showGlobalSearch">
+    <div class="search-toggle" @click.prevent="showGlobalSearch">
       <ToggleSearchButton />
     </div>
     <div class="menu-toggle" @click.prevent="showSideMenu">
@@ -127,6 +127,7 @@ export default defineComponent({
       }
     }
   }
+  .search-toggle,
   .menu-toggle {
     display: flex;
     align-items: center;

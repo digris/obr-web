@@ -41,7 +41,7 @@ export default defineConfig({
       },
     },
     outDir: resolve(__dirname, "build"),
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1500,
     assetsInlineLimit: 8092,
   },
   resolve: {
