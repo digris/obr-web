@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.42 (2022-09-05)
+### Fix
+* Review classes on search toggle button ([`ff728fc`](https://github.com/digris/obr-web/commit/ff728fc2ba4b2e2c2c214f05040e96ae5cd2c979))
+
 ## v0.0.41 (2022-07-19)
 ### Fix
 * Add mobile program views ([`f7dfcf3`](https://github.com/digris/obr-web/commit/f7dfcf31492b3b8ba1529dc12f66a64e7dc3dd9b))
