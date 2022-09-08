@@ -24,7 +24,7 @@ export default defineComponent({
       return {
         fill: "none",
         stroke: color.value,
-        strokeWidth: (2 * 48) / size.value,
+        strokeWidth: (2.5 * 48) / size.value,
         width: `${size.value}px`,
         height: `${size.value}px`,
       };

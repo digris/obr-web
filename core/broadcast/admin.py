@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from modeltranslation.admin import TranslationAdmin
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
@@ -40,13 +41,14 @@ class EmissionAdmin(admin.ModelAdmin):
 
 
 @admin.register(Editor)
-class EditorAdmin(admin.ModelAdmin):
+class EditorAdmin(TranslationAdmin):
     save_on_top = True
     list_display = [
         "image_display",
         "display_name",
+        "location",
         "uid",
-        "updated",
+        # "updated",
         "is_active",
         "sync_state",
     ]

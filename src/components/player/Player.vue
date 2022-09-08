@@ -7,6 +7,7 @@ import CurrentMedia from "./CurrentMedia.vue";
 import Playhead from "./Playhead.vue";
 import Queue from "./Queue.vue";
 import OnAir from "./button/OnAir.vue";
+import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
 import PlayerControl from "./PlayerControl.vue";
 import VolumeControl from "./VolumeControl.vue";
@@ -18,6 +19,7 @@ export default defineComponent({
     CurrentMedia,
     Playhead,
     OnAir,
+    Bandwidth,
     Circle,
     Queue,
     UserRating,
@@ -113,6 +115,7 @@ export default defineComponent({
         </div>
         <div class="right">
           <OnAir />
+          <Bandwidth />
           <VolumeControl />
           <Circle>
             <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
@@ -175,6 +178,10 @@ $player-height: 72px;
   }
   .right {
     justify-content: flex-end;
+    .bandwidth {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
     .circle-button {
       position: relative;
     }

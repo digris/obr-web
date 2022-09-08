@@ -83,7 +83,9 @@ export default defineComponent({
     <template #header>
       <DetailHeader
         :obj="editor"
+        layout="square"
         :show-context-menu="false"
+        :show-obj-rating="true"
         :title="editor.name"
         title-scope="Editor*in"
       >
@@ -91,8 +93,12 @@ export default defineComponent({
           <LazyImage class="image" :image="editor.image" />
         </template>
         <template #info-panel>
+          <!--
           <div class="role" v-text="editor.role" />
+          -->
+          <div v-if="editor.location" class="location" v-text="editor.location" />
           <ObjectTags class="tags" :obj="editor" :limit="4" />
+          <div v-if="editor.description" class="description" v-text="editor.description" />
           <ObjectIdentifiers class="identifiers" :obj="editor" :limit="4" />
         </template>
         <template #meta-panel>
@@ -111,8 +117,18 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.tags,
+.location {
+  margin-top: 0.5rem;
+}
+.tags {
+  margin: 0 0 1rem;
+}
+.description {
+  margin: 1rem 0;
+  line-height: 1.25;
+  max-width: 480px;
+}
 .identifiers {
-  margin: 0.5rem 0;
+  margin: 1rem 0;
 }
 </style>

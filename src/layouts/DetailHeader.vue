@@ -15,13 +15,13 @@ export default defineComponent({
     ContextMenu,
   },
   props: {
-    // objKey: {
-    //   type: String,
-    //   required: true,
-    // },
     obj: {
       type: Object,
       required: true,
+    },
+    layout: {
+      type: String,
+      default: "circle",
     },
     titleScope: {
       type: String,
@@ -32,6 +32,10 @@ export default defineComponent({
       type: String,
       required: false,
       default: null,
+    },
+    showObjRating: {
+      type: Boolean,
+      default: true,
     },
     showContextMenu: {
       type: Boolean,
@@ -62,15 +66,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="detail-header">
+  <div class="detail-header" :class="`layout-${layout}`">
     <div class="top">
       <div class="back">
         <BackButton v-if="canNavigateBack" @click="back" />
+        <div v-else class="placeholder" />
         <div class="scope" v-if="titleScope" v-text="`${titleScope}:`" />
       </div>
       <div class="title" />
       <div class="actions">
-        <CircleButton v-if="showContextMenu">
+        <CircleButton v-if="showObjRating">
           <UserRating :obj-key="objKey" :autoload="true" />
         </CircleButton>
         <ContextMenu v-if="showContextMenu" :obj="obj" />
@@ -108,7 +113,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/container";
-@mixin visual-image {
+@mixin visual-circle {
   height: 50vh;
   min-height: 280px;
   max-height: 620px;
@@ -117,6 +122,19 @@ export default defineComponent({
   }
   img {
     border-radius: 50%;
+  }
+}
+@mixin visual-square {
+  height: 50vh;
+  min-height: 280px;
+  max-height: 620px;
+  background: rgb(var(--c-page-bg));
+  .image {
+    height: 100%;
+  }
+  img {
+    filter: grayscale(100%) brightness(125%);
+    mix-blend-mode: multiply;
   }
 }
 
@@ -144,6 +162,9 @@ export default defineComponent({
     > .back {
       display: flex;
       align-items: center;
+      .placeholder {
+        width: 48px;
+      }
       .scope {
         padding-left: 1rem;
       }
@@ -173,6 +194,7 @@ export default defineComponent({
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
+    /*
     .visual {
       display: flex;
       align-items: center;
@@ -181,6 +203,7 @@ export default defineComponent({
         @include visual-image;
       }
     }
+    */
     .body {
       position: absolute;
       top: 0;
@@ -201,6 +224,27 @@ export default defineComponent({
           @include typo.bold;
           line-height: 4rem;
         }
+      }
+    }
+  }
+  &.layout-circle {
+    .visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      :deep(.image) {
+        @include visual-circle;
+      }
+    }
+  }
+  &.layout-square {
+    .visual {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 50%;
+      :deep(.image) {
+        @include visual-square;
       }
     }
   }

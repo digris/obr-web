@@ -5,6 +5,7 @@ from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
 from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models.editor import Editor, EditorImage
 from image.api.serializers import BaseImageSerializer
+from tagging.api.serializers import TagSerializer
 from identifier.api.serializers import IdentifierSerializer
 
 
@@ -65,6 +66,8 @@ class EditorSerializer(
             "ct",
             "uid",
             "name",
+            "location",
+            "description",
             "role",
             "num_playlists",
             "image",
@@ -72,6 +75,14 @@ class EditorSerializer(
         ]
         depth = 2
         expandable_fields = {
+            "tags": (
+                TagSerializer,
+                {
+                    "many": True,
+                    "required": False,
+                    "allow_null": True,
+                },
+            ),
             "identifiers": (
                 IdentifierSerializer,
                 {

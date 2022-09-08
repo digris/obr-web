@@ -34,10 +34,6 @@ class Schedule {
     );
   }
 
-  // static async loadSchedule() {
-  //   await store.dispatch('schedule/loadSchedule');
-  // }
-
   static async updateCurrent(item: any) {
     const current = store.getters["schedule/current"];
     if (current && current.key === item.key) {

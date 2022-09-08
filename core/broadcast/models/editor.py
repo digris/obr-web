@@ -26,6 +26,20 @@ class Editor(
         blank=True,
     )
 
+    location = models.CharField(
+        verbose_name="Location",
+        max_length=96,
+        default="",
+        blank=True,
+    )
+
+    description = models.TextField(
+        verbose_name="Description",
+        max_length=500,
+        default="",
+        blank=True,
+    )
+
     user = models.OneToOneField(
         to="account.User",
         verbose_name="User account",

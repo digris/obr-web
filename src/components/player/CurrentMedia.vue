@@ -74,6 +74,7 @@ export default defineComponent({
     //padding: 0.75rem;
     width: 3rem;
     height: 3rem;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
   }
   .metadata {
     display: flex;

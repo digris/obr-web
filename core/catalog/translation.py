@@ -3,7 +3,7 @@ from .models import Mood
 
 
 @register(Mood)
-class NewsTranslationOptions(TranslationOptions):
+class MoodTranslationOptions(TranslationOptions):
     fields = [
         "name",
         "teaser",

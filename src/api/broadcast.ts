@@ -33,7 +33,7 @@ async function getEditors(limit: number, offset: number) {
 async function getEditor(uid: string) {
   const url = `${EDITOR_ENDPOINT}${uid}/`;
   const params = {
-    expand: ["identifiers"],
+    expand: ["identifiers", "tags"],
   };
   const response = await APIClient.get(url, { params });
   return response.data;

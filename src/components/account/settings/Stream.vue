@@ -43,7 +43,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Streaming" :outlined="false">
+  <Section title="Streaming Qualität / Umweltbelastung" :outlined="false">
     <div class="info">
       <p class="full">
         Per "default" liefern wir dir unseren Content in der bestmöglichen Qualität.

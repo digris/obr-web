@@ -64,8 +64,10 @@ export default defineComponent({
       <span class="subtitle--label" v-text="`Album`" />
       <MediaReleases :releases="media.releases" />
     </div>
+    <!--
     <br />
     <div v-if="timeDisplay" v-text="timeDisplay" />
+    -->
   </div>
 </template>
 
