@@ -97,7 +97,7 @@ $height: 48px;
   .actions {
     height: 48px;
   }
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     padding: 0 0.625rem;
   }
 }
@@ -134,7 +134,7 @@ $height: 48px;
     .icon {
       display: none;
     }
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       font-size: 40px;
     }
   }
@@ -148,7 +148,7 @@ $height: 48px;
       border-radius: 24px;
       @include live-color.bg-inverse;
       @include live-color.fg-inverse;
-      transition: background-color 1000ms, color 100ms 400ms, font-size 200ms;
+      transition: background-color 600ms, color 100ms 400ms, font-size 200ms;
       .separator {
         font-size: 1em;
       }

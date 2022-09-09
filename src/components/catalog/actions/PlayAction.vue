@@ -59,7 +59,7 @@ export default defineComponent({
     const { shift: shiftKey } = useMagicKeys();
     const { queuedMedia, currentIndex: currentQueueIndex } = useQueueState();
     const { enqueueMedia, startPlayCurrent, playFromIndex } = useQueueControls();
-    const { isPlaying, isBuffering, issPaused, currentScope, currentColor } = usePlayerState();
+    const { isPlaying, isBuffering, isPaused, currentScope, currentColor } = usePlayerState();
     const { pause, resume } = usePlayerControls();
     const inScope = computed(() => {
       return currentScope.value.includes(props.objKey);
@@ -84,7 +84,7 @@ export default defineComponent({
     });
     const objIsPlaying = computed(() => inScope.value && isPlaying.value);
     const objIsBuffering = computed(() => inScope.value && isBuffering.value);
-    const objIsPaused = computed(() => inScope.value && issPaused.value);
+    const objIsPaused = computed(() => inScope.value && isPaused.value);
 
     const baseColor = computed(() => {
       return props.color;

@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type { MediaArtist } from './MediaArtist';
+import type { MediaImage } from './MediaImage';
 import type { Release } from './Release';
 
 /**
@@ -19,5 +20,6 @@ export type ScheduleMedia = {
     readonly artistDisplay?: string;
     readonly artists?: Array<MediaArtist>;
     readonly releases?: Array<Release>;
+    readonly image?: MediaImage;
 };
 

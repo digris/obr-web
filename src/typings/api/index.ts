@@ -17,6 +17,7 @@ export type { EmissionPlaylist } from './models/EmissionPlaylist';
 export type { Image } from './models/Image';
 export type { Media } from './models/Media';
 export type { MediaArtist } from './models/MediaArtist';
+export type { MediaImage } from './models/MediaImage';
 export type { Mood } from './models/Mood';
 export type { PaginatedArtistList } from './models/PaginatedArtistList';
 export type { PaginatedCatalogPlaylistList } from './models/PaginatedCatalogPlaylistList';

@@ -1,309 +1,234 @@
 <script lang="ts">
-import { computed, ref, watch, defineComponent } from "vue";
-import { useWindowSize, useFullscreen } from "@vueuse/core";
+import type { AnnotatedSchedule } from "@/stores/schedule";
+import { ref, computed, defineComponent, watch } from "vue";
+import { useWindowSize } from "@vueuse/core";
 import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { useTimeStore } from "@/stores/time";
+import { useScheduleStore } from "@/stores/schedule";
+import { round } from "lodash-es";
 import eventBus from "@/eventBus";
-import StationTime from "@/components/broadcast/onair/station-time/StationTime.vue";
-import Schedule from "@/components/broadcast/onair/Schedule.vue";
-import FocusedEmission from "@/components/broadcast/onair/FocusedEmission.vue";
-import FocusedMedia from "@/components/broadcast/onair/FocusedMedia.vue";
-import FocusedMobile from "@/components/broadcast/onair/FocusedMobile.vue";
+import RadioHeader from "./RadioHeader.vue";
+import Flow from "./flow/FlowMobile.vue";
+import FocusedEmission from "./focused/FocusedEmission.vue";
+import FocusedMedia from "./focused/FocusedMedia.vue";
 import PaginateButton from "@/components/broadcast/onair/button/PaginateNext.vue";
-import Rating from "@/components/broadcast/onair/rating/Rating.vue";
+import Rating from "./rating/Rating.vue";
 
 export default defineComponent({
   components: {
-    StationTime,
-    Schedule,
+    RadioHeader,
+    Flow,
     FocusedEmission,
     FocusedMedia,
-    FocusedMobile,
     PaginateButton,
     Rating,
   },
   setup() {
-    const root = ref();
-    const route = useRoute();
-    const router = useRouter();
     const store = useStore();
-    const current = computed(() => store.getters["schedule/current"]);
-    const next = computed(() => store.getters["schedule/next"]);
-    const past = computed(() => store.getters["schedule/past"]);
-    const items = computed(() => [next.value || null, current.value || null, ...past.value]);
+    const { time } = storeToRefs(useTimeStore());
+    const { items } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const itemSize = computed(() => {
-      const maxForWidth = vpWidth.value * 0.4; // 3/4/3 grid
-      const maxForHeight = vpHeight.value - 360; // height - navigation, spacing, player etc.
-      // const maxForHeight = vpWidt h.value * 0.3; // height - navigation, spacing, player etc.
-      // const size = Math.max(Math.min(maxForWidth, maxForHeight, 1200), 240);
-      const size = Math.max(Math.min(maxForWidth, maxForHeight, 1200), 240);
-      return Math.round(size);
+      const maxByWidth = round(vpWidth.value * 0.7);
+      // NOTE: vpHeight minus menu, time, rating & player
+      const maxByHeight = vpHeight.value - 380;
+      const max = Math.min(maxByWidth, maxByHeight);
+      return Math.max(Math.min(max, 800), 240);
     });
-    const cssVars = computed(() => ({
-      "--size": `${itemSize.value}px`,
-      "--item-size": `${itemSize.value}px`,
-      "--item-offset": `${itemSize.value * 0.12}px`,
-    }));
-    const focusKey = ref("");
-    const calculatedOffset = computed(() => {
-      try {
-        const index = items.value.findIndex((i) => i.key === focusKey.value);
-        if (index === -1) {
-          return 0;
-        }
-        return index - 1;
-      } catch (err) {
-        // pass
-      }
-      return 0;
+    const debugOffset = ref(0);
+    const offset = computed(() => {
+      return debugOffset.value;
     });
-    const focused = computed(() => {
-      // TODO: check implementation
-      try {
-        return items.value[calculatedOffset.value + 1];
-      } catch {
-        return null;
-      }
-    });
-    const setFocus = (key: string) => {
-      console.debug("setFocus", key);
-      console.debug("current key", current.value?.key);
-      if (current.value?.key === key) {
-        focusKey.value = "";
-      } else {
-        focusKey.value = key;
-      }
-    };
-    const paginate = (offset: number) => {
-      if (offset === 0) {
-        focusKey.value = "";
-      } else {
-        const index = calculatedOffset.value + 1 + offset;
-        const { key } = items.value[index];
-        // focusKey.value = key;
-        setFocus(key);
-      }
-    };
-    const releaseFocus = () => {
-      for (let i = 0; i < calculatedOffset.value; i += 1) {
-        setTimeout(() => {
-          paginate(-1);
-        }, i * 10);
-      }
-      // setTimeout(() => {
-      //
-      // })
-      // setFocus('');
-    };
     const paginatedItems = computed(() => {
-      const numItems = 10;
-      return items.value.slice(calculatedOffset.value, calculatedOffset.value + numItems);
+      const numItems = 8;
+      return items.value.slice(offset.value, offset.value + numItems);
     });
-    const hasPrevious = computed(() => {
-      return items.value[calculatedOffset.value + 2] !== undefined;
-    });
-    const hasNext = computed(() => {
-      return items.value[calculatedOffset.value - 1] !== undefined;
-    });
-    const showProgram = () => {
-      // NOTE: for the moment we navigate to the program view
-      router.push({
-        name: "programRedirect",
-        query: { back: "/" },
-      });
+    const focusedItemKey = ref("");
+    const onItemFocused = (item: AnnotatedSchedule) => {
+      focusedItemKey.value = item.key;
     };
-    const stationTimeOverwrite = computed(() => {
-      if (!(current.value && focused.value)) {
-        return null;
-      }
-      if (current.value.timeStart === focused.value.timeStart) {
-        return null;
-      }
-      return focused.value.timeStart;
+    const focusedItem = computed((): AnnotatedSchedule | null => {
+      // NOTE: we use all items here (not paginatedItems)
+      const item = items.value.find((i: AnnotatedSchedule) => i.key === focusedItemKey.value);
+      return item ? item : null;
     });
     watch(
-      () => route.name,
-      async (newName) => {
-        if (newName !== "home") {
-          return;
-        }
-        const item = focused.value;
-        if (item && item.media.releases && item.media.releases.length) {
-          const { image } = item.media.releases[0];
-          if (image && image.rgb) {
-            store.dispatch("ui/setPrimaryColor", image.rgb);
-          }
+      () => focusedItem.value,
+      (item: AnnotatedSchedule | null) => {
+        if (item?.media?.image?.rgb) {
+          store.dispatch("ui/setPrimaryColor", item?.media?.image?.rgb);
         }
       }
     );
-    watch(focused, (item) => {
-      if (route.name !== "home") {
-        return;
+    const hasNext = computed(() => {
+      if (!focusedItem.value) {
+        return false;
       }
-      if (item.media.releases && item.media.releases.length) {
-        const { image } = item.media.releases[0];
-        if (image && image.rgb) {
-          store.dispatch("ui/setPrimaryColor", image.rgb);
-        }
-      }
+      const index = items.value.findIndex((i: AnnotatedSchedule) => i.key === focusedItemKey.value);
+      return index > 0;
     });
-    eventBus.on("player:audio:ended", () => {
-      if (focusKey.value) {
-        console.debug("Radio - audio ended > reset focus lock");
-        releaseFocus();
+    const hasPrevious = computed(() => {
+      if (!focusedItem.value) {
+        return false;
       }
+      const index = paginatedItems.value.findIndex((i: AnnotatedSchedule) => i.key === focusedItemKey.value);
+      return index < paginatedItems.value.length - 1;
     });
-    const { toggle: toggleFullscreen } = useFullscreen();
+    const focusNext = () => {
+      eventBus.emit("radio:flow", "focusNext");
+    };
+    const focusPrevious = () => {
+      eventBus.emit("radio:flow", "focusPrevious");
+    };
+    const releaseFocus = () => {
+      eventBus.emit("radio:flow", "releaseFocus");
+    };
     return {
-      root,
-      items,
+      time,
       itemSize,
-      current,
-      focusKey,
-      focused,
-      stationTimeOverwrite,
-      next,
-      past,
-      cssVars,
-      paginate,
       paginatedItems,
-      hasPrevious,
+      debugOffset,
+      onItemFocused,
+      focusedItemKey,
+      focusedItem,
+      //
       hasNext,
-      setFocus,
+      hasPrevious,
+      focusNext,
+      focusPrevious,
       releaseFocus,
-      //
-      showProgram,
-      //
-      toggleFullscreen,
     };
   },
 });
 </script>
 
 <template>
-  <div ref="root" class="on-air" :style="cssVars">
-    <StationTime
-      @release-focus="releaseFocus"
-      @toggle-program="showProgram"
-      :time-overwrite="stationTimeOverwrite"
-    />
-    <pre
-      v-if="false"
-      class="debug"
-      v-text="{
-        focusKey,
-      }"
-    />
-    <div class="left">
+  <div
+    class="radio"
+    :style="{
+      '--item-size': `${itemSize}px`,
+    }"
+  >
+    <div class="header-container">
+      <RadioHeader :item="focusedItem" @release-focus="releaseFocus" />
+    </div>
+    <div class="main">
+      <div class="left">
+        <FocusedEmission
+          v-if="focusedItem?.emission"
+          :emission="focusedItem.emission"
+          :playlist="focusedItem.playlist"
+        />
+        <div class="paginate">
+          <PaginateButton :disabled="!hasPrevious" :rotate="180" @click="focusPrevious" />
+        </div>
+      </div>
+      <div class="flow">
+        <Flow :items="paginatedItems" :item-size="itemSize" @on-item-focused="onItemFocused" />
+      </div>
+      <div class="right">
+        <FocusedMedia v-if="focusedItem?.media" :media="focusedItem.media" />
+        <div class="paginate">
+          <PaginateButton :disabled="!hasNext" @click="focusNext" />
+        </div>
+      </div>
+    </div>
+    <div class="rating">
+      <Rating v-if="focusedItem?.media" :media="focusedItem.media" />
+    </div>
+    <!--
+    <div class="emission">
       <FocusedEmission
-        v-if="focused && focused.emission && focused.playlist"
-        :emission="focused.emission"
-        :playlist="focused.playlist"
-      />
-      <PaginateButton :disabled="!hasPrevious" :rotate="180" @click="paginate(1)" />
-    </div>
-    <div class="center">
-      <div
-        class="placeholder"
-        :style="{
-          opacity: current ? 0 : 1,
-        }"
+        v-if="focusedItem?.emission"
+        :emission="focusedItem.emission"
+        :playlist="focusedItem.playlist"
       />
     </div>
-    <div class="right">
-      <FocusedMedia v-if="focused && focused.media" :media="focused.media" :item="focused" />
-      <PaginateButton :disabled="!hasNext" @click="paginate(-1)" />
+    <div class="flow">
+      <Flow :items="paginatedItems" @on-item-focused="onItemFocused" />
     </div>
-    <div class="mobile-meta">
-      <FocusedMobile v-if="focused && focused.media" :media="focused.media" :item="focused" />
+    <div class="media">
+      <FocusedMedia v-if="focusedItem?.media" :media="focusedItem.media" />
     </div>
-    <div class="actions">
-      <Rating v-if="focused && focused.media" :media="focused.media" />
+    <div class="rating">
+      <Rating v-if="focusedItem?.media" :media="focusedItem.media" />
     </div>
-    <Schedule
-      :current="current"
-      :items="paginatedItems"
-      :item-size="itemSize"
-      @on-focus="setFocus"
-    />
+    <div v-if="false">
+      <button @click.prevent="focusPrevious" v-text="`PREV`" />
+      <button @click.prevent="focusNext" v-text="`NEXT`" />
+      <button @click.prevent="releaseFocus" v-text="`FOLLOW`" />
+    </div>
+    -->
   </div>
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
-.on-air {
+.radio {
   position: relative;
-  display: grid;
-  grid-row-gap: 0.25rem;
-  grid-column-gap: 1rem;
-  grid-template-areas:
-    ". station-time ."
-    "left center right"
-    ". actions .";
-  grid-template-columns: auto var(--item-size) auto;
-  .station-time {
-    grid-area: station-time;
-  }
-  .left {
-    grid-area: left;
-    padding: 1rem;
-  }
-  .center {
-    grid-area: center;
-    .placeholder {
-      width: var(--item-size);
-      height: var(--item-size);
-      margin-bottom: 40px;
-      background: rgb(var(--c-black));
-      @include responsive.bp-small {
-        background: transparent;
-      }
-    }
-  }
-  .right {
-    grid-area: right;
-    padding: 1rem;
-  }
-  .actions {
-    display: flex;
-    grid-area: actions;
-    align-items: center;
-    justify-content: center;
-  }
-  .left,
-  .right {
+  > .header-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    .metadata {
+    height: 124px;
+    //cursor: pointer;
+    z-index: 10;
+    > .radio-header {
       position: absolute;
-      top: 12px;
-      left: 2rem;
+      width: var(--item-size);
     }
   }
-  .mobile-meta {
-    display: none;
-  }
-  //TODO: just a quick fix..
-  @include responsive.bp-small {
-    .mobile-meta {
-      grid-area: mobile-meta;
-      display: flex;
+  > .main {
+    //background: yellow;
+    display: flex;
+    position: relative;
+    > .flow {
+      overflow: hidden;
+      top: 0;
       width: 100%;
-      margin: 1rem 0 1rem;
+      margin: -60px 0;
     }
-    grid-template-areas:
-      "station-time"
-      "center"
-      "mobile-meta"
-      "actions";
-    grid-template-columns: auto;
-    .left,
-    .right {
-      display: none;
+    > .left,
+    > .right {
+      //background: rgba(255, 255, 0, 0.25);
+      position: absolute;
+      top: 0;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      width: 25%;
+      z-index: 24;
+      .metadata {
+        width: 100%;
+      }
+      .paginate {
+        position: absolute;
+        //height: 100%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 20;
+        //z-index: 25;
+        height: 120px;
+        width: 120px;
+        top: calc(var(--item-size) / 2 - 60px);
+      }
     }
+    > .left {
+      padding-left: 1rem;
+    }
+    > .right {
+      right: 0;
+      padding-right: 1rem;
+    }
+  }
+  > .rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 124px;
   }
 }
 </style>

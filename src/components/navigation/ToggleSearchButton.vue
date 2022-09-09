@@ -22,6 +22,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 :deep(svg) {
-  transition: fill 100ms 400ms, stroke 100ms 400ms;
+  transition: fill 100ms 1ms, stroke 100ms 1ms;
 }
 </style>

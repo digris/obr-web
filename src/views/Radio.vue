@@ -5,15 +5,10 @@ import Radio from "@/components/broadcast/radio/Radio.vue";
 import RadioMobile from "@/components/broadcast/radio/RadioMobile.vue";
 
 export default defineComponent({
-  components: {
-    Radio,
-    RadioMobile,
-  },
   setup() {
-    const { isMobile } = useDevice();
+    const { isDesktop } = useDevice();
     const component = computed(() => {
-      return RadioMobile;
-      // return isMobile.value ? RadioMobile : Radio;
+      return isDesktop.value ? Radio : RadioMobile;
     });
     return {
       component,

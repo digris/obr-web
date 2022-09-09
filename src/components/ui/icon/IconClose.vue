@@ -19,7 +19,8 @@ export default defineComponent({
     const style = computed(() => {
       return {
         stroke: color.value,
-        strokeWidth: (2.5 * 48) / size.value,
+        strokeWidth: (2.5 * size.value) / 48,
+        strokeMiterlimit: 10,
         width: `${size.value}px`,
         height: `${size.value}px`,
       };

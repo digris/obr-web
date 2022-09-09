@@ -24,7 +24,7 @@ export default defineComponent({
       return {
         stroke: color.value,
         fill: "none",
-        strokeWidth: (9 * 120) / size.value,
+        strokeWidth: (6.5 * 120) / size.value,
         width: `${size.value}px`,
         height: `${size.value}px`,
         transform: `rotate(${props.rotate}deg)`,

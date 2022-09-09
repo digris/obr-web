@@ -60,24 +60,25 @@ export default defineComponent({
   top: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: 242px 1fr 170px 72px 48px;
+  grid-template-columns: 242px 1fr 146px 48px 48px;
   width: 100%;
   height: 78px;
+  padding: 0 1.5rem;
   background: rgba(var(--c-page-bg), 0.6);
   border-bottom: 7px solid rgb(var(--c-page-fg));
-  transition: background 1000ms;
+  transition: background 10ms;
   backdrop-filter: blur(24px);
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     height: 66px;
-    grid-template-columns: 160px 1fr 48px 48px;
+    grid-template-columns: 190px 1fr 40px 40px;
+    padding: 0 0.625rem;
   }
   .brand {
     @include live-color.fg;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-right: 1rem;
     transition: color, background-color 200ms;
     .logo {
       margin-right: 12px;
@@ -88,12 +89,17 @@ export default defineComponent({
       }
       transition: color, background-color 200ms;
     }
-    @include responsive.bp-small {
-      padding-left: 0.625rem;
-      padding-right: 0.625rem;
+    @include responsive.bp-medium {
       line-height: 1.25rem;
+      //margin-top: -10px;
       .logo {
-        width: 60px;
+        //width: 60px;
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+      }
+      > span {
+        margin-top: -6px;
       }
     }
   }
@@ -106,7 +112,7 @@ export default defineComponent({
     &--account {
       justify-content: flex-end;
     }
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       display: none;
     }
   }
@@ -116,26 +122,19 @@ export default defineComponent({
     justify-content: flex-end;
     > div {
       &:not(:last-child) {
-        margin-right: 0.25rem;
-      }
-    }
-    .language-chooser {
-      padding-right: 1rem;
-      margin-top: -12px;
-      @include responsive.bp-small {
-        display: none;
+        margin-right: 0.75rem;
       }
     }
   }
-  .search-toggle,
+  .search-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
   .menu-toggle {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 1rem;
-    @include responsive.bp-small {
-      padding-right: 0.625rem;
-    }
   }
 }
 </style>

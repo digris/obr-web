@@ -73,7 +73,6 @@ export default defineComponent({
       release: wakeLockRelease,
     } = useWakeLock();
     watch(isPlaying, (state) => {
-      console.debug("isPlaying", state);
       if (wakeLockSupported && state) {
         wakeLockRequest("screen");
         console.debug("wakelock requested");

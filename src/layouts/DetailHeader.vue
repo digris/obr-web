@@ -70,10 +70,10 @@ export default defineComponent({
     <div class="top">
       <div class="back">
         <BackButton v-if="canNavigateBack" @click="back" />
-        <div v-else class="placeholder" />
-        <div class="scope" v-if="titleScope" v-text="`${titleScope}:`" />
       </div>
-      <div class="title" />
+      <div class="scope">
+        <span v-if="titleScope" v-text="`${titleScope}:`" />
+      </div>
       <div class="actions">
         <CircleButton v-if="showObjRating">
           <UserRating :obj-key="objKey" :autoload="true" />
@@ -111,6 +111,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/container";
 @mixin visual-circle {
@@ -122,6 +123,9 @@ export default defineComponent({
   }
   img {
     border-radius: 50%;
+  }
+  @include responsive.bp-medium {
+    height: unset;
   }
 }
 @mixin visual-square {
@@ -135,6 +139,9 @@ export default defineComponent({
   img {
     filter: grayscale(100%) brightness(125%);
     mix-blend-mode: multiply;
+  }
+  @include responsive.bp-medium {
+    height: unset;
   }
 }
 
@@ -154,7 +161,7 @@ export default defineComponent({
     top: 0;
     z-index: 4;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 64px auto 1fr;
     align-items: center;
     height: 4rem;
     margin-top: 0.5rem;
@@ -194,16 +201,6 @@ export default defineComponent({
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
-    /*
-    .visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      :deep(.image) {
-        @include visual-image;
-      }
-    }
-    */
     .body {
       position: absolute;
       top: 0;
@@ -212,16 +209,9 @@ export default defineComponent({
       padding-left: calc(48px + 1rem);
       .title {
         margin-bottom: 0.5rem;
-        /*
-        &--scope {
-          @include typo.default;
-          @include typo.bold;
-          line-height: 1.5rem;
-        }
-        */
         &--primary {
           @include typo.x-large;
-          @include typo.bold;
+          //@include typo.bold;
           line-height: 4rem;
         }
       }
@@ -245,6 +235,51 @@ export default defineComponent({
       padding-left: 50%;
       :deep(.image) {
         @include visual-square;
+      }
+    }
+  }
+  @include responsive.bp-medium {
+    .top {
+      grid-template-columns: 80px auto 80px;
+      margin: 0;
+      height: 60px;
+      .scope {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .main {
+      align-items: center;
+      .visual {
+        width: 73%; // NOTE: check calculation
+        //height: 280px;
+        aspect-ratio: 1;
+        .image {
+          aspect-ratio: 1;
+        }
+      }
+      .body {
+        //padding-top: 1rem;
+        position: relative;
+        width: unset;
+        padding: 1rem 0 0 0;
+        text-align: center;
+        margin-top: unset;
+        .title {
+          &--primary {
+            @include typo.large;
+            //@include typo.light;
+            line-height: unset;
+          }
+        }
+        :deep(a) {
+          text-decoration: underline;
+        }
+      }
+    }
+    &.layout-square {
+      .visual {
+        padding-left: unset;
       }
     }
   }

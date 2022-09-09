@@ -4,11 +4,17 @@ from broadcast.api.serializers import EditorSerializer
 from broadcast.models import Emission
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
 from catalog.api.serializers import PlaylistSerializer as CatalogPlaylistSerializer
+from catalog.api.serializers.media import (
+    MediaImageSerializer as CatalogMediaImageSerializer,
+)
 from catalog.models import Playlist, Media
 from .emission import EmissionSerializer
 
 
 class ScheduleMediaSerializer(CatalogMediaSerializer):
+
+    image = CatalogMediaImageSerializer(read_only=True)
+
     class Meta:
         model = Media
         fields = [
@@ -20,6 +26,7 @@ class ScheduleMediaSerializer(CatalogMediaSerializer):
             "artists",
             "releases",
             "duration",
+            "image",
         ]
 
 

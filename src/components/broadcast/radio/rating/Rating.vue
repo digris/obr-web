@@ -207,6 +207,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/button";
 .rating {
   display: grid;
@@ -227,6 +228,9 @@ export default defineComponent({
     &.is-flipped {
       transform: rotateY(89deg);
     }
+  }
+  @include responsive.bp-medium {
+    grid-template-columns: auto 52px 52px auto;
   }
 }
 .prompt {

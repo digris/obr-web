@@ -3,9 +3,16 @@ from rest_framework import serializers
 
 from catalog.api.serializers.release import ReleaseSerializer
 from catalog.models import Media, MediaArtists
+from image.api.serializers import BaseImageSerializer
+from catalog.models.release import ReleaseImage as Image
 from tagging.api.serializers import TagSerializer
 from identifier.api.serializers import IdentifierSerializer
 from api_extra.serializers import DurationInSecondsSerializer
+
+
+class MediaImageSerializer(BaseImageSerializer):
+    class Meta(BaseImageSerializer.Meta):
+        model = Image
 
 
 class MediaArtistSerializer(
@@ -110,6 +117,7 @@ class MediaSerializer(
             "cue_out",
         ]
         expandable_fields = {
+            "image": (MediaImageSerializer,),
             "tags": (
                 TagSerializer,
                 {

@@ -1,12 +1,24 @@
 <script lang="ts">
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import type { PropType } from "vue";
-import { defineComponent, ref, watch, computed } from 'vue';
-import { useWindowSize } from '@vueuse/core'
+import { defineComponent, ref, watch, computed, onMounted, nextTick } from "vue";
+import { useWindowSize, useThrottleFn, useElementBounding } from "@vueuse/core";
 import { round } from "lodash-es";
-import {DateTime} from 'luxon';
+import { DateTime } from "luxon";
+import { getContrastColor } from "@/utils/color";
+import eventBus from "@/eventBus";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import FlowItemPlay from "./FlowItemPlay.vue";
+import Ticker from "./ticker/Ticker.vue";
+
+const BASE_Z_INDEX = 12;
 
 export default defineComponent({
+  components: {
+    LazyImage,
+    FlowItemPlay,
+    Ticker,
+  },
   props: {
     item: {
       type: Object as PropType<AnnotatedSchedule>,
@@ -17,13 +29,15 @@ export default defineComponent({
       default: 0,
     },
   },
-  setup(props) {
+  emits: ["onFocused"],
+  setup(props, { emit }) {
     const el = ref<HTMLElement | null>(null);
     const elX = ref(0);
     const { width: vpWidth } = useWindowSize();
+    const { width } = useElementBounding(el);
 
     const offset = computed(() => {
-      return round(elX.value - vpWidth.value / 2, 1);
+      return round(elX.value - vpWidth.value / 2, 2);
     });
 
     const focus = computed(() => {
@@ -32,30 +46,116 @@ export default defineComponent({
       return Math.max(Math.min(roundedFocus, 2), 0);
     });
 
-    const timeEnd = computed(() => {
-      return props.item.dtEnd.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
+    const timeStart = computed(() => {
+      return props.item.dtStart.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
     });
 
-    // const offset = computed(() => {
-    //   if (!el.value) {
-    //     return 0;
-    //   }
-    //   const { left, width } = el.value.getBoundingClientRect();
-    //   const elX = left + width / 2;
-    //   console.debug('BB', left, props.containerX);
-    //   return elX;
-    //   return props.containerX;
-    // });
+    const relativePosition = computed(() => {
+      return round(offset.value / width.value, 3);
+    });
+
+    const hasFocus = computed(() => {
+      return relativePosition.value > -0.7 && relativePosition.value < 0.3;
+    });
+
+    const isVisible = computed(() => {
+      return relativePosition.value > -4;
+    });
+
+    const media = computed(() => {
+      return props.item.media;
+    });
+
+    const release = computed(() => {
+      if (!media.value.releases) {
+        return null;
+      }
+      return media.value.releases[0];
+    });
+
+    const image = computed(() => {
+      return release.value?.image ?? null;
+    });
+    const updateElPosition = () => {
+      if (!el.value) {
+        return;
+      }
+      const { left: elLeft, width: elWidth } = el.value.getBoundingClientRect();
+      elX.value = round(elLeft + elWidth / 2, 1);
+    };
+    onMounted(updateElPosition);
+    watch(() => props.containerX, updateElPosition);
+    eventBus.on("radio:flow", (event) => {
+      if (event === "itemAdded") {
+        nextTick(updateElPosition);
+      }
+      if (event === "reset") {
+        nextTick(updateElPosition);
+      }
+    });
+
+    // handle item focus
+    const throttledOnFocused = useThrottleFn(() => {
+      emit("onFocused");
+    }, 50);
     watch(
-      () => props.containerX,
-      () => {
-        if (!el.value) {
-          return;
+      () => relativePosition.value,
+      (value) => {
+        if (value > -0.7 && value < 0.3) {
+          throttledOnFocused();
         }
-        const { left, width } = el.value.getBoundingClientRect();
-        elX.value = round(left + width / 2, 1);
       }
     );
+
+    // transforms
+    const translateX = computed(() => {
+      if (relativePosition.value > 0) {
+        return round((relativePosition.value * vpWidth.value) / 2, 3);
+      }
+      const n = Math.abs(relativePosition.value);
+      if (vpWidth.value > 1024) {
+        // stacked layout
+        return round(width.value * n - width.value * n * 0.1, 3);
+      } else {
+        // coverflow layout
+        return round(width.value * n * 0.125, 3);
+      }
+    });
+    const scale = computed(() => {
+      if (relativePosition.value > 0) {
+        const rawScale = relativePosition.value * 1.1 + 1;
+        return Math.min(round(rawScale, 3), 1.2);
+      }
+      const n = Math.abs(relativePosition.value);
+      const rawScale = 1 - n * 0.25;
+      return Math.max(round(rawScale, 3), 0.2);
+    });
+    const opacity = computed(() => {
+      if (relativePosition.value > 0) {
+        const n = relativePosition.value;
+        return Math.max(round(1 - n * 2, 3), 0);
+      }
+      const n = Math.abs(relativePosition.value);
+      return Math.max(round(1 - n / 3, 3), 0);
+    });
+    const style = computed(() => {
+      return {
+        zIndex: BASE_Z_INDEX + round(relativePosition.value),
+        opacity: opacity.value,
+        // NOTE: grayscale filter has performance issues on iOS
+        // filter: `grayscale(${1 - opacity.value})`,
+        // filter: `grayscale(${grayscale.value})`,
+      };
+    });
+    const cssVars = computed(() => {
+      // const rbg = props.item.r
+      const bg = image.value?.rgb ?? [0, 0, 0];
+      const fg = getContrastColor(bg);
+      return {
+        "--c-bg": bg.join(","),
+        "--c-fg": fg.join(","),
+      };
+    });
 
     return {
       el,
@@ -63,9 +163,18 @@ export default defineComponent({
       elX,
       offset,
       focus,
+      relativePosition,
+      hasFocus,
+      isVisible,
+      style,
+      cssVars,
+      image,
+      release,
       // x,
       // right,
-      timeEnd,
+      timeStart,
+      translateX,
+      scale,
     };
   },
 });
@@ -77,49 +186,118 @@ export default defineComponent({
     v-if="item"
     class="flow-item"
     :style="{
-      opacity: focus,
+      ...style,
+      ...cssVars,
     }"
   >
-    <small>{{ item.media.name }}</small>
-    <!--
-    <pre v-text="{elX, offset, focus}" />
-    -->
-    <!--
-    <small v-text="focus" />
-    -->
-    <small v-text="timeEnd" />
+    <div v-if="false" style="z-index: 999; background: white">
+      <pre v-text="{ offset, focus, relativePosition, translateX, scale, timeStart, cssVars }" />
+    </div>
     <div
-      class="pt"
+      v-if="isVisible"
+      class="translate-x"
       :style="{
-        transform: `scale(${focus})`,
+        transform: `translateX(${translateX}px)`,
       }"
-    />
+    >
+      <div
+        class="scale"
+        :style="{
+          transform: `scale(${scale})`,
+        }"
+      >
+        <LazyImage :image="image" />
+        <transition name="fade">
+          <div v-if="hasFocus" class="actions">
+            <FlowItemPlay :item="item" />
+          </div>
+        </transition>
+        <Ticker v-if="release?.isNew" text="New Release" />
+      </div>
+    </div>
   </div>
 </template>
 
-
 <style lang="scss" scoped>
+/*
+variables defined in parent component(s):
+ --item-size
+*/
+@use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 .flow-item {
-  width: 200px;
-  height: 200px;
-  //border: 2px solid red;
-  //overflow: hidden;
-  //overflow: visible;
+  display: none;
+  //background-color: rgba(255, 255, 255, 0.9);
+  width: var(--item-size);
+  height: var(--item-size);
   flex-direction: column;
-  font-size: 50%;
+  font-size: 12px;
   position: relative;
-  z-index: 99;
-  > pre,
-  > small {
-    font-size: 50%;
-  }
-  > .pt {
-    width: 200px;
-    height: 200px;
-    background: rgba(200, 0, 200, 0.25);
+  //transition: filter 500ms;
+  //z-index: 99;
+  .translate-x {
     position: absolute;
-    border: 4px solid #6def6d;
-    z-index: 101;
+    top: 0;
+    left: 0;
+    width: var(--item-size);
+    height: var(--item-size);
+    //background: deepskyblue;
+    //border: 1px solid deepskyblue;
+    //pointer-events: none;
   }
+  .scale {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--item-size);
+    height: var(--item-size);
+    //border: 1px solid black;
+    background: rgba(var(--c-bg, 0.9));
+    transform-origin: left;
+    box-shadow: 0 0 20px rgb(0 0 0 / 50%);
+  }
+  .actions {
+    position: absolute;
+    //z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .circle-button {
+      background: rgba(var(--c-bg), 1);
+      &:hover {
+        background: rgba(var(--c-bg), 0.8);
+      }
+    }
+  }
+  /*
+  &:hover {
+    background: #6def6d;
+  }
+  */
+  .ticker {
+    @include typo.large;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    @include responsive.bp-medium {
+      top: 10px;
+    }
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 200ms;
+}
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

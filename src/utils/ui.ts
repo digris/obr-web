@@ -1,11 +1,13 @@
 import store from "@/store";
 import settings from "@/settings";
 import { getContrastColor } from "@/utils/color";
+// import Color from "color";
 
 const setTitle = (title: string) => {
   document.title = title;
 };
 
+/**/
 const setPrimaryColor = (color: Array<number>) => {
   const bg = color;
   const fg = getContrastColor(bg);
@@ -15,6 +17,30 @@ const setPrimaryColor = (color: Array<number>) => {
   style.setProperty("--c-live-fg", fg.join(","));
   style.setProperty("--c-live-fg-inverse", fgInverse.join(","));
 };
+
+/*
+const setPrimaryColor = (color: Array<number>) => {
+
+  const mean = color.reduce((s, b) => s + b, 0) / 3;
+
+  const c = Color.rgb(color);
+
+  let bg = c.array();
+
+  if (mean < 86) {
+    bg = c.whiten(20).desaturate(20).array();
+    bg = [100, 100, 100];
+  }
+
+  const fg = [0, 0, 0];
+  const fgInverse = [255, 255, 255];
+
+  const { style } = document.body;
+  style.setProperty("--c-live-bg", bg.join(","));
+  style.setProperty("--c-live-fg", fg.join(","));
+  style.setProperty("--c-live-fg-inverse", fgInverse.join(","));
+};
+*/
 
 class UIStateHandler {
   constructor() {

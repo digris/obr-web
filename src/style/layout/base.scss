@@ -31,8 +31,8 @@ body > #app {
 body {
   color: rgb(var(--c-page-fg));
   background: rgb(var(--c-page-bg));
-  //transition: background 3000ms, color 200ms 1400ms;
-  transition: background-color 1000ms, color 100ms 400ms;
+  //transition: background-color 600ms, color 100ms 400ms;
+  transition: background-color 600ms, color 100ms 0;
 
   a {
     color: inherit;
