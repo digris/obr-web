@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useDevice } from "@/composables/device";
-import Radio from "@/components/broadcast/Radio.vue";
-import RadioMobile from "@/components/broadcast/RadioMobile.vue";
+import Radio from "@/components/broadcast/radio/Radio.vue";
+import RadioMobile from "@/components/broadcast/radio/RadioMobile.vue";
 
 export default defineComponent({
   components: {
@@ -12,7 +12,8 @@ export default defineComponent({
   setup() {
     const { isMobile } = useDevice();
     const component = computed(() => {
-      return isMobile.value ? RadioMobile : Radio;
+      return RadioMobile;
+      // return isMobile.value ? RadioMobile : Radio;
     });
     return {
       component,

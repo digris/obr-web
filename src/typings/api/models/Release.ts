@@ -10,6 +10,7 @@ export type Release = {
     readonly uid?: string;
     name: string;
     readonly numMedia?: number;
+    readonly isNew?: boolean;
     readonly image?: Image;
 };
 

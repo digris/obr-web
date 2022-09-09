@@ -47,6 +47,7 @@ export { DefaultService } from './services/DefaultService';
 export { ManifestJsonService } from './services/ManifestJsonService';
 export { PubSubBridgeService } from './services/PubSubBridgeService';
 export { RatingService } from './services/RatingService';
+export { RedirectService } from './services/RedirectService';
 export { SchemaService } from './services/SchemaService';
 export { SchemaJsonService } from './services/SchemaJsonService';
 export { StatsService } from './services/StatsService';

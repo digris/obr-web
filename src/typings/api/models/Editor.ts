@@ -21,6 +21,8 @@ export type Editor = {
      * me the help text
      */
     name: string;
+    location?: string;
+    description?: string;
     readonly role?: string;
     readonly numPlaylists?: number;
     readonly image?: Image | null;

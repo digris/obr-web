@@ -26,13 +26,6 @@ import router from "./router";
 // directives
 import { TooltipDirective } from "./directives/tooltip";
 
-createEventHandler();
-createStationTimeHandler();
-creadeScheduleHandler();
-createAccountHandler();
-createUIStateHandler();
-createPlayerStateHandler();
-
 const pinia = createPinia();
 
 const app = createApp(App);
@@ -41,6 +34,13 @@ app.use(pinia);
 const settingsStore = useSettingsStore();
 
 setDocumentTheme();
+
+createEventHandler();
+createStationTimeHandler();
+creadeScheduleHandler();
+createAccountHandler();
+createUIStateHandler();
+createPlayerStateHandler();
 
 // @ts-ignore
 import de from "@/locales/de.yml";

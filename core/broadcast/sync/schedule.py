@@ -129,7 +129,7 @@ def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False)
             playlist = Playlist.objects.get(uuid=playlist_uuid)
 
         except Playlist.DoesNotExist:
-            playlist = Playlist(uuid=playlist_uuid, name="--init--")
+            playlist = Playlist(uuid=playlist_uuid, name="-")
             playlist.save()
 
         if emission.playlist_id != playlist.id:
