@@ -31,6 +31,13 @@ export const useScheduleStore = defineStore("schedule", {
     currentMedia(): Media | null {
       return this.current?.media ?? null;
     },
+    items(state: State): Array<AnnotatedSchedule> {
+      if (this.current?.dtStart) {
+        const dtStart = this.current?.dtStart;
+        return state.schedule.filter((s) => s.dtStart <= dtStart);
+      }
+      return [];
+    },
     past(state: State): Array<AnnotatedSchedule> {
       if (this.current?.dtStart) {
         const dtStart = this.current?.dtStart;
@@ -51,15 +58,15 @@ export const useScheduleStore = defineStore("schedule", {
       }
       return null;
     },
-    items(): Array<AnnotatedSchedule | null> {
-      return [this.next, this.current, ...this.past];
-    },
+    // items(): Array<AnnotatedSchedule | null> {
+    //   return [this.next, this.current, ...this.past];
+    // },
   },
   actions: {
     async loadSchedule(): Promise<void> {
       const params = {
-        secondsAhead: 120 * 60,
-        secondsBack: 120 * 60,
+        secondsAhead: 240 * 60,
+        secondsBack: 240 * 60,
       };
       const result = await getSchedule(params);
       this.schedule = result.map((el: Schedule): AnnotatedSchedule => {
