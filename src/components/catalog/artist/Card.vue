@@ -38,23 +38,19 @@ export default defineComponent({
 <template>
   <div class="card card--artist">
     <router-link :to="link" class="visual">
-      <div class="visual__image">
-        <LazyImage :image="artist.image">
-          <PlayAction
-            :obj-key="objKey"
-            :icon-scale="1.5"
-            :outlined="true"
-            :filled="true"
-            :color="[0, 0, 0]"
-          />
-        </LazyImage>
-      </div>
+      <LazyImage :image="artist.image">
+        <PlayAction
+          :obj-key="objKey"
+          :icon-scale="1.5"
+          :outlined="true"
+          :filled="true"
+          :color="[0, 0, 0]"
+        />
+      </LazyImage>
     </router-link>
     <div class="meta">
-      <div class="title">
-        <router-link class="primary" :to="link" v-text="artist.name" />
-        <div class="secondary" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
-      </div>
+      <router-link class="title" :to="link" v-text="artist.name" />
+      <div class="subtitle" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
       <div class="actions">
         <CircleButton :scale="0.75">
           <UserRating :obj-key="objKey" :icon-scale="0.75" />
@@ -66,56 +62,8 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/base/typo";
+@use "@/style/elements/card";
 .card {
-  .visual {
-    position: relative;
-    background: rgba(var(--c-white), 0.25);
-    cursor: pointer;
-    &__image {
-      position: relative;
-      width: 100%;
-      padding-bottom: 100%;
-      //filter: grayscale(100%);
-      transition: opacity 200ms;
-      .lazy-image {
-        position: absolute;
-        width: 100%;
-      }
-    }
-  }
-
-  .meta {
-    display: flex;
-    line-height: 1.25rem;
-    .title {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      padding: 4px 1rem 0 0;
-      .primary {
-        font-weight: 500;
-      }
-      .secondary {
-        @include typo.dim;
-        @include typo.light;
-        text-transform: capitalize;
-      }
-    }
-    .actions {
-      height: 36px;
-      width: 72px;
-      display: flex;
-      margin-top: 0.5rem;
-    }
-  }
-  &:hover {
-    .visual {
-      background: rgba(var(--c-black), 0.2);
-      :deep(img) {
-        opacity: 0.5;
-      }
-    }
-  }
+  @include card.default;
 }
 </style>

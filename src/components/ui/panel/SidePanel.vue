@@ -98,11 +98,13 @@ export default defineComponent({
     .slot {
       flex-grow: 1;
     }
-    .close {
-    }
     @include responsive.bp-medium {
       height: 60px;
-      margin: 0 0.5rem 0.5rem;
+      //background: red;
+      margin: 0 0.5rem 0;
+      .close {
+        display: flex;
+      }
     }
   }
   &__body {

@@ -295,6 +295,7 @@ export default defineComponent({
 
   .tags {
     grid-area: tags;
+    overflow: hidden;
   }
 
   .time-start {
@@ -306,27 +307,25 @@ export default defineComponent({
   .actions {
     grid-area: actions;
   }
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     grid-row-gap: 0;
-    grid-column-gap: 0.5rem;
-    grid-template-areas:
-      "play name   time-start actions"
-      "play editor time-start actions";
-    grid-template-columns: 48px 8fr 4fr 48px;
+    grid-column-gap: 1rem;
+    grid-template-areas:"play name time-start actions";
+    grid-template-columns: 40px 8fr 4fr 40px;
     min-height: 60px;
+    //padding: 10px 20px;
+    .play {
+      margin-left: 4px;
+    }
     .tags {
       display: none;
     }
-    .name {
-      line-height: 1.25rem;
-      align-self: end;
-    }
     .editor {
-      @include typo.dim;
-      @include typo.light;
-      line-height: 1.25rem;
-      align-self: start;
+      display: none;
     }
+    //.name {
+    //  line-height: 1.25rem;
+    //}
   }
 }
 </style>

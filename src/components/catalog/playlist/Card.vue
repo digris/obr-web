@@ -10,6 +10,7 @@ import UserRating from "@/components/rating/UserRating.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import PlaylistName from "@/components/catalog/playlist/Name.vue";
+import { useDevice } from '@/composables/device';
 
 export default defineComponent({
   components: {
@@ -30,119 +31,61 @@ export default defineComponent({
   setup(props) {
     const { objKey } = useObjKey(props.playlist);
     const link = `/discover/playlists/${props.playlist.uid}/`;
-    const title = computed(() => {
-      return {
-        name: props.playlist.series ? props.playlist.series.name : props.playlist.name,
-        appendix: props.playlist.series ? props.playlist.series.episode : null,
-      };
-    });
-    const subtitle = computed(() => {
-      if (props.playlist.series) {
-        return props.playlist.name;
-      }
-      return "-";
-    });
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
     });
-    const timeRated = computed(() => {
-      const userRatingTimeRated = props.playlist?.userRatingTimeRated;
-      return userRatingTimeRated ? DateTime.fromISO(userRatingTimeRated) : null;
+    const { isDesktop } = useDevice();
+    const iconScale = computed(() => {
+      return isDesktop.value ? 0.75 : 0.9;
     });
     return {
       objKey,
-      title,
-      subtitle,
       link,
       latestEmission,
-      timeRated,
+      iconScale,
     };
   },
 });
 </script>
 
 <template>
-  <div class="card card--artist">
+  <div class="card card--playlist">
     <router-link :to="link" class="visual">
-      <div class="visual__image">
-        <LazyImage :image="playlist.image">
-          <PlayAction
-            :obj-key="objKey"
-            :icon-scale="1.5"
-            :outlined="true"
-            :filled="true"
-            :color="[0, 0, 0]"
-          />
-        </LazyImage>
-      </div>
+      <LazyImage :image="playlist.image">
+        <PlayAction
+          :obj-key="objKey"
+          :icon-scale="1.5"
+          :outlined="true"
+          :filled="true"
+          :color="[0, 0, 0]"
+        />
+      </LazyImage>
     </router-link>
     <div class="meta">
-      <div class="title">
-        <router-link class="primary" :to="link">
-          <PlaylistName :playlist="playlist" />
-          <!--
-          <div
-            v-text="playlist.name"
-          />
-          -->
-        </router-link>
-        <RelativeDateTime class="secondary" :date-time="latestEmission" />
-      </div>
+      <router-link class="title" :to="link">
+        <PlaylistName :playlist="playlist" />
+      </router-link>
+      <RelativeDateTime class="subtitle" :date-time="latestEmission" />
       <div class="actions">
-        <CircleButton :scale="0.75">
-          <UserRating :obj-key="objKey" :icon-scale="0.75" />
+        <CircleButton :scale="iconScale">
+          <UserRating :obj-key="objKey" :icon-scale="iconScale" />
         </CircleButton>
-        <ContextMenu :obj="playlist" :icon-scale="0.75" />
+        <ContextMenu :obj="playlist" :icon-scale="iconScale" />
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
+@use "@/style/elements/card";
 .card {
-  .visual {
-    position: relative;
-    background: rgba(var(--c-white), 0.25);
-    &__image {
-      position: relative;
-      width: 100%;
-      padding-bottom: 100%;
-      .lazy-image {
-        position: absolute;
-        width: 100%;
-      }
-    }
-  }
-  .meta {
-    display: flex;
-    line-height: 1.25rem;
-    .title {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      padding: 4px 1rem 0 0;
-      .primary {
-        font-weight: 500;
-      }
-      .secondary {
-        @include typo.dim;
-        @include typo.light;
-        text-transform: capitalize;
-      }
-    }
-    .actions {
-      height: 36px;
-      width: 72px;
-      display: flex;
-      margin-top: 0.5rem;
-    }
-  }
-  &:hover {
-    .visual {
-      background: rgba(var(--c-black), 0.2);
-      :deep(img) {
-        opacity: 0.5;
+  @include card.default;
+  @include responsive.bp-medium {
+    .meta {
+      .subtitle {
+        @include typo.small;
       }
     }
   }

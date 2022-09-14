@@ -35,7 +35,9 @@ export default defineComponent({
 @use "@/style/elements/container";
 .media-row-header {
   background: rgb(var(--c-white));
-  padding: 0.5rem 0;
+  height: 41px;
+  align-items: center;
+  display: flex;
 }
 
 .container {
@@ -43,7 +45,7 @@ export default defineComponent({
   display: grid;
   grid-row-gap: 0;
   grid-column-gap: 1rem;
-  grid-template-columns: 96px 8fr 6fr 2fr 96px;
+  grid-template-columns: 96px 16fr 10fr 6fr 96px;
   .label {
     white-space: nowrap;
     > span {

@@ -125,12 +125,12 @@ export default defineComponent({
     });
     const cssVars = computed(() => {
       let fg = "var(--c-black)";
-      let bg = "var(--c-gray-50)";
+      let bg = "var(--c-white)";
       let bgHover = "var(--c-gray-50)";
 
       if (isExpanded.value) {
         fg = "var(--c-black)";
-        bg = "var(--c-gray-100)";
+        bg = "var(--c-gray-400)";
         bgHover = "var(--c-gray-100)";
       }
 
@@ -141,7 +141,6 @@ export default defineComponent({
       }
 
       if (isUpcoming.value) {
-        // bg = "var(--c-gray-50)";
         bg = "var(--c-white)";
         fg = "var(--c-gray-400)";
       }

@@ -72,6 +72,7 @@ export default defineComponent({
   .status {
     @include typo.tiny;
     @include typo.uppercase;
+    text-align: right;
     display: flex;
     flex-direction: column;
     align-items: flex-end;

@@ -116,7 +116,7 @@ export default defineComponent({
     border-top: 1px solid rgb(var(--c-gray-200));
   }
 
-  &:hover {
+  @include responsive.on-hover {
     background: rgb(var(--c-gray-100));
   }
 }
@@ -129,9 +129,9 @@ export default defineComponent({
   grid-template-areas:
     "play name editor airplays actions"
     "play name tags   duration actions";
-  grid-template-columns: 96px 8fr 6fr 2fr 96px;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  grid-template-columns: 96px 16fr 10fr 6fr 96px;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
   color: rgb(var(--c-black));
 
   > div {
@@ -157,6 +157,7 @@ export default defineComponent({
 
   .editor {
     grid-area: editor;
+    align-self: end;
     min-width: 0;
     > a {
       overflow: hidden;
@@ -167,15 +168,21 @@ export default defineComponent({
 
   .tags {
     grid-area: tags;
+    align-self: start;
     overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .airplays {
     grid-area: airplays;
+    align-self: end;
+    overflow: hidden;
   }
 
   .emissions {
     grid-area: emissions;
+    align-self: start;
   }
 
   .duration {
@@ -185,6 +192,30 @@ export default defineComponent({
   .actions {
     grid-area: actions;
     justify-self: flex-end;
+  }
+
+  @include responsive.bp-medium {
+    grid-template-areas:
+      "play name   actions"
+      "play tags actions";
+    grid-template-columns: 80px 1fr 80px;
+    height: 60px;
+    .editor,
+    .airplays,
+    .emissions,
+    .duration {
+      display: none;
+    }
+    .name {
+      align-self: end;
+      margin-left: -40px;
+    }
+    .tags {
+      align-self: start;
+      margin-left: -40px;
+      @include typo.light;
+      @include typo.dim;
+    }
   }
 }
 </style>

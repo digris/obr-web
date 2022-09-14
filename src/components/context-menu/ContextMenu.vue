@@ -13,6 +13,7 @@ import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
 import ObjectActions from './ObjectActions.vue';
 import ListActions from './ListActions.vue';
+import { useDevice } from '@/composables/device';
 
 export default defineComponent({
   props: {
@@ -45,6 +46,7 @@ export default defineComponent({
     const menu = ref(null);
     const menuPosition = ref('bottom');
     const { iconSize } = useIconSize(props.scale);
+    const { isDesktop } = useDevice();
     const isVisible = ref(false);
     const isObj = computed(() => Object.keys(props.obj).length);
     const show = (e) => {
@@ -60,6 +62,9 @@ export default defineComponent({
     const hide = () => {
       isVisible.value = false;
     };
+    const transitionName = computed(() => {
+      return isDesktop.value ? 'fade' : 'slide';
+    });
     eventBus.on('contextMenu:show', () => {
       hide();
     });
@@ -98,6 +103,7 @@ export default defineComponent({
       isObj,
       show,
       hide,
+      transitionName,
       onMenuMouseleave,
       onMenuMouseenter,
       actions,
@@ -119,7 +125,7 @@ export default defineComponent({
         <IconContext :scale="iconScale" />
       </CircleButton>
     </div>
-    <transition name="slide">
+    <transition :name="transitionName">
       <div class="menu-container" v-if="isVisible" :class="`position-${menuPosition}`">
         <div class="menu" ref="menu" @mouseleave="onMenuMouseleave" @mouseenter="onMenuMouseenter">
           <ObjectActions v-if="isObj" :obj="obj" @close="hide" />
@@ -146,9 +152,12 @@ export default defineComponent({
       right: 0;
       z-index: 50;
       min-width: 300px;
-      background: rgba(255, 255, 255, 1);
+      background: rgba(0, 0, 0, 1);
       border-radius: 4px;
       box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+      .actions {
+        background: rgba(255, 255, 255, 1);
+      }
     }
     &.position-top {
       bottom: 0;
@@ -162,26 +171,30 @@ export default defineComponent({
         top: 0;
       }
     }
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 120;
+      z-index: 120; // use 100 to move behind player
       display: flex;
       align-items: flex-end;
       width: 100%;
       height: 100%;
-      background: rgba(var(--c-black), 0.8);
+      //background: rgba(var(--c-black), 0.8);
+      background: rgba(0, 0, 0, 0.8);
       .menu {
         position: unset;
         width: 100%;
         border-radius: unset;
         box-shadow: unset;
         padding-bottom: 120px;
+        background: rgb(0, 0, 0);
       }
     }
   }
 }
+
+// desktop
 .fade-enter-active,
 .fade-leave-active {
   opacity: 1;
@@ -191,5 +204,29 @@ export default defineComponent({
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+// mobile
+.slide-enter-active,
+.slide-leave-active {
+  opacity: 1;
+  //transition: transform 200ms, opacity 200ms;
+  transition: transform 400ms, opacity 100ms linear;
+  .menu {
+    transition: transform 300ms;
+    transition-delay: 100ms;
+  }
+}
+.slide-enter-from {
+  opacity: 0;
+  .menu {
+    transform: translate(0, 100%);
+  }
+}
+.slide-leave-to {
+  opacity: 0;
+  .menu {
+    transform: translate(0, 100%);
+  }
 }
 </style>

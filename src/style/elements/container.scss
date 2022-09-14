@@ -6,8 +6,8 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1.5rem;
-  @include responsive.bp-small {
-    padding: 0 0.5rem;
+  @include responsive.bp-medium {
+    padding: 0 0.625rem;
   }
 }
 
@@ -17,8 +17,8 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;
-  @include responsive.bp-small {
-    padding: 0 0.5rem;
+  @include responsive.bp-medium {
+    padding: 0 0.625rem;
   }
 }
 
@@ -28,8 +28,8 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;
-  @include responsive.bp-small {
-    padding: 0 0.5rem;
+  @include responsive.bp-medium {
+    padding: 0 0.625rem;
   }
 }
 

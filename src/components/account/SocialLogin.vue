@@ -123,7 +123,7 @@ export default defineComponent({
     grid-gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 2rem;
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       grid-template-columns: repeat(1, 1fr);
     }
   }

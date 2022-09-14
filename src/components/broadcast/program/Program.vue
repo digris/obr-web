@@ -125,7 +125,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/elements/container";
+@use "@/style/elements/title";
 
 .program {
   display: flex;
@@ -136,11 +136,7 @@ export default defineComponent({
 .header {
   border-bottom: 1px solid rgb(var(--c-gray-200));
   .title {
-    @include container.default;
-    @include typo.x-large;
-    @include typo.bold;
-    margin-top: 1.25rem;
-    margin-bottom: 1.5rem;
+    @include title.default;
   }
   .filter-container {
     padding: 0.5rem 0 1.5rem;
@@ -152,11 +148,7 @@ export default defineComponent({
 
 .body {
   flex-grow: 1;
-  //overflow: scroll;
   min-height: 0; /* without min-height/height:0 flex:1 doesn't work */
   overflow: auto;
-  .emissions {
-    background: transparent;
-  }
 }
 </style>

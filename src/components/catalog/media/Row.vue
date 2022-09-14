@@ -118,9 +118,10 @@ export default defineComponent({
   grid-template-areas:
     "play name artist  duration actions"
     "play name release airplays actions";
-  grid-template-columns: 96px 8fr 6fr 2fr 96px;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  grid-template-columns: 96px 16fr 10fr 6fr 96px;
+  //padding-top: 0.7rem;
+  //padding-bottom: 0.7rem;
+  height: 71px;
   color: rgb(var(--c-black));
   //TODO: find a modular way to handle color / ui transitions
   transition: border-bottom 200ms 1400ms, color 200ms, background 200ms;
@@ -149,6 +150,7 @@ export default defineComponent({
 
   .artist {
     grid-area: artist;
+    align-self: end;
     overflow: hidden;
     > div {
       overflow: hidden;
@@ -157,6 +159,7 @@ export default defineComponent({
 
   .release {
     grid-area: release;
+    align-self: start;
     min-width: 0;
     //overflow: hidden;
     > div {
@@ -166,45 +169,42 @@ export default defineComponent({
     }
   }
 
-  .airplays {
-    grid-area: airplays;
-  }
-
   .duration {
     grid-area: duration;
+    align-self: end;
+  }
+
+  .airplays {
+    grid-area: airplays;
+    align-self: start;
+    overflow: hidden;
   }
 
   .actions {
     grid-area: actions;
     justify-self: flex-end;
   }
-  // TODO: responsive styles have to be cleaned up
-  @include responsive.bp-small {
+
+  @include responsive.bp-medium {
     grid-template-areas:
       "play name   actions"
       "play artist actions";
-    grid-template-columns: 48px 1fr 96px;
-    padding: 0.375rem 0;
-    .name {
-      @include typo.default;
-    }
-    .artist {
-      @include typo.default;
-      @include typo.dim;
-      @include typo.light;
-      min-width: 0;
-      margin-top: -4px; //TODO: just a quick fix
-      overflow: hidden;
-      > div {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
+    grid-template-columns: 80px 1fr 80px;
+    height: 60px;
     .release,
     .airplays,
     .duration {
       display: none;
+    }
+    .name {
+      align-self: end;
+      margin-left: -40px;
+    }
+    .artist {
+      align-self: start;
+      margin-left: -40px;
+      @include typo.light;
+      @include typo.dim;
     }
   }
 }

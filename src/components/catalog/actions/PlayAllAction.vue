@@ -43,8 +43,13 @@ export default defineComponent({
     mode="replace"
   >
     <div class="wrapper">
-      <CircleButton :outlined="true">
-        <IconPlay color="black" />
+      <CircleButton
+        :outlined="true"
+        :filled="false"
+        fill-color-var="--c-white"
+        :hover-background-opacity="0.1"
+      >
+        <IconPlay color-var="--c-black" />
       </CircleButton>
       <slot name="default" />
     </div>

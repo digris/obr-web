@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
+import { useDevice } from '@/composables/device';
 
 export default defineComponent({
   props: {
@@ -14,17 +15,21 @@ export default defineComponent({
   components: {
     LazyImage,
   },
+  setup() {
+    const { isMobile } = useDevice();
+    return {
+      isMobile,
+    }
+  },
 });
 </script>
 
 <template>
   <router-link v-if="editor" class="editor" :to="`/discover/editors/${editor.uid}/`">
-    <div class="visual">
+    <div v-if="!isMobile" class="visual">
       <LazyImage v-if="editor.image" class="image" :image="editor.image" :size="128" />
     </div>
-    <div class="name">
-      {{ editor.name }}
-    </div>
+    <div class="name" v-text="editor.name" />
   </router-link>
 </template>
 
@@ -71,6 +76,15 @@ export default defineComponent({
   }
   @include responsive.on-hover {
     @include live-color.bg-inverse(0.1);
+  }
+  @include responsive.bp-medium {
+    height: unset;
+    margin-top: unset;
+    border-radius: unset;
+    .name {
+      height: unset;
+      padding: unset;
+    }
   }
 }
 </style>

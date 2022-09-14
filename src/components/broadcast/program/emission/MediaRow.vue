@@ -100,7 +100,7 @@ export default defineComponent({
   grid-template-areas:
     "play name artist  time-start actions"
     "play name release    time-start actions";
-  grid-template-columns: 48px 9fr 8fr 2fr 48px;
+  grid-template-columns: 48px 9fr 8fr 2fr 96px;
   padding: 0.75rem 1.5rem 0.75rem 1rem;
   color: rgb(var(--c-black));
   //background-color: rgb(var(--c-white));
@@ -132,10 +132,21 @@ export default defineComponent({
   .artist {
     grid-area: artist;
     overflow: hidden;
+    > div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   .release {
     grid-area: release;
+    overflow: hidden;
+    > div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   .time-start {
@@ -148,15 +159,18 @@ export default defineComponent({
     grid-area: actions;
   }
 
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     grid-row-gap: 0;
-    grid-column-gap: 0.5rem;
+    grid-column-gap: 1rem;
     grid-template-areas:
       "play name   time-start actions"
       "play artist time-start actions";
-    grid-template-columns: 48px 8fr 4fr 48px;
+    grid-template-columns: 40px 8fr 4fr 40px;
     min-height: 60px;
     padding-left: 0;
+    .play {
+      margin-left: 4px;
+    }
     .release {
       display: none;
     }

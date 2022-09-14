@@ -213,16 +213,17 @@ export default defineComponent({
       }
     }
   }
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     .section {
       padding: 10px 0;
       &:first-child {
-        padding-top: 2px;
+        padding-top: 10px;
       }
       &--primary {
         > a {
           font-size: 2.5rem;
         }
+        padding: 12px 0;
       }
     }
   }

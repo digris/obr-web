@@ -10,7 +10,8 @@ body {
   font-kerning: normal;
 
   -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;  //NOTE: disabled in CB version
+  //-webkit-font-smoothing: antialiased;  //NOTE: disabled in CB version
+  -webkit-font-smoothing: subpixel-antialiased;  //NOTE: disabled in CB version
 }
 
 @mixin copy {

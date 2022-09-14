@@ -151,11 +151,12 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .filter {
   position: relative;
-  height: 48px;
+  height: 38px;
   display: flex;
-  min-width: 200px;
+  min-width: 240px;
   //display: grid;
   //grid-template-columns: 120px 120px 120px 120px;
   //grid-template-columns: 160px;
@@ -167,11 +168,12 @@ export default defineComponent({
   > .date-input {
     width: 100%;
     :deep(> input) {
-      width: 200px;
+      width: 240px;
       padding: 0 0.5rem;
       font-size: 1rem;
       text-align: center;
       font-family: var(--font-family);
+      border: 1px solid rgb(var(--c-gray-200));
     }
   }
 }

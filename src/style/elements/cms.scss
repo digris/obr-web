@@ -70,7 +70,7 @@
       }
     }
   }
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     > thead {
       display: none;
     }

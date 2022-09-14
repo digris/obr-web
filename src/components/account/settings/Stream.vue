@@ -115,7 +115,7 @@ export default defineComponent({
       border-color: rgb(var(--c-green));
     }
   }
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     grid-template-columns: unset;
     grid-gap: 0.5rem;
     .option {

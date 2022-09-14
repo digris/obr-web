@@ -90,7 +90,7 @@ export default defineComponent({
     background: rgb(var(--c-white));
   }
 
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     max-width: unset;
   }
 
