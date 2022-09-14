@@ -41,7 +41,9 @@ export default defineComponent({
     <div class="top">
       <div class="back">
         <BackButton v-if="canNavigateBack" @click="back" />
-        <div class="scope" v-if="titleScope" v-text="`${titleScope}:`" />
+      </div>
+      <div class="scope">
+        <span v-if="titleScope" v-text="`${titleScope}:`" />
       </div>
     </div>
     <div class="main">
@@ -61,6 +63,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/container";
 @mixin visual-image {
@@ -91,7 +94,7 @@ export default defineComponent({
     top: 0;
     z-index: 4;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 64px auto 1fr;
     align-items: center;
     height: 4rem;
     margin-top: 0.5rem;
@@ -161,6 +164,28 @@ export default defineComponent({
           @include typo.x-large;
           @include typo.bold;
           line-height: 4rem;
+        }
+      }
+    }
+  }
+  @include responsive.bp-medium {
+    .top {
+      grid-template-columns: 80px auto 80px;
+      margin: 0;
+      height: 60px;
+      .scope {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .main {
+      align-items: center;
+      .visual {
+        width: 73%;
+        aspect-ratio: 1;
+        .image {
+          height: unset;
+          aspect-ratio: 1;
         }
       }
     }

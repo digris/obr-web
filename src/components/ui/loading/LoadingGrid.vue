@@ -41,7 +41,7 @@ export default defineComponent({
   grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
   width: 100%;
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     grid-gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
   }

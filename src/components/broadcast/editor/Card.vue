@@ -25,64 +25,27 @@ export default defineComponent({
 <template>
   <router-link class="card card--editor" :to="link">
     <div class="visual">
-      <div class="visual__image">
-        <LazyImage
-          :image="editor.image"
-          :class="{
-            'is-grayscale': !editor.isActive,
-          }"
-        />
-      </div>
+      <LazyImage
+        :image="editor.image"
+        :class="{
+          'is-grayscale': !editor.isActive,
+        }"
+      />
     </div>
     <div class="meta">
-      <div class="title">
-        {{ editor.name }}
-      </div>
+      <div class="title" v-text="editor.name" />
       <div class="subtitle" v-text="editor.role" />
     </div>
   </router-link>
 </template>
 <style lang="scss" scoped>
-@use "@/style/base/typo";
+@use "@/style/elements/card";
 .card {
+  @include card.default;
   .visual {
-    position: relative;
-    background: rgba(var(--c-white), 0.25);
-    cursor: pointer;
-    &__image {
-      position: relative;
-      width: 100%;
-      padding-bottom: 100%;
-      transition: opacity 200ms;
-      .lazy-image {
-        position: absolute;
-        width: 100%;
-        &.is-grayscale {
-          filter: grayscale(1);
-        }
-      }
-    }
-  }
-  .meta {
-    padding: 0.5rem 0 0 0;
-    line-height: 1.25rem;
-    .title {
-      display: flex;
-      font-weight: 600;
-      a {
-        flex-grow: 1;
-      }
-    }
-    .subtitle {
-      @include typo.dim;
-      @include typo.light;
-    }
-  }
-  &:hover {
-    .visual {
-      background: rgba(var(--c-black), 0.2);
-      &__image {
-        opacity: 0.5;
+    .lazy-image {
+      &.is-grayscale {
+        filter: grayscale(1);
       }
     }
   }

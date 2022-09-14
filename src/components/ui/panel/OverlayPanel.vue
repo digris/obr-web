@@ -100,7 +100,7 @@ export default defineComponent({
     padding-bottom: 1rem;
     background: rgb(var(--c-white));
     z-index: 50;
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       height: 60px;
     }
   }
@@ -114,7 +114,7 @@ export default defineComponent({
     min-height: calc(100vh - 79px);
   }
 
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     max-width: unset;
   }
 

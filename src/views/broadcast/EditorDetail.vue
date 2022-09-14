@@ -108,7 +108,7 @@ export default defineComponent({
           </span>
         </template>
         <template #searchbar>
-          <Searchbar :filter="combinedFilter" />
+          <Searchbar :filter="combinedFilter" :hide-form-for-mobile="true" />
         </template>
       </DetailHeader>
     </template>

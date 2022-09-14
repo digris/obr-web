@@ -71,7 +71,7 @@ export default defineComponent({
     }
     .teaser {
       @include typo.default;
-      @include responsive.bp-small {
+      @include responsive.bp-medium {
         display: none;
       }
       position: absolute;

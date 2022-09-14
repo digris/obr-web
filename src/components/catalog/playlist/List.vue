@@ -213,7 +213,7 @@ export default defineComponent({
   grid-row-gap: 2rem;
   grid-column-gap: 0.5rem;
   grid-template-columns: repeat(4, 1fr);
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     grid-gap: 0.5rem;
     grid-template-columns: repeat(2, 1fr);
   }

@@ -204,7 +204,7 @@ export default defineComponent({
     grid-area: actions;
     justify-self: flex-end;
   }
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     grid-template-areas:
       "play name   actions"
       "play artist actions";

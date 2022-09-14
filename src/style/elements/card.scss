@@ -1,0 +1,66 @@
+@use "@/style/abstracts/responsive";
+@use "@/style/base/typo";
+
+@mixin visual {
+  position: relative;
+  background: rgba(var(--c-white), 0.25);
+  /*
+  .visual__image {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    .lazy-image {
+      position: absolute;
+      width: 100%;
+    }
+  }
+  */
+}
+
+@mixin meta {
+  display: grid;
+  grid-template-areas:
+    "title    actions"
+    "subtitle actions";
+  grid-template-columns: 1fr 72px;
+  .title {
+    grid-area: title;
+    align-self: end;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .subtitle {
+    grid-area: subtitle;
+    align-self: start;
+    @include typo.dim;
+    @include typo.light;
+    text-transform: capitalize;
+    overflow: hidden;
+  }
+  .actions {
+    grid-area: actions;
+    display: flex;
+  }
+  //@include responsive.bp-medium {
+  //  .subtitle {
+  //    @include typo.small;
+  //  }
+  //}
+}
+
+@mixin default {
+  .visual {
+    @include visual;
+  }
+  .meta {
+    @include meta;
+  }
+  @include responsive.on-hover {
+    .visual {
+      background: rgba(var(--c-black), 0.2);
+      :deep(img) {
+        opacity: 0.5;
+      }
+    }
+  }
+}

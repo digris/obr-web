@@ -12,6 +12,10 @@ export default defineComponent({
       type: String,
       default: "--c-fg",
     },
+    rotate: {
+      type: Number,
+      default: 0,
+    },
   },
   setup(props) {
     const { iconSize: size } = useIconSize(props.scale);
@@ -21,6 +25,7 @@ export default defineComponent({
         fill: "transparent",
         stroke: color.value,
         strokeWidth: 2.5,
+        transform: `rotate(${props.rotate}deg)`,
         width: `${size.value}px`,
         height: `${size.value}px`,
       };

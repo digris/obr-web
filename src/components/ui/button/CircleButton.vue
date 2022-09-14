@@ -121,6 +121,9 @@ export default defineComponent({
 
   @include responsive.on-hover {
     background: rgba(var(--c-main), var(--hover-background-opacity));
+    &.is-filled {
+      background: rgba(var(--c-fill), var(--hover-background-opacity));
+    }
     .outline {
       border-color: var(--outline-hover-color);
     }

@@ -20,7 +20,8 @@ export default defineComponent({
       return {
         fill: "transparent",
         stroke: color.value,
-        strokeWidth: 2.5,
+        strokeWidth: 3,
+        strokeMiterlimit: 10,
         width: `${size.value}px`,
         height: `${size.value}px`,
       };

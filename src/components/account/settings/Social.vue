@@ -163,7 +163,7 @@ export default defineComponent({
       @include typo.small;
       @include typo.dim;
       margin-left: 0.5rem;
-      @include responsive.bp-small {
+      @include responsive.bp-medium {
         margin-left: 0;
       }
     }

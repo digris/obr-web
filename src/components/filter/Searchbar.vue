@@ -25,12 +25,22 @@ export default defineComponent({
       required: false,
       default: () => {},
     },
+    hideFormForMobile: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const { isDesktop } = useDevice();
+    const isFormVisible = computed(() => {
+      if (props.hideFormForMobile) {
+        return isDesktop.value;
+      }
+      return true;
+    })
     const isExpanded = computed(() => store.getters['ui/filterExpanded']);
     const toggleFilter = () => {
       if (isExpanded.value) {
@@ -71,6 +81,7 @@ export default defineComponent({
     return {
       isDesktop,
       isExpanded,
+      isFormVisible,
       toggleFilter,
       q,
       searchInput,
@@ -83,8 +94,8 @@ export default defineComponent({
 <template>
   <div class="searchbar">
     <form
-      v-if="isDesktop"
-      class="searchinput"
+      v-if="isFormVisible"
+      class="search-input"
       :class="{
         'has-query': hasSearchQuery,
       }"
@@ -92,51 +103,64 @@ export default defineComponent({
     >
       <input :value="q" @keyup="searchInput" />
     </form>
-    <CircleButton v-if="isDesktop" @click="submitSearch">
+    <CircleButton v-if="isFormVisible" class="search-button" @click="submitSearch">
       <IconSearch />
     </CircleButton>
     <CircleButton
+      class="filter-button"
       :filled="isExpanded"
       :hover-background-opacity="isExpanded ? 0.8 : 0.1"
       @click="toggleFilter"
     >
-      <IconFilter :color-var="isExpanded ? `--c-white` : `--c-fg`" />
+      <IconFilter :color-var="isExpanded ? `--c-white` : `--c-fg`" :rotate="isExpanded ? 180 : 0" />
     </CircleButton>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 .searchbar {
   display: flex;
   flex-grow: 1;
   align-items: center;
   justify-content: flex-end;
-}
-.searchinput {
-  height: 40px;
-  > input {
-    @include typo.default;
-    //box-sizing: content-box;
-    box-sizing: border-box;
-    height: 100%;
-    padding: 3px 0.5rem 0 1rem;
-    color: rgb(var(--c-page-fg));
-    background: transparent;
-    border: 0;
-    border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
-    transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
-    &:focus {
-      background: rgba(var(--c-black), 0.1);
-      border-bottom: 3px solid rgba(var(--c-page-fg), 0);
-      outline: none;
+  .search-input {
+    height: 40px;
+    > input {
+      @include typo.default;
+      box-sizing: border-box;
+      height: 100%;
+      padding: 3px 0.5rem 0 1rem;
+      color: rgb(var(--c-page-fg));
+      background: transparent;
+      border: 0;
+      border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
+      transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
+      &:focus {
+        background: rgba(var(--c-black), 0.1);
+        border-bottom: 3px solid rgba(var(--c-page-fg), 0);
+        outline: none;
+      }
+    }
+    &.has-query {
+      > input {
+        color: rgb(var(--c-white));
+        background: rgb(var(--c-black));
+        border-radius: 22px;
+      }
     }
   }
-  &.has-query {
-    > input {
-      color: rgb(var(--c-white));
-      background: rgb(var(--c-black));
-      border-radius: 22px;
+  @include responsive.bp-medium {
+    .search-button {
+      order: -1;
+    }
+    .search-input {
+      flex-grow: 1;
+      > input {
+        border: 1px solid rgb(var(--c-gray-200));
+        width: 100%;
+      }
     }
   }
 }

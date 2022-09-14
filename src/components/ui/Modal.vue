@@ -100,7 +100,7 @@ $z-feedback: 9;
   color: rgb(var(--c-black));
   background: rgb(var(--c-white));
 
-  @include responsive.bp-small {
+  @include responsive.bp-medium {
     height: 100%;
   }
 

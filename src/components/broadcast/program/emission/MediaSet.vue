@@ -95,7 +95,7 @@ export default defineComponent({
     .next-start {
       @include typo.large;
     }
-    @include responsive.bp-small {
+    @include responsive.bp-medium {
       padding: 1rem;
       justify-content: center;
     }

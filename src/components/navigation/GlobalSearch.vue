@@ -39,7 +39,15 @@ export default defineComponent({
       </div>
     </template>
     <div class="global-search">
+      <!--
       <div class="search-results">(( SEARCH RESULTS ))</div>
+      -->
+      <div class="feedback">
+        <p>
+          Durchsuche das open broadcast Archiv.<br>
+          Du kannst nach Tracks, Releases oder Künsternamem suchen.
+        </p>
+      </div>
     </div>
   </SidePanel>
 </template>
@@ -48,6 +56,9 @@ export default defineComponent({
 @use "@/style/base/typo";
 .global-search {
   background: white;
+  .feedback {
+    padding: 0.5rem 0;
+  }
 }
 .search-input {
   > input {
@@ -56,6 +67,9 @@ export default defineComponent({
     border: none;
     &:focus {
       outline: none;
+    }
+    &::placeholder {
+      color: rgba(var(--c-black), 0.2);
     }
   }
 }

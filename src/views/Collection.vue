@@ -38,16 +38,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/container";
+@use "@/style/elements/title";
 @use "@/style/elements/list-menu";
 .collection {
   margin-bottom: 12rem;
 }
 .title {
-  @include container.default;
-  @include typo.x-large;
-  @include typo.bold;
-  margin-top: 1.25rem;
-  margin-bottom: 1.5rem;
+  @include title.default;
 }
 .list-menu {
   @include container.default;

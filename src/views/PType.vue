@@ -32,6 +32,10 @@ export default defineComponent({
 </script>
 <template>
   <div class="ptype-view">
+    <div class="stage typo">
+      <p class="t t--wf t--500">Foo the Bear 500</p>
+      <p class="t t--alt t--500">Foo the Bear 500 (alt)</p>
+    </div>
     <div class="stage" :style="stageVarsA">
       <pre v-text="stageVarsA" />
       <div class="row">
@@ -166,6 +170,15 @@ export default defineComponent({
     //> div {
     //  border-right: 1px solid #a9a9a9;
     //}
+  }
+}
+.t {
+  font-size: 24px;
+  &--500 {
+    font-weight: 500;
+  }
+  &--alt {
+    font-family: plex;
   }
 }
 </style>

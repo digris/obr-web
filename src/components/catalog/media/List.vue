@@ -253,6 +253,11 @@ export default defineComponent({
   background: rgb(var(--c-gray-500));
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+  @include responsive.bp-medium {
+    height: 60px;
+    grid-template-columns: auto 40px;
+    align-items: center;
+  }
 }
 
 .media-list {
