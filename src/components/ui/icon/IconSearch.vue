@@ -41,7 +41,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <circle cx="23.5" cy="22.8" r="9"/>
-    <line x1="29.1" y1="28.7" x2="36.5" y2="36.2"/>
+    <circle cx="23.5" cy="22.8" r="9" />
+    <line x1="29.1" y1="28.7" x2="36.5" y2="36.2" />
   </svg>
 </template>

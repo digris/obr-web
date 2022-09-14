@@ -1,11 +1,21 @@
 <script lang="ts">
-import { defineComponent, computed, onMounted, onActivated, ref, watch, onUnmounted } from "vue";
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  onActivated,
+  onDeactivated,
+  ref,
+  watch,
+  onUnmounted,
+} from "vue";
 
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { isEqual } from "lodash-es";
 import { DateTime } from "luxon";
+import PullToRefresh from "pulltorefreshjs";
 import { useDevice } from "@/composables/device";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
@@ -155,12 +165,19 @@ export default defineComponent({
       // @ts-ignore
       clearInterval(timer.value);
     });
+    const listEl = ref(null);
     onActivated(() => {
-      /*
-      if (props.primaryColor) {
-        store.dispatch('ui/setPrimaryColor', props.primaryColor);
-      }
-      */
+      PullToRefresh.init({
+        mainElement: listEl.value,
+        onRefresh() {
+          mediaList.value = [];
+          fetchMedia(limit, 0).then(() => {});
+          fetchTags().then(() => {});
+        },
+      });
+    });
+    onDeactivated(() => {
+      PullToRefresh.destroyAll();
     });
     watch(
       () => combinedFilter.value,
@@ -191,6 +208,7 @@ export default defineComponent({
       userFilter,
       updateUserFilter,
       now,
+      listEl,
     };
   },
 });
@@ -216,7 +234,7 @@ export default defineComponent({
       }"
     />
   </div>
-  <div class="media-list">
+  <div ref="listEl" class="media-list">
     <div v-if="isDesktop" class="table-header">
       <MediaRowHeader />
     </div>

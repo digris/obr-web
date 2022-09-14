@@ -14,7 +14,7 @@ MARKDOWN_EXTENSIONS = [
     "markdown.extensions.admonition",
     "markdown.extensions.fenced_code",
     "markdown.extensions.tables",
-    "pyembed.markdown",
+    # "pyembed.markdown",
 ]
 
 

@@ -310,7 +310,7 @@ export default defineComponent({
   @include responsive.bp-medium {
     grid-row-gap: 0;
     grid-column-gap: 1rem;
-    grid-template-areas:"play name time-start actions";
+    grid-template-areas: "play name time-start actions";
     grid-template-columns: 40px 8fr 4fr 40px;
     min-height: 60px;
     //padding: 10px 20px;

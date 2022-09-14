@@ -1,0 +1,12 @@
+@use "@/style/abstracts/responsive";
+
+@mixin default {
+  display: grid;
+  grid-row-gap: 2rem;
+  grid-column-gap: 0.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  @include responsive.bp-medium {
+    grid-gap: 0.625rem;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

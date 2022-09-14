@@ -129,7 +129,7 @@ export default defineComponent({
           </PlayAllAction>
         </template>
         <template #searchbar>
-          <Searchbar :filter="combinedFilter" />
+          <Searchbar :filter="combinedFilter" :hide-form-for-mobile="true" />
         </template>
       </DetailHeader>
       <DetailHeaderLoading v-else title-scope="Mood" />

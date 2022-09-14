@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import IconProgram from '@/components/ui/icon/IconProgram.vue';
+import IconProgram from "@/components/ui/icon/IconProgram.vue";
 
 export default defineComponent({
   components: {

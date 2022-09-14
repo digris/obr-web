@@ -2,7 +2,7 @@
 import { defineComponent } from "vue";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
-import { useDevice } from '@/composables/device';
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   props: {
@@ -19,7 +19,7 @@ export default defineComponent({
     const { isMobile } = useDevice();
     return {
       isMobile,
-    }
+    };
   },
 });
 </script>

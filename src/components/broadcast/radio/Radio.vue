@@ -72,7 +72,9 @@ export default defineComponent({
       if (!focusedItem.value) {
         return false;
       }
-      const index = paginatedItems.value.findIndex((i: AnnotatedSchedule) => i.key === focusedItemKey.value);
+      const index = paginatedItems.value.findIndex(
+        (i: AnnotatedSchedule) => i.key === focusedItemKey.value
+      );
       return index < paginatedItems.value.length - 1;
     });
     const focusNext = () => {

@@ -152,3 +152,11 @@ class SocialBackendsSerializer(
         many=True,
         read_only=True,
     )
+    auth = SocialBackendSerializer(
+        many=True,
+        read_only=True,
+    )
+    sync = SocialBackendSerializer(
+        many=True,
+        read_only=True,
+    )

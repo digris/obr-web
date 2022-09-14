@@ -1,5 +1,5 @@
 <script type="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onActivated, onUpdated, ref } from 'vue';
 import { useI18n } from "vue-i18n";
 
 import Searchbar from '@/components/filter/Searchbar.vue';
@@ -16,8 +16,20 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
+    const menuRef = ref(null);
+    const setMenuFocus = () => {
+      const el = menuRef.value.querySelector('.router-link-exact-active');
+      el.scrollIntoView();
+    };
+    onActivated(() => {
+      setMenuFocus();
+    });
+    onUpdated(() => {
+      setMenuFocus();
+    });
     return {
       t,
+      menuRef,
     };
   },
 });
@@ -27,7 +39,7 @@ export default defineComponent({
   <div>
     <div class="title">Discover</div>
     <div class="list-menu">
-      <div class="menu menu--primary">
+      <div ref="menuRef" class="menu menu--primary">
         <router-link :to="{ name: 'discoverMoods' }" v-text="t('catalog.ct.mood')" />
         <router-link :to="{ name: 'discoverMedia' }" v-text="t('catalog.ct.media', 2)" />
         <router-link :to="{ name: 'discoverPlaylists' }" v-text="t('catalog.ct.playlist', 2)" />

@@ -57,13 +57,16 @@ export default defineComponent({
   },
   setup(props) {
     const connected = ref<Array<Backend>>([]);
-    const disconnected = ref<Array<Backend>>([]);
+    const auth = ref<Array<Backend>>([]);
+    const sync = ref<Array<Backend>>([]);
     const fetchBackends = async () => {
       connected.value = [];
-      disconnected.value = [];
+      auth.value = [];
+      sync.value = [];
       const backends = await getSocialBackends();
       connected.value = annotateBackends(backends.connected);
-      disconnected.value = annotateBackends(backends.disconnected);
+      auth.value = annotateBackends(backends.auth);
+      sync.value = annotateBackends(backends.sync);
     };
     const beginLogin = (backend: Backend) => {
       let nextUrl = backend.connectUrl;
@@ -80,7 +83,8 @@ export default defineComponent({
 
     return {
       connected,
-      disconnected,
+      auth,
+      sync,
       beginLogin,
       disconnect,
     };
@@ -98,7 +102,7 @@ export default defineComponent({
     </div>
     <div
       v-for="backend in connected"
-      :key="`disconnected-backend-${backend.provider}`"
+      :key="`auth-backend-${backend.provider}`"
       class="backend"
       :class="`backend--${backend.provider}`"
     >
@@ -116,10 +120,27 @@ export default defineComponent({
       />
     </div>
   </Section>
-  <Section title="Weitere Konten" :outlined="false">
+  <Section title="Login Konten" :outlined="false">
     <div
-      v-for="backend in disconnected"
-      :key="`disconnected-backend-${backend.provider}`"
+      v-for="backend in auth"
+      :key="`auth-backend-${backend.provider}`"
+      class="backend"
+      :class="`backend--${backend.provider}`"
+    >
+      <img class="logo" :src="backend.image" />
+      <p class="title" v-text="backend.title" />
+      <button @click="beginLogin(backend)" class="button" v-text="`verbinden`" />
+    </div>
+  </Section>
+  <Section title="Streaming Konten" :outlined="false">
+    <div class="info">
+      <p>
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+      </p>
+    </div>
+    <div
+      v-for="backend in sync"
+      :key="`auth-backend-${backend.provider}`"
       class="backend"
       :class="`backend--${backend.provider}`"
     >

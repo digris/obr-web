@@ -44,7 +44,7 @@ export default defineComponent({
       -->
       <div class="feedback">
         <p>
-          Durchsuche das open broadcast Archiv.<br>
+          Durchsuche das open broadcast Archiv.<br />
           Du kannst nach Tracks, Releases oder Künsternamem suchen.
         </p>
       </div>

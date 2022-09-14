@@ -196,8 +196,8 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
+@use "@/style/elements/grid";
 .list-filter-container {
   background: rgb(var(--c-black));
   padding-top: 0.75rem;
@@ -208,31 +208,12 @@ export default defineComponent({
   }
 }
 
-@mixin grid {
-  display: grid;
-  grid-row-gap: 2rem;
-  grid-column-gap: 0.5rem;
-  grid-template-columns: repeat(4, 1fr);
-  @include responsive.bp-medium {
-    grid-gap: 0.5rem;
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@mixin table {
-  // background: red;
-}
-
 .playlist-list {
   margin-bottom: 0;
-  //background: rgb(var(--c-white));
   .list-container {
     &.layout--grid {
       @include container.default;
-      @include grid;
-    }
-    &.layout--table {
-      @include table;
+      @include grid.default;
     }
   }
   .loading-more {

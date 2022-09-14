@@ -33,19 +33,13 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
+@use "@/style/elements/grid";
 .mood-list {
   @include container.default;
   margin-bottom: 0;
 }
 .grid {
-  display: grid;
-  grid-gap: 0.5rem;
-  grid-template-columns: repeat(4, 1fr);
-  @include responsive.bp-medium {
-    grid-gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
-  }
+  @include grid.default;
 }
 </style>

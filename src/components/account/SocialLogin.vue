@@ -30,14 +30,11 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const connectedBackends = ref<Array<Backend>>([]);
-    const disconnectedBackends = ref<Array<Backend>>([]);
+    const authBackends = ref<Array<Backend>>([]);
     const fetchBackends = async () => {
-      connectedBackends.value = [];
-      disconnectedBackends.value = [];
+      authBackends.value = [];
       const backends = await getSocialBackends();
-      connectedBackends.value = backends.connected;
-      disconnectedBackends.value = backends.disconnected;
+      authBackends.value = backends.auth;
     };
     const getProviderLogo = (provider: string) => {
       const key = provider.split("-")[0];
@@ -62,8 +59,7 @@ export default defineComponent({
     onMounted(fetchBackends);
 
     return {
-      connectedBackends,
-      disconnectedBackends,
+      authBackends,
       beginLogin,
       disconnect,
       getProviderLogo,
@@ -75,9 +71,9 @@ export default defineComponent({
 
 <template>
   <div class="social-login">
-    <section v-if="disconnectedBackends.length" class="backends backends--disconnected">
+    <section v-if="authBackends.length" class="backends backends--disconnected">
       <div
-        v-for="backend in disconnectedBackends"
+        v-for="backend in authBackends"
         :key="`disconnected-backend-${backend.provider}`"
         @click="beginLogin(backend)"
         class="backend"
@@ -85,31 +81,6 @@ export default defineComponent({
       >
         <img class="logo" :src="getProviderLogo(backend.provider)" />
         <p class="name">Continue with {{ getProviderText(backend.provider) }}</p>
-      </div>
-    </section>
-    <section v-if="connectedBackends.length" class="backends backends--connected">
-      <div
-        v-for="backend in connectedBackends"
-        :key="`connected-backend-${backend.provider}`"
-        class="backend"
-        :class="`backend--${backend.provider}`"
-      >
-        <img class="logo" :src="getProviderLogo(backend.provider)" />
-        <p class="name">
-          {{ backend.provider }}
-          <br />
-          <small class="uid">{{ backend.uid }}</small>
-        </p>
-        <div class="disconnect">
-          <button
-            @click="disconnect(backend)"
-            class="button"
-            :class="{ 'is-disabled': !backend.canDisconnect }"
-            :disabled="!backend.canDisconnect"
-          >
-            disconnect
-          </button>
-        </div>
       </div>
     </section>
   </div>

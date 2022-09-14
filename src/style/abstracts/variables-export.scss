@@ -71,7 +71,7 @@
   }
 }
 
-@include bp-small {
+@include bp-medium {
   :root {
     --font-size: 1.125rem;
   }
@@ -102,7 +102,7 @@
   --t-lh-small: 0.75rem;
   --t-fs-tiny: 0.625rem;
   --t-lh-tiny: 0.625rem;
-  @include bp-small {
+  @include bp-medium {
     --t-fs-x-large: 2.5rem;
     --t-lh-x-large: 2.5rem;
     --t-fs-large: 1.125rem;

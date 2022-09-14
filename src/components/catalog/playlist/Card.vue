@@ -10,7 +10,7 @@ import UserRating from "@/components/rating/UserRating.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import PlaylistName from "@/components/catalog/playlist/Name.vue";
-import { useDevice } from '@/composables/device';
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   components: {

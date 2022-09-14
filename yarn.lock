@@ -408,6 +408,11 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-6.0.3.tgz#705bb349e789efa06f43f128cef51240753424cb"
   integrity sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==
 
+"@types/pulltorefreshjs@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@types/pulltorefreshjs/-/pulltorefreshjs-0.1.5.tgz#f15c9dbc91b8fdd8135093d81ece9e9d4d2324d7"
+  integrity sha512-/VRTgBettvBg1KI8mGnA9oeWs359tTXQ7qsxLuXnksL88jvK6ZNMStG5T9x9vUO9O7jLsgREB0cElz/BWFfdew==
+
 "@types/qs@^6.9.7":
   version "6.9.7"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
@@ -2641,6 +2646,11 @@ pug@^3.0.2:
     pug-parser "^6.0.0"
     pug-runtime "^3.0.1"
     pug-strip-comments "^2.0.0"
+
+pulltorefreshjs@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/pulltorefreshjs/-/pulltorefreshjs-0.1.22.tgz#ddb5e3feee0b2a49fd46e1b18e84fffef2c47ac0"
+  integrity sha512-haxNVEHnS4NCQA7NeG7TSV69z4uqy/N7nfPRuc4dPWe8H6ygUrMjdNeohE+6v0lVVX/ukSjbLYwPUGUYtFKfvQ==
 
 punycode@^2.1.0, punycode@^2.1.1:
   version "2.1.1"

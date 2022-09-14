@@ -97,16 +97,6 @@ export default defineComponent({
           <ObjectIdentifiers class="identifiers" :obj="media" :limit="4" />
         </template>
         <template #meta-panel>
-          <!--
-          <span
-            v-if="media"
-          >
-            {{ media.numAirplays }} Airplays
-          </span>
-          <span>
-            •
-          </span>
-          -->
           <Duration :seconds="media.duration" />
         </template>
       </DetailHeader>
@@ -122,10 +112,4 @@ export default defineComponent({
 .identifiers {
   margin: 0.5rem 0;
 }
-/*
-.artists {
-  @include typo.large;
-  margin-bottom: 1rem;
-}
-*/
 </style>

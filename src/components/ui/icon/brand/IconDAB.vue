@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({
   props: {
@@ -18,7 +17,7 @@ export default defineComponent({
     const style = computed(() => {
       return {
         fill: color.value,
-        stroke: 'none',
+        stroke: "none",
       };
     });
     return {

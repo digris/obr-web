@@ -87,16 +87,11 @@ export default defineComponent({
       </div>
       <div class="body">
         <div class="title">
-          <!--
-          <div
-            class="title--scope"
-            v-if="titleScope"
-            v-text="titleScope"
-          />
-          -->
           <h1 class="title--primary" v-text="title" />
         </div>
-        <slot name="info-panel" />
+        <div class="info-panel">
+          <slot name="info-panel" />
+        </div>
       </div>
     </div>
     <div class="bottom">
@@ -266,10 +261,23 @@ export default defineComponent({
         text-align: center;
         margin-top: unset;
         .title {
+          margin-bottom: 0;
           &--primary {
             @include typo.large;
             //@include typo.light;
             line-height: unset;
+          }
+        }
+        .info-panel {
+          @include typo.light;
+          margin-bottom: 1rem;
+          :deep(div) {
+            margin: 0; // NOTE: do we really want this?
+          }
+          :deep(.identifiers),
+          :deep(.editor) {
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
           }
         }
         :deep(a) {

@@ -41,15 +41,15 @@ export default defineComponent({
   position: relative;
   display: inline-flex;
   align-items: center;
-  height: 2.25rem;
+  height: 2rem;
   padding: 0.25rem 1rem;
   color: rgb(var(--c-white));
-  text-transform: lowercase;
-  background: rgba(var(--c-page-fg), 0.1);
-  border: 1px solid rgba(var(--c-white), 0.2);
-  border-radius: 1.125rem;
+  background: rgba(var(--c-white), 0.2);
+  //border: 1px solid rgba(var(--c-white), 0.2);
+  border-radius: 1rem;
   cursor: pointer;
   text-transform: capitalize;
+  font-weight: 400;
   &.is-selected {
     color: rgb(var(--c-black));
     background: rgb(var(--c-white));

@@ -29,7 +29,7 @@ export default defineComponent({
       return name && appendix ? `${name} #${appendix}` : name;
     });
     const editorDisplay = computed(() => {
-      return props.playlist?.editor?.name ?? '';
+      return props.playlist?.editor?.name ?? "";
     });
     return {
       link,
