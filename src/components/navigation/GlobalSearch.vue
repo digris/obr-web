@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent, ref, nextTick } from "vue";
+import { defineComponent, ref, nextTick, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { getGlobalSearchResults } from "@/api/search";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 
@@ -10,6 +11,8 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
+    const q = ref("");
+    const results = ref([]);
     const searchInput = ref<HTMLInputElement | null>(null);
     const isVisible = ref(false);
     const close = () => (isVisible.value = false);
@@ -22,8 +25,16 @@ export default defineComponent({
       });
     };
     eventBus.on("global-search:show", () => show());
+    watch(
+      () => q.value,
+      async (value) => {
+        results.value = await getGlobalSearchResults(value);
+      }
+    );
     return {
       t,
+      q,
+      results,
       searchInput,
       isVisible,
       close,
@@ -35,13 +46,13 @@ export default defineComponent({
   <SidePanel :is-visible="isVisible" @close="close">
     <template #header>
       <div class="search-input">
-        <input ref="searchInput" type="text" :placeholder="t('search.search')" />
+        <input ref="searchInput" v-model="q" type="text" :placeholder="t('search.search')" />
       </div>
     </template>
     <div class="global-search">
-      <!--
-      <div class="search-results">(( SEARCH RESULTS ))</div>
-      -->
+      <div v-if="results.length" class="search-results">
+        <pre v-text="results" />
+      </div>
       <div class="feedback">
         <p>
           Durchsuche das open broadcast Archiv.<br />

@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
 
+from rating.queries import annotate_qs_width_user_rating
 from broadcast.api import serializers
 from broadcast.models import Editor
 
@@ -40,6 +41,7 @@ class EditorViewSet(
                 ),
             ),
         )
+        qs = annotate_qs_width_user_rating(qs, self.request)
         qs = qs.order_by("-latest_emission")
         return qs
 

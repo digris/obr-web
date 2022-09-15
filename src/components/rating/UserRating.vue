@@ -18,13 +18,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
     iconScale: {
       type: Number,
       default: 1,
     },
     colorVar: {
       type: String,
-      default: "--c-black",
+      default: "--c-fg",
     },
     hideIfUnset: {
       type: Boolean,
@@ -53,6 +57,9 @@ export default defineComponent({
     };
     const rate = debounce(
       async (value: number) => {
+        if (props.readonly) {
+          return;
+        }
         await flipIcon();
         const vote = {
           key: props.objKey,
@@ -98,20 +105,20 @@ export default defineComponent({
     <IconHeart
       v-if="userRating.value === 1"
       :scale="iconScale"
+      :color-var="colorVar"
       @click="rate(null)"
-      :color="`rgba(var(${colorVar}), 0.8)`"
     />
     <IconHeart
       v-if="userRating.value === null"
       :scale="iconScale"
       :outlined="true"
+      :color-var="colorVar"
       @click="rate(1)"
-      :color="`rgba(var(${colorVar}), 0.8)`"
     />
     <IconFlash
       v-if="userRating.value === -1"
       :scale="iconScale"
-      :color="`rgba(var(${colorVar}), 0.8)`"
+      :color-var="colorVar"
       @click="rate(null)"
     />
   </div>

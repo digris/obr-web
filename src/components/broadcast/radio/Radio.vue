@@ -201,6 +201,7 @@ export default defineComponent({
       height: 100%;
       width: 25%;
       z-index: 24;
+      //background: rgba(255, 255, 0, 0.25);
       .metadata {
         width: 100%;
       }

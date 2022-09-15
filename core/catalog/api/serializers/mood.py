@@ -49,6 +49,10 @@ class MoodSerializer(
         child=RaySerializer(),
         read_only=True,
     )
+    user_rating = serializers.IntegerField(
+        read_only=True,
+        allow_null=True,
+    )
 
     class Meta:
         model = Mood
@@ -61,5 +65,6 @@ class MoodSerializer(
             "tags",
             "rgb",
             "rays",
+            "user_rating",
             # "style",
         ]

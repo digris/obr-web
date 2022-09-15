@@ -54,6 +54,10 @@ class EditorSerializer(
     num_playlists = serializers.IntegerField(
         read_only=True,
     )
+    user_rating = serializers.IntegerField(
+        read_only=True,
+        allow_null=True,
+    )
     image = ImageSerializer(
         read_only=True,
         allow_null=True,
@@ -70,6 +74,7 @@ class EditorSerializer(
             "description",
             "role",
             "num_playlists",
+            "user_rating",
             "image",
             "is_active",
         ]

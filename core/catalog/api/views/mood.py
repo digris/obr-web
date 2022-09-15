@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
 
+from rating.queries import annotate_qs_width_user_rating
 from catalog.api import serializers
 from catalog.models import Mood
 
@@ -13,12 +14,15 @@ class MoodViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = Mood.objects.all().order_by("name")
+    queryset = Mood.objects.all()
     serializer_class = serializers.MoodSerializer
     lookup_field = "uid"
 
     def get_queryset(self):
-        return Mood.objects.all().order_by("name")
+        qs = self.queryset
+        qs = annotate_qs_width_user_rating(qs, self.request)
+        qs = qs.order_by("user_rating", "name")
+        return qs
 
     def get_object(self):
         try:

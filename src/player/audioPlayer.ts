@@ -271,17 +271,24 @@ class AudioPlayer {
   }
 
   removeEventHandlers() {
-    console.debug("removeEventHandlers");
+    // console.debug("removeEventHandlers");
     this.audio.removeEventListener("timeupdate", this.onTimeupdate);
   }
 
   addEventHandlers() {
     this.removeEventHandlers();
-    console.debug("addEventHandlers", this);
+    // console.debug("addEventHandlers", this);
     this.audio.addEventListener("timeupdate", this.onTimeupdate.bind(this), false);
   }
 
   async play(url: string, startTime = 0, endTime = 0, fadeIn = 0, fadeOut = 0) {
+    console.debug("audioPlayer:play", {
+      url,
+      startTime,
+      endTime,
+      fadeIn,
+      fadeOut,
+    });
     // load url to shaka player, then trigger 'play' on audio element
     this.startTime = startTime;
     this.endTime = endTime;
@@ -291,10 +298,6 @@ class AudioPlayer {
     if (fadeIn) {
       this.audio.volume = 0;
     }
-    console.debug("startTime", this.startTime);
-    console.debug("endTime", this.endTime);
-    console.debug("fadeInTime", this.fadeInTime);
-    console.debug("fadeOutTime", this.fadeOutTime);
 
     try {
       await this.player.load(url, startTime);
@@ -309,17 +312,13 @@ class AudioPlayer {
       this.removeEventHandlers();
       return;
     }
-
     if (!this.analyser) {
       try {
         this.analyser = createAudioAnalyser(this.audio);
       } catch (e) {
         console.error(e);
       }
-    } else {
-      console.debug("analyser already connected");
     }
-
     this.addEventHandlers();
 
     // this.player

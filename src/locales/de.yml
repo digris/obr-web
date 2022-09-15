@@ -49,3 +49,7 @@ rating:
   downvoteLead: Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!
   downvoteScope:
     track: Ich mag diesen Titel nicht
+pullToRefresh:
+  pull: Pull down to refresh
+  release: Release to refresh
+  refreshing: Refreshing

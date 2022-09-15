@@ -1,11 +1,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-
+import { useObjKey } from "@/composables/obj";
 import LazyImage from "@/components/ui/LazyImage.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import UserRating from "@/components/rating/UserRating.vue";
 
 export default defineComponent({
   components: {
     LazyImage,
+    CircleButton,
+    UserRating,
   },
   props: {
     editor: {
@@ -14,8 +18,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { objKey } = useObjKey(props.editor);
     const link = `/discover/editors/${props.editor.uid}/`;
     return {
+      objKey,
       link,
     };
   },
@@ -23,20 +29,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <router-link class="card card--editor" :to="link">
-    <div class="visual">
+  <div class="card card--editor">
+    <router-link :to="link" class="visual">
       <LazyImage
         :image="editor.image"
         :class="{
           'is-grayscale': !editor.isActive,
         }"
       />
-    </div>
+    </router-link>
     <div class="meta">
-      <div class="title" v-text="editor.name" />
+      <router-link class="title" v-text="editor.name" :to="link" />
       <div class="subtitle" v-text="editor.role" />
+      <div class="actions">
+        <CircleButton :scale="0.75">
+          <UserRating :obj-key="objKey" :autoload="false" :icon-scale="0.75" />
+        </CircleButton>
+      </div>
     </div>
-  </router-link>
+  </div>
 </template>
 <style lang="scss" scoped>
 @use "@/style/elements/card";

@@ -35,3 +35,7 @@ datetime:
 player:
   enqueueNext: queue as next
   enqueueEnd: queue at end
+pullToRefresh:
+  pull: pull down to refresh
+  release: release to refresh
+  refreshing: refreshing

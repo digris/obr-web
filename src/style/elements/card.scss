@@ -40,6 +40,7 @@
   .actions {
     grid-area: actions;
     display: flex;
+    justify-content: end;
   }
   //@include responsive.bp-medium {
   //  .subtitle {

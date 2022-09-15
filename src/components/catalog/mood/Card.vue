@@ -1,8 +1,14 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref, onDeactivated, onActivated } from "vue";
+import { useElementHover } from "@vueuse/core";
 import { getContrastColor } from "@/utils/color";
+import { useObjKey } from "@/composables/obj";
+import UserRating from "@/components/rating/UserRating.vue";
 
 export default defineComponent({
+  components: {
+    UserRating,
+  },
   props: {
     mood: {
       type: Object,
@@ -10,7 +16,10 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const el = ref();
+    const { objKey } = useObjKey(props.mood);
     const link = `/discover/moods/${props.mood.uid}/`;
+    const isHover = useElementHover(el);
     const cssVars = computed(() => {
       const bg = props.mood?.rgb ?? [128, 128, 128];
       const fg = getContrastColor(bg);
@@ -19,22 +28,36 @@ export default defineComponent({
         "--c-fg": fg.join(","),
       };
     });
+    onActivated(() => {
+      console.debug("Mood - onActivated");
+    });
+    onDeactivated(() => {
+      console.debug("Mood - onDeactivated");
+      isHover.value = false;
+    });
     return {
+      el,
+      objKey,
       link,
+      isHover,
       cssVars,
     };
   },
 });
 </script>
 <template>
-  <div class="card card--mood" :style="cssVars">
+  <div ref="el" class="card card--mood" :style="cssVars">
     <router-link class="panel" :to="link">
-      <div class="name">
-        {{ mood.name }}
+      <div class="rating">
+        <UserRating
+          :obj-key="objKey"
+          :readonly="true"
+          :hide-if-unset="true"
+          :color-var="isHover ? '--c-bg' : '--c-fg'"
+        />
       </div>
-      <div class="teaser">
-        {{ mood.teaser }}
-      </div>
+      <div class="name" v-text="mood.name" />
+      <div class="teaser" v-text="mood.teaser" />
     </router-link>
   </div>
 </template>
@@ -61,6 +84,15 @@ export default defineComponent({
     width: 100%;
     height: 100%;
     color: rgb(var(--c-fg));
+    .rating {
+      position: absolute;
+      width: 100%;
+      //height: calc(50% - var(--t-fs-large) / 2);
+      height: calc(50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .name {
       @include typo.large;
       display: flex;
@@ -71,9 +103,6 @@ export default defineComponent({
     }
     .teaser {
       @include typo.default;
-      @include responsive.bp-medium {
-        display: none;
-      }
       position: absolute;
       bottom: 1rem;
       //display: flex;
@@ -83,6 +112,18 @@ export default defineComponent({
       padding: 3rem 1rem 1rem;
       overflow-y: hidden;
       text-align: center;
+    }
+  }
+  @include responsive.bp-medium {
+    .panel {
+      .rating {
+        width: unset;
+        height: unset;
+        right: 0;
+      }
+      .teaser {
+        display: none;
+      }
     }
   }
 }

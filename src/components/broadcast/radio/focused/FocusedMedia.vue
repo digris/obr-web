@@ -82,30 +82,27 @@ export default defineComponent({
   @include typo.large;
 }
 .subtitle {
+  display: flex;
   margin-top: 0;
   &--artists {
     margin-top: 0.75rem;
   }
   &--label {
+    margin-right: 0.25rem;
     &:after {
       content: ": ";
     }
   }
   .media-artists {
     max-width: 100%;
-    //background: #00e6ff;
   }
   .media-releases {
-    display: inline;
-  }
-  /*
-  :deep {
-    a,
-    span {
-      white-space: initial;
+    max-width: 100%;
+    :deep(a),
+    :deep(span) {
+      white-space: unset;
     }
   }
-  */
 }
 a {
   transition: color, background-color 200ms;

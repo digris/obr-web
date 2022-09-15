@@ -90,6 +90,10 @@ urlpatterns = [
         include("rating.api.urls", "rating"),
     ),
     path(
+        "search/",
+        include("search.api.urls", "search"),
+    ),
+    path(
         "catalog/",
         include("catalog.api.urls", "catalog"),
     ),

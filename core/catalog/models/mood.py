@@ -1,3 +1,4 @@
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
 
@@ -22,6 +23,11 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
+    )
+
+    votes = GenericRelation(
+        "rating.Vote",
+        related_query_name="mood",
     )
 
     style = models.JSONField(

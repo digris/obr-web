@@ -142,7 +142,6 @@ class Queue {
 
   startPlayCurrent() {
     // NOTE: not sure if there is no better way.. ;)
-    console.debug("player/queue: startPlayCurrent");
     const media = this.currentMedia.value;
     if (!media) {
       console.warn("unable to play: no current media");
@@ -151,11 +150,14 @@ class Queue {
     const url = getMediaUrl(media);
     const { cueIn: startTime, cueOut, fadeIn, fadeOut } = media;
     const endTime = media.duration - cueOut;
-    console.debug("duration", media.duration);
-    console.debug("startTime", startTime);
-    console.debug("endTime", endTime);
-    console.debug("fadeIn", fadeIn);
-    console.debug("fadeOut", fadeOut);
+    console.debug("queue:startPlayCurrent", {
+      startTime,
+      endTime,
+      fadeIn,
+      fadeOut,
+      url,
+      title: `${media.name} - ${media.artistDisplay}`,
+    });
     this.audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
   }
 }
