@@ -12,9 +12,15 @@ import type { Release } from './Release';
  * values with complex, nested serializations
  */
 export type Media = {
-    readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
+    /**
+     * UID
+     */
     readonly uid?: string;
+    readonly url?: string;
     name: string;
     readonly artistDisplay?: string;
     readonly artists?: Array<MediaArtist>;

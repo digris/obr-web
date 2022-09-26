@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Image } from './Image';
+import type { EditorImage } from './EditorImage';
 
 /**
  * A ModelSerializer that takes additional arguments for
@@ -12,11 +12,14 @@ import type { Image } from './Image';
  */
 export type Editor = {
     readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
     /**
      * UID
      */
-    uid: string;
+    readonly uid?: string;
     /**
      * me the help text
      */
@@ -26,7 +29,7 @@ export type Editor = {
     readonly role?: string;
     readonly numPlaylists?: number;
     readonly userRating?: number | null;
-    readonly image?: Image | null;
+    readonly image?: EditorImage | null;
     isActive?: boolean;
 };
 

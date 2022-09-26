@@ -7,9 +7,15 @@ import type { Editor } from './Editor';
 import type { Tag } from './Tag';
 
 export type ProgramEmission = {
-    readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
+    /**
+     * UID
+     */
     readonly uid?: string;
+    readonly url?: string;
     playlist: CatalogPlaylist;
     name: string;
     series: Record<string, any> | null;

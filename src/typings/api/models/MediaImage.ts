@@ -3,9 +3,8 @@
 /* eslint-disable */
 
 export type MediaImage = {
+    readonly uid?: string;
     readonly path?: string;
-    readonly url?: string;
-    readonly file?: string | null;
     readonly rgb?: Array<number>;
 };
 

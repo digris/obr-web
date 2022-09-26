@@ -13,7 +13,13 @@ import type { Release } from './Release';
  */
 export type EmissionMedia = {
     readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
+    /**
+     * UID
+     */
     readonly uid?: string;
     name: string;
     readonly artistDisplay?: string;

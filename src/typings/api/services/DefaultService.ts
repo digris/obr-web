@@ -8,6 +8,7 @@ import { request as __request } from '../core/request';
 export class DefaultService {
 
     /**
+     * API Root
      * @returns any No response body
      * @throws ApiError
      */

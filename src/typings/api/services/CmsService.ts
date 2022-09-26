@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Page } from '../models/Page';
+
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -9,12 +11,12 @@ export class CmsService {
 
     /**
      * @param path
-     * @returns any No response body
+     * @returns Page
      * @throws ApiError
      */
     public static cmsPageRetrieve(
         path: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<Page> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/cms/page/{path}/',
