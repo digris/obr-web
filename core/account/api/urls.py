@@ -39,7 +39,7 @@ urlpatterns = [
     ),
     path(
         "email/",
-        views.EmailView.as_view(),
+        views.EmailUpdateView.as_view(),
         name="email",
     ),
     path(

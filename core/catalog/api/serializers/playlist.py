@@ -73,6 +73,7 @@ class PlaylistEmissionSerializer(
 
 
 class PlaylistSerializer(
+    CTUIDModelSerializer,
     FlexFieldsSerializerMixin,
     serializers.HyperlinkedModelSerializer,
 ):
@@ -113,13 +114,11 @@ class PlaylistSerializer(
             "episode": obj.series_episode,
         }
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
         ref_name = "CatalogPlaylistSerializer"
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "series",
             "latest_emission_time_start",

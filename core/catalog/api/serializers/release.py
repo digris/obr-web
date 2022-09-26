@@ -1,10 +1,12 @@
 from rest_framework import serializers
 
-from catalog.models import Media
+from catalog.models import Release
+from api_extra.serializers import CTUIDModelSerializer
 from image.api.serializers import ImageSerializer
 
 
 class ReleaseSerializer(
+    CTUIDModelSerializer,
     serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
@@ -21,12 +23,10 @@ class ReleaseSerializer(
         read_only=True,
     )
 
-    class Meta:
-        model = Media
-        fields = [
+    class Meta(CTUIDModelSerializer.Meta):
+        model = Release
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "num_media",
             "is_new",

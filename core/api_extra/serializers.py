@@ -16,13 +16,25 @@ class RGBValueField(
 
 
 class CTUIDModelSerializer(
-    serializers.Serializer,
+    serializers.ModelSerializer,
 ):
+    ct = serializers.CharField(
+        read_only=True,
+        help_text="Content type",
+    )
     uid = serializers.CharField(
+        read_only=True,
         min_length=8,
         max_length=8,
         help_text="UID",
     )
+
+    class Meta:
+        fields = [
+            "ct",
+            "uid",
+        ]
+        abstract = True
 
 
 class DurationInSecondsSerializer(

@@ -1,6 +1,7 @@
 from django.apps import apps
 from django.http import HttpResponseRedirect
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
 OBP_URL = "https://www.openbroadcast.org"
 OBP_URL_MAP = {
@@ -16,6 +17,12 @@ class OBPRedirectView(APIView):
         path = OBP_URL_MAP.get(ct)
         return f"{OBP_URL}/{path}/{uuid}/"
 
+    @extend_schema(
+        responses={
+            301: None,
+            302: None,
+        },
+    )
     def get(self, request, obj_ct, obj_uid):
         content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
         redirect_url = self.get_redirect_url(content_object.ct, content_object.uuid)

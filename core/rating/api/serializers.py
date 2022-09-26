@@ -7,6 +7,7 @@ from ..models import Vote, VoteScope
 
 
 class VoteSerializer(serializers.ModelSerializer):
+    key = serializers.CharField()
     value = serializers.IntegerField(
         min_value=-1,
         max_value=1,

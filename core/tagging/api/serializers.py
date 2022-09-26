@@ -1,13 +1,15 @@
 from rest_framework import serializers
+from api_extra.serializers import CTUIDModelSerializer
 from tagging.models import Tag
 
 
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
+class TagSerializer(
+    CTUIDModelSerializer,
+    serializers.ModelSerializer,
+):
+    class Meta(CTUIDModelSerializer.Meta):
         model = Tag
-        fields = [
-            "ct",
-            "uid",
+        fields = CTUIDModelSerializer.Meta.fields + [
             "type",
             "name",
         ]

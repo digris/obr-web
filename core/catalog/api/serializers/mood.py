@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from api_extra.serializers import RGBValueField
 
+from api_extra.serializers import CTUIDModelSerializer
 from catalog.models import Mood
 from tagging.api.serializers import TagSerializer
 
@@ -30,6 +31,7 @@ class RaySerializer(serializers.Serializer):
 
 
 class MoodSerializer(
+    CTUIDModelSerializer,
     serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
@@ -54,17 +56,14 @@ class MoodSerializer(
         allow_null=True,
     )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Mood
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "teaser",
             "tags",
             "rgb",
             "rays",
             "user_rating",
-            # "style",
         ]

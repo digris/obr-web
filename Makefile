@@ -13,7 +13,7 @@ GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 lint:
 	yarn lint
 	black --check ./core/
-# 	poetry run ./manage.py spectacular --file /dev/null --validate --fail-on-warn
+	poetry run ./manage.py spectacular --file /dev/null --validate --fail-on-warn
 	poetry run prospector -p ./core/
 
 fix:

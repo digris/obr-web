@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from rest_framework import status, permissions, serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
 from base.utils.signer import timestamp_signer
 from subscription.models import Payment, PaymentProvider, PaymentState
@@ -18,31 +19,74 @@ from subscription.utils.plan import get_plan_by_sku
 logger = logging.getLogger(__name__)
 
 
-class PaymentSerializer(serializers.Serializer):
-    sku = serializers.CharField(required=True)
-    donation = serializers.FloatField(default=0)
-    next = serializers.CharField(required=False, allow_null=True)
+class PaymentCreateSerializer(
+    serializers.Serializer,
+):
+    sku = serializers.CharField(
+        required=True,
+    )
+    donation = serializers.FloatField(
+        default=0,
+    )
+    next = serializers.CharField(
+        required=False,
+        allow_null=True,
+    )
 
 
-class PaymentView(APIView):
+class PaymentSerializer(
+    serializers.Serializer,
+):
+    id = serializers.CharField(
+        read_only=True,
+    )
+    uid = serializers.CharField(
+        read_only=True,
+    )
+
+
+class PaymentView(
+    APIView,
+):
 
     permission_classes = [
         permissions.IsAuthenticated,
     ]
 
-    def get(self, request):
-        return Response()
+    @staticmethod
+    @extend_schema(
+        responses={
+            204: None,
+        },
+    )
+    def get(request):
+        return Response(
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
-    def post(self, request):
+    @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        request=PaymentCreateSerializer,
+        responses={
+            200: PaymentSerializer,
+        },
+    )
+    def post(request):
 
-        serializer = PaymentSerializer(data=request.data)
+        serializer = PaymentCreateSerializer(
+            data=request.data,
+        )
         user = request.user
         sku = request.data.get("sku")
         donation = request.data.get("donation", 0)
         next_url = request.data.get("next")
 
         if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         plan = get_plan_by_sku(sku)
 
@@ -104,14 +148,25 @@ class PaymentView(APIView):
         )
 
 
-class PaymentSuccessView(APIView):
+class PaymentSuccessView(
+    APIView,
+):
+    @extend_schema(
+        responses={
+            301: None,
+            302: None,
+        },
+    )
     def get(self, request, signed_payment_uid):
         payment_uid = timestamp_signer.unsign(signed_payment_uid)
         payment = Payment.objects.get(uid=payment_uid)
 
         checkout_session = get_checkout_session(request)
 
-        complete_checkout_session(session=checkout_session, payment=payment)
+        complete_checkout_session(
+            session=checkout_session,
+            payment=payment,
+        )
 
         if payment.extra_data.get("next"):
             redirect_url = payment.extra_data.get("next")
@@ -121,9 +176,18 @@ class PaymentSuccessView(APIView):
         return HttpResponseRedirect(redirect_url)
 
 
-class PaymentWebhookView(APIView):
+class PaymentWebhookView(
+    APIView,
+):
+    @staticmethod
+    @extend_schema(
+        request=None,
+        responses={
+            200: None,
+        },
+    )
     # pylint: disable=unused-argument
-    def post(self, request, *args, **kwargs):
+    def post(request, *args, **kwargs):
         return Response()
         # payload = request.body
         # event = None

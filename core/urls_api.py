@@ -1,11 +1,10 @@
 from django.urls import include, path
 
-# from drf_yasg import openapi
-# from drf_yasg.views import get_schema_view
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from drf_spectacular.utils import extend_schema, inline_serializer
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularJSONAPIView,
@@ -17,6 +16,15 @@ from drf_spectacular.views import (
 app_name = "api"
 
 
+@extend_schema(
+    description="API Root",
+    responses={
+        200: inline_serializer(
+            name="TOC",
+            fields={},
+        ),
+    },
+)
 @api_view(["GET"])
 @permission_classes([AllowAny])
 # pylint: disable=redefined-builtin

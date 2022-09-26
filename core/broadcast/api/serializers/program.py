@@ -1,12 +1,16 @@
 from rest_framework import serializers
 
+from api_extra.serializers import CTUIDModelSerializer
 from tagging.api.serializers import TagSerializer
 from catalog.api.serializers import PlaylistSerializer
 from broadcast.api.serializers import EditorSerializer
 from broadcast.models import Emission
 
 
-class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
+class ProgramEmissionSerializer(
+    CTUIDModelSerializer,
+    serializers.HyperlinkedModelSerializer,
+):
     url = serializers.HyperlinkedIdentityField(
         view_name="api:broadcast:emission-detail",
         lookup_field="uid",
@@ -34,13 +38,14 @@ class ProgramEmissionSerializer(serializers.HyperlinkedModelSerializer):
         many=True,
         allow_null=True,
     )
+    duration = serializers.DurationField(
+        read_only=True,
+    )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Emission
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "playlist",
             "name",
             "series",
