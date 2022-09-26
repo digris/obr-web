@@ -1,4 +1,4 @@
-from django.db.models import Count, Max, Q
+from django.db.models import Count, Max, Q, Value, NullBooleanField
 
 
 def annotate_qs_width_user_rating(qs, request):
@@ -22,4 +22,10 @@ def annotate_qs_width_user_rating(qs, request):
                 ),
             ),
         )
+    # make sure we always have `user_rating` annotated
+    else:
+        qs = qs.annotate(
+            user_rating=Value(None, output_field=NullBooleanField(), ),
+        )
+
     return qs
