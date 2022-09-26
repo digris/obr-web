@@ -46,6 +46,9 @@ class ScheduleEmissionSerializer(EmissionSerializer):
 class SchedulePlaylistSerializer(CatalogPlaylistSerializer):
     editor = EditorSerializer()
     series = serializers.JSONField(source="series_dict")
+    duration = serializers.DurationField(
+        read_only=True,
+    )
 
     class Meta:
         model = Playlist

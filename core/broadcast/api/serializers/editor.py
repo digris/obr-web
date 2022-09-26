@@ -1,7 +1,12 @@
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
-from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
+from drf_spectacular.utils import (
+    extend_schema_serializer,
+    extend_schema_field,
+    OpenApiExample,
+    OpenApiTypes,
+)
 from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models.editor import Editor, EditorImage
 from image.api.serializers import BaseImageSerializer
@@ -9,9 +14,12 @@ from tagging.api.serializers import TagSerializer
 from identifier.api.serializers import IdentifierSerializer
 
 
-class ImageSerializer(BaseImageSerializer):
+class ImageSerializer(
+    BaseImageSerializer,
+):
     class Meta(BaseImageSerializer.Meta):
         model = EditorImage
+        ref_name = "EditorImage"
 
 
 @extend_schema_serializer(
@@ -99,5 +107,6 @@ class EditorSerializer(
         }
 
     @staticmethod
+    @extend_schema_field(OpenApiTypes.STR)
     def get_role(obj):
         return obj.get_role_display()

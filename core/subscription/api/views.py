@@ -4,6 +4,7 @@ from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
 from subscription.api import serializers
 from subscription.utils import plan, voucher
@@ -18,6 +19,9 @@ class SubscriptionPlanView(APIView):
     ]
 
     @staticmethod
+    @extend_schema(
+        responses=serializers.SubscriptionOptionSerializer,
+    )
     def get(request):
         options = plan.get_options(user=request.user)
         data = {
@@ -35,28 +39,43 @@ class PaymentView(APIView):
     ]
 
     @staticmethod
+    @extend_schema(
+        responses=serializers.PaymentOptionSerializer,
+    )
     def get(request):
-        data = [
+        serializer = serializers.PaymentOptionSerializer(
             {
                 "name": "Credit Card",
                 "key": "stripe",
                 "endpoint": reverse("api:subscription:stripe:endpoint"),
             },
-        ]
+        )
+        # data = [
+        #     {
+        #         "name": "Credit Card",
+        #         "key": "stripe",
+        #         "endpoint": reverse("api:subscription:stripe:endpoint"),
+        #     },
+        # ]
 
-        return Response(data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
 
 
 class SubscriptionVoucherView(APIView):
 
     permission_classes = [
-        # permissions.IsAuthenticated,
         permissions.IsAuthenticatedOrReadOnly,
     ]
 
     throttle_scope = "subscription.voucher"
 
     @staticmethod
+    @extend_schema(
+        responses=serializers.VoucherSerializer,
+    )
     def get(request):
         code = request.GET.get("code", "")
         code = "".join(code.split("-")).upper()
@@ -80,6 +99,11 @@ class SubscriptionVoucherView(APIView):
             )
 
     @staticmethod
+    @extend_schema(
+        methods={"POST"},
+        request=serializers.VoucherSerializer,
+        responses=serializers.VoucherSerializer,
+    )
     def post(request):
         code = request.data.get("code")
         code = "".join(code.split("-")).upper()

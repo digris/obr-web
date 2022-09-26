@@ -4,6 +4,7 @@ from datetime import timedelta, datetime
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,14 @@ class BridgeView(APIView):
     ]
 
     @staticmethod
+    @extend_schema(
+        # NOTE: add schema declaration if view will still be needed
+        request=None,
+        responses={
+            200: None,
+        },
+        methods=["POST"],
+    )
     def post(request):
         # TODO: change this to url=mapping instead of RPC-style...
         payload = request.data

@@ -1,6 +1,7 @@
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
+from api_extra.serializers import CTUIDModelSerializer
 from catalog.models import Artist
 from image.api.serializers import ImageSerializer
 from tagging.api.serializers import TagSerializer
@@ -9,6 +10,7 @@ from api_extra.serializers import DurationInSecondsSerializer
 
 
 class ArtistSerializer(
+    CTUIDModelSerializer,
     FlexFieldsSerializerMixin,
     serializers.ModelSerializer,
 ):
@@ -30,12 +32,10 @@ class ArtistSerializer(
         allow_null=True,
     )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Artist
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "num_media",
             "media_total_duration",

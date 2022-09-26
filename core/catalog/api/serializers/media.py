@@ -1,6 +1,7 @@
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
+from api_extra.serializers import CTUIDModelSerializer
 from catalog.api.serializers.release import ReleaseSerializer
 from catalog.models import Media, MediaArtists
 from image.api.serializers import BaseImageSerializer
@@ -49,6 +50,7 @@ class MediaArtistSerializer(
 
 
 class MediaSerializer(
+    CTUIDModelSerializer,
     FlexFieldsSerializerMixin,
     serializers.HyperlinkedModelSerializer,
 ):
@@ -59,6 +61,9 @@ class MediaSerializer(
     artists = MediaArtistSerializer(
         source="media_artist",
         many=True,
+        read_only=True,
+    )
+    artist_display = serializers.CharField(
         read_only=True,
     )
     releases = ReleaseSerializer(
@@ -97,12 +102,10 @@ class MediaSerializer(
         default=0,
     )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Media
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "artist_display",
             "artists",

@@ -1,15 +1,11 @@
 from django.templatetags.static import static
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
+from django.http import JsonResponse
 
 
-@api_view(["GET"])
-@permission_classes([AllowAny])
 def manifest_view(request):
-    return Response(
+    return JsonResponse(
         {
-            "name": "open broadcast",
+            "name": "open broadcast radio",
             "short_name": "open broadcast",
             "start_url": "/",
             "scope": "/",

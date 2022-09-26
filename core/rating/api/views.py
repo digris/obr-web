@@ -7,8 +7,9 @@ from django.db import transaction
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
-from .serializers import VoteSerializer
+from . import serializers
 from ..models import Vote
 
 log = logging.getLogger(__name__)
@@ -79,6 +80,11 @@ class ObjectRatingView(APIView):
 
         return Vote.objects.create(**kwargs)
 
+    @extend_schema(
+        responses={
+            200: serializers.VoteSerializer,
+        },
+    )
     def get(self, request, obj_ct, obj_uid):
 
         vote = self.get_vote(request, obj_ct, obj_uid)
@@ -86,14 +92,21 @@ class ObjectRatingView(APIView):
         # if not vote:
         #     raise Http404
 
-        serializer = VoteSerializer(vote)
+        serializer = serializers.VoteSerializer(vote)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @extend_schema(
+        methods=["POST"],
+        request=serializers.VoteSerializer,
+        responses={
+            200: serializers.VoteSerializer,
+        },
+    )
     @transaction.atomic
     def post(self, request, obj_ct, obj_uid):
 
-        serializer = VoteSerializer(data=request.data)
+        serializer = serializers.VoteSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         value = request.data.get("value")
@@ -115,6 +128,6 @@ class ObjectRatingView(APIView):
         elif value:
             vote = self.create_vote(request, obj_ct, obj_uid, value, scope, comment)
 
-        serializer = VoteSerializer(vote)
+        serializer = serializers.VoteSerializer(vote)
 
         return Response(serializer.data)

@@ -5,11 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from drf_spectacular.utils import extend_schema
 
 from account import email_login, token_login
 from account.cdn_credentials.utils import (
@@ -25,6 +24,14 @@ logger = logging.getLogger(__name__)
 
 class UserView(APIView):
     @staticmethod
+    @extend_schema(
+        responses={
+            200: serializers.UserSerializer,
+            204: None,
+        },
+        operation_id="user",
+        description="Get current user",
+    )
     def get(request):
         if request.user.is_authenticated:
             serializer = serializers.UserSerializer(
@@ -43,11 +50,21 @@ class UserView(APIView):
             else:
                 response = remove_credentials(response)
         else:
-            response = Response()
+            response = Response(
+                # NOTE: check for implications - was 200 with empty body before
+                status=status.HTTP_204_NO_CONTENT,
+            )
             response = remove_credentials(response)
         return response
 
     @staticmethod
+    @extend_schema(
+        request=serializers.UserSerializer,
+        responses={
+            200: serializers.UserSerializer,
+        },
+        operation_id="user_partial_update",
+    )
     # pylint: disable=unused-argument
     def patch(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -80,6 +97,16 @@ class UserView(APIView):
 )
 class LoginView(APIView):
     @staticmethod
+    @extend_schema(
+        request=serializers.LoginSerializer,
+        responses={
+            200: serializers.UserSerializer,
+        },
+        methods=["POST"],
+        operation_id="login",
+        auth=[],
+        description="Login user by email & password",
+    )
     def post(request):
         user = authenticate(**request.data)
         if user is not None:
@@ -118,6 +145,19 @@ class SendEmailLoginView(APIView):
     throttle_scope = "account.login_email"
 
     @staticmethod
+    @extend_schema(
+        parameters=[
+            serializers.SendEmailLoginLookupSerializer,
+        ],
+        request=None,
+        responses={
+            200: serializers.SendEmailLoginLookupSerializer,
+            204: None,
+        },
+        operation_id="send_email_login_lookup",
+        auth=[],
+        description="Lookup if provided email can login by token",
+    )
     def get(request):
         email = request.GET.get("email", None)
 
@@ -146,6 +186,16 @@ class SendEmailLoginView(APIView):
             )
 
     @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        request=serializers.SendEmailLoginSerializer,
+        responses={
+            200: serializers.SendEmailLoginSerializer,
+        },
+        operation_id="send_email_login",
+        auth=[],
+        description="Send email with login token to given address",
+    )
     def post(request):
         email = request.data.get("email")
         try:
@@ -176,6 +226,17 @@ class SendEmailLoginView(APIView):
 )
 class TokenLoginView(APIView):
     @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        request=serializers.TokenLoginSerializer,
+        responses={
+            200: serializers.UserSerializer,
+            201: serializers.UserSerializer,
+        },
+        operation_id="token_login",
+        auth=[],
+        description="Login user by email & token [ABC-DEF]",
+    )
     def post(request):
         email = request.data.get("email")
         token = request.data.get("token")
@@ -234,6 +295,20 @@ class TokenLoginView(APIView):
 )
 class SignedEmailLoginView(APIView):
     @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        parameters=[
+            serializers.SignedEmailLoginSerializer,
+        ],
+        request=None,
+        responses={
+            200: serializers.UserSerializer,
+            201: serializers.UserSerializer,
+        },
+        operation_id="signed_email_login",
+        auth=[],
+        description="Login user by signed email",
+    )
     def post(request):
         signed_email = request.data.get("signed_email")
 
@@ -292,6 +367,15 @@ class SignedEmailLoginView(APIView):
 )
 class LogoutView(APIView):
     @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        request=None,
+        responses={
+            205: None,
+        },
+        operation_id="logout",
+        description="Destroy user's session",
+    )
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
         logout(request)
@@ -303,8 +387,17 @@ class LogoutView(APIView):
         return response
 
 
-class EmailView(APIView):
+class EmailUpdateView(APIView):
     @staticmethod
+    @extend_schema(
+        request=serializers.EmailUpdateSerializer,
+        responses={
+            204: None,
+        },
+        methods=["POST"],
+        operation_id="user_update_email",
+        description="Update or set email address",
+    )
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -315,7 +408,7 @@ class EmailView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        serializer = serializers.EmailSerializer(data=request.data)
+        serializer = serializers.EmailUpdateSerializer(data=request.data)
 
         if not serializer.is_valid():
             return Response(
@@ -338,6 +431,15 @@ class EmailView(APIView):
 
 class PasswordUpdateView(APIView):
     @staticmethod
+    @extend_schema(
+        request=serializers.PasswordUpdateSerializer,
+        responses={
+            204: None,
+        },
+        methods=["POST"],
+        operation_id="user_update_password",
+        description="Update or set password",
+    )
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -348,7 +450,9 @@ class PasswordUpdateView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
-        serializer = serializers.PasswordSerializer(data=request.data)
+        serializer = serializers.PasswordUpdateSerializer(
+            data=request.data,
+        )
 
         if not serializer.is_valid():
             return Response(
@@ -376,7 +480,18 @@ class PasswordUpdateView(APIView):
 
 
 class AddressUpdateView(APIView):
+
+    serializer_class = serializers.AddressSerializer
+
     @staticmethod
+    @extend_schema(
+        request=serializers.AddressSerializer,
+        responses={
+            204: serializers.AddressSerializer,
+        },
+        methods=["PATCH"],
+        operation_id="user_update_address",
+    )
     # pylint: disable=unused-argument
     def patch(request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -421,9 +536,10 @@ class SocialBackendListView(APIView):
 
     @staticmethod
     @extend_schema(
-        parameters=[
-            serializers.SocialBackendsSerializer,
-        ],
+        responses={
+            200: serializers.SocialBackendsSerializer,
+        },
+        operation_id="social_backends",
     )
     # pylint: disable=unused-argument
     def get(request, *args, **kwargs):
@@ -437,7 +553,10 @@ class SocialBackendListView(APIView):
             },
         )
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
 
 
 class SocialBackendDetailView(APIView):
@@ -448,6 +567,16 @@ class SocialBackendDetailView(APIView):
     """
 
     @staticmethod
+    @extend_schema(
+        parameters=[
+            serializers.SocialBackendDisconnectSerializer,
+        ],
+        methods=["DELETE"],
+        responses={
+            204: None,
+        },
+        operation_id="social_backend_disconnect",
+    )
     # pylint: disable=unused-argument
     def delete(request, *args, **kwargs):
         provider = kwargs.get("provider")

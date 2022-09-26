@@ -4,10 +4,14 @@ from api_extra.serializers import RGBValueField
 
 class BaseImageSerializer(serializers.ModelSerializer):
 
-    file = serializers.CharField(
-        source="file.name",
+    # file = serializers.CharField(
+    #     source="file.name",
+    #     read_only=True,
+    #     allow_null=True,
+    # )
+
+    path = serializers.CharField(
         read_only=True,
-        allow_null=True,
     )
 
     rgb = serializers.ListField(
@@ -19,10 +23,10 @@ class BaseImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = [
-            # "uid",
+            "uid",
             "path",
-            "url",
-            "file",
+            # "url",
+            # "file",
             "rgb",
         ]
         abstract = True

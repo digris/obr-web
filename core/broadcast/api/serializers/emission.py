@@ -2,12 +2,16 @@ from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
 from broadcast.models import Emission
+from api_extra.serializers import CTUIDModelSerializer
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
 from catalog.models import Playlist, Media
 from image.api.serializers import ImageSerializer
 
 
-class EmissionPlaylistSerializer(serializers.HyperlinkedModelSerializer):
+class EmissionPlaylistSerializer(
+    CTUIDModelSerializer,
+    serializers.HyperlinkedModelSerializer,
+):
     url = serializers.HyperlinkedIdentityField(
         view_name="api:catalog:playlist-detail",
         lookup_field="uid",
@@ -15,18 +19,18 @@ class EmissionPlaylistSerializer(serializers.HyperlinkedModelSerializer):
 
     image = ImageSerializer(read_only=True)
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "image",
         ]
 
 
-class EmissionMediaSerializer(CatalogMediaSerializer):
+class EmissionMediaSerializer(
+    CatalogMediaSerializer,
+):
     class Meta:
         model = Media
         fields = [
@@ -41,7 +45,9 @@ class EmissionMediaSerializer(CatalogMediaSerializer):
         ]
 
 
-class EmissionMediaSetSerializer(serializers.Serializer):
+class EmissionMediaSetSerializer(
+    serializers.Serializer,
+):
     uid = serializers.CharField()
     # media_uid = serializers.CharField()
     cue_in = serializers.IntegerField()
@@ -55,7 +61,9 @@ class EmissionMediaSetSerializer(serializers.Serializer):
 
 
 class EmissionSerializer(
-    FlexFieldsSerializerMixin, serializers.HyperlinkedModelSerializer
+    CTUIDModelSerializer,
+    FlexFieldsSerializerMixin,
+    serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
         view_name="api:broadcast:emission-detail",
@@ -73,13 +81,11 @@ class EmissionSerializer(
         many=True,
     )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Emission
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "playlist",
-            "ct",
-            "uid",
             "time_start",
             "time_end",
             "duration",
