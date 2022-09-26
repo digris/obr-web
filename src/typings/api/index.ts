@@ -8,10 +8,8 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Address } from './models/Address';
 export type { Artist } from './models/Artist';
-export { BlankEnum } from './models/BlankEnum';
 export type { CatalogPlaylist } from './models/CatalogPlaylist';
 export type { ConnectedSocialBackend } from './models/ConnectedSocialBackend';
-export { CountryEnum } from './models/CountryEnum';
 export type { Editor } from './models/Editor';
 export type { EditorImage } from './models/EditorImage';
 export type { EmailUpdateRequest } from './models/EmailUpdateRequest';
