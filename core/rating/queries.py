@@ -25,7 +25,10 @@ def annotate_qs_width_user_rating(qs, request):
     # make sure we always have `user_rating` annotated
     else:
         qs = qs.annotate(
-            user_rating=Value(None, output_field=NullBooleanField(), ),
+            user_rating=Value(
+                None,
+                output_field=NullBooleanField(),
+            ),
         )
 
     return qs
