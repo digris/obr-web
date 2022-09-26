@@ -2,13 +2,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Image } from './Image';
-
 export type EmissionPlaylist = {
-    readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
+    /**
+     * UID
+     */
     readonly uid?: string;
+    readonly url?: string;
     name?: string | null;
-    readonly image?: Image;
 };
 

@@ -1,6 +1,13 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Payment } from '../models/Payment';
+import type { PaymentCreateRequest } from '../models/PaymentCreateRequest';
+import type { PaymentOption } from '../models/PaymentOption';
+import type { SubscriptionOption } from '../models/SubscriptionOption';
+import type { Voucher } from '../models/Voucher';
+import type { VoucherRequest } from '../models/VoucherRequest';
+
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -8,10 +15,10 @@ import { request as __request } from '../core/request';
 export class SubscriptionService {
 
     /**
-     * @returns any No response body
+     * @returns PaymentOption
      * @throws ApiError
      */
-    public static subscriptionPaymentRetrieve(): CancelablePromise<any> {
+    public static subscriptionPaymentRetrieve(): CancelablePromise<PaymentOption> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/payment/',
@@ -19,10 +26,10 @@ export class SubscriptionService {
     }
 
     /**
-     * @returns any No response body
+     * @returns void
      * @throws ApiError
      */
-    public static subscriptionPaymentStripeRetrieve(): CancelablePromise<any> {
+    public static subscriptionPaymentStripeRetrieve(): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/payment/stripe/',
@@ -30,29 +37,38 @@ export class SubscriptionService {
     }
 
     /**
-     * @returns any No response body
+     * @param formData
+     * @returns Payment
      * @throws ApiError
      */
-    public static subscriptionPaymentStripeCreate(): CancelablePromise<any> {
+    public static subscriptionPaymentStripeCreate(
+        formData: PaymentCreateRequest,
+    ): CancelablePromise<Payment> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/subscription/payment/stripe/',
+            formData: formData,
+            mediaType: 'application/x-www-form-urlencoded',
         });
     }
 
     /**
      * @param signedPaymentUid
-     * @returns any No response body
+     * @returns void
      * @throws ApiError
      */
     public static subscriptionPaymentStripeSuccessRetrieve(
         signedPaymentUid: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/payment/stripe/success/{signed_payment_uid}/',
             path: {
                 'signed_payment_uid': signedPaymentUid,
+            },
+            errors: {
+                301: `No response body`,
+                302: `No response body`,
             },
         });
     }
@@ -69,10 +85,10 @@ export class SubscriptionService {
     }
 
     /**
-     * @returns any No response body
+     * @returns SubscriptionOption
      * @throws ApiError
      */
-    public static subscriptionPlanRetrieve(): CancelablePromise<any> {
+    public static subscriptionPlanRetrieve(): CancelablePromise<SubscriptionOption> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/plan/',
@@ -80,10 +96,10 @@ export class SubscriptionService {
     }
 
     /**
-     * @returns any No response body
+     * @returns Voucher
      * @throws ApiError
      */
-    public static subscriptionVoucherRetrieve(): CancelablePromise<any> {
+    public static subscriptionVoucherRetrieve(): CancelablePromise<Voucher> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/voucher/',
@@ -91,13 +107,18 @@ export class SubscriptionService {
     }
 
     /**
-     * @returns any No response body
+     * @param formData
+     * @returns Voucher
      * @throws ApiError
      */
-    public static subscriptionVoucherCreate(): CancelablePromise<any> {
+    public static subscriptionVoucherCreate(
+        formData?: VoucherRequest,
+    ): CancelablePromise<Voucher> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/subscription/voucher/',
+            formData: formData,
+            mediaType: 'application/x-www-form-urlencoded',
         });
     }
 

@@ -14,7 +14,13 @@ import type { Release } from './Release';
  */
 export type ScheduleMedia = {
     readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
+    /**
+     * UID
+     */
     readonly uid?: string;
     name: string;
     readonly artistDisplay?: string;

@@ -10,19 +10,23 @@ export class RedirectService {
     /**
      * @param objCt
      * @param objUid
-     * @returns any No response body
+     * @returns void
      * @throws ApiError
      */
     public static redirectObpRetrieve(
         objCt: string,
         objUid: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/redirect/obp/{obj_ct}:{obj_uid}/',
             path: {
                 'obj_ct': objCt,
                 'obj_uid': objUid,
+            },
+            errors: {
+                301: `No response body`,
+                302: `No response body`,
             },
         });
     }

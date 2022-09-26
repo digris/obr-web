@@ -6,9 +6,15 @@ import type { Ray } from './Ray';
 import type { Tag } from './Tag';
 
 export type Mood = {
-    readonly url?: string;
+    /**
+     * Content type
+     */
     readonly ct?: string;
+    /**
+     * UID
+     */
     readonly uid?: string;
+    readonly url?: string;
     name: string;
     teaser?: string | null;
     tags: Array<Tag>;
