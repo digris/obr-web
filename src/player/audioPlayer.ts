@@ -66,6 +66,8 @@ const getFadeVolume = (start: number, end: number, time: number, reverse = false
   // return vol ? Math.log(vol * 100) / Math.log(100) : 0;
 };
 
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 class AudioPlayer {
   audio; // ref to html5 audio element
 
@@ -249,14 +251,17 @@ class AudioPlayer {
     store.dispatch("player/updatePlayerState", playerState);
   }
 
-  onTimeupdate() {
+  async onTimeupdate() {
     const ct = this.audio.currentTime;
     // cue-out
     if (this.endTime && ct > this.endTime) {
+      console.debug("audioPlayer:onTimeupdate - end time reached");
       this.pause();
+      await this.player.unload();
+      await delay(1000);
       eventBus.emit("player:audio:ended");
     }
-    // fade-in
+    // fade-in / out
     if (this.fadeInTime && this.startTime < ct && ct < this.fadeInTime) {
       const stepVolume = getFadeVolume(this.startTime, this.fadeInTime, ct);
       this.fadeVolume.value = stepVolume;
@@ -303,12 +308,15 @@ class AudioPlayer {
       await this.player.load(url, startTime);
       this.audio.play();
     } catch (e) {
-      console.error(e);
+      console.error(e, url);
       notify({
         level: "error",
         ttl: 5,
         body: `Error ${e.code}: unable to play media.`,
       });
+      console.debug("wait 2000ms");
+      await delay(2000);
+      console.debug("waited 2000ms");
       this.removeEventHandlers();
       return;
     }

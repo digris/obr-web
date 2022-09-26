@@ -44,7 +44,7 @@ export default defineComponent({
         panelEl.value.scrollTo({
           top: 0,
           left: pos,
-          behavior: "smooth",
+          behavior: "smooth", // NOTE: likely we have to use "auto" on safari
         });
       } else {
         panelEl.value.scrollLeft = pos;
@@ -134,7 +134,7 @@ export default defineComponent({
       '--item-size': `${itemSize}px`,
     }"
   >
-    <div ref="panelEl" v-if="items.length > 1" class="panel" :style="panelStyle">
+    <div ref="panelEl" v-if="items.length > 1" class="panel" :style="panelStyle" id="scrollPanel">
       <FlowItem
         v-for="(item, index) in items"
         :key="`flow-item-${item ? item.key : index}`"

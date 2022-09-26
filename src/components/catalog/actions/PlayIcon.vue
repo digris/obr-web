@@ -32,6 +32,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 .play-icon {
   position: absolute;
   top: 0;
@@ -53,7 +54,7 @@ export default defineComponent({
     border-radius: 24px;
     cursor: pointer;
     transition: background 100ms;
-    &:hover {
+    @include responsive.on-hover {
       background: rgba(var(--c-black), 0.9);
     }
     &.is-loading {

@@ -23,6 +23,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 .bandwidth {
   display: flex;
@@ -39,7 +40,7 @@ export default defineComponent({
     @include typo.small;
     color: rgb(var(--c-fg));
   }
-  &:hover {
+  @include responsive.on-hover {
     background: rgba(var(--c-fg), 0.125);
     border-color: transparent;
   }

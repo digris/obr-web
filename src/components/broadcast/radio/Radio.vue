@@ -27,7 +27,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const { time } = storeToRefs(useTimeStore());
-    const { items } = storeToRefs(useScheduleStore());
+    const { items, current: currentItem } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const itemSize = computed(() => {
       const maxByWidth = round(vpWidth.value * 0.7);
@@ -59,6 +59,13 @@ export default defineComponent({
         if (item?.media?.image?.rgb) {
           store.dispatch("ui/setPrimaryColor", item?.media?.image?.rgb);
         }
+      }
+    );
+    watch(
+      () => currentItem.value,
+      (value) => {
+        console.debug("current item changed", value);
+        eventBus.emit("radio:flow", "reset");
       }
     );
     const hasNext = computed(() => {

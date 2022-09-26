@@ -8,6 +8,8 @@ import type { AudioPlayer } from "@/player/audioPlayer";
 
 createMediaSessionHandler();
 
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 class Queue {
   audioPlayer: AudioPlayer;
 
@@ -31,6 +33,7 @@ class Queue {
 
     // 'foreign' events
     eventBus.on("player:audio:ended", async () => {
+      console.debug("queue: ended, try to play next");
       try {
         await this.playNext();
       } catch {
@@ -110,7 +113,7 @@ class Queue {
 
   async playFromIndex(index: number) {
     await store.dispatch("queue/setIndex", index);
-    this.startPlayCurrent();
+    await this.startPlayCurrent();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -122,7 +125,7 @@ class Queue {
     const previousIndex = this.previousIndex.value;
     if (previousIndex !== null) {
       await store.dispatch("queue/setIndex", previousIndex);
-      this.startPlayCurrent();
+      await this.startPlayCurrent();
     } else {
       throw new Error("no previous media");
     }
@@ -131,8 +134,14 @@ class Queue {
   async playNext() {
     const nextIndex = this.nextIndex.value;
     if (nextIndex !== null) {
+      // console.debug('queue:playNext', nextIndex)
       await store.dispatch("queue/setIndex", nextIndex);
-      this.startPlayCurrent();
+      // console.debug('queue:playNext - wait 2000ms')
+      // await delay(2000);
+      // console.debug('queue:playNext - waited 2000ms')
+      await this.startPlayCurrent();
+      console.debug("queue:playNext - wait 2000ms");
+      await delay(2000);
     } else {
       // throw new Error('no next media');
       console.info("no next media - switch to live");
@@ -140,7 +149,7 @@ class Queue {
     }
   }
 
-  startPlayCurrent() {
+  async startPlayCurrent() {
     // NOTE: not sure if there is no better way.. ;)
     const media = this.currentMedia.value;
     if (!media) {
@@ -158,7 +167,10 @@ class Queue {
       url,
       title: `${media.name} - ${media.artistDisplay}`,
     });
-    this.audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
+    // console.debug('queue:startPlayCurrent - wait 2000ms')
+    // await delay(2000);
+    // console.debug('queue:startPlayCurrent - waited 2000ms')
+    await this.audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
   }
 }
 
