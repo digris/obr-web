@@ -1,41 +1,50 @@
 <script lang="ts">
-import { defineComponent, ref, nextTick, watch } from "vue";
+import { defineComponent, ref } from "vue";
+import { watchDebounced } from "@vueuse/core";
 import { useI18n } from "vue-i18n";
-import { getGlobalSearchResults } from "@/api/search";
+import { getGlobalMediaSearchResults } from "@/api/search";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
+import SearchInput from "@/components/search/SearchInput.vue";
+import SearchResults from "@/components/search/SearchResults.vue";
 
 export default defineComponent({
   components: {
     SidePanel,
+    SearchInput,
+    SearchResults,
   },
   setup() {
     const { t } = useI18n();
     const q = ref("");
     const results = ref([]);
-    const searchInput = ref<HTMLInputElement | null>(null);
+    const resultsTotalCount = ref(0);
     const isVisible = ref(false);
     const close = () => (isVisible.value = false);
     const show = () => {
       isVisible.value = true;
-      nextTick(() => {
-        if (searchInput.value) {
-          searchInput.value.focus();
-        }
-      });
     };
     eventBus.on("global-search:show", () => show());
-    watch(
-      () => q.value,
-      async (value) => {
-        results.value = await getGlobalSearchResults(value);
+    watchDebounced(
+      q,
+      async (value: string) => {
+        if (value) {
+          const { count, results: searchResults } = await getGlobalMediaSearchResults(value, 10);
+          resultsTotalCount.value = count;
+          results.value = searchResults;
+        } else {
+          resultsTotalCount.value = 0;
+          results.value = [];
+        }
+      },
+      {
+        debounce: 200,
       }
     );
     return {
       t,
       q,
       results,
-      searchInput,
       isVisible,
       close,
     };
@@ -45,19 +54,14 @@ export default defineComponent({
 <template>
   <SidePanel :is-visible="isVisible" @close="close">
     <template #header>
-      <div class="search-input">
-        <input ref="searchInput" v-model="q" type="text" :placeholder="t('search.search')" />
-      </div>
+      <SearchInput v-model="q" />
     </template>
     <div class="global-search">
-      <div v-if="results.length" class="search-results">
-        <pre v-text="results" />
-      </div>
-      <div class="feedback">
-        <p>
-          Durchsuche das open broadcast Archiv.<br />
-          Du kannst nach Tracks, Releases oder Künsternamem suchen.
-        </p>
+      <SearchResults v-if="results.length" :results="results" />
+      <div v-if="results.length === 0" class="feedback">
+        <p v-if="q">Sorry! Keine Einträge gefunden.</p>
+        <p v-else>Durchsuche das open broadcast Archiv.<br /></p>
+        <p>Du kannst nach Tracks, Releases oder Künsternamem suchen.</p>
       </div>
     </div>
   </SidePanel>
@@ -83,5 +87,9 @@ export default defineComponent({
       color: rgba(var(--c-black), 0.2);
     }
   }
+}
+.search-results {
+  border-top: 3px solid rgb(var(--c-black));
+  margin-top: -12px;
 }
 </style>

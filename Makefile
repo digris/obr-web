@@ -13,6 +13,7 @@ GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 lint:
 	yarn lint
 	black --check ./core/
+# 	poetry run ./manage.py spectacular --file /dev/null --validate --fail-on-warn
 	poetry run prospector -p ./core/
 
 fix:
@@ -33,6 +34,12 @@ test:
 	make test-be
 	make test-fe
 	make test-e2e
+
+openapi-schema:
+	mkdir -p schema
+	./manage.py spectacular --validate --fail-on-warn --format openapi-json --file schema.json
+	npx openapi -i schema.json -o src/typings/api/
+	rm -f schema.json
 
 setup:
 	poetry install

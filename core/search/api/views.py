@@ -1,32 +1,29 @@
-import logging
-import bleach
+from django.db.models import Q
+from rest_framework import mixins, viewsets
 
-from django.apps import apps
-from django.contrib.contenttypes.models import ContentType
-from django.db import transaction
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-
-from .serializers import SearchResultSerializer
-from .. import global_search
-
-log = logging.getLogger(__name__)
+from catalog.models import Media
+from .serializers import SearchMediaResultSerializer
 
 
-class GlobalSearchView(APIView):
-    def get(self, request):
+class GlobalMediaSearchView(
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
+):
 
-        q = request.GET.get("q")
+    serializer_class = SearchMediaResultSerializer
 
-        results = global_search.get_results(q=q)
-
-        serializer = SearchResultSerializer(
-            results,
-            many=True,
+    def get_queryset(self, **kwargs):
+        q = self.request.GET.get("q", "")
+        qs = Media.objects.prefetch_related(
+            "artists",
+            "releases",
+            "releases__images",
         )
 
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK,
-        )
+        qs = qs.filter(
+            Q(name__icontains=q)
+            | Q(artists__name__icontains=q)
+            | Q(releases__name__icontains=q)
+        ).distinct()
+
+        return qs

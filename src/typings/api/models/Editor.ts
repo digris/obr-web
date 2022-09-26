@@ -25,6 +25,7 @@ export type Editor = {
     description?: string;
     readonly role?: string;
     readonly numPlaylists?: number;
+    readonly userRating?: number | null;
     readonly image?: Image | null;
     isActive?: boolean;
 };

@@ -5,8 +5,8 @@ from . import views
 app_name = "search"
 urlpatterns = [
     path(
-        "global/",
-        views.GlobalSearchView.as_view(),
-        name="global-search",
+        "global/media/",
+        views.GlobalMediaSearchView.as_view({"get": "list"}),
+        name="global-media-search",
     ),
 ]

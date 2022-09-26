@@ -23,10 +23,6 @@ export default defineComponent({
     const close = () => {
       isVisible.value = false;
     };
-    const navigate = async (e: any) => {
-      isVisible.value = false;
-      await router.push(e);
-    };
     eventBus.on("side-menu:show", () => {
       isVisible.value = true;
     });
@@ -74,12 +70,15 @@ export default defineComponent({
         },
       ];
     });
+    const onNavigate = () => {
+      close();
+    };
     return {
       t,
       close,
+      onNavigate,
       isVisible,
       user,
-      navigate,
       login,
       logout,
       pages,
@@ -92,12 +91,10 @@ export default defineComponent({
     <div class="side-menu">
       <section class="section" v-if="user">
         <router-link
-          to="/"
-          @click.prevent="
-            navigate({
-              name: 'accountSettings',
-            })
-          "
+          :to="{
+            name: 'accountSettings',
+          }"
+          @click="onNavigate"
           v-text="t('menu.accountSettings')"
         />
       </section>
@@ -106,51 +103,41 @@ export default defineComponent({
       </section>
       <section class="section section--primary">
         <router-link
-          to="/"
-          @click.prevent="
-            navigate({
-              name: 'home',
-            })
-          "
+          :to="{
+            name: 'home',
+          }"
+          @click="onNavigate"
           v-text="t('menu.home')"
         />
         <router-link
-          to="/discover/"
-          @click.prevent="
-            navigate({
-              name: 'discover',
-            })
-          "
+          :to="{
+            name: 'discover',
+          }"
+          @click="onNavigate"
           v-text="t('menu.discover')"
         />
         <router-link
-          to="/collection/"
-          @click.prevent="
-            navigate({
-              name: 'collection',
-            })
-          "
+          :to="{
+            name: 'collection',
+          }"
+          @click="onNavigate"
           v-text="t('menu.collection')"
         />
       </section>
       <section class="section section--primary">
         <router-link
-          to="/program/"
-          @click.prevent="
-            navigate({
-              name: 'program',
-            })
-          "
+          :to="{
+            name: 'programRedirect',
+          }"
+          @click="onNavigate"
           v-text="t('menu.program')"
         />
         <router-link
-          to="/reception/"
+          :to="{
+            path: '/reception/',
+          }"
+          @click="onNavigate"
           v-text="t('menu.reception')"
-          @click.prevent="
-            navigate({
-              path: '/reception/',
-            })
-          "
         />
       </section>
       <section class="section">
@@ -158,11 +145,7 @@ export default defineComponent({
           v-for="(page, index) in pages"
           :key="`page-${index}-${page.path}`"
           :to="page.path"
-          @click.prevent="
-            navigate({
-              path: page.path,
-            })
-          "
+          @click="onNavigate"
           v-text="page.title"
         />
       </section>

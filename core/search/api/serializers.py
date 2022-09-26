@@ -1,8 +1,9 @@
 from rest_framework import serializers
+
 from image.api.serializers import ImageSerializer
 
 
-class SearchResultSerializer(serializers.Serializer):
+class SearchMediaResultSerializer(serializers.Serializer):
     ct = serializers.CharField(
         read_only=True,
     )
@@ -11,9 +12,11 @@ class SearchResultSerializer(serializers.Serializer):
     )
     title = serializers.CharField(
         read_only=True,
+        source="name",
     )
     subtitle = serializers.CharField(
         read_only=True,
+        source="artist_display",
     )
     image = ImageSerializer(
         read_only=True,

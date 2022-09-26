@@ -1,5 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, watch } from "vue";
+import { useEventListener } from "@vueuse/core";
+import { useRoute } from "vue-router";
 
 import CloseButton from "./CloseButton.vue";
 
@@ -18,13 +20,13 @@ export default defineComponent({
     const close = () => {
       emit("close");
     };
-    onMounted(() => {
-      document.addEventListener("keydown", (e) => {
-        if (props.isVisible && e.code === "Escape") {
-          close();
-        }
-      });
+    useEventListener(document, "keydown", (e) => {
+      if (e.code === "Escape") {
+        close();
+      }
     });
+    const route = useRoute();
+    watch(() => route.path, close);
     return {
       close,
     };
@@ -64,7 +66,6 @@ export default defineComponent({
   bottom: 0;
   left: 0;
   z-index: 111;
-  //background: rgba(var(--c-black), 0.9);
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: grayscale(70%) brightness(80%);
 }

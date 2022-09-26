@@ -14,5 +14,6 @@ export type Mood = {
     tags: Array<Tag>;
     readonly rgb?: Array<number>;
     readonly rays?: Array<Ray>;
+    readonly userRating?: number | null;
 };
 
