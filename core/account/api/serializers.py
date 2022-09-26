@@ -104,6 +104,7 @@ class AddressSerializer(
     country = serializers.CharField(
         default="",
     )
+
     class Meta(CTUIDModelSerializer.Meta):
         model = Address
         fields = CTUIDModelSerializer.Meta.fields + [
