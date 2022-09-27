@@ -5,7 +5,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+    OpenApiParameter,
+    OpenApiExample,
+    OpenApiTypes,
+)
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,12 +31,29 @@ logger = logging.getLogger(__name__)
 class UserView(APIView):
     @staticmethod
     @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="expand",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description="""Expand nested resources, multiple values separated by comma.  
+                Available options: `settings`, `address`, `subscription`""",
+                examples=[
+                    OpenApiExample(
+                        "Example 1",
+                        value="settings,subscription",
+                    ),
+                ],
+            ),
+        ],
         responses={
             200: serializers.UserSerializer,
             204: None,
         },
         operation_id="user",
-        description="Get current user",
+        description="User endpoint. Empty (204) response for anonymous users.",
+        tags=["account", "authentication"],
+        external_docs="https://github.com/digris/obr-web",
     )
     def get(request):
         if request.user.is_authenticated:
@@ -64,6 +87,7 @@ class UserView(APIView):
             200: serializers.UserSerializer,
         },
         operation_id="user_partial_update",
+        tags=["account"],
     )
     # pylint: disable=unused-argument
     def patch(request, *args, **kwargs):
@@ -106,6 +130,7 @@ class LoginView(APIView):
         operation_id="login",
         auth=[],
         description="Login user by email & password",
+        tags=["authentication"],
     )
     def post(request):
         user = authenticate(**request.data)
@@ -157,6 +182,7 @@ class SendEmailLoginView(APIView):
         operation_id="send_email_login_lookup",
         auth=[],
         description="Lookup if provided email can login by token",
+        tags=["authentication"],
     )
     def get(request):
         email = request.GET.get("email", None)
@@ -195,6 +221,7 @@ class SendEmailLoginView(APIView):
         operation_id="send_email_login",
         auth=[],
         description="Send email with login token to given address",
+        tags=["authentication"],
     )
     def post(request):
         email = request.data.get("email")
@@ -235,7 +262,9 @@ class TokenLoginView(APIView):
         },
         operation_id="token_login",
         auth=[],
-        description="Login user by email & token [ABC-DEF]",
+        description="""Login user by email & login token.  
+        Responds `200` for existing and `201` for created user.""",
+        tags=["authentication"],
     )
     def post(request):
         email = request.data.get("email")
@@ -307,7 +336,9 @@ class SignedEmailLoginView(APIView):
         },
         operation_id="signed_email_login",
         auth=[],
-        description="Login user by signed email",
+        description="""Login user by signed email.  
+        Responds `200` for existing and `201` for created user.""",
+        tags=["authentication"],
     )
     def post(request):
         signed_email = request.data.get("signed_email")
@@ -375,6 +406,7 @@ class LogoutView(APIView):
         },
         operation_id="logout",
         description="Destroy user's session",
+        tags=["authentication"],
     )
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
@@ -487,7 +519,7 @@ class AddressUpdateView(APIView):
     @extend_schema(
         request=serializers.AddressSerializer,
         responses={
-            204: serializers.AddressSerializer,
+            200: serializers.AddressSerializer,
         },
         methods=["PATCH"],
         operation_id="user_update_address",

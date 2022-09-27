@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
+from rest_framework_simplejwt.tokens import SlidingToken
 
 from account import signals as account_signals
 from account import token_login
@@ -147,6 +148,10 @@ class User(
     @property
     def has_active_subscription(self):
         return hasattr(self, "subscription") and self.subscription.is_active
+
+    @property
+    def access_token(self):
+        return str(SlidingToken.for_user(self))
 
 
 class Settings(

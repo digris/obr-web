@@ -9,7 +9,7 @@ from account.models import User, Settings, Address
 from subscription.models import Subscription
 
 
-class ErrorMessageSerializer(
+class RequestErrorSerializer(
     serializers.Serializer,
 ):
     message = serializers.CharField(
@@ -60,7 +60,10 @@ class TokenLoginSerializer(
     email = serializers.EmailField(
         write_only=True,
     )
-    token = serializers.CharField(write_only=True, help_text="Login token e.g. ABC-DEF")
+    token = serializers.CharField(
+        write_only=True,
+        help_text="Login token e.g. `ABC-DEF`",
+    )
 
 
 class SignedEmailLoginSerializer(
@@ -147,6 +150,11 @@ class UserSerializer(
         source="is_superuser",
         read_only=True,
     )
+    access_token = serializers.CharField(
+        read_only=True,
+        help_text="""JWT access token, provides authentication for session-less requests when provided in header:
+        `Authorization: Bearer <token>`""",
+    )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = User
@@ -157,6 +165,7 @@ class UserSerializer(
             "last_name",
             "is_staff",
             "is_admin",
+            "access_token",
         ]
         expandable_fields = {
             "settings": SettingsSerializer,

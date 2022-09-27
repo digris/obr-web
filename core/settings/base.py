@@ -1,6 +1,7 @@
 import environ
 import os
 import sys
+from datetime import timedelta
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     # "taggit",
     "rest_framework",
     "rest_framework.authtoken",
+    "rest_framework_simplejwt",
     "drf_spectacular",
     "django_filters",
     "social_django",
@@ -359,6 +361,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
@@ -384,15 +387,26 @@ REST_FRAMEWORK = {
     # 'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
 }
 
+SIMPLE_JWT = {
+    "USER_ID_FIELD": "uid",
+    "USER_ID_CLAIM": "user_uid",
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.SlidingToken",),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=60 * 12),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=3),
+}
+
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "OBR API",
     "DESCRIPTION": "open broadcast radio",
     "VERSION": "0.0.1",
     "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
-    # 'CAMELIZE_NAMES': True,
+    "CAMELIZE_NAMES": True,
     "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
     "COMPONENT_SPLIT_REQUEST": True,
     "COMPONENT_NO_READ_ONLY_REQUIRED": True,
+    # 'PREPROCESSING_HOOKS': [],
+    "SORT_OPERATIONS": True,
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
