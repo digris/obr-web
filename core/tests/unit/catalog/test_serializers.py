@@ -19,22 +19,22 @@ class TestMediaSerializer:
         assert serializer.to_representation(None) == 0
 
 
-@pytest.mark.django_db
-class TestPlaylistSerializer:
-    def test_get_series(self):
-        playlist = mixer.blend(Playlist)
-        series = mixer.blend(Series, playlist=playlist)
-        playlist.series = series
-        playlist.series_episode = 1
-        serializer = PlaylistSerializer(playlist)
-        assert serializer.get_series(playlist) == {
-            "ct": "catalog.series",
-            "episode": 1,
-            "uid": series.uid,
-            "name": series.name,
-        }
-
-    def test_missing_get_series(self):
-        playlist = mixer.blend(Playlist)
-        serializer = PlaylistSerializer(playlist)
-        assert serializer.get_series(playlist) is None
+# @pytest.mark.django_db
+# class TestPlaylistSerializer:
+#     def test_get_series(self):
+#         playlist = mixer.blend(Playlist)
+#         series = mixer.blend(Series, playlist=playlist)
+#         playlist.series = series
+#         playlist.series_episode = 1
+#         serializer = PlaylistSerializer(playlist)
+#         assert serializer.get_series(playlist) == {
+#             "ct": "catalog.series",
+#             "episode": 1,
+#             "uid": series.uid,
+#             "name": series.name,
+#         }
+#
+#     def test_missing_get_series(self):
+#         playlist = mixer.blend(Playlist)
+#         serializer = PlaylistSerializer(playlist)
+#         assert serializer.get_series(playlist) is None
