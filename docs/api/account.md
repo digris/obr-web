@@ -2,7 +2,7 @@
 
 ## Authentication
 
- - [API Doc](http://local.obr-next:8080/api/v1/schema/redoc/#tag/authentication)
+ - [API Doc](https://next.openbroadcast.ch/api/v1/schema/redoc/#tag/authentication)
 
 ### Default Login / Session / JWT Token
 
@@ -113,7 +113,7 @@ Vary: Accept
 
 ### "Password-less" Login
 
-See [API Doc](http://local.obr-next:8080/api/v1/schema/redoc/#tag/authentication)
+See [API Doc](https://next.openbroadcast.ch/api/v1/schema/redoc/#tag/authentication)
 
 #### Auth-code Login
 
