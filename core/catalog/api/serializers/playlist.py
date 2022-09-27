@@ -4,7 +4,7 @@ from api_extra.serializers import CTUIDModelSerializer
 from catalog.api.serializers import MediaSerializer
 from broadcast.models.editor import Editor
 from broadcast.models.emission import Emission
-from catalog.models import Playlist, PlaylistMedia
+from catalog.models import Playlist, PlaylistMedia, Series
 from image.api.serializers import ImageSerializer
 from tagging.api.serializers import TagSerializer
 from api_extra.serializers import DurationInSecondsSerializer
@@ -72,6 +72,26 @@ class PlaylistEmissionSerializer(
         ]
 
 
+class PlaylistSeriesSerializer(
+    CTUIDModelSerializer,
+    serializers.ModelSerializer,
+):
+    episode = serializers.CharField(
+        read_only=True,
+        source="series_episode",
+        default="",
+    )
+
+    class Meta:
+        model = Series
+        fields = [
+            "ct",
+            "uid",
+            "name",
+            "episode",
+        ]
+
+
 class PlaylistSerializer(
     CTUIDModelSerializer,
     FlexFieldsSerializerMixin,
@@ -97,22 +117,26 @@ class PlaylistSerializer(
     num_emissions = serializers.IntegerField(
         read_only=True,
     )
-    series = serializers.SerializerMethodField()
     user_rating = serializers.IntegerField(
         read_only=True,
         allow_null=True,
     )
 
-    def get_series(self, obj):
-        if not obj.series:
-            return None
+    # series = serializers.SerializerMethodField()
+    # def get_series(self, obj):
+    #     if not obj.series:
+    #         return None
+    #
+    #     return {
+    #         "ct": obj.series.ct,
+    #         "uid": str(obj.series.uid),
+    #         "name": obj.series.name if obj.series else None,
+    #         "episode": obj.series_episode,
+    #     }
 
-        return {
-            "ct": obj.series.ct,
-            "uid": str(obj.series.uid),
-            "name": obj.series.name if obj.series else None,
-            "episode": obj.series_episode,
-        }
+    series = PlaylistSeriesSerializer(
+        read_only=True,
+    )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Playlist

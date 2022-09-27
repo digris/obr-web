@@ -4,6 +4,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework_simplejwt.views import (
+    TokenObtainSlidingView,
+    TokenRefreshSlidingView,
+)
 from drf_spectacular.utils import extend_schema, inline_serializer
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -17,7 +21,8 @@ app_name = "api"
 
 
 @extend_schema(
-    description="API Root",
+    operation_id="base",
+    description="API Root, providing human readable entry points.",
     responses={
         200: inline_serializer(
             name="TOC",
@@ -50,6 +55,19 @@ def api_root(request, format=None):
                 "api:version:version",
                 request=request,
             ),
+            # Core API
+            # "account/": reverse(
+            #     "api:account:api-root",
+            #     request=request,
+            # ),
+            "broadcast/": reverse(
+                "api:broadcast:api-root",
+                request=request,
+            ),
+            "catalog/": reverse(
+                "api:catalog:api-root",
+                request=request,
+            ),
         }
     )
 
@@ -59,6 +77,16 @@ urlpatterns = [
         "",
         api_root,
         name="base",
+    ),
+    path(
+        "jwt/",
+        TokenObtainSlidingView.as_view(),
+        name="token-obtain-pair",
+    ),
+    path(
+        "jwt/refresh/",
+        TokenRefreshSlidingView.as_view(),
+        name="token-refresh",
     ),
     path(
         "schema/",
@@ -85,6 +113,7 @@ urlpatterns = [
         "version/",
         include("base.api.urls_version", "version"),
     ),
+    # Core API
     path(
         "account/",
         include("account.api.urls", "account"),
