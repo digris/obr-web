@@ -53,7 +53,7 @@ class UserView(APIView):
         operation_id="user",
         description="User endpoint. Empty (204) response for anonymous users.",
         tags=["account", "authentication"],
-        external_docs="https://github.com/digris/obr-web",
+        external_docs="https://github.com/digris/obr-web/blob/main/docs/api/account.md",
     )
     def get(request):
         if request.user.is_authenticated:
