@@ -41,3 +41,4 @@ gcloud projects describe open-broadcast
 
 - [GCP](docs/gcp)
 - [Development](docs/development)
+- [API](docs/api)
