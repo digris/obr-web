@@ -1,26 +1,28 @@
-import store from "@/store";
+import { ref } from "vue";
 import eventBus from "@/eventBus";
 import settings from "@/settings";
+import { usePlayerState } from "@/composables/player";
 import { getImageSrc } from "@/utils/image";
+import { watch } from "vue";
 
 class MediaSessionHandler {
   session: null;
 
   constructor() {
+    // TODO: fix for pinia
+    // const { isLive, media } = usePlayerState();
+    const { isLive } = usePlayerState();
+    // const isLive = ref(false);
+    const media = ref(null);
     if ("mediaSession" in navigator && settings.CLIENT_MODE_APP === "web") {
       // @ts-ignore
       this.session = navigator.mediaSession;
       this.setupBindings(true);
-      store.watch(
-        (state: any, getters: any) => {
-          return getters["player/media"];
-        },
-        (media) => {
-          // console.debug('player/media', media);
-          this.setMetadata(media);
-          const isLive = store.getters["player/isLive"];
-          // console.debug('player/isLive', isLive);
-          this.setupBindings(isLive);
+      watch(
+        () => media.value,
+        (value) => {
+          this.setMetadata(value);
+          this.setupBindings(isLive.value);
         }
       );
     } else {
@@ -71,6 +73,7 @@ class MediaSessionHandler {
       title: media.name,
       artist: media.artistDisplay,
       album: release ? release.name : "-",
+      // @ts-ignore
       artwork,
     });
   }

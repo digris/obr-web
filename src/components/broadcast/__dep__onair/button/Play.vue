@@ -23,7 +23,7 @@ export default defineComponent({
   emits: ["play", "pause"],
   setup(props, { emit }) {
     const isHover = ref(false);
-    const { playerState, currentMedia } = usePlayerState();
+    const { playerState, media: currentMedia } = usePlayerState();
     // const isCurrent = computed(() => currentMedia.value?.uid === props.media?.uid);
     const isCurrent = computed(() => {
       // eslint-disable-next-line max-len

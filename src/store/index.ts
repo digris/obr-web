@@ -4,7 +4,6 @@ import time from "./time";
 import account from "./account";
 import catalog from "./catalog";
 import broadcast from "./broadcast";
-import player from "./player";
 import queue from "./queue";
 import program from "./program";
 import schedule from "./schedule";
@@ -16,7 +15,6 @@ export default createStore({
     account,
     catalog,
     broadcast,
-    player,
     queue,
     program,
     schedule,

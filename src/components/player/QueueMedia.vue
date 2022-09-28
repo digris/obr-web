@@ -40,7 +40,6 @@ export default defineComponent({
       isLive,
       isPlaying,
       isBuffering,
-      // currentMedia,
     } = usePlayerState();
     const { pause } = usePlayerControls();
     const { playFromIndex, removeAtIndex } = useQueueControls();

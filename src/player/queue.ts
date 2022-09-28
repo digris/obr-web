@@ -3,10 +3,7 @@ import eventBus from "@/eventBus";
 import store from "@/store";
 import { getMediaUrl } from "@/player/media";
 import { playStream } from "@/player/stream";
-import createMediaSessionHandler from "@/player/mediaSession";
 import type { AudioPlayer } from "@/player/audioPlayer";
-
-createMediaSessionHandler();
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 

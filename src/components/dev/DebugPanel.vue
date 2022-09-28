@@ -1,19 +1,12 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import { useTime } from "@/composables/time";
-
 const DEBUG = false;
 
 export default defineComponent({
   setup() {
-    const { time, stationTime, playheadTime } = useTime();
     const debugVars = computed(() => {
-      return {
-        time: time.value,
-        stationTime: stationTime.value,
-        playheadTime: playheadTime.value,
-      };
+      return {};
     });
     return {
       visible: DEBUG,
