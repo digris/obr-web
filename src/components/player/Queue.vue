@@ -65,15 +65,13 @@ export default defineComponent({
       }"
     >
       <div class="container">
-        <transition-group name="queue--disabled" mode="out-in">
-          <QueueMedia
-            v-for="(media, index) in mediaList"
-            :key="`media-row-${media.uid}`"
-            :index="index"
-            :media="media"
-            :is-current="media === currentMedia"
-          />
-        </transition-group>
+        <QueueMedia
+          v-for="(media, index) in mediaList"
+          :key="`media-row-${media.uid}`"
+          :index="index"
+          :media="media"
+          :is-current="media === currentMedia"
+        />
       </div>
     </div>
   </transition>

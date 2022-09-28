@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, computed } from "vue";
-import { useStore } from "vuex";
+import { useRatingStore } from "@/stores/rating";
 import { getEditors } from "@/api/broadcast";
 
 import EditorCard from "./Card.vue";
@@ -10,15 +10,13 @@ export default defineComponent({
     EditorCard,
   },
   setup() {
-    const store = useStore();
+    const { injectRatings } = useRatingStore();
     const editors = ref([]);
     const fetchEditors = async (limit = 128, offset = 0) => {
       const { results } = await getEditors(limit, offset);
       // @ts-ignore
       editors.value.push(...results);
-
-      // TODO: this kind of smells...
-      await store.dispatch("rating/updateObjectRatings", results);
+      await injectRatings(results);
     };
     const activeEditors = computed(() => {
       // @ts-ignore

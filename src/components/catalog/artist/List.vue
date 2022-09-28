@@ -1,14 +1,16 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed, watch } from "vue";
-import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
+import { useUiStore } from "@/stores/ui";
+import { useRatingStore } from "@/stores/rating";
+import { getArtists, getArtistsTags } from "@/api/catalog";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import NoResults from "@/components/ui/loading/NoResults.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import ArtistCard from "@/components/catalog/artist/Card.vue";
-import { getArtists, getArtistsTags } from "@/api/catalog";
 
 export default defineComponent({
   components: {
@@ -40,9 +42,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const { filterExpanded } = storeToRefs(useUiStore());
+    const { injectRatings } = useRatingStore();
     const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
@@ -81,9 +84,7 @@ export default defineComponent({
       numResults.value = count;
       // @ts-ignore
       artists.value.push(...results);
-
-      // TODO: this kind of smells...
-      await store.dispatch("rating/updateObjectRatings", results);
+      await injectRatings(results);
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
@@ -102,7 +103,7 @@ export default defineComponent({
       if (props.disableUserFilter) {
         return false;
       }
-      return store.getters["ui/filterExpanded"];
+      return filterExpanded.value;
     });
     const updateUserFilter = (filter: any) => {
       const query = filter;

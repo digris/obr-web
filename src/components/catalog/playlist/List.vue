@@ -1,16 +1,18 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, onMounted } from "vue";
-import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
 import { useDevice } from "@/composables/device";
+import { useUiStore } from "@/stores/ui";
+import { useRatingStore } from "@/stores/rating";
+import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import PlaylistCard from "@/components/catalog/playlist/Card.vue";
 import PlaylistRowHeader from "@/components/catalog/playlist/RowHeader.vue";
 import PlaylistRow from "@/components/catalog/playlist/Row.vue";
-import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 
 export default defineComponent({
   components: {
@@ -46,9 +48,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const { filterExpanded } = storeToRefs(useUiStore());
+    const { injectRatings } = useRatingStore();
     const { isDesktop } = useDevice();
     const numResults = ref(-1);
     const limit = 16;
@@ -100,9 +103,7 @@ export default defineComponent({
       numResults.value = count;
       // @ts-ignore
       playlists.value.push(...results);
-
-      // TODO: this kind of smells...
-      await store.dispatch("rating/updateObjectRatings", results);
+      await injectRatings(results);
     };
     const fetchNextPage = async () => {
       const offset = lastOffset.value + limit;
@@ -121,7 +122,7 @@ export default defineComponent({
       if (props.disableUserFilter) {
         return false;
       }
-      return store.getters["ui/filterExpanded"];
+      return filterExpanded.value;
     });
     const updateUserFilter = (filter: any) => {
       const query = filter;

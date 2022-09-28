@@ -134,7 +134,7 @@ export default defineComponent({
     </div>
     <div class="actions">
       <CircleButton color-var="--c-white">
-        <UserRating color-var="--c-fg" :obj-key="objKey" :autoload="true" />
+        <UserRating color-var="--c-fg" :obj-key="objKey" />
       </CircleButton>
       <CircleButton color-var="--c-fg" @click="remove" :disabled="!canRemove">
         <IconRemove :scale="0.75" />
