@@ -1,8 +1,6 @@
-import { storeToRefs } from "pinia";
 import { useIntervalFn } from "@vueuse/core";
 import { useScheduleStore } from "@/stores/schedule";
 import store from "@/store";
-import { watch } from "vue";
 
 class Schedule {
   constructor() {

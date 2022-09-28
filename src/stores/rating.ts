@@ -14,7 +14,11 @@ export const useRatingStore = defineStore("rating", () => {
     return rating.value;
   };
   // immediately sets the rating for fast ui response, then passes the value to the API
-  const setRating = async (key: string, value: number | null, opts = {}): Promise<number | null> => {
+  const setRating = async (
+    key: string,
+    value: number | null,
+    opts = {}
+  ): Promise<number | null> => {
     ratings.value.set(key, value);
     const rating = await postRating(key, value, opts);
     ratings.value.set(key, rating.value);

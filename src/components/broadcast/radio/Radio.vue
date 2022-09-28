@@ -2,7 +2,6 @@
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import { ref, computed, defineComponent, watch } from "vue";
 import { useWindowSize } from "@vueuse/core";
-import { useStore } from "vuex";
 import { storeToRefs } from "pinia";
 import { useTimeStore } from "@/stores/time";
 import { useScheduleStore } from "@/stores/schedule";
@@ -26,7 +25,6 @@ export default defineComponent({
     Rating,
   },
   setup() {
-    const store = useStore();
     const { time } = storeToRefs(useTimeStore());
     const { setPrimaryColor } = useUiStore();
     const { items, current: currentItem } = storeToRefs(useScheduleStore());
@@ -67,7 +65,7 @@ export default defineComponent({
     );
     watch(
       () => currentItem.value,
-      (value) => {
+      () => {
         eventBus.emit("radio:flow", "reset");
       }
     );

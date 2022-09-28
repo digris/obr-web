@@ -21,7 +21,7 @@ const createGA4Event = (event: Event) => {
   };
   // @ts-ignore
   window.dataLayer.push(GA4event);
-  console.debug('GA4event', GA4event);
+  console.debug("GA4event", GA4event);
 };
 
 class EventHandler {
