@@ -1715,6 +1715,11 @@ find-yarn-workspace-root@^2.0.0:
   dependencies:
     micromatch "^4.0.2"
 
+fixed-size-array@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/fixed-size-array/-/fixed-size-array-0.1.1.tgz#5b3f5e3a79510aa0ee4f4bd3054c114722b58a6f"
+  integrity sha512-va4D3gPsSJdZm7GOUT8MuPqHUtErsjg0OS8gAZae1QD/XCDKWqxp+aJ/3JD+rcKehysVNsZIUenL0fRtB8YvAg==
+
 flat-cache@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-3.0.4.tgz#61b0338302b2fe9f957dcc32fc2a87f1c3048b11"

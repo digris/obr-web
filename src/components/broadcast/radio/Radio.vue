@@ -6,6 +6,7 @@ import { useStore } from "vuex";
 import { storeToRefs } from "pinia";
 import { useTimeStore } from "@/stores/time";
 import { useScheduleStore } from "@/stores/schedule";
+import { useUiStore } from "@/stores/ui";
 import { round } from "lodash-es";
 import eventBus from "@/eventBus";
 import RadioHeader from "./RadioHeader.vue";
@@ -27,6 +28,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const { time } = storeToRefs(useTimeStore());
+    const { setPrimaryColor } = useUiStore();
     const { items, current: currentItem } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const itemSize = computed(() => {
@@ -56,8 +58,10 @@ export default defineComponent({
     watch(
       () => focusedItem.value,
       (item: AnnotatedSchedule | null) => {
-        if (item?.media?.image?.rgb) {
-          store.dispatch("ui/setPrimaryColor", item?.media?.image?.rgb);
+        const rgb = item?.media?.image?.rgb;
+        if (rgb) {
+          setPrimaryColor(rgb);
+          // store.dispatch("ui/setPrimaryColor", item?.media?.image?.rgb);
         }
       }
     );

@@ -16,7 +16,6 @@ export default {
   },
   methods: {
     setColor(color) {
-      this.$store.dispatch("ui/setTitle", `c-${color.join("-")}`);
       this.$store.dispatch("ui/setPrimaryColor", color);
     },
   },

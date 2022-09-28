@@ -14,9 +14,9 @@ export const useRatingStore = defineStore("rating", () => {
     return rating.value;
   };
   // immediately sets the rating for fast ui response, then passes the value to the API
-  const setRating = async (key: string, value: number | null): Promise<number | null> => {
+  const setRating = async (key: string, value: number | null, opts = {}): Promise<number | null> => {
     ratings.value.set(key, value);
-    const rating = await postRating(key, value);
+    const rating = await postRating(key, value, opts);
     ratings.value.set(key, rating.value);
     return rating.value;
   };
@@ -25,7 +25,7 @@ export const useRatingStore = defineStore("rating", () => {
   const injectRatings = async (list: Array<any>) => {
     list.forEach((item) => {
       const { ct, uid, userRating } = item;
-      console.debug("injectRatings", ct, uid, userRating, item.name);
+      // console.debug("injectRatings", ct, uid, userRating, item.name);
       if (ct && uid) {
         const key = `${ct}:${uid}`;
         ratings.value.set(key, userRating);
