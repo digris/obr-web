@@ -1,6 +1,5 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { useStore } from "vuex";
 import { getContrastColor } from "@/utils/color";
 import UserRating from "@/components/rating/UserRating.vue";
 import CurrentMedia from "./CurrentMedia.vue";
@@ -12,6 +11,7 @@ import Circle from "./button/Circle.vue";
 import PlayerControl from "./PlayerControl.vue";
 import VolumeControl from "./VolumeControl.vue";
 import QueueControl from "./QueueControl.vue";
+import { useQueueState } from "@/composables/queue";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 export default defineComponent({
@@ -28,24 +28,18 @@ export default defineComponent({
     QueueControl,
   },
   setup() {
-    const store = useStore();
+    const { queueLength } = useQueueState();
     const { seek } = usePlayerControls();
-    const { relPosition } = usePlayerState();
-    const liveTimeOffset = ref(-10);
-    const playerState = computed(() => store.getters["player/playerState"]);
-    const isLive = computed(() => store.getters["player/isLive"]);
-    const currentMedia = computed(() => store.getters["player/media"]);
-    const currentScope = computed(() => store.getters["player/scope"]);
-    const isVisible = computed(() => store.getters["player/isVisible"]);
+    const { media, color, isLive } = usePlayerState();
     const objKey = computed(() => {
-      if (!currentMedia.value) {
+      if (!media.value) {
         return null;
       }
-      return `${currentMedia.value?.ct}:${currentMedia.value?.uid}`;
+      return `${media.value?.ct}:${media.value?.uid}`;
     });
     const fgColor = computed(() => {
       try {
-        const bg = currentMedia.value.releases[0].image.rgb;
+        const bg = color.value;
         return getContrastColor(bg);
       } catch (e) {
         console.warn(e);
@@ -54,7 +48,7 @@ export default defineComponent({
     });
     const cssVars = computed(() => {
       try {
-        const bg = currentMedia.value.releases[0].image.rgb;
+        const bg = color.value;
         const fg = getContrastColor(bg);
         const fgInverse = getContrastColor(fg);
         const colors = {
@@ -73,7 +67,6 @@ export default defineComponent({
       };
     });
     const queueVisible = ref(false);
-    const queueNumMedia = computed(() => store.getters["queue/numMedia"]);
     const hideQueue = () => {
       queueVisible.value = false;
     };
@@ -81,34 +74,29 @@ export default defineComponent({
       queueVisible.value = !queueVisible.value;
     };
     return {
-      isVisible,
-      liveTimeOffset,
-      playerState,
-      currentMedia,
-      currentScope,
+      media,
       objKey,
       fgColor,
       cssVars,
       queueVisible,
-      queueNumMedia,
+      queueLength,
       hideQueue,
       toggleQueue,
       //
       seek,
-      relPosition,
     };
   },
 });
 </script>
 
 <template>
-  <Queue :is-visible="queueVisible && queueNumMedia > 0" @close="hideQueue" />
+  <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
   <transition name="slide">
-    <div v-if="isVisible" class="player" :style="cssVars">
+    <div v-if="media" class="player" :style="cssVars">
       <Playhead class="playhead" @seek="seek" />
       <div class="container">
         <div class="left">
-          <CurrentMedia :media="currentMedia" />
+          <CurrentMedia :media="media" />
         </div>
         <div class="center">
           <PlayerControl :fg-color="fgColor" />
@@ -118,11 +106,11 @@ export default defineComponent({
           <Bandwidth />
           <VolumeControl />
           <Circle>
-            <UserRating color-var="--c-fg" v-if="currentMedia" :obj-key="objKey" />
+            <UserRating color-var="--c-fg" :obj-key="objKey" />
           </Circle>
           <QueueControl
             :queue-visible="queueVisible"
-            :num-queued="queueNumMedia"
+            :num-queued="queueLength"
             @toggle-visibility="toggleQueue"
           />
         </div>

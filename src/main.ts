@@ -12,11 +12,9 @@ import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
 import setDocumentTheme from "@/utils/theme";
 import createUIStateHandler from "@/utils/ui";
-import createStationTimeHandler from "@/utils/time";
 import createAccountHandler from "@/utils/account";
 import creadeScheduleHandler from "@/utils/schedule";
-import createPlayerStateHandler from "@/player/handler";
-
+import createMediaSessionHandler from "@/player/mediaSession";
 import { APIClient } from "@/api/client";
 
 import App from "./App.vue";
@@ -36,11 +34,10 @@ const settingsStore = useSettingsStore();
 setDocumentTheme();
 
 createEventHandler();
-createStationTimeHandler();
 creadeScheduleHandler();
 createAccountHandler();
 createUIStateHandler();
-createPlayerStateHandler();
+createMediaSessionHandler();
 
 // @ts-ignore
 import de from "@/locales/de.yml";

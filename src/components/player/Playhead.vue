@@ -22,7 +22,7 @@ export default defineComponent({
       isPlaying,
       isBuffering,
       relPosition: position,
-      currentMedia: media,
+      media,
       duration,
     } = usePlayerState();
     const isHover = computed(() => {

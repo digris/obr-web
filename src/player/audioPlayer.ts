@@ -7,6 +7,7 @@ import { DateTime } from "luxon";
 import { computed, ref, watch } from "vue";
 import eventBus from "@/eventBus";
 import store from "@/store";
+import { usePlayerStore } from "@/stores/player";
 import { playStream } from "@/player/stream";
 import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
@@ -199,6 +200,7 @@ class AudioPlayer {
   }
 
   updateState() {
+    const { updatePlayerState } = usePlayerStore();
     const { audio, player } = this;
     const stats = player.getStats();
     const isLive = player.isLive();
@@ -232,23 +234,16 @@ class AudioPlayer {
       playheadTime,
     };
 
-    // NOTE: check how to structure playhead info / time...
-    if (playheadTime) {
-      store.dispatch(
-        "time/setPlayheadTime",
-        DateTime.fromJSDate(playheadTime).plus({ seconds: -7 })
-      );
-    } else {
-      store.dispatch("time/setPlayheadTime", null);
-    }
-
     // if (Object.is(state, this.state)) {
     if (JSON.stringify(playerState) === JSON.stringify(this.playerState)) {
       return;
     }
     // @ts-ignore
     this.playerState = playerState;
-    store.dispatch("player/updatePlayerState", playerState);
+    // TODO: refactor to pinia
+    // store.dispatch("player/updatePlayerState", playerState);
+    updatePlayerState(playerState);
+    //
   }
 
   async onTimeupdate() {

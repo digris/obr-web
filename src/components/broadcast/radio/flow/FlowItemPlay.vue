@@ -28,7 +28,7 @@ export default defineComponent({
     const { current: currentScheduleItem } = storeToRefs(useScheduleStore());
     const isCurrentScheduleItem = computed(() => currentScheduleItem.value?.key === props.item.key);
     // player states
-    const { playerState, currentMedia: currentPlayerMedia } = usePlayerState();
+    const { playerState, media: currentPlayerMedia } = usePlayerState();
     const isCurrentPlayerMedia = computed(
       () => currentPlayerMedia.value?.uid === props.item.media.uid
     );

@@ -23,10 +23,11 @@ class Schedule {
       () => currentItem.value,
       (value) => {
         console.debug('currentItem', value);
-      },
+      }
     );
 
     // eslint-disable-next-line arrow-body-style
+    /*
     store.watch(
       (state: any, getters: any) => {
         return getters["time/time"];
@@ -46,8 +47,10 @@ class Schedule {
         }
       }
     );
+    */
   }
 
+  /*
   static async updateCurrent(item: any) {
     const current = store.getters["schedule/current"];
     if (current && current.key === item.key) {
@@ -55,6 +58,7 @@ class Schedule {
     }
     await store.dispatch("schedule/updateCurrent", item);
   }
+  */
 }
 
 export default function () {

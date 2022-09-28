@@ -1,8 +1,8 @@
-import { computed, watch } from "vue";
+import { computed, watch, ref } from "vue";
 import { debounce, isEqual } from "lodash-es";
-import store from "@/store";
 
 import { createPlayerEvents } from "@/api/stats";
+import { usePlayerState } from "@/composables/player";
 
 export interface Event {
   state: string;
@@ -21,7 +21,7 @@ const createGA4Event = (event: Event) => {
   };
   // @ts-ignore
   window.dataLayer.push(GA4event);
-  // console.debug('createGA4Event', event);
+  console.debug('GA4event', GA4event);
 };
 
 class EventHandler {
@@ -29,9 +29,25 @@ class EventHandler {
 
   constructor() {
     this.queue = [];
-    const playState = computed(() => store.getters["player/playState"]);
-    const isLive = computed(() => store.getters["player/isLive"]);
-    const media = computed(() => store.getters["player/media"]);
+    // TODO: fix for pinia
+    // const { playState, isLive, media } = usePlayerState();
+    const { isLive, playerState } = usePlayerState();
+    // const isLive = ref(false);
+    const media = ref(null);
+
+    const playState = computed(() => {
+      if (playerState.value?.isPlaying) {
+        return "playing";
+      }
+      if (playerState.value?.isPaused) {
+        return "paused";
+      }
+      if (playerState.value?.isBuffering) {
+        return "buffering";
+      }
+      return "stopped";
+    });
+
     const combinedState = computed(() => {
       const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
       return {
@@ -43,7 +59,6 @@ class EventHandler {
     });
     const addEvent = debounce(async (event) => {
       if (!event.objKey) {
-        // console.debug('event without objKey', event);
         return;
       }
       createGA4Event(event);
@@ -57,16 +72,8 @@ class EventHandler {
         ...newState,
         ts: new Date().getTime(),
       };
-      // console.debug('EventHandler', event);
       addEvent(event);
     });
-    // watch([playState, media], ([newState, newMedia], [prevState, prevMedia]) => {
-    //   let txt = '';
-    //   txt += (prevMedia) ? prevMedia.uid : '-';
-    //   txt += ' > ';
-    //   txt += (newMedia) ? newMedia.uid : '-';
-    //   console.debug('EventHandler', `${prevState} > ${newState}`, `${txt}`);
-    // });
   }
 }
 

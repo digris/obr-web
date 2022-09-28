@@ -61,10 +61,10 @@ export default defineComponent({
     const { injectRatings } = useRatingStore();
     const { queuedMedia, currentIndex: currentQueueIndex } = useQueueState();
     const { enqueueMedia, startPlayCurrent, playFromIndex } = useQueueControls();
-    const { isPlaying, isBuffering, isPaused, currentScope, currentColor } = usePlayerState();
+    const { isPlaying, isBuffering, isPaused, scope, color: currentColor } = usePlayerState();
     const { pause, resume } = usePlayerControls();
     const inScope = computed(() => {
-      return currentScope.value.includes(props.objKey);
+      return scope.value.includes(props.objKey);
     });
     const queueIndex = computed(() => {
       if (currentQueueIndex.value < 0) {
