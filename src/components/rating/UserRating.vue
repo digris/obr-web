@@ -40,6 +40,7 @@ export default defineComponent({
     IconFlash,
   },
   setup(props) {
+    const el = ref(null);
     const store = useStore();
     const { iconSize } = useIconSize(props.iconScale);
     const userRating = computed(() => {
@@ -83,6 +84,7 @@ export default defineComponent({
       }
     });
     return {
+      el,
       userRating,
       rate,
       style,

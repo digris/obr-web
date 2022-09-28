@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type EditorImage = {
-    readonly uid?: string;
+    readonly uid?: string | null;
     readonly path?: string;
     readonly rgb?: Array<number>;
 };

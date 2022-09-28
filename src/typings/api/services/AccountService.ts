@@ -1,16 +1,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Address } from '../models/Address';
 import type { EmailUpdateRequest } from '../models/EmailUpdateRequest';
-import type { LoginRequest } from '../models/LoginRequest';
 import type { PasswordUpdateRequest } from '../models/PasswordUpdateRequest';
 import type { PatchedAddressRequest } from '../models/PatchedAddressRequest';
 import type { PatchedUserRequest } from '../models/PatchedUserRequest';
-import type { SendEmailLogin } from '../models/SendEmailLogin';
-import type { SendEmailLoginLookup } from '../models/SendEmailLoginLookup';
-import type { SendEmailLoginRequest } from '../models/SendEmailLoginRequest';
 import type { SocialBackends } from '../models/SocialBackends';
-import type { TokenLoginRequest } from '../models/TokenLoginRequest';
 import type { User } from '../models/User';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -21,12 +17,12 @@ export class AccountService {
 
     /**
      * @param formData
-     * @returns void
+     * @returns Address
      * @throws ApiError
      */
     public static userUpdateAddress(
         formData?: PatchedAddressRequest,
-    ): CancelablePromise<void> {
+    ): CancelablePromise<Address> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/account/address/',
@@ -53,35 +49,6 @@ export class AccountService {
     }
 
     /**
-     * Login user by email & password
-     * @param formData
-     * @returns User
-     * @throws ApiError
-     */
-    public static login(
-        formData: LoginRequest,
-    ): CancelablePromise<User> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/account/login/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
-        });
-    }
-
-    /**
-     * Destroy user's session
-     * @returns any No response body
-     * @throws ApiError
-     */
-    public static logout(): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/account/logout/',
-        });
-    }
-
-    /**
      * Update or set password
      * @param formData
      * @returns void
@@ -95,59 +62,6 @@ export class AccountService {
             url: '/api/v1/account/password/',
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',
-        });
-    }
-
-    /**
-     * Lookup if provided email can login by token
-     * @param email
-     * @returns SendEmailLoginLookup
-     * @throws ApiError
-     */
-    public static sendEmailLoginLookup(
-        email: string,
-    ): CancelablePromise<SendEmailLoginLookup> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/account/send-email-login/',
-            query: {
-                'email': email,
-            },
-        });
-    }
-
-    /**
-     * Send email with login token to given address
-     * @param formData
-     * @returns SendEmailLogin
-     * @throws ApiError
-     */
-    public static sendEmailLogin(
-        formData: SendEmailLoginRequest,
-    ): CancelablePromise<SendEmailLogin> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/account/send-email-login/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
-        });
-    }
-
-    /**
-     * Login user by signed email
-     * @param signedEmail
-     * @returns User
-     * @throws ApiError
-     */
-    public static signedEmailLogin(
-        signedEmail: string,
-    ): CancelablePromise<User> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/account/signed-email-login/',
-            query: {
-                'signed_email': signedEmail,
-            },
         });
     }
 
@@ -188,31 +102,21 @@ export class AccountService {
     }
 
     /**
-     * Login user by email & token [ABC-DEF]
-     * @param formData
+     * User endpoint. Empty (204) response for anonymous users.
+     * @param expand Expand nested resources, multiple values separated by comma.
+     * Available options: `settings`, `address`, `subscription`
      * @returns User
      * @throws ApiError
      */
-    public static tokenLogin(
-        formData: TokenLoginRequest,
+    public static user(
+        expand?: string,
     ): CancelablePromise<User> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/account/token-login/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
-        });
-    }
-
-    /**
-     * Get current user
-     * @returns User
-     * @throws ApiError
-     */
-    public static user(): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/account/users/me/',
+            query: {
+                'expand': expand,
+            },
         });
     }
 

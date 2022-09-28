@@ -8,11 +8,11 @@ import { request as __request } from '../core/request';
 export class DefaultService {
 
     /**
-     * API Root
+     * API Root, providing human readable entry points.
      * @returns any No response body
      * @throws ApiError
      */
-    public static rootRetrieve(): CancelablePromise<any> {
+    public static base(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/',
