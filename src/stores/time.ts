@@ -25,8 +25,3 @@ export const useTimeStore = defineStore("time", () => {
     resume,
   };
 });
-
-// setInterval(() => {
-//   const { syncStationTime } = useTimeStore();
-//   syncStationTime();
-// }, 200);

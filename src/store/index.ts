@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 
-import time from "./time";
 import account from "./account";
 import catalog from "./catalog";
 import broadcast from "./broadcast";
@@ -11,7 +10,6 @@ import notification from "./notification";
 
 export default createStore({
   modules: {
-    time,
     account,
     catalog,
     broadcast,

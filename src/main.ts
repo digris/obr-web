@@ -13,7 +13,7 @@ import createEventHandler from "@/stats/event";
 import setDocumentTheme from "@/utils/theme";
 import createUIStateHandler from "@/utils/ui";
 import createAccountHandler from "@/utils/account";
-import creadeScheduleHandler from "@/utils/schedule";
+import createScheduleHandler from "@/utils/schedule";
 import createMediaSessionHandler from "@/player/mediaSession";
 import { APIClient } from "@/api/client";
 
@@ -34,7 +34,7 @@ const settingsStore = useSettingsStore();
 setDocumentTheme();
 
 createEventHandler();
-creadeScheduleHandler();
+createScheduleHandler();
 createAccountHandler();
 createUIStateHandler();
 createMediaSessionHandler();
