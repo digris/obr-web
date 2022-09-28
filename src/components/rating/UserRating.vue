@@ -1,11 +1,11 @@
 <script lang="ts">
 import { computed, ref, defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
 import { debounce } from "lodash-es";
 import { useIconSize } from "@/composables/icon";
 
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
+import { useRatingStore } from "@/stores/rating";
 
 export default defineComponent({
   props: {
@@ -40,12 +40,9 @@ export default defineComponent({
     IconFlash,
   },
   setup(props) {
-    const el = ref(null);
-    const store = useStore();
     const { iconSize } = useIconSize(props.iconScale);
-    const userRating = computed(() => {
-      return store.getters["rating/ratingByKey"](props.objKey);
-    });
+    const { ratingByKey, loadRating, setRating } = useRatingStore();
+    const rating = computed(() => ratingByKey(props.objKey));
     const isFlipped = ref(false);
     const flipIcon = async () => {
       isFlipped.value = true;
@@ -62,30 +59,27 @@ export default defineComponent({
           return;
         }
         await flipIcon();
-        const vote = {
-          key: props.objKey,
-          value,
-        };
-        await store.dispatch("rating/updateRating", vote);
+        await setRating(props.objKey, value);
       },
       200,
       { leading: true, trailing: false }
     );
+    onMounted(async () => {
+      if (props.autoload && rating.value === undefined) {
+        await loadRating(props.objKey);
+      }
+    });
     const style = computed(() => {
+      const isEmpty = rating.value === null || rating.value === undefined;
+      const opacity = props.hideIfUnset && isEmpty ? 0 : 1;
       return {
         height: `${iconSize.value}px`,
         width: `${iconSize.value}px`,
-        opacity: props.hideIfUnset && userRating.value.value === null ? 0 : 1,
+        opacity,
       };
     });
-    onMounted(() => {
-      if (props.autoload) {
-        store.dispatch("rating/loadRating", props.objKey);
-      }
-    });
     return {
-      el,
-      userRating,
+      rating,
       rate,
       style,
       iconSize,
@@ -97,32 +91,20 @@ export default defineComponent({
 
 <template>
   <div
-    v-if="userRating"
     class="user-rating"
     :class="{
       'is-flipped': isFlipped,
     }"
     :style="style"
   >
-    <IconHeart
-      v-if="userRating.value === 1"
-      :scale="iconScale"
-      :color-var="colorVar"
-      @click="rate(null)"
-    />
-    <IconHeart
-      v-if="userRating.value === null"
-      :scale="iconScale"
-      :outlined="true"
-      :color-var="colorVar"
-      @click="rate(1)"
-    />
+    <IconHeart v-if="rating === 1" :scale="iconScale" :color-var="colorVar" @click="rate(null)" />
     <IconFlash
-      v-if="userRating.value === -1"
+      v-else-if="rating === -1"
       :scale="iconScale"
       :color-var="colorVar"
       @click="rate(null)"
     />
+    <IconHeart v-else :scale="iconScale" :outlined="true" :color-var="colorVar" @click="rate(1)" />
   </div>
 </template>
 

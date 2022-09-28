@@ -5,8 +5,9 @@ import {
   ref,
   watch,
 } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import { storeToRefs } from "pinia";
+import { useUiStore } from "@/stores/ui";
 import { useDevice } from "@/composables/device";
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
@@ -31,9 +32,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
+    const { filterExpanded } = storeToRefs(useUiStore());
     const { isDesktop } = useDevice();
     const isFormVisible = computed(() => {
       if (props.hideFormForMobile) {
@@ -41,13 +42,8 @@ export default defineComponent({
       }
       return true;
     })
-    const isExpanded = computed(() => store.getters['ui/filterExpanded']);
     const toggleFilter = () => {
-      if (isExpanded.value) {
-        store.dispatch('ui/closeFilter');
-      } else {
-        store.dispatch('ui/expandFilter');
-      }
+      filterExpanded.value = !filterExpanded.value;
     };
     const q = ref('');
     const submitSearch = () => {
@@ -80,7 +76,7 @@ export default defineComponent({
     );
     return {
       isDesktop,
-      isExpanded,
+      filterExpanded,
       isFormVisible,
       toggleFilter,
       q,
@@ -108,11 +104,14 @@ export default defineComponent({
     </CircleButton>
     <CircleButton
       class="filter-button"
-      :filled="isExpanded"
-      :hover-background-opacity="isExpanded ? 0.8 : 0.1"
+      :filled="filterExpanded"
+      :hover-background-opacity="filterExpanded ? 0.8 : 0.1"
       @click="toggleFilter"
     >
-      <IconFilter :color-var="isExpanded ? `--c-white` : `--c-fg`" :rotate="isExpanded ? 180 : 0" />
+      <IconFilter
+        :color-var="filterExpanded ? `--c-white` : `--c-fg`"
+        :rotate="filterExpanded ? 180 : 0"
+      />
     </CircleButton>
   </div>
 </template>

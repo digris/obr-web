@@ -2,6 +2,7 @@
 import { computed, defineComponent, ref } from "vue";
 import type { PropType } from "vue";
 import { useMagicKeys } from "@vueuse/core";
+import { useRatingStore } from "@/stores/rating";
 import { usePlayerState, usePlayerControls } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
 import { useObjCtUid } from "@/composables/obj";
@@ -57,6 +58,7 @@ export default defineComponent({
   setup(props) {
     const { objCt, objUid } = useObjCtUid(props.objKey);
     const { shift: shiftKey } = useMagicKeys();
+    const { injectRatings } = useRatingStore();
     const { queuedMedia, currentIndex: currentQueueIndex } = useQueueState();
     const { enqueueMedia, startPlayCurrent, playFromIndex } = useQueueControls();
     const { isPlaying, isBuffering, isPaused, currentScope, currentColor } = usePlayerState();
@@ -123,6 +125,7 @@ export default defineComponent({
       await enqueueMedia(results, mode, scope);
       await startPlayCurrent(true);
       isLoading.value = false;
+      await injectRatings(results);
     };
     const onClick = requireSubscription(async (e: MouseEvent) => {
       if (e.shiftKey || props.restartQueue) {

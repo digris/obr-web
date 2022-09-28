@@ -11,12 +11,14 @@ import {
 } from "vue";
 
 import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
 import { DateTime } from "luxon";
 import PullToRefresh from "pulltorefreshjs";
 import { useDevice } from "@/composables/device";
+import { useUiStore } from "@/stores/ui";
+import { useRatingStore } from "@/stores/rating";
 
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
@@ -64,10 +66,11 @@ export default defineComponent({
   emits: ["allLoaded", "hasMore"],
   setup(props, { emit }) {
     const { t } = useI18n();
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const { isDesktop } = useDevice();
+    const { filterExpanded } = storeToRefs(useUiStore());
+    const { injectRatings } = useRatingStore();
     const now = ref(DateTime.now());
     const timer = ref(null);
     const numResults = ref(0);
@@ -118,7 +121,8 @@ export default defineComponent({
       // @ts-ignore
       mediaList.value.push(...results);
       // TODO: this kind of smells...
-      await store.dispatch("rating/updateObjectRatings", results);
+      // await store.dispatch("rating/updateObjectRatings", results);
+      await injectRatings(results);
       mediaListLoading.value = false;
       if (!hasNext.value) {
         emit("allLoaded");
@@ -144,7 +148,7 @@ export default defineComponent({
       if (props.disableUserFilter) {
         return false;
       }
-      return store.getters["ui/filterExpanded"];
+      return filterExpanded.value;
     });
     const updateUserFilter = (filter: any) => {
       const query = filter;
@@ -223,16 +227,18 @@ export default defineComponent({
       @change="updateUserFilter"
     />
   </div>
-  <div v-if="showListActions && numResults > 0" class="list-action-container">
-    <PlayAllAction :filter="combinedFilter" :ordering="ordering">
-      <span v-text="t('catalog.list.playAllTracks', numResults)" />
-    </PlayAllAction>
-    <ContextMenu
-      :list="{
-        filter: combinedFilter,
-        ordering,
-      }"
-    />
+  <div v-if="showListActions && numResults > 0" class="list-actions">
+    <div class="container">
+      <PlayAllAction :filter="combinedFilter" :ordering="ordering">
+        <span v-text="t('catalog.list.playAllTracks', numResults)" />
+      </PlayAllAction>
+      <ContextMenu
+        :list="{
+          filter: combinedFilter,
+          ordering,
+        }"
+      />
+    </div>
   </div>
   <div ref="listEl" class="media-list">
     <div v-if="isDesktop" class="table-header">
@@ -261,20 +267,22 @@ export default defineComponent({
   }
 }
 
-.list-action-container {
-  @include container.default;
-  display: grid;
-  grid-row-gap: 0;
-  grid-column-gap: 1rem;
-  grid-template-columns: auto 48px;
-  color: rgb(var(--c-black));
+.list-actions {
   background: rgb(var(--c-gray-500));
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  @include responsive.bp-medium {
-    height: 60px;
-    grid-template-columns: auto 40px;
-    align-items: center;
+  > .container {
+    @include container.default;
+    display: grid;
+    grid-row-gap: 0;
+    grid-column-gap: 1rem;
+    grid-template-columns: auto 48px;
+    color: rgb(var(--c-black));
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    @include responsive.bp-medium {
+      height: 60px;
+      grid-template-columns: auto 40px;
+      align-items: center;
+    }
   }
 }
 

@@ -68,6 +68,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/abstracts/responsive";
 @use "@/style/base/typo";
 .global-search {
   background: white;
@@ -91,5 +92,8 @@ export default defineComponent({
 .search-results {
   border-top: 3px solid rgb(var(--c-black));
   margin-top: -12px;
+  @include responsive.bp-medium {
+    margin-top: unset;
+  }
 }
 </style>

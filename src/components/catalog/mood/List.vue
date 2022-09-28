@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import { useStore } from "vuex";
 import { usePullToRefresh } from "@/composables/pullToRefresh";
+import { useRatingStore } from "@/stores/rating";
 import { getMoods } from "@/api/catalog";
 
 import MoodCard from "./Card.vue";
@@ -11,29 +11,20 @@ export default defineComponent({
     MoodCard,
   },
   setup() {
-    const store = useStore();
+    const { injectRatings } = useRatingStore();
     const moods = ref([]);
     const fetchMoods = async (limit = 16, offset = 0) => {
       const { results } = await getMoods(limit, offset);
       // @ts-ignore
       // moods.value.push(...results);
       moods.value = [...results];
-
-      // TODO: this kind of smells...
-      await store.dispatch("rating/updateObjectRatings", results);
+      await injectRatings(results);
     };
     onMounted(() => {
       fetchMoods();
     });
     const listEl = ref();
     usePullToRefresh(listEl, fetchMoods);
-    // usePullToRefresh(listEl, () => {
-    //   return new Promise((resolve) => {
-    //     fetchMoods().then(() => {
-    //       resolve(true);
-    //     });
-    //   });
-    // });
     return {
       listEl,
       moods,

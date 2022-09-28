@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 import Logo from "@/components/ui/logo/Logo.vue";
 import MainMenu from "@/components/navigation/MainMenu.vue";
@@ -7,6 +8,8 @@ import AccountMenu from "@/components/navigation/AccountMenu.vue";
 import SubscriptionStatus from "@/components/navigation/SubscriptionStatus.vue";
 import ToggleSearchButton from "@/components/navigation/ToggleSearchButton.vue";
 import ToggleMenuButton from "@/components/navigation/ToggleMenuButton.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import IconProgram from "@/components/ui/icon/IconProgram.vue";
 
 export default defineComponent({
   components: {
@@ -16,8 +19,11 @@ export default defineComponent({
     SubscriptionStatus,
     ToggleSearchButton,
     ToggleMenuButton,
+    CircleButton,
+    IconProgram,
   },
   setup() {
+    const { isMobile } = useDevice();
     const showSideMenu = () => {
       eventBus.emit("side-menu:show");
     };
@@ -25,6 +31,7 @@ export default defineComponent({
       eventBus.emit("global-search:show");
     };
     return {
+      isMobile,
       showSideMenu,
       showGlobalSearch,
     };
@@ -46,6 +53,11 @@ export default defineComponent({
     <div class="search-toggle" @click.prevent="showGlobalSearch">
       <ToggleSearchButton />
     </div>
+    <router-link v-if="isMobile" class="program" :to="{ name: 'programRedirect' }">
+      <CircleButton>
+        <IconProgram color-var="--c-page-fg" />
+      </CircleButton>
+    </router-link>
     <div class="menu-toggle" @click.prevent="showSideMenu">
       <ToggleMenuButton />
     </div>
@@ -70,7 +82,7 @@ export default defineComponent({
   backdrop-filter: blur(24px);
   @include responsive.bp-medium {
     height: 66px;
-    grid-template-columns: 190px 1fr 40px 40px;
+    grid-template-columns: 230px 1fr 40px 40px 40px;
     padding: 0 0.625rem;
   }
   .brand {
@@ -125,6 +137,11 @@ export default defineComponent({
         margin-right: 0.75rem;
       }
     }
+  }
+  .program {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
   .search-toggle {
     display: flex;
