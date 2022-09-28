@@ -14,7 +14,7 @@ import setDocumentTheme from "@/utils/theme";
 import createUIStateHandler from "@/utils/ui";
 import createStationTimeHandler from "@/utils/time";
 import createAccountHandler from "@/utils/account";
-import creadeScheduleHandler from "@/broadcast/schedule";
+import creadeScheduleHandler from "@/utils/schedule";
 import createPlayerStateHandler from "@/player/handler";
 
 import { APIClient } from "@/api/client";

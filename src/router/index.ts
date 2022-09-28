@@ -466,9 +466,8 @@ router.beforeEach(async (to, from, next) => {
     .reverse()
     .find((r) => r.meta && r.meta.title);
   if (node) {
-    await store.dispatch("ui/setTitle", node?.meta?.title);
+    // await store.dispatch("ui/setTitle", node?.meta?.title);
   }
-  // await store.dispatch('ui/setTitle', node?.meta?.title ?? 'open broadcast radio');
   next();
 });
 

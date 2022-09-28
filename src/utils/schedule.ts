@@ -1,6 +1,8 @@
+import { storeToRefs } from "pinia";
 import { useIntervalFn } from "@vueuse/core";
 import { useScheduleStore } from "@/stores/schedule";
 import store from "@/store";
+import { watch } from "vue";
 
 class Schedule {
   constructor() {
@@ -14,6 +16,14 @@ class Schedule {
       },
       interval,
       { immediateCallback: true }
+    );
+
+    const { current: currentItem } = storeToRefs(useScheduleStore());
+    watch(
+      () => currentItem.value,
+      (value) => {
+        console.debug('currentItem', value);
+      },
     );
 
     // eslint-disable-next-line arrow-body-style

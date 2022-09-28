@@ -4,6 +4,7 @@ import { ref, computed, defineComponent, watch } from "vue";
 import { useStore } from "vuex";
 import { storeToRefs } from "pinia";
 import { useScheduleStore } from "@/stores/schedule";
+import { useUiStore } from "@/stores/ui";
 import Flow from "./flow/FlowMobile.vue";
 import FocusedEmission from "./focused/FocusedEmissionMobile.vue";
 import FocusedMedia from "./focused/FocusedMediaMobile.vue";
@@ -21,6 +22,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
+    const { setPrimaryColor } = useUiStore();
     const { items, current: currentItem } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const itemSize = computed(() => {
@@ -50,8 +52,10 @@ export default defineComponent({
     watch(
       () => focusedItem.value,
       (item: AnnotatedSchedule | null) => {
-        if (item?.media?.image?.rgb) {
-          store.dispatch("ui/setPrimaryColor", item.media.image.rgb);
+        const rgb = item?.media?.image?.rgb;
+        if (rgb) {
+          setPrimaryColor(rgb);
+          // store.dispatch("ui/setPrimaryColor", item?.media?.image?.rgb);
         }
       }
     );

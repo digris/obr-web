@@ -1,10 +1,7 @@
 <script lang="ts">
 import { ref, computed, defineComponent, watch, onMounted } from "vue";
-import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 import { debounce } from "lodash-es";
-
-import notify from "@/utils/notification";
 
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
@@ -12,6 +9,7 @@ import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import RadioInput from "@/components/ui/form/RadioInput.vue";
 import TextareaInput from "@/components/ui/form/TextareaInput.vue";
+import { useRatingStore } from "@/stores/rating";
 
 export default defineComponent({
   props: {
@@ -30,16 +28,9 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
-    const store = useStore();
-    const objKey = computed(() => {
-      return `${props.media.ct}:${props.media.uid}`;
-    });
-    const userRating = computed(() => {
-      return store.getters["rating/ratingByKey"](objKey.value);
-    });
-    const userRatingValue = computed(() => {
-      return userRating.value?.value;
-    });
+    const objKey = computed(() => `${props.media.ct}:${props.media.uid}`);
+    const { ratingByKey, loadRating, setRating } = useRatingStore();
+    const rating = computed(() => ratingByKey(objKey.value));
     const promptVisible = ref(false);
     const scope = ref("track");
     const comment = ref("");
@@ -62,15 +53,11 @@ export default defineComponent({
     };
     const rate = debounce(
       async (value: number) => {
-        await flipIcon(value);
-        const vote = {
-          key: objKey.value,
-          value: userRatingValue.value === value ? null : value,
-        };
-        if (vote.value === -1) {
+        if (value === -1) {
           showPrompt();
+          await flipIcon(value);
         } else {
-          await store.dispatch("rating/updateRating", vote);
+          await setRating(objKey.value, value);
         }
       },
       200,
@@ -101,39 +88,31 @@ export default defineComponent({
       ];
     });
     const downvote = async () => {
-      const vote = {
-        key: objKey.value,
-        value: -1,
+      hidePrompt();
+      await setRating(objKey.value, -1, {
         scope: scope.value,
         comment: comment.value,
-      };
-      hidePrompt();
-      await store.dispatch("rating/updateRating", vote);
+      });
+      /*
       await notify({
         level: "success",
         ttl: 5,
         body: "Vielen Dank für dein feedback!",
       });
+      */
     };
-    const fetchRating = async (key: string) => {
-      if (!key) {
-        return;
+    onMounted(async () => {
+      // fetchRating(objKey.value);
+      if (rating.value === undefined) {
+        await loadRating(objKey.value);
       }
-      if (userRating.value) {
-        return;
-      }
-      await store.dispatch("rating/loadRating", key);
-    };
-    onMounted(() => {
-      fetchRating(objKey.value);
     });
     watch(objKey, async (key) => {
-      await fetchRating(key);
+      await loadRating(key);
     });
     return {
       t,
-      userRating,
-      userRatingValue,
+      rating,
       rate,
       isFlipped,
       promptVisible,
@@ -151,26 +130,26 @@ export default defineComponent({
   <div class="rating">
     <div class="total">?</div>
     <div>
-      <CircleButton @click="rate(1)" :outlined="true">
+      <CircleButton @click="rate(rating === 1 ? null : 1)" :outlined="true">
         <div
           class="flip-container"
           :class="{
             'is-flipped': isFlipped === 1,
           }"
         >
-          <IconHeart :outlined="userRatingValue !== 1" color-var="--c-page-fg" />
+          <IconHeart :outlined="rating !== 1" color-var="--c-page-fg" />
         </div>
       </CircleButton>
     </div>
     <div>
-      <CircleButton @click="rate(-1)" :outlined="true">
+      <CircleButton @click="rate(rating === -1 ? null : -1)" :outlined="true">
         <div
           class="flip-container"
           :class="{
             'is-flipped': isFlipped === -1,
           }"
         >
-          <IconFlash :outlined="userRatingValue !== -1" color-var="--c-page-fg" />
+          <IconFlash :outlined="rating !== -1" color-var="--c-page-fg" />
         </div>
       </CircleButton>
     </div>

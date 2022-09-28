@@ -9,9 +9,9 @@ async function getRating(key: string) {
   return response.data;
 }
 
-async function postRating(key: string, value: number | null) {
+async function postRating(key: string, value: number | null, opts = {}) {
   const url = `${VOTE_ENDPOINT}${key}/`;
-  const payload = { value };
+  const payload = { value, ...opts };
   const response = await APIClient.post(url, payload);
   return response.data;
 }

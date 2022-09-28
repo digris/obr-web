@@ -4,13 +4,14 @@ import { useI18n } from "vue-i18n";
 
 import { useObjKey } from "@/composables/obj";
 import { requireSubscription } from "@/utils/account";
-import { useObjRating } from "@/composables/rating";
 import { useQueueControls } from "@/composables/queue";
 
 import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import Action from "./actions/Action.vue";
+import { useRatingStore } from "@/stores/rating";
+import { debounce } from "lodash-es";
 
 export default defineComponent({
   props: {
@@ -31,7 +32,17 @@ export default defineComponent({
     const { t } = useI18n();
     const { objKey } = useObjKey(props.obj);
     const iconScale = 0.875;
-    const { userRating, isFavorite, isBanned, rate } = useObjRating(objKey.value);
+    const { ratingByKey, setRating } = useRatingStore();
+    const rating = computed(() => ratingByKey(objKey.value));
+    const isFavorite = computed(() => rating.value === 1);
+    const isBanned = computed(() => rating.value === -1);
+    const rate = debounce(
+      async (value: number) => {
+        await setRating(objKey.value, value);
+      },
+      200,
+      { leading: true, trailing: false }
+    );
     const canBan = computed(() => {
       return props.obj?.ct && props.obj.ct === "catalog.media";
     });
@@ -55,13 +66,10 @@ export default defineComponent({
     return {
       t,
       iconScale,
-      //
-      userRating,
       isFavorite,
       isBanned,
       canBan,
       rate,
-      //
       enqueueNext,
       enqueueEnd,
     };
