@@ -36,6 +36,7 @@ export function usePullToRefresh(rootEl: Ref<HTMLElement | null>, handler: () =>
     }
     loadStyle();
     PullToRefresh.init({
+      // @ts-ignore
       mainElement: rootEl.value,
       onRefresh: handler,
       instructionsPullToRefresh: t("pullToRefresh.pull"),

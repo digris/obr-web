@@ -68,7 +68,6 @@ export default defineComponent({
     watch(
       () => currentItem.value,
       (value) => {
-        console.debug("current item changed", value);
         eventBus.emit("radio:flow", "reset");
       }
     );

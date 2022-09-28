@@ -18,13 +18,13 @@ class Schedule {
       { immediateCallback: true }
     );
 
-    const { current: currentItem } = storeToRefs(useScheduleStore());
-    watch(
-      () => currentItem.value,
-      (value) => {
-        console.debug('currentItem', value);
-      }
-    );
+    // const { current: currentItem } = storeToRefs(useScheduleStore());
+    // watch(
+    //   () => currentItem.value,
+    //   (value) => {
+    //     console.debug('currentItem', value);
+    //   }
+    // );
 
     // eslint-disable-next-line arrow-body-style
     /*
