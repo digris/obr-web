@@ -1,6 +1,7 @@
 // @ts-ignore
 import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
+// @ts-ignore
 import muxjs from "mux.js";
 import notify from "@/utils/notification";
 import { computed, ref, watch } from "vue";
@@ -13,6 +14,10 @@ import { createAudioAnalyser } from "@/player/analyser";
 import type { AudioAnalyser } from "@/player/analyser";
 
 shaka.dependencies.add("muxjs", muxjs);
+
+const POLL_INTERVAL = 100;
+
+const PROTECTED_MEDIA = "https://media.next.openbroadcast.ch/";
 
 const SHAKA_CONFIG = {
   manifest: {
@@ -40,10 +45,6 @@ const SHAKA_CONFIG = {
     useNativeHlsOnSafari: false,
   },
 };
-
-const POLL_INTERVAL = 100;
-
-const PROTECTED_MEDIA = "https://media.next.openbroadcast.ch/";
 
 // eslint-disable-next-line no-unused-vars
 // @ts-ignore
