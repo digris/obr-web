@@ -5,7 +5,7 @@
 export type TokenLoginRequest = {
     email: string;
     /**
-     * Login token e.g. ABC-DEF
+     * Login token e.g. `ABC-DEF`
      */
     token: string;
 };

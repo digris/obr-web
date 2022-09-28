@@ -62,9 +62,9 @@ export class SubscriptionService {
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/subscription/payment/stripe/success/{signed_payment_uid}/',
+            url: '/api/v1/subscription/payment/stripe/success/{signedPaymentUid}/',
             path: {
-                'signed_payment_uid': signedPaymentUid,
+                'signedPaymentUid': signedPaymentUid,
             },
             errors: {
                 301: `No response body`,

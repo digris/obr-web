@@ -44,6 +44,7 @@ const actions = {
     });
   },
   updateRating: async (context: any, vote: any) => {
+    console.debug("vote", vote);
     // @ts-ignore
     const { key, ...rating } = vote;
     context.commit("SET_RATING", { key, rating });

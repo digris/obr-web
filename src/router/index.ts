@@ -10,7 +10,6 @@ import Discover from "@/views/Discover.vue";
 import Collection from "@/views/Collection.vue";
 import Account from "@/views/Account.vue";
 import Page from "@/views/cms/Page.vue";
-import PType from "@/views/PType.vue";
 import EditorList from "@/components/broadcast/editor/List.vue";
 import MoodList from "@/components/catalog/mood/List.vue";
 import MoodDetail from "@/views/catalog/MoodDetail.vue";
@@ -26,6 +25,10 @@ import AccountEmailLogin from "@/components/account/EmailLogin.vue";
 import AccountSettings from "@/components/account/settings/Settings.vue";
 import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
+//
+import ProtoBase from "@/views/proto/Proto.vue";
+import ProtoIcons from "@/views/proto/Icons.vue";
+import ProtoRating from "@/views/proto/Rating.vue";
 
 import { getUser } from "@/api/account";
 import { setBodyColorTheme } from "@/utils/color";
@@ -404,9 +407,24 @@ const routes = [
     ],
   },
   {
-    path: "/ptype/",
-    name: "ptype",
-    component: PType,
+    path: "/proto/",
+    name: "proto",
+    component: ProtoBase,
+    redirect: {
+      name: "protoIcons",
+    },
+    children: [
+      {
+        path: "icons/",
+        name: "protoIcons",
+        component: ProtoIcons,
+      },
+      {
+        path: "rating/",
+        name: "protoRating",
+        component: ProtoRating,
+      },
+    ],
   },
   {
     path: "/:pathMatch(.*)*",

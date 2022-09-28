@@ -23,5 +23,10 @@ export type User = {
     lastName?: string | null;
     readonly isStaff?: boolean;
     readonly isAdmin?: boolean;
+    /**
+     * JWT access token, provides authentication for session-less requests when provided in header:
+     * `Authorization: Bearer <token>`
+     */
+    readonly accessToken?: string;
 };
 

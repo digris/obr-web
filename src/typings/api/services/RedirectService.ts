@@ -19,10 +19,10 @@ export class RedirectService {
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/redirect/obp/{obj_ct}:{obj_uid}/',
+            url: '/api/v1/redirect/obp/{objCt}:{objUid}/',
             path: {
-                'obj_ct': objCt,
-                'obj_uid': objUid,
+                'objCt': objCt,
+                'objUid': objUid,
             },
             errors: {
                 301: `No response body`,

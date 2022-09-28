@@ -22,10 +22,10 @@ export class RatingService {
     ): CancelablePromise<Vote> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/rating/{obj_ct}:{obj_uid}/',
+            url: '/api/v1/rating/{objCt}:{objUid}/',
             path: {
-                'obj_ct': objCt,
-                'obj_uid': objUid,
+                'objCt': objCt,
+                'objUid': objUid,
             },
         });
     }
@@ -44,10 +44,10 @@ export class RatingService {
     ): CancelablePromise<Vote> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/rating/{obj_ct}:{obj_uid}/',
+            url: '/api/v1/rating/{objCt}:{objUid}/',
             path: {
-                'obj_ct': objCt,
-                'obj_uid': objUid,
+                'objCt': objCt,
+                'objUid': objUid,
             },
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',

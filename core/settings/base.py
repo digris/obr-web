@@ -414,7 +414,10 @@ SPECTACULAR_SETTINGS = {
     "SERVERS": [
         {
             "url": "https://next.openbroadcast.ch",
-        }
+        },
+        {
+            "url": "http://local.obr-next:8080",
+        },
     ],
     "SWAGGER_UI_SETTINGS": {
         "deepLinking": False,
@@ -422,7 +425,7 @@ SPECTACULAR_SETTINGS = {
         "displayOperationId": False,
         "defaultModelsExpandDepth": 100,
         "defaultModelExpandDepth": 100,
-        "docExpansion": "full",
+        # "docExpansion": "full",
     },
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.35.1",
 }

@@ -106,7 +106,9 @@ class ObjectRatingView(APIView):
     @transaction.atomic
     def post(self, request, obj_ct, obj_uid):
 
-        serializer = serializers.VoteSerializer(data=request.data)
+        data = request.data.copy()
+        data.update({"key": f"{obj_ct}.{obj_uid}"})
+        serializer = serializers.VoteSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
         value = request.data.get("value")
