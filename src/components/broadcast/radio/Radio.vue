@@ -12,7 +12,7 @@ import RadioHeader from "./RadioHeader.vue";
 import Flow from "./flow/FlowMobile.vue";
 import FocusedEmission from "./focused/FocusedEmission.vue";
 import FocusedMedia from "./focused/FocusedMedia.vue";
-import PaginateButton from "@/components/broadcast/onair/button/PaginateNext.vue";
+import PaginateButton from "./flow/PaginateButton.vue";
 import Rating from "./rating/Rating.vue";
 
 export default defineComponent({
