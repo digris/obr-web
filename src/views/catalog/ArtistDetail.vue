@@ -1,8 +1,8 @@
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect, onActivated, onBeforeUpdate } from "vue";
+import { computed, defineComponent, ref, onActivated, onBeforeUpdate } from "vue";
 import { useI18n } from "vue-i18n";
 import { useStore } from "vuex";
-import { useTitle } from '@vueuse/core'
+import { useTitle } from "@vueuse/core";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";

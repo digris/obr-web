@@ -14,9 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-if="media" class="player">
-    (( MOBILE PLAYER ))
-  </div>
+  <div v-if="media" class="player">(( MOBILE PLAYER ))</div>
 </template>
 
 <style lang="scss" scoped>

@@ -115,14 +115,14 @@ export default defineComponent({
       const filter = { ...props.filter };
       const ordering = props.ordering;
       const mode = props.mode;
-      const scope = props.objKey ? [props.objKey] : [];
+      // const scope = props.objKey ? [props.objKey] : [];
       if (props.objKey) {
         filter.obj_key = props.objKey;
       }
       const { results } = await getMedia(100, 0, filter, ordering);
       // TODO: implement play behaviour in case (single) media is already queued
       // see: player/queue.ts:58
-      await enqueueMedia(results, mode, scope);
+      await enqueueMedia(results, mode, scope.value);
       await startPlayCurrent(true);
       isLoading.value = false;
       await injectRatings(results);

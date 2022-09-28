@@ -7,7 +7,6 @@ import { useScheduleStore } from "@/stores/schedule";
 const usePlayerState = () => {
   const store = useStore();
 
-
   const { playerState } = storeToRefs(usePlayerStore());
 
   // const playerState = computed(() => store.getters["player/playerState"]);

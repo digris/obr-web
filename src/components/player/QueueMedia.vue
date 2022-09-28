@@ -36,11 +36,7 @@ export default defineComponent({
   },
   setup(props) {
     const root = ref(null);
-    const {
-      isLive,
-      isPlaying,
-      isBuffering,
-    } = usePlayerState();
+    const { isLive, isPlaying, isBuffering } = usePlayerState();
     const { pause } = usePlayerControls();
     const { playFromIndex, removeAtIndex } = useQueueControls();
     const objKey = computed(() => {

@@ -22,10 +22,7 @@ class UIStateHandler {
       setDocumentPrimaryColor(color);
     }
     const { primaryColor } = storeToRefs(useUiStore());
-    watch(
-      () => primaryColor.value,
-      setDocumentPrimaryColor,
-    );
+    watch(() => primaryColor.value, setDocumentPrimaryColor);
   }
 }
 
