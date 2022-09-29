@@ -3,6 +3,7 @@ import os
 import sys
 from datetime import timedelta
 from pathlib import Path
+from .. import __version__
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 APP_ROOT = os.path.join(PROJECT_ROOT, "core")
@@ -399,7 +400,7 @@ SIMPLE_JWT = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "OBR API",
     "DESCRIPTION": "open broadcast radio",
-    "VERSION": "0.0.1",
+    "VERSION": str(__version__),
     "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
     "CAMELIZE_NAMES": True,
     "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",

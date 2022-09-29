@@ -123,7 +123,7 @@ export class AuthenticationService {
      * @throws ApiError
      */
     public static user(
-        expand?: string,
+        expand?: Array<'address' | 'settings' | 'subscription'>,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'GET',

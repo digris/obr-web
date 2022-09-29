@@ -76,6 +76,9 @@ class PlaylistSeriesSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
+    name = serializers.CharField(
+        read_only=True,
+    )
     episode = serializers.CharField(
         read_only=True,
         source="series_episode",

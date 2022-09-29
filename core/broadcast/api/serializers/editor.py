@@ -55,8 +55,7 @@ class EditorSerializer(
     )
     name = serializers.CharField(
         source="display_name",
-        label="The Name...",
-        help_text="me the help text",
+        read_only=True,
     )
     role = serializers.SerializerMethodField()
     num_playlists = serializers.IntegerField(
@@ -71,12 +70,10 @@ class EditorSerializer(
         allow_null=True,
     )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Editor
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
             "location",
             "description",
@@ -86,7 +83,6 @@ class EditorSerializer(
             "image",
             "is_active",
         ]
-        depth = 2
         expandable_fields = {
             "tags": (
                 TagSerializer,

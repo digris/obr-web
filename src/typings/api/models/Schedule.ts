@@ -7,16 +7,16 @@ import type { ScheduleMedia } from './ScheduleMedia';
 import type { SchedulePlaylist } from './SchedulePlaylist';
 
 export type Schedule = {
-    key: string;
-    cueIn: number;
-    cueOut: number;
-    fadeIn: number;
-    fadeOut: number;
-    fadeCross: number;
-    timeStart: string;
-    timeEnd: string;
-    media: ScheduleMedia;
-    emission: ScheduleEmission;
-    playlist: SchedulePlaylist;
+    readonly key?: string;
+    readonly cueIn?: number;
+    readonly cueOut?: number;
+    readonly fadeIn?: number;
+    readonly fadeOut?: number;
+    readonly fadeCross?: number;
+    readonly timeStart?: string;
+    readonly timeEnd?: string;
+    readonly media?: ScheduleMedia;
+    readonly emission?: ScheduleEmission;
+    readonly playlist?: SchedulePlaylist;
 };
 

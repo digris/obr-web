@@ -14,12 +14,14 @@ import { request as __request } from '../core/request';
 export class BroadcastService {
 
     /**
+     * @param expand
      * @param limit Number of results to return per page.
      * @param offset The initial index from which to return the results.
      * @returns PaginatedEditorList
      * @throws ApiError
      */
     public static broadcastEditorsList(
+        expand?: Array<'identifiers' | 'tags'>,
         limit?: number,
         offset?: number,
     ): CancelablePromise<PaginatedEditorList> {
@@ -27,6 +29,7 @@ export class BroadcastService {
             method: 'GET',
             url: '/api/v1/broadcast/editors/',
             query: {
+                'expand': expand,
                 'limit': limit,
                 'offset': offset,
             },
@@ -35,17 +38,22 @@ export class BroadcastService {
 
     /**
      * @param uid
+     * @param expand
      * @returns Editor
      * @throws ApiError
      */
     public static broadcastEditorsRetrieve(
         uid: string,
+        expand?: Array<'identifiers' | 'tags'>,
     ): CancelablePromise<Editor> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/broadcast/editors/{uid}/',
             path: {
                 'uid': uid,
+            },
+            query: {
+                'expand': expand,
             },
         });
     }
@@ -68,13 +76,20 @@ export class BroadcastService {
     }
 
     /**
+     * @param date Defaults to the current date.
+     * A day is considered to start at `06:00 CET`
      * @returns Program
      * @throws ApiError
      */
-    public static broadcastProgramRetrieve(): CancelablePromise<Program> {
+    public static broadcastProgramRetrieve(
+        date?: string,
+    ): CancelablePromise<Program> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/broadcast/program/',
+            query: {
+                'date': date,
+            },
         });
     }
 
@@ -86,17 +101,6 @@ export class BroadcastService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/broadcast/schedule/',
-        });
-    }
-
-    /**
-     * @returns Program
-     * @throws ApiError
-     */
-    public static broadcastStationTimeRetrieve(): CancelablePromise<Program> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/broadcast/station-time/',
         });
     }
 

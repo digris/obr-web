@@ -13,6 +13,9 @@ class ReleaseSerializer(
         view_name="api:catalog:release-detail",
         lookup_field="uid",
     )
+    name = serializers.CharField(
+        read_only=True,
+    )
     image = ImageSerializer(
         read_only=True,
     )

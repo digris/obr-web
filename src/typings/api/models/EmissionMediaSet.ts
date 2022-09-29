@@ -5,14 +5,14 @@
 import type { EmissionMedia } from './EmissionMedia';
 
 export type EmissionMediaSet = {
-    uid: string;
-    cueIn: number;
-    cueOut: number;
-    fadeIn: number;
-    fadeOut: number;
-    fadeCross: number;
-    timeStart: string;
-    timeEnd: string;
-    media: EmissionMedia;
+    readonly uid?: string;
+    readonly cueIn?: number;
+    readonly cueOut?: number;
+    readonly fadeIn?: number;
+    readonly fadeOut?: number;
+    readonly fadeCross?: number;
+    readonly timeStart?: string;
+    readonly timeEnd?: string;
+    readonly media?: EmissionMedia;
 };
 

@@ -38,8 +38,12 @@ class MoodSerializer(
         view_name="api:catalog:mood-detail",
         lookup_field="uid",
     )
+    name = serializers.CharField(
+        read_only=True,
+    )
     tags = TagSerializer(
         many=True,
+        read_only=True,
     )
     rgb = serializers.ListField(
         child=RGBValueField(),

@@ -3,6 +3,11 @@ from datetime import datetime, timedelta
 from itertools import chain
 from django.db.models import Q
 from django.utils import timezone
+from drf_spectacular.utils import (
+    extend_schema,
+    OpenApiParameter,
+    OpenApiTypes,
+)
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -47,6 +52,18 @@ class ProgramView(GenericAPIView):
         )
         return qs
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="date",
+                location=OpenApiParameter.QUERY,
+                type=OpenApiTypes.DATE,
+                pattern="YYYY-MM-DD",
+                description="""Defaults to the current date.  
+                A day is considered to start at `06:00 CET`""",
+            ),
+        ],
+    )
     def get(self, request):
         now = timezone.now()  # UTC
         if date := request.query_params.get("date"):

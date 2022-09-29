@@ -48,16 +48,33 @@ class EmissionMediaSerializer(
 class EmissionMediaSetSerializer(
     serializers.Serializer,
 ):
-    uid = serializers.CharField()
-    # media_uid = serializers.CharField()
-    cue_in = serializers.IntegerField()
-    cue_out = serializers.IntegerField()
-    fade_in = serializers.IntegerField()
-    fade_out = serializers.IntegerField()
-    fade_cross = serializers.IntegerField()
-    time_start = serializers.DateTimeField()
-    time_end = serializers.DateTimeField()
-    media = EmissionMediaSerializer()
+    uid = serializers.CharField(
+        read_only=True,
+    )
+    cue_in = serializers.IntegerField(
+        read_only=True,
+    )
+    cue_out = serializers.IntegerField(
+        read_only=True,
+    )
+    fade_in = serializers.IntegerField(
+        read_only=True,
+    )
+    fade_out = serializers.IntegerField(
+        read_only=True,
+    )
+    fade_cross = serializers.IntegerField(
+        read_only=True,
+    )
+    time_start = serializers.DateTimeField(
+        read_only=True,
+    )
+    time_end = serializers.DateTimeField(
+        read_only=True,
+    )
+    media = EmissionMediaSerializer(
+        read_only=True,
+    )
 
 
 class EmissionSerializer(
@@ -79,6 +96,7 @@ class EmissionSerializer(
     media_set = EmissionMediaSetSerializer(
         source="get_media_set",
         many=True,
+        read_only=True,
     )
 
     class Meta(CTUIDModelSerializer.Meta):

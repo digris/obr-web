@@ -18,6 +18,9 @@ class ArtistSerializer(
         view_name="api:catalog:artist-detail",
         lookup_field="uid",
     )
+    name = serializers.CharField(
+        read_only=True,
+    )
     image = ImageSerializer(
         read_only=True,
     )

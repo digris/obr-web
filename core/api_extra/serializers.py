@@ -45,3 +45,11 @@ class DurationInSecondsSerializer(
             return 0
 
         return instance.seconds
+
+
+class ReadOnlyModelSerializer(
+    serializers.ModelSerializer,
+):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        setattr(self.Meta, 'read_only_fields', list(self.fields))

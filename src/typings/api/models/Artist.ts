@@ -18,7 +18,7 @@ export type Artist = {
      */
     readonly uid?: string;
     readonly url?: string;
-    name: string;
+    readonly name?: string;
     readonly numMedia?: number;
     countryCode?: string | null;
     dateStart?: string | null;

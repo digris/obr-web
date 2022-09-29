@@ -58,6 +58,9 @@ class MediaSerializer(
         view_name="api:catalog:media-detail",
         lookup_field="uid",
     )
+    name = serializers.CharField(
+        read_only=True,
+    )
     artists = MediaArtistSerializer(
         source="media_artist",
         many=True,

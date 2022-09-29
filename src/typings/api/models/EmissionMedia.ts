@@ -21,7 +21,7 @@ export type EmissionMedia = {
      * UID
      */
     readonly uid?: string;
-    name: string;
+    readonly name?: string;
     readonly artistDisplay?: string;
     readonly artists?: Array<MediaArtist>;
     readonly releases?: Array<Release>;
