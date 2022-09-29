@@ -3,6 +3,10 @@ import logging
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import (
+    extend_schema,
+    OpenApiParameter,
+)
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
 
@@ -14,7 +18,19 @@ logger = logging.getLogger(__name__)
 
 PROGRAM_MAX_EMISSIONS = 100
 
-
+# @extend_schema_view(
+#     retrieve=extend_schema(description='text')
+# )
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="expand",
+            location=OpenApiParameter.QUERY,
+            enum=["tags", "identifiers"],
+            many=True,
+        ),
+    ],
+)
 class EditorViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,

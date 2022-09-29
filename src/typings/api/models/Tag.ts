@@ -14,6 +14,6 @@ export type Tag = {
      */
     readonly uid?: string;
     type?: TypeEnum;
-    name: string;
+    readonly name?: string;
 };
 

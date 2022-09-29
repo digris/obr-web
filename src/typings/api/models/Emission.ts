@@ -25,6 +25,6 @@ export type Emission = {
     timeStart?: string | null;
     timeEnd?: string | null;
     readonly duration?: string;
-    mediaSet: Array<EmissionMediaSet>;
+    readonly mediaSet?: Array<EmissionMediaSet>;
 };
 

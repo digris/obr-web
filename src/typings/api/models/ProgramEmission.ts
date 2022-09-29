@@ -16,11 +16,11 @@ export type ProgramEmission = {
      */
     readonly uid?: string;
     readonly url?: string;
-    playlist: CatalogPlaylist;
-    name: string;
-    series: Record<string, any> | null;
-    editor: Editor | null;
-    tags: Array<Tag> | null;
+    readonly playlist?: CatalogPlaylist;
+    readonly name?: string;
+    readonly series?: Record<string, any> | null;
+    readonly editor?: Editor | null;
+    readonly tags?: Array<Tag> | null;
     readonly duration?: string;
     timeStart?: string | null;
     timeEnd?: string | null;

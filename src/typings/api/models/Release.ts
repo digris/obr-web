@@ -12,7 +12,7 @@ export type Release = {
      */
     readonly uid?: string;
     readonly url?: string;
-    name: string;
+    readonly name?: string;
     readonly numMedia?: number;
     readonly isNew?: boolean;
 };

@@ -7,7 +7,6 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import (
     extend_schema,
-    extend_schema_view,
     OpenApiParameter,
     OpenApiExample,
     OpenApiTypes,
@@ -34,8 +33,9 @@ class UserView(APIView):
         parameters=[
             OpenApiParameter(
                 name="expand",
-                type=OpenApiTypes.STR,
                 location=OpenApiParameter.QUERY,
+                enum=["settings", "subscription", "address"],
+                many=True,
                 description="""Expand nested resources, multiple values separated by comma.  
                 Available options: `settings`, `address`, `subscription`""",
                 examples=[

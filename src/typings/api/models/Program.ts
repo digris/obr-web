@@ -5,8 +5,8 @@
 import type { ProgramEmission } from './ProgramEmission';
 
 export type Program = {
-    timeFrom: string;
-    timeUntil: string;
-    emissions: Array<ProgramEmission>;
+    readonly timeFrom?: string;
+    readonly timeUntil?: string;
+    readonly emissions?: Array<ProgramEmission>;
 };
 

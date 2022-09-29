@@ -6,12 +6,10 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r"editors", views.EditorViewSet)
 router.register(r"emissions", views.EmissionViewSet)
-# router.register(r"program", views.ProgramView)
 
 app_name = "broadcast"
 urlpatterns = [
     path("", include(router.urls)),
     path("schedule/", views.ScheduleView.as_view()),
     path("program/", views.ProgramView.as_view()),
-    path("station-time/", views.ProgramView.as_view()),
 ]

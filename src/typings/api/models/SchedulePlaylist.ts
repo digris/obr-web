@@ -22,7 +22,7 @@ export type SchedulePlaylist = {
     readonly uid?: string;
     name?: string | null;
     readonly duration?: string;
-    editor: Editor;
-    series: Record<string, any>;
+    readonly editor?: Editor;
+    readonly series?: Record<string, any>;
 };
 

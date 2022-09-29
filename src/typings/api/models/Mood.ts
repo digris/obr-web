@@ -15,9 +15,9 @@ export type Mood = {
      */
     readonly uid?: string;
     readonly url?: string;
-    name: string;
+    readonly name?: string;
     teaser?: string | null;
-    tags: Array<Tag>;
+    readonly tags?: Array<Tag>;
     readonly rgb?: Array<number>;
     readonly rays?: Array<Ray>;
     readonly userRating?: number | null;

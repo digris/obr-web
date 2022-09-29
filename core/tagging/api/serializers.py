@@ -7,6 +7,8 @@ class TagSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
+    name = serializers.CharField(read_only=True)
+
     class Meta(CTUIDModelSerializer.Meta):
         model = Tag
         fields = CTUIDModelSerializer.Meta.fields + [

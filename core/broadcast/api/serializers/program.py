@@ -22,21 +22,27 @@ class ProgramEmissionSerializer(
             "url",
             "name",
             "image",
-        ]
+        ],
+        read_only=True,
     )
-    name = serializers.CharField()
+    name = serializers.CharField(
+        read_only=True,
+    )
     series = serializers.DictField(
         source="playlist.series_dict",
         allow_null=True,
+        read_only=True,
     )
     editor = EditorSerializer(
         source="playlist.editor",
         allow_null=True,
+        read_only=True,
     )
     tags = TagSerializer(
         source="playlist.tags",
         many=True,
         allow_null=True,
+        read_only=True,
     )
     duration = serializers.DurationField(
         read_only=True,
@@ -58,8 +64,13 @@ class ProgramEmissionSerializer(
 
 
 class ProgramSerializer(serializers.Serializer):
-    time_from = serializers.DateTimeField()
-    time_until = serializers.DateTimeField()
+    time_from = serializers.DateTimeField(
+        read_only=True,
+    )
+    time_until = serializers.DateTimeField(
+        read_only=True,
+    )
     emissions = ProgramEmissionSerializer(
         many=True,
+        read_only=True,
     )

@@ -11,7 +11,6 @@ import type { EditorImage } from './EditorImage';
  * values with complex, nested serializations
  */
 export type Editor = {
-    readonly url?: string;
     /**
      * Content type
      */
@@ -20,10 +19,8 @@ export type Editor = {
      * UID
      */
     readonly uid?: string;
-    /**
-     * me the help text
-     */
-    name: string;
+    readonly url?: string;
+    readonly name?: string;
     location?: string;
     description?: string;
     readonly role?: string;
