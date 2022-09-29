@@ -52,4 +52,4 @@ class ReadOnlyModelSerializer(
 ):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        setattr(self.Meta, 'read_only_fields', list(self.fields))
+        setattr(self.Meta, "read_only_fields", list(self.fields))
