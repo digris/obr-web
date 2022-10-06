@@ -42,12 +42,18 @@ class SubscriptionSerializer(
         read_only=True,
     )
 
+    countries = serializers.ListSerializer(
+        read_only=True, child=serializers.CharField(min_length=2, max_length=2)
+    )
+
     class Meta(CTUIDModelSerializer.Meta):
         model = Subscription
         fields = CTUIDModelSerializer.Meta.fields + [
             "active_until",
             "is_active",
             "is_trial",
+            "is_blocked",
+            "countries",
         ]
 
 

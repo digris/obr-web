@@ -15,6 +15,10 @@ class SubscriptionAdmin(admin.ModelAdmin):
         "created",
         "updated",
     ]
+    search_fields = [
+        "uid",
+        "user__email",
+    ]
     list_filter = [
         "type",
         "updated",

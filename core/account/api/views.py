@@ -23,6 +23,7 @@ from account.cdn_credentials.utils import (
 from account.models import User, Address
 from account.utils import social_backends
 from . import serializers
+from ..utils.address import get_countries
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +58,13 @@ class UserView(APIView):
     )
     def get(request):
         if request.user.is_authenticated:
+
+            # NOTE: when desired behaviour is clear move to appropriate place
+            # if hasattr(request.user, "address") and not request.user.address.country:
+            #     logger.info(f'set user address country to {request.geolocation_country}')
+            #     request.user.address.country = request.geolocation_country
+            #     request.user.address.save()
+
             serializer = serializers.UserSerializer(
                 request.user,
                 context={
@@ -72,6 +80,7 @@ class UserView(APIView):
                 response = set_credentials(response)
             else:
                 response = remove_credentials(response)
+
         else:
             response = Response(
                 # NOTE: check for implications - was 200 with empty body before
@@ -623,4 +632,27 @@ class SocialBackendDetailView(APIView):
         return Response(
             None,
             status=status.HTTP_204_NO_CONTENT,
+        )
+
+
+class AddressCountries(
+    APIView,
+):
+    @staticmethod
+    @extend_schema(
+        responses={
+            200: serializers.AddressCountriesSerializer(
+                many=True,
+            ),
+        },
+        operation_id="address_countries",
+    )
+    def get(request):
+        serializer = serializers.AddressCountriesSerializer(
+            get_countries(),
+            many=True,
+        )
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
         )

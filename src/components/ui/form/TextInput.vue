@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 export default defineComponent({
   props: {
@@ -15,6 +15,10 @@ export default defineComponent({
     label: {
       type: String,
       default: "",
+    },
+    errors: {
+      type: Array,
+      default: () => [],
     },
     autocomplete: {
       type: String,
@@ -32,32 +36,47 @@ export default defineComponent({
       type: Number,
       default: 128,
     },
+    minValue: {
+      type: Number,
+      default: null,
+    },
+    maxValue: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ["keyup", "change", "update:modelValue"],
   setup(props, { emit }) {
     const id = ref(`form-text-input-${Math.random().toString(36).slice(2)}`);
-    const update = (value: string) => {
-      emit("update:modelValue", value);
-    };
+    const update = (value: string) => emit("update:modelValue", value);
+    const hasError = computed(() => props.errors.length > 0);
     return {
       id,
       update,
+      hasError,
     };
   },
 });
 </script>
 
 <template>
-  <div class="text-input">
-    <label v-if="label" :for="id" v-text="label" />
+  <div class="text-input" :class="{ 'has-error': hasError }">
+    <div class="top">
+      <label v-if="label" :for="id" v-text="label" />
+      <div v-if="errors.length" class="errors">
+        <span v-for="(error, index) in errors" :key="`input-error-${id}-${index}`" v-text="error" />
+      </div>
+    </div>
     <input
       :id="id"
       :value="modelValue"
       :type="type"
       :autocomplete="autocomplete"
-      :minlength="`${minlength}`"
-      :maxlength="`${maxlength}`"
+      :minlength="minlength"
+      :maxlength="maxlength"
       :placeholder="placeholder"
+      :min="minValue"
+      :max="maxValue"
       @keyup="$emit('keyup')"
       @change="$emit('change')"
       @input="update($event.target.value)"
@@ -67,14 +86,31 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/form";
 .text-input {
   display: grid;
   grid-template-rows: 1rem auto;
-  gap: 1rem;
+  column-gap: 1rem;
+  row-gap: 1rem;
   color: rgb(var(--c-black));
-  label {
-    cursor: unset;
+  .top {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    align-items: center;
+    label {
+      cursor: unset;
+    }
+    .errors {
+      @include typo.light;
+      @include typo.small;
+      color: rgb(var(--c-red));
+      text-align: right;
+      @include responsive.bp-medium {
+        display: none;
+      }
+    }
   }
   input {
     @include typo.large;
@@ -93,6 +129,11 @@ export default defineComponent({
     }
     &:not(:valid) {
       background: rgba(var(--c-warning), 0.1);
+    }
+  }
+  &.has-error {
+    input {
+      border-color: rgb(var(--c-red));
     }
   }
 }

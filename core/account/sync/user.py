@@ -52,7 +52,7 @@ def sync_user_account(user):
     if date_of_birth := data.get("birth_date"):
         update.update(
             {
-                "date_of_birth": date_of_birth,
+                "year_of_birth": int(date_of_birth[:4]),
             }
         )
 

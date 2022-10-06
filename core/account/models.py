@@ -2,8 +2,9 @@ from datetime import timedelta
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -30,6 +31,13 @@ class Gender(models.IntegerChoices):
     FEMALE = 1, "female"
     MALE = 2, "male"
     OTHER = 3, "other"
+
+
+class GenderStr(models.TextChoices):
+    UNDEFINED = "", "undefined"
+    FEMALE = "female", "female"
+    MALE = "male", "male"
+    OTHER = "other", "other"
 
 
 class UserManager(BaseUserManager):
@@ -95,12 +103,19 @@ class User(
         null=True,
         blank=True,
     )
-    gender = models.PositiveSmallIntegerField(
-        choices=Gender.choices,
-        default=Gender.UNDEFINED,
+    gender = models.CharField(
+        max_length=16,
+        choices=GenderStr.choices,
+        default=GenderStr.UNDEFINED,
     )
-    date_of_birth = models.DateField(
+    year_of_birth = models.PositiveSmallIntegerField(
         null=True,
+        blank=True,
+        validators=[MinValueValidator(1900), MaxValueValidator(2022)],
+    )
+    favorite_venue = models.CharField(
+        max_length=64,
+        default="",
         blank=True,
     )
     is_staff = models.BooleanField(
@@ -147,7 +162,11 @@ class User(
 
     @property
     def has_active_subscription(self):
-        return hasattr(self, "subscription") and self.subscription.is_active
+        return (
+            hasattr(self, "subscription")
+            and self.subscription.is_active
+            and not self.subscription.is_blocked
+        )
 
     @property
     def access_token(self):
@@ -219,6 +238,15 @@ def create_user_settings(sender, instance, created, **kwargs):
             sender=instance.__class__,
             user=instance,
         )
+
+
+@receiver(post_save, sender=User)
+# pylint: disable=unused-argument
+def create_user_address(sender, instance, created, **kwargs):
+    print("post save - create_user_address")
+    if not hasattr(instance, "address"):
+        # NOTE: country is updated with geolocation during signup
+        Address.objects.create(user=instance, country="CH")
 
 
 def get_default_token():

@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.functions import Now
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
@@ -51,16 +52,21 @@ class Subscription(CTUIDModelMixin, TimestampedModelMixin, models.Model):
         related_name="subscription",
     )
 
-    # objects = SubscriptionQuerySet.as_manager()
+    # NOTE: preferred field type would be ArrayField - but then we cannot use sqlite for fast tests anymore
+    countries_str = models.CharField(
+        verbose_name="Countries",
+        blank=True,
+        max_length=64,
+        default="CH",
+        help_text="comma-separated, uppercase e.g. 'CH,FR'",
+    )
+
     objects = SubscriptionManager()
 
     class Meta:
         app_label = "subscription"
         verbose_name = "Subscription"
         verbose_name_plural = "Subscriptions"
-
-    # def __str__(self):
-    #     return f"<Subscription> {self.uid}"
 
     @property
     def is_active(self):
@@ -69,3 +75,22 @@ class Subscription(CTUIDModelMixin, TimestampedModelMixin, models.Model):
     @property
     def is_trial(self):
         return self.type == SubscriptionType.TRIAL
+
+    @property
+    def is_blocked(self):
+        if self.user.address:
+            user_country = self.user.address.country
+        else:
+            user_country = None
+
+        if user_country and user_country in self.countries:
+            return False
+
+        if user_country:
+            return _(f"Subscription not available in {user_country}")
+
+        return _("Subscription blocked")
+
+    @property
+    def countries(self):
+        return [c.strip().upper() for c in self.countries_str.split(",")]

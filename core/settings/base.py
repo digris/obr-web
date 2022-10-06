@@ -406,6 +406,7 @@ SPECTACULAR_SETTINGS = {
     "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
     "COMPONENT_SPLIT_REQUEST": True,
     "COMPONENT_NO_READ_ONLY_REQUIRED": True,
+    "ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE": False,
     # 'PREPROCESSING_HOOKS': [],
     "SORT_OPERATIONS": True,
     "POSTPROCESSING_HOOKS": [
@@ -549,11 +550,13 @@ CMS_PAGES_DIR = env(
 ##################################################################
 COUNTRIES_FIRST = [
     "CH",
-    "DE",
     "FR",
+    "DE",
+    "IT",
+    "AT",
 ]
-COUNTRIES_FIRST_SORT = True
-COUNTRIES_FIRST_BREAK = "--"
+COUNTRIES_FIRST_SORT = False
+# COUNTRIES_FIRST_BREAK = "--"
 
 
 ##################################################################

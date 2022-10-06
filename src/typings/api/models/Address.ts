@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { CountryEnum } from './CountryEnum';
+
 export type Address = {
     /**
      * Content type
@@ -15,6 +17,6 @@ export type Address = {
     line2?: string;
     postalCode?: string;
     city?: string;
-    country?: string;
+    country?: CountryEnum;
 };
 

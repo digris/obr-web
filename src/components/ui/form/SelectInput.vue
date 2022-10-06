@@ -73,7 +73,7 @@ export default defineComponent({
         v-for="option in annotatedOptions"
         :key="`${id}-${option.value}`"
         :value="option.value"
-        :selected="true"
+        :selected="modelValue === option.value"
         v-text="option.name"
       />
     </select>
@@ -92,9 +92,9 @@ export default defineComponent({
     cursor: unset;
   }
   select {
-    //@include typo.large;
-    //@include typo.bold;
-    height: 48px;
+    @include typo.large;
+    @include typo.bold;
+    //height: 48px;
     display: grid;
     width: 100%;
     padding: 0.25em 0.5em;

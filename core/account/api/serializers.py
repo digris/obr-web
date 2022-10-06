@@ -2,6 +2,7 @@ from django.urls import reverse
 from drf_spectacular.utils import extend_schema_field, OpenApiTypes
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
+from django_countries.serializer_fields import CountryField
 from social_django.models import UserSocialAuth
 
 from api_extra.serializers import CTUIDModelSerializer
@@ -100,12 +101,26 @@ class SettingsSerializer(
         fields = CTUIDModelSerializer.Meta.fields
 
 
+class AddressCountriesSerializer(
+    serializers.Serializer,
+):
+    iso2_code = serializers.CharField(
+        min_length=2,
+        max_length=2,
+        read_only=True,
+    )
+    name = serializers.CharField(
+        read_only=True,
+    )
+
+
 class AddressSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
-    country = serializers.CharField(
+    country = CountryField(
         default="",
+        # country_dict=True,
     )
 
     class Meta(CTUIDModelSerializer.Meta):
@@ -123,12 +138,19 @@ class SubscriptionSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
+
+    countries = serializers.ListSerializer(
+        read_only=True, child=serializers.CharField(min_length=2, max_length=2)
+    )
+
     class Meta(CTUIDModelSerializer.Meta):
         model = Subscription
         fields = CTUIDModelSerializer.Meta.fields + [
             "active_until",
             "is_active",
             "is_trial",
+            "countries",
+            "is_blocked",
         ]
 
 
@@ -163,10 +185,14 @@ class UserSerializer(
             "date_joined",
             "first_name",
             "last_name",
+            "gender",
+            "year_of_birth",
+            "favorite_venue",
             "is_staff",
             "is_admin",
             "access_token",
         ]
+        read_only_fields = []
         expandable_fields = {
             "settings": SettingsSerializer,
             "address": AddressSerializer,

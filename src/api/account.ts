@@ -108,6 +108,12 @@ async function disconnectSocialBackend(provider: string, uid: string) {
   return response.data;
 }
 
+async function getAddressCountries() {
+  const url = `${ACCOUNT_ENDPOINT}address-countries/`;
+  const response = await APIClient.get(url);
+  return response.data;
+}
+
 export {
   login,
   logout,
@@ -123,4 +129,6 @@ export {
   updatePassword,
   getSocialBackends,
   disconnectSocialBackend,
+  //
+  getAddressCountries,
 };
