@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { GenderEnum } from './GenderEnum';
+
 /**
  * A ModelSerializer that takes additional arguments for
  * "fields", "omit" and "expand" in order to
@@ -21,6 +23,9 @@ export type User = {
     readonly dateJoined?: string;
     firstName?: string | null;
     lastName?: string | null;
+    gender?: GenderEnum;
+    yearOfBirth?: number | null;
+    favoriteVenue?: string;
     readonly isStaff?: boolean;
     readonly isAdmin?: boolean;
     /**

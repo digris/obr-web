@@ -23,6 +23,8 @@ export default defineComponent({
       return Math.round(diff.days);
     });
     const isActive = computed(() => subscription.value && subscription.value.isActive);
+    const isBlocked = computed(() => subscription.value && subscription.value.isBlocked != false);
+    // const blockedReason = computed(() => subscription.value && subscription.value.isBlocked || null);
     const title = computed(() => {
       if (isActive.value) {
         return "Guthaben";
@@ -30,6 +32,9 @@ export default defineComponent({
       return "Guthaben abgelaufen";
     });
     const extendSubscription = () => {
+      if (isBlocked.value) {
+        return;
+      }
       const event = {
         intent: "plan",
       };
@@ -38,6 +43,7 @@ export default defineComponent({
     return {
       subscription,
       isActive,
+      isBlocked,
       numDaysRemaining,
       title,
       extendSubscription,
@@ -52,10 +58,15 @@ export default defineComponent({
     @click.stop="extendSubscription"
     :class="{
       'is-active': isActive,
+      'is-blocked': isBlocked,
       'is-expired': !isActive,
     }"
   >
-    <div class="details">
+    <div v-if="isBlocked" class="details">
+      NOTE: Currently we can only provide access to our on-demand service for people living in
+      Switzerland.
+    </div>
+    <div v-else class="details">
       <p v-text="title" />
       <p>{{ numDaysRemaining }} Tage</p>
       <p>
@@ -78,6 +89,9 @@ export default defineComponent({
     color: rgb(var(--c-green));
   }
   &.is-expired {
+    color: rgb(var(--c-red));
+  }
+  &.is-blocked {
     color: rgb(var(--c-red));
   }
   /*

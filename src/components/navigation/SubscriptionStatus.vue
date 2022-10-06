@@ -25,10 +25,12 @@ export default defineComponent({
       return Math.round(diff.days);
     });
     const isActive = computed(() => subscription.value && subscription.value.isActive);
+    const isBlocked = computed(() => subscription.value && subscription.value.isBlocked != false);
     return {
       t,
       subscription,
       isActive,
+      isBlocked,
       numDaysRemaining,
     };
   },
@@ -37,7 +39,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <div v-if="subscription" class="subscription-status">
+    <div v-if="subscription && !isBlocked" class="subscription-status">
       <router-link
         :to="{ name: 'accountSettings' }"
         class="status"

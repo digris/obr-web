@@ -62,4 +62,9 @@ urlpatterns = [
         views.SocialBackendDetailView.as_view(),
         name="social-backends-detail",
     ),
+    path(
+        "address-countries/",
+        views.AddressCountries.as_view(),
+        name="address-countries",
+    ),
 ]

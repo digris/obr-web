@@ -53,3 +53,17 @@ pullToRefresh:
   pull: Pull down to refresh
   release: Release to refresh
   refreshing: Refreshing
+formActions:
+  save: Speichern
+account:
+  personal:
+    name: Name
+    surname: Nachname
+    favoriteVenue: Lieblingsclub
+    yearOfBirth: Jahrgang
+    gender:
+      label: Pronomen
+      options:
+        female: she/her
+        male: he/his
+        other: they/them

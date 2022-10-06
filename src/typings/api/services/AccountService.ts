@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Address } from '../models/Address';
+import type { AddressCountries } from '../models/AddressCountries';
 import type { EmailUpdateRequest } from '../models/EmailUpdateRequest';
 import type { PasswordUpdateRequest } from '../models/PasswordUpdateRequest';
 import type { PatchedAddressRequest } from '../models/PatchedAddressRequest';
@@ -28,6 +29,17 @@ export class AccountService {
             url: '/api/v1/account/address/',
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',
+        });
+    }
+
+    /**
+     * @returns AddressCountries
+     * @throws ApiError
+     */
+    public static addressCountries(): CancelablePromise<Array<AddressCountries>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/account/address-countries/',
         });
     }
 
