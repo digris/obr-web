@@ -105,7 +105,7 @@ def update_image(obj, image_url, image_class, clear=True):
     ext = image_path.suffix
     if not ext:
         with urlopen(image_url) as r:
-            f_type = filetype.guess(r)
+            f_type = filetype.guess(r.read())
             ext = f".{f_type.extension}"
         logger.debug(f"detected extension: {ext} - {f_type.mime}")
 
