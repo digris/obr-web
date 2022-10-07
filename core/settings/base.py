@@ -240,7 +240,8 @@ SOCIAL_AUTH_DEEZER_SECRET = env(
 
 SOCIAL_AUTH_DEEZER_SCOPE = [
     "manage_library",
-    # "listening_history",
+    "listening_history",
+    "manage_library",
     "offline_access",
 ]
 

@@ -64,8 +64,14 @@ export default defineComponent({
       auth.value = [];
       sync.value = [];
       const backends = await getSocialBackends();
+      // in the API we get all AUTH enabled backend - as it is the same endpoint as used during
+      // login. so we have to remove the already connected backends here:
+      const connectedProviders = backends.connected.map((be: Backend) => be.provider);
+      const disconnectedAuth = backends.auth.filter(
+        (be: Backend) => !connectedProviders.includes(be.provider)
+      );
       connected.value = annotateBackends(backends.connected);
-      auth.value = annotateBackends(backends.auth);
+      auth.value = annotateBackends(disconnectedAuth);
       sync.value = annotateBackends(backends.sync);
     };
     const beginLogin = (backend: Backend) => {
