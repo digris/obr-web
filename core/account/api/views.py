@@ -296,7 +296,10 @@ class TokenLoginView(APIView):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            user = User(email=email)
+            user = User(
+                email=email,
+                country=request.geolocation_country or "",
+            )
             user.set_unusable_password()
             user.save()
             user_created = True
@@ -370,7 +373,10 @@ class SignedEmailLoginView(APIView):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            user = User(email=email)
+            user = User(
+                email=email,
+                country=request.geolocation_country or "",
+            )
             user.set_unusable_password()
             user.save()
             user_created = True
@@ -549,13 +555,29 @@ class AddressUpdateView(APIView):
             # TODO: implement actual geoip based country
             address = Address(
                 user=request.user,
-                country="CH",
+                # country="CH",
             )
             address.save()
 
+        # we need to split the payload as 'country' belongs to user model, but
+        # in the API we want 'country' in the address resource.
+        user_data = {
+            "country": request.data.pop("country"),
+        }
+        user_serializer = serializers.UserSerializer(
+            request.user,
+            data=user_data,
+            partial=True,
+        )
+        user_serializer.is_valid(
+            raise_exception=True,
+        )
+        user_serializer.save()
+
+        address_data = request.data
         serializer = serializers.AddressSerializer(
             address,
-            data=request.data,
+            data=address_data,
             partial=True,
         )
         serializer.is_valid(

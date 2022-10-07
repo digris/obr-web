@@ -78,16 +78,11 @@ class Subscription(CTUIDModelMixin, TimestampedModelMixin, models.Model):
 
     @property
     def is_blocked(self):
-        if self.user.address:
-            user_country = self.user.address.country
-        else:
-            user_country = None
-
-        if user_country and user_country in self.countries:
+        if self.user.country and self.user.country in self.countries:
             return False
 
-        if user_country:
-            return _(f"Subscription not available in {user_country}")
+        elif self.user.country:
+            return _(f"Subscription not available in {self.user.country}")
 
         return _("Subscription blocked")
 

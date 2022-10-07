@@ -50,6 +50,7 @@ const requireSubscription = (fn: Function, message = "") => {
   return function (...args: any) {
     const user = store.getters["account/user"];
     const subscription = store.getters["account/subscription"];
+    console.debug("subscription", subscription);
     if (!user) {
       const event = {
         intent: "login",
@@ -66,6 +67,14 @@ const requireSubscription = (fn: Function, message = "") => {
         message,
       };
       eventBus.emit("subscription:subscribe", event);
+      return false;
+    }
+    if (subscription.isBlocked) {
+      const event = {
+        message: subscription.isBlocked,
+      };
+      eventBus.emit("subscription:blocked", event);
+      alert(subscription.isBlocked);
       return false;
     }
     if (!subscription.isActive) {

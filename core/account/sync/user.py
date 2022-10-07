@@ -75,6 +75,14 @@ def sync_user_account(user):
             }
         )
 
+    if country := data.get("address", {}).get("country"):
+        if not user.country:
+            update.update(
+                {
+                    "country": country,
+                }
+            )
+
     User.objects.filter(id=user.id).update(**update)
 
     if address := data.get("address"):
@@ -91,7 +99,6 @@ def sync_user_account(user):
             line_2=address.get("line_2") or "",
             postal_code=address.get("postal_code") or "",
             city=address.get("city") or "",
-            country=address.get("country"),
         )
 
     user.refresh_from_db()

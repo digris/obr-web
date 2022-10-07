@@ -35,6 +35,10 @@ class SettingsInline(admin.TabularInline):
 class AddressInline(admin.StackedInline):
     model = Address
 
+    readonly_fields = [
+        "country",
+    ]
+
     fieldsets = (
         (
             None,
@@ -71,7 +75,6 @@ class AddressAdmin(admin.ModelAdmin):
         "line_2",
         "postal_code",
         "city",
-        "country",
     ]
     # list_filter = [
     #     "country",
@@ -98,12 +101,11 @@ class UserAdmin(AuthUserAdmin):
         "email",
         "uid",
         "phone",
+        "country",
         "migration_source",
         "is_active",
         "is_staff",
         "is_superuser",
-        # "date_joined",
-        # "last_login",
         "sync_state",
     ]
     list_filter = [
@@ -150,6 +152,7 @@ class UserAdmin(AuthUserAdmin):
                     "gender",
                     "first_name",
                     "last_name",
+                    "country",
                     "year_of_birth",
                     "favorite_venue",
                 ),
@@ -206,9 +209,10 @@ class UserAdmin(AuthUserAdmin):
     )
     search_fields = [
         "email",
+        "uid",
         "first_name",
         "last_name",
-        "address__country",
+        "country",
     ]
     ordering = [
         "-date_joined",

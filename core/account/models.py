@@ -93,6 +93,12 @@ class User(
         default="",
         db_index=True,
     )
+    gender = models.CharField(
+        max_length=16,
+        choices=GenderStr.choices,
+        default=GenderStr.UNDEFINED,
+        blank=True,
+    )
     first_name = models.CharField(
         max_length=64,
         null=True,
@@ -103,16 +109,16 @@ class User(
         null=True,
         blank=True,
     )
-    gender = models.CharField(
-        max_length=16,
-        choices=GenderStr.choices,
-        default=GenderStr.UNDEFINED,
+    country = CountryField(
+        blank=True,
+        default="",
     )
     year_of_birth = models.PositiveSmallIntegerField(
         null=True,
         blank=True,
         validators=[MinValueValidator(1900), MaxValueValidator(2022)],
     )
+    # NOTE: definitely not the best place..
     favorite_venue = models.CharField(
         max_length=64,
         default="",
@@ -189,64 +195,55 @@ class Address(
     CTUIDModelMixin,
     models.Model,
 ):
-
     user = models.OneToOneField(
         to=User,
         on_delete=models.CASCADE,
         related_name="address",
     )
-
     line_1 = models.CharField(
         max_length=128,
         blank=True,
         default="",
     )
-
     line_2 = models.CharField(
         max_length=128,
         blank=True,
         default="",
     )
-
     postal_code = models.CharField(
         max_length=16,
         blank=True,
         default="",
     )
-
     city = models.CharField(
         max_length=128,
         blank=True,
         default="",
     )
-
-    country = CountryField(
-        blank=True,
-        null=True,
-    )
+    # country = CountryField(
+    #     blank=True,
+    #     null=True,
+    # )
+    @property
+    def country(self):
+        return self.user.country
 
 
 @receiver(post_save, sender=User)
 # pylint: disable=unused-argument
-def create_user_settings(sender, instance, created, **kwargs):
+def user_post_save(sender, instance, created, **kwargs):
 
-    if created and not hasattr(instance, "settings"):
+    if not hasattr(instance, "settings"):
         Settings.objects.create(user=instance)
+
+    if not hasattr(instance, "address"):
+        Address.objects.create(user=instance)
 
     if created:
         account_signals.user_registered.send(
             sender=instance.__class__,
             user=instance,
         )
-
-
-@receiver(post_save, sender=User)
-# pylint: disable=unused-argument
-def create_user_address(sender, instance, created, **kwargs):
-    print("post save - create_user_address")
-    if not hasattr(instance, "address"):
-        # NOTE: country is updated with geolocation during signup
-        Address.objects.create(user=instance, country="CH")
 
 
 def get_default_token():

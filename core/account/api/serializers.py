@@ -120,7 +120,6 @@ class AddressSerializer(
 ):
     country = CountryField(
         default="",
-        # country_dict=True,
     )
 
     class Meta(CTUIDModelSerializer.Meta):
@@ -162,6 +161,9 @@ class UserSerializer(
     email = serializers.EmailField(
         read_only=True,
     )
+    country = CountryField(
+        default="",
+    )
     date_joined = serializers.DateTimeField(
         read_only=True,
     )
@@ -183,9 +185,10 @@ class UserSerializer(
         fields = CTUIDModelSerializer.Meta.fields + [
             "email",
             "date_joined",
+            "gender",
             "first_name",
             "last_name",
-            "gender",
+            "country",
             "year_of_birth",
             "favorite_venue",
             "is_staff",
