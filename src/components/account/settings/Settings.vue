@@ -4,23 +4,25 @@ import { useStore } from "vuex";
 
 import Section from "@/components/account/settings/Section.vue";
 import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
-import Password from "@/components/account/settings/Password.vue";
+import Stream from "@/components/account/settings/Stream.vue";
 import Email from "@/components/account/settings/Email.vue";
+import Password from "@/components/account/settings/Password.vue";
 import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
 import Social from "@/components/account/settings/Social.vue";
-import Stream from "@/components/account/settings/Stream.vue";
+import Support from "@/components/account/settings/Support.vue";
 
 export default defineComponent({
   components: {
     Section,
     CurrentSubscription,
+    Stream,
     Email,
     Password,
     Personal,
     Address,
     Social,
-    Stream,
+    Support,
   },
   setup() {
     const store = useStore();
@@ -62,5 +64,6 @@ export default defineComponent({
     <Personal :user="user" @updated="reloadUser" />
     <Address :address="address" @updated="reloadUser" />
     <Social />
+    <Support :user="user" />
   </div>
 </template>

@@ -18,10 +18,14 @@ class SubscriptionAdmin(admin.ModelAdmin):
     search_fields = [
         "uid",
         "user__email",
+        "user__uid",
     ]
     list_filter = [
         "type",
         "updated",
+    ]
+    readonly_fields = [
+        "user",
     ]
     date_hierarchy = "updated"
 

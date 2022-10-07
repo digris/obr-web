@@ -12,6 +12,8 @@ env.read_env(env.str("ENV_PATH", ".env"))
 from .base import *  # NOQA
 from .development import *  # NOQA
 
+GEOLOCATION_COUNTRY_OVERRIDE = "CH"
+
 
 ##################################################################
 # make sure to add further setting overrides *after*
