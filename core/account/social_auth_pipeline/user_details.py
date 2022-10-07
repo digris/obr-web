@@ -4,7 +4,7 @@ def get_user_details(backend, strategy, details, response, user=None, *args, **k
     if not user:
         return
 
-    request = strategy.backend.request
+    request = strategy.request
     changed = False
 
     if backend.name == "google-oauth2":
