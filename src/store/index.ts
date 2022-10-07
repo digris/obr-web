@@ -5,7 +5,7 @@ import catalog from "./catalog";
 import broadcast from "./broadcast";
 import queue from "./queue";
 import program from "./program";
-import schedule from "./schedule";
+// import schedule from "./schedule";
 import notification from "./notification";
 
 export default createStore({
@@ -15,7 +15,7 @@ export default createStore({
     broadcast,
     queue,
     program,
-    schedule,
+    // schedule,
     notification,
   },
   mutations: {},

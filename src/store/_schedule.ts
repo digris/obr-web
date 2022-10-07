@@ -1,5 +1,8 @@
 /* eslint @typescript-eslint/no-shadow: ["error", { "allow": ["state"] }] */
 /* eslint no-param-reassign: ["error", { "ignorePropertyModificationsFor": ["state"] }] */
+
+// NOTE: schedule store refactored to pinia
+
 // @ts-ignore
 import { DateTime } from "luxon";
 import { getSchedule } from "@/api/broadcast";
