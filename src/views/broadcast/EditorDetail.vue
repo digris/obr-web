@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent, onActivated, onBeforeUpdate } from "vue";
-import { useStore } from "vuex";
+import { computed, defineComponent, onActivated } from "vue";
+import { useBroadcastStore } from "@/stores/broadcast";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
@@ -31,9 +31,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
-    const editor = computed(() => store.getters["broadcast/editorByUid"](props.uid));
-    const objKey = computed(() => `${editor.value.ct}:${editor.value.uid}`);
+    const { loadEditor, editorByUid } = useBroadcastStore();
+    const editor = computed(() => editorByUid(props.uid));
+    const objKey = computed(() => `${editor.value?.ct}:${editor.value?.uid}`);
     const initialFilter = computed(() => {
       return {
         obj_key: objKey.value,
@@ -51,20 +51,9 @@ export default defineComponent({
       merged.tags = tags;
       return merged;
     });
-    // this is kind of bad. don't know yet how to improve..
-    // onActivated is called when component is already in keep-alive router,
-    // onBefore is needed to switch between different objects in the already active component.
-    // it also needs some ugly bits in the store (see broadcast/loadEditor):
-    // when the component is in keep-alive, and routing to here from another place both
-    // onActivated and onBeforeUpdate will fire ;(
     onActivated(() => {
       if (!editor.value) {
-        store.dispatch("broadcast/loadEditor", props.uid);
-      }
-    });
-    onBeforeUpdate(() => {
-      if (!editor.value) {
-        store.dispatch("broadcast/loadEditor", props.uid);
+        loadEditor(props.uid);
       }
     });
     return {
