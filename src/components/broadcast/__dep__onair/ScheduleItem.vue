@@ -1,7 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { usePlayerControls } from "@/composables/player";
-import { useStreamControls } from "@/composables/stream";
 import { useQueueControls } from "@/composables/queue";
 import { DateTime } from "luxon";
 import { requireSubscription } from "@/utils/account";
@@ -38,8 +37,7 @@ export default defineComponent({
   },
   emits: ["play", "pause"],
   setup(props, { emit }) {
-    const { pause } = usePlayerControls();
-    const { startPlayStream } = useStreamControls();
+    const { playLive, pause } = usePlayerControls();
     const { enqueueObj, startPlayCurrent } = useQueueControls();
     // eslint-disable-next-line arrow-body-style
     const isPlaceholder = computed(() => {
@@ -85,7 +83,7 @@ export default defineComponent({
       if (props.isCurrent) {
         const startTime = -10;
         // playStream(startTime);
-        startPlayStream(startTime);
+        playLive(startTime);
         emit("play");
       } else {
         playMedia(props.scheduleItem.media);

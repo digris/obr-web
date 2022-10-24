@@ -6,7 +6,6 @@ import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
 import { storeToRefs } from "pinia";
 import { useScheduleStore } from "@/stores/schedule";
-import { useStreamControls } from "@/composables/stream";
 import { requireSubscription } from "@/utils/account";
 import { useQueueControls } from "@/composables/queue";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
@@ -42,7 +41,7 @@ export default defineComponent({
       return isCurrentPlayerMedia.value && playerState.value.isPaused;
     });
     // controls
-    const { startPlayStream } = useStreamControls();
+    const { playLive } = usePlayerControls();
     const { pause: pausePlayer, resume: resumePlayer } = usePlayerControls();
     const { enqueueObj, startPlayCurrent } = useQueueControls();
     const startPlayMedia = requireSubscription(async (media: any) => {
@@ -64,7 +63,7 @@ export default defineComponent({
       }
       if (isCurrentScheduleItem.value) {
         const startTime = -10;
-        startPlayStream(startTime);
+        playLive(startTime);
       } else if (isPaused.value) {
         resumePlayer();
       } else {

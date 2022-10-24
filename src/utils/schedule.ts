@@ -5,7 +5,7 @@ import { useScheduleStore } from "@/stores/schedule";
 class Schedule {
   constructor() {
     const interval = 61 * 1000;
-    const {loadSchedule} = useScheduleStore();
+    const { loadSchedule } = useScheduleStore();
 
     useIntervalFn(
       async () => {
@@ -13,7 +13,7 @@ class Schedule {
         await loadSchedule();
       },
       interval,
-      {immediateCallback: true}
+      { immediateCallback: true }
     );
   }
 }

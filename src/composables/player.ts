@@ -1,17 +1,14 @@
 import { computed } from "vue";
-import { useStore } from "vuex";
 import { storeToRefs } from "pinia";
 import { usePlayerStore } from "@/stores/player";
 import { useScheduleStore } from "@/stores/schedule";
 import { useQueueStore } from "@/stores/queue";
+import { getMediaUrl } from "@/player/media";
+import { getStreamUrl } from "@/player/stream";
+import type { AnnotatedMedia } from "@/stores/queue";
 
 const usePlayerState = () => {
-  // const store = useStore();
-
   const { playerState } = storeToRefs(usePlayerStore());
-
-  // const playerState = computed(() => store.getters["player/playerState"]);
-  // const playState = computed(() => store.getters["player/playState"]);
   const isLive = computed(() => playerState.value?.isLive);
   const isOndemand = computed(() => !playerState.value?.isLive);
   const isPlaying = computed(() => playerState.value?.isPlaying);
@@ -20,13 +17,6 @@ const usePlayerState = () => {
   const duration = computed(() => playerState.value?.duration);
   const currentTime = computed(() => playerState.value?.currentTime);
   const relPosition = computed(() => playerState.value?.relPosition);
-
-  // const currentMedia = computed(() => store.getters["player/media"]);
-  // const currentScope = computed(() => store.getters["player/scope"]);
-  // const currentColor = computed(() => store.getters["player/color"]);
-
-  // moving parts to pinia
-  // depending on mode (live / on-demand) we have different sources for "media"
   const { currentMedia: scheduleMedia } = storeToRefs(useScheduleStore());
   const { currentMedia: queueMedia } = storeToRefs(useQueueStore());
   const media = computed(() => {
@@ -60,43 +50,35 @@ const usePlayerState = () => {
   };
 };
 
-// const usePlayerState = () => {
-//   const store = useStore();
-//   const playerState = computed(() => store.getters["player/playerState"]);
-//   const isLive = computed(() => playerState.value?.isLive);
-//   const isOndemand = computed(() => !playerState.value?.isLive);
-//   const isPlaying = computed(() => playerState.value?.isPlaying);
-//   const isBuffering = computed(() => playerState.value?.isBuffering);
-//   const isPaused = computed(() => playerState.value?.isPaused);
-//   const duration = computed(() => playerState.value?.duration);
-//   const currentTime = computed(() => playerState.value?.currentTime);
-//   const relPosition = computed(() => playerState.value?.relPosition);
-//
-//   const currentMedia = computed(() => store.getters["player/media"]);
-//   const currentScope = computed(() => store.getters["player/scope"]);
-//   const currentColor = computed(() => store.getters["player/color"]);
-//
-//   return {
-//     playerState,
-//     isLive,
-//     isOndemand,
-//     isPlaying,
-//     isBuffering,
-//     isPaused,
-//     duration,
-//     currentTime,
-//     relPosition,
-//
-//     currentMedia,
-//     currentScope,
-//     currentColor,
-//   };
-// };
-
 const usePlayerControls = () => {
   const audioPlayer = window.audioPlayer;
-  const play = (url: string, startTime = 0) => {
-    audioPlayer.play(url, startTime);
+  // const play = (url: string, startTime = 0) => {
+  //   console.debug('usePlayerControls - play');
+  //   audioPlayer.play(url, startTime);
+  // };
+  const playMedia = async (media: AnnotatedMedia) => {
+    console.debug("usePlayerControls - playMedia", media);
+    const url = getMediaUrl(media);
+    const { cueIn: startTime, cueOut, fadeIn, fadeOut } = media;
+    const endTime = media.duration - cueOut;
+    console.debug("player:playMedia", {
+      startTime,
+      endTime,
+      fadeIn,
+      fadeOut,
+      url,
+      title: `${media.name} - ${media.artistDisplay}`,
+    });
+    try {
+      await audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
+    } catch (e) {
+      throw Error(`unable to play media: ${e}`);
+    }
+  };
+  const playLive = async (startTime = 0) => {
+    const url = getStreamUrl();
+    console.debug("player:playLive", url);
+    await audioPlayer.play(url, startTime);
   };
   const pause = () => {
     audioPlayer.pause();
@@ -108,7 +90,8 @@ const usePlayerControls = () => {
     audioPlayer.seek(pos);
   };
   return {
-    play,
+    playMedia,
+    playLive,
     pause,
     resume,
     seek,

@@ -1,17 +1,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { usePlayerState } from "@/composables/player";
-import { useStreamControls } from "@/composables/stream";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 export default defineComponent({
   setup() {
     const { isLive } = usePlayerState();
-    const { startPlayStream } = useStreamControls();
+    const { playLive } = usePlayerControls();
     const click = () => {
       if (isLive.value) {
         return;
       }
-      startPlayStream();
+      playLive();
     };
     return {
       isLive,

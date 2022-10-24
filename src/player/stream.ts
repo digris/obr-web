@@ -1,5 +1,4 @@
 import settings from "@/settings";
-import eventBus from "@/eventBus";
 import { getStreamMediaFormat } from "@/utils/browser";
 
 const { STREAM_ENDPOINTS } = settings;
@@ -19,14 +18,4 @@ const getStreamUrl = (noCache = true) => {
   return url;
 };
 
-const playStream = (startTime = -10) => {
-  const url = getStreamUrl(true);
-  const event = {
-    do: "play",
-    url,
-    startTime,
-  };
-  eventBus.emit("player:controls", event);
-};
-
-export { getStreamUrl, playStream };
+export { getStreamUrl };

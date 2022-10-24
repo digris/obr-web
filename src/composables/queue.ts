@@ -1,5 +1,4 @@
 import { computed } from "vue";
-// import { useStore } from "vuex";
 import { storeToRefs } from "pinia";
 import { shuffle } from "lodash-es";
 
@@ -8,9 +7,7 @@ import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
 import { useSettingsStore } from "@/stores/settings";
 import { getMedia } from "@/api/catalog";
-import { usePlayerState } from "@/composables/player";
-import { getMediaUrl } from "@/player/media";
-import { playStream } from "@/player/stream";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 const annotateMedia = (media: Array<Media>, scope: Array<string> = []): Array<AnnotatedMedia> => {
   return media.map((mediaObj: Media) => {
@@ -44,12 +41,11 @@ const useQueueState = () => {
 };
 
 const useQueueControls = () => {
-  const audioPlayer = window.audioPlayer;
+  const { playMedia, playLive } = usePlayerControls();
   const { isLive, isPlaying } = usePlayerState();
   const { previousIndex, nextIndex, currentMedia } = storeToRefs(useQueueStore());
   const { shuffleMode } = storeToRefs(useSettingsStore());
   const { enqueue, setIndex, removeAtIndex, clearQueue, shuffleQueue } = useQueueStore();
-  // const { enqueue } = storeToRefs(useQueueStore());
   const hasPrevious = computed(() => previousIndex.value !== null);
   const hasNext = computed(() => !!isLive);
   const enqueueObj = async (obj: any, mode = "append") => {
@@ -75,13 +71,18 @@ const useQueueControls = () => {
     if (isPlaying.value && !force) {
       return;
     }
-    // await queue.startPlayCurrent();
-    const media = currentMedia.value;
-    console.debug("CM", media);
-    if (!media) {
+    if (!currentMedia.value) {
       console.warn("unable to play: no current media");
       return;
     }
+    try {
+      await playMedia(currentMedia.value);
+    } catch (e) {
+      console.debug("player error - try with next");
+      await playNext();
+    }
+
+    /*
     const url = getMediaUrl(media);
     const { cueIn: startTime, cueOut, fadeIn, fadeOut } = media;
     const endTime = media.duration - cueOut;
@@ -99,6 +100,7 @@ const useQueueControls = () => {
       console.debug('player error - try with next');
       await playNext();
     }
+    */
   };
   const playPrevious = async () => {
     console.debug("queue - playPrevious");
@@ -116,7 +118,7 @@ const useQueueControls = () => {
       await startPlayCurrent(true);
     } else {
       console.info("no next media - switch to live");
-      playStream();
+      playLive();
     }
   };
   const playFromIndex = async (index: number) => {
