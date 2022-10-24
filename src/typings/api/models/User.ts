@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { CountryEnum } from './CountryEnum';
 import type { GenderEnum } from './GenderEnum';
 
 /**
@@ -21,9 +22,10 @@ export type User = {
     readonly uid?: string;
     readonly email?: string;
     readonly dateJoined?: string;
+    gender?: GenderEnum;
     firstName?: string | null;
     lastName?: string | null;
-    gender?: GenderEnum;
+    country?: CountryEnum;
     yearOfBirth?: number | null;
     favoriteVenue?: string;
     readonly isStaff?: boolean;

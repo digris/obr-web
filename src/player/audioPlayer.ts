@@ -9,6 +9,7 @@ import eventBus from "@/eventBus";
 import { usePlayerStore } from "@/stores/player";
 import { playStream } from "@/player/stream";
 import { useSettingsStore } from "@/stores/settings";
+import { useQueueControls } from "@/composables/queue";
 import { storeToRefs } from "pinia";
 import { createAudioAnalyser } from "@/player/analyser";
 import type { AudioAnalyser } from "@/player/analyser";
@@ -246,14 +247,17 @@ class AudioPlayer {
   }
 
   async onTimeupdate() {
+
     const ct = this.audio.currentTime;
     // cue-out
     if (this.endTime && ct > this.endTime) {
       console.debug("audioPlayer:onTimeupdate - end time reached");
       this.pause();
       await this.player.unload();
-      await delay(1000);
-      eventBus.emit("player:audio:ended");
+      await delay(5);
+      const { playNext } = useQueueControls();
+      await playNext();
+      // eventBus.emit("player:audio:ended");
     }
     // fade-in / out
     if (this.fadeInTime && this.startTime < ct && ct < this.fadeInTime) {
@@ -303,16 +307,17 @@ class AudioPlayer {
       this.audio.play();
     } catch (e) {
       console.error(e, url);
-      notify({
-        level: "error",
-        ttl: 5,
-        body: `Error ${e.code}: unable to play media.`,
-      });
-      console.debug("wait 2000ms");
-      await delay(2000);
-      console.debug("waited 2000ms");
+      // notify({
+      //   level: "error",
+      //   ttl: 5,
+      //   body: `Error ${e.code}: unable to play media.`,
+      // });
+      console.debug("wait 50ms");
+      await delay(50);
+      console.debug("waited 50ms");
       this.removeEventHandlers();
-      return;
+      throw Error('playback error');
+      // return;
     }
     if (!this.analyser) {
       try {

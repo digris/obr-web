@@ -3,9 +3,10 @@ import { useStore } from "vuex";
 import { storeToRefs } from "pinia";
 import { usePlayerStore } from "@/stores/player";
 import { useScheduleStore } from "@/stores/schedule";
+import { useQueueStore } from "@/stores/queue";
 
 const usePlayerState = () => {
-  const store = useStore();
+  // const store = useStore();
 
   const { playerState } = storeToRefs(usePlayerStore());
 
@@ -27,7 +28,7 @@ const usePlayerState = () => {
   // moving parts to pinia
   // depending on mode (live / on-demand) we have different sources for "media"
   const { currentMedia: scheduleMedia } = storeToRefs(useScheduleStore());
-  const queueMedia = computed(() => store.getters["queue/currentMedia"]);
+  const { currentMedia: queueMedia } = storeToRefs(useQueueStore());
   const media = computed(() => {
     return isLive.value ? scheduleMedia.value : queueMedia.value;
   });

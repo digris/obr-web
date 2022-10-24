@@ -88,19 +88,6 @@ const actions = {
   removeIndex: async (context: any, index: number) => {
     context.commit("REMOVE_INDEX", index);
   },
-  replaceQueue: async (context: any, queue: Queue) => {
-    // TODO: refactor to `enqueue`
-    const { media, scope } = queue;
-    const mappedMedia = media.map((mediaObj) => {
-      // @ts-ignore
-      const artistKeys = mediaObj.artists.map((artistObj) => {
-        return `${artistObj.ct}:${artistObj.uid}`;
-      });
-      const mappedScope = scope ? [...scope, ...artistKeys] : artistKeys;
-      return { ...mediaObj, scope: mappedScope };
-    });
-    context.commit("REPLACE_MEDIA", mappedMedia);
-  },
   enqueue: async (context: any, queue: Queue) => {
     const { media, mode, scope } = queue;
     const mappedMedia = media.map((mediaObj) => {

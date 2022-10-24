@@ -1,7 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
-import { useStore } from "vuex";
-import { useQueueControls } from "@/composables/queue";
+import { defineComponent, onMounted } from "vue";
+import { useQueueState, useQueueControls } from "@/composables/queue";
 import QueueMedia from "@/components/player/QueueMedia.vue";
 import ShuffleControl from "./ShuffleControl.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";
@@ -26,11 +25,8 @@ export default defineComponent({
   },
   emits: ["close"],
   setup(props, { emit }) {
-    const store = useStore();
+    const { currentMedia, queuedMedia } = useQueueState();
     const { clearQueue } = useQueueControls();
-    const mediaList = computed(() => store.getters["queue/media"]);
-    // const currentIndex = computed(() => store.getters['queue/currentIndex']);
-    const currentMedia = computed(() => store.getters["queue/currentMedia"]);
     const close = () => {
       emit("close");
     };
@@ -43,7 +39,7 @@ export default defineComponent({
     });
     return {
       close,
-      mediaList,
+      queuedMedia,
       currentMedia,
       clearQueue,
     };
@@ -66,7 +62,7 @@ export default defineComponent({
     >
       <div class="container">
         <QueueMedia
-          v-for="(media, index) in mediaList"
+          v-for="(media, index) in queuedMedia"
           :key="`media-row-${media.uid}`"
           :index="index"
           :media="media"

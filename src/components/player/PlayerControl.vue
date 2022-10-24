@@ -7,6 +7,7 @@ import { usePlayerControls, usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";
 import ButtonSkip from "./button/ButtonSkip.vue";
 import ButtonPlay from "./button/ButtonPlay.vue";
+import { useQueueControls, useQueueState } from "@/composables/queue";
 
 const dt2hhmmss = (dt: any) => dt.toISOString().substr(11, 8);
 const s2hhmmss = (s: number) => dt2hhmmss(new Date(s * 1000));
@@ -46,16 +47,19 @@ export default defineComponent({
       return duration.value ? s2hhmmss(duration.value) : "";
     });
 
-    const hasPrevious = computed(() => store.getters["queue/previousIndex"] !== null);
-    const hasNext = computed(() => store.getters["queue/nextIndex"] !== null);
+    const { previousIndex, nextIndex } = useQueueState();
+    const { playPrevious, playNext } = useQueueControls();
 
-    const playNext = () => {
-      eventBus.emit("queue:controls:playNext");
-    };
+    const hasPrevious = computed(() => previousIndex.value !== null);
+    const hasNext = computed(() => nextIndex.value !== null);
 
-    const playPrevious = () => {
-      eventBus.emit("queue:controls:playPrevious");
-    };
+    // const playNext = () => {
+    //   eventBus.emit("queue:controls:playNext");
+    // };
+    //
+    // const playPrevious = () => {
+    //   eventBus.emit("queue:controls:playPrevious");
+    // };
     return {
       isLive,
       isOndemand,
