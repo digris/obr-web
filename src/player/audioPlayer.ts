@@ -3,11 +3,11 @@ import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 // @ts-ignore
 import muxjs from "mux.js";
-import notify from "@/utils/notification";
+// import notify from "@/utils/notification";
 import { computed, ref, watch } from "vue";
 import eventBus from "@/eventBus";
 import { usePlayerStore } from "@/stores/player";
-import { playStream } from "@/player/stream";
+import { usePlayerControls } from "@/composables/player";
 import { useSettingsStore } from "@/stores/settings";
 import { useQueueControls } from "@/composables/queue";
 import { storeToRefs } from "pinia";
@@ -247,7 +247,6 @@ class AudioPlayer {
   }
 
   async onTimeupdate() {
-
     const ct = this.audio.currentTime;
     // cue-out
     if (this.endTime && ct > this.endTime) {
@@ -316,7 +315,7 @@ class AudioPlayer {
       await delay(50);
       console.debug("waited 50ms");
       this.removeEventHandlers();
-      throw Error('playback error');
+      throw Error("playback error");
       // return;
     }
     if (!this.analyser) {
@@ -374,7 +373,8 @@ class AudioPlayer {
 
   resume() {
     if (this.player.isLive()) {
-      playStream();
+      const { playLive } = usePlayerControls();
+      playLive();
       return;
     }
     this.audio.play();

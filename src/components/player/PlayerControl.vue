@@ -1,10 +1,8 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import type { PropType } from "vue";
-import { useStore } from "vuex";
 import { DateTime } from "luxon";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
-import eventBus from "@/eventBus";
 import ButtonSkip from "./button/ButtonSkip.vue";
 import ButtonPlay from "./button/ButtonPlay.vue";
 import { useQueueControls, useQueueState } from "@/composables/queue";
@@ -24,7 +22,6 @@ export default defineComponent({
     },
   },
   setup() {
-    const store = useStore();
     const { pause, resume: play } = usePlayerControls();
     const { isLive, isOndemand, isPlaying, isBuffering, currentTime, duration } = usePlayerState();
 

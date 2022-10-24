@@ -1,6 +1,5 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useStreamControls } from "@/composables/stream";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
@@ -17,8 +16,7 @@ export default defineComponent({
     const isPlaying = computed(() => playerState.value?.isPlaying);
     const isBuffering = computed(() => playerState.value?.isBuffering);
     // controls
-    const { startPlayStream } = useStreamControls();
-    const { pause: pausePlayer } = usePlayerControls();
+    const { playLive, pause: pausePlayer } = usePlayerControls();
     const iconMode = computed(() => (isBuffering.value || isPlaying.value ? "pause" : "play"));
     const handleClick = async () => {
       if (isBuffering.value || isPlaying.value) {
@@ -26,7 +24,7 @@ export default defineComponent({
         return;
       }
       const startTime = -10;
-      startPlayStream(startTime);
+      playLive(startTime);
     };
     return {
       iconMode,

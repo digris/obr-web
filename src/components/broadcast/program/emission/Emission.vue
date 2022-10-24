@@ -2,7 +2,7 @@
 import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 import { DateTime } from "luxon";
 import { getEmission } from "@/api/broadcast";
-import { playStream } from "@/player/stream";
+import { usePlayerControls } from "@/composables/player";
 import EmissionRow from "./EmissionRow.vue";
 import MediaSet from "./MediaSet.vue";
 
@@ -96,9 +96,10 @@ export default defineComponent({
       }
       return {};
     });
+    const { playLive } = usePlayerControls();
     const play = () => {
       if (isCurrent.value) {
-        playStream();
+        playLive();
       }
       return null;
     };

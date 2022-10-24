@@ -2,7 +2,6 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { zeroPad } from "@/utils/format";
-// import { playStream } from '@/player/stream';
 
 import ToggleProgramButton from "./ToggleProgramButton.vue";
 import IconClose from "@/components/ui/icon/IconClose.vue";

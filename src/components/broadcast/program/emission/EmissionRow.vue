@@ -2,8 +2,8 @@
 import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 import { DateTime } from "luxon";
 import { useDevice } from "@/composables/device";
+import { usePlayerControls } from "@/composables/player";
 import { getEmission } from "@/api/broadcast";
-import { playStream } from "@/player/stream";
 import { useObjKey } from "@/composables/obj";
 
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
@@ -124,9 +124,10 @@ export default defineComponent({
       }
       return {};
     });
+    const { playLive } = usePlayerControls();
     const play = () => {
       if (props.isCurrent) {
-        playStream();
+        playLive();
       }
       return null;
     };
