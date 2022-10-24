@@ -50,7 +50,7 @@ const requireSubscription = (fn: Function, message = "") => {
   return function (...args: any) {
     const user = store.getters["account/user"];
     const subscription = store.getters["account/subscription"];
-    console.debug("subscription", subscription);
+    // console.debug("subscription", subscription);
     if (!user) {
       const event = {
         intent: "login",

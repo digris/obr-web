@@ -3,7 +3,6 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "vuex";
 import { useWindowSize } from "@vueuse/core";
 import { AudioPlayer } from "@/player/audioPlayer";
-import { Queue } from "@/player/queue";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
 import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
@@ -18,7 +17,6 @@ import DebugPanel from "@/components/dev/DebugPanel.vue";
 declare global {
   interface Window {
     audioPlayer: AudioPlayer;
-    queue: Queue;
   }
 }
 
@@ -41,8 +39,6 @@ export default defineComponent({
     const user = computed(() => store.getters["account/user"]);
 
     window.audioPlayer = new AudioPlayer();
-    // @ts-ignore
-    window.queue = new Queue();
 
     store.dispatch("account/getUser");
     const { width: vpWidth } = useWindowSize();

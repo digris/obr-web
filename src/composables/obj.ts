@@ -22,13 +22,16 @@ const useObjKey = (obj: any) => {
 
 const useObjCtUid = (objKey: string) => {
   const parts = computed(() => {
+    if (!objKey) {
+      return [];
+    }
     return objKey.split(":");
   });
   const objCt = computed(() => {
-    return parts.value[0];
+    return parts.value.length === 2 ? parts.value[0] : null;
   });
   const objUid = computed(() => {
-    return parts.value[1];
+    return parts.value.length === 2 ? parts.value[1] : null;
   });
   return {
     objCt,

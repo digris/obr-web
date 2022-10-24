@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { CountryEnum } from './CountryEnum';
 import type { GenderEnum } from './GenderEnum';
 
 /**
@@ -11,9 +12,10 @@ import type { GenderEnum } from './GenderEnum';
  * values with complex, nested serializations
  */
 export type PatchedUserRequest = {
+    gender?: GenderEnum;
     firstName?: string | null;
     lastName?: string | null;
-    gender?: GenderEnum;
+    country?: CountryEnum;
     yearOfBirth?: number | null;
     favoriteVenue?: string;
 };
