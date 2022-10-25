@@ -147,10 +147,10 @@ export default defineComponent({
       return props.emission.tags.slice(0, 4).join(", ");
     });
     const timeStartDisplay = computed(() => {
-      if (!props.emission?.timeStart) {
+      if (!props.emission?.dtStart) {
         return null;
       }
-      return props.emission.timeStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
+      return props.emission.dtStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     const mediaSet = ref([]);
     // const showMedia = async () => {
