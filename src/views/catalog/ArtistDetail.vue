@@ -1,8 +1,8 @@
 <script lang="ts">
-import { computed, defineComponent, ref, onActivated, onBeforeUpdate } from "vue";
+import { computed, defineComponent, onActivated, onBeforeUpdate } from "vue";
 import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
 import { useTitle } from "@vueuse/core";
+import { useCatalogStore } from "@/stores/catalog";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
@@ -34,10 +34,9 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
-    const store = useStore();
-    const isLoaded = ref(false);
-    const artist = computed(() => store.getters["catalog/artistByUid"](props.uid));
-    const objKey = computed(() => `${artist.value.ct}:${artist.value.uid}`);
+    const { artistByUid, loadArtist } = useCatalogStore();
+    const artist = computed(() => artistByUid(props.uid));
+    const objKey = computed(() => `catalog.artist:${props.uid}`);
     const query = computed(() => ({
       filter: {
         obj_key: objKey.value,
@@ -51,24 +50,15 @@ export default defineComponent({
     useTitle(title);
     // this is kind of bad. don't know yet how to improve...
     // onActivated is called when component is already in keep-alive router,
-    // onBefore is needed to switch between different objects in the already active component.
+    // onBeforeUpdate is needed to switch between different objects in the already active component.
     // it also needs some ugly bits in the store (see catalog/loadArtist):
     // when the component is in keep-alive, and routing to here from another place both
     // onActivated and onBeforeUpdate will fire ;(
-    onActivated(() => {
-      if (!artist.value) {
-        store.dispatch("catalog/loadArtist", props.uid);
-      }
-    });
-    onBeforeUpdate(() => {
-      if (!artist.value) {
-        store.dispatch("catalog/loadArtist", props.uid);
-      }
-    });
+    onActivated(() => loadArtist(props.uid));
+    onBeforeUpdate(() => loadArtist(props.uid));
     return {
       t,
       objKey,
-      isLoaded,
       artist,
       query,
     };

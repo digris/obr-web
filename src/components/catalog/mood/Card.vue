@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref, onDeactivated, onActivated } from "vue";
+import { computed, defineComponent, ref, onDeactivated } from "vue";
 import { useElementHover } from "@vueuse/core";
 import { getContrastColor } from "@/utils/color";
 import { useObjKey } from "@/composables/obj";
@@ -28,11 +28,7 @@ export default defineComponent({
         "--c-fg": fg.join(","),
       };
     });
-    onActivated(() => {
-      console.debug("Mood - onActivated");
-    });
     onDeactivated(() => {
-      console.debug("Mood - onDeactivated");
       isHover.value = false;
     });
     return {
