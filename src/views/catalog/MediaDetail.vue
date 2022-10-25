@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, onActivated } from "vue";
-import { useStore } from "vuex";
+import { useCatalogStore } from "@/stores/catalog";
 
 import DetailPage from "@/layouts/DetailPage.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
@@ -35,11 +35,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
-    const media = computed(() => store.getters["catalog/mediaByUid"](props.uid));
-    const objKey = computed(() => {
-      return media.value ? `${media.value.ct}:${media.value.uid}` : null;
-    });
+    const { mediaByUid, loadMedia } = useCatalogStore();
+    const media = computed(() => mediaByUid(props.uid));
+    const objKey = computed(() => `catalog.media:${props.uid}`);
     const query = computed(() => ({
       filter: {
         obj_key: objKey.value,
@@ -56,11 +54,7 @@ export default defineComponent({
     const image = computed(() => {
       return release.value && release.value.image ? release.value.image : null;
     });
-    onActivated(() => {
-      if (!media.value) {
-        store.dispatch("catalog/loadMedia", props.uid);
-      }
-    });
+    onActivated(() => loadMedia(props.uid));
     return {
       media,
       objKey,

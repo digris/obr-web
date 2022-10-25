@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, ref, onActivated, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
+import { useCatalogStore } from "@/stores/catalog";
 import type { Tag } from "@/typings/api/models/Tag";
 
 import DetailPage from "@/layouts/DetailPage.vue";
@@ -38,12 +38,9 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
-    const store = useStore();
-    const mood = computed(() => store.getters["catalog/moodByUid"](props.uid));
-    // const objKey = computed(() => `${mood.value.ct}:${mood.value.uid}`);
-    const objKey = computed(() => {
-      return `catalog.mood:${props.uid}`;
-    });
+    const { moodByUid, loadMood } = useCatalogStore();
+    const mood = computed(() => moodByUid(props.uid));
+    const objKey = computed(() => `catalog.mood:${props.uid}`);
     const initialFilter = computed(() => {
       if (!mood.value) {
         return {};
@@ -64,11 +61,7 @@ export default defineComponent({
       merged.tags = tags;
       return merged;
     });
-    onActivated(() => {
-      if (!mood.value) {
-        store.dispatch("catalog/loadMood", props.uid);
-      }
-    });
+    onActivated(() => loadMood(props.uid));
     const allMediaLoaded = ref(false);
     return {
       t,

@@ -1,7 +1,7 @@
 <script lang="ts">
-import { computed, ref, onActivated, defineComponent } from "vue";
+import { computed, onActivated, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
+import { useCatalogStore } from "@/stores/catalog";
 
 import { playlistTitle } from "@/utils/catalog";
 
@@ -39,14 +39,10 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
-    const store = useStore();
-    const isLoaded = ref(false);
-    const playlist = computed(() => store.getters["catalog/playlistByUid"](props.uid));
+    const { playlistByUid, loadPlaylist } = useCatalogStore();
+    const playlist = computed(() => playlistByUid(props.uid));
+    const objKey = computed(() => `catalog.playlist:${props.uid}`);
     const title = computed(() => playlistTitle(playlist.value));
-    // const objKey = computed(() => `${playlist.value?.ct}:${playlist.value?.uid}`);
-    const objKey = computed(() => {
-      return `catalog.playlist:${props.uid}`;
-    });
     const mediaList = computed(() => {
       return playlist.value.mediaSet.reduce((a: any, b: any) => a.concat({ ...b.media, ...b }), []);
     });
@@ -57,15 +53,10 @@ export default defineComponent({
       search: [],
       options: {},
     }));
-    onActivated(() => {
-      if (!playlist.value) {
-        store.dispatch("catalog/loadPlaylist", props.uid);
-      }
-    });
+    onActivated(() => loadPlaylist(props.uid));
     return {
       t,
       objKey,
-      isLoaded,
       playlist,
       title,
       mediaList,
