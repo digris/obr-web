@@ -3,7 +3,6 @@ import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 // @ts-ignore
 import muxjs from "mux.js";
-// import notify from "@/utils/notification";
 import { computed, ref, watch } from "vue";
 import eventBus from "@/eventBus";
 import { usePlayerStore } from "@/stores/player";
