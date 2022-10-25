@@ -4,8 +4,6 @@ import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
 import { debounce } from "lodash-es";
 
-import notify from "@/utils/notification";
-
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
@@ -109,11 +107,6 @@ export default defineComponent({
       };
       hidePrompt();
       await store.dispatch("rating/updateRating", vote);
-      await notify({
-        level: "success",
-        ttl: 5,
-        body: "Vielen Dank für dein feedback!",
-      });
     };
     const fetchRating = async (key: string) => {
       if (!key) {

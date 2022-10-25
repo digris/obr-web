@@ -10,6 +10,7 @@ import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import RadioInput from "@/components/ui/form/RadioInput.vue";
 import TextareaInput from "@/components/ui/form/TextareaInput.vue";
 import { useRatingStore } from "@/stores/rating";
+import { useNotification } from "@/composables/notification";
 
 export default defineComponent({
   props: {
@@ -30,6 +31,7 @@ export default defineComponent({
     const { t } = useI18n();
     const objKey = computed(() => `${props.media.ct}:${props.media.uid}`);
     const { ratingByKey, loadRating, setRating } = useRatingStore();
+    const { notify } = useNotification();
     const rating = computed(() => ratingByKey(objKey.value));
     const promptVisible = ref(false);
     const scope = ref("track");
@@ -93,13 +95,12 @@ export default defineComponent({
         scope: scope.value,
         comment: comment.value,
       });
-      /*
+      /**/
       await notify({
         level: "success",
         ttl: 5,
         body: "Vielen Dank für dein feedback!",
       });
-      */
     };
     onMounted(async () => {
       // fetchRating(objKey.value);

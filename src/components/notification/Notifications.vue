@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { defineComponent } from "vue";
+import { useNotification } from "@/composables/notification";
 
 import CloseButton from "./CloseButton.vue";
 
@@ -9,14 +9,10 @@ export default defineComponent({
     CloseButton,
   },
   setup() {
-    const store = useStore();
-    const messages = computed(() => store.getters["notification/messages"]);
-    const setSeen = (message: any) => {
-      store.dispatch("notification/setMessageSeen", message);
-    };
+    const { messages, setMessageSeen } = useNotification();
     return {
       messages,
-      setSeen,
+      setMessageSeen,
     };
   },
 });
@@ -30,7 +26,7 @@ export default defineComponent({
       class="message"
       :class="`is-${message.level}`"
     >
-      <div @click="setSeen(message)" class="close">
+      <div @click="setMessageSeen(message.key)" class="close">
         <CloseButton />
       </div>
       <div class="body" v-text="message.body" />
@@ -47,21 +43,19 @@ export default defineComponent({
 @use "@/style/elements/button";
 .notifications {
   position: fixed;
-  top: 78px;
-  left: 0;
-  right: 0;
+  top: 88px;
+  right: 8px;
   z-index: 25;
 }
 
 .message {
   position: relative;
   min-width: 300px;
-  max-width: 100%;
+  max-width: 400px;
   min-height: 2.5rem;
   //margin-bottom: 0.5rem;
-  padding: 1rem 2rem;
+  padding: 1rem;
   background: rgb(var(--c-live-fg-inverse));
-  border-bottom: 2px solid rgb(var(--c-live-fg));
   .close {
     position: absolute;
     top: 0;
@@ -69,8 +63,11 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    //padding: 1rem;
     cursor: pointer;
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-left: 0.5rem;
   }
   .body {
     max-width: 270px;

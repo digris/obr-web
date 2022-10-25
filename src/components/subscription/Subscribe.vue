@@ -2,7 +2,7 @@
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import eventBus from "@/eventBus";
-import notify from "@/utils/notification";
+import { useNotification } from "@/composables/notification";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 
 import SubscribePlan from "@/components/subscription/SubscribePlan.vue";
@@ -16,6 +16,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
+    const { notify } = useNotification();
     const isVisible = ref(false);
     const intent = ref("plan");
     const next = ref(null);
@@ -47,7 +48,6 @@ export default defineComponent({
         //   url: '/foo/bar/',
         // },
       });
-      // store.dispatch('notification/addMessage', msg);
       if (next.value) {
         // @ts-ignore
         router.push(next.value);
