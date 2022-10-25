@@ -29,13 +29,13 @@ export default defineComponent({
     const timer = ref(null);
     const isExpanded = ref(false);
     const isPast = computed(() => {
-      return props.emission.timeEnd < now.value;
+      return props.emission.dtEnd < now.value;
     });
     const isUpcoming = computed(() => {
-      return props.emission.timeStart > now.value;
+      return props.emission.dtStart > now.value;
     });
     const isCurrent = computed(() => {
-      return props.emission.timeStart < now.value && props.emission.timeEnd > now.value;
+      return props.emission.dtStart < now.value && props.emission.dtEnd > now.value;
     });
 
     const scrollIntoView = (force = false) => {
@@ -119,10 +119,10 @@ export default defineComponent({
       return props.emission.tags.slice(0, 4).join(", ");
     });
     const timeStartDisplay = computed(() => {
-      if (!props.emission?.timeStart) {
+      if (!props.emission?.dtStart) {
         return null;
       }
-      return props.emission.timeStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
+      return props.emission.dtStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     const cssVars = computed(() => {
       let fg = "var(--c-black)";

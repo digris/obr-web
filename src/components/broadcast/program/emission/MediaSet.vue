@@ -1,4 +1,6 @@
 <script lang="ts">
+import type { PropType } from "vue";
+import type { Media } from "@/typings/api";
 import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
 import { DateTime } from "luxon";
 import Duration from "@/components/ui/time/Duration.vue";
@@ -11,13 +13,15 @@ export default defineComponent({
   },
   props: {
     mediaSet: {
-      type: Array,
+      // type: Array,
+      type: Array as PropType<Array<Media>>,
       required: true,
     },
   },
   setup(props) {
     const now = ref(DateTime.now());
-    const timer = ref(null);
+    // const timer = ref(null);
+    const timer = ref<ReturnType<typeof setInterval> | null>(null);
     const visibleMediaSet = computed(() => {
       return props.mediaSet.filter((m: any) => DateTime.fromISO(m.timeStart) < now.value);
     });
@@ -32,18 +36,16 @@ export default defineComponent({
         return 0;
       }
       return now.value.diff(DateTime.fromISO(nextMedia.value.timeStart), "seconds").seconds;
-      // return 17;
     });
     onMounted(() => {
-      console.debug("MS onMounted");
       timer.value = setInterval(() => {
         now.value = DateTime.now();
       }, 1000);
     });
     onUnmounted(() => {
-      console.debug("MS onUnmounted");
-      // @ts-ignore
-      clearInterval(timer.value);
+      if (timer.value) {
+        clearInterval(timer.value);
+      }
     });
     return {
       visibleMediaSet,

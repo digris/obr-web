@@ -1,12 +1,13 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onActivated, watch } from "vue";
-import { useStore } from "vuex";
 import { useRouteHash } from "@vueuse/router";
 import { isEqual } from "lodash-es";
 import Filter from "./Filter.vue";
 import Emission from "./emission/Emission.vue";
 import { DateTime } from "luxon";
 import { zeroPad } from "@/utils/format";
+import { storeToRefs } from "pinia";
+import { useProgramStore } from "@/stores/program";
 
 const timeStrRegex = new RegExp("^#([0,1,2])([0-9]):([0-5])([0-9])$");
 
@@ -31,8 +32,8 @@ export default defineComponent({
   },
   emits: ["navigate", "dateUpdate"],
   setup(props, { emit }) {
-    const store = useStore();
-    const emissions = computed(() => store.getters["program/emissions"]);
+    const { emissions } = storeToRefs(useProgramStore());
+    const { loadEmissions } = useProgramStore();
     const navigate = () => {
       emit("navigate");
     };
@@ -58,11 +59,7 @@ export default defineComponent({
       date: props.date,
       time: time.value,
     });
-    const loadEmissions = async (date: DateTime) => {
-      const dateStr = date.toISODate();
-      await store.dispatch("program/loadEmissions", dateStr);
-    };
-    // onMounted(() => loadEmissions(props.date));
+
     onActivated(() => loadEmissions(props.date));
     watch(
       () => props.date,
