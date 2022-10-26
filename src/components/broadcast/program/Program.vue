@@ -1,15 +1,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onActivated, watch } from "vue";
-import { useRouteHash } from "@vueuse/router";
 import { isEqual } from "lodash-es";
 import Filter from "./Filter.vue";
 import Emission from "./emission/Emission.vue";
 import { DateTime } from "luxon";
-import { zeroPad } from "@/utils/format";
 import { storeToRefs } from "pinia";
 import { useProgramStore } from "@/stores/program";
-
-const timeStrRegex = new RegExp("^#([0,1,2])([0-9]):([0-5])([0-9])$");
 
 export default defineComponent({
   components: {
@@ -40,24 +36,8 @@ export default defineComponent({
     const timeInFuture = computed(() => {
       return props.date > DateTime.now();
     });
-    const timeStr = useRouteHash();
-    const time = computed(() => {
-      if (timeStrRegex.test(timeStr.value)) {
-        const hour = parseInt(timeStr.value.substring(1, 3));
-        const minute = parseInt(timeStr.value.substring(4, 6));
-        return {
-          hour: Math.min(hour, 23),
-          minute: minute,
-        };
-      }
-      return {
-        hour: DateTime.now().startOf("hour").hour,
-        minute: 0,
-      };
-    });
     const filter = ref({
       date: props.date,
-      time: time.value,
     });
 
     onActivated(() => loadEmissions(props.date));
@@ -72,19 +52,13 @@ export default defineComponent({
     watch(
       () => filter.value,
       (newValue, oldValue) => {
-        if (!isEqual(newValue.time, oldValue.time)) {
-          const t = newValue.time;
-          timeStr.value = `#${zeroPad(t.hour)}:${zeroPad(t.minute)}`;
-        }
         if (!isEqual(newValue.date, oldValue.date)) {
           emit("dateUpdate", newValue.date);
         }
       }
     );
     return {
-      timeStr,
       timeInFuture,
-      time,
       filter,
       emissions,
       navigate,
@@ -94,9 +68,6 @@ export default defineComponent({
 </script>
 <template>
   <div class="program">
-    <!--
-    <pre v-text="{ timeStr, time, filter }" />
-    -->
     <div class="header">
       <div class="title" v-text="title" />
       <div class="filter-container">
