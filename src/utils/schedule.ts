@@ -9,7 +9,6 @@ class Schedule {
 
     useIntervalFn(
       async () => {
-        // await store.dispatch("schedule/loadSchedule");
         await loadSchedule();
       },
       interval,

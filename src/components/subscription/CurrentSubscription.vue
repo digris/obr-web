@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { useStore } from "vuex";
+import { useAccount } from "@/composables/account";
 import { DateTime } from "luxon";
 
 import eventBus from "@/eventBus";
@@ -11,8 +11,7 @@ export default defineComponent({
     Datetime,
   },
   setup() {
-    const store = useStore();
-    const subscription = computed(() => store.getters["account/subscription"]);
+    const { subscription } = useAccount();
     const now = ref(DateTime.now());
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {

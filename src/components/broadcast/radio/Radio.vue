@@ -59,7 +59,6 @@ export default defineComponent({
         const rgb = item?.media?.image?.rgb;
         if (rgb) {
           setPrimaryColor(rgb);
-          // store.dispatch("ui/setPrimaryColor", item?.media?.image?.rgb);
         }
       }
     );

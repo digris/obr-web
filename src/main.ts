@@ -18,7 +18,6 @@ import createMediaSessionHandler from "@/player/mediaSession";
 import { APIClient } from "@/api/client";
 
 import App from "./App.vue";
-import store from "./store";
 import router from "./router";
 
 // directives
@@ -58,7 +57,6 @@ const i18n = createI18n({
 });
 
 app.use(router);
-app.use(store);
 app.use(i18n);
 app.directive("tooltip", TooltipDirective);
 
@@ -110,9 +108,6 @@ window.app = app;
 
 // @ts-ignore
 window.router = router;
-
-// @ts-ignore
-window.store = store;
 
 // @ts-ignore
 window.tracker = tracker;

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { useAccount } from "@/composables/account";
 import { getVoucher, redeemVoucher } from "@/api/subscription";
 
 import eventBus from "@/eventBus";
@@ -21,10 +21,9 @@ export default defineComponent({
     Datetime,
   },
   setup() {
-    const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const user = computed(() => store.getters["account/user"]);
+    const { user, loadUser } = useAccount();
     const errors = ref<Array<string>>([]);
     const voucher = ref(null);
     const isValid = computed(() => !!voucher.value);
@@ -49,7 +48,7 @@ export default defineComponent({
       try {
         const response = await redeemVoucher(code.value);
         console.debug(response);
-        await store.dispatch("account/getUser");
+        await loadUser();
         await router.replace(route.path);
       } catch (err: any) {
         console.warn(err);
@@ -63,7 +62,6 @@ export default defineComponent({
         intent: "login",
         next: `${route.path}#${code.value}`,
       };
-      console.debug("Authenticate", event);
       eventBus.emit("account:authenticate", event);
     };
     const closePanel = () => {

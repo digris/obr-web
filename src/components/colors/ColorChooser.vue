@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     setColor(color) {
-      this.$store.dispatch("ui/setPrimaryColor", color);
+      console.debug("setColor", color);
     },
   },
 };

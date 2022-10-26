@@ -145,7 +145,4 @@ export default defineComponent({
 .section {
   @include container.section;
 }
-:deep(.visual) {
-  height: 25vh;
-}
 </style>

@@ -1,12 +1,11 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { defineComponent } from "vue";
+import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
-    const user = computed(() => store.getters["account/user"]);
+    const { user } = useAccount();
     const login = () => {
       const event = {
         intent: "login",
