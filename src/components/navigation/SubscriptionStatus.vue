@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
 import { DateTime } from "luxon";
+import { useAccount } from "@/composables/account";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconAlert from "@/components/ui/icon/IconAlert.vue";
 
@@ -13,8 +13,7 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const store = useStore();
-    const subscription = computed(() => store.getters["account/subscription"]);
+    const { subscription } = useAccount();
     const now = DateTime.now();
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {

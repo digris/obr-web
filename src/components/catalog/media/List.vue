@@ -120,8 +120,6 @@ export default defineComponent({
       numResults.value = count;
       // @ts-ignore
       mediaList.value.push(...results);
-      // TODO: this kind of smells...
-      // await store.dispatch("rating/updateObjectRatings", results);
       await injectRatings(results);
       mediaListLoading.value = false;
       if (!hasNext.value) {

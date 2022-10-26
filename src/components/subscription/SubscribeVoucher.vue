@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
-import { useStore } from "vuex";
+import { useAccount } from "@/composables/account";
 import { debounce } from "lodash-es";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
@@ -29,7 +29,7 @@ export default defineComponent({
   },
   emits: ["subscriptionExtended"],
   setup(props, { emit }) {
-    const store = useStore();
+    const { loadUser } = useAccount();
     const errors = ref<Array<string>>([]);
     const codeInput = ref(props.code);
     const voucher = ref(null);
@@ -72,7 +72,7 @@ export default defineComponent({
       try {
         const response = await redeemVoucher(code);
         console.debug(response);
-        await store.dispatch("account/getUser");
+        await loadUser();
         emit("subscriptionExtended");
       } catch (err: any) {
         console.warn(err);

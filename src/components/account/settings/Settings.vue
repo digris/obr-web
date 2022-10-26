@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
+import { defineComponent } from "vue";
+import { useAccount } from "@/composables/account";
 
 import Section from "@/components/account/settings/Section.vue";
 import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
@@ -25,22 +25,15 @@ export default defineComponent({
     Support,
   },
   setup() {
-    const store = useStore();
-    const user = computed(() => store.getters["account/user"]);
-    const subscription = computed(() => store.getters["account/subscription"]);
-    const settings = computed(() => store.getters["account/settings"]);
-    const address = computed(() => store.getters["account/address"]);
+    const { user, subscription, settings, address, loadUser } = useAccount();
     const socialNext = window.location.pathname;
-    const reloadUser = async () => {
-      await store.dispatch("account/getUser");
-    };
     return {
       user,
       subscription,
       settings,
       address,
       socialNext,
-      reloadUser,
+      loadUser,
     };
   },
 });
@@ -59,10 +52,10 @@ export default defineComponent({
       <CurrentSubscription />
     </Section>
     <Stream />
-    <Email v-if="user" :user="user" @updated="reloadUser" />
+    <Email v-if="user" :user="user" @updated="loadUser" />
     <Password />
-    <Personal :user="user" @updated="reloadUser" />
-    <Address :address="address" @updated="reloadUser" />
+    <Personal :user="user" @updated="loadUser" />
+    <Address :address="address" @updated="loadUser" />
     <Social />
     <Support :user="user" />
   </div>

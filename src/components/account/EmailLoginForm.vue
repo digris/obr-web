@@ -2,7 +2,7 @@
 import { debounce } from "lodash-es";
 import * as EmailValidator from "email-validator";
 import { defineComponent, ref, computed } from "vue";
-import { useStore } from "vuex";
+import { useAccount } from "@/composables/account";
 
 import { checkLoginEmail, sendLoginEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -27,7 +27,7 @@ export default defineComponent({
   },
   emits: ["emailSent"],
   setup(props, { emit }) {
-    const store = useStore();
+    const { loginUser } = useAccount();
     const email = ref("");
     const password = ref("");
     const emailValid = ref(false);
@@ -105,7 +105,7 @@ export default defineComponent({
       };
       errors.value = [];
       try {
-        await store.dispatch("account/loginUser", credentials);
+        await loginUser(credentials);
         document.location.reload();
       } catch (err) {
         console.warn(err);

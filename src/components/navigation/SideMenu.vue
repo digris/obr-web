@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 import { useI18n } from "vue-i18n";
+import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
@@ -16,10 +16,9 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const store = useStore();
     const { t } = useI18n();
     const isVisible = ref(false);
-    const user = computed(() => store.getters["account/user"]);
+    const { user, logoutUser } = useAccount();
     const close = () => {
       isVisible.value = false;
     };
@@ -35,7 +34,7 @@ export default defineComponent({
     };
     const logout = async () => {
       try {
-        await store.dispatch("account/logoutUser");
+        await logoutUser();
         await router.push({ name: "home" });
         close();
       } catch (err) {

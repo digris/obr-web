@@ -1,18 +1,18 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { useAccount } from "@/composables/account";
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const store = useStore();
+    const { loginUserBySignedEmail } = useAccount();
     const signedEmail = ref(route.params.signedEmail);
     const errors = ref<Array<string>>([]);
     const loginBySignedEmail = async (value: string | string[]) => {
       try {
-        await store.dispatch("account/loginUserBySignedEmail", value);
+        await loginUserBySignedEmail(value);
         await router.push({ name: "accountSettings" });
       } catch (err) {
         console.warn(err);

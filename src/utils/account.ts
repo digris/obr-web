@@ -1,7 +1,8 @@
+import { watch } from "vue";
 import { useIntervalFn } from "@vueuse/core";
 import * as Sentry from "@sentry/vue";
 import { isEqual } from "lodash-es";
-import store from "@/store";
+import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
 
 const updateSentryScope = (user: any) => {
@@ -19,24 +20,20 @@ const updateOpenRelayScope = (user: any) => {
 
 class AccountHandler {
   constructor() {
-    store.watch(
-      (state: any) => state.account.user,
-      async (newUser, oldUser) => {
+    const { user, loadUser } = useAccount();
+    watch(
+      () => user.value,
+      (newUser, oldUser) => {
         if (!isEqual(newUser, oldUser)) {
           updateSentryScope(newUser);
           updateOpenRelayScope(newUser);
-          // await store.dispatch('rating/clearRatings');
         }
       }
     );
     const interval = 60 * 1000;
     useIntervalFn(async () => {
-      await store.dispatch("account/getUser");
+      await loadUser();
     }, interval);
-    // const focused = useWindowFocus();
-    // watch(focused, (value) => {
-    //   console.debug('focused', value);
-    // });
   }
 }
 
@@ -48,10 +45,8 @@ export default function () {
 const requireSubscription = (fn: Function, message = "") => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
-    const user = store.getters["account/user"];
-    const subscription = store.getters["account/subscription"];
-    // console.debug("subscription", subscription);
-    if (!user) {
+    const { user, subscription } = useAccount();
+    if (!user.value) {
       const event = {
         intent: "login",
         next: window.location.pathname,
@@ -60,7 +55,7 @@ const requireSubscription = (fn: Function, message = "") => {
       eventBus.emit("account:authenticate", event);
       return false;
     }
-    if (!subscription) {
+    if (!subscription.value) {
       const event = {
         intent: "plan",
         next: window.location.pathname,
@@ -69,15 +64,15 @@ const requireSubscription = (fn: Function, message = "") => {
       eventBus.emit("subscription:subscribe", event);
       return false;
     }
-    if (subscription.isBlocked) {
+    if (subscription.value.isBlocked) {
       const event = {
-        message: subscription.isBlocked,
+        message: subscription.value.isBlocked,
       };
       eventBus.emit("subscription:blocked", event);
-      alert(subscription.isBlocked);
+      alert(subscription.value.isBlocked);
       return false;
     }
-    if (!subscription.isActive) {
+    if (!subscription.value.isActive) {
       const event = {
         intent: "plan",
         next: window.location.pathname,

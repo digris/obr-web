@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useStore } from "vuex";
 import { useWindowSize } from "@vueuse/core";
 import { AudioPlayer } from "@/player/audioPlayer";
+import { useAccount } from "@/composables/account";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
 import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
@@ -34,19 +34,16 @@ export default defineComponent({
     DebugPanel,
   },
   setup() {
-    const store = useStore();
-
-    const user = computed(() => store.getters["account/user"]);
+    const { loadUser } = useAccount();
+    loadUser();
 
     window.audioPlayer = new AudioPlayer();
 
-    store.dispatch("account/getUser");
     const { width: vpWidth } = useWindowSize();
     const playerComponent = computed(() => {
       return vpWidth.value < 500 ? MobilePlayer : Player;
     });
     return {
-      user,
       playerComponent,
     };
   },

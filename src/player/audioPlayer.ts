@@ -239,8 +239,6 @@ class AudioPlayer {
     }
     // @ts-ignore
     this.playerState = playerState;
-    // TODO: refactor to pinia
-    // store.dispatch("player/updatePlayerState", playerState);
     updatePlayerState(playerState);
     //
   }

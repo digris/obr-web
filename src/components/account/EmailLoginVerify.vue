@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useStore } from "vuex";
+import { useAccount } from "@/composables/account";
 
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
@@ -23,7 +23,7 @@ export default defineComponent({
   },
   emits: ["reset"],
   setup(props, { emit }) {
-    const store = useStore();
+    const { loadUser, loginUserByToken } = useAccount();
     const token = ref("");
     const tokenValid = ref(false);
     const errors = ref<Array<string>>([]);
@@ -44,8 +44,8 @@ export default defineComponent({
         token: token.value,
       };
       try {
-        await store.dispatch("account/loginUserByToken", credentials);
-        await store.dispatch("account/getUser");
+        await loginUserByToken(credentials);
+        await loadUser();
         document.location.reload();
       } catch (err) {
         console.warn(err);

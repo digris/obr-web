@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useStore } from "vuex";
+import { defineComponent, ref, watch } from "vue";
+import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 
@@ -16,7 +16,7 @@ export default defineComponent({
     EmailLoginVerify,
   },
   setup() {
-    const store = useStore();
+    const { user } = useAccount();
     const isVisible = ref(false);
     const socialLoginVisible = ref(true);
     const emailLoginVisible = ref(true);
@@ -51,8 +51,8 @@ export default defineComponent({
       next.value = event.next || null;
       message.value = event.message || null;
     });
-    store.watch(
-      (state: any) => state.account.user,
+    watch(
+      () => user.value,
       (newUser) => {
         if (newUser) {
           isVisible.value = false;
