@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.44 (2022-10-28)
+### Fix
+* Add geo-block notice link to corresponding FAQ topic ([`441c70e`](https://github.com/digris/obr-web/commit/441c70e1a74cba479dcbc2ac2cc3e1f852f8353a))
+
 ## v0.0.43 (2022-10-28)
 ### Fix
 * Add FAQ & content pages ([`efc86ae`](https://github.com/digris/obr-web/commit/efc86ae9a98af0d309dcaeb56fb6dab6ecda0bf9))
