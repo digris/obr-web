@@ -44,7 +44,7 @@ export default defineComponent({
       </section>
     </div>
     <div class="appendix">
-      <SocialMediaLinks />
+      <SocialMediaLinks v-if="categories.length" />
     </div>
   </div>
 </template>
