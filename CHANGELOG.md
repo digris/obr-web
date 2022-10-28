@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.46 (2022-10-28)
+### Fix
+* Hide bandwidth controls for anonymous users ([`7c26414`](https://github.com/digris/obr-web/commit/7c2641474d7e1a49c4d7ea582110802f587c8d5d))
+
 ## v0.0.45 (2022-10-28)
 ### Fix
 * Remove page-flicker during initial FAQ load ([`dd1ef5e`](https://github.com/digris/obr-web/commit/dd1ef5e3b02d061c2ad92d08672be6d68a5d5f1a))
