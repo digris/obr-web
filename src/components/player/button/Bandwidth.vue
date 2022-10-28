@@ -1,15 +1,18 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useSettingsStore } from "@/stores/settings";
+import { useAccount } from "@/composables/account";
 
 export default defineComponent({
   setup() {
     const settingsStore = useSettingsStore();
+    const { user } = useAccount();
     const maxBandwidth = computed(() => settingsStore.maxBandwidth);
     const modeDisplay = computed(() => {
       return maxBandwidth.value < 720000 ? "Eco" : "HiFi";
     });
     return {
+      user,
       modeDisplay,
     };
   },
@@ -17,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="bandwidth">
+  <div v-if="user" class="bandwidth">
     <router-link :to="{ name: 'accountSettings' }" class="bandwidth__text" v-text="modeDisplay" />
   </div>
 </template>
