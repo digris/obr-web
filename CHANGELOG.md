@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.43 (2022-10-28)
+### Fix
+* Add FAQ & content pages ([`efc86ae`](https://github.com/digris/obr-web/commit/efc86ae9a98af0d309dcaeb56fb6dab6ecda0bf9))
+
 ## v0.0.42 (2022-09-05)
 ### Fix
 * Review classes on search toggle button ([`ff728fc`](https://github.com/digris/obr-web/commit/ff728fc2ba4b2e2c2c214f05040e96ae5cd2c979))
