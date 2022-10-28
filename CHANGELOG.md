@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.45 (2022-10-28)
+### Fix
+* Remove page-flicker during initial FAQ load ([`dd1ef5e`](https://github.com/digris/obr-web/commit/dd1ef5e3b02d061c2ad92d08672be6d68a5d5f1a))
+
 ## v0.0.44 (2022-10-28)
 ### Fix
 * Add geo-block notice link to corresponding FAQ topic ([`441c70e`](https://github.com/digris/obr-web/commit/441c70e1a74cba479dcbc2ac2cc3e1f852f8353a))
