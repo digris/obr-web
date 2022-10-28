@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+@use "../abstracts/responsive";
+
+@mixin default {
+  /*
+  rendered markdown - basic styling
+  */
+  p,
+  ul,
+  ol,
+  pre {
+    &:not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
+  }
+  ul,
+  ol {
+    list-style-position: outside;
+    margin-left: 1.25rem;
+  }
+  a {
+    text-decoration: underline;
+  }
+  pre {
+    color: white;
+    background: #333;
+    padding: 0.5rem;
+    user-select: text;
+    code {
+      font-size: 86%;
+    }
+  }
+}

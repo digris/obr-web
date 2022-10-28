@@ -23,6 +23,7 @@ menu:
   collection: Favoriten
   program: Programm
   reception: Empfang
+  faq: FAQ
   about: About
   contact: Kontakt
   donate: Spenden
@@ -56,6 +57,15 @@ pullToRefresh:
 formActions:
   save: Speichern
 account:
+  legal:
+    terms:
+      term: By signing up you agree to the {0} and {1}.
+      tos: Terms of Service
+      pp: Privacy Policy
+    availability:
+      note: "Currently we can only provide access to our on-demand service for people living in Switzerland. 
+            More about in the {0} section."
+      faq: FAQ
   personal:
     name: Name
     surname: Nachname
@@ -67,3 +77,8 @@ account:
         female: she/her
         male: he/his
         other: they/them
+geolocation:
+  availability:
+    note: Currently we can only provide access to our on-demand service for people living in Switzerland.
+    faqNote: More about in the {0} section.
+    faqLabel: FAQ

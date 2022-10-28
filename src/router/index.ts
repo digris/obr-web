@@ -10,6 +10,7 @@ import Discover from "@/views/Discover.vue";
 import Collection from "@/views/Collection.vue";
 import Account from "@/views/Account.vue";
 import Page from "@/views/cms/Page.vue";
+import Faq from "@/views/faq/Faq.vue";
 import EditorList from "@/components/broadcast/editor/List.vue";
 import MoodList from "@/components/catalog/mood/List.vue";
 import MoodDetail from "@/views/catalog/MoodDetail.vue";
@@ -25,6 +26,8 @@ import AccountEmailLogin from "@/components/account/EmailLogin.vue";
 import AccountSettings from "@/components/account/settings/Settings.vue";
 import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
+//
+import Donate from "@/views/pages/Donate.vue";
 //
 import ProtoBase from "@/views/proto/Proto.vue";
 import ProtoIcons from "@/views/proto/Icons.vue";
@@ -407,6 +410,18 @@ const routes = [
     ],
   },
   {
+    path: "/faq/",
+    name: "faq",
+    component: Faq,
+  },
+  // non-cms pages
+  {
+    path: "/donate/",
+    name: "donate",
+    component: Donate,
+  },
+  // prototypes
+  {
     path: "/proto/",
     name: "proto",
     component: ProtoBase,
@@ -426,6 +441,7 @@ const routes = [
       },
     ],
   },
+  // "cms" pages
   {
     path: "/:pathMatch(.*)*",
     name: "page",

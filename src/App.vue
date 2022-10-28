@@ -8,6 +8,7 @@ import SideMenu from "@/components/navigation/SideMenu.vue";
 import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
 import AuthPanel from "@/components/account/AuthPanel.vue";
 import Subscribe from "@/components/subscription/Subscribe.vue";
+import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
 import Player from "@/components/player/Player.vue";
 import MobilePlayer from "@/components/player/mobile/Player.vue";
 import Notifications from "@/components/notification/Notifications.vue";
@@ -29,6 +30,7 @@ export default defineComponent({
     Notifications,
     AuthPanel,
     Subscribe,
+    GeoblockNotice,
     Player,
     ClaimVoucher,
     DebugPanel,
@@ -62,6 +64,7 @@ export default defineComponent({
   </router-view>
   <AuthPanel />
   <Subscribe />
+  <GeoblockNotice />
   <ClaimVoucher />
   <component :is="playerComponent" />
   <DebugPanel />

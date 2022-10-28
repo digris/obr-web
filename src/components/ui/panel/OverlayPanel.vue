@@ -1,5 +1,7 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted } from "vue";
+import { computed, defineComponent, watch } from "vue";
+import { useEventListener } from "@vueuse/core";
+import { useRoute } from "vue-router";
 
 import CloseButton from "./CloseButton.vue";
 
@@ -24,13 +26,13 @@ export default defineComponent({
     const close = () => {
       emit("close");
     };
-    onMounted(() => {
-      document.addEventListener("keydown", (e) => {
-        if (props.isVisible && e.code === "Escape") {
-          close();
-        }
-      });
+    useEventListener(document, "keydown", (e) => {
+      if (e.code === "Escape") {
+        close();
+      }
     });
+    const route = useRoute();
+    watch(() => route.path, close);
     return {
       hasFooter,
       hasSuccess,

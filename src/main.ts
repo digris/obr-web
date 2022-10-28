@@ -49,6 +49,7 @@ const i18n = createI18n({
   legacy: false,
   locale: settingsStore.locale,
   fallbackLocale: "de",
+  globalInjection: false,
   messages: {
     de,
     en,

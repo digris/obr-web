@@ -75,14 +75,14 @@ export default defineComponent({
   grid-template-columns: 242px 1fr 146px 48px 48px;
   width: 100%;
   height: 78px;
-  padding: 0 1.5rem;
+  padding: 0 1.5rem 0 0;
   background: rgba(var(--c-page-bg), 0.6);
   border-bottom: 7px solid rgb(var(--c-page-fg));
   transition: background 10ms;
   backdrop-filter: blur(24px);
   @include responsive.bp-medium {
     height: 66px;
-    grid-template-columns: 230px 1fr 40px 40px 40px;
+    grid-template-columns: 172px 1fr 40px 40px 40px;
     padding: 0 0.625rem;
   }
   .brand {
@@ -90,6 +90,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    padding-left: 1.5rem;
     padding-right: 1rem;
     transition: color, background-color 200ms;
     .logo {
@@ -103,6 +104,8 @@ export default defineComponent({
     }
     @include responsive.bp-medium {
       line-height: 1.25rem;
+      padding-left: 0;
+      padding-right: 0;
       //margin-top: -10px;
       .logo {
         //width: 60px;
@@ -112,6 +115,7 @@ export default defineComponent({
       }
       > span {
         margin-top: -6px;
+        max-width: 100px;
       }
     }
   }

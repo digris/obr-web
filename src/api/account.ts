@@ -24,7 +24,7 @@ async function logout() {
 }
 
 async function checkLoginEmail(email: string) {
-  const url = `${ACCOUNT_ENDPOINT}send-email-login/?email=${email}`;
+  const url = `${ACCOUNT_ENDPOINT}send-email-login/?email=${encodeURIComponent(email)}`;
   const response = await APIClient.get(url);
   return response.data;
 }

@@ -172,7 +172,7 @@ export default defineComponent({
         autocomplete="current-password"
       />
       <p class="help">
-        Passwort vergessen?
+        <span>Passwort vergessen?</span>
         <a @click.prevent="resetPassword">Login mit E-Mail-Bestätigung</a>
       </p>
     </div>
@@ -192,6 +192,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/form";
 .form {
   @include form.default;
@@ -207,6 +208,24 @@ export default defineComponent({
       padding-top: 2rem;
       .button {
         max-width: 33%;
+        @include responsive.bp-medium {
+          max-width: unset;
+        }
+      }
+    }
+    .help {
+      //display: flex;
+      //flex-direction: column;
+      //white-space: pre-wrap;
+      > span {
+        padding-right: 0.5rem;
+      }
+      @include responsive.bp-medium {
+        @include typo.small;
+        padding-top: 1rem;
+        flex-direction: column;
+        align-items: start;
+        white-space: unset;
       }
     }
   }

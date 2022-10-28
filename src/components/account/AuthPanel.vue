@@ -8,12 +8,19 @@ import SocialLogin from "@/components/account/SocialLogin.vue";
 import EmailLoginForm from "@/components/account/EmailLoginForm.vue";
 import EmailLoginVerify from "@/components/account/EmailLoginVerify.vue";
 
+import ServiceInfoAside from "./context/ServiceInfoAside.vue";
+import Availability from "./legal/Availability.vue";
+import Terms from "./legal/Terms.vue";
+
 export default defineComponent({
   components: {
     SidePanel,
     SocialLogin,
     EmailLoginForm,
     EmailLoginVerify,
+    ServiceInfoAside,
+    Availability,
+    Terms,
   },
   setup() {
     const { user } = useAccount();
@@ -78,26 +85,49 @@ export default defineComponent({
 </script>
 <template>
   <SidePanel :is-visible="isVisible" @close="close">
-    <div class="title">Anmelden</div>
-    <div v-if="message" class="message">
-      <p>{{ message }}</p>
+    <div class="panel">
+      <div class="title">Anmelden</div>
+      <div v-if="message" class="message">
+        <p>{{ message }}</p>
+      </div>
+      <section v-if="socialLoginVisible" class="section social">
+        <p>Mit einem bestehenden Konto:</p>
+        <SocialLogin :next="next" />
+      </section>
+      <!--
+      <div v-if="socialLoginVisible && emailLoginVisible" class="subtitle">oder</div>
+      -->
+      <div>
+        <section v-if="emailLoginVisible" class="section email">
+          <EmailLoginForm :next="next" @email-sent="handleEmailSent" />
+        </section>
+        <section v-if="emailLoginVerifyVisible" class="section email">
+          <EmailLoginVerify :email="emailSentTo" @reset="reset" />
+        </section>
+      </div>
+      <section class="section availability">
+        <Availability />
+      </section>
     </div>
-    <section v-if="socialLoginVisible" class="section social">
-      <p>Mit einem bestehenden Konto:</p>
-      <SocialLogin :next="next" />
-    </section>
-    <div v-if="socialLoginVisible && emailLoginVisible" class="subtitle">oder</div>
-    <section v-if="emailLoginVisible" class="section email">
-      <EmailLoginForm :next="next" @email-sent="handleEmailSent" />
-    </section>
-    <section v-if="emailLoginVerifyVisible" class="section email">
-      <EmailLoginVerify :email="emailSentTo" @reset="reset" />
-    </section>
+    <template #footer>
+      <Terms class="terms" />
+    </template>
+    <!-- NOTE: design to be discussed -->
+    <template #aside>
+      <ServiceInfoAside />
+    </template>
   </SidePanel>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
+.panel {
+  display: flex;
+  min-height: 100%;
+  overflow-y: scroll;
+  flex-direction: column;
+}
 .title {
   @include typo.x-large;
   @include typo.bold;
@@ -113,11 +143,29 @@ export default defineComponent({
   margin-top: 2rem;
   > p {
     margin-bottom: 1rem;
+    @include responsive.bp-medium {
+      @include typo.small;
+    }
   }
 }
 .email {
   > p {
     margin-bottom: 0.5rem;
+  }
+}
+.section.availability {
+  flex-grow: 1;
+  padding-top: 1rem;
+  align-items: center;
+  display: flex;
+  @include responsive.bp-medium {
+    @include typo.small;
+  }
+}
+.terms {
+  @include responsive.bp-medium {
+    @include typo.small;
+    //padding-bottom: 1rem;
   }
 }
 .lead {

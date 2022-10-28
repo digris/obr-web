@@ -44,6 +44,10 @@ export default defineComponent({
     const pages = computed(() => {
       return [
         {
+          path: "/faq/",
+          title: t("menu.faq"),
+        },
+        {
           path: "/about/",
           title: t("menu.about"),
         },
@@ -214,9 +218,9 @@ export default defineComponent({
   display: flex;
   min-height: 2rem;
   align-items: center;
-  border-top: 1px solid rgb(var(--c-gray-200));
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
+  //border-top: 1px solid rgb(var(--c-gray-200));
+  //padding-top: 0.5rem;
+  //padding-bottom: 1rem;
   .ui-mode-chooser {
     flex-grow: 1;
   }

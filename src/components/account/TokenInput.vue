@@ -58,6 +58,9 @@ export default defineComponent({
   @include form.default;
   .input-container {
     @include form.top-label;
+    label {
+      white-space: nowrap;
+    }
   }
   .input {
     @include form.input;

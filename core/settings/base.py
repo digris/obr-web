@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "rating",
     "broadcast",
     "catalog",
+    "faq",
     "redirect",
     "electronic_mail",
     "stats",

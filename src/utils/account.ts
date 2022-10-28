@@ -68,8 +68,8 @@ const requireSubscription = (fn: Function, message = "") => {
       const event = {
         message: subscription.value.isBlocked,
       };
-      eventBus.emit("subscription:blocked", event);
-      alert(subscription.value.isBlocked);
+      eventBus.emit("geolocation:blocked", event);
+      // alert(subscription.value.isBlocked);
       return false;
     }
     if (!subscription.value.isActive) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, watch } from "vue";
+import { defineComponent, computed, watch } from "vue";
 import { useEventListener } from "@vueuse/core";
 import { useRoute } from "vue-router";
 
@@ -16,7 +16,8 @@ export default defineComponent({
     },
   },
   emits: ["close"],
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
+    const hasAside = computed(() => !!slots.aside);
     const close = () => {
       emit("close");
     };
@@ -28,6 +29,7 @@ export default defineComponent({
     const route = useRoute();
     watch(() => route.path, close);
     return {
+      hasAside,
       close,
     };
   },
@@ -36,6 +38,11 @@ export default defineComponent({
 <template>
   <transition name="fade">
     <div v-if="isVisible" class="mask" />
+  </transition>
+  <transition name="fade">
+    <div v-if="isVisible && hasAside" class="aside">
+      <slot name="aside" />
+    </div>
   </transition>
   <transition name="slide">
     <div v-if="isVisible" class="side-panel">
@@ -111,15 +118,36 @@ export default defineComponent({
   &__body {
     flex-grow: 1;
     padding: 0 1.5rem 1rem;
+    overflow-y: scroll;
     @include responsive.bp-medium {
       padding: 0 0.625rem 0.5rem;
     }
   }
   &__footer {
-    padding: 1rem 1.5rem;
+    margin: 0 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid rgb(var(--c-gray-200));
+    //background: red;
     @include responsive.bp-medium {
-      padding: 0 0.625rem 0;
+      margin: 0 0.625rem;
+      padding: 0.5rem 0;
     }
+  }
+}
+.aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  height: 100%;
+  color: rgb(var(--c-white));
+  @include responsive.bp-medium {
+    display: none;
   }
 }
 

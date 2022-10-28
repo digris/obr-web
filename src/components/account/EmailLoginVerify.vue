@@ -93,6 +93,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/form";
 .form {
   @include form.default;
@@ -107,6 +108,9 @@ export default defineComponent({
       padding-top: 2rem;
       .button {
         max-width: 33%;
+        @include responsive.bp-medium {
+          max-width: unset;
+        }
       }
     }
   }

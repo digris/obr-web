@@ -1,4 +1,5 @@
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/button";
 
 @mixin input {
@@ -25,7 +26,7 @@
     align-items: center;
     height: 3rem;
     color: inherit;
-    text-transform: uppercase;
+    //text-transform: uppercase;
   }
   .help {
     display: flex;
@@ -35,6 +36,12 @@
     a {
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+  @include responsive.bp-medium {
+    label {
+      @include typo.small;
+      height: 2rem;
     }
   }
 }

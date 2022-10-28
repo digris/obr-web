@@ -14,6 +14,8 @@ export default defineConfig({
   plugins: [
     vue(),
     vueI18n({
+      runtimeOnly: true,
+      compositionOnly: true,
       include: resolve(__dirname, "src/locales/**"),
     }),
   ],

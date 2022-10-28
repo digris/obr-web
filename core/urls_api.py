@@ -68,6 +68,10 @@ def api_root(request, format=None):
                 "api:catalog:api-root",
                 request=request,
             ),
+            "faq/": reverse(
+                "api:faq:api-root",
+                request=request,
+            ),
         }
     )
 
@@ -133,6 +137,10 @@ urlpatterns = [
     path(
         "catalog/",
         include("catalog.api.urls", "catalog"),
+    ),
+    path(
+        "faq/",
+        include("faq.api.urls", "faq"),
     ),
     path(
         "redirect/",
