@@ -11,6 +11,7 @@ export default defineComponent({
   setup() {
     const { t } = useI18n();
     const isVisible = ref(false);
+    const faqLink = "/faq/#42C745E4";
     const message = ref(null);
     const successVisible = ref(false);
     const close = () => {
@@ -26,6 +27,7 @@ export default defineComponent({
       t,
       close,
       isVisible,
+      faqLink,
       message,
     };
   },
@@ -39,7 +41,7 @@ export default defineComponent({
       <div class="availability">
         <i18n-t keypath="geolocation.availability.note" tag="p" class="note" />
         <i18n-t keypath="geolocation.availability.faqNote" tag="p" class="faq-note">
-          <router-link to="/faq/" v-text="t('geolocation.availability.faqLabel')" />
+          <router-link :to="faqLink" v-text="t('geolocation.availability.faqLabel')" />
         </i18n-t>
       </div>
     </div>
