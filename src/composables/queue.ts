@@ -1,3 +1,4 @@
+import log from "loglevel";
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { shuffle } from "lodash-es";
@@ -49,61 +50,39 @@ const useQueueControls = () => {
   const hasPrevious = computed(() => previousIndex.value !== null);
   const hasNext = computed(() => !!isLive);
   const enqueueObj = async (obj: any, mode = "append") => {
-    console.debug("queue - enqueueObj", obj, mode);
+    log.debug("queueControls - enqueueObj", obj, mode);
     const objKey = `${obj.ct}:${obj.uid}`;
     const filter = {
       obj_key: objKey,
     };
     const { results } = await getMedia(100, 0, filter);
     const scope = [objKey];
-    console.debug(scope, results);
     await enqueue({ media: annotateMedia(results, scope), mode });
   };
   const enqueueMedia = async (media: Array<Media>, mode = "append", scope = []) => {
-    console.debug("queue - enqueueMedia", media, mode, scope);
+    log.debug("queueControls - enqueueMedia", media, mode, scope);
     if (shuffleMode.value) {
       media = shuffle(media);
     }
     await enqueue({ media: annotateMedia(media, scope), mode });
   };
   const startPlayCurrent = async (force = false) => {
-    console.debug("queue - startPlayCurrent", force);
     if (isPlaying.value && !force) {
       return;
     }
     if (!currentMedia.value) {
-      console.warn("unable to play: no current media");
+      log.warn("unable to play: no current media");
       return;
     }
     try {
       await playMedia(currentMedia.value);
     } catch (e) {
-      console.debug("player error - try with next");
+      log.warn("player error - try with next");
       await playNext();
     }
-
-    /*
-    const url = getMediaUrl(media);
-    const { cueIn: startTime, cueOut, fadeIn, fadeOut } = media;
-    const endTime = media.duration - cueOut;
-    console.debug("queue:startPlayCurrent", {
-      startTime,
-      endTime,
-      fadeIn,
-      fadeOut,
-      url,
-      title: `${media.name} - ${media.artistDisplay}`,
-    });
-    try {
-      await audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
-    } catch (e) {
-      console.debug('player error - try with next');
-      await playNext();
-    }
-    */
   };
   const playPrevious = async () => {
-    console.debug("queue - playPrevious");
+    log.debug("queueControls - playPrevious");
     if (previousIndex.value !== null) {
       await setIndex(previousIndex.value);
       await startPlayCurrent(true);
@@ -112,17 +91,17 @@ const useQueueControls = () => {
     }
   };
   const playNext = async () => {
-    console.debug("queue - playNext");
+    log.debug("queueControls - playNext");
     if (nextIndex.value !== null) {
       await setIndex(nextIndex.value);
       await startPlayCurrent(true);
     } else {
-      console.info("no next media - switch to live");
-      playLive();
+      log.info("no next media - switch to live");
+      await playLive();
     }
   };
   const playFromIndex = async (index: number) => {
-    console.debug("queue - playFromIndex", index);
+    log.debug("queueControls - playFromIndex", index);
     await setIndex(index);
     await startPlayCurrent(true);
   };

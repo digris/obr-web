@@ -34,7 +34,7 @@ class OBRMigrator:
         params = {
             "limit": 2000,
         }
-        r = requests.get(url=url, params=params, headers=self.headers)
+        r = requests.get(url=url, params=params, headers=self.headers, timeout=10)
         return r.json()["results"]
 
     def migrate(self, emails=None, overwrite=False):

@@ -9,9 +9,14 @@ const useDevice = () => {
   const isDesktop = computed(() => {
     return !isMobile.value;
   });
+  // @ts-ignore
+  const isWeb = !window?.webkit?.messageHandlers?.appBridge;
+  const isApp = !isWeb;
   return {
     isMobile,
     isDesktop,
+    isWeb,
+    isApp,
     windowSize: { width, height },
   };
 };

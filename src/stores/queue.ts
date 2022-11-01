@@ -1,3 +1,4 @@
+import log from "loglevel";
 import type { Media } from "@/typings/api";
 import { defineStore } from "pinia";
 import { shuffle } from "lodash-es";
@@ -43,11 +44,11 @@ export const useQueueStore = defineStore("queue", {
   },
   actions: {
     async setIndex(index: number): Promise<void> {
-      console.debug("stores/queue - setIndex", index);
+      log.debug("queueStore - setIndex", index);
       this.currentIndex = index;
     },
     async removeAtIndex(index: number): Promise<void> {
-      console.debug("stores/queue - removeIndex", index);
+      log.debug("queueStore - removeIndex", index);
       this.media.splice(index, 1);
       if (index < this.currentIndex) {
         this.currentIndex -= 1;
@@ -55,7 +56,7 @@ export const useQueueStore = defineStore("queue", {
     },
     async enqueue(queue: Enqueue): Promise<void> {
       const { media, mode } = queue;
-      console.debug("stores/queue - enqueue", media, mode);
+      log.debug("queueStore - enqueue", media, mode);
       if (mode === "replace") {
         this.media = media;
         this.currentIndex = media.length ? 0 : -1;
@@ -73,20 +74,28 @@ export const useQueueStore = defineStore("queue", {
           this.currentIndex = media.length ? 0 : -1;
         }
       } else {
-        console.warn(`unknown mode ${mode}`);
+        log.warn(`unknown mode ${mode}`);
       }
     },
     async shuffleQueue(): Promise<void> {
-      console.debug("stores/queue - shuffleQueue");
+      log.debug("queueStore - shuffleQueue");
       const splitAt = this.currentIndex + 1;
       const head = this.media.slice(0, splitAt);
       const tail = this.media.slice(splitAt);
       this.media = [...head, ...shuffle(tail)];
     },
     async clearQueue(): Promise<void> {
-      console.debug("stores/queue - clearQueue");
+      log.debug("queueStore - clearQueue");
       this.media = this.media.slice(this.currentIndex, this.currentIndex + 1);
       this.currentIndex = 0;
+    },
+    // replace complete queue state
+    // this method is used when running in "App-mode" and queue data is handled by native app
+    async setQueueData(data: any): Promise<void> {
+      log.debug("setQueueData", data);
+      const { media, currentIndex } = data;
+      this.media = media;
+      this.currentIndex = currentIndex;
     },
   },
 });

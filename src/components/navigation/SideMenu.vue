@@ -3,6 +3,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
@@ -19,6 +20,7 @@ export default defineComponent({
     const { t } = useI18n();
     const isVisible = ref(false);
     const { user, logoutUser } = useAccount();
+    const { isApp } = useDevice();
     const close = () => {
       isVisible.value = false;
     };
@@ -85,6 +87,7 @@ export default defineComponent({
       login,
       logout,
       pages,
+      isApp,
     };
   },
 });
@@ -144,6 +147,7 @@ export default defineComponent({
         />
       </section>
       <section class="section">
+        <router-link v-if="isApp" :to="{ name: 'protoAppBridge' }">APP</router-link>
         <router-link
           v-for="(page, index) in pages"
           :key="`page-${index}-${page.path}`"

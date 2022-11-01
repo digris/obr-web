@@ -2,6 +2,7 @@
 import { computed, defineComponent } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { AudioPlayer } from "@/player/audioPlayer";
+import { AppBridge } from "@/app-bridge/appBridge";
 import { useAccount } from "@/composables/account";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
@@ -18,6 +19,7 @@ import DebugPanel from "@/components/dev/DebugPanel.vue";
 declare global {
   interface Window {
     audioPlayer: AudioPlayer;
+    appBridge: AppBridge;
   }
 }
 
@@ -40,6 +42,7 @@ export default defineComponent({
     loadUser();
 
     window.audioPlayer = new AudioPlayer();
+    window.appBridge = new AppBridge();
 
     const { width: vpWidth } = useWindowSize();
     const playerComponent = computed(() => {

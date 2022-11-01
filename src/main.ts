@@ -1,4 +1,5 @@
 import "./style/main.scss";
+import log from "loglevel";
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 import { createPinia } from "pinia";
@@ -22,6 +23,8 @@ import router from "./router";
 
 // directives
 import { TooltipDirective } from "./directives/tooltip";
+
+log.setLevel("TRACE");
 
 const pinia = createPinia();
 

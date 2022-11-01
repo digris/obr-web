@@ -211,6 +211,7 @@ class MediaViewSet(
             pass
         return super().list(request, *args, **kwargs)
 
+    # pylint: disable=too-many-locals
     def list_for_playlist(self, request, uid, *args, **kwargs):
 
         qs = self.filter_queryset(self.get_queryset(include_upcoming=True))

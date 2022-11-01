@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 
 @mixin default($height: 3rem) {
   @include typo.bold;
@@ -21,7 +22,7 @@
     outline-offset: 2px;
   }
   &:not(:disabled) {
-    &:hover {
+    @include responsive.on-hover {
       background: rgba(var(--c-black), 0.9);
       //background: rgb(var(--c-cta));
       border-radius: $height * 0.5;

@@ -27,6 +27,7 @@
     "color": "^4.2.3",
     "email-validator": "^2.0.4",
     "lodash-es": "^4.17.21",
+    "loglevel": "^1.8.0",
     "luxon": "^2.4",
     "mitt": "^3.0.0",
     "mux.js": "^6.0.1",

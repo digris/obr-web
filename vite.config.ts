@@ -43,6 +43,7 @@ export default defineConfig({
       },
     },
     outDir: resolve(__dirname, "build"),
+    sourcemap: true,
     chunkSizeWarningLimit: 1500,
     assetsInlineLimit: 8092,
   },

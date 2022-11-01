@@ -1,3 +1,4 @@
+import log from "loglevel";
 // @ts-ignore
 import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
@@ -117,7 +118,7 @@ class AudioPlayer {
     }, POLL_INTERVAL);
 
     eventBus.on("player:controls", (e) => {
-      console.warn("DEPRECIATED: player:controls", e);
+      log.warn("DEPRECIATED: player:controls", e);
       switch (e.do) {
         case "play": {
           const { url, startTime } = e;
@@ -142,14 +143,14 @@ class AudioPlayer {
           break;
         }
         default: {
-          console.debug("unhandled action", e);
+          log.debug("unhandled action", e);
           break;
         }
       }
     });
 
     audio.onended = (e) => {
-      console.debug("AudioPlayer - audio.onended", e);
+      log.debug("AudioPlayer - audio.onended", e);
       eventBus.emit("player:audio:ended", e);
     };
 
@@ -247,7 +248,7 @@ class AudioPlayer {
     const ct = this.audio.currentTime;
     // cue-out
     if (this.endTime && ct > this.endTime) {
-      console.debug("audioPlayer:onTimeupdate - end time reached");
+      log.debug("audioPlayer:onTimeupdate - end time reached");
       this.pause();
       await this.player.unload();
       await delay(5);
@@ -270,24 +271,25 @@ class AudioPlayer {
   }
 
   removeEventHandlers() {
-    // console.debug("removeEventHandlers");
+    // log.debug("removeEventHandlers");
     this.audio.removeEventListener("timeupdate", this.onTimeupdate);
   }
 
   addEventHandlers() {
     this.removeEventHandlers();
-    // console.debug("addEventHandlers", this);
+    // log.debug("addEventHandlers", this);
     this.audio.addEventListener("timeupdate", this.onTimeupdate.bind(this), false);
   }
 
   async play(url: string, startTime = 0, endTime = 0, fadeIn = 0, fadeOut = 0) {
-    console.debug("audioPlayer:play", {
-      url,
-      startTime,
-      endTime,
-      fadeIn,
-      fadeOut,
-    });
+    // log.debug("audioPlayer:play", {
+    //   url,
+    //   startTime,
+    //   endTime,
+    //   fadeIn,
+    //   fadeOut,
+    // });
+
     // load url to shaka player, then trigger 'play' on audio element
     this.startTime = startTime;
     this.endTime = endTime;
@@ -302,51 +304,29 @@ class AudioPlayer {
       await this.player.load(url, startTime);
       this.audio.play();
     } catch (e) {
-      console.error(e, url);
-      // notify({
-      //   level: "error",
-      //   ttl: 5,
-      //   body: `Error ${e.code}: unable to play media.`,
-      // });
-      console.debug("wait 50ms");
+      log.error(e, url);
       await delay(50);
-      console.debug("waited 50ms");
       this.removeEventHandlers();
       throw Error("playback error");
-      // return;
     }
     if (!this.analyser) {
       try {
         this.analyser = createAudioAnalyser(this.audio);
       } catch (e) {
-        console.error(e);
+        log.error(e);
       }
     }
     this.addEventHandlers();
-
-    // this.player
-    //   .load(url, startTime)
-    //   .then(() => {
-    //     this.audio.play();
-    //   })
-    //   .catch((e: Error) => {
-    //     console.error(e);
-    //     notify({
-    //       level: "error",
-    //       ttl: 5,
-    //       body: `Error ${e.code}: unable to play media.`,
-    //     });
-    //   });
   }
 
   seek(relPosition: number) {
     if (!(this.playerState && this.playerState.duration)) {
-      console.warn("unable to seek");
+      log.warn("unable to seek");
       return;
     }
     // @ts-ignore
     let absPosition = relPosition * this.playerState.duration;
-    console.debug("seek", absPosition, this.endTime);
+    log.debug("seek", absPosition);
     if (this.startTime && absPosition < this.startTime) {
       this.fadeVolume.value = this.fadeInTime ? 0 : 1;
       absPosition = this.startTime;
