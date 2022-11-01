@@ -32,6 +32,7 @@ import Donate from "@/views/pages/Donate.vue";
 import ProtoBase from "@/views/proto/Proto.vue";
 import ProtoIcons from "@/views/proto/Icons.vue";
 import ProtoRating from "@/views/proto/Rating.vue";
+import ProtoAppBridge from "@/views/proto/AppBridge.vue";
 
 import { getUser } from "@/api/account";
 import { setBodyColorTheme } from "@/utils/color";
@@ -438,6 +439,11 @@ const routes = [
         path: "rating/",
         name: "protoRating",
         component: ProtoRating,
+      },
+      {
+        path: "app-bridge/",
+        name: "protoAppBridge",
+        component: ProtoAppBridge,
       },
     ],
   },

@@ -6,6 +6,8 @@ interface State {
   bufferInfo: any;
   currentState: any;
   playerState: any;
+  // NOTE: temporary, debugging bridge
+  appPlayerData: any;
 }
 
 export const usePlayerStore = defineStore("player", {
@@ -14,6 +16,7 @@ export const usePlayerStore = defineStore("player", {
     bufferInfo: {},
     currentState: null,
     playerState: null,
+    appPlayerData: {},
   }),
   getters: {
     // playheadTime(state: State): DateTime | null {
@@ -24,6 +27,9 @@ export const usePlayerStore = defineStore("player", {
   actions: {
     updatePlayerState(playerState: any) {
       this.playerState = playerState;
+    },
+    async setAppPlayerData(data: any) {
+      this.appPlayerData = data;
     },
   },
 });

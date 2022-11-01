@@ -1,15 +1,8 @@
 from rest_framework import serializers
-from drf_spectacular.utils import extend_schema_field, OpenApiTypes
 from api_extra.serializers import RGBValueField
 
 
 class BaseImageSerializer(serializers.ModelSerializer):
-
-    # file = serializers.CharField(
-    #     source="file.name",
-    #     read_only=True,
-    #     allow_null=True,
-    # )
 
     path = serializers.CharField(
         read_only=True,

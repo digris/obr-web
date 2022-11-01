@@ -1,5 +1,7 @@
+import log from "loglevel";
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useScheduleStore } from "@/stores/schedule";
 import { useQueueStore } from "@/stores/queue";
@@ -52,23 +54,21 @@ const usePlayerState = () => {
 
 const usePlayerControls = () => {
   const audioPlayer = window.audioPlayer;
-  // const play = (url: string, startTime = 0) => {
-  //   console.debug('usePlayerControls - play');
-  //   audioPlayer.play(url, startTime);
-  // };
+  const appBridge = window.appBridge;
+  const { isWeb } = useDevice();
   const playMedia = async (media: AnnotatedMedia) => {
-    console.debug("usePlayerControls - playMedia", media);
+    log.debug("playerControls - playMedia", media);
     const url = getMediaUrl(media);
     const { cueIn: startTime, cueOut, fadeIn, fadeOut } = media;
     const endTime = media.duration - cueOut;
-    console.debug("player:playMedia", {
-      startTime,
-      endTime,
-      fadeIn,
-      fadeOut,
-      url,
-      title: `${media.name} - ${media.artistDisplay}`,
-    });
+    // log.debug("player:playMedia", {
+    //   startTime,
+    //   endTime,
+    //   fadeIn,
+    //   fadeOut,
+    //   url,
+    //   title: `${media.name} - ${media.artistDisplay}`,
+    // });
     try {
       await audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
     } catch (e) {
@@ -76,9 +76,14 @@ const usePlayerControls = () => {
     }
   };
   const playLive = async (startTime = 0) => {
-    const url = getStreamUrl();
-    console.debug("player:playLive", url);
-    await audioPlayer.play(url, startTime);
+    if (isWeb) {
+      const url = getStreamUrl();
+      log.debug("playerControls - playLive web-mode", url);
+      await audioPlayer.play(url, startTime);
+    } else {
+      log.debug("playerControls - playLive app-mode");
+      await appBridge.send("player:playLive");
+    }
   };
   const pause = () => {
     audioPlayer.pause();
