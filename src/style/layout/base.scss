@@ -11,7 +11,7 @@
 html,
 body {
   min-height: 100%;
-  background-color: rgb(var(--c-white));
+  //background-color: rgb(var(--c-white));
 }
 
 body > #app {
@@ -28,11 +28,16 @@ body > #app {
   }
 }
 
+html {
+  color: rgb(var(--c-page-fg));
+  background: rgb(var(--c-page-bg));
+}
+
 body {
   color: rgb(var(--c-page-fg));
   background: rgb(var(--c-page-bg));
   //transition: background-color 600ms, color 100ms 400ms;
-  transition: background-color 600ms, color 100ms 0;
+  transition: background-color 600ms, color 100ms 1ms;
 
   a {
     color: inherit;

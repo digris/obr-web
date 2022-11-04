@@ -75,6 +75,7 @@ class AppBridge {
     }
     // @ts-ignore
     if (window.webkit) {
+      log.debug('payload', message);
       try {
         // @ts-ignore
         await window.webkit.messageHandlers.appBridge?.postMessage(message);
@@ -96,7 +97,17 @@ class AppBridge {
     // const data = d ? JSON.parse(d) : null;
     // log.debug("AppBridge - onReceive", channel, data);
     if (channel === "player:update" && data) {
-      const { setAppPlayerData } = usePlayerStore();
+      const { setPlayerState, setAppPlayerData } = usePlayerStore();
+      const playerState = {
+        ...data,
+        // set dummy values
+        duration: 60,
+        absPosition: 30,
+        bandwidth: 12800,
+      };
+      await setPlayerState(playerState);
+      console.debug("playerState", playerState);
+      // debug only, set whole data to store
       await setAppPlayerData(data);
     }
     if (channel === "queue:update" && data) {

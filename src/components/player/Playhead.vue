@@ -149,7 +149,8 @@ export default defineComponent({
     fill: rgba(var(--c-fg), 0.2);
   }
   .progress-position {
-    transition: fill 100ms;
+    // NOTE: width transition duration equals audioPlayer's POLL_INTERVAL
+    transition: fill 100ms, width 100ms linear;
     fill: rgba(var(--c-fg), 0.5);
   }
   .progress-placeholder {
@@ -183,6 +184,7 @@ export default defineComponent({
   pointer-events: none;
   position: absolute;
   top: 5px;
+  transition: left 100ms linear;
 }
 .playhead-time {
   pointer-events: none;

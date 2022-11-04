@@ -207,7 +207,7 @@ export default defineComponent({
       justify-content: center;
       height: 100%;
       width: 25%;
-      z-index: 24;
+      z-index: 19;
       //background: rgba(255, 255, 0, 0.25);
       .metadata {
         width: 100%;
@@ -219,8 +219,7 @@ export default defineComponent({
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 20;
-        //z-index: 25;
+        z-index: 18;
         height: 120px;
         width: 120px;
         top: calc(var(--item-size) / 2 - 60px);

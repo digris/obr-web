@@ -808,6 +808,14 @@
     "@vueuse/shared" "8.3.1"
     vue-demi "*"
 
+"@vueuse/math@^9.4.0":
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/math/-/math-9.4.0.tgz#084fbb3e29da8475fd37d41993e86777ce9b1649"
+  integrity sha512-dugk8X+zrvpV9ATVg+s/NJjBhd6ZnzVTIZYRZRuJikqnNq5T4OIVH8iYVAS11ONAXj8KGfUeXnMvEpIq4cU6fw==
+  dependencies:
+    "@vueuse/shared" "9.4.0"
+    vue-demi "*"
+
 "@vueuse/metadata@8.3.1":
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-8.3.1.tgz#acc0ff9ad686c68dfc7b4869639c43e71ae2682b"

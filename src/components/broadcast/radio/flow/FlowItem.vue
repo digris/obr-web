@@ -144,7 +144,7 @@ export default defineComponent({
         opacity: opacity.value,
         // NOTE: grayscale filter has performance issues on iOS
         // filter: `grayscale(${1 - opacity.value})`,
-        // filter: `grayscale(${grayscale.value})`,
+        // filter: `grayscale(${grayscale.value})` ,
       };
     });
     const cssVars = computed(() => {

@@ -2,12 +2,9 @@
 import { defineComponent, computed } from "vue";
 import type { PropType } from "vue";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
-import ButtonSkip from "./button/ButtonSkip.vue";
-import ButtonPlay from "./button/ButtonPlay.vue";
 import { useQueueControls, useQueueState } from "@/composables/queue";
-
-const dt2hhmmss = (dt: any) => dt.toISOString().substr(11, 8);
-const s2hhmmss = (s: number) => dt2hhmmss(new Date(s * 1000));
+import ButtonSkip from "../button/ButtonSkip.vue";
+import ButtonPlay from "../button/ButtonPlay.vue";
 
 export default defineComponent({
   components: {
@@ -22,14 +19,7 @@ export default defineComponent({
   },
   setup() {
     const { pause, resume: play } = usePlayerControls();
-    const { isLive, isPlaying, isBuffering, absPosition, duration } = usePlayerState();
-    const currentTimeDisplay = computed(() => {
-      if (absPosition.value === null) {
-        return "00:00:00";
-      }
-      return s2hhmmss(absPosition.value);
-    });
-    const totalTimeDisplay = computed(() => (duration.value ? s2hhmmss(duration.value) : ""));
+    const { isLive, isPlaying, isBuffering } = usePlayerState();
     const { previousIndex, nextIndex } = useQueueState();
     const { playPrevious, playNext } = useQueueControls();
     const hasPrevious = computed(() => previousIndex.value !== null);
@@ -40,8 +30,6 @@ export default defineComponent({
       hasPrevious,
       isPlaying,
       isBuffering,
-      currentTimeDisplay,
-      totalTimeDisplay,
       playNext,
       playPrevious,
       pause,
@@ -59,8 +47,13 @@ export default defineComponent({
     }"
   >
     <div class="left">
-      <div class="time" v-text="currentTimeDisplay" />
-      <ButtonSkip :rotate="180" :disabled="!hasPrevious" @click.prevent="playPrevious" />
+      <ButtonSkip
+        :scale="1"
+        :outlined="true"
+        :rotate="180"
+        :disabled="!hasPrevious"
+        @click.prevent="playPrevious"
+      />
     </div>
     <ButtonPlay
       :is-playing="isPlaying"
@@ -69,12 +62,12 @@ export default defineComponent({
       :outline-width="2.5"
       :outline-opacity="1"
       :base-color="fgColor"
+      :scale="1.5"
       @pause="pause"
       @play="play"
     />
     <div class="right">
-      <ButtonSkip :disabled="!hasNext" @click.prevent="playNext" />
-      <div class="time" v-text="totalTimeDisplay" />
+      <ButtonSkip :scale="1" :outlined="true" :disabled="!hasNext" @click.prevent="playNext" />
     </div>
   </div>
 </template>
@@ -83,17 +76,12 @@ export default defineComponent({
 @use "@/style/base/typo";
 .player-control {
   display: flex;
+  column-gap: 1rem;
   .left,
   .right {
     display: flex;
     align-items: center;
     transition: opacity 500ms;
-  }
-  .time {
-    @include typo.small;
-    margin: 0 0.5rem;
-    width: 54px;
-    overflow: hidden;
   }
   &.is-live {
     .left,

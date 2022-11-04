@@ -5,7 +5,9 @@ import shaka from "shaka-player";
 // @ts-ignore
 import muxjs from "mux.js";
 import { computed, ref, watch } from "vue";
+import { isEqual, round } from "lodash-es";
 import eventBus from "@/eventBus";
+import type { PlayerState } from "@/stores/player";
 import { usePlayerStore } from "@/stores/player";
 import { usePlayerControls } from "@/composables/player";
 import { useSettingsStore } from "@/stores/settings";
@@ -69,19 +71,36 @@ const getFadeVolume = (start: number, end: number, time: number, reverse = false
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
+// get current shaka player buffer state
+// either "playing" or "buffering"
+const getBufferState = (stats: any): "playing" | "buffering" | null => {
+  const lastState = stats?.stateHistory?.length ? stats.stateHistory.slice(-1)[0] : null;
+  if (lastState) {
+    return lastState.state;
+  }
+  return null;
+};
+
+// get current audio element state
+// either "playing" or "buffering"
+const getAudioState = (audio: HTMLAudioElement): "paused" | "stopped" => {
+  if (audio.paused) {
+    return "paused";
+  }
+  return "stopped";
+};
+
 class AudioPlayer {
   audio; // ref to html5 audio element
 
   player; // ref to shaka player
 
-  playerState = {
-    isLive: false,
-    isStopped: true,
-    isBuffering: false,
-    isPaused: false,
-    isPlaying: false,
+  playerState: PlayerState = {
+    mode: "live",
+    state: "stopped",
     duration: null,
-    currentTime: null,
+    absPosition: null,
+    bandwidth: 0,
   };
 
   startTime = 0;
@@ -89,6 +108,13 @@ class AudioPlayer {
   fadeInTime = 0;
   fadeOutTime = 0;
   fadeVolume = ref(1);
+
+  // actions from pinia store need to be mapped in the constructor
+  // as the store is not ready earlier
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setPlayerState = async (s: PlayerState): Promise<void> => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setLiveLatency = async (l: number): Promise<void> => {};
 
   analyser: AudioAnalyser | null;
 
@@ -112,42 +138,15 @@ class AudioPlayer {
     // @ts-ignore
     window.player = player;
 
-    // TODO: does not need to run when player is idle..
-    setInterval(() => {
-      this.updateState();
-    }, POLL_INTERVAL);
+    // map store actions to class
+    const { setPlayerState: setPlayerStateFn, setLiveLatency: setLiveLatencyFn } = usePlayerStore();
+    this.setPlayerState = setPlayerStateFn;
+    this.setLiveLatency = setLiveLatencyFn;
 
-    eventBus.on("player:controls", (e) => {
-      log.warn("DEPRECIATED: player:controls", e);
-      switch (e.do) {
-        case "play": {
-          const { url, startTime } = e;
-          this.play(url, startTime);
-          break;
-        }
-        case "seek": {
-          const { relPosition } = e;
-          this.seek(relPosition);
-          break;
-        }
-        case "stop": {
-          this.stop();
-          break;
-        }
-        case "pause": {
-          this.pause();
-          break;
-        }
-        case "resume": {
-          this.resume();
-          break;
-        }
-        default: {
-          log.debug("unhandled action", e);
-          break;
-        }
-      }
-    });
+    // TODO: does not need to run when player is idle..
+    setInterval(async () => {
+      await this.updateState();
+    }, POLL_INTERVAL);
 
     audio.onended = (e) => {
       log.debug("AudioPlayer - audio.onended", e);
@@ -194,17 +193,55 @@ class AudioPlayer {
       },
     });
   }
-
   updateSettings(settings: any) {
     this.player.configure(settings);
   }
+  // runs as interval
+  // collect player information and send them to the store
+  async updateState(): Promise<void> {
+    const { audio, player } = this;
+    // get current values from shaka player
+    const stats = player.getStats();
+    const isLive = player.isLive();
+    const mode = isLive ? "live" : "ondemand";
 
+    const bufferState = getBufferState(stats);
+    const audioState = getAudioState(audio);
+    // use shaka player buffer state or fallback to audio element's value
+    const state = bufferState ? bufferState : audioState;
+    //
+    const duration = isLive ? null : audio.duration;
+    const absPosition = isLive ? null : audio.currentTime;
+    const bandwidth = Number.isNaN(stats.streamBandwidth) ? 0 : stats.streamBandwidth;
+
+    const playerState: PlayerState = {
+      mode,
+      state,
+      duration: Number.isNaN(duration) ? 0 : duration,
+      absPosition,
+      bandwidth,
+    };
+
+    if (!Number.isNaN(stats.liveLatency)) {
+      await this.setLiveLatency(round(stats.liveLatency, 2));
+    }
+
+    // stop here if no change in the state
+    if (isEqual(playerState, this.playerState)) {
+      return;
+    }
+
+    // log.debug(playerState);
+    this.playerState = playerState;
+    await this.setPlayerState(playerState);
+  }
+
+  /*
   updateState() {
     const { updatePlayerState } = usePlayerStore();
     const { audio, player } = this;
     const stats = player.getStats();
     const isLive = player.isLive();
-    const playheadTime = isLive ? player.getPlayheadTimeAsDate() : null;
     const bandwidth = Number.isNaN(stats.streamBandwidth) ? 0 : stats.streamBandwidth;
     let bufferState = null;
     let currentTime;
@@ -213,8 +250,8 @@ class AudioPlayer {
       // eslint-disable-next-line prefer-destructuring
       bufferState = stats.stateHistory.slice(-1)[0];
     }
-    if (playheadTime) {
-      currentTime = playheadTime;
+    if (isLive) {
+      currentTime = null;
       relPosition = null;
     } else {
       currentTime = audio.currentTime;
@@ -222,16 +259,13 @@ class AudioPlayer {
     }
     const playerState = {
       isLive,
-      isStopped: true,
       isBuffering: !!(bufferState && bufferState.state === "buffering"),
       isPlaying: !!(bufferState && bufferState.state === "playing"),
       isPaused: audio.paused,
-      // duration: audio.duration,
       duration: isLive ? null : audio.duration,
       bandwidth,
       currentTime,
       relPosition,
-      playheadTime,
     };
 
     // if (Object.is(state, this.state)) {
@@ -243,6 +277,7 @@ class AudioPlayer {
     updatePlayerState(playerState);
     //
   }
+  */
 
   async onTimeupdate() {
     const ct = this.audio.currentTime;
@@ -335,7 +370,7 @@ class AudioPlayer {
       return false;
     }
     this.audio.currentTime = absPosition;
-    if (this.playerState.isPaused) {
+    if (this.playerState.state === "paused") {
       this.resume();
     }
   }

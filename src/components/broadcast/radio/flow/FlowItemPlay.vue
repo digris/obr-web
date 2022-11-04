@@ -26,20 +26,19 @@ export default defineComponent({
     // queue states
     const { current: currentScheduleItem } = storeToRefs(useScheduleStore());
     const isCurrentScheduleItem = computed(() => currentScheduleItem.value?.key === props.item.key);
-    // player states
-    const { playerState, media: currentPlayerMedia } = usePlayerState();
+    // mapped player states
+    const {
+      media: currentPlayerMedia,
+      isPlaying: playerIsPlaying,
+      isBuffering: playerIsBuffering,
+      isPaused: playerIsPaused,
+    } = usePlayerState();
     const isCurrentPlayerMedia = computed(
       () => currentPlayerMedia.value?.uid === props.item.media.uid
     );
-    const isPlaying = computed(() => {
-      return isCurrentPlayerMedia.value && playerState.value.isPlaying;
-    });
-    const isBuffering = computed(() => {
-      return isCurrentPlayerMedia.value && playerState.value.isBuffering;
-    });
-    const isPaused = computed(() => {
-      return isCurrentPlayerMedia.value && playerState.value.isPaused;
-    });
+    const isPlaying = computed(() => isCurrentPlayerMedia.value && playerIsPlaying.value);
+    const isBuffering = computed(() => isCurrentPlayerMedia.value && playerIsBuffering.value);
+    const isPaused = computed(() => isCurrentPlayerMedia.value && playerIsPaused.value);
     // controls
     const { playLive } = usePlayerControls();
     const { pause: pausePlayer, resume: resumePlayer } = usePlayerControls();
