@@ -21,6 +21,7 @@
     "@sentry/vue": "^6.18.2",
     "@stripe/stripe-js": "^1.24.0",
     "@vueuse/core": "8.3.1",
+    "@vueuse/math": "^9.4.0",
     "@vueuse/router": "^9.4.0",
     "axios": "^0.26.1",
     "bowser": "^2.11.0",

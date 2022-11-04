@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
+import { useEventListener } from "@vueuse/core";
 import { useQueueState, useQueueControls } from "@/composables/queue";
 import QueueMedia from "@/components/player/QueueMedia.vue";
 import ShuffleControl from "./ShuffleControl.vue";
@@ -18,24 +19,16 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    bottom: {
-      type: Number,
-      default: 72,
-    },
   },
   emits: ["close"],
   setup(props, { emit }) {
     const { currentMedia, queuedMedia } = useQueueState();
     const { clearQueue } = useQueueControls();
-    const close = () => {
-      emit("close");
-    };
-    onMounted(() => {
-      document.addEventListener("keydown", (e) => {
-        if (props.isVisible && e.code === "KeyX") {
-          close();
-        }
-      });
+    const close = () => emit("close");
+    useEventListener(document, "keydown", (e) => {
+      if (e.code === "KeyX") {
+        close();
+      }
     });
     return {
       close,
@@ -57,7 +50,6 @@ export default defineComponent({
       :style="{
         '--c-bg': 'var(--c-black)',
         '--c-fg': 'var(--c-white)',
-        bottom: `${bottom}px`,
       }"
     >
       <div class="container">
@@ -71,7 +63,7 @@ export default defineComponent({
       </div>
     </div>
   </transition>
-  <transition name="slide">
+  <transition name="slide-actions">
     <div
       v-if="isVisible"
       class="actions"
@@ -82,7 +74,9 @@ export default defineComponent({
     >
       <div class="container">
         <ShuffleControl />
-        <div class="button" v-text="'Clear queue'" @click="clearQueue" />
+        <div class="clear-queue">
+          <div class="button" v-text="'Clear queue'" @click="clearQueue" />
+        </div>
         <Circle
           @click="close"
           background-color="rgb(var(--c-black))"
@@ -96,10 +90,12 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
+@use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 
 .mask {
-  z-index: 19;
+  z-index: 20;
   position: fixed;
   width: 100%;
   height: 100%;
@@ -113,6 +109,7 @@ export default defineComponent({
   position: fixed;
   width: 100%;
   min-height: 100px;
+  bottom: 72px; // player height
   //max-height: calc(100% - 148px);
   max-height: calc(100% - 72px);
   overflow-y: auto;
@@ -127,11 +124,16 @@ export default defineComponent({
     padding-top: 2rem;
     padding-bottom: 92px;
   }
+  @include responsive.bp-medium {
+    max-height: calc(100% - 120px);
+    bottom: 120px;
+  }
 }
 
 .actions {
   z-index: 21;
   border-top: 1px solid rgba(var(--c-white), 0.25);
+  height: 60px;
   .container {
     @include container.default;
     padding-top: 0.5rem;
@@ -145,13 +147,27 @@ export default defineComponent({
   }
   //backdrop-filter: blur(8px);
   position: fixed;
-  bottom: 72px;
+  bottom: 72px; // player height
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  //background: rgba(var(--c-black), 0.9);
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(var(--c-black), 0.9) 10%);
-  //background: #00e8a7;
+  //background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(var(--c-black), 0.9) 10%);
+  background: rgb(var(--c-black));
+
+  @include responsive.bp-medium {
+    bottom: 60px;
+    .container {
+      > div {
+        margin-left: unset;
+      }
+      .clear-queue {
+        flex-grow: 1;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
+    }
+  }
 }
 
 // NOTE: generalise button styling if also used at other place(s)
@@ -163,12 +179,16 @@ export default defineComponent({
   align-items: center;
   padding: 0 1.5rem;
   color: rgb(var(--c-white));
-  //background: rgba(var(--c-white), 0.2);
   border: 1px solid rgba(var(--c-white), 0.2);
   transition: background-color 200ms;
-  &:hover {
+  @include responsive.on-hover {
     border-color: transparent;
     background: rgba(var(--c-white), 0.1);
+  }
+  @include responsive.bp-medium {
+    height: 40px;
+    font-size: 16px;
+    @include typo.light;
   }
 }
 
@@ -194,7 +214,7 @@ export default defineComponent({
   opacity: 0;
 }
 .slide-leave-to {
-  transform: translate(0, 100%);
+  transform: translate(0, 200%);
 }
 
 // queue item list transition

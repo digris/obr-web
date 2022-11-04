@@ -10,44 +10,53 @@ import { getStreamUrl } from "@/player/stream";
 import type { AnnotatedMedia } from "@/stores/queue";
 
 const usePlayerState = () => {
-  const { playerState } = storeToRefs(usePlayerStore());
-  const isLive = computed(() => playerState.value?.isLive);
-  const isOndemand = computed(() => !playerState.value?.isLive);
-  const isPlaying = computed(() => playerState.value?.isPlaying);
-  const isBuffering = computed(() => playerState.value?.isBuffering);
-  const isPaused = computed(() => playerState.value?.isPaused);
-  const duration = computed(() => playerState.value?.duration);
-  const currentTime = computed(() => playerState.value?.currentTime);
-  const relPosition = computed(() => playerState.value?.relPosition);
-  const { currentMedia: scheduleMedia } = storeToRefs(useScheduleStore());
-  const { currentMedia: queueMedia } = storeToRefs(useQueueStore());
-  const media = computed(() => {
-    return isLive.value ? scheduleMedia.value : queueMedia.value;
-  });
-  const scope = computed(() => {
-    return [...(media.value?.scope ?? []), `${media.value?.ct}:${media.value?.uid}`];
-  });
-  const release = computed(() => {
-    return media.value?.releases?.length ? media.value.releases[0] : null;
-  });
-  const color = computed(() => {
-    return release.value?.image?.rgb ?? [0, 0, 0];
-  });
-
-  return {
-    playerState,
+  const {
+    mode,
+    state,
     isLive,
     isOndemand,
     isPlaying,
     isBuffering,
     isPaused,
     duration,
-    currentTime,
+    absPosition,
     relPosition,
+  } = storeToRefs(usePlayerStore());
 
+  const { currentMedia: scheduleMedia } = storeToRefs(useScheduleStore());
+  const { currentMedia: queueMedia } = storeToRefs(useQueueStore());
+  const media = computed(() => {
+    return isLive.value ? scheduleMedia.value : queueMedia.value;
+  });
+  const scope = computed(() => {
+    // @ts-ignore
+    return [...(media.value?.scope ?? []), `${media.value?.ct}:${media.value?.uid}`];
+  });
+  const release = computed(() => {
+    return media.value?.releases?.length ? media.value.releases[0] : null;
+  });
+  const image = computed(() => {
+    // @ts-ignore
+    return release.value?.image ?? null;
+  });
+  const color = computed(() => {
+    return image.value?.rgb ?? [0, 0, 0];
+  });
+
+  return {
+    mode,
+    state,
+    isLive,
+    isOndemand,
+    isPlaying,
+    isBuffering,
+    isPaused,
+    duration,
+    absPosition,
+    relPosition,
     media,
     scope,
-    // release,
+    image,
     color,
   };
 };
@@ -85,14 +94,15 @@ const usePlayerControls = () => {
       await appBridge.send("player:playLive");
     }
   };
-  const pause = () => {
-    audioPlayer.pause();
+  const pause = async () => {
+    // TODO: investigate - when calling from mediaSession audioPlayer is undefined
+    window.audioPlayer.pause();
   };
-  const resume = () => {
-    audioPlayer.resume();
+  const resume = async () => {
+    window.audioPlayer.resume();
   };
-  const seek = (pos: number) => {
-    audioPlayer.seek(pos);
+  const seek = async (pos: number) => {
+    window.audioPlayer.seek(pos);
   };
   return {
     playMedia,

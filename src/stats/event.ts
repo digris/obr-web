@@ -1,4 +1,6 @@
-import { computed, watch, ref } from "vue";
+import log from "loglevel";
+import { computed } from "vue";
+import { watchThrottled } from "@vueuse/core";
 import { debounce, isEqual } from "lodash-es";
 
 import { createPlayerEvents } from "@/api/stats";
@@ -21,7 +23,7 @@ const createGA4Event = (event: Event) => {
   };
   // @ts-ignore
   window.dataLayer.push(GA4event);
-  console.debug("GA4event", GA4event);
+  log.debug("GA4event", GA4event);
 };
 
 class EventHandler {
@@ -29,29 +31,11 @@ class EventHandler {
 
   constructor() {
     this.queue = [];
-    // TODO: fix for pinia
-    // const { playState, isLive, media } = usePlayerState();
-    const { isLive, playerState } = usePlayerState();
-    // const isLive = ref(false);
-    const media = ref(null);
-
-    const playState = computed(() => {
-      if (playerState.value?.isPlaying) {
-        return "playing";
-      }
-      if (playerState.value?.isPaused) {
-        return "paused";
-      }
-      if (playerState.value?.isBuffering) {
-        return "buffering";
-      }
-      return "stopped";
-    });
-
+    const { media, isLive, state } = usePlayerState();
     const combinedState = computed(() => {
       const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
       return {
-        state: playState.value,
+        state: state.value,
         objKey,
         objName: media.value?.name,
         source: isLive.value ? "live" : "on-demand",
@@ -61,9 +45,11 @@ class EventHandler {
       if (!event.objKey) {
         return;
       }
+      // log.debug("events - addEvent", event);
       createGA4Event(event);
       await createPlayerEvents([event]);
     }, 200);
+    /*
     watch(combinedState, (newState, oldState) => {
       if (isEqual(newState, oldState)) {
         return;
@@ -74,6 +60,21 @@ class EventHandler {
       };
       addEvent(event);
     });
+    */
+    watchThrottled(
+      combinedState,
+      (newValue, oldValue) => {
+        if (isEqual(newValue, oldValue)) {
+          return;
+        }
+        const event = {
+          ...newValue,
+          ts: new Date().getTime(),
+        };
+        addEvent(event);
+      },
+      { throttle: 200 }
+    );
   }
 }
 

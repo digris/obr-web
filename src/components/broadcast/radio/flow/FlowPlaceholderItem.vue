@@ -12,10 +12,7 @@ export default defineComponent({
     IconDAB,
   },
   setup() {
-    const { playerState } = usePlayerState();
-    const isPlaying = computed(() => playerState.value?.isPlaying);
-    const isBuffering = computed(() => playerState.value?.isBuffering);
-    // controls
+    const { isPlaying, isBuffering } = usePlayerState();
     const { playLive, pause: pausePlayer } = usePlayerControls();
     const iconMode = computed(() => (isBuffering.value || isPlaying.value ? "pause" : "play"));
     const handleClick = async () => {
@@ -24,7 +21,7 @@ export default defineComponent({
         return;
       }
       const startTime = -10;
-      playLive(startTime);
+      await playLive(startTime);
     };
     return {
       iconMode,

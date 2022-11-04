@@ -1,29 +1,204 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
+import { storeToRefs } from "pinia";
+import { useUiStore } from "@/stores/ui";
 import { usePlayerState } from "@/composables/player";
+import { getContrastColor } from "@/utils/color";
+import { useQueueState } from "@/composables/queue";
+
+import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+
+// NOTE: shared components for desktop & mobile
+import Queue from "../Queue.vue";
+import QueueControl from "../QueueControl.vue";
+import OnAir from "../button/OnAir.vue";
+import Bandwidth from "../button/Bandwidth.vue";
+
+// NOTE: adapted / extra components for mobile
+import Panel from "./Panel.vue";
+import PlayerPlayButton from "./PlayerPlayButton.vue";
 
 export default defineComponent({
-  components: {},
+  components: {
+    Panel,
+    Queue,
+    QueueControl,
+    MediaArtists,
+    OnAir,
+    Bandwidth,
+    PlayerPlayButton,
+  },
   setup() {
-    const { media } = usePlayerState();
+    const { playerVisible } = storeToRefs(useUiStore());
+    const { mode, state, media, color } = usePlayerState();
+    const { queueLength } = useQueueState();
+    const queueVisible = ref(false);
+    const hideQueue = () => (queueVisible.value = false);
+    const toggleQueue = () => (queueVisible.value = !queueVisible.value);
+    const panelVisible = ref(false);
+    const hidePanel = () => (panelVisible.value = false);
+    const togglePanel = () => {
+      // when both panel & queue are visible: close the queue
+      if (queueVisible.value && panelVisible.value) {
+        hideQueue();
+      } else {
+        panelVisible.value = !panelVisible.value;
+      }
+    };
+    const fgColor = computed(() => {
+      try {
+        const bg = color.value;
+        return getContrastColor(bg);
+      } catch (e) {
+        console.warn(e);
+      }
+      return [128, 128, 128];
+    });
+    const cssVars = computed(() => {
+      try {
+        const bg = color.value;
+        const fg = getContrastColor(bg);
+        const fgInverse = getContrastColor(fg);
+        return {
+          "--c-bg": bg.join(","),
+          "--c-fg": fg.join(","),
+          "--c-fg-inverse": fgInverse.join(","),
+        };
+      } catch (e) {
+        console.warn(e);
+      }
+      return {};
+    });
+
     return {
+      playerVisible,
+      mode,
+      state,
       media,
+      fgColor,
+      cssVars,
+      //
+      panelVisible,
+      hidePanel,
+      togglePanel,
+      //
+      queueVisible,
+      queueLength,
+      hideQueue,
+      toggleQueue,
     };
   },
 });
 </script>
 
 <template>
-  <div v-if="media" class="player">(( MOBILE PLAYER ))</div>
+  <Panel :is-visible="panelVisible" :style="cssVars" @close="hidePanel" />
+  <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
+  <div class="player-container" :style="cssVars" :class="{ 'has-panel': panelVisible }">
+    <div class="player-bg" />
+    <div v-if="playerVisible" class="player">
+      <PlayerPlayButton class="player-control" :fg-color="fgColor" />
+      <div @click="togglePanel" class="current-media">
+        <div v-if="media" class="media">
+          <div class="name" v-text="media.name" />
+          <MediaArtists class="artists" :artists="media.artists" :link="false" />
+        </div>
+      </div>
+      <div class="right">
+        <OnAir class="on-air" />
+        <Bandwidth />
+        <QueueControl
+          class="queue-control"
+          :queue-visible="queueVisible"
+          :num-queued="queueLength"
+          @toggle-visibility="toggleQueue"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.player {
+@use "@/style/base/typo";
+.player-container {
   position: fixed;
   bottom: 0;
   z-index: 110;
   width: 100%;
-  color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
+  box-shadow: 0 0 1px 1px rgba(var(--c-fg), 0.2);
+  transition: background 200ms;
+  transition-delay: 1ms;
+  .player-bg {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  &.has-panel {
+    transition-delay: 100ms;
+    .player-bg {
+      background: rgba(var(--c-fg), 0.1);
+    }
+  }
+}
+.player {
+  color: rgba(var(--c-fg));
+  transition: background 1000ms;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .player-control {
+    margin: auto 0.625rem;
+    display: flex;
+  }
+  .current-media {
+    flex-grow: 1;
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    .media {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .name {
+      @include typo.small;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .artists {
+      @include typo.small;
+      @include typo.dim;
+      @include typo.light;
+    }
+  }
+  .right {
+    margin: auto 0.625rem auto 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .on-air {
+      margin-right: 0.25rem;
+    }
+    .queue-control {
+      :deep(.number) {
+        right: 0.625rem;
+        top: 8px;
+        font-size: 10px;
+        min-height: 16px;
+        min-width: 16px;
+      }
+    }
+  }
 }
 </style>

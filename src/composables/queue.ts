@@ -5,6 +5,7 @@ import { shuffle } from "lodash-es";
 
 import type { Media } from "@/typings/api";
 import type { AnnotatedMedia } from "@/stores/queue";
+import { useDevice } from "@/composables/device";
 import { useQueueStore } from "@/stores/queue";
 import { useSettingsStore } from "@/stores/settings";
 import { getMedia } from "@/api/catalog";
@@ -42,6 +43,8 @@ const useQueueState = () => {
 };
 
 const useQueueControls = () => {
+  const appBridge = window.appBridge;
+  const { isWeb } = useDevice();
   const { playMedia, playLive } = usePlayerControls();
   const { isLive, isPlaying } = usePlayerState();
   const { previousIndex, nextIndex, currentMedia } = storeToRefs(useQueueStore());
@@ -56,17 +59,36 @@ const useQueueControls = () => {
       obj_key: objKey,
     };
     const { results } = await getMedia(100, 0, filter);
+    console.debug("results", results);
     const scope = [objKey];
-    await enqueue({ media: annotateMedia(results, scope), mode });
+    if (isWeb) {
+      await enqueue({media: annotateMedia(results, scope), mode});
+    } else {
+      const channel = "queue:replace";
+      const data = annotateMedia(results, scope);
+      log.debug("queueControls - enqueueObj app-mode", channel, data);
+      await appBridge.send(channel, data);
+    }
   };
   const enqueueMedia = async (media: Array<Media>, mode = "append", scope = []) => {
     log.debug("queueControls - enqueueMedia", media, mode, scope);
     if (shuffleMode.value) {
       media = shuffle(media);
     }
-    await enqueue({ media: annotateMedia(media, scope), mode });
+    if (isWeb) {
+      await enqueue({media: annotateMedia(media, scope), mode});
+    } else {
+      const channel = "queue:replace";
+      const data = annotateMedia(media, scope);
+      log.debug("queueControls - enqueueMedia app-mode", channel, data);
+      await appBridge.send(channel, data);
+    }
   };
   const startPlayCurrent = async (force = false) => {
+    if (!isWeb) {
+      log.debug("queueControls - startPlayCurrent: ignored in app-mode");
+      return;
+    }
     if (isPlaying.value && !force) {
       return;
     }

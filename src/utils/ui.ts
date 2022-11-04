@@ -1,8 +1,8 @@
 import settings from "@/settings";
+import { watchDebounced } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useUiStore } from "@/stores/ui";
 import { getContrastColor } from "@/utils/color";
-import { watch } from "vue";
 
 const setDocumentPrimaryColor = (color: Array<number>) => {
   const bg = color;
@@ -22,7 +22,8 @@ class UIStateHandler {
       setDocumentPrimaryColor(color);
     }
     const { primaryColor } = storeToRefs(useUiStore());
-    watch(() => primaryColor.value, setDocumentPrimaryColor);
+    // watch(() => primaryColor.value, setDocumentPrimaryColor);
+    watchDebounced(primaryColor, setDocumentPrimaryColor, { debounce: 200 });
   }
 }
 
