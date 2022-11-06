@@ -161,6 +161,8 @@ EMAIL_CONFIG = env.email(
 )
 vars().update(EMAIL_CONFIG)
 
+DEFAULT_FROM_EMAIL = "open broadcast radio <no-reply@openbroadcast.ch>"
+
 
 ##################################################################
 # authentication

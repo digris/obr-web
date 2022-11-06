@@ -2,6 +2,7 @@
 import { defineComponent, ref, computed } from "vue";
 import { DateTime } from "luxon";
 import { useObjKey } from "@/composables/obj";
+import { useDevice } from "@/composables/device";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
@@ -31,7 +32,8 @@ export default defineComponent({
   },
   setup(props) {
     const { objKey } = useObjKey(props.media);
-    const isHover = ref(false);
+    const { isMobile } = useDevice();
+    const isHover = ref(isMobile.value);
     const release = computed(() => {
       return props.media.releases && props.media.releases.length ? props.media.releases[0] : null;
     });
@@ -47,6 +49,7 @@ export default defineComponent({
     return {
       objKey,
       isHover,
+      isMobile,
       release,
       color,
       latestAirplay,
@@ -56,7 +59,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="media-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
+  <div
+    class="media-row"
+    @mouseenter="isMobile ? null : (isHover = true)"
+    @mouseleave="isMobile ? null : (isHover = false)"
+  >
     <div class="container">
       <div class="play">
         <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />

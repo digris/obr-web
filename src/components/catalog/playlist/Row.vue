@@ -2,6 +2,7 @@
 import { computed, defineComponent, ref } from "vue";
 import { DateTime } from "luxon";
 import { useObjKey } from "@/composables/obj";
+import { useDevice } from "@/composables/device";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
@@ -31,7 +32,8 @@ export default defineComponent({
   },
   setup(props) {
     const { objKey } = useObjKey(props.playlist);
-    const isHover = ref(false);
+    const { isMobile } = useDevice();
+    const isHover = ref(isMobile.value);
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
@@ -46,6 +48,7 @@ export default defineComponent({
     return {
       objKey,
       isHover,
+      isMobile,
       title,
       link,
       latestEmission,
@@ -55,7 +58,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="playlist-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
+  <div
+    class="playlist-row"
+    @mouseenter="isMobile ? null : (isHover = true)"
+    @mouseleave="isMobile ? null : (isHover = false)"
+  >
     <div class="container">
       <div class="play">
         <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />

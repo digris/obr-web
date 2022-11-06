@@ -27,6 +27,7 @@ urlpatterns += [
     path(
         "code/", include("subscription.urls_voucher", namespace="subscription-voucher")
     ),
+    path("dev/", include("dev.urls", namespace="dev")),
     # avoid serving SPA view for admin & API
     re_path(r"^api/v1/", SPA404View.as_view()),
     re_path(r"^admin/", SPA404View.as_view()),

@@ -75,7 +75,7 @@ class AppBridge {
     }
     // @ts-ignore
     if (window.webkit) {
-      log.debug('payload', message);
+      log.debug("payload", message);
       try {
         // @ts-ignore
         await window.webkit.messageHandlers.appBridge?.postMessage(message);
