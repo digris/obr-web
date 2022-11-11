@@ -25,7 +25,5 @@ steps:
     '--concurrency', '20',
     '--use-http2',
     '--add-cloudsql-instances', 'open-broadcast:europe-west6:open-broadcast-db',
-    '--vpc-connector', 'conector-services',
-    '--vpc-egress', 'all-traffic',
     '--allow-unauthenticated'
   ]

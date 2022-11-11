@@ -52,7 +52,11 @@ def api_root(request, format=None):
                 format=format,
             ),
             "version/": reverse(
-                "api:version:version",
+                "api:base:version",
+                request=request,
+            ),
+            "settings/": reverse(
+                "api:base:settings",
                 request=request,
             ),
             # Core API
@@ -113,11 +117,11 @@ urlpatterns = [
         SpectacularRedocView.as_view(url_name="api:schema"),
         name="redoc",
     ),
-    path(
-        "version/",
-        include("base.api.urls_version", "version"),
-    ),
     # Core API
+    path(
+        "base/",
+        include("base.api.urls", "base"),
+    ),
     path(
         "account/",
         include("account.api.urls", "account"),
