@@ -118,23 +118,28 @@ class AppBridge {
     const channel = message.c;
     const data = message.d ? JSON.parse(message.d) : null;
     log.debug("AppBridge - onReceive", channel, data);
-    if (channel === "player:update" && data) {
-      const { setPlayerState, setAppPlayerData } = usePlayerStore();
-      const playerState = {
-        ...data,
-        // set dummy values
-        duration: 60,
-        absPosition: 30,
-        bandwidth: 12800,
-      };
-      await setPlayerState(playerState);
-      console.debug("playerState", playerState);
-      // debug only, set whole data to store
-      await setAppPlayerData(data);
-    }
-    if (channel === "queue:update" && data) {
-      const { setQueueData } = useQueueStore();
-      await setQueueData(data);
+
+    switch (channel) {
+      case "queue:update": {
+        const { setQueueData } = useQueueStore();
+        await setQueueData(data);
+        break;
+      }
+      case "player:update": {
+        const { setPlayerState } = usePlayerStore();
+        const playerState = {
+          ...data,
+          // set missing dummy values
+          duration: 60,
+          absPosition: 30,
+          bandwidth: 12800,
+        };
+        await setPlayerState(playerState);
+        break;
+      }
+      case "schedule:update": {
+        break;
+      }
     }
   }
 }
