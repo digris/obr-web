@@ -15,9 +15,6 @@ export default defineComponent({
     });
     const { appPlayerData } = storeToRefs(usePlayerStore());
     const { playLive, pause, resume } = usePlayerControls();
-    const playOnDemand = async () => {
-      await appBridge.send("player:playOnDemand");
-    };
     const channel = ref("");
     const data = ref("");
     const sendData = async () => {
@@ -30,7 +27,6 @@ export default defineComponent({
       appPlayerData,
       //
       playLive,
-      playOnDemand,
       pause,
       resume,
       sendData,
@@ -46,8 +42,8 @@ export default defineComponent({
     <section>
       <h4>Controls</h4>
       <button @click.prevent="playLive">Play Live</button>
-      <button @click.prevent="playOnDemand">Play On-Demand</button>
-      <button>Pause</button>
+      <button @click.prevent="pause">Pause</button>
+      <button @click.prevent="resume">Resume</button>
     </section>
     <section>
       <h4>Send to Swift</h4>

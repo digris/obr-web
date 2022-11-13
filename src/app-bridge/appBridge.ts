@@ -8,27 +8,52 @@ const HEARTBEAT_INTERVAL = 5000;
 
 // for channel options see:
 // obr-app/obrapp/modules/OBRWebView.swift
-type channel =
-  | "global:init"
+
+// channels SENDING data TO swift-app
+type sendChannel =
   | "heartbeat"
+  | "global:init"
   // queue
-  | "queue:replace"
+  | "queue:deleteAtIndex"
+  | "queue:playFromIndex"
+  | "queue:enqueue"
+  | "queue:enqueueAsNext"
+  | "queue:enqueueToEnd"
+  | "queue:shuffle"
   | "queue:clear"
-  | "queue:state"
-  | "queue:update"
+  | "queue:requestUpdate" // initiates "queue:update"
   // player
   | "player:playLive"
-  | "player:playOnDemand"
-  | "player:state"
-  | "player:update";
+  | "player:pause"
+  | "player:resume"
+  | "player:seek"
+  | "player:requestUpdate" // initiates "player:update"
+  // web
+  | "web:setPath"
+  // account
+  | "account:setAccessToken";
 
-type Message = {
-  c: channel;
+// channels RECEIVING data FROM swift-app
+type receiveChannel =
+  // queue
+  | "queue:update"
+  // player
+  | "player:update"
+  // schedule
+  | "schedule:update";
+
+type SendMessage = {
+  c: sendChannel;
+  d?: string;
+};
+
+type ReceivedMessage = {
+  c: receiveChannel;
   d?: string;
 };
 
 type ReceivedEventDetail = {
-  c: channel;
+  c: receiveChannel;
   d?: string;
 };
 
@@ -57,17 +82,17 @@ class AppBridge {
     window.addEventListener("appBridge", this.onReceive.bind(this));
   }
   async init(): Promise<void> {
-    log.debug("AppBridge - init?");
+    log.debug("AppBridge - init");
     await this.send("global:init");
   }
   async heartbeat(): Promise<void> {
     log.debug("AppBridge - heartbeat");
     await this.send("heartbeat");
   }
-  // web > native - send payload to channel
-  async send(channel: channel, data?: object) {
+  // web > native - SEND payload TO swift-app channel
+  async send(channel: sendChannel, data?: object) {
     log.debug("AppBridge - send", channel, data);
-    const message: Message = {
+    const message: SendMessage = {
       c: channel,
     };
     if (data) {
@@ -84,18 +109,15 @@ class AppBridge {
       }
     }
   }
-  // web < native - handle received data
+  // web < native - handle RECEIVED data FROM swift-app channel
   async onReceive(e: ReceivedEvent) {
     if (!e.detail) {
       return;
     }
-    const message: Message = e.detail;
+    const message: ReceivedMessage = e.detail;
+    const channel = message.c;
     const data = message.d ? JSON.parse(message.d) : null;
-    const { c: channel } = message;
     log.debug("AppBridge - onReceive", channel, data);
-    // const { c: channel, d } = e.detail;
-    // const data = d ? JSON.parse(d) : null;
-    // log.debug("AppBridge - onReceive", channel, data);
     if (channel === "player:update" && data) {
       const { setPlayerState, setAppPlayerData } = usePlayerStore();
       const playerState = {
