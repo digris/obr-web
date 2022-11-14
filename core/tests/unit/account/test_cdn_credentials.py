@@ -3,7 +3,7 @@ import datetime
 import pytest
 from freezegun import freeze_time
 
-from account.cdn_credentials.cookie import get_signed_cookie, get_cdn_policy
+from account.cdn_credentials.policy import get_signed_cookie, get_cdn_policy
 from account.cdn_credentials.utils import set_credentials, remove_credentials
 
 

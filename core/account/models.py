@@ -16,6 +16,7 @@ from account import signals as account_signals
 from account import token_login
 from account.settings import LOGIN_TOKEN_MAX_AGE
 from account.sync.user import sync_user
+from account.cdn_credentials.policy import get_cdn_policy
 from base.models.mixins import CTUIDModelMixin
 from sync.models.mixins import SyncModelMixin
 
@@ -177,6 +178,12 @@ class User(
     @property
     def access_token(self):
         return str(SlidingToken.for_user(self))
+
+    @property
+    def cdn_policy(self):
+        if self.has_active_subscription:
+            return get_cdn_policy()
+        return None
 
 
 class Settings(

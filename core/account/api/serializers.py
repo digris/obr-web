@@ -179,6 +179,11 @@ class UserSerializer(
         help_text="""JWT access token, provides authentication for session-less requests when provided in header:
         `Authorization: Bearer <token>`""",
     )
+    cdn_policy = serializers.CharField(
+        read_only=True,
+        help_text="""CDN policy to be included when requesting protected media files from the CDN.  
+        Expected cookie value: `Cloud-CDN-Cookie=<policy>; Path=/; Domain=<domain>; HttpOnly: SameSite=Lax`""",
+    )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = User
@@ -194,6 +199,7 @@ class UserSerializer(
             "is_staff",
             "is_admin",
             "access_token",
+            "cdn_policy",
         ]
         read_only_fields = []
         expandable_fields = {
