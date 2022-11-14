@@ -39,8 +39,7 @@ import { setBodyColorTheme } from "@/utils/color";
 import { parseFilterQuery } from "@/utils/filter";
 
 const isAuthenticated = async () => {
-  const user = await getUser();
-  return user;
+  return await getUser();
 };
 
 const routes = [
