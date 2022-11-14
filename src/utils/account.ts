@@ -2,29 +2,44 @@ import { watch } from "vue";
 import { useIntervalFn } from "@vueuse/core";
 import * as Sentry from "@sentry/vue";
 import { isEqual } from "lodash-es";
-import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
+import type { User } from "@/typings/api";
+import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
 
-const updateSentryScope = (user: any) => {
+const updateAppBridgeAccount = (user: User) => {
+  if (window.appBridge) {
+    const channel = "account:setAccessToken";
+    const data = {
+      accessToken: user?.accessToken ?? null,
+    };
+    window.appBridge?.send(channel, data);
+  }
+};
+
+const updateSentryScope = (user: User) => {
   Sentry.configureScope(function (scope) {
     scope.setUser(user);
   });
 };
 
-const updateOpenRelayScope = (user: any) => {
-  const id = user ? user.email : null;
-  if (window.tracker) {
-    window.tracker.setUserID(id);
+const updateOpenRelayScope = (user: User) => {
+  if (window.tracker && user.email) {
+    window.tracker.setUserID(user.email);
   }
 };
 
 class AccountHandler {
   constructor() {
     const { user, loadUser } = useAccount();
+    const { isApp } = useDevice();
     watch(
       () => user.value,
       (newUser, oldUser) => {
         if (!isEqual(newUser, oldUser)) {
+          if (isApp) {
+            updateAppBridgeAccount(newUser);
+          }
           updateSentryScope(newUser);
           updateOpenRelayScope(newUser);
         }
@@ -69,7 +84,6 @@ const requireSubscription = (fn: Function, message = "") => {
         message: subscription.value.isBlocked,
       };
       eventBus.emit("geolocation:blocked", event);
-      // alert(subscription.value.isBlocked);
       return false;
     }
     if (!subscription.value.isActive) {

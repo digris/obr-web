@@ -35,5 +35,10 @@ export type User = {
      * `Authorization: Bearer <token>`
      */
     readonly accessToken?: string;
+    /**
+     * CDN policy to be included when requesting protected media files from the CDN.
+     * Expected cookie value: `Cloud-CDN-Cookie=<policy>; Path=/; Domain=<domain>; HttpOnly: SameSite=Lax`
+     */
+    readonly cdnPolicy?: string;
 };
 

@@ -47,7 +47,7 @@ export const useQueueStore = defineStore("queue", {
       log.debug("queueStore - setIndex", index);
       this.currentIndex = index;
     },
-    async removeAtIndex(index: number): Promise<void> {
+    async deleteAtIndex(index: number): Promise<void> {
       log.debug("queueStore - removeIndex", index);
       this.media.splice(index, 1);
       if (index < this.currentIndex) {

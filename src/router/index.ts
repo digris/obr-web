@@ -493,6 +493,13 @@ router.beforeEach(async (to, from, next) => {
   next();
 });
 
+router.afterEach(async (to) => {
+  // TODO: this likely should be implemented outside of router logic
+  if (window.appBridge) {
+    window.appBridge?.send("web:setPath", { path: to.path });
+  }
+});
+
 // router.beforeEach((to, from, next) => {
 //   // eslint-disable-next-line no-param-reassign
 //   to.meta.activated = true;

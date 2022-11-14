@@ -54,4 +54,24 @@ export class RatingService {
         });
     }
 
+    /**
+     * @param objCt
+     * @param objUid
+     * @returns void
+     * @throws ApiError
+     */
+    public static ratingDestroy(
+        objCt: string,
+        objUid: string,
+    ): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/rating/{objCt}:{objUid}/',
+            path: {
+                'objCt': objCt,
+                'objUid': objUid,
+            },
+        });
+    }
+
 }

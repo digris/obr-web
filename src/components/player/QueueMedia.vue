@@ -38,7 +38,7 @@ export default defineComponent({
     const root = ref(null);
     const { isLive, isPlaying, isBuffering } = usePlayerState();
     const { pause } = usePlayerControls();
-    const { playFromIndex, removeAtIndex } = useQueueControls();
+    const { playFromIndex, deleteAtIndex } = useQueueControls();
     const objKey = computed(() => {
       return `${props.media?.ct}:${props.media?.uid}`;
     });
@@ -89,7 +89,7 @@ export default defineComponent({
       return !props.isCurrent;
     });
     const remove = async () => {
-      await removeAtIndex(props.index);
+      await deleteAtIndex(props.index);
     };
     return {
       root,

@@ -22,6 +22,20 @@ const annotateMedia = (media: Array<Media>, scope: Array<string> = []): Array<An
   });
 };
 
+const getAppBridgeQueueChannel = (mode: string) => {
+  switch (mode) {
+    case "insert": {
+      return "queue:enqueueAsNext";
+    }
+    case "append": {
+      return "queue:enqueueToEnd";
+    }
+    default: {
+      return "queue:enqueue";
+    }
+  }
+};
+
 const useQueueState = () => {
   const {
     previousIndex,
@@ -47,14 +61,15 @@ const useQueueControls = () => {
   const { isWeb } = useDevice();
   const { playMedia, playLive } = usePlayerControls();
   const { isLive, isPlaying } = usePlayerState();
-  const {
-    previousIndex,
-    nextIndex,
-    currentMedia,
-    media: enqueuedMedia,
-  } = storeToRefs(useQueueStore());
+  const { previousIndex, nextIndex, currentMedia } = storeToRefs(useQueueStore());
   const { shuffleMode } = storeToRefs(useSettingsStore());
-  const { enqueue, setIndex, removeAtIndex, clearQueue, shuffleQueue } = useQueueStore();
+  const {
+    enqueue,
+    setIndex,
+    deleteAtIndex: deleteAtIndexWeb,
+    clearQueue: clearQueueWeb,
+    shuffleQueue: shuffleQueueWeb,
+  } = useQueueStore();
   const hasPrevious = computed(() => previousIndex.value !== null);
   const hasNext = computed(() => !!isLive);
   const enqueueObj = async (obj: any, mode = "append") => {
@@ -64,35 +79,27 @@ const useQueueControls = () => {
       obj_key: objKey,
     };
     const { results } = await getMedia(100, 0, filter);
-    console.debug("results", results);
+    log.debug("results", results);
     const scope = [objKey];
     if (isWeb) {
       await enqueue({ media: annotateMedia(results, scope), mode });
     } else {
-      const channel = "queue:replace";
-      const data = {
-        media: annotateMedia(results, scope),
-        scope: [],
-        currentIndex: 0,
-      };
+      const channel = getAppBridgeQueueChannel(mode);
+      const data = annotateMedia(results, scope);
       log.debug("queueControls - enqueueObj app-mode", channel, data);
       await appBridge.send(channel, data);
     }
   };
   const enqueueMedia = async (media: Array<Media>, mode = "append", scope = []) => {
     log.debug("queueControls - enqueueMedia", media, mode, scope);
-    if (shuffleMode.value) {
-      media = shuffle(media);
-    }
     if (isWeb) {
+      if (shuffleMode.value) {
+        media = shuffle(media);
+      }
       await enqueue({ media: annotateMedia(media, scope), mode });
     } else {
-      const channel = "queue:replace";
-      const data = {
-        media: annotateMedia(media, scope),
-        scope: [],
-        currentIndex: 0,
-      };
+      const channel = getAppBridgeQueueChannel(mode);
+      const data = annotateMedia(media, scope);
       log.debug("queueControls - enqueueMedia app-mode", channel, data);
       await appBridge.send(channel, data);
     }
@@ -116,11 +123,24 @@ const useQueueControls = () => {
       await playNext();
     }
   };
+  const playFromIndex = async (index: number) => {
+    log.debug("queueControls - playFromIndex", index);
+    if (isWeb) {
+      await setIndex(index);
+      await startPlayCurrent(true);
+    } else {
+      const channel = "queue:playFromIndex";
+      const data = {
+        index,
+      };
+      log.debug("queueControls - enqueueMedia app-mode", channel, data);
+      await appBridge.send(channel, data);
+    }
+  };
   const playPrevious = async () => {
     log.debug("queueControls - playPrevious");
     if (previousIndex.value !== null) {
-      await setIndex(previousIndex.value);
-      await startPlayCurrent(true);
+      await playFromIndex(previousIndex.value);
     } else {
       throw new Error("no previous media");
     }
@@ -128,27 +148,37 @@ const useQueueControls = () => {
   const playNext = async () => {
     log.debug("queueControls - playNext");
     if (nextIndex.value !== null) {
-      await setIndex(nextIndex.value);
-      await startPlayCurrent(true);
+      await playFromIndex(nextIndex.value);
     } else {
       log.info("no next media - switch to live");
       await playLive();
     }
   };
-  const playFromIndex = async (index: number) => {
-    log.debug("queueControls - playFromIndex", index);
+  // mapping actions depending on mode
+  const clearQueue = async (): Promise<void> => {
     if (isWeb) {
-      await setIndex(index);
-      await startPlayCurrent(true);
+      await clearQueueWeb();
     } else {
-      // TODO: needs to be handled by swift-app
-      const channel = "queue:replace";
+      const channel = "queue:clear";
+      await appBridge.send(channel);
+    }
+  };
+  const shuffleQueue = async (): Promise<void> => {
+    if (isWeb) {
+      await shuffleQueueWeb();
+    } else {
+      const channel = "queue:shuffle";
+      await appBridge.send(channel);
+    }
+  };
+  const deleteAtIndex = async (index: number): Promise<void> => {
+    if (isWeb) {
+      await deleteAtIndexWeb(index);
+    } else {
+      const channel = "queue:deleteAtIndex";
       const data = {
-        media: enqueuedMedia.value,
-        scope: [],
-        currentIndex: index,
+        index,
       };
-      log.debug("queueControls - enqueueMedia app-mode", channel, data);
       await appBridge.send(channel, data);
     }
   };
@@ -160,7 +190,7 @@ const useQueueControls = () => {
     playPrevious,
     playNext,
     playFromIndex,
-    removeAtIndex,
+    deleteAtIndex,
     enqueueMedia,
     enqueueObj,
     startPlayCurrent,
