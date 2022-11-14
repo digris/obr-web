@@ -6,8 +6,6 @@ from django.views.static import serve
 
 from spa.views import SPAIndexView, SPA404View
 
-# from manifest.views import manifest
-
 SITE_URL = getattr(settings, "SITE_URL")
 
 admin.autodiscover()
@@ -19,8 +17,10 @@ urlpatterns = i18n_patterns(
 )
 
 urlpatterns += [
-    path("", include("manifest.urls", namespace="manifest")),
+    # metadata
     path("", include("robots.urls", namespace="robots")),
+    path("", include("manifest.urls", namespace="manifest")),
+    path(".well-known/", include("well_known.urls", namespace="well-known")),
     # path("api/v1/", include("core.urls_api", namespace="api")),
     path("admin/", admin.site.urls),
     path("social/", include("social_django.urls", namespace="social")),
@@ -31,8 +31,6 @@ urlpatterns += [
     re_path(r"^api/v1/", SPA404View.as_view()),
     re_path(r"^admin/", SPA404View.as_view()),
     re_path(r"^static/", SPA404View.as_view()),
-    # metadata
-    path(".well-known/", include("well_known.urls", namespace="well-known")),
     # use SPA view for other routes
     path("", SPAIndexView.as_view()),
     re_path(r"^(?P<path>.*)/$", SPAIndexView.as_view()),
