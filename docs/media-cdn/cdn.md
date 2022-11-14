@@ -59,7 +59,7 @@ def get_user():
     return r.json()
 
 user = get_user()
-cdn_policy = user["cdn_policy"]
+cdn_policy = user["cdnPolicy"]
 ```
 
 #### CDN request using `urllib`
