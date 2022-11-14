@@ -19,7 +19,7 @@
     document.settings = {% json_settings settings %};
     document.settings.API_BASE_URL = "{% url 'api:base' %}";
     {% if color %}document.settings.COLOR = {{ color }}{% endif %}
-    {% if client_mode_app %}document.settings.CLIENT_MODE_APP = "{{ client_mode_app }}"{% endif %}
+    {% if client_mode %}document.settings.CLIENT_MODE = "{{ client_mode }}"{% endif %}
   </script>
   {% if settings.GOOGLE_GTM_ID %}<script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

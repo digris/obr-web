@@ -1,5 +1,6 @@
 import { computed } from "vue";
 import { useWindowSize } from "@vueuse/core";
+import settings from "@/settings";
 
 const useDevice = () => {
   const { width, height } = useWindowSize();
@@ -10,13 +11,15 @@ const useDevice = () => {
     return !isMobile.value;
   });
   // @ts-ignore
-  const isWeb = !window?.webkit?.messageHandlers?.appBridge;
-  const isApp = !isWeb;
+  // const isWeb = !window?.webkit?.messageHandlers?.appBridge;
+  // const isApp = !isWeb;
+  const isApp = settings.CLIENT_MODE === "app";
+  const isWeb = !isApp;
   return {
     isMobile,
     isDesktop,
-    isWeb,
     isApp,
+    isWeb,
     windowSize: { width, height },
   };
 };

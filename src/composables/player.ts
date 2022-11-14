@@ -95,14 +95,28 @@ const usePlayerControls = () => {
     }
   };
   const pause = async () => {
-    // TODO: investigate - when calling from mediaSession audioPlayer is undefined
-    window.audioPlayer.pause();
+    if (isWeb) {
+      // TODO: investigate - when calling from mediaSession audioPlayer is undefined
+      window.audioPlayer.pause();
+    } else {
+      await appBridge.send("player:pause");
+    }
   };
   const resume = async () => {
-    window.audioPlayer.resume();
+    if (isWeb) {
+      // TODO: investigate - when calling from mediaSession audioPlayer is undefined
+      window.audioPlayer.resume();
+    } else {
+      await appBridge.send("player:resume");
+    }
   };
   const seek = async (pos: number) => {
-    window.audioPlayer.seek(pos);
+    if (isWeb) {
+      // TODO: investigate - when calling from mediaSession audioPlayer is undefined
+      window.audioPlayer.seek(pos);
+    } else {
+      await appBridge.send("player:seek", { pos });
+    }
   };
   return {
     playMedia,
