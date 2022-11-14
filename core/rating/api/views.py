@@ -83,24 +83,32 @@ class ObjectRatingView(APIView):
     @extend_schema(
         responses={
             200: serializers.VoteSerializer,
+            204: None,
         },
     )
     def get(self, request, obj_ct, obj_uid):
 
         vote = self.get_vote(request, obj_ct, obj_uid)
 
-        # if not vote:
-        #     raise Http404
+        if not vote:
+            return Response(
+                None,
+                status=status.HTTP_204_NO_CONTENT,
+            )
 
         serializer = serializers.VoteSerializer(vote)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
 
     @extend_schema(
         methods=["POST"],
         request=serializers.VoteSerializer,
         responses={
             200: serializers.VoteSerializer,
+            204: None,
         },
     )
     @transaction.atomic
@@ -128,8 +136,40 @@ class ObjectRatingView(APIView):
             vote.delete()
             vote = None
         elif value:
-            vote = self.create_vote(request, obj_ct, obj_uid, value, scope, comment)
+            vote = self.create_vote(
+                request,
+                obj_ct,
+                obj_uid,
+                value,
+                scope,
+                comment,
+            )
+
+        if not vote:
+            return Response(
+                None,
+                status=status.HTTP_204_NO_CONTENT,
+            )
 
         serializer = serializers.VoteSerializer(vote)
 
-        return Response(serializer.data)
+        return Response(
+            serializer.data,
+        )
+
+    @extend_schema(
+        methods=["DELETE"],
+        request=serializers.VoteSerializer,
+        responses={
+            204: None,
+        },
+    )
+    @transaction.atomic
+    def delete(self, request, obj_ct, obj_uid):
+        if vote := self.get_vote(request, obj_ct, obj_uid):
+            vote.delete()
+
+        return Response(
+            None,
+            status=status.HTTP_204_NO_CONTENT,
+        )
