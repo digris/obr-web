@@ -77,7 +77,7 @@ class Release(
     @cached_property
     def is_new(self):
         new_after = datetime.date.today() - datetime.timedelta(days=90)
-        return self.release_date and self.release_date > new_after
+        return bool(self.release_date and self.release_date > new_after)
 
     def sync_data(self, *args, **kwargs):
         return sync_release(self, *args, **kwargs)
