@@ -200,9 +200,14 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
+    "account.social_auth_pipeline.app_bridge.app_redirect",
 )
 
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL
+
+# keep track of originating call (used in app mode)
+# https://python-social-auth.readthedocs.io/en/latest/use_cases.html#pass-custom-get-post-parameters-and-retrieve-them-on-authentication
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ["source"]
 
 # SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/account/settings/"
 

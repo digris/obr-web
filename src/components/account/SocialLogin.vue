@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import { getSocialBackends, disconnectSocialBackend } from "@/api/account";
-
+import { useDevice } from "@/composables/device";
 import imgApple from "@/assets/brand-icons/apple.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
@@ -30,6 +30,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { isApp } = useDevice();
     const authBackends = ref<Array<Backend>>([]);
     const fetchBackends = async () => {
       authBackends.value = [];
@@ -46,11 +47,22 @@ export default defineComponent({
       return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = (backend: Backend) => {
-      let nextUrl = backend.connectUrl;
+      const nextUrl = backend.connectUrl;
+      // const params = {};
+      const params: { [x: string]: string } = {};
       if (props.next) {
-        nextUrl += `?next=${props.next}`;
+        params.next = props.next;
       }
-      window.location.href = nextUrl;
+      if (isApp) {
+        params.source = "app";
+      }
+      const q = new URLSearchParams(params).toString();
+      const location = q ? `${nextUrl}?${q}` : nextUrl;
+      console.debug(params, q, location);
+      // if (props.next) {
+      //   nextUrl += `?next=${props.next}`;
+      // }
+      window.location.href = location;
     };
     const disconnect = async (backend: Backend) => {
       await disconnectSocialBackend(backend.provider, backend.uid);
