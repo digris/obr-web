@@ -11,6 +11,7 @@ import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
 import Social from "@/components/account/settings/Social.vue";
 import Support from "@/components/account/settings/Support.vue";
+import QRCodeLogin from "@/components/account/qrcode/QRCodeLogin.vue";
 
 export default defineComponent({
   components: {
@@ -23,6 +24,7 @@ export default defineComponent({
     Address,
     Social,
     Support,
+    QRCodeLogin,
   },
   setup() {
     const { user, subscription, settings, address, loadUser } = useAccount();
@@ -58,5 +60,6 @@ export default defineComponent({
     <Address :address="address" @updated="loadUser" />
     <Social />
     <Support :user="user" />
+    <QRCodeLogin :user="user" />
   </div>
 </template>

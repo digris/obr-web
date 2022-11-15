@@ -36,6 +36,7 @@
     "pinia": "^2.0.0-rc.10",
     "postinstall-postinstall": "^2.1.0",
     "pulltorefreshjs": "^0.1.22",
+    "qrcode.vue": "^3.3.3",
     "qs": "^6.10.3",
     "sass": "^1.49.9",
     "shaka-player": "4.1.0",
