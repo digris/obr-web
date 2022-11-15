@@ -42,7 +42,7 @@ export default defineComponent({
       if (!root.value) {
         return;
       }
-      if (force) {
+      if (force || !root.value.scrollIntoViewIfNeeded) {
         root.value.scrollIntoView({
           block: "start",
           behavior: "smooth",

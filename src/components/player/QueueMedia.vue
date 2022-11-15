@@ -64,7 +64,7 @@ export default defineComponent({
     });
     const scrollIntoView = () => {
       // @ts-ignore
-      root.value.scrollIntoViewIfNeeded({
+      root.value?.scrollIntoViewIfNeeded({
         block: "end",
         behavior: "smooth",
       });

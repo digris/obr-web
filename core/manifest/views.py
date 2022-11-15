@@ -30,7 +30,13 @@ def manifest_view(request):
                     "name": "Discover",
                     "short_name": "Discover",
                     "description": "Discover music",
-                    "url": "/discover",
+                    "url": "/discover/moods/",
+                },
+                {
+                    "name": "Program",
+                    "short_name": "Program",
+                    "description": "Program",
+                    "url": "/program/",
                 },
             ],
         }

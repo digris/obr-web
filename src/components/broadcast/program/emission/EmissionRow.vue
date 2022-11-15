@@ -76,7 +76,7 @@ export default defineComponent({
           behavior: "smooth",
         });
       } else {
-        root.value.scrollIntoViewIfNeeded({
+        root.value?.scrollIntoViewIfNeeded({
           block: "end",
           behavior: "smooth",
         });
