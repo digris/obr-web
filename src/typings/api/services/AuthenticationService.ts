@@ -98,6 +98,17 @@ export class AuthenticationService {
     }
 
     /**
+     * @returns any No response body
+     * @throws ApiError
+     */
+    public static signedLoginCredentials(): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/account/signed-login-credentials/',
+        });
+    }
+
+    /**
      * Login user by email & login token.
      * Responds `200` for existing and `201` for created user.
      * @param formData

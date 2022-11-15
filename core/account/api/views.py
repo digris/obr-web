@@ -21,13 +21,16 @@ from account.cdn_credentials.utils import (
 )
 from account.models import User, Address
 from account.utils import social_backends
+from base.utils.signer import timestamp_signer
 from . import serializers
 from ..utils.address import get_countries
 
 logger = logging.getLogger(__name__)
 
 
-class UserView(APIView):
+class UserView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         parameters=[
@@ -98,7 +101,11 @@ class UserView(APIView):
         tags=["account"],
     )
     # pylint: disable=unused-argument
-    def patch(request, *args, **kwargs):
+    def patch(
+        request,
+        *args,
+        **kwargs,
+    ):
         if not request.user.is_authenticated:
             return Response(
                 {
@@ -127,7 +134,9 @@ class UserView(APIView):
     csrf_exempt,
     name="dispatch",
 )
-class LoginView(APIView):
+class LoginView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         request=serializers.LoginSerializer,
@@ -173,7 +182,9 @@ class LoginView(APIView):
     csrf_exempt,
     name="dispatch",
 )
-class SendEmailLoginView(APIView):
+class SendEmailLoginView(
+    APIView,
+):
 
     throttle_scope = "account.login_email"
 
@@ -259,7 +270,9 @@ class SendEmailLoginView(APIView):
     csrf_exempt,
     name="dispatch",
 )
-class TokenLoginView(APIView):
+class TokenLoginView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         methods=["POST"],
@@ -333,7 +346,9 @@ class TokenLoginView(APIView):
     csrf_exempt,
     name="dispatch",
 )
-class SignedEmailLoginView(APIView):
+class SignedEmailLoginView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         methods=["POST"],
@@ -406,11 +421,61 @@ class SignedEmailLoginView(APIView):
         return response
 
 
+class SignedLoginCredentialsView(
+    APIView,
+):
+    @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        request=None,
+        responses={
+            200: serializers.SignedLoginCredentialsSerializer,
+        },
+        operation_id="signed_login_credentials",
+        # auth=[],
+        # description="""Login user by signed email.
+        # Responds `200` for existing and `201` for created user.""",
+        tags=["authentication"],
+    )
+    def post(request):
+        if request.user and request.user.is_authenticated:
+            signed_email = timestamp_signer.sign(str(request.user.email))
+            signed_login_url = (
+                f"{settings.SITE_URL}/account/email-login/{signed_email}/"
+            )
+
+            # serializer = serializers.SignedLoginCredentialsSerializer(
+            #     {
+            #         "signed_email": signed_email,
+            #         "signed_login_url": signed_login_url,
+            #     },
+            #     context={
+            #         "request": request,
+            #     },
+            # )
+            return Response(
+                {
+                    "signed_email": signed_email,
+                    "signed_login_url": signed_login_url,
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            {
+                "message": "Login required",
+            },
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+
+
 @method_decorator(
     csrf_exempt,
     name="dispatch",
 )
-class LogoutView(APIView):
+class LogoutView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         methods=["POST"],
@@ -433,7 +498,9 @@ class LogoutView(APIView):
         return response
 
 
-class EmailUpdateView(APIView):
+class EmailUpdateView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         request=serializers.EmailUpdateSerializer,
@@ -475,7 +542,9 @@ class EmailUpdateView(APIView):
         return response
 
 
-class PasswordUpdateView(APIView):
+class PasswordUpdateView(
+    APIView,
+):
     @staticmethod
     @extend_schema(
         request=serializers.PasswordUpdateSerializer,
@@ -525,7 +594,9 @@ class PasswordUpdateView(APIView):
         return response
 
 
-class AddressUpdateView(APIView):
+class AddressUpdateView(
+    APIView,
+):
 
     serializer_class = serializers.AddressSerializer
 
@@ -590,7 +661,9 @@ class AddressUpdateView(APIView):
         )
 
 
-class SocialBackendListView(APIView):
+class SocialBackendListView(
+    APIView,
+):
     """
     returns all connected and disconnected social backends.
     (based on requests current user)
@@ -621,7 +694,9 @@ class SocialBackendListView(APIView):
         )
 
 
-class SocialBackendDetailView(APIView):
+class SocialBackendDetailView(
+    APIView,
+):
     """
     single backend association.
     (based on requests current user)

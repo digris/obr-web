@@ -48,6 +48,12 @@ async function loginByToken(email: string, token: string) {
   return response.data;
 }
 
+async function getSignedLoginCredentials() {
+  const url = `${ACCOUNT_ENDPOINT}signed-login-credentials/`;
+  const response = await APIClient.post(url);
+  return response.data;
+}
+
 async function loginBySignedEmail(signedEmail: string) {
   const url = `${ACCOUNT_ENDPOINT}signed-email-login/`;
   const payload = {
@@ -123,6 +129,7 @@ export {
   loginBySignedEmail,
   getUser,
   getSubscription,
+  getSignedLoginCredentials,
   // refreshCredentials,
   updateUser,
   updateAddress,

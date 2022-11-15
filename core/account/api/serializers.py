@@ -75,6 +75,17 @@ class SignedEmailLoginSerializer(
     )
 
 
+class SignedLoginCredentialsSerializer(
+    serializers.Serializer,
+):
+    signed_email = serializers.CharField(
+        write_only=True,
+    )
+    signed_login_url = serializers.URLField(
+        write_only=True,
+    )
+
+
 class EmailUpdateSerializer(
     serializers.Serializer,
 ):
