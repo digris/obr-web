@@ -41,3 +41,6 @@ pnpm-debug.log*
 #.vscode
 
 /fixtures
+
+# diagrams.net
+*.svg.bkp
