@@ -2,9 +2,10 @@
   <div class="service">
     <p class="title">
       Get eclectic!<br />
-      For music enthusiasts, by music enthusiasts.
+      <!--For music enthusiasts, by music enthusiasts.-->
     </p>
     <ul>
+      <li>High-Quality Streaming</li>
       <li>Always up to date</li>
       <li>Listen to the whole catalog when & where<small>*</small> you want!</li>
       <li>Proin imperdiet tempus consectetur.</li>

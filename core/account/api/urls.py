@@ -28,6 +28,11 @@ urlpatterns = [
         name="signed-email-login",
     ),
     path(
+        "signed-login-credentials/",
+        views.SignedLoginCredentialsView.as_view(),
+        name="signed-login-credentials",
+    ),
+    path(
         "logout/",
         views.LogoutView.as_view(),
         name="logout",

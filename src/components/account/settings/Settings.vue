@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
 
 import Section from "@/components/account/settings/Section.vue";
 import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
@@ -10,7 +11,7 @@ import Password from "@/components/account/settings/Password.vue";
 import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
 import Social from "@/components/account/settings/Social.vue";
-import Support from "@/components/account/settings/Support.vue";
+// import Support from "@/components/account/settings/Support.vue";
 import QRCodeLogin from "@/components/account/qrcode/QRCodeLogin.vue";
 
 export default defineComponent({
@@ -23,11 +24,12 @@ export default defineComponent({
     Personal,
     Address,
     Social,
-    Support,
+    // Support,
     QRCodeLogin,
   },
   setup() {
     const { user, subscription, settings, address, loadUser } = useAccount();
+    const { isDesktop } = useDevice();
     const socialNext = window.location.pathname;
     return {
       user,
@@ -36,6 +38,7 @@ export default defineComponent({
       address,
       socialNext,
       loadUser,
+      isDesktop,
     };
   },
 });
@@ -59,7 +62,9 @@ export default defineComponent({
     <Personal :user="user" @updated="loadUser" />
     <Address :address="address" @updated="loadUser" />
     <Social />
+    <!--
     <Support :user="user" />
-    <QRCodeLogin :user="user" />
+    -->
+    <QRCodeLogin v-if="isDesktop" :user="user" />
   </div>
 </template>
