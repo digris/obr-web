@@ -19,14 +19,8 @@ export default defineComponent({
       <div class="label label--track">
         <span v-text="t('catalog.ct.media')" />
       </div>
-      <div class="label">
-        <span v-text="t('catalog.ct.artist')" />
-        <span v-text="t('catalog.ct.release')" />
-      </div>
-      <div class="label label--airtime">
-        <span v-text="t('text.duration')" />
-        <span v-text="t('text.airtime')" />
-      </div>
+      <div class="label" v-text="`${t('catalog.ct.artist')}/${t('catalog.ct.release')}`" />
+      <div class="label label--airtime" v-text="`${t('text.airtime')}/${t('text.duration')}:`" />
     </div>
   </div>
 </template>
@@ -47,22 +41,8 @@ export default defineComponent({
   grid-column-gap: 1rem;
   grid-template-columns: 96px 16fr 10fr 6fr 96px;
   .label {
-    white-space: nowrap;
-    > span {
-      display: inline-block;
-      &:first-letter {
-        text-transform: uppercase;
-      }
-      &:not(:last-child) {
-        &:after {
-          content: "/";
-        }
-      }
-      &:last-child {
-        &:after {
-          content: ":";
-        }
-      }
+    &:first-letter {
+      text-transform: uppercase;
     }
     &--track {
       margin-left: -48px;
