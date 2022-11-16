@@ -52,16 +52,16 @@ export default defineComponent({
 
 <template>
   <div class="metadata metadata--media">
-    <div class="context">Track:</div>
+    <i18n-t keypath="catalog.ct.media" tag="div" class="context" />
     <div class="title">
       <router-link :to="`/discover/tracks/${media.uid}/`" v-text="title" />
     </div>
     <div class="subtitle subtitle--artists">
-      <span class="subtitle--label" v-text="media.artists.length === 1 ? 'Artist' : 'Artists'" />
+      <i18n-t keypath="catalog.ct.artist" tag="span" class="subtitle--label" :plural="media.artists.length" />
       <MediaArtists :artists="media.artists" />
     </div>
     <div class="subtitle subtitle--releases">
-      <span class="subtitle--label" v-text="`Album`" />
+      <i18n-t keypath="catalog.ct.release" tag="span" class="subtitle--label" />
       <MediaReleases :releases="media.releases" />
     </div>
     <!--
@@ -77,6 +77,10 @@ export default defineComponent({
 @use "@/style/abstracts/responsive";
 .context {
   @include typo.default;
+  text-transform: capitalize;
+  &:after {
+    content: ":";
+  }
 }
 .title {
   @include typo.large;
@@ -89,6 +93,9 @@ export default defineComponent({
   }
   &--label {
     margin-right: 0.25rem;
+    &:first-letter {
+      text-transform: uppercase;
+    }
     &:after {
       content: ": ";
     }

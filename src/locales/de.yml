@@ -50,12 +50,19 @@ rating:
   downvoteLead: Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!
   downvoteScope:
     track: Ich mag diesen Titel nicht
+    genre: Ich mag diese Art von Musik nicht
+    emission: Ich mag diese Sendung nicht
+    daytime: Der Track oder die Sendung passen nicht zur Tageszeit
+    repetition: Ich habe diesen Track schon zu oft gehört
+  downvoteComment: Kommentar
+  downvoteThankYou: Vielen Dank für dein feedback!
 pullToRefresh:
   pull: Pull down to refresh
   release: Release to refresh
   refreshing: Refreshing
 formActions:
   save: Speichern
+  send: Senden
 account:
   legal:
     terms:
@@ -82,3 +89,5 @@ geolocation:
     note: Currently we can only provide access to our on-demand service for people living in Switzerland.
     faqNote: More about in the {0} section.
     faqLabel: FAQ
+pages:
+  pageNotFound: Seite nicht gefunden

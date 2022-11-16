@@ -73,19 +73,19 @@ export default defineComponent({
         },
         {
           value: "genre",
-          label: "Ich mag diese Art von Musik nicht",
+          label: t("rating.downvoteScope.genre"),
         },
         {
           value: "emission",
-          label: "Ich mag diese Sendung nicht",
+          label: t("rating.downvoteScope.emission"),
         },
         {
           value: "daytime",
-          label: "Der Track oder die Sendung passen nicht zur Tageszeit",
+          label: t("rating.downvoteScope.daytime"),
         },
         {
           value: "repetition",
-          label: "Ich habe diesen Track schon zu oft gehört",
+          label: t("rating.downvoteScope.repetition"),
         },
       ];
     });
@@ -99,11 +99,10 @@ export default defineComponent({
       await notify({
         level: "success",
         ttl: 5,
-        body: "Vielen Dank für dein feedback!",
+        body: t("rating.downvoteThankYou"),
       });
     };
     onMounted(async () => {
-      // fetchRating(objKey.value);
       if (rating.value === undefined) {
         await loadRating(objKey.value);
       }
@@ -173,15 +172,12 @@ export default defineComponent({
         />
       </div>
       <div class="prompt__comment">
-        <TextareaInput v-model="comment" :maxlength="256" label="Kommentar" />
+        <TextareaInput v-model="comment" :maxlength="256" :label="t('rating.downvoteComment')" />
       </div>
       <div class="prompt__actions">
-        <button class="button" @click="downvote">Senden</button>
+        <button class="button" @click="downvote" v-text="t('formActions.send')" />
       </div>
     </div>
-    <template #footer>
-      <div>(( footer content ))</div>
-    </template>
   </OverlayPanel>
 </template>
 

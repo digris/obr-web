@@ -23,7 +23,5 @@ class GeolocationMiddleware:
         if COUNTRY_OVERRIDE:
             request.geolocation_country = COUNTRY_OVERRIDE
 
-        print("request.geolocation_country", request.geolocation_country)
-
         response = self.get_response(request)
         return response

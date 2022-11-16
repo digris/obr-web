@@ -47,7 +47,7 @@ export default defineComponent({
 
 <template>
   <div class="metadata metadata--emission">
-    <div class="context">Show:</div>
+    <i18n-t keypath="catalog.ct.playlist" tag="div" class="context" />
     <router-link :to="link" v-text="displayName" class="title" />
     <div>
       <EditorInline v-if="editor" :editor="editor" />
@@ -61,7 +61,10 @@ export default defineComponent({
 @use "@/style/abstracts/responsive";
 .context {
   @include typo.default;
-  // @include typo.underlined;
+  text-transform: capitalize;
+  &:after {
+    content: ":";
+  }
 }
 .title {
   @include typo.large;

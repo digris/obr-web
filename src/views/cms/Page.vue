@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch, onBeforeMount } from "vue";
+import { useI18n } from "vue-i18n";
 import { getPage } from "@/api/cms";
 
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
@@ -15,6 +16,7 @@ export default defineComponent({
     SocialMediaLinks,
   },
   setup(props) {
+    const { t } = useI18n();
     const page = ref({});
     const loadPage = async (path: string) => {
       page.value = {};
@@ -22,7 +24,7 @@ export default defineComponent({
         page.value = await getPage(path);
       } catch (err) {
         page.value = {
-          title: "Not found",
+          title: t("pages.pageNotFound"),
           body: err?.message,
         };
       }
