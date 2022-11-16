@@ -46,7 +46,13 @@ export default defineComponent({
       <p>Scan the QR-Code with your mobile's camera to login.</p>
     </div>
     <div class="code">
-      <qrcode-vue v-if="signedLoginUrl" class="qr-code" :value="signedLoginUrl" :size="size" level="H" />
+      <qrcode-vue
+        v-if="signedLoginUrl"
+        class="qr-code"
+        :value="signedLoginUrl"
+        :size="size"
+        level="H"
+      />
     </div>
   </Section>
 </template>
