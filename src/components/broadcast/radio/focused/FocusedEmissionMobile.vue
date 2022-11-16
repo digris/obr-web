@@ -2,6 +2,7 @@
 import type { PropType } from "vue";
 import type { ScheduleEmission, SchedulePlaylist } from "@/typings/api";
 import { computed, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   props: {
@@ -15,6 +16,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const link = computed(() => {
       return {
         name: "playlistDetail",
@@ -32,6 +34,7 @@ export default defineComponent({
       return props.playlist?.editor?.name ?? "";
     });
     return {
+      t,
       link,
       titleDisplay,
       editorDisplay,
@@ -42,7 +45,7 @@ export default defineComponent({
 
 <template>
   <router-link :to="link" class="focused-emission">
-    <div class="title">Show: {{ titleDisplay }}</div>
+    <div class="title">{{ t('catalog.ct.playlist') }}: {{ titleDisplay }}</div>
     <div v-if="editorDisplay" class="editor">by {{ editorDisplay }}</div>
   </router-link>
 </template>
@@ -57,6 +60,11 @@ export default defineComponent({
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .title {
+    &:first-letter {
+      text-transform: uppercase;
+    }
   }
 }
 </style>

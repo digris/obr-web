@@ -30,7 +30,6 @@ export default defineComponent({
       fetchEditors();
     });
     return {
-      // editors,
       activeEditors,
       pastEditors,
     };

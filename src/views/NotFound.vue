@@ -18,7 +18,7 @@ export default defineComponent({
   <div class="not-found">
     <div class="header">
       <div class="title">
-        <h1>Page does not exist</h1>
+        <i18n-t keypath="pages.pageNotFound" tag="h1" />
       </div>
     </div>
     <div class="body">
