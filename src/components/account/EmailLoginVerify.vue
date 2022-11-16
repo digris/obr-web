@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useAccount } from "@/composables/account";
 
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -23,6 +24,7 @@ export default defineComponent({
   },
   emits: ["reset"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const { loadUser, loginUserByToken } = useAccount();
     const token = ref("");
     const tokenValid = ref(false);
@@ -59,6 +61,7 @@ export default defineComponent({
     };
 
     return {
+      t,
       token,
       tokenValid,
       errors,
@@ -73,22 +76,26 @@ export default defineComponent({
 <template>
   <div>
     <p class="lead">
-      Eine E-Mail mit einem Login-Code wurde an {{ email }} geschickt.<br />
-      Falls du keine E-Mail erhalten hast, prüfe deinen Spam Ordner.<br />
-      <a @click.prevent="reset">E-Mail erneut senden</a>
+      <i18n-t keypath="account.auth.loginEmailSent" tag="div" class="title">
+        <em v-text="email" />
+      </i18n-t>
+      <i18n-t @click.prevent="reset" keypath="account.auth.loginEmailSendAgain" tag="a" />
     </p>
+    <form class="form" @submit.prevent="submitForm">
+      <TokenInput ref="tokenInputRef" @input="handleTokenInput" />
+      <div class="form-errors" v-if="errors.length">
+        <APIErrors :errors="errors" />
+      </div>
+      <div class="input-container submit">
+        <AsyncButton
+          class="button"
+          @click.prevent="submitForm"
+          :disabled="!tokenValid"
+          v-text="t('account.auth.login')"
+        />
+      </div>
+    </form>
   </div>
-  <form class="form" @submit.prevent="submitForm">
-    <TokenInput ref="tokenInputRef" @input="handleTokenInput" />
-    <div class="form-errors" v-if="errors.length">
-      <APIErrors :errors="errors" />
-    </div>
-    <div class="input-container submit">
-      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!tokenValid">
-        Anmelden
-      </AsyncButton>
-    </div>
-  </form>
 </template>
 
 <style lang="scss" scoped>

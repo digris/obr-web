@@ -1,17 +1,14 @@
 <script lang="ts">
+import { defineComponent, ref, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { debounce } from "lodash-es";
 import * as EmailValidator from "email-validator";
-import { defineComponent, ref, computed } from "vue";
 import { useAccount } from "@/composables/account";
 
 import { checkLoginEmail, sendLoginEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
 import Message from "@/components/ui/Message.vue";
-
-const CREATE_ACCOUNT = "Konto erstellen";
-const SEND_TOKEN = "Code senden";
-const LOGIN = "Login";
 
 export enum Flow {
   Password = "password",
@@ -27,13 +24,14 @@ export default defineComponent({
   },
   emits: ["emailSent"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const { loginUser } = useAccount();
     const email = ref("");
     const password = ref("");
     const emailValid = ref(false);
     const emailExists = ref(false);
     const promptPassword = ref(false);
-    const buttonText = ref(LOGIN);
+    const buttonText = ref(t("account.auth.login"));
     const message = ref({});
     const errors = ref<Array<string>>([]);
     const flow = computed(() => {
@@ -51,18 +49,18 @@ export default defineComponent({
         emailExists.value = true;
         if (account.hasUsablePassword) {
           promptPassword.value = true;
-          buttonText.value = LOGIN;
+          buttonText.value = t("account.auth.login");
         } else {
           message.value = {
             level: "info",
-            body: 'Konto bereits vorhanden. Klicke auf "Code senden"',
+            body: t("account.auth.accountExists"),
           };
-          buttonText.value = SEND_TOKEN;
+          buttonText.value = t("account.auth.sendToken");
         }
       } else {
         emailExists.value = false;
         promptPassword.value = false;
-        buttonText.value = CREATE_ACCOUNT;
+        buttonText.value = t("account.auth.register");
       }
     };
     const handleEmailInput = debounce(async (e: any) => {
@@ -82,7 +80,7 @@ export default defineComponent({
         }
       } else {
         emailValid.value = false;
-        buttonText.value = LOGIN;
+        buttonText.value = t("account.auth.login");
       }
     }, 200);
     const submitEmailLogin = async () => {
@@ -146,7 +144,7 @@ export default defineComponent({
 <template>
   <form class="form" @submit.prevent="submitForm">
     <div class="input-container">
-      <label for="email-1625"> Mit deiner E-Mail Adresse: </label>
+      <i18n-t keypath="account.auth.usingEmail" tag="label" for="email-1625" />
       <input
         @keyup="handleEmailInput"
         class="input"
@@ -160,7 +158,7 @@ export default defineComponent({
       />
     </div>
     <div v-if="flow === 'password'" class="input-container">
-      <label for="password-1625"> Passwort: </label>
+      <i18n-t keypath="account.auth.password" tag="label" for="password-1625" />
       <input
         class="input"
         v-model="password"
@@ -172,8 +170,8 @@ export default defineComponent({
         autocomplete="current-password"
       />
       <p class="help">
-        <span>Passwort vergessen?</span>
-        <a @click.prevent="resetPassword">Login mit E-Mail-Bestätigung</a>
+        <i18n-t keypath="account.auth.forgotPassword" tag="span" />
+        <i18n-t @click.prevent="resetPassword" keypath="account.auth.resetPassword" tag="a" />
       </p>
     </div>
     <div class="form-messages" v-if="message && message.body">
@@ -183,9 +181,12 @@ export default defineComponent({
       <APIErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!emailValid">
-        {{ buttonText }}
-      </AsyncButton>
+      <AsyncButton
+        class="button"
+        @click.prevent="submitForm"
+        :disabled="!emailValid"
+        v-text="buttonText"
+      />
     </div>
   </form>
 </template>
@@ -201,6 +202,11 @@ export default defineComponent({
   .input-container {
     @include form.top-label;
     width: 100%;
+    > label {
+      &:after {
+        content: ":";
+      }
+    }
     .input {
       @include typo.large;
     }
@@ -214,9 +220,6 @@ export default defineComponent({
       }
     }
     .help {
-      //display: flex;
-      //flex-direction: column;
-      //white-space: pre-wrap;
       > span {
         padding-right: 0.5rem;
       }

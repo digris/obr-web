@@ -64,6 +64,22 @@ formActions:
   save: Speichern
   send: Senden
 account:
+  auth:
+    login: Anmelden
+    register: Konto erstellen
+    password: Passwort
+    sendToken: Code senden
+    socialAccount: Mit einem bestehenden Konto
+    usingEmail: Mit deiner E-Mail Adresse
+    forgotPassword: Passwort vergessen?
+    resetPassword: Login mit E-Mail-Bestätigung
+    accountExists: Konto bereits vorhanden. Klicke auf "Code senden"
+    loginToken: Login-Code
+    loginEmailSent: "Eine E-Mail mit einem Login-Code wurde an {0} geschickt.
+                     Falls du keine Nachricht erhalten hast, prüfe deinen Spam Ordner."
+    loginEmailSendAgain: E-Mail erneut senden
+    social:
+      continueWith: Weiter mit {0}
   legal:
     terms:
       term: By signing up you agree to the {0} and {1}.
@@ -73,17 +89,56 @@ account:
       note: "Currently we can only provide access to our on-demand service for people living in Switzerland. 
             More about in the {0} section."
       faq: FAQ
-  personal:
-    name: Name
-    surname: Nachname
-    favoriteVenue: Lieblingsclub
-    yearOfBirth: Jahrgang
-    gender:
-      label: Pronomen
-      options:
-        female: she/her
-        male: he/his
-        other: they/them
+  qrcode:
+    title: Mobile Login
+    info: Scanne den QR-Code mit deinem Mobiltelefon
+  settings:
+    subscription:
+      title: Guthaben für kostenpflichtige Inhalte
+    stream:
+      title: Streaming Qualität / Umweltbelastung
+      infoLong: "Per \"default\" liefern wir dir unseren Content in der bestmöglichen Qualität.\n
+                 Die Übertragungsrate wird laufend an die Qualität deiner Internetverbindung angepasst."
+      infoShort: "Zur Minimierung deines Datenvolumens / der Umweltbelastung kannst du eine maximale
+                  Übertragungsrate festlegen:"
+    email:
+      title: E-Mail
+      labelEmail: E-Mail Adresse
+    password:
+      title: Passwort
+      labelPassword: Neues Passwort
+      placeholderPassword: Passwort
+      labelPasswordConfirm: Passwort bestătigen
+      placeholderPasswordConfirm: Passwort
+    address:
+      title: Adresse
+      labelLine1: Adresse
+      labelLine2: Zusatz
+      labelPostalCode: PLZ
+      labelCity: Ort
+      labelCountry: Land
+    personal:
+      title: Persönliche Angaben
+      labelName: Name
+      labelSurname: Nachname
+      labelYearOfBirth: Jahrgang
+      labelFavoriteVenue: Lieblingsclub
+      gender:
+        label: Pronomen
+        options:
+          female: she/her
+          male: he/his
+          other: they/them
+    social:
+      title: Verbundene Accounts
+      info: "TODO: Text needed..."
+      connect: verbinden
+      disconnect: trennen
+      loginAccounts:
+        title: Login Konten
+      streamingAccounts:
+        title: Streaming Konten
+        info: "TODO: Text needed..."
 geolocation:
   availability:
     note: Currently we can only provide access to our on-demand service for people living in Switzerland.

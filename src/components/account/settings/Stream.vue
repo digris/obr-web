@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { useSettingsStore } from "@/stores/settings";
+import { useDevice } from "@/composables/device";
 
 import Section from "./Section.vue";
 
@@ -27,6 +29,8 @@ export default defineComponent({
     Section,
   },
   setup() {
+    const { t } = useI18n();
+    const { isDesktop } = useDevice();
     const maxBandwidthChoices = BANDWITH_CHOICES;
     const settingsStore = useSettingsStore();
     const maxBandwidth = computed(() => settingsStore.maxBandwidth);
@@ -34,6 +38,8 @@ export default defineComponent({
       settingsStore.setMaxBandwidth(value);
     };
     return {
+      t,
+      isDesktop,
       maxBandwidth,
       maxBandwidthChoices,
       setMaxBandwidth,
@@ -43,20 +49,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Streaming Qualität / Umweltbelastung" :outlined="false">
+  <Section :title="t('account.settings.stream.title')" :outlined="false">
     <div class="info">
-      <p class="full">
-        Per "default" liefern wir dir unseren Content in der bestmöglichen Qualität.
-        <br />
-        Die Übertragungsrate wird laufend an die Qualität deiner Internetverbindung angepasst.
-        <br />
-        Zur Minimierung deines Datenvolumens / der Umweltbelastung kannst du eine maximale
-        Übertragungsrate festlegen:
-      </p>
-      <p class="minimal">
-        Zur Minimierung deines Datenvolumens / der Umweltbelastung kannst du eine maximale
-        Übertragungsrate festlegen:
-      </p>
+      <i18n-t v-if="isDesktop" keypath="account.settings.stream.infoLong" tag="p" />
+      <i18n-t keypath="account.settings.stream.infoShort" tag="p" />
     </div>
     <div class="options options--bw">
       <div
@@ -79,20 +75,9 @@ export default defineComponent({
 .info {
   padding: 0 2rem 1rem 0;
   opacity: 0.5;
-  .full {
-    display: block;
-  }
-  .minimal {
-    display: none;
-  }
+  white-space: pre-line;
   @include responsive.bp-medium {
-    .full {
-      display: none;
-    }
-    .minimal {
-      @include typo.small;
-      display: block;
-    }
+    @include typo.small;
   }
 }
 .options {

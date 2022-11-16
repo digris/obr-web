@@ -46,10 +46,7 @@ export default defineComponent({
     const canBan = computed(() => {
       return props.obj?.ct && props.obj.ct === "catalog.media";
     });
-    const {
-      enqueueObj,
-      startPlayCurrent,
-    } = useQueueControls();
+    const { enqueueObj, startPlayCurrent } = useQueueControls();
     const enqueueNext = requireSubscription(async () => {
       await enqueueObj(props.obj, "insert");
       await startPlayCurrent();

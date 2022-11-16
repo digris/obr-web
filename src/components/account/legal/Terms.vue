@@ -15,9 +15,7 @@ const ppUrl = "/legal/terms/";
 </template>
 
 <style lang="scss" scoped>
-//@use "@/style/base/typo";
 .terms {
-  //@include typo.small;
   a {
     text-decoration: underline;
   }

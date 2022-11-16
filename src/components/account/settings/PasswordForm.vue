@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
+import { useAccount } from "@/composables/account";
 import { updatePassword } from "@/api/account";
 
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -15,6 +17,8 @@ export default defineComponent({
   },
   emits: ["updated"],
   setup(props, { emit }) {
+    const { t } = useI18n();
+    const { user } = useAccount();
     const password = ref("");
     const passwordConfirm = ref("");
     const formValid = ref(false);
@@ -33,6 +37,8 @@ export default defineComponent({
       }
     };
     return {
+      t,
+      user,
       password,
       passwordConfirm,
       errors,
@@ -46,14 +52,19 @@ export default defineComponent({
 
 <template>
   <form class="form" @submit.prevent="submitForm">
+    <!--
+    we include a hidden reference for the "username" to coop with password managers
+    https://www.chromium.org/developers/design-documents/create-amazing-password-forms/
+    -->
+    <input v-show="false" type="email" autocomplete="username" :value="user.email" />
     <div class="input-container">
       <TextInput
         v-model="password"
         @keyup="handleInput"
         type="password"
-        label="Neues Passwort"
         autocomplete="new-password"
-        placeholder="Passwort"
+        :label="t('account.settings.password.labelPassword')"
+        :placeholder="t('account.settings.password.placeholderPassword')"
         :minlength="8"
         :maxlength="64"
       />
@@ -63,9 +74,9 @@ export default defineComponent({
         v-model="passwordConfirm"
         @keyup="handleInput"
         type="password"
-        label="Passwort bestätigen"
         autocomplete="new-password"
-        placeholder="Passwort"
+        :label="t('account.settings.password.labelPasswordConfirm')"
+        :placeholder="t('account.settings.password.placeholderPasswordConfirm')"
         :minlength="8"
         :maxlength="64"
       />
@@ -74,9 +85,12 @@ export default defineComponent({
       <APIErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!formValid">
-        Speichern
-      </AsyncButton>
+      <AsyncButton
+        class="button"
+        @click.prevent="submitForm"
+        :disabled="!formValid"
+        v-text="t('formActions.save')"
+      />
     </div>
   </form>
 </template>

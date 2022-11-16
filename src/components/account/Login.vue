@@ -17,7 +17,7 @@ export default {
 </script>
 <template>
   <section class="section">
-    <button @click.prevent="login">Login</button>
+    <i18n-t @click.prevent="login" keypath="account.auth.login" tag="button" />
   </section>
 </template>
 

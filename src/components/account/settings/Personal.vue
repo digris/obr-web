@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
+import { useI18n } from "vue-i18n";
 
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 import Section from "./Section.vue";
@@ -20,6 +21,7 @@ export default defineComponent({
   },
   emits: ["updated"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const fullName = computed(() => {
       if (props.user?.firstName && props.user?.lastName) {
         return `${props.user.firstName} ${props.user.lastName}`;
@@ -47,6 +49,7 @@ export default defineComponent({
       showForm();
     };
     return {
+      t,
       fullName,
       onEdit,
       formVisible,
@@ -58,11 +61,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Persönliche Angaben" @edit="onEdit">
+  <Section :title="t('account.settings.personal.title')" @edit="onEdit">
     <p v-if="fullName" v-text="fullName" />
     <p v-else v-text="`---`" />
   </Section>
-  <OverlayPanel :is-visible="formVisible" @close="hideForm" title="Persönliche Angaben">
+  <OverlayPanel
+    :is-visible="formVisible"
+    @close="hideForm"
+    :title="t('account.settings.personal.title')"
+  >
     <Form :user="user" @updated="onUpdated" />
   </OverlayPanel>
 </template>

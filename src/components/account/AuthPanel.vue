@@ -86,17 +86,14 @@ export default defineComponent({
 <template>
   <SidePanel :is-visible="isVisible" @close="close">
     <div class="panel">
-      <div class="title">Anmelden</div>
+      <i18n-t keypath="account.auth.login" tag="div" class="title" />
       <div v-if="message" class="message">
         <p>{{ message }}</p>
       </div>
       <section v-if="socialLoginVisible" class="section social">
-        <p>Mit einem bestehenden Konto:</p>
+        <i18n-t keypath="account.auth.socialAccount" tag="p" />
         <SocialLogin :next="next" />
       </section>
-      <!--
-      <div v-if="socialLoginVisible && emailLoginVisible" class="subtitle">oder</div>
-      -->
       <div>
         <section v-if="emailLoginVisible" class="section email">
           <EmailLoginForm :next="next" @email-sent="handleEmailSent" />

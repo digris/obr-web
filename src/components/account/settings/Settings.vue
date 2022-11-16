@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
 
@@ -28,10 +29,12 @@ export default defineComponent({
     QRCodeLogin,
   },
   setup() {
+    const { t } = useI18n();
     const { user, subscription, settings, address, loadUser } = useAccount();
     const { isDesktop } = useDevice();
     const socialNext = window.location.pathname;
     return {
+      t,
       user,
       subscription,
       settings,
@@ -48,7 +51,7 @@ export default defineComponent({
   <div v-if="user">
     <Section
       v-if="user"
-      title="Guthaben für kostenpflichtige Inhalte"
+      :title="t('account.settings.subscription.title')"
       @edit="
         {
         }
