@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { watchDebounced } from "@vueuse/core";
-import { useI18n } from "vue-i18n";
 import { getGlobalMediaSearchResults } from "@/api/search";
 import eventBus from "@/eventBus";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
@@ -15,7 +14,6 @@ export default defineComponent({
     SearchResults,
   },
   setup() {
-    const { t } = useI18n();
     const q = ref("");
     const results = ref([]);
     const resultsTotalCount = ref(0);
@@ -42,7 +40,6 @@ export default defineComponent({
       }
     );
     return {
-      t,
       q,
       results,
       isVisible,
@@ -59,9 +56,9 @@ export default defineComponent({
     <div class="global-search">
       <SearchResults v-if="results.length" :results="results" />
       <div v-if="results.length === 0" class="feedback">
-        <p v-if="q">Sorry! Keine Einträge gefunden.</p>
-        <p v-else>Durchsuche das open broadcast Archiv.<br /></p>
-        <p>Du kannst nach Tracks, Releases oder Künsternamem suchen.</p>
+        <i18n-t v-if="q" keypath="navigation.search.noResults" tag="p" />
+        <i18n-t v-else keypath="navigation.search.cta" tag="p" />
+        <i18n-t keypath="navigation.search.info" tag="p" />
       </div>
     </div>
   </SidePanel>
