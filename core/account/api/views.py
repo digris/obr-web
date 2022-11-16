@@ -436,27 +436,23 @@ class SignedLoginCredentialsView(
         description="Provides credentials for password-less authentication",
         tags=["authentication"],
     )
-    def post(request):
+    def get(request):
         if request.user and request.user.is_authenticated:
             signed_email = timestamp_signer.sign(str(request.user.email))
             signed_login_url = (
                 f"{settings.SITE_URL}/account/email-login/{signed_email}/"
             )
-
-            # serializer = serializers.SignedLoginCredentialsSerializer(
-            #     {
-            #         "signed_email": signed_email,
-            #         "signed_login_url": signed_login_url,
-            #     },
-            #     context={
-            #         "request": request,
-            #     },
-            # )
-            return Response(
+            serializer = serializers.SignedLoginCredentialsSerializer(
                 {
                     "signed_email": signed_email,
                     "signed_login_url": signed_login_url,
                 },
+                context={
+                    "request": request,
+                },
+            )
+            return Response(
+                serializer.data,
                 status=status.HTTP_200_OK,
             )
 
