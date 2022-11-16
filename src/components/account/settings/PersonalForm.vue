@@ -29,15 +29,15 @@ export default defineComponent({
     const genderOptions = [
       {
         value: "female",
-        name: t("account.personal.gender.options.female"),
+        name: t("account.settings.personal.gender.options.female"),
       },
       {
         value: "male",
-        name: t("account.personal.gender.options.male"),
+        name: t("account.settings.personal.gender.options.male"),
       },
       {
         value: "other",
-        name: t("account.personal.gender.options.other"),
+        name: t("account.settings.personal.gender.options.other"),
       },
     ];
     const firstName = ref(props.user.firstName);
@@ -85,10 +85,18 @@ export default defineComponent({
 <template>
   <form class="form" @submit.prevent="submitForm">
     <div class="input-container">
-      <TextInput v-model="firstName" type="text" :label="t('account.personal.name')" />
+      <TextInput
+        v-model="firstName"
+        type="text"
+        :label="t('account.settings.personal.labelName')"
+      />
     </div>
     <div class="input-container">
-      <TextInput v-model="lastName" type="text" :label="t('account.personal.surname')" />
+      <TextInput
+        v-model="lastName"
+        type="text"
+        :label="t('account.settings.personal.labelSurname')"
+      />
     </div>
     <div class="input-container input-container--2-2">
       <TextInput
@@ -97,18 +105,22 @@ export default defineComponent({
         :min-value="1900"
         :max-value="2022"
         placeholder="19?? / 20??"
-        :label="t('account.personal.yearOfBirth')"
+        :label="t('account.settings.personal.labelYearOfBirth')"
         :errors="formErrors?.yearOfBirth ?? []"
       />
       <SelectInput
         v-model="gender"
         :options="genderOptions"
         type="text"
-        :label="t('account.personal.gender.label')"
+        :label="t('account.settings.personal.gender.label')"
       />
     </div>
     <div class="input-container">
-      <TextInput v-model="favoriteVenue" type="text" :label="t('account.personal.favoriteVenue')" />
+      <TextInput
+        v-model="favoriteVenue"
+        type="text"
+        :label="t('account.settings.personal.labelFavoriteVenue')"
+      />
     </div>
     <div class="form-errors" v-if="errors.length">
       <APIErrors :errors="errors" />

@@ -17,7 +17,6 @@
 @use "@/style/base/typo";
 .service {
   padding: 2rem 4rem;
-  //line-height: 1;
   .title {
     @include typo.large;
     @include typo.bold;

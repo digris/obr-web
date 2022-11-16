@@ -37,7 +37,7 @@ export default defineComponent({
 <template>
   <div class="token-input" :class="{ 'is-valid': valid }">
     <div class="input-container token-input">
-      <label for="ti-1298"> Login-Code: </label>
+      <i18n-t keypath="account.auth.loginToken" tag="label" for="ti-1298" />
       <input
         ref="inputEl"
         id="ti-1298"
@@ -58,8 +58,11 @@ export default defineComponent({
   @include form.default;
   .input-container {
     @include form.top-label;
-    label {
+    > label {
       white-space: nowrap;
+      &:after {
+        content: ":";
+      }
     }
   }
   .input {

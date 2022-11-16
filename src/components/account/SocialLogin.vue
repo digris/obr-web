@@ -40,7 +40,6 @@ export default defineComponent({
     const getProviderLogo = (provider: string) => {
       const key = provider.split("-")[0];
       return ICONS[key];
-      // return getStaticSrc(`assets/brand-icons/${key}.svg`);
     };
     const getProviderText = (provider: string) => {
       const key = provider.split("-")[0];
@@ -48,7 +47,6 @@ export default defineComponent({
     };
     const beginLogin = (backend: Backend) => {
       const nextUrl = backend.connectUrl;
-      // const params = {};
       const params: { [x: string]: string } = {};
       if (props.next) {
         params.next = props.next;
@@ -58,10 +56,6 @@ export default defineComponent({
       }
       const q = new URLSearchParams(params).toString();
       const location = q ? `${nextUrl}?${q}` : nextUrl;
-      console.debug(params, q, location);
-      // if (props.next) {
-      //   nextUrl += `?next=${props.next}`;
-      // }
       window.location.href = location;
     };
     const disconnect = async (backend: Backend) => {
@@ -92,7 +86,9 @@ export default defineComponent({
         :class="`backend--${backend.provider}`"
       >
         <img class="logo" :src="getProviderLogo(backend.provider)" />
-        <p class="name">Continue with {{ getProviderText(backend.provider) }}</p>
+        <i18n-t keypath="account.auth.social.continueWith" tag="div" class="title">
+          {{ getProviderText(backend.provider) }}
+        </i18n-t>
       </div>
     </section>
   </div>
@@ -126,20 +122,11 @@ export default defineComponent({
     }
     .name {
       flex-grow: 1;
-      //text-transform: capitalize;
       .uid {
         color: rgba(var(--c-black), 0.5);
         text-transform: lowercase;
       }
     }
-    //.disconnect {
-    //
-    //}
-    /*
-    &--google-oauth2 {
-      border-color: rgba(var(--c-black), 0.5);
-    }
-    */
     &--facebook {
       color: rgb(var(--c-white));
       background: #1877f2;

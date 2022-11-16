@@ -2,6 +2,7 @@
 import type { PropType } from "vue";
 import type { User } from "@/typings/api";
 import { defineComponent, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { useIntervalFn } from "@vueuse/core";
 import { getSignedLoginCredentials } from "@/api/account";
 import QrcodeVue from "qrcode.vue";
@@ -19,6 +20,7 @@ export default defineComponent({
     QrcodeVue,
   },
   setup() {
+    const { t } = useI18n();
     const signedLoginUrl = ref("");
     const size = 200;
     const loadCredentials = async () => {
@@ -33,6 +35,7 @@ export default defineComponent({
       { immediateCallback: true }
     );
     return {
+      t,
       signedLoginUrl,
       size,
     };
@@ -41,9 +44,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section class="qr-code-login" title="Mobile Login" :outlined="false">
+  <Section class="qr-code-login" :title="t('account.qrcode.title')" :outlined="false">
     <div class="info">
-      <p>Scan the QR-Code with your mobile's camera to login.</p>
+      <p v-text="t('account.qrcode.info')" />
     </div>
     <div class="code">
       <qrcode-vue

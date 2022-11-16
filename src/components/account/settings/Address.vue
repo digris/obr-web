@@ -1,5 +1,6 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 import Section from "./Section.vue";
@@ -19,6 +20,7 @@ export default defineComponent({
   },
   emits: ["updated"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const formVisible = ref(false);
     const showForm = () => {
       formVisible.value = true;
@@ -34,6 +36,7 @@ export default defineComponent({
       showForm();
     };
     return {
+      t,
       onEdit,
       formVisible,
       hideForm,
@@ -44,7 +47,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Adresse" @edit="onEdit">
+  <Section :title="t('account.settings.address.title')" @edit="onEdit">
     <div v-if="address">
       <p v-if="address.line1" v-text="address.line1" />
       <p v-if="address.line2" v-text="address.line2" />
@@ -62,7 +65,11 @@ export default defineComponent({
     </div>
     <p v-else v-text="`---`" />
   </Section>
-  <OverlayPanel :is-visible="formVisible" @close="hideForm" title="Adresse">
+  <OverlayPanel
+    :is-visible="formVisible"
+    @close="hideForm"
+    :title="t('account.settings.address.title')"
+  >
     <Form :address="address || {}" @updated="onUpdated" />
   </OverlayPanel>
 </template>

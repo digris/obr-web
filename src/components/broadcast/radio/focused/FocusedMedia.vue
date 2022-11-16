@@ -57,7 +57,12 @@ export default defineComponent({
       <router-link :to="`/discover/tracks/${media.uid}/`" v-text="title" />
     </div>
     <div class="subtitle subtitle--artists">
-      <i18n-t keypath="catalog.ct.artist" tag="span" class="subtitle--label" :plural="media.artists.length" />
+      <i18n-t
+        keypath="catalog.ct.artist"
+        tag="span"
+        class="subtitle--label"
+        :plural="media.artists.length"
+      />
       <MediaArtists :artists="media.artists" />
     </div>
     <div class="subtitle subtitle--releases">

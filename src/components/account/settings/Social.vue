@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import Section from "./Section.vue";
 import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
@@ -56,6 +57,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const connected = ref<Array<Backend>>([]);
     const auth = ref<Array<Backend>>([]);
     const sync = ref<Array<Backend>>([]);
@@ -88,6 +90,7 @@ export default defineComponent({
     onMounted(fetchBackends);
 
     return {
+      t,
       connected,
       auth,
       sync,
@@ -99,12 +102,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Verbundene Accounts" :outlined="false">
+  <Section :outlined="false" :title="t('account.settings.social.title')">
     <div class="info">
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-        <br />Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes.
-      </p>
+      <p v-text="t('account.settings.social.info')" />
     </div>
     <div
       v-for="backend in connected"
@@ -122,11 +122,11 @@ export default defineComponent({
         class="button"
         :class="{ 'is-disabled': !backend.canDisconnect }"
         :disabled="!backend.canDisconnect"
-        v-text="`trennen`"
+        v-text="t('account.settings.social.disconnect')"
       />
     </div>
   </Section>
-  <Section title="Login Konten" :outlined="false">
+  <Section :outlined="false" :title="t('account.settings.social.loginAccounts.title')">
     <div
       v-for="backend in auth"
       :key="`auth-backend-${backend.provider}`"
@@ -135,14 +135,16 @@ export default defineComponent({
     >
       <img class="logo" :src="backend.image" />
       <p class="title" v-text="backend.title" />
-      <button @click="beginLogin(backend)" class="button" v-text="`verbinden`" />
+      <button
+        @click="beginLogin(backend)"
+        class="button"
+        v-text="t('account.settings.social.connect')"
+      />
     </div>
   </Section>
-  <Section title="Streaming Konten" :outlined="false">
+  <Section :outlined="false" :title="t('account.settings.social.streamingAccounts.title')">
     <div class="info">
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-      </p>
+      <p v-text="t('account.settings.social.streamingAccounts.info')" />
     </div>
     <div
       v-for="backend in sync"
@@ -152,7 +154,11 @@ export default defineComponent({
     >
       <img class="logo" :src="backend.image" />
       <p class="title" v-text="backend.title" />
-      <button @click="beginLogin(backend)" class="button" v-text="`verbinden`" />
+      <button
+        @click="beginLogin(backend)"
+        class="button"
+        v-text="t('account.settings.social.connect')"
+      />
     </div>
   </Section>
 </template>

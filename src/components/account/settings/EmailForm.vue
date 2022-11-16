@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import * as EmailValidator from "email-validator";
 
@@ -24,6 +25,7 @@ export default defineComponent({
   },
   emits: ["updated"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const email = ref(props.currentEmail);
     const formValid = ref(false);
     const errors = ref<Array<string>>([]);
@@ -43,6 +45,7 @@ export default defineComponent({
       }
     };
     return {
+      t,
       email,
       formValid,
       errors,
@@ -60,7 +63,7 @@ export default defineComponent({
         v-model="email"
         @keyup="handleInput"
         type="email"
-        label="E-Mail Adresse"
+        :label="t('account.settings.email.labelEmail')"
         :minlength="8"
         :maxlength="64"
       />
@@ -69,9 +72,12 @@ export default defineComponent({
       <APIErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!formValid">
-        Speichern
-      </AsyncButton>
+      <AsyncButton
+        class="button"
+        @click.prevent="submitForm"
+        :disabled="!formValid"
+        v-text="t('formActions.save')"
+      />
     </div>
   </form>
 </template>

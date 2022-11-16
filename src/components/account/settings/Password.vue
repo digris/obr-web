@@ -1,5 +1,6 @@
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 import Section from "./Section.vue";
@@ -12,6 +13,7 @@ export default defineComponent({
     Form,
   },
   setup() {
+    const { t } = useI18n();
     const formVisible = ref(false);
     const showForm = () => {
       formVisible.value = true;
@@ -23,6 +25,7 @@ export default defineComponent({
       showForm();
     };
     return {
+      t,
       onEdit,
       formVisible,
       hideForm,
@@ -32,10 +35,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <Section title="Passwort" @edit="onEdit">
+  <Section :title="t('account.settings.password.title')" @edit="onEdit">
     <p class="user-details" v-text="`●●●●●●●●`" />
   </Section>
-  <OverlayPanel :is-visible="formVisible" @close="hideForm" title="Passwort">
+  <OverlayPanel
+    :is-visible="formVisible"
+    @close="hideForm"
+    :title="t('account.settings.password.title')"
+  >
     <Form @updated="hideForm" />
   </OverlayPanel>
 </template>

@@ -13,9 +13,7 @@ const faqUrl = "/faq/";
 </template>
 
 <style lang="scss" scoped>
-//@use "@/style/base/typo";
 .availability {
-  //@include typo.small;
   white-space: pre-line;
   a {
     text-decoration: underline;

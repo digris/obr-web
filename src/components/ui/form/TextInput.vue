@@ -4,7 +4,7 @@ import { computed, defineComponent, ref } from "vue";
 export default defineComponent({
   props: {
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: "",
       required: true,
     },

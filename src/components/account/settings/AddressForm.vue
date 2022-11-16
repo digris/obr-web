@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { PropType } from "vue";
 import { defineComponent, onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import type { Address } from "@/typings/api";
 import { getAddressCountries, updateAddress } from "@/api/account";
 
@@ -25,6 +26,7 @@ export default defineComponent({
   },
   emits: ["updated"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const countryOptions = ref([]);
     const line1 = ref(props.address.line1);
     const line2 = ref(props.address.line2);
@@ -58,6 +60,7 @@ export default defineComponent({
       }
     });
     return {
+      t,
       line1,
       line2,
       postalCode,
@@ -75,23 +78,32 @@ export default defineComponent({
 <template>
   <form class="form" @submit.prevent="submitForm">
     <div class="input-container">
-      <TextInput v-model="line1" type="text" label="Adresse" />
+      <TextInput v-model="line1" type="text" :label="t('account.settings.address.labelLine1')" />
     </div>
     <div class="input-container">
-      <TextInput v-model="line2" type="text" label="Zusatz" />
+      <TextInput v-model="line2" type="text" :label="t('account.settings.address.labelLine2')" />
     </div>
     <div class="input-container input-container--1-3">
-      <TextInput v-model="postalCode" type="text" label="PLZ" />
-      <TextInput v-model="city" type="text" label="Ort" />
+      <TextInput
+        v-model="postalCode"
+        type="text"
+        :label="t('account.settings.address.labelPostalCode')"
+      />
+      <TextInput v-model="city" type="text" :label="t('account.settings.address.labelCity')" />
     </div>
     <div class="input-container">
-      <SelectInput v-model="country" :options="countryOptions" type="text" label="Land" />
+      <SelectInput
+        v-model="country"
+        :options="countryOptions"
+        type="text"
+        :label="t('account.settings.address.labelCountry')"
+      />
     </div>
     <div class="form-errors" v-if="errors.length">
       <APIErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton class="button" @click.prevent="submitForm"> Speichern </AsyncButton>
+      <AsyncButton class="button" @click.prevent="submitForm" v-text="t('formActions.save')" />
     </div>
   </form>
 </template>
