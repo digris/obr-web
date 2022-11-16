@@ -16,7 +16,6 @@ export default defineComponent({
   },
   props: {
     topic: {
-      // type: Object,
       type: Object as PropType<Topic>,
       required: true,
     },
