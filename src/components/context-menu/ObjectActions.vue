@@ -47,18 +47,15 @@ export default defineComponent({
       return props.obj?.ct && props.obj.ct === "catalog.media";
     });
     const {
-      // enqueueMedia,
       enqueueObj,
       startPlayCurrent,
     } = useQueueControls();
     const enqueueNext = requireSubscription(async () => {
-      // enqueueMedia([props.obj], 'insert');
       await enqueueObj(props.obj, "insert");
       await startPlayCurrent();
       emit("close");
     });
     const enqueueEnd = requireSubscription(async () => {
-      // enqueueMedia([props.obj], 'append');
       await enqueueObj(props.obj, "append");
       await startPlayCurrent();
       emit("close");

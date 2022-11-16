@@ -37,18 +37,17 @@ export default defineComponent({
       await enqueueMedia(results, mode);
     };
     const enqueueNext = requireSubscription(async () => {
-      enqueue("insert");
+      await enqueue("insert");
       emit("close");
     });
     const enqueueEnd = requireSubscription(async () => {
-      enqueue("append");
+      await enqueue("append");
       await startPlayCurrent();
       emit("close");
     });
     return {
       t,
       iconScale,
-      //
       enqueueNext,
       enqueueEnd,
     };
