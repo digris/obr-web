@@ -13,7 +13,8 @@ export default defineComponent({
     const loginBySignedEmail = async (value: string | string[]) => {
       try {
         await loginUserBySignedEmail(value);
-        await router.push({ name: "accountSettings" });
+        // await router.push({ name: "accountSettings" });
+        document.location.href = "/account/settings/";
       } catch (err) {
         console.warn(err);
         errors.value = [err.message, err.response.data];

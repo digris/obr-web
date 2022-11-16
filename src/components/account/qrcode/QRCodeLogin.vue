@@ -29,7 +29,7 @@ export default defineComponent({
       async () => {
         await loadCredentials();
       },
-      5 * 60 * 1000, // very 5 minute
+      5 * 60 * 1000, // every 5 minutes
       { immediateCallback: true }
     );
     return {
@@ -42,30 +42,28 @@ export default defineComponent({
 
 <template>
   <Section class="qr-code-login" title="Mobile Login" :outlined="false">
-    <div class="container">
-      <div class="code">
-        <qrcode-vue v-if="signedLoginUrl" class="qr-code" :value="signedLoginUrl" :size="size" level="H" />
-      </div>
-      <div class="body">
-        <p>Scan the QR-Code with your mobile's camera to login.</p>
-      </div>
+    <div class="info">
+      <p>Scan the QR-Code with your mobile's camera to login.</p>
+    </div>
+    <div class="code">
+      <qrcode-vue v-if="signedLoginUrl" class="qr-code" :value="signedLoginUrl" :size="size" level="H" />
     </div>
   </Section>
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
 .qr-code-login {
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    grid-gap: 1rem;
-    margin-top: 0.5rem;
-    .code {
-      .qr-code {
-        aspect-ratio: 1;
-        min-width: 100%;
-        height: 100% !important;
-      }
+  .info {
+    padding: 0.5rem 2rem 1rem 0;
+    opacity: 0.5;
+  }
+  .code {
+    max-width: 240px;
+    .qr-code {
+      aspect-ratio: 1;
+      min-width: 100%;
+      height: 100% !important;
     }
   }
 }

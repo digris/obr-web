@@ -372,7 +372,7 @@ class SignedEmailLoginView(
         try:
             email = email_login.validate_signed_email(
                 signed_email=signed_email,
-                max_age=60 * 60,
+                max_age=5 * 60,
             )
         except email_login.SignedEmailValidationException as e:
             return Response(
@@ -433,8 +433,7 @@ class SignedLoginCredentialsView(
         },
         operation_id="signed_login_credentials",
         # auth=[],
-        # description="""Login user by signed email.
-        # Responds `200` for existing and `201` for created user.""",
+        description="Provides credentials for password-less authentication",
         tags=["authentication"],
     )
     def post(request):
