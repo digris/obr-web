@@ -436,7 +436,7 @@ class SignedLoginCredentialsView(
         description="Provides credentials for password-less authentication",
         tags=["authentication"],
     )
-    def get(request):
+    def post(request):
         if request.user and request.user.is_authenticated:
             signed_email = timestamp_signer.sign(str(request.user.email))
             signed_login_url = (
