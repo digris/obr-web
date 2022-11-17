@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponsePermanentRedirect
 from electronic_mail.message import BaseMessage
 
 
@@ -33,3 +33,10 @@ def email_login_code(request):
         )
 
     return HttpResponse(message.html)
+
+
+def redirect(request):
+    import time
+
+    time.sleep(3)
+    return HttpResponsePermanentRedirect("https://next.openbroadcast.ch/")

@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "catalog",
     "cms",
     "faq",
+    "share",
     "redirect",
     "electronic_mail",
     "stats",
