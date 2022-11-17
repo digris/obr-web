@@ -1,8 +1,10 @@
 <script lang="ts">
+import type { Page } from "@/typings/api";
 import { defineComponent, ref, watch, onBeforeMount } from "vue";
 import { useI18n } from "vue-i18n";
 import { getPage } from "@/api/cms";
 
+import Section from "@/components/cms/Section.vue";
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 
 export default defineComponent({
@@ -13,11 +15,12 @@ export default defineComponent({
     },
   },
   components: {
+    Section,
     SocialMediaLinks,
   },
   setup(props) {
     const { t } = useI18n();
-    const page = ref({});
+    const page = ref<Page | null>({});
     const loadPage = async (path: string) => {
       page.value = {};
       try {
@@ -50,7 +53,14 @@ export default defineComponent({
     <div class="title" v-if="page.title">
       <h1 v-text="page.title" />
     </div>
-    <div class="body" v-if="page.body" v-html="page.body" />
+    <div class="lead" v-if="page.lead" v-html="page.lead" />
+    <div class="body">
+      <Section
+        v-for="section in page.sections"
+        :key="`${section.ct}:${section.uid}`"
+        :section="section"
+      />
+    </div>
     <div class="appendix">
       <SocialMediaLinks />
     </div>
@@ -70,23 +80,14 @@ export default defineComponent({
       @include typo.bold;
     }
   }
-  :deep(.body) {
-    @include cms.content;
-    @include cms.pyembed;
-    > p {
-      &:first-child {
-        @include typo.large;
-      }
-    }
-    > .toc {
-      @include cms.toc;
-    }
-    > .admonition {
-      @include cms.admonition;
-    }
-    > table {
-      @include cms.table;
-    }
+  .lead {
+    @include typo.large;
+    padding-bottom: 2rem;
+    line-height: 120%;
+  }
+  .body {
+    padding-top: 2rem;
+    border-top: 1px solid rgb(var(--c-gray-200));
   }
   .appendix {
     padding: 2rem 0 6rem;

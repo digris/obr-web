@@ -54,6 +54,7 @@ class BaseMessage:
                 logger.debug(
                     f"sent message to {self.to_email} - status code: {response.status_code}"
                 )
+                return response
             except SendGridException as e:
                 raise SendMessageException(e) from e
         else:

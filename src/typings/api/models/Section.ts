@@ -2,9 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Section } from './Section';
-
-export type Page = {
+export type Section = {
     /**
      * Content type
      */
@@ -14,7 +12,7 @@ export type Page = {
      */
     readonly uid?: string;
     readonly title?: string;
-    readonly lead?: string;
-    readonly sections?: Array<Section>;
+    readonly expandable?: boolean;
+    readonly body?: string;
 };
 

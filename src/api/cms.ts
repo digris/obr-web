@@ -1,7 +1,9 @@
 import { APIClient } from "@/api/client";
-import settings from "@/settings";
+import { useAPIBaseUrl } from "@/composables/api";
 
-const PAGE_ENDPOINT = `${settings.API_BASE_URL}cms/page`;
+const { APIBaseUrl } = useAPIBaseUrl();
+
+const PAGE_ENDPOINT = `${APIBaseUrl.value}cms/page`;
 
 async function getPage(path: string) {
   const url = `${PAGE_ENDPOINT}${path}`;
