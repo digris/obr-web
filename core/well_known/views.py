@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-IOS_APP_ID = "ABCDE12345.ch.digris.obrapp"
+IOS_APP_ID = "236JDQVAKF.ch.digris.obrapp"
 
 
 def apple_app_site_association(request):
