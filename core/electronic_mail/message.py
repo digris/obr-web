@@ -40,7 +40,7 @@ class BaseMessage:
         self.plain = render_to_string(self.template_plain, context)
 
     def send(self):
-        if SENDGRID_API_KEY:
+        if SENDGRID_API_KEY and not getattr(settings, "TEST_MODE", False):
             sg = SendGridAPIClient(SENDGRID_API_KEY)
             message = Mail(
                 from_email=self.from_email,
