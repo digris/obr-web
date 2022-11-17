@@ -1,3 +1,5 @@
 {% extends 'electronic_mail/base.txt' %}
 
-{% block body %}Your login-code: {{ login_token }}{% endblock %}
+{% block body %}Your code: {{ login_token }}
+
+Enter the login-code displayed above on the website or in your APP.{% endblock %}

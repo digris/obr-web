@@ -16,7 +16,9 @@ MEDIA_ENDPOINTS = {
     "hls": "/encoded/",
 }
 
-INSTALLED_APPS += []
+INSTALLED_APPS += [
+    "dev",
+]
 
 MIDDLEWARE += []
 

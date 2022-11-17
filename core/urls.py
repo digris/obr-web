@@ -47,6 +47,10 @@ if settings.DEBUG:
             },
         ),
     ] + urlpatterns
+    if "dev" in settings.INSTALLED_APPS:
+        urlpatterns = [
+            path("dev/", include("dev.urls", namespace="dev")),
+        ] + urlpatterns
 
 if not settings.DEBUG:
     urlpatterns = [

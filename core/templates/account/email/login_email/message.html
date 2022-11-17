@@ -1,16 +1,37 @@
 {% extends 'electronic_mail/base.html' %}
-{% load electronic_mail_tags %}
+{% load i18n electronic_mail_tags %}
 
 {% block body %}
   {% spaceless %}
-  <p>
-    Your login-code
-  </p>
-  {% if login_token %}
-  <p style="width: 100%; padding: 24px; text-align: center;">
-    <span {% style '.login-token' %}>{{ login_token }}</span>
-  </p>
-  {% endif %}
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <tbody>
+      <tr>
+        <td style="padding:36px 0 18px 0; text-align:center;">
+          <span {% style '.text-xl .text-bold' %}>{{ login_token|default:"TOKEN ERROR" }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table {% style '.table-container' %}>
+    <tbody>
+      <tr>
+        <td style="padding:4px 0 4px 0;">
+          <span>{% blocktrans trimmed %}
+            Enter the login-code displayed above on the website or in your APP.
+          {% endblocktrans %}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table style="width: 100%; padding: 22px 0 0 0;">
+    <tbody>
+      <tr>
+        <td style="padding:4px 4px 0 4px; border: 4px solid black;">
+            <img width="100%" src="https://storage.googleapis.com/ch-openbroadcast-media/assets/email/token-login-screenshot.png" alt="Screenshot" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
   {% comment %}
   <p>
     To login <a {% style '.button' %} href="{{ login_url }}">click here</a>.
