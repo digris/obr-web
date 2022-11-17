@@ -5,6 +5,7 @@ import type { LoginRequest } from '../models/LoginRequest';
 import type { SendEmailLogin } from '../models/SendEmailLogin';
 import type { SendEmailLoginLookup } from '../models/SendEmailLoginLookup';
 import type { SendEmailLoginRequest } from '../models/SendEmailLoginRequest';
+import type { SignedLoginCredentials } from '../models/SignedLoginCredentials';
 import type { TokenLoginRequest } from '../models/TokenLoginRequest';
 import type { User } from '../models/User';
 
@@ -98,10 +99,11 @@ export class AuthenticationService {
     }
 
     /**
-     * @returns any No response body
+     * Provides credentials for password-less authentication
+     * @returns SignedLoginCredentials
      * @throws ApiError
      */
-    public static signedLoginCredentials(): CancelablePromise<any> {
+    public static signedLoginCredentials(): CancelablePromise<SignedLoginCredentials> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/account/signed-login-credentials/',
