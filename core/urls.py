@@ -38,10 +38,6 @@ urlpatterns += [
 
 if settings.DEBUG:
     urlpatterns = [
-        path(
-            "electronic-mail/",
-            include("electronic_mail.urls", namespace="electronic_mail"),
-        ),
         re_path(
             r"^encoded/(?P<path>.*)$",
             serve,
