@@ -46,6 +46,13 @@ LOGGING = {
             ],
             "propagate": False,
         },
+        "electronic_mail": {
+            "level": "DEBUG",
+            "handlers": [
+                "console",
+            ],
+            "propagate": False,
+        },
         "geoip": {
             "level": "DEBUG",
             "handlers": [

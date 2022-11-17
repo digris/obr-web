@@ -544,6 +544,10 @@ USERSNAP_API_KEY = env(
     "USERSNAP_API_KEY",
     default=None,
 )
+SENDGRID_API_KEY = env(
+    "SENDGRID_API_KEY",
+    default=None,
+)
 
 
 ##################################################################

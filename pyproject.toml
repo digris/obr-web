@@ -51,6 +51,7 @@ grpcio = "<1.48.0"
 django-json-widget = "^1.1.1"
 django-modeltranslation = "^0.18.2"
 djangorestframework-simplejwt = "^5.2.0"
+sendgrid = "^6.9.7"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
