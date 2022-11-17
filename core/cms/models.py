@@ -1,11 +1,18 @@
 import markdown
+from django import forms
 from django.db import models
+from django.utils.text import slugify
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 
 
 MARKDOWN_EXTENSIONS = [
     "markdown.extensions.toc",
 ]
+
+
+def clean_path(path):
+    path = path.strip("/")
+    return "/".join([slugify(s) for s in path.split("/")])
 
 
 class ContentFormat(models.TextChoices):
@@ -20,9 +27,7 @@ class Page(
     models.Model,
 ):
     path = models.CharField(
-        max_length=256,
-        db_index=True,
-        unique=True,
+        max_length=256, db_index=True, unique=True, help_text="e.g. legal/terms"
     )
     title = models.CharField(
         max_length=64,
@@ -42,6 +47,10 @@ class Page(
 
     def __str__(self):
         return self.title[:36]
+
+    def save(self, *args, **kwargs):
+        self.path = clean_path(self.path)
+        super().save(*args, **kwargs)
 
     def render_lead(self):
         md = markdown.Markdown()
@@ -95,6 +104,10 @@ class Section(
 
     def __str__(self):
         return self.title or str(self.uid)
+
+    def clean(self):
+        if self.expandable and not self.title:
+            raise forms.ValidationError("Expandable sections require a title")
 
     def render(self):
         if self.format == ContentFormat.HTML:
