@@ -36,28 +36,26 @@ def get_playlist_meta(request, uid):
     title = playlist.name
     url = playlist.get_absolute_url()
 
-    # image_w = 1200
-    # image_h = 630
-    # image_url = reverse_lazy(
-    #     "share:work-teaser-image-scale",
-    #     kwargs={
-    #         "w": image_w,
-    #         "h": image_h,
-    #         "uid": uid,
-    #     },
-    # )
-
     meta.update(
         {
             "og:title": title,
             "og:url": request.build_absolute_uri(url),
             "og:locale": f"{language}_CH",
             "og:updated_time": round(playlist.updated.timestamp()),
-            # "og:image": request.build_absolute_uri(image_url),
-            # "og:image:width": image_w,
-            # "og:image:height": image_h,
         }
     )
+
+    if playlist.image:
+        image_w = 1200
+        image_h = 630
+        image_url = f"/images/crop/{image_w}x{image_h}{playlist.image.url}"
+        meta.update(
+            {
+                "og:image": request.build_absolute_uri(image_url),
+                "og:image:width": image_w,
+                "og:image:height": image_h,
+            }
+        )
 
     return meta
 
