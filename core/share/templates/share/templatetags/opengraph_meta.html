@@ -1,2 +1,2 @@
-{% for property, content in meta.items %}
-  <meta property="{{ property }}" content="{{ content }}" />{% endfor %}
+{% for item in meta %}
+  <meta property="{{ item.0 }}" content="{{ item.1 }}" />{% endfor %}

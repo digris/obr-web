@@ -85,6 +85,9 @@ class Editor(
     def __str__(self):
         return str(self.display_name or self.uid)
 
+    def get_absolute_url(self):
+        return f"/discover/editors/{self.uid}/"
+
     @cached_property
     def image(self):
         return self.images.first()

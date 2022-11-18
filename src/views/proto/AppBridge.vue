@@ -41,9 +41,11 @@ export default defineComponent({
     <h2>APP Bridge</h2>
     <section>
       <h4>Controls</h4>
-      <button @click.prevent="playLive">Play Live</button>
-      <button @click.prevent="pause">Pause</button>
-      <button @click.prevent="resume">Resume</button>
+      <div class="controls">
+        <button @click.prevent="playLive">Play Live</button>
+        <button @click.prevent="pause">Pause</button>
+        <button @click.prevent="resume">Resume</button>
+      </div>
     </section>
     <section>
       <h4>Send to Swift</h4>
@@ -67,6 +69,31 @@ export default defineComponent({
       <h4>store: queue/mediaUids</h4>
       <pre v-text="mediaUids" />
     </section>
+    <section class="app-links">
+      <a
+        rel="noopener noreferrer"
+        href="https://next.openbroadcast.ch/proto/app-bridge/"
+        class="button"
+      >App Link</a>
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href="https://next.openbroadcast.ch/proto/app-bridge/"
+        class="button"
+      >App Link (target: blank)</a>
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href="obrapp://next.openbroadcast.ch/proto/app-bridge/"
+        class="button"
+      >App Link (obrapp://)</a>
+      <a
+        rel="noopener noreferrer"
+        target="_blank"
+        href="http://local.next.openbroadcast.ch:3000/dev/redirect/"
+        class="button"
+      >App Link (redirect via local domain)</a>
+    </section>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -77,8 +104,10 @@ export default defineComponent({
   padding: 1rem;
   > section {
     @include section.default;
+    margin-bottom: 4rem;
   }
-  button {
+  button,
+  .button {
     @include button.default(2rem);
     cursor: pointer;
   }
@@ -99,6 +128,14 @@ export default defineComponent({
         min-height: 80px;
       }
     }
+  }
+  .controls {
+    display: flex;
+  }
+  .app-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 </style>

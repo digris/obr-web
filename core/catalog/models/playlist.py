@@ -83,6 +83,16 @@ class Playlist(
         return f"/discover/playlists/{self.uid}/"
 
     @cached_property
+    def title_display(self):
+        title = ""
+        if self.series:
+            title += f"{self.series.name} "
+            if self.series_episode:
+                title += f"{self.series_episode} "
+            title += "- "
+        return f"{title}{self.name}"
+
+    @cached_property
     def image(self):
         return self.images.first()
 

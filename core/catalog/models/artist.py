@@ -58,6 +58,9 @@ class Artist(
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return f"/discover/artists/{self.uid}/"
+
     @cached_property
     def image(self):
         return self.images.first()

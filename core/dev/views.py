@@ -36,7 +36,6 @@ def email_login_code(request):
 
 
 def redirect(request):
-    import time
-
-    time.sleep(3)
-    return HttpResponsePermanentRedirect("https://next.openbroadcast.ch/")
+    return HttpResponsePermanentRedirect(
+        "https://next.openbroadcast.ch/proto/app-bridge/"
+    )
