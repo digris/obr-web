@@ -17,6 +17,9 @@ def usersnap(context):
     except KeyError:
         return {}
 
+    if request.client_mode == "app":
+        return {}
+
     context.update(
         {
             "api_key": API_KEY,

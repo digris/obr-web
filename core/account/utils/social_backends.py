@@ -6,8 +6,8 @@ from social_django.utils import Storage
 BACKENDS = settings.AUTHENTICATION_BACKENDS
 
 AUTH_BACKENDS = [
-    "google-oauth2",
     "apple-id",
+    "google-oauth2",
 ]
 
 SYNC_BACKENDS = [
@@ -24,6 +24,9 @@ def get_backends_for_user(user):
     sync_backends = [
         b for b in backends_data.get("not_associated", []) if b in SYNC_BACKENDS
     ]
+
+    # NOTE: quick fix to have apple as first (required for app store submission)
+    auth_backends.sort()
 
     backends = {
         "connected": backends_data.get("associated", []),

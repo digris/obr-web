@@ -56,6 +56,15 @@ export default defineComponent({
       }
       const q = new URLSearchParams(params).toString();
       const location = q ? `${nextUrl}?${q}` : nextUrl;
+
+      // just for quick'n'dirty testing
+      if (isApp && backend.provider === "google-oauth2") {
+        window.appBridge?.send("browser:navigate", {
+          url: "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector",
+        });
+        return;
+      }
+
       window.location.href = location;
     };
     const disconnect = async (backend: Backend) => {

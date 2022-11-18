@@ -11,6 +11,7 @@ def apple_app_site_association(request):
     return JsonResponse(
         {
             "applinks": {
+                "apps": [],
                 "details": [
                     {
                         "appIDs": [
@@ -23,7 +24,7 @@ def apple_app_site_association(request):
                             },
                         ],
                     }
-                ]
+                ],
             }
         }
     )
