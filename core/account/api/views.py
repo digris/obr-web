@@ -439,7 +439,9 @@ class SignedLoginCredentialsView(
     def post(request):
         if request.user and request.user.is_authenticated:
             signed_email = timestamp_signer.sign(str(request.user.email))
-            signed_login_url = request.build_absolute_uri("/account/email-login/{signed_email}/")
+            signed_login_url = request.build_absolute_uri(
+                "/account/email-login/{signed_email}/"
+            )
             serializer = serializers.SignedLoginCredentialsSerializer(
                 {
                     "signed_email": signed_email,
