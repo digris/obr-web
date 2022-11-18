@@ -72,7 +72,10 @@ def get_playlist_meta(request, uid):
     meta += get_image_meta(request, obj.image, 1200, 1200)
 
     if editor := obj.editor:
+        tags = [f"#{t.name}" for t in obj.tags.exclude(type="descriptive")[:8]]
+        description = f"{' '.join(tags)} - curated by {editor}"
         meta += [
+            ["og:description", description],
             ["music:creator", request.build_absolute_uri(editor.get_absolute_url())],
         ]
 

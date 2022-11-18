@@ -18,8 +18,14 @@ export default defineComponent({
     const channel = ref("");
     const data = ref("");
     const sendData = async () => {
+      console.debug('data', data.value)
       // @ts-ignore
-      await appBridge.send(channel.value, data.value ? data.value : null);
+      await appBridge.send(channel.value, data.value ? JSON.parse(data.value) : null);
+    };
+    const socialBegin = () => {
+      window.appBridge?.send("browser:navigate", {
+        url: "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector",
+      });
     };
     return {
       media,
@@ -32,6 +38,7 @@ export default defineComponent({
       sendData,
       channel,
       data,
+      socialBegin,
     };
   },
 });
@@ -89,10 +96,15 @@ export default defineComponent({
       >App Link (obrapp://)</a>
       <a
         rel="noopener noreferrer"
-        target="_blank"
         href="http://local.next.openbroadcast.ch:3000/dev/redirect/"
         class="button"
       >App Link (redirect via local domain)</a>
+      <a
+        rel="noopener noreferrer"
+        href="https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector"
+        class="button"
+      >Login via redirect</a>
+      <a @click.prevent="socialBegin" class="button">System browser via redirect</a>
     </section>
   </div>
 </template>

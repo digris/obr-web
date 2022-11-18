@@ -31,7 +31,9 @@ type sendChannel =
   // web
   | "web:setPath"
   // account
-  | "account:setAccessToken";
+  | "account:setAccessToken"
+  // browser
+  | "browser:navigate";
 
 // channels RECEIVING data FROM swift-app
 type receiveChannel =
