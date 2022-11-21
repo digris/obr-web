@@ -5,10 +5,10 @@ from django.utils.translation import gettext_lazy as _
 from catalog.models import Playlist, Artist, Media
 from broadcast.models import Editor
 
-"""
-https://ogp.me/
-https://developers.facebook.com/docs/opengraph/music/
-"""
+
+# see:
+# https://ogp.me/
+# https://developers.facebook.com/docs/opengraph/music/
 
 # from broadcast.models import Editor
 BASE_META = [

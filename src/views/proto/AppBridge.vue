@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
+import { usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
 import { usePlayerControls } from "@/composables/player";
 import { usePlayerStore } from "@/stores/player";
@@ -13,12 +14,17 @@ export default defineComponent({
     const mediaUids = computed(() => {
       return media.value.map((m: any) => m?.uid);
     });
+    const {
+      state: playerState,
+      mode: playerMode,
+      absPosition: playerAbsPosition,
+    } = usePlayerState();
     const { appPlayerData } = storeToRefs(usePlayerStore());
     const { playLive, pause, resume } = usePlayerControls();
     const channel = ref("");
     const data = ref("");
     const sendData = async () => {
-      console.debug('data', data.value)
+      console.debug("data", data.value);
       // @ts-ignore
       await appBridge.send(channel.value, data.value ? JSON.parse(data.value) : null);
     };
@@ -31,6 +37,10 @@ export default defineComponent({
       media,
       mediaUids,
       appPlayerData,
+      //
+      playerMode,
+      playerState,
+      playerAbsPosition,
       //
       playLive,
       pause,
@@ -71,12 +81,19 @@ export default defineComponent({
       </form>
     </section>
     <section>
-      <h4>store: player/appPlayerData</h4>
-      <pre v-text="appPlayerData" />
-      <h4>store: queue/mediaUids</h4>
+      <h4>player</h4>
+      <pre
+        v-text="{
+          mode: playerMode,
+          state: playerState,
+          absPosition: playerAbsPosition,
+        }"
+      />
+      <h4>queue/mediaUids</h4>
       <pre v-text="mediaUids" />
     </section>
     <section class="app-links">
+      <!--
       <a
         rel="noopener noreferrer"
         href="https://next.openbroadcast.ch/proto/app-bridge/"
@@ -99,12 +116,13 @@ export default defineComponent({
         href="http://local.next.openbroadcast.ch:3000/dev/redirect/"
         class="button"
       >App Link (redirect via local domain)</a>
+      -->
       <a
         rel="noopener noreferrer"
         href="https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector"
         class="button"
       >Login via redirect</a>
-      <a @click.prevent="socialBegin" class="button">System browser via redirect</a>
+      <a @click.prevent="socialBegin" class="button">System qbrowser via redirect</a>
     </section>
   </div>
 </template>
