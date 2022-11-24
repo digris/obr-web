@@ -6,17 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('cms', '0003_section_expandable'),
+        ("cms", "0003_section_expandable"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='section',
-            options={'ordering': ['position', 'title'], 'verbose_name': 'Section', 'verbose_name_plural': 'Sections'},
+            name="section",
+            options={
+                "ordering": ["position", "title"],
+                "verbose_name": "Section",
+                "verbose_name_plural": "Sections",
+            },
         ),
         migrations.AlterField(
-            model_name='page',
-            name='path',
-            field=models.CharField(db_index=True, help_text='e.g. legal/terms', max_length=256, unique=True),
+            model_name="page",
+            name="path",
+            field=models.CharField(
+                db_index=True, help_text="e.g. legal/terms", max_length=256, unique=True
+            ),
         ),
     ]

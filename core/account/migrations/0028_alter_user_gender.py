@@ -6,13 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('account', '0027_remove_address_country'),
+        ("account", "0027_remove_address_country"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='gender',
-            field=models.CharField(blank=True, choices=[('', 'undefined'), ('female', 'female'), ('male', 'male'), ('other', 'other')], default='', max_length=16),
+            model_name="user",
+            name="gender",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("", "undefined"),
+                    ("female", "female"),
+                    ("male", "male"),
+                    ("other", "other"),
+                ],
+                default="",
+                max_length=16,
+            ),
         ),
     ]

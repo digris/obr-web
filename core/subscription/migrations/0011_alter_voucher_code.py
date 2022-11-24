@@ -7,13 +7,18 @@ import subscription.models.voucher
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subscription', '0010_subscription_countries_str'),
+        ("subscription", "0010_subscription_countries_str"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='voucher',
-            name='code',
-            field=models.CharField(db_index=True, default=subscription.models.voucher.get_default_code, max_length=6, unique=True),
+            model_name="voucher",
+            name="code",
+            field=models.CharField(
+                db_index=True,
+                default=subscription.models.voucher.get_default_code,
+                max_length=6,
+                unique=True,
+            ),
         ),
     ]
