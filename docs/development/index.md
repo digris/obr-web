@@ -3,11 +3,19 @@
 
 ## Project Setup
 
+### Repository
+
+```shell
+git clone git@github.com:digris/obr-web.git
+cd obr-web
+```
+
 
 ### Prerequisites
 
  - Python
  - Node
+ - Docker
 
 See `package.json` and `pyproject.toml` for version details.
 
@@ -20,14 +28,14 @@ See `package.json` and `pyproject.toml` for version details.
 ```shell
 # install python packages
 # using pyenv:
-pyenv install 3.10.4
+pyenv install 3.10.5
 
 poetry env use python3.10
 poetry install
 
 # install npm packages
 # using nvm & yarn:
-nvm use v16.13.1
+nvm use v16.18.1
 yarn install
 ```
 
@@ -143,13 +151,13 @@ Reverse proxy to back-end / "core" APP.
 
 NOTE: Assuming you provide a valid `OBP_SYNC_TOKEN` this will start
 fetching the schedule data for the current date / day, and also 
-encodes all synced media to DASH. So this could take a while...
+encodes all synced media to DASH & HLS. This could take a while...
 
 ```shell
 # ensure data directories exist
 mkdir -p data/media && \
-  mkdir -p data/master && \
-  mkdir -p data/encoded
+mkdir data/master && \
+mkdir data/encoded
 ```
 
 ```shell
@@ -157,9 +165,11 @@ docker compose build
 docker compose up
 ```
 
-### Front-end / Core - locally
+### Run Core & Front-end - locally
 
 ```shell
+# core
 ./manage.py runserver 0.0.0.0:8080
+# front-end
 yarn serve
 ```
