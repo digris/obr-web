@@ -43,10 +43,6 @@ export default defineComponent({
       notify({
         level: "success",
         body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-        // action: {
-        //   label: 'More',
-        //   url: '/foo/bar/',
-        // },
       });
       if (next.value) {
         // @ts-ignore
@@ -77,17 +73,6 @@ export default defineComponent({
         <br />
         Die von uns gespielten Inhalte zu jederzeit hören für CHF 1.– pro Monat.
       </p>
-      <!--
-      <p
-        class="current-subscription-text"
-      >
-        Aktuelles Guthaben:
-        <br>
-        Noch 3 Tage
-        <br>
-        Gültig bis am: 12.04.2021
-      </p>
-      -->
       <p>&nbsp;</p>
       <p v-if="intent === 'plan'" class="lead">
         Hast du einen <a @click.prevent="setIntent('voucher')">Gratis-Code</a>?
@@ -160,9 +145,6 @@ export default defineComponent({
 .current-subscription {
   margin: 1rem 0;
   padding: 1rem;
-  &.is-active {
-    background: #55ff55;
-  }
 }
 .legal {
   font-size: 90%;

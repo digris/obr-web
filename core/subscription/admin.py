@@ -95,6 +95,13 @@ class VoucherAdmin(admin.ModelAdmin):
         RedemptionInline,
     ]
 
+    def get_readonly_fields(self, request, obj=None):
+        if not request.user.is_superuser:
+            return [
+                "code",
+            ]
+        return []
+
     @admin.display(
         boolean=True,
         description="Valid",

@@ -1,7 +1,5 @@
 ACCOUNT:
   ACCOUNT: Konto
-subscription:
-  numDaysRemaining: 1 Tag | {count} Tage
 broadcast:
   ct:
     editor: Editor*in | Editor*innen
@@ -18,6 +16,7 @@ catalog:
     playAllTracks: Alle Tracks spielen | Alle {count} Tracks spielen
 menu:
   accountSettings: Konto Einstellungen
+  admin: Admin
   home: Radio
   discover: Discover
   collection: Favoriten
@@ -145,6 +144,18 @@ account:
       streamingAccounts:
         title: Streaming Konten
         info: "TODO: Text needed..."
+subscription:
+  credits: Guthaben
+  creditsExpired: Guthaben abgelaufen
+  numDaysRemaining: 1 Tag | {count} Tage
+  creditsUntilDate: Guthaben bis am {0}
+  validNumDays: 1 Tag | {count} Tage
+  validUntilDate: Gültig bis am {0}
+  voucher:
+    code: Gratis-Code
+    invalidCode: Ungültiger Gutschein-Code
+    redeem: Jetzt Einlösen
+    authenticateAndRedeem: Anmelden und einlösen
 geolocation:
   availability:
     note: Currently we can only provide access to our on-demand service for people living in Switzerland.

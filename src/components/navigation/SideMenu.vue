@@ -19,7 +19,7 @@ export default defineComponent({
     const router = useRouter();
     const { t } = useI18n();
     const isVisible = ref(false);
-    const { user, logoutUser } = useAccount();
+    const { user, isStaff, logoutUser } = useAccount();
     const { isApp } = useDevice();
     const close = () => {
       isVisible.value = false;
@@ -84,6 +84,7 @@ export default defineComponent({
       onNavigate,
       isVisible,
       user,
+      isStaff,
       login,
       logout,
       pages,
@@ -103,6 +104,7 @@ export default defineComponent({
           @click="onNavigate"
           v-text="t('menu.accountSettings')"
         />
+        <a v-if="isStaff" href="/admin/" target="_blank" v-text="t('menu.admin')" />
       </section>
       <section class="section" v-else>
         <a href="#" @click.prevent="login"> Login </a>
