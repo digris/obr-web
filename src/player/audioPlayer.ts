@@ -6,15 +6,15 @@ import shaka from "shaka-player";
 import muxjs from "mux.js";
 import { computed, ref, watch } from "vue";
 import { isEqual, round } from "lodash-es";
-import eventBus from "@/eventBus";
+import type { AudioAnalyser } from "@/player/analyser";
 import type { PlayerState } from "@/stores/player";
+import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { usePlayerControls } from "@/composables/player";
 import { useSettingsStore } from "@/stores/settings";
 import { useQueueControls } from "@/composables/queue";
 import { storeToRefs } from "pinia";
 import { createAudioAnalyser } from "@/player/analyser";
-import type { AudioAnalyser } from "@/player/analyser";
 
 shaka.dependencies.add("muxjs", muxjs);
 
@@ -148,9 +148,11 @@ class AudioPlayer {
       await this.updateState();
     }, POLL_INTERVAL);
 
+    const { playNext } = useQueueControls();
     audio.onended = (e) => {
       log.debug("AudioPlayer - audio.onended", e);
-      eventBus.emit("player:audio:ended", e);
+      // eventBus.emit("player:audio:ended", e);
+      playNext();
     };
 
     const { volume, maxBandwidth } = storeToRefs(useSettingsStore());
@@ -236,54 +238,16 @@ class AudioPlayer {
     await this.setPlayerState(playerState);
   }
 
-  /*
-  updateState() {
-    const { updatePlayerState } = usePlayerStore();
-    const { audio, player } = this;
-    const stats = player.getStats();
-    const isLive = player.isLive();
-    const bandwidth = Number.isNaN(stats.streamBandwidth) ? 0 : stats.streamBandwidth;
-    let bufferState = null;
-    let currentTime;
-    let relPosition;
-    if (stats.stateHistory.length) {
-      // eslint-disable-next-line prefer-destructuring
-      bufferState = stats.stateHistory.slice(-1)[0];
-    }
-    if (isLive) {
-      currentTime = null;
-      relPosition = null;
-    } else {
-      currentTime = audio.currentTime;
-      relPosition = currentTime / audio.duration;
-    }
-    const playerState = {
-      isLive,
-      isBuffering: !!(bufferState && bufferState.state === "buffering"),
-      isPlaying: !!(bufferState && bufferState.state === "playing"),
-      isPaused: audio.paused,
-      duration: isLive ? null : audio.duration,
-      bandwidth,
-      currentTime,
-      relPosition,
-    };
-
-    // if (Object.is(state, this.state)) {
-    if (JSON.stringify(playerState) === JSON.stringify(this.playerState)) {
-      return;
-    }
-    // @ts-ignore
-    this.playerState = playerState;
-    updatePlayerState(playerState);
-    //
-  }
-  */
-
   async onTimeupdate() {
+    const { isIos } = useDevice();
     const ct = this.audio.currentTime;
     // cue-out
     if (this.endTime && ct > this.endTime) {
       log.debug("audioPlayer:onTimeupdate - end time reached");
+      if (isIos) {
+        log.debug("device is iOS - we ignore queue outs for the moment as it does not work...");
+        return;
+      }
       this.pause();
       await this.player.unload();
       await delay(5);
@@ -296,6 +260,10 @@ class AudioPlayer {
       const stepVolume = getFadeVolume(this.startTime, this.fadeInTime, ct);
       this.fadeVolume.value = stepVolume;
     } else if (this.fadeOutTime && this.endTime > ct && ct > this.fadeOutTime) {
+      if (isIos) {
+        // we ignore fade outs for the moment, see above
+        return;
+      }
       const stepVolume = getFadeVolume(this.fadeOutTime, this.endTime, ct, true);
       this.fadeVolume.value = stepVolume;
     } else if (ct) {

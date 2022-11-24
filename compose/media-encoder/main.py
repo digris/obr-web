@@ -16,18 +16,45 @@ except ImportError:
     sys.exit(1)
 
 
-def encode_dir_to_dash(src_dir, dst_dir):
-    sys.stdout.write(f"encode: {src_dir} > {dst_dir}\n")
+def encode_dir_to_dash(
+    src_dir,
+    dst_dir,
+):
+    sys.stdout.write(f"encode dash: {src_dir} > {dst_dir}\n")
     if src := next(
         (f for f in src_dir.iterdir() if f.is_file() and f.stem == "master"),
         None,
     ):
         os.makedirs(dst_dir / "dash", exist_ok=True)
         dst = dst_dir / "dash" / "manifest.mpd"
-        encoder.encode_dash(src=str(src.absolute()), dst=str(dst.absolute()))
+        encoder.encode_dash(
+            src=str(src.absolute()),
+            dst=str(dst.absolute()),
+        )
 
 
-def run(master_dir, encoded_dir, force=False):
+def encode_dir_to_hls(
+    src_dir,
+    dst_dir,
+):
+    sys.stdout.write(f"encode hls: {src_dir} > {dst_dir}\n")
+    if src := next(
+        (f for f in src_dir.iterdir() if f.is_file() and f.stem == "master"),
+        None,
+    ):
+        os.makedirs(dst_dir / "hls", exist_ok=True)
+        dst = dst_dir / "hls" / "manifest.m3u8"
+        encoder.encode_dash(
+            src=str(src.absolute()),
+            dst=str(dst.absolute()),
+        )
+
+
+def run(
+    master_dir,
+    encoded_dir,
+    force=False,
+):
 
     num_encoded = 0
     num_skipped = 0
@@ -35,11 +62,17 @@ def run(master_dir, encoded_dir, force=False):
 
     for src_dir in master_dirs:
         dst_dir = encoded_dir / src_dir.stem
-        if dst_dir.is_dir() and not force:
+        if (dst_dir / 'dash').is_dir() and not force:
             num_skipped += 1
-            continue
-        encode_dir_to_dash(src_dir, dst_dir)
-        num_encoded += 1
+        else:
+            encode_dir_to_dash(src_dir, dst_dir)
+            num_encoded += 1
+
+        if (dst_dir / 'hls').is_dir() and not force:
+            num_skipped += 1
+        else:
+            encode_dir_to_hls(src_dir, dst_dir)
+            num_encoded += 1
 
     return num_encoded, num_skipped
 
@@ -82,4 +115,7 @@ if __name__ == "__main__":
         )
         time.sleep(args.interval)
     else:
-        run(master_dir, encoded_dir, force)
+        num_encoded, num_skipped = run(master_dir, encoded_dir, force)
+        sys.stdout.write(
+            f"files encoded: {num_encoded} - skipped: {num_skipped}\n"
+        )

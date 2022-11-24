@@ -119,7 +119,7 @@ const useQueueControls = () => {
     try {
       await playMedia(currentMedia.value);
     } catch (e) {
-      log.warn("player error - try with next");
+      log.warn("player error - try with next", e);
       await playNext();
     }
   };
