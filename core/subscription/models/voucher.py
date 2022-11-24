@@ -34,7 +34,6 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
         null=False,
         blank=False,
         db_index=True,
-        editable=False,
     )
 
     num_days = models.PositiveIntegerField(

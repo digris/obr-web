@@ -45,6 +45,9 @@ export default defineComponent({
     };
     const redeem = async () => {
       errors.value = [];
+      if (!code.value) {
+        return;
+      }
       try {
         const response = await redeemVoucher(code.value);
         console.debug(response);
@@ -70,6 +73,9 @@ export default defineComponent({
     watch(
       () => code.value,
       async () => {
+        if (!code.value) {
+          return;
+        }
         if (codeRegex.test(code.value)) {
           await fetchVoucher(code.value);
         } else {
@@ -100,27 +106,28 @@ export default defineComponent({
         </div>
       </section>
       <section v-if="errors && errors.length" class="error">
-        <p class="error__notes">Ungültiger Gutschein-Code.</p>
+        <i18n-t keypath="subscription.voucher.invalidCode" tag="p" class="error__notes" />
         <APIErrors :errors="errors" />
       </section>
       <section v-if="voucher" class="voucher">
         <div class="voucher__details">
-          <p>+ {{ voucher.numDays }} Tage</p>
           <p>
-            Guthaben bis am
-            <Datetime :value="voucher.untilDate" :display-time="false" />
+            <i18n-t keypath="subscription.validNumDays" :plural="voucher.numDays" />
           </p>
+          <i18n-t keypath="subscription.validUntilDate" tag="p">
+            <Datetime :value="voucher.untilDate" :display-time="false" />
+          </i18n-t>
         </div>
       </section>
       <section class="actions">
         <div v-if="user">
           <AsyncButton class="button" :disabled="!isValid" @click.prevent="redeem">
-            Jetzt Einlösen
+            <i18n-t keypath="subscription.voucher.redeem" />
           </AsyncButton>
         </div>
         <div v-else>
           <AsyncButton class="button" :disabled="!isValid" @click.prevent="authenticateAndRedeem">
-            Anmelden und einlösen
+            <i18n-t keypath="subscription.voucher.authenticateAndRedeem" />
           </AsyncButton>
         </div>
       </section>

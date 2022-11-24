@@ -23,13 +23,6 @@ export default defineComponent({
     });
     const isActive = computed(() => subscription.value && subscription.value.isActive);
     const isBlocked = computed(() => subscription.value && subscription.value.isBlocked != false);
-    // const blockedReason = computed(() => subscription.value && subscription.value.isBlocked || null);
-    const title = computed(() => {
-      if (isActive.value) {
-        return "Guthaben";
-      }
-      return "Guthaben abgelaufen";
-    });
     const extendSubscription = () => {
       if (isBlocked.value) {
         return;
@@ -44,7 +37,6 @@ export default defineComponent({
       isActive,
       isBlocked,
       numDaysRemaining,
-      title,
       extendSubscription,
     };
   },
@@ -62,16 +54,14 @@ export default defineComponent({
     }"
   >
     <div v-if="isBlocked" class="details">
-      NOTE: Currently we can only provide access to our on-demand service for people living in
-      Switzerland.
+      <i18n-t keypath="geolocation.availability.note" />
     </div>
     <div v-else class="details">
-      <p v-text="title" />
-      <p>{{ numDaysRemaining }} Tage</p>
-      <p>
-        Gültig bis am:
+      <i18n-t v-if="!isActive" keypath="subscription.creditsExpired" tag="p" />
+      <i18n-t keypath="subscription.validNumDays" tag="p" :plural="numDaysRemaining" />
+      <i18n-t v-if="subscription" keypath="subscription.validUntilDate" tag="p">
         <Datetime :value="subscription.activeUntil" :display-time="false" />
-      </p>
+      </i18n-t>
     </div>
   </div>
 </template>
@@ -93,10 +83,5 @@ export default defineComponent({
   &.is-blocked {
     color: rgb(var(--c-red));
   }
-  /*
-  .details {
-    @include typo.large;
-  }
-  */
 }
 </style>

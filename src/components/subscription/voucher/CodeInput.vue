@@ -53,7 +53,7 @@ export default defineComponent({
 <template>
   <div class="code-input" :class="{ 'is-valid': valid }">
     <div class="input-container">
-      <label for="ti-1299"> Gratis-Code: </label>
+      <i18n-t keypath="subscription.voucher.code" tag="label" for="ti-1299" />
       <input
         ref="inputEl"
         id="ti-1299"
@@ -61,7 +61,7 @@ export default defineComponent({
         @input="handleInput"
         :value="inputValue"
         :maxlength="limitInput"
-        placeholder="Code: XX-YY-ZZ"
+        placeholder="Code: AB-CD-EF"
       />
     </div>
   </div>
@@ -73,6 +73,11 @@ export default defineComponent({
   @include form.default;
   .input-container {
     @include form.top-label;
+    > label {
+      &:after {
+        content: ":";
+      }
+    }
   }
   .input {
     @include form.input;
