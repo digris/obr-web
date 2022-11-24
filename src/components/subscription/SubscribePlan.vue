@@ -112,19 +112,16 @@ export default defineComponent({
               <Money :value="option.price" :include-currency="true" />
             </div>
             <div class="separator" />
-            <div class="title">
-              {{ option.title }}
-            </div>
-            <div class="until-date">
-              Gültig bis am
+            <div class="title" v-text="option.title" />
+            <i18n-t keypath="subscription.creditsUntilDate" tag="div" class="until-date">
               <Datetime :value="option.untilDate" :display-time="false" />
-            </div>
+            </i18n-t>
           </div>
         </div>
       </div>
     </section>
     <section v-if="selectedOption" class="section total">
-      <div class="title">Total inkl. aller Steuren und Gebühren</div>
+      <i18n-t keypath="subscription.subscribe.total.legal" tag="div" class="title" />
       <div class="price">
         <Money :value="selectedOption.price" />
       </div>
@@ -134,7 +131,7 @@ export default defineComponent({
     </section>
     <section class="section actions">
       <AsyncButton class="button" @click.prevent="startPayment('stripe')">
-        Jetzt Bezahlen
+        <i18n-t keypath="subscription.subscribe.payNow" />
       </AsyncButton>
       <!--
       <AsyncButton

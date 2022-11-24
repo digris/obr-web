@@ -67,20 +67,32 @@ export default defineComponent({
 <template>
   <OverlayPanel :is-visible="isVisible" @close="close">
     <div>
-      <div class="title">Guthaben</div>
-      <p class="lead">
-        Keine Abos - dafür Prepaid Guthaben!
-        <br />
-        Die von uns gespielten Inhalte zu jederzeit hören für CHF 1.– pro Monat.
-      </p>
-      <p>&nbsp;</p>
-      <p v-if="intent === 'plan'" class="lead">
-        Hast du einen <a @click.prevent="setIntent('voucher')">Gratis-Code</a>?
-      </p>
-      <p v-if="intent === 'voucher'" class="lead">
-        Du hast keinen Code?
-        <a @click.prevent="setIntent('plan')">Guthaben kaufen</a>.
-      </p>
+      <i18n-t keypath="subscription.subscribe.title" tag="div" class="title" />
+      <i18n-t keypath="subscription.subscribe.lead" tag="div" class="lead"> CHF 1.- </i18n-t>
+      <i18n-t
+        v-if="intent === 'plan'"
+        keypath="subscription.subscribe.ctaVoucher.text"
+        tag="div"
+        class="cta"
+      >
+        <i18n-t
+          @click.prevent="setIntent('voucher')"
+          keypath="subscription.subscribe.ctaVoucher.button"
+          tag="a"
+        />
+      </i18n-t>
+      <i18n-t
+        v-if="intent === 'voucher'"
+        keypath="subscription.subscribe.ctaBuy.text"
+        tag="div"
+        class="cta"
+      >
+        <i18n-t
+          @click.prevent="setIntent('plan')"
+          keypath="subscription.subscribe.ctaBuy.button"
+          tag="a"
+        />
+      </i18n-t>
     </div>
     <div class="subscribe">
       <section>
@@ -95,6 +107,7 @@ export default defineComponent({
       </section>
     </div>
     <template v-if="successVisible" #success>
+      <!-- NOTE: success step is currently not displayed -->
       <div class="subscribe-success">
         <h1 class="title">Your Plan has been updated</h1>
         <p class="message">(( message ))</p>
@@ -133,6 +146,11 @@ export default defineComponent({
   @include typo.bold;
 }
 .lead {
+  @include typo.large;
+  white-space: pre-line;
+  margin-bottom: 1rem;
+}
+.cta {
   @include typo.large;
   a {
     text-decoration: underline;
