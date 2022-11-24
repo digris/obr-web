@@ -105,16 +105,15 @@ export default defineComponent({
     </section>
     <section v-if="voucher" class="section voucher">
       <div>
-        <p>+ {{ voucher.numDays }} Tage</p>
-        <p>
-          Guthaben bis am
+        <i18n-t keypath="subscription.validNumDays" tag="p" :plural="voucher.numDays" />
+        <i18n-t keypath="subscription.creditsUntilDate" tag="p">
           <Datetime :value="voucher.untilDate" :display-time="false" />
-        </p>
+        </i18n-t>
       </div>
     </section>
     <section class="section actions">
       <AsyncButton class="button" :disabled="!isValid" @click.prevent="redeem">
-        Jetzt Einlösen
+        <i18n-t keypath="subscription.subscribe.redeemNow" />
       </AsyncButton>
     </section>
   </div>

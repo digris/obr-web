@@ -1,8 +1,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, computed } from "vue";
 
-//        Aa-bB-cc    d
-
 export default defineComponent({
   props: {
     code: {

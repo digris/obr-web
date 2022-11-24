@@ -156,6 +156,22 @@ subscription:
     invalidCode: Ungültiger Gutschein-Code
     redeem: Jetzt Einlösen
     authenticateAndRedeem: Anmelden und einlösen
+  subscribe:
+    title: Guthaben
+    lead: "Keine Abos - dafür Prepaid Guthaben!\n
+           Die von uns gespielten Inhalte zu jederzeit hören für {0} pro Monat."
+    ctaVoucher:
+      text: Hast du einen {0}?
+      button: Gratis-Code
+    ctaBuy:
+      text: Du hast keinen Code? {0}
+      button: Guthaben kaufen.
+    # SubscribePlan.vue
+    total:
+      legal: Total inkl. aller Steuren und Gebühren
+    payNow: Jetzt Bezahlen
+    # SubscribeVoucher.vue
+    redeemNow: Jetzt Jetzt Einlösen
 geolocation:
   availability:
     note: Currently we can only provide access to our on-demand service for people living in Switzerland.
