@@ -167,9 +167,21 @@ docker compose up
 
 ### Run Core & Front-end - locally
 
+#### Assuming `ENV`, python `PATH` & `DJANGO_SETTINGS_MODULE` configured 
+
 ```shell
 # core
 ./manage.py runserver 0.0.0.0:8080
+# front-end
+yarn serve
+```
+
+#### Assuming default setup
+
+```shell
+# core
+DJANGO_SETTINGS_MODULE=core.settings.env \
+poetry run ./manage.py runserver 0.0.0.0:8080
 # front-end
 yarn serve
 ```
