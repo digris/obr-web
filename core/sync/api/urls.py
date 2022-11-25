@@ -8,4 +8,9 @@ urlpatterns = [
         views.SyncScheduleView.as_view(),
         name="schedule",
     ),
+    path(
+        "app/",
+        views.SyncAppView.as_view(),
+        name="app",
+    ),
 ]

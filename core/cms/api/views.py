@@ -13,6 +13,7 @@ class PageView(APIView):
             200: serializers.PageSerializer,
         },
         operation_id="page",
+        auth=[],
     )
     def get(request, path, *args, **kwargs):
         try:
@@ -23,22 +24,3 @@ class PageView(APIView):
             )
         except Page.DoesNotExist as e:
             raise Http404(e) from e
-
-
-# class PageView(APIView):
-#     @staticmethod
-#     @extend_schema(
-#         responses={
-#             200: serializers.PageSerializer,
-#         },
-#     )
-#     def get(request, path, *args, **kwargs):
-#         try:
-#             page = Page(path=path)
-#             return Response(
-#                 page.as_markdown(),
-#             )
-#         except ImproperlyConfigured as e:
-#             raise APIException(e) from e
-#         except Page.PageNotFound as e:
-#             raise Http404(e) from e

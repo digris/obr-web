@@ -149,6 +149,10 @@ class Master(
         return self.media.uid
 
     @property
+    def ct_uid(self):
+        return f"{self.ct}:{self.uid}"
+
+    @property
     def path(self):
         if not self.encoding:
             return None
