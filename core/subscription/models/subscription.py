@@ -81,8 +81,8 @@ class Subscription(CTUIDModelMixin, TimestampedModelMixin, models.Model):
         if self.user.country and self.user.country in self.countries:
             return False
 
-        if self.user.country:
-            return _(f"Subscription not available in {self.user.country}")
+        if country := self.user.country:
+            return _(f"Subscription not available in {country}")
 
         return _("Subscription blocked")
 

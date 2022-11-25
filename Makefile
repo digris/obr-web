@@ -67,9 +67,11 @@ show-settings:
 
 translations:
 	poetry run ./manage.py makemessages \
+	  --no-wrap \
 	  -l de \
 	  -l fr \
-	  -x 'core/base/*'
+	  -i 'core/base/*' \
+	  -i 'node_modules/*'
 	poetry run ./manage.py compilemessages
 
 run-hypercorn:

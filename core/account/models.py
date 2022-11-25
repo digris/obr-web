@@ -7,7 +7,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 
 from django_countries.fields import CountryField
 from rest_framework_simplejwt.tokens import SlidingToken
@@ -52,7 +51,7 @@ class UserManager(BaseUserManager):
         Create and save a User with the given email and password.
         """
         if not email:
-            raise ValueError(_("The Email must be set"))
+            raise ValueError("The Email must be set")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         if password:
@@ -71,9 +70,9 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_active", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("Superuser must have is_staff=True."))
+            raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError(_("Superuser must have is_superuser=True."))
+            raise ValueError("Superuser must have is_superuser=True.")
         return self.create_user(email, password, **extra_fields)
 
 
@@ -84,7 +83,7 @@ class User(
     PermissionsMixin,
 ):
     email = models.EmailField(
-        _("email address"),
+        "Email address",
         unique=True,
         db_index=True,
     )
@@ -277,12 +276,12 @@ class LoginToken(
 ):
 
     email = models.EmailField(
-        _("email"),
+        "Email",
         db_index=True,
     )
 
     value = models.CharField(
-        _("token"),
+        "Token",
         max_length=6,
         default=get_default_token,
         db_index=True,

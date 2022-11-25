@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-23 22:25+0200\n"
+"POT-Creation-Date: 2022-11-25 09:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: core/account/api/views.py:56 core/account/api/views.py:313
-#: core/account/api/views.py:346 core/account/api/views.py:385
+#: core/account/api/views.py:112 core/account/api/views.py:514
+#: core/account/api/views.py:558 core/account/api/views.py:612
 msgid "Not authorized"
 msgstr ""
 
-#: core/account/api/views.py:105
+#: core/account/api/views.py:174
 msgid "The email or password you entered is incorrect."
 msgstr ""
 
@@ -35,40 +35,21 @@ msgstr ""
 msgid "Invalid signature"
 msgstr ""
 
-#: core/account/models.py:45
-msgid "The Email must be set"
+#: core/share/meta.py:19 core/share/meta.py:175
+msgid "open broadcast - radio"
 msgstr ""
 
-#: core/account/models.py:64
-msgid "Superuser must have is_staff=True."
+#: core/share/meta.py:176
+msgid "eclectic music"
 msgstr ""
 
-#: core/account/models.py:66
-msgid "Superuser must have is_superuser=True."
+#: core/subscription/models/subscription.py:85
+#, python-brace-format
+msgid "Subscription not available in {country}"
 msgstr ""
 
-#: core/account/models.py:77
-msgid "email address"
-msgstr ""
-
-#: core/account/models.py:243
-msgid "email"
-msgstr ""
-
-#: core/account/models.py:248
-msgid "token"
-msgstr ""
-
-#: core/image/models.py:38
-msgid "File"
-msgstr ""
-
-#: core/image/models.py:45
-msgid "Filename"
-msgstr ""
-
-#: core/image/models.py:83
-msgid "Position"
+#: core/subscription/models/subscription.py:87
+msgid "Subscription blocked"
 msgstr ""
 
 #: core/subscription/utils/voucher.py:34
@@ -83,25 +64,6 @@ msgstr ""
 msgid "You did already use this voucher-code"
 msgstr ""
 
-#: core/templates/admin/login.html:23
-msgid "Please correct the error below."
-msgstr ""
-
-#: core/templates/admin/login.html:23
-msgid "Please correct the errors below."
-msgstr ""
-
-#: core/templates/admin/login.html:39
-#, python-format
-msgid ""
-"You are authenticated as %(username)s, but are not authorized to access this "
-"page. Would you like to login to a different account?"
-msgstr ""
-
-#: core/templates/admin/login.html:59
-msgid "Forgotten your password or username?"
-msgstr ""
-
-#: core/templates/admin/login.html:63
-msgid "Log in"
+#: core/templates/account/email/login_email/message.html:19
+msgid "Enter the login-code displayed above on the website or in your APP."
 msgstr ""

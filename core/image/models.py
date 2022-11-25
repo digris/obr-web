@@ -6,7 +6,6 @@ from django.db import models
 from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
 
 from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 from .colors import extract_colors
@@ -35,14 +34,14 @@ class BaseImage(
 ):
 
     file = models.ImageField(
-        _("File"),
+        "File",
         upload_to=get_image_upload_path,
         null=True,
         blank=False,
     )
 
     filename = models.CharField(
-        verbose_name=_("Filename"),
+        verbose_name="Filename",
         max_length=512,
         null=True,
         editable=False,
@@ -80,7 +79,7 @@ class BaseImage(
 class BaseSortableImage(BaseImage):
 
     position = models.PositiveSmallIntegerField(
-        _("Position"), default=1, choices=((x, x) for x in range(1, 100))
+        "Position", default=1, choices=((x, x) for x in range(1, 100)),
     )
 
     class Meta:
