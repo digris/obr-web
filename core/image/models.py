@@ -79,7 +79,9 @@ class BaseImage(
 class BaseSortableImage(BaseImage):
 
     position = models.PositiveSmallIntegerField(
-        "Position", default=1, choices=((x, x) for x in range(1, 100)),
+        "Position",
+        default=1,
+        choices=((x, x) for x in range(1, 100)),
     )
 
     class Meta:

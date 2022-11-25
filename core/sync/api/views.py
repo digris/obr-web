@@ -3,18 +3,30 @@ from datetime import datetime, timedelta
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from drf_spectacular.utils import extend_schema
 
 from broadcast.sync.schedule import sync_schedule
 
-from . import serializers
+from . import serializers, permissions
 
 
 logger = logging.getLogger(__name__)
 
 
-class SyncScheduleView(APIView):
+class SyncScheduleView(
+    APIView,
+):
+    permission_classes = [
+        permissions.SyncAPIPermission,
+    ]
     serializer_class = serializers.SyncScheduleSerializer
 
+    @extend_schema(
+        methods=["POST"],
+        operation_id="sync_schedule",
+        description="""Synchronize schedule with scheduler planning data.  
+        This resource is periodically requested by GCP Cloud Scheduler""",
+    )
     def post(self, request):
 
         serializer = self.serializer_class(
