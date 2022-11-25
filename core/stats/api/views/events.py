@@ -3,15 +3,23 @@ from datetime import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from . import serializers
+from drf_spectacular.utils import extend_schema
+from .. import serializers
 
 
 logger = logging.getLogger(__name__)
 
 
-class PlayerEventView(APIView):
+class PlayerEventView(
+    APIView,
+):
     serializer_class = serializers.PlayerEventSerializer
 
+    @extend_schema(
+        methods=["PUT"],
+        operation_id="stats_player_event",
+        description="""Ingest Player-event""",
+    )
     def put(self, request):
 
         events = request.data.get("events", [])

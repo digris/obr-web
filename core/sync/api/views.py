@@ -73,7 +73,8 @@ class SyncAppView(
         methods=["POST"],
         operation_id="sync_app",
         description="""Synchronize sync-enabled models with remote data.  
-        This resource is periodically requested by GCP Cloud Scheduler""",
+        This resource is periodically requested by GCP Cloud Scheduler.  
+        Invoking requires `account.api_sync_webhooks` permissions.""",
     )
     def post(self, request):
 

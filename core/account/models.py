@@ -322,4 +322,7 @@ class GlobalPermissions(models.Model):
         managed = False
         default_permissions = ()
 
-        permissions = (("api_sync_webhooks", "API - Sync webhooks"),)
+        permissions = (
+            ("api_sync_webhooks", "API - Sync webhooks"),
+            ("api_stats_webhooks", "API - Stats webhooks"),
+        )

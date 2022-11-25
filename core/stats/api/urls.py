@@ -8,4 +8,9 @@ urlpatterns = [
         views.PlayerEventView.as_view(),
         name="player-events",
     ),
+    path(
+        "archive/",
+        views.StatsArchiveView.as_view(),
+        name="archive",
+    ),
 ]
