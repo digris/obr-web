@@ -11,6 +11,7 @@ import Email from "@/components/account/settings/Email.vue";
 import Password from "@/components/account/settings/Password.vue";
 import Personal from "@/components/account/settings/Personal.vue";
 import Address from "@/components/account/settings/Address.vue";
+import Newsletter from "@/components/account/settings/Newsletter.vue";
 import Social from "@/components/account/settings/Social.vue";
 // import Support from "@/components/account/settings/Support.vue";
 import QRCodeLogin from "@/components/account/qrcode/QRCodeLogin.vue";
@@ -24,6 +25,7 @@ export default defineComponent({
     Password,
     Personal,
     Address,
+    Newsletter,
     Social,
     // Support,
     QRCodeLogin,
@@ -64,6 +66,7 @@ export default defineComponent({
     <Password />
     <Personal :user="user" @updated="loadUser" />
     <Address :address="address" @updated="loadUser" />
+    <Newsletter :user="user" @updated="loadUser" />
     <Social />
     <!--
     <Support :user="user" />

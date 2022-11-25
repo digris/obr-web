@@ -134,6 +134,8 @@ account:
           female: she/her
           male: he/his
           other: they/them
+    newsletter:
+      title: Newsletter
     social:
       title: Verbundene Accounts
       info: "TODO: Text needed..."
