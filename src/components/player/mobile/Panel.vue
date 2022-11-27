@@ -178,7 +178,7 @@ export default defineComponent({
     }
     .playhead-container {
       width: 100%;
-      min-height: 32px;
+      min-height: 42px;
     }
     .controls {
       width: 100%;

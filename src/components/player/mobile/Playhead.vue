@@ -20,7 +20,7 @@ export default defineComponent({
   },
   emits: ["seek"],
   setup(props, { emit }) {
-    const { relPosition: progress } = usePlayerState();
+    const { isOndemand, relPosition: progress } = usePlayerState();
     const root = ref<HTMLElement | null>(null);
     const inputEl = ref<HTMLElement | null>(null);
     const hasFocus = ref(false);
@@ -54,6 +54,7 @@ export default defineComponent({
     };
     return {
       root,
+      isOndemand,
       inputEl,
       hasFocus,
       isSeeking,
@@ -68,7 +69,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div ref="root" class="playhead">
+  <div v-if="isOndemand" ref="root" class="playhead">
     <input
       ref="inputEl"
       @change="onChange"
@@ -99,9 +100,13 @@ export default defineComponent({
       />
     </transition>
   </div>
+  <div v-else class="playhead-placeholder" />
 </template>
 
 <style lang="scss" scoped>
+//.playhead-placeholder {
+//  height: 100%;
+//}
 .playhead {
   position: relative;
   min-height: 32px;

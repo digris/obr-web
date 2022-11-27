@@ -11,7 +11,7 @@ interface State {
 export const useUiStore = defineStore("ui", {
   state: (): State => ({
     primaryColor: [0, 0, 0],
-    playerVisible: true,
+    playerVisible: false,
     filterExpanded: false,
   }),
   actions: {

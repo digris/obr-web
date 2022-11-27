@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
+import { invoke, until } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useUiStore } from "@/stores/ui";
 import { usePlayerState } from "@/composables/player";
@@ -31,6 +32,11 @@ export default defineComponent({
   setup() {
     const { playerVisible } = storeToRefs(useUiStore());
     const { mode, state, media, color } = usePlayerState();
+    invoke(async () => {
+      // permanently show player as soon as playing or buffering starts
+      await until(state).toMatch((s) => ["buffering", "playing"].includes(s));
+      playerVisible.value = true;
+    });
     const { queueLength } = useQueueState();
     const queueVisible = ref(false);
     const hideQueue = () => (queueVisible.value = false);
@@ -94,28 +100,35 @@ export default defineComponent({
 <template>
   <Panel :is-visible="panelVisible" :style="cssVars" @close="hidePanel" />
   <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
-  <div class="player-container" :style="cssVars" :class="{ 'has-panel': panelVisible }">
-    <div class="player-bg" />
-    <div v-if="playerVisible" class="player">
-      <PlayerPlayButton class="player-control" :fg-color="fgColor" />
-      <div @click="togglePanel" class="current-media">
-        <div v-if="media" class="media">
-          <div class="name" v-text="media.name" />
-          <MediaArtists class="artists" :artists="media.artists" :link="false" />
+  <transition name="slide">
+    <div
+      v-if="playerVisible"
+      class="player-container"
+      :style="cssVars"
+      :class="{ 'has-panel': panelVisible }"
+    >
+      <div class="player-bg" />
+      <div class="player">
+        <PlayerPlayButton class="player-control" :fg-color="fgColor" />
+        <div @click="togglePanel" class="current-media">
+          <div v-if="media" class="media">
+            <div class="name" v-text="media.name" />
+            <MediaArtists class="artists" :artists="media.artists" :link="false" />
+          </div>
+        </div>
+        <div class="right">
+          <OnAir class="on-air" />
+          <Bandwidth />
+          <QueueControl
+            class="queue-control"
+            :queue-visible="queueVisible"
+            :num-queued="queueLength"
+            @toggle-visibility="toggleQueue"
+          />
         </div>
       </div>
-      <div class="right">
-        <OnAir class="on-air" />
-        <Bandwidth />
-        <QueueControl
-          class="queue-control"
-          :queue-visible="queueVisible"
-          :num-queued="queueLength"
-          @toggle-visibility="toggleQueue"
-        />
-      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -200,5 +213,17 @@ export default defineComponent({
       }
     }
   }
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 200ms, opacity 200ms;
+}
+.slide-enter-from {
+  transform: translate(0, 100%);
+  opacity: 0;
+}
+.slide-leave-to {
+  transform: translate(0, 100%);
 }
 </style>
