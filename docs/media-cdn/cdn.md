@@ -32,6 +32,35 @@ The `cdnPolicy` required for CDN-access is included in the user endpoint:
 ```
 
 
+### Media File URL Patterns
+
+Media items (a.k.a. "Tracks") can be mapped directly to CDN resources via `UID`:
+
+```
+e.g.: 
+https://next.openbroadcast.ch/discover/tracks/57E76303/
+#
+https://next.openbroadcast.ch/discover/tracks/<-UID-->/
+```
+
+can be mapped to:
+
+```
+https://<media-endpoint>/encoded/<uid>/<hls|dash>/manifest.<mpd|m3u8>
+```
+
+for `DASH` the example form above would result in:
+
+```
+https://media.next.openbroadcast.ch/encoded/57E76303/dash/manifest.mpd
+```
+
+and accordingly for `HLS`:
+
+```
+https://media.next.openbroadcast.ch/encoded/57E76303/hls/manifest.m3u8
+```
+
 
 ### Test File
 
