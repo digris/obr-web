@@ -4,7 +4,7 @@ import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";
 
-const HEARTBEAT_INTERVAL = 5000;
+const HEARTBEAT_INTERVAL = 1000;
 
 // for channel options see:
 // obr-app/obrapp/modules/OBRWebView.swift
