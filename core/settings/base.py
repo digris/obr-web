@@ -453,6 +453,9 @@ STREAM_ENDPOINTS = {
     "hls": "https://stream-abr.next.openbroadcast.ch/hls/manifest.m3u8",
     "icecast": "https://stream.next.openbroadcast.ch/256.mp3",
 }
+
+STREAM_LATENCY = 20.5  # seconds
+
 MEDIA_ENDPOINTS = {
     "dash": "https://media.next.openbroadcast.ch/encoded/",
     "hls": "",

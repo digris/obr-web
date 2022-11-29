@@ -45,6 +45,7 @@ class SettingsView(APIView):
                     request, settings.IMAGE_RESIZER_ENDPOINT
                 ),
                 "STREAM_ENDPOINTS": settings.STREAM_ENDPOINTS,
+                "STREAM_LATENCY": settings.STREAM_LATENCY,
                 "MEDIA_ENDPOINTS": settings.MEDIA_ENDPOINTS,
                 "SENTRY_DSN": settings.SENTRY_DSN,
             },

@@ -48,6 +48,9 @@ class SettingsSerializer(
     STREAM_ENDPOINTS = StreamEndpointsSerializer(
         read_only=True,
     )
+    STREAM_LATENCY = serializers.FloatField(
+        read_only=True,
+    )
     MEDIA_ENDPOINTS = MediaEndpointsSerializer(
         read_only=True,
     )
