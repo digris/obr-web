@@ -458,7 +458,7 @@ STREAM_LATENCY = 20.5  # seconds
 
 MEDIA_ENDPOINTS = {
     "dash": "https://media.next.openbroadcast.ch/encoded/",
-    "hls": "",
+    "hls": "https://media.next.openbroadcast.ch/encoded/",
 }
 
 IMAGE_RESIZER_ENDPOINT = env(
