@@ -22,6 +22,16 @@ def apple_app_site_association(request):
                                 "/": "/*",
                                 "comment": "Matches any URL with a path that starts with /.",
                             },
+                            {
+                                "/": "/social/login/*",
+                                "exclude": True,
+                                "comment": "OAuth login flow should be started in the os browser",
+                            },
+                            {
+                                "/": "/social/complete/*",
+                                "exclude": True,
+                                "comment": "OAuth login flow should be completed in the os browser",
+                            },
                         ],
                     }
                 ],

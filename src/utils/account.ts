@@ -7,6 +7,8 @@ import type { User } from "@/typings/api";
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
 
+const USER_POLLING_INTERVAL = 5 * 60 * 1000;
+
 const updateAppBridgeAccount = (user: User) => {
   if (window.appBridge) {
     const channel = "account:setAccessToken";
@@ -45,10 +47,9 @@ class AccountHandler {
         }
       }
     );
-    const interval = 60 * 1000;
     useIntervalFn(async () => {
       await loadUser();
-    }, interval);
+    }, USER_POLLING_INTERVAL);
   }
 }
 

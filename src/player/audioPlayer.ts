@@ -103,6 +103,8 @@ class AudioPlayer {
     bandwidth: 0,
   };
 
+  isUnblocked = false;
+
   startTime = 0;
   endTime = 0;
   fadeInTime = 0;
@@ -149,10 +151,10 @@ class AudioPlayer {
     }, POLL_INTERVAL);
 
     const { playNext } = useQueueControls();
-    audio.onended = (e) => {
+    audio.onended = async (e) => {
       log.debug("AudioPlayer - audio.onended", e);
       // eventBus.emit("player:audio:ended", e);
-      playNext();
+      await playNext();
     };
 
     const { volume, maxBandwidth } = storeToRefs(useSettingsStore());
@@ -284,14 +286,33 @@ class AudioPlayer {
     this.audio.addEventListener("timeupdate", this.onTimeupdate.bind(this), false);
   }
 
+  // un-block safari playback.
+  // this has to be invoked by a user-interaction (click / tap)
+  async unblockPlay() {
+    log.debug("AudioPlayer - unblock");
+    if (this.isUnblocked) {
+      log.debug("AudioPlayer - already unblocked - nothing to do");
+      return;
+    }
+    log.debug("AudioPlayer - load & play silence");
+    // set source to base64 encode 0.001s audio
+    this.audio.src =
+      "data:audio/wav;base64,UklGRsgAAABXQVZFZm10ICgAAAD+/wIAgD4AAAD0AQAIACAAFgAgAAMAAAABAAAAAAAQAIAAAKoAOJtxZmFjdAQAAAAQAAAAZGF0YYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
+    await audio.play();
+    this.isUnblocked = true;
+    log.debug("AudioPlayer - un-blocked");
+  }
+
   async play(url: string, startTime = 0, endTime = 0, fadeIn = 0, fadeOut = 0) {
-    // log.debug("audioPlayer:play", {
-    //   url,
-    //   startTime,
-    //   endTime,
-    //   fadeIn,
-    //   fadeOut,
-    // });
+    log.debug("audioPlayer:play", {
+      url,
+      startTime,
+      endTime,
+      fadeIn,
+      fadeOut,
+    });
+
+    await this.unblockPlay();
 
     // load url to shaka player, then trigger 'play' on audio element
     this.startTime = startTime;

@@ -116,6 +116,7 @@ const useQueueControls = () => {
       log.warn("unable to play: no current media");
       return;
     }
+    // await playMedia(currentMedia.value);
     try {
       await playMedia(currentMedia.value);
     } catch (e) {
@@ -148,6 +149,7 @@ const useQueueControls = () => {
   const playNext = async () => {
     log.debug("queueControls - playNext");
     if (nextIndex.value !== null) {
+      log.debug("queueControls - playNext index", nextIndex.value);
       await playFromIndex(nextIndex.value);
     } else {
       log.info("no next media - switch to live");

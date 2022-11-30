@@ -62,7 +62,7 @@ const usePlayerState = () => {
 };
 
 const usePlayerControls = () => {
-  const audioPlayer = window.audioPlayer;
+  // const audioPlayer = window.audioPlayer;
   const appBridge = window.appBridge;
   const { isWeb } = useDevice();
   const playMedia = async (media: AnnotatedMedia) => {
@@ -79,7 +79,8 @@ const usePlayerControls = () => {
     //   title: `${media.name} - ${media.artistDisplay}`,
     // });
     try {
-      await audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
+      // await audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
+      await window.audioPlayer.play(url, startTime, endTime, fadeIn, fadeOut);
     } catch (e) {
       throw Error(`unable to play media: ${e}`);
     }
@@ -88,7 +89,8 @@ const usePlayerControls = () => {
     if (isWeb) {
       const url = getStreamUrl();
       log.debug("playerControls - playLive web-mode", url);
-      await audioPlayer.play(url, startTime);
+      // await audioPlayer.play(url, startTime);
+      await window.audioPlayer.play(url, startTime);
     } else {
       log.debug("playerControls - playLive app-mode");
       await appBridge.send("player:playLive");

@@ -60,7 +60,8 @@ export default defineComponent({
       // just for quick'n'dirty testing
       if (isApp && backend.provider === "google-oauth2") {
         window.appBridge?.send("browser:navigate", {
-          url: "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector",
+          // url: "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector",
+          url: "https://next.openbroadcast.ch/social/login/google-oauth2/?source=app",
         });
         return;
       }

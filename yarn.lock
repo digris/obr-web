@@ -1310,10 +1310,10 @@ email-validator@^2.0.4:
   resolved "https://registry.yarnpkg.com/email-validator/-/email-validator-2.0.4.tgz#b8dfaa5d0dae28f1b03c95881d904d4e40bfe7ed"
   integrity sha512-gYCwo7kh5S3IDyZPLZf6hSS0MnZT8QmJFqYvbqlDZSbwdZlY6QZWxJ4i/6UhITOJ4XzyI647Bm2MXKCLqnJ4nQ==
 
-eme-encryption-scheme-polyfill@^2.0.3:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.0.4.tgz#7d818302af3f3b19d5974255dcc92dc087413845"
-  integrity sha512-MHYJX1v145Pjj2YJTrVVuJOYyXrxGVy8LWf6kV5M4jrV/GyoeuJKyTuD+GaD+VAiE8Ip+MptiH4dXk6ZVmMNow==
+eme-encryption-scheme-polyfill@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/eme-encryption-scheme-polyfill/-/eme-encryption-scheme-polyfill-2.1.1.tgz#91c823ed584e8ec5a9f03a6a676def8f80c57a4c"
+  integrity sha512-njD17wcUrbqCj0ArpLu5zWXtaiupHb/2fIUQGdInf83GlI+Q6mmqaPGLdrke4savKAu15J/z1Tg/ivDgl14g0g==
 
 emmet@^2.3.0:
   version "2.3.6"
@@ -2816,12 +2816,12 @@ semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-shaka-player@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.1.0.tgz#e893fc86ff9c66f3f412cfdae1c1b714f753fa02"
-  integrity sha512-Itg2C/x807lApXn0vQLRO97b/2CVe5nxWa2quob1HpVC3kpjpOvTiMno25PXCq9o5Y3lPKYUTS822/MCe5gobQ==
+shaka-player@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.3.0.tgz#1508e1949232b2a47718ce69524b63c777e69f1e"
+  integrity sha512-3obEhekQc6UZJFKWWlPkF6AHO4uA7vQpYDm23LXwuau3+UVlulkYyoZLbAvs1/WJ89h/PA0wk5W97FYPTzgNAw==
   dependencies:
-    eme-encryption-scheme-polyfill "^2.0.3"
+    eme-encryption-scheme-polyfill "^2.1.1"
 
 shebang-command@^1.2.0:
   version "1.2.0"

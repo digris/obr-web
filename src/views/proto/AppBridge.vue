@@ -92,38 +92,6 @@ export default defineComponent({
       <h4>queue/mediaUids</h4>
       <pre v-text="mediaUids" />
     </section>
-    <section class="app-links">
-      <!--
-      <a
-        rel="noopener noreferrer"
-        href="https://next.openbroadcast.ch/proto/app-bridge/"
-        class="button"
-      >App Link</a>
-      <a
-        rel="noopener noreferrer"
-        target="_blank"
-        href="https://next.openbroadcast.ch/proto/app-bridge/"
-        class="button"
-      >App Link (target: blank)</a>
-      <a
-        rel="noopener noreferrer"
-        target="_blank"
-        href="obrapp://next.openbroadcast.ch/proto/app-bridge/"
-        class="button"
-      >App Link (obrapp://)</a>
-      <a
-        rel="noopener noreferrer"
-        href="http://local.next.openbroadcast.ch:3000/dev/redirect/"
-        class="button"
-      >App Link (redirect via local domain)</a>
-      -->
-      <a
-        rel="noopener noreferrer"
-        href="https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector"
-        class="button"
-      >Login via redirect</a>
-      <a @click.prevent="socialBegin" class="button">System qbrowser via redirect</a>
-    </section>
   </div>
 </template>
 <style lang="scss" scoped>

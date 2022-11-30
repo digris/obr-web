@@ -54,13 +54,14 @@ export default defineComponent({
     text-overflow: ellipsis;
     &--primary,
     &--secondary {
-      @include typo.small;
+      //@include typo.small;
       max-width: 100%;
       overflow: inherit;
       white-space: inherit;
       text-overflow: inherit;
     }
     &--secondary {
+      //@include typo.small;
       @include typo.dim;
     }
   }

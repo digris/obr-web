@@ -76,7 +76,7 @@ class MediaSessionHandler {
         });
       });
     }
-    console.debug("artwork", artwork);
+    // console.debug("artwork", artwork);
     this.session.metadata = new MediaMetadata({
       title: media.name,
       artist: media.artistDisplay,

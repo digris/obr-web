@@ -33,6 +33,7 @@ import ProtoBase from "@/views/proto/Proto.vue";
 import ProtoIcons from "@/views/proto/Icons.vue";
 import ProtoRating from "@/views/proto/Rating.vue";
 import ProtoAppBridge from "@/views/proto/AppBridge.vue";
+import ProtoPlayer from "@/views/proto/Player.vue";
 
 import { getUser } from "@/api/account";
 import { setBodyColorTheme } from "@/utils/color";
@@ -443,6 +444,11 @@ const routes = [
         path: "app-bridge/",
         name: "protoAppBridge",
         component: ProtoAppBridge,
+      },
+      {
+        path: "player/",
+        name: "protoPlayer",
+        component: ProtoPlayer,
       },
     ],
   },

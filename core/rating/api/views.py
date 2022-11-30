@@ -44,6 +44,10 @@ class ObjectRatingView(APIView):
         except Vote.DoesNotExist:
             return None
 
+        # NOTE: this should not happen...
+        except Vote.MultipleObjectsReturned:
+            return Vote.objects.filter(**kwargs).first()
+
     @transaction.atomic
     # pylint: disable=too-many-arguments
     def create_vote(

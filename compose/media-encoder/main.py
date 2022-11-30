@@ -44,7 +44,7 @@ def encode_dir_to_hls(
     ):
         os.makedirs(dst_dir / "hls", exist_ok=True)
         dst = dst_dir / "hls" / "manifest.m3u8"
-        encoder.encode_dash(
+        encoder.encode_hls(
             src=str(src.absolute()),
             dst=str(dst.absolute()),
         )

@@ -88,12 +88,14 @@ class AppBridge {
     await this.send("global:init");
   }
   async heartbeat(): Promise<void> {
-    log.debug("AppBridge - heartbeat");
+    // log.debug("AppBridge - heartbeat");
     await this.send("heartbeat");
   }
   // web > native - SEND payload TO swift-app channel
   async send(channel: sendChannel, data?: object) {
-    log.debug("AppBridge - send", channel, data);
+    if (channel !== "heartbeat") {
+      log.debug("AppBridge - send", channel, data);
+    }
     const message: SendMessage = {
       c: channel,
     };
@@ -102,7 +104,7 @@ class AppBridge {
     }
     // @ts-ignore
     if (window.webkit) {
-      log.debug("payload", message);
+      // log.debug("payload", message);
       try {
         // @ts-ignore
         await window.webkit.messageHandlers.appBridge?.postMessage(message);
@@ -132,8 +134,6 @@ class AppBridge {
         const playerState = {
           ...data,
           // set missing dummy values
-          duration: 60,
-          absPosition: 30,
           bandwidth: 12800,
         };
         await setPlayerState(playerState);
