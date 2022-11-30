@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "api_extra",
     "sync",
     "account",
+    "app_bridge",
     "user_identity",
     "subscription",
     "identifier",

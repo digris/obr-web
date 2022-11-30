@@ -24,6 +24,7 @@ urlpatterns += [
     # path("api/v1/", include("core.urls_api", namespace="api")),
     path("admin/", admin.site.urls),
     path("social/", include("social_django.urls", namespace="social")),
+    path("app-bridge/", include("app_bridge.urls", namespace="app-bridge")),
     path(
         "code/", include("subscription.urls_voucher", namespace="subscription-voucher")
     ),

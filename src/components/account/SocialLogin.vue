@@ -46,7 +46,7 @@ export default defineComponent({
       return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = (backend: Backend) => {
-      const nextUrl = backend.connectUrl;
+      const connectUrl = backend.connectUrl;
       const params: { [x: string]: string } = {};
       if (props.next) {
         params.next = props.next;
@@ -55,13 +55,11 @@ export default defineComponent({
         params.source = "app";
       }
       const q = new URLSearchParams(params).toString();
-      const location = q ? `${nextUrl}?${q}` : nextUrl;
+      const location = q ? `${connectUrl}?${q}` : connectUrl;
 
-      // just for quick'n'dirty testing
-      if (isApp && backend.provider === "google-oauth2") {
+      if (isApp) {
         window.appBridge?.send("browser:navigate", {
-          // url: "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector",
-          url: "https://next.openbroadcast.ch/social/login/google-oauth2/?source=app",
+          url: `${document.location.origin}${location}`,
         });
         return;
       }

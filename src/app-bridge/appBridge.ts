@@ -93,9 +93,10 @@ class AppBridge {
   }
   // web > native - SEND payload TO swift-app channel
   async send(channel: sendChannel, data?: object) {
-    if (channel !== "heartbeat") {
-      log.debug("AppBridge - send", channel, data);
-    }
+    // if (channel !== "heartbeat") {
+    //   log.debug("AppBridge - send", channel, data);
+    // }
+    log.debug("AppBridge - send", channel, data);
     const message: SendMessage = {
       c: channel,
     };
@@ -111,6 +112,8 @@ class AppBridge {
       } catch (e: unknown) {
         // console.warn(channel, e);
       }
+    } else {
+      log.debug("window.webkit not available");
     }
   }
   // web < native - handle RECEIVED data FROM swift-app channel

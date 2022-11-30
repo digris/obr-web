@@ -1,7 +1,12 @@
+from django.urls import reverse
+
+
 # pylint: disable=unused-argument,keyword-arg-before-vararg
+def app_redirect(backend, strategy, user, *args, **kwargs):
 
-
-def app_redirect(backend, strategy, *args, **kwargs):
+    if not (user and user.email):
+        return None
 
     if strategy.session_get("source") == "app":
-        strategy.session_set("next", "/proto/app-bridge/")
+        url = reverse("app_bridge:social-auth-redirect")
+        strategy.session_set("next", url)

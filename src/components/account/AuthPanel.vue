@@ -102,11 +102,11 @@ export default defineComponent({
           <EmailLoginVerify :email="emailSentTo" @reset="reset" />
         </section>
       </div>
+    </div>
+    <template #footer>
       <section class="section availability">
         <Availability />
       </section>
-    </div>
-    <template #footer>
       <Terms class="terms" />
     </template>
     <!-- NOTE: design to be discussed -->
@@ -152,7 +152,7 @@ export default defineComponent({
 }
 .section.availability {
   flex-grow: 1;
-  padding-top: 1rem;
+  padding-bottom: 1rem;
   align-items: center;
   display: flex;
   @include responsive.bp-medium {
