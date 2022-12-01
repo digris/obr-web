@@ -4,17 +4,11 @@
 @mixin visual {
   position: relative;
   background: rgba(var(--c-white), 0.25);
-  /*
-  .visual__image {
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    .lazy-image {
-      position: absolute;
-      width: 100%;
-    }
+  .rating {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
-  */
 }
 
 @mixin meta {
@@ -42,11 +36,12 @@
     display: flex;
     justify-content: end;
   }
-  //@include responsive.bp-medium {
-  //  .subtitle {
-  //    @include typo.small;
-  //  }
-  //}
+  @include responsive.bp-medium {
+    // NOTE: we do not show actions on mobile
+    //       basically there is no need for grid, but to have the same
+    //       structure
+    grid-template-columns: 1fr 0;
+  }
 }
 
 @mixin default {
@@ -62,6 +57,18 @@
       :deep(img) {
         opacity: 0.5;
       }
+    }
+  }
+}
+
+@mixin actions-on-hover {
+  .actions {
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+  @include responsive.on-hover {
+    .actions {
+      opacity: 1;
     }
   }
 }

@@ -4,6 +4,7 @@ import { useObjKey } from "@/composables/obj";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import UserRating from "@/components/rating/UserRating.vue";
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   components: {
@@ -19,9 +20,11 @@ export default defineComponent({
   },
   setup(props) {
     const { objKey } = useObjKey(props.editor);
+    const { isDesktop } = useDevice();
     const link = `/discover/editors/${props.editor.uid}/`;
     return {
       objKey,
+      isDesktop,
       link,
     };
   },
@@ -37,11 +40,18 @@ export default defineComponent({
           'is-grayscale': !editor.isActive,
         }"
       />
+      <UserRating
+        v-if="!isDesktop"
+        :obj-key="objKey"
+        :readonly="true"
+        :hide-if-unset="true"
+        class="rating"
+      />
     </router-link>
     <div class="meta">
       <router-link class="title" v-text="editor.name" :to="link" />
       <div class="subtitle" v-text="editor.role" />
-      <div class="actions">
+      <div v-if="isDesktop" class="actions">
         <CircleButton :scale="0.75">
           <UserRating :obj-key="objKey" :autoload="false" :icon-scale="0.75" />
         </CircleButton>

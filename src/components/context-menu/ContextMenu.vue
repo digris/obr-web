@@ -45,7 +45,10 @@ export default defineComponent({
     const root = ref(null);
     const menu = ref(null);
     const menuPosition = ref('bottom');
-    const { iconSize } = useIconSize(props.scale);
+    const { defaultIconSize } = useIconSize();
+    const iconSize = computed(() => {
+      return defaultIconSize.value * props.iconScale;
+    });
     const { isDesktop } = useDevice();
     const isVisible = ref(false);
     const isObj = computed(() => Object.keys(props.obj).length);

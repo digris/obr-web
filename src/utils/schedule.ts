@@ -1,6 +1,5 @@
 import { useIntervalFn } from "@vueuse/core";
 import { useScheduleStore } from "@/stores/schedule";
-// import store from "@/store";
 
 class Schedule {
   constructor() {

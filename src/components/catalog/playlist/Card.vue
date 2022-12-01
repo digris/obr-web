@@ -30,19 +30,16 @@ export default defineComponent({
   },
   setup(props) {
     const { objKey } = useObjKey(props.playlist);
+    const { isDesktop } = useDevice();
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmissionTimeStart);
     });
-    const { isDesktop } = useDevice();
-    const iconScale = computed(() => {
-      return isDesktop.value ? 0.75 : 0.9;
-    });
     return {
       objKey,
+      isDesktop,
       link,
       latestEmission,
-      iconScale,
     };
   },
 });
@@ -60,17 +57,24 @@ export default defineComponent({
           :color="[0, 0, 0]"
         />
       </LazyImage>
+      <UserRating
+        v-if="!isDesktop"
+        :obj-key="objKey"
+        :readonly="true"
+        :hide-if-unset="true"
+        class="rating"
+      />
     </router-link>
     <div class="meta">
       <router-link class="title" :to="link">
         <PlaylistName :playlist="playlist" />
       </router-link>
       <RelativeDateTime class="subtitle" :date-time="latestEmission" />
-      <div class="actions">
-        <CircleButton :scale="iconScale">
-          <UserRating :obj-key="objKey" :icon-scale="iconScale" />
+      <div v-if="isDesktop" class="actions">
+        <CircleButton :scale="0.75">
+          <UserRating :obj-key="objKey" :icon-scale="0.75" />
         </CircleButton>
-        <ContextMenu :obj="playlist" :icon-scale="iconScale" />
+        <ContextMenu :obj="playlist" :icon-scale="0.75" />
       </div>
     </div>
   </div>
@@ -82,12 +86,13 @@ export default defineComponent({
 @use "@/style/elements/card";
 .card {
   @include card.default;
-  @include responsive.bp-medium {
-    .meta {
-      .subtitle {
-        @include typo.small;
-      }
-    }
-  }
+  @include card.actions-on-hover;
+  //@include responsive.bp-medium {
+  //  .meta {
+  //    .subtitle {
+  //      @include typo.small;
+  //    }
+  //  }
+  //}
 }
 </style>

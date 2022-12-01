@@ -8,6 +8,7 @@ import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   components: {
@@ -26,10 +27,12 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n();
     const { objKey } = useObjKey(props.artist);
+    const { isDesktop } = useDevice();
     const link = `/discover/artists/${props.artist.uid}/`;
     return {
       t,
       objKey,
+      isDesktop,
       link,
     };
   },
@@ -47,11 +50,18 @@ export default defineComponent({
           :color="[0, 0, 0]"
         />
       </LazyImage>
+      <UserRating
+        v-if="!isDesktop"
+        :obj-key="objKey"
+        :readonly="true"
+        :hide-if-unset="true"
+        class="rating"
+      />
     </router-link>
     <div class="meta">
       <router-link class="title" :to="link" v-text="artist.name" />
       <div class="subtitle" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
-      <div class="actions">
+      <div v-if="isDesktop" class="actions">
         <CircleButton :scale="0.75">
           <UserRating :obj-key="objKey" :icon-scale="0.75" />
         </CircleButton>
