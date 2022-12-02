@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.49 (2022-12-02)
+### Fix
+* Add radio flow reset on switch to live ([`2572d48`](https://github.com/digris/obr-web/commit/2572d482d7d3342c78557671c3ead6ed604479ca))
+
 ## v0.0.48 (2022-12-02)
 ### Fix
 * Add seek-bar alignment depending on cues ([`76ec83a`](https://github.com/digris/obr-web/commit/76ec83a931c664e10366e78868108d016a7a6028))
