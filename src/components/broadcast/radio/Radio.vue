@@ -1,15 +1,16 @@
 <script lang="ts">
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import { ref, computed, defineComponent, watch } from "vue";
-import { useWindowSize } from "@vueuse/core";
+import { useWindowSize, whenever } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { useTimeStore } from "@/stores/time";
 import { useScheduleStore } from "@/stores/schedule";
 import { useUiStore } from "@/stores/ui";
+import { usePlayerState } from "@/composables/player";
 import { round } from "lodash-es";
 import eventBus from "@/eventBus";
 import RadioHeader from "./RadioHeader.vue";
-import Flow from "./flow/FlowMobile.vue";
+import Flow from "./flow/Flow.vue";
 import FocusedEmission from "./focused/FocusedEmission.vue";
 import FocusedMedia from "./focused/FocusedMedia.vue";
 import PaginateButton from "./flow/PaginateButton.vue";
@@ -26,6 +27,7 @@ export default defineComponent({
   },
   setup() {
     const { time } = storeToRefs(useTimeStore());
+    const { isLive } = usePlayerState();
     const { setPrimaryColor } = useUiStore();
     const { items, current: currentItem } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
@@ -84,15 +86,10 @@ export default defineComponent({
       );
       return index < paginatedItems.value.length - 1;
     });
-    const focusNext = () => {
-      eventBus.emit("radio:flow", "focusNext");
-    };
-    const focusPrevious = () => {
-      eventBus.emit("radio:flow", "focusPrevious");
-    };
-    const releaseFocus = () => {
-      eventBus.emit("radio:flow", "releaseFocus");
-    };
+    const focusNext = () => eventBus.emit("radio:flow", "focusNext");
+    const focusPrevious = () => eventBus.emit("radio:flow", "focusPrevious");
+    const releaseFocus = () => eventBus.emit("radio:flow", "releaseFocus");
+    whenever(isLive, () => eventBus.emit("radio:flow", "releaseFocus"));
     return {
       time,
       itemSize,
@@ -146,29 +143,6 @@ export default defineComponent({
     <div class="rating">
       <Rating v-if="focusedItem?.media" :media="focusedItem.media" />
     </div>
-    <!--
-    <div class="emission">
-      <FocusedEmission
-        v-if="focusedItem?.emission"
-        :emission="focusedItem.emission"
-        :playlist="focusedItem.playlist"
-      />
-    </div>
-    <div class="flow">
-      <Flow :items="paginatedItems" @on-item-focused="onItemFocused" />
-    </div>
-    <div class="media">
-      <FocusedMedia v-if="focusedItem?.media" :media="focusedItem.media" />
-    </div>
-    <div class="rating">
-      <Rating v-if="focusedItem?.media" :media="focusedItem.media" />
-    </div>
-    <div v-if="false">
-      <button @click.prevent="focusPrevious" v-text="`PREV`" />
-      <button @click.prevent="focusNext" v-text="`NEXT`" />
-      <button @click.prevent="releaseFocus" v-text="`FOLLOW`" />
-    </div>
-    -->
   </div>
 </template>
 

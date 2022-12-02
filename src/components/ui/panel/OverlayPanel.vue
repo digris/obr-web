@@ -75,7 +75,7 @@ export default defineComponent({
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 29;
+  z-index: 45;
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -4,13 +4,15 @@ import { ref, computed, defineComponent, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useScheduleStore } from "@/stores/schedule";
 import { useUiStore } from "@/stores/ui";
-import Flow from "./flow/FlowMobile.vue";
+import { usePlayerState } from "@/composables/player";
+import { useWindowSize, whenever } from "@vueuse/core";
+import { preloadImage } from "@/utils/image";
+import { round } from "lodash-es";
+import eventBus from "@/eventBus";
+import Flow from "./flow/Flow.vue";
 import FocusedEmission from "./focused/FocusedEmissionMobile.vue";
 import FocusedMedia from "./focused/FocusedMediaMobile.vue";
 import Rating from "./rating/Rating.vue";
-import { useWindowSize } from "@vueuse/core";
-import { round } from "lodash-es";
-import eventBus from "@/eventBus";
 
 export default defineComponent({
   components: {
@@ -20,8 +22,9 @@ export default defineComponent({
     Rating,
   },
   setup() {
+    const { isLive } = usePlayerState();
     const { setPrimaryColor } = useUiStore();
-    const { items, current: currentItem } = storeToRefs(useScheduleStore());
+    const { items, current: currentItem, next: nextItem } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const itemSize = computed(() => {
       const maxByWidth = round(vpWidth.value * 0.7);
@@ -62,19 +65,17 @@ export default defineComponent({
         eventBus.emit("radio:flow", "reset");
       }
     );
-    /*
-    onMounted(() => {
-      setInterval(() => {
-        if (debugOffset.value > 0) {
-          debugOffset.value -= 1;
-          eventBus.emit("radio:flow", "itemAdded");
-          // setTimeout(() => {
-          //   eventBus.emit("radio:flow", "update");
-          // }, 1000)
-        }
-      }, 5000);
+    whenever(isLive, () => eventBus.emit("radio:flow", "releaseFocus"));
+    // NOTE: preload upcoming images
+    const nextImage = computed(() => {
+      return nextItem.value?.media?.releases?.length
+        ? nextItem.value.media.releases[0].image
+        : null;
     });
-    */
+    watch(
+      () => nextImage.value,
+      (imageObj) => preloadImage(imageObj)
+    );
     return {
       itemSize,
       paginatedItems,
@@ -82,6 +83,7 @@ export default defineComponent({
       onItemFocused,
       focusedItemKey,
       focusedItem,
+      nextImage,
     };
   },
 });
