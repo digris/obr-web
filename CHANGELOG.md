@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.48 (2022-12-02)
+### Fix
+* Add seek-bar alignment depending on cues ([`76ec83a`](https://github.com/digris/obr-web/commit/76ec83a931c664e10366e78868108d016a7a6028))
+
 ## v0.0.47 (2022-12-02)
 ### Fix
 * Temporarily handle uid assignment on archived emissions ([`68d46f3`](https://github.com/digris/obr-web/commit/68d46f34e48c2b12af08cb7a54b4c5f0a2e752ae))
