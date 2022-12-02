@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.47 (2022-12-02)
+### Fix
+* Temporarily handle uid assignment on archived emissions ([`68d46f3`](https://github.com/digris/obr-web/commit/68d46f34e48c2b12af08cb7a54b4c5f0a2e752ae))
+
 ## v0.0.46 (2022-10-28)
 ### Fix
 * Hide bandwidth controls for anonymous users ([`7c26414`](https://github.com/digris/obr-web/commit/7c2641474d7e1a49c4d7ea582110802f587c8d5d))
