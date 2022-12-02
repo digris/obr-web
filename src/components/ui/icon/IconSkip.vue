@@ -48,6 +48,6 @@ export default defineComponent({
     :style="style"
   >
     <rect x="30" y="16" width="2.5" height="16" stroke="none" :fill="color" />
-    <polygon points="26.7,24 15,29.8 15,18.2 "/>
+    <polygon points="26.7,24 15,29.8 15,18.2" />
   </svg>
 </template>
