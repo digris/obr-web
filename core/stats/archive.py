@@ -5,7 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 from catalog.models import Playlist, Media
 from catalog.models import Airplay as CatalogAirplay
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from broadcast.models import Emission as BroadcastEmission
 from .settings import ARCHIVE_AFTER_DAYS
 
@@ -145,9 +145,13 @@ def archive_airplays(database="default"):
     for e in Emission.objects.filter(
         uid__isnull=True,
     ):
-        Emission.objects.filter(id=e.id,).update(
-            uid=e.get_uid(),
-        )
+        try:
+            Emission.objects.filter(id=e.id).update(
+                uid=e.get_uid(),
+            )
+        except IntegrityError:
+            # TODO: check implications.!.
+            continue
 
     # for airplay in airplay_qs:
     #     try:
