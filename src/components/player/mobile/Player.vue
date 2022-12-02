@@ -6,6 +6,7 @@ import { useUiStore } from "@/stores/ui";
 import { usePlayerState } from "@/composables/player";
 import { getContrastColor } from "@/utils/color";
 import { useQueueState } from "@/composables/queue";
+import { useDevice } from "@/composables/device";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 
@@ -28,6 +29,7 @@ export default defineComponent({
     PlayerPlayButton,
   },
   setup() {
+    const { isApp } = useDevice();
     const { playerVisible } = storeToRefs(useUiStore());
     const { mode, state, media, color } = usePlayerState();
     invoke(async () => {
@@ -75,6 +77,7 @@ export default defineComponent({
     });
 
     return {
+      isApp,
       playerVisible,
       mode,
       state,
@@ -96,36 +99,42 @@ export default defineComponent({
 </script>
 
 <template>
-  <Panel :is-visible="panelVisible" :style="cssVars" @close="hidePanel" />
-  <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
-  <transition name="slide">
-    <div
-      v-if="playerVisible"
-      class="player-container"
-      :style="cssVars"
-      :class="{ 'has-panel': panelVisible }"
-    >
-      <div class="player-bg" />
-      <div class="player">
-        <PlayerPlayButton class="player-control" :fg-color="fgColor" />
-        <div @click="togglePanel" class="current-media">
-          <div v-if="media" class="media">
-            <div class="name" v-text="media.name" />
-            <MediaArtists class="artists" :artists="media.artists" :link="false" />
+  <div
+    :style="{
+      '--player-height': isApp ? '82px' : '60px',
+    }"
+  >
+    <Panel :is-visible="panelVisible" :style="cssVars" @close="hidePanel" />
+    <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
+    <transition name="slide">
+      <div
+        v-if="playerVisible"
+        class="player-container"
+        :style="cssVars"
+        :class="{ 'has-panel': panelVisible }"
+      >
+        <div class="player-bg" />
+        <div class="player">
+          <PlayerPlayButton class="player-control" :fg-color="fgColor" />
+          <div @click="togglePanel" class="current-media">
+            <div v-if="media" class="media">
+              <div class="name" v-text="media.name" />
+              <MediaArtists class="artists" :artists="media.artists" :link="false" />
+            </div>
+          </div>
+          <div class="right">
+            <OnAir class="on-air" />
+            <QueueControl
+              class="queue-control"
+              :queue-visible="queueVisible"
+              :num-queued="queueLength"
+              @toggle-visibility="toggleQueue"
+            />
           </div>
         </div>
-        <div class="right">
-          <OnAir class="on-air" />
-          <QueueControl
-            class="queue-control"
-            :queue-visible="queueVisible"
-            :num-queued="queueLength"
-            @toggle-visibility="toggleQueue"
-          />
-        </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -134,6 +143,7 @@ export default defineComponent({
   position: fixed;
   bottom: 0;
   z-index: 110;
+  height: var(--player-height);
   width: 100%;
   background: rgba(var(--c-bg));
   box-shadow: 0 0 1px 1px rgba(var(--c-fg), 0.2);

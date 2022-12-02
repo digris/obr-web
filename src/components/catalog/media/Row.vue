@@ -48,8 +48,8 @@ export default defineComponent({
     });
     return {
       objKey,
-      isHover,
       isMobile,
+      isHover,
       release,
       color,
       latestAirplay,

@@ -94,6 +94,10 @@ export default defineComponent({
 @use "@/style/abstracts/responsive";
 @use "@/style/elements/container";
 
+/*
+ NOTE: `--player-height` is set in parent component
+ */
+
 .mask {
   z-index: 20;
   position: fixed;
@@ -109,9 +113,8 @@ export default defineComponent({
   position: fixed;
   width: 100%;
   min-height: 100px;
-  bottom: 72px; // player height
-  //max-height: calc(100% - 148px);
-  max-height: calc(100% - 72px);
+  bottom: 72px; // player height (desktop)
+  max-height: calc(100% - 80px);
   overflow-y: auto;
   color: rgb(var(--c-white));
   background: rgb(var(--c-black));
@@ -125,15 +128,16 @@ export default defineComponent({
     padding-bottom: 92px;
   }
   @include responsive.bp-medium {
-    max-height: calc(100% - 120px);
-    bottom: 120px;
+    /* sizing based on player height & 60px action bar */
+    max-height: calc(100% - calc(var(--player-height) + 60px));
+    bottom: calc(var(--player-height) + 60px);
   }
 }
 
 .actions {
   z-index: 21;
   border-top: 1px solid rgba(var(--c-white), 0.25);
-  height: 60px;
+  height: 76px;
   .container {
     @include container.default;
     padding-top: 0.5rem;
@@ -151,11 +155,11 @@ export default defineComponent({
   width: 100%;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  //background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(var(--c-black), 0.9) 10%);
   background: rgb(var(--c-black));
 
   @include responsive.bp-medium {
-    bottom: 60px;
+    height: 60px;
+    bottom: var(--player-height);
     .container {
       > div {
         margin-left: unset;

@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
+@use "@/style/abstracts/responsive";
+
 @import "colors";
-@import "responsive";
 
 :root {
   --grid-gap: 1rem;
@@ -71,19 +72,19 @@
   }
 }
 
-@include bp-medium {
+@include responsive.bp-medium {
   :root {
     --font-size: 1rem;
   }
 }
 
-@include bp-medium-up {
+@include responsive.bp-medium-up {
   :root {
     --grid-gap: 1.5rem;
   }
 }
 
-@include bp-large-up {
+@include responsive.bp-large-up {
   :root {
     --grid-gap: 2rem;
   }
@@ -102,7 +103,7 @@
   --t-lh-small: 0.75rem;
   --t-fs-tiny: 0.625rem;
   --t-lh-tiny: 0.625rem;
-  @include bp-medium {
+  @include responsive.bp-medium {
     --t-fs-x-large: 2.5rem;
     --t-lh-x-large: 2.5rem;
     --t-fs-large: 1.125rem;
@@ -119,7 +120,7 @@
 // NOTE: just for testing modes. logic needs to be reworked.
 [data-client-mode="app"] {
   --font-size: 1rem;
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";;
+  --font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji";
 }
 
 

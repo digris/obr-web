@@ -40,9 +40,42 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <line x1="15" y1="18" x2="15" y2="30" />
-    <line x1="21" y1="18" x2="21" y2="30" />
-    <line x1="27" y1="18" x2="27" y2="30" />
-    <line x1="33" y1="18" x2="33" y2="30" />
+    <line x1="15" y1="14" x2="15" y2="34" />
+    <line x1="21" y1="14" x2="21" y2="34" />
+    <line x1="27" y1="14" x2="27" y2="34" />
+    <line x1="33" y1="14" x2="33" y2="34" />
   </svg>
 </template>
+
+<style lang="scss" scoped>
+@keyframes buffering {
+  0% {
+    transform: scaleY(100%);
+  }
+  80% {
+    transform: scaleY(10%);
+  }
+  100% {
+    transform: scaleY(100%);
+  }
+}
+
+svg {
+  line {
+    transform-origin: center;
+    animation: buffering 1200ms infinite;
+    &:nth-child(1) {
+      animation-delay: -600ms;
+    }
+    &:nth-child(2) {
+      animation-delay: -450ms;
+    }
+    &:nth-child(3) {
+      animation-delay: -300ms;
+    }
+    &:nth-child(4) {
+      animation-delay: -150ms;
+    }
+  }
+}
+</style>

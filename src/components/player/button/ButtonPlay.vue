@@ -3,6 +3,7 @@ import { defineComponent, computed, ref } from "vue";
 import type { PropType } from "vue";
 import { useIconSize } from "@/composables/icon";
 import { getContrastColor } from "@/utils/color";
+import { useDevice } from "@/composables/device";
 import IconPlay from "@/components/ui/icon/IconPlay.vue";
 import IconPlayQueued from "@/components/ui/icon/IconPlayQueued.vue";
 import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
@@ -71,6 +72,7 @@ export default defineComponent({
   },
   emits: ["play", "pause"],
   setup(props, { emit }) {
+    const { isMobile } = useDevice();
     const { iconSize } = useIconSize(props.scale);
     const isHover = ref(false);
     const icon = computed(() => {
@@ -96,12 +98,6 @@ export default defineComponent({
     });
     const handleClick = () => {
       emit(action.value);
-    };
-    const onHover = () => {
-      isHover.value = true;
-    };
-    const onHout = () => {
-      isHover.value = false;
     };
     const fgColor = computed(() => {
       if (props.isActive) {
@@ -133,9 +129,8 @@ export default defineComponent({
     return {
       icon,
       iconSize,
+      isMobile,
       isHover,
-      onHover,
-      onHout,
       handleClick,
       //
       fgColor,
@@ -169,8 +164,8 @@ export default defineComponent({
     <div v-if="isOutlined" class="outline" />
     <div
       @click.prevent="handleClick"
-      @mouseover.stop="onHover"
-      @mouseout.stop="onHout"
+      @mouseenter="isMobile ? null : (isHover = true)"
+      @mouseleave="isMobile ? null : (isHover = false)"
       class="trigger-area"
     />
   </div>

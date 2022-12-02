@@ -38,7 +38,7 @@ class AccountHandler {
     watch(
       () => user.value,
       (newUser, oldUser) => {
-        if (!isEqual(newUser, oldUser)) {
+        if (!isEqual(newUser?.uid, oldUser?.uid)) {
           if (isApp) {
             updateAppBridgeAccount(newUser);
           }
