@@ -27,6 +27,8 @@ export default defineComponent({
         strokeWidth: 2.75,
         transform: `rotate(${props.rotate}deg)`,
         strokeMiterlimit: 10,
+        width: `${size.value}px`,
+        height: `${size.value}px`,
       };
     });
     return {
