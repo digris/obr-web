@@ -2,12 +2,10 @@
 import { defineComponent, computed } from "vue";
 import type { PropType } from "vue";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueControls, useQueueState } from "@/composables/queue";
 import ButtonSkip from "./button/ButtonSkip.vue";
 import ButtonPlay from "./button/ButtonPlay.vue";
-import { useQueueControls, useQueueState } from "@/composables/queue";
-
-const dt2hhmmss = (dt: any) => dt.toISOString().substr(11, 8);
-const s2hhmmss = (s: number) => dt2hhmmss(new Date(s * 1000));
+import { s2hhmmss } from "@/utils/time";
 
 export default defineComponent({
   components: {
@@ -66,7 +64,7 @@ export default defineComponent({
       :is-playing="isPlaying"
       :is-buffering="isBuffering"
       :outlined="true"
-      :outline-width="2.5"
+      :outline-width="3"
       :outline-opacity="1"
       :base-color="fgColor"
       @pause="pause"

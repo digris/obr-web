@@ -13,7 +13,6 @@ import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import Queue from "../Queue.vue";
 import QueueControl from "../QueueControl.vue";
 import OnAir from "../button/OnAir.vue";
-import Bandwidth from "../button/Bandwidth.vue";
 
 // NOTE: adapted / extra components for mobile
 import Panel from "./Panel.vue";
@@ -26,7 +25,6 @@ export default defineComponent({
     QueueControl,
     MediaArtists,
     OnAir,
-    Bandwidth,
     PlayerPlayButton,
   },
   setup() {
@@ -118,7 +116,6 @@ export default defineComponent({
         </div>
         <div class="right">
           <OnAir class="on-air" />
-          <Bandwidth />
           <QueueControl
             class="queue-control"
             :queue-visible="queueVisible"

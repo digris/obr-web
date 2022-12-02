@@ -24,14 +24,14 @@ export default defineComponent({
       return {
         fill: "none",
         stroke: color.value,
-        strokeWidth: (2 * 48) / size.value,
-        width: `${size.value}px`,
-        height: `${size.value}px`,
+        strokeWidth: 2.75,
         transform: `rotate(${props.rotate}deg)`,
+        strokeMiterlimit: 10,
       };
     });
     return {
       style,
+      color,
     };
   },
 });
@@ -45,7 +45,7 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
-    <polygon points="30,24 15,15 15,33" />
-    <rect x="33.5" y="15" width="0.1" height="18" />
+    <rect x="30" y="16" width="2.5" height="16" stroke="none" :fill="color" />
+    <polygon points="26.7,24 15,29.8 15,18.2 "/>
   </svg>
 </template>
