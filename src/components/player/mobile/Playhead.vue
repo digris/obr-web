@@ -74,6 +74,17 @@ export default defineComponent({
       return mapRange(inputValue.value, [rangeMin.value, rangeMax.value], [0, width]);
     });
 
+    const playheadJustify = computed(() => {
+      if (cueIn.value && cueOut.value) {
+        return "center";
+      } else if (cueIn.value) {
+        return "end";
+      } else if (cueOut.value) {
+        return "start";
+      }
+      return "center";
+    });
+
     const onInput = (e: Event) => {
       const value = Number((e.target as HTMLInputElement).value);
       isSeeking.value = true;
@@ -94,6 +105,7 @@ export default defineComponent({
       inputWidth,
       onInput,
       onChange,
+      playheadJustify,
       absPosition,
       duration,
       cueIn,
@@ -107,7 +119,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-if="isOndemand" ref="root" class="playhead">
+  <div v-if="isOndemand" ref="root" class="playhead" :style="{ justifyContent: playheadJustify }">
     <div class="track" />
     <div v-if="cueIn" class="cue cue--in" :style="{ left: `${cueIn * 100}%` }" />
     <div v-if="cueOut" class="cue cue--out" :style="{ right: `${cueOut * 100}%` }" />
@@ -171,7 +183,6 @@ export default defineComponent({
 @use "@/style/base/typo";
 .playhead {
   display: flex;
-  justify-content: center;
   position: relative;
   min-height: 32px;
   .track {
