@@ -124,7 +124,7 @@ const usePlayerControls = () => {
       // TODO: investigate - when calling from mediaSession audioPlayer is undefined
       window.audioPlayer.seek(pos);
     } else {
-      await appBridge.send("player:seek", { pos });
+      await appBridge.send("player:seek", { to: pos });
     }
   };
   return {
