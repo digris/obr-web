@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.50 (2022-12-02)
+### Fix
+* Send seek event via app-bridge ([`3553f6b`](https://github.com/digris/obr-web/commit/3553f6b8718ac51508f99c1e8045ebdcc87aa98e))
+
 ## v0.0.49 (2022-12-02)
 ### Fix
 * Add radio flow reset on switch to live ([`2572d48`](https://github.com/digris/obr-web/commit/2572d482d7d3342c78557671c3ead6ed604479ca))
