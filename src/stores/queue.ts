@@ -41,6 +41,12 @@ export const useQueueStore = defineStore("queue", {
     currentMedia(state: State): AnnotatedMedia | null {
       return state.media[state.currentIndex] || null;
     },
+    nextMedia(state: State): AnnotatedMedia | null {
+      if (this.nextIndex) {
+        return state.media[this.nextIndex] || null;
+      }
+      return null;
+    },
   },
   actions: {
     async setIndex(index: number): Promise<void> {

@@ -20,4 +20,18 @@ const getImageColor = (image: any) => {
   return null;
 };
 
-export { getImageSrc, getImageColor };
+const preloadImage = async (image: any, size = 800) => {
+  if (!image) {
+    return;
+  }
+  const src = getImageSrc(image, size);
+  if (src) {
+    const img = new Image();
+    // img.onload = (e) => {
+    //   console.debug("onload", e);
+    // };
+    img.src = src;
+  }
+};
+
+export { getImageSrc, getImageColor, preloadImage };

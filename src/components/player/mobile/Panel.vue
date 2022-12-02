@@ -1,7 +1,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useEventListener } from "@vueuse/core";
 import { useSwipe } from "@vueuse/core";
+import { preloadImage } from "@/utils/image";
 import { getContrastColor } from "@/utils/color";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import LazyImage from "@/components/ui/LazyImage.vue";
@@ -11,7 +13,6 @@ import UserRating from "@/components/rating/UserRating.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import Playhead from "./Playhead.vue";
 import PlayerControl from "./PlayerControl.vue";
-import { useRoute } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -32,7 +33,7 @@ export default defineComponent({
   emits: ["close"],
   setup(props, { emit }) {
     const el = ref<HTMLElement | null>(null);
-    const { media, color, image } = usePlayerState();
+    const { media, nextMedia, color, image } = usePlayerState();
     const { seek } = usePlayerControls();
     const route = useRoute();
     const close = () => emit("close");
@@ -75,6 +76,14 @@ export default defineComponent({
         }
       },
     });
+    // NOTE: preload upcoming images
+    const nextImage = computed(() => {
+      return nextMedia.value?.releases?.length ? nextMedia.value.releases[0].image : null;
+    });
+    watch(
+      () => nextImage.value,
+      (imageObj) => preloadImage(imageObj)
+    );
     return {
       el,
       top,
@@ -82,6 +91,7 @@ export default defineComponent({
       //
       objKey,
       media,
+      nextImage,
       image,
       fgColor,
       //
@@ -110,6 +120,9 @@ export default defineComponent({
       </nav>
       <main>
         <div class="visual">
+          <!--
+          <LazyImage class="next" v-if="nextImage" :image="nextImage" />
+          -->
           <LazyImage :image="image" />
         </div>
         <div class="meta">
@@ -120,7 +133,7 @@ export default defineComponent({
         </div>
         <div class="controls">
           <PlayerControl :fg-color="fgColor" />
-          <UserRating color-var="--c-fg" :obj-key="objKey" :icon-scale="1.25" />
+          <UserRating color-var="--c-fg" :obj-key="objKey" />
         </div>
       </main>
     </div>
@@ -163,9 +176,15 @@ export default defineComponent({
     padding: 0.625rem;
     color: rgb(var(--c-fg));
     .visual {
+      position: relative;
       width: 70vw;
       aspect-ratio: 1;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      .next {
+        position: absolute;
+        top: 0;
+        opacity: 0;
+      }
     }
     .meta {
       display: flex;
@@ -182,7 +201,7 @@ export default defineComponent({
     }
     .controls {
       width: 100%;
-      padding: 0 0.625rem;
+      //padding: 0 0.625rem;
       display: grid;
       grid-template-columns: 40px 1fr 40px;
       align-items: center;

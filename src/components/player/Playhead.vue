@@ -4,6 +4,7 @@ import { useMouseInElement, useElementSize } from "@vueuse/core";
 import { usePlayerState } from "@/composables/player";
 import PlayheadHandle from "@/components/player/PlayheadHandle.vue";
 import PlayheadTime from "@/components/player/PlayheadTime.vue";
+import { round } from "lodash-es";
 
 export default defineComponent({
   components: {
@@ -51,10 +52,16 @@ export default defineComponent({
       return Math.max(Math.min(posX, width.value - 20), 0);
     });
     const cueIn = computed(() => {
-      return media.value?.cueIn / duration.value;
+      if (media.value?.cueIn && duration.value) {
+        return round(media.value?.cueIn / duration.value, 3);
+      }
+      return 0;
     });
     const cueOut = computed(() => {
-      return 1 - media.value?.cueOut / duration.value;
+      if (media.value?.cueOut && duration.value) {
+        return 1 - round(media.value?.cueOut / duration.value, 3);
+      }
+      return 1;
     });
     const seek = (e: PointerEvent) => {
       if (isLive.value) {

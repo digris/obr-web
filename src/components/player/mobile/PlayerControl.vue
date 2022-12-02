@@ -59,10 +59,10 @@ export default defineComponent({
       :is-playing="isPlaying"
       :is-buffering="isBuffering"
       :outlined="true"
-      :outline-width="2.5"
+      :outline-width="3"
       :outline-opacity="1"
       :base-color="fgColor"
-      :scale="1.5"
+      :scale="1.25"
       @pause="pause"
       @play="play"
     />

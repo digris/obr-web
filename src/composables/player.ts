@@ -23,10 +23,16 @@ const usePlayerState = () => {
     relPosition,
   } = storeToRefs(usePlayerStore());
 
-  const { currentMedia: scheduleMedia } = storeToRefs(useScheduleStore());
-  const { currentMedia: queueMedia } = storeToRefs(useQueueStore());
+  const { currentMedia: scheduleMedia, next: scheduleNextMedia } = storeToRefs(useScheduleStore());
+  const { currentMedia: queueMedia, nextMedia: queueNextMedia } = storeToRefs(useQueueStore());
   const media = computed(() => {
     return isLive.value ? scheduleMedia.value : queueMedia.value;
+  });
+  const nextMedia = computed(() => {
+    if (isLive.value) {
+      return scheduleNextMedia.value;
+    }
+    return queueNextMedia.value ? queueNextMedia.value : scheduleMedia.value;
   });
   const scope = computed(() => {
     // @ts-ignore
@@ -55,6 +61,7 @@ const usePlayerState = () => {
     absPosition,
     relPosition,
     media,
+    nextMedia,
     scope,
     image,
     color,
