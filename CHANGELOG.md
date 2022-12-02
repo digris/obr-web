@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.52 (2022-12-02)
+### Fix
+* Adjust play icon animations ([`c4ed327`](https://github.com/digris/obr-web/commit/c4ed3274a6f05cee581abf837975a04a3b6502d3))
+
 ## v0.0.51 (2022-12-02)
 ### Fix
 * Add buffering icon & app-mode player positioning ([`7427124`](https://github.com/digris/obr-web/commit/7427124bb3e136afc23bade4bc382b9f793cd0bf))
