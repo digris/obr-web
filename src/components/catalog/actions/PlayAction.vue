@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import type { PropType } from "vue";
-import { useMagicKeys } from "@vueuse/core";
+import { useMagicKeys, useVibrate } from "@vueuse/core";
 import { useRatingStore } from "@/stores/rating";
 import { usePlayerState, usePlayerControls } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
@@ -128,7 +128,9 @@ export default defineComponent({
       isLoading.value = false;
       await injectRatings(results);
     };
+    const { vibrate } = useVibrate({ pattern: 10 });
     const onClick = requireSubscription(async (e: MouseEvent) => {
+      vibrate();
       if (e.shiftKey || props.restartQueue) {
         await play();
       } else if (objIsPlaying.value || isBuffering.value) {
