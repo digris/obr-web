@@ -1,13 +1,14 @@
 import log from "loglevel";
-import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { computed } from "vue";
+
 import { useDevice } from "@/composables/device";
-import { usePlayerStore } from "@/stores/player";
-import { useScheduleStore } from "@/stores/schedule";
-import { useQueueStore } from "@/stores/queue";
 import { getMediaUrl } from "@/player/media";
 import { getStreamUrl } from "@/player/stream";
+import { usePlayerStore } from "@/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
+import { useQueueStore } from "@/stores/queue";
+import { useScheduleStore } from "@/stores/schedule";
 
 const usePlayerState = () => {
   const {
@@ -136,4 +137,4 @@ const usePlayerControls = () => {
   };
 };
 
-export { usePlayerState, usePlayerControls };
+export { usePlayerControls, usePlayerState };

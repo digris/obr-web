@@ -1,7 +1,8 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import type { Media } from "@/typings/api";
 import { computed, defineComponent } from "vue";
+
+import type { Media } from "@/typings/api";
 
 export default defineComponent({
   props: {

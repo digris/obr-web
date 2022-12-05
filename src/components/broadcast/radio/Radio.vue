@@ -1,19 +1,21 @@
 <script lang="ts">
-import type { AnnotatedSchedule } from "@/stores/schedule";
-import { ref, computed, defineComponent, watch } from "vue";
 import { useWindowSize, whenever } from "@vueuse/core";
-import { storeToRefs } from "pinia";
-import { useTimeStore } from "@/stores/time";
-import { useScheduleStore } from "@/stores/schedule";
-import { useUiStore } from "@/stores/ui";
-import { usePlayerState } from "@/composables/player";
 import { round } from "lodash-es";
+import { storeToRefs } from "pinia";
+import { computed, defineComponent, ref, watch } from "vue";
+
+import { usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";
-import RadioHeader from "./RadioHeader.vue";
+import type { AnnotatedSchedule } from "@/stores/schedule";
+import { useScheduleStore } from "@/stores/schedule";
+import { useTimeStore } from "@/stores/time";
+import { useUiStore } from "@/stores/ui";
+
 import Flow from "./flow/Flow.vue";
+import PaginateButton from "./flow/PaginateButton.vue";
 import FocusedEmission from "./focused/FocusedEmission.vue";
 import FocusedMedia from "./focused/FocusedMedia.vue";
-import PaginateButton from "./flow/PaginateButton.vue";
+import RadioHeader from "./RadioHeader.vue";
 import Rating from "./rating/Rating.vue";
 
 export default defineComponent({

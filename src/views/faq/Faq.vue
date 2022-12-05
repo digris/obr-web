@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref, onActivated } from "vue";
+import { defineComponent, onActivated, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { getFaqCategories } from "@/api/faq";
 
+import { getFaqCategories } from "@/api/faq";
 import Topic from "@/components/faq/Topic.vue";
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 

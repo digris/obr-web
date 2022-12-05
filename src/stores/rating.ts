@@ -1,5 +1,6 @@
-import { ref } from "vue";
 import { defineStore } from "pinia";
+import { ref } from "vue";
+
 import { getRating, postRating } from "@/api/rating";
 
 export const useRatingStore = defineStore("rating", () => {

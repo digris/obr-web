@@ -1,8 +1,9 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import type { Section } from "@/typings/api";
-import { defineComponent, ref, computed } from "vue";
+import { computed, defineComponent, ref } from "vue";
+
 import ExpandableSection from "@/components/ui/section/ExpandableSection.vue";
+import type { Section } from "@/typings/api";
 
 export default defineComponent({
   props: {

@@ -1,10 +1,12 @@
 <script lang="ts">
-import { defineComponent, computed } from "vue";
 import type { PropType } from "vue";
+import { computed, defineComponent } from "vue";
+
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
-import ButtonSkip from "../button/ButtonSkip.vue";
+
 import ButtonPlay from "../button/ButtonPlay.vue";
+import ButtonSkip from "../button/ButtonSkip.vue";
 
 export default defineComponent({
   components: {

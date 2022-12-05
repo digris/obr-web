@@ -1,6 +1,7 @@
-import { computed } from "vue";
-import settings from "@/settings";
 import { useStorage } from "@vueuse/core";
+import { computed } from "vue";
+
+import settings from "@/settings";
 
 const useAPIBaseUrl = () => {
   const locale = useStorage("settings/locale", "en");

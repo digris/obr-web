@@ -1,7 +1,8 @@
-import type { Artist, Media, Mood } from "@/typings/api";
-import { defineStore } from "pinia";
 import { without } from "lodash-es";
+import { defineStore } from "pinia";
+
 import { getArtist, getMediaDetail, getMood, getPlaylist } from "@/api/catalog";
+import type { Artist, Media, Mood } from "@/typings/api";
 
 interface State {
   artists: Array<Artist>;

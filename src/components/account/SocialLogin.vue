@@ -1,11 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
-import { getSocialBackends, disconnectSocialBackend } from "@/api/account";
-import { useDevice } from "@/composables/device";
+import { defineComponent, onMounted, ref } from "vue";
+
+import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
 import imgApple from "@/assets/brand-icons/apple.svg";
+import imgDeezer from "@/assets/brand-icons/deezer.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
-import imgDeezer from "@/assets/brand-icons/deezer.svg";
+import { useDevice } from "@/composables/device";
 
 const ICONS = {
   apple: imgApple,

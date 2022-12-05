@@ -1,6 +1,7 @@
-import type { Editor } from "@/typings/api";
 import { defineStore } from "pinia";
+
 import { getEditor } from "@/api/broadcast";
+import type { Editor } from "@/typings/api";
 
 interface State {
   editors: Array<Editor>;

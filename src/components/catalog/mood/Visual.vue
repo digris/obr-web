@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import { defineComponent, ref, computed, watch, onMounted } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 
 type RGBAColor = Array<[number, number, number, number]>;
 

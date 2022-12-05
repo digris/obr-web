@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { computed, defineComponent, ref } from "vue";
 
 export default defineComponent({
   props: {

@@ -1,5 +1,6 @@
 <script>
 import { computed, ref, watch } from "vue";
+
 import Intersect from "@/components/utils/intersect.js";
 import { getImageColor, getImageSrc } from "@/utils/image";
 

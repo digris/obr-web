@@ -1,4 +1,5 @@
 import { computed } from "vue";
+
 import { useDevice } from "@/composables/device";
 
 const useIconSize = (scale = 1) => {

@@ -1,7 +1,7 @@
-import { ref, computed } from "vue";
-import { defineStore } from "pinia";
 import { useIntervalFn } from "@vueuse/core";
 import { DateTime } from "luxon";
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
 
 const INTERVAL = 200;
 const FIXED_LATENCY = 27;

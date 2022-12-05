@@ -1,6 +1,5 @@
 import { APIClient } from "@/api/client";
 // import settings from "@/settings";
-
 import { useAPIBaseUrl } from "@/composables/api";
 
 const { APIBaseUrl } = useAPIBaseUrl();
@@ -131,15 +130,15 @@ async function getPlaylist(uid: string) {
 }
 
 export {
-  getMoods,
-  getMood,
+  getArtist,
   getArtists,
   getArtistsTags,
-  getArtist,
   getMedia,
-  getMediaTags,
   getMediaDetail,
+  getMediaTags,
+  getMood,
+  getMoods,
+  getPlaylist,
   getPlaylists,
   getPlaylistsTags,
-  getPlaylist,
 };

@@ -1,5 +1,4 @@
 import { APIClient } from "@/api/client";
-
 import { useAPIBaseUrl } from "@/composables/api";
 
 const { APIBaseUrl } = useAPIBaseUrl();
@@ -121,21 +120,21 @@ async function getAddressCountries() {
 }
 
 export {
-  login,
-  logout,
   checkLoginEmail,
-  sendLoginEmail,
-  loginByToken,
-  loginBySignedEmail,
-  getUser,
-  getSubscription,
-  getSignedLoginCredentials,
-  // refreshCredentials,
-  updateUser,
-  updateAddress,
-  updatePassword,
-  getSocialBackends,
   disconnectSocialBackend,
   //
   getAddressCountries,
+  getSignedLoginCredentials,
+  getSocialBackends,
+  getSubscription,
+  getUser,
+  login,
+  loginBySignedEmail,
+  loginByToken,
+  logout,
+  sendLoginEmail,
+  updateAddress,
+  updatePassword,
+  // refreshCredentials,
+  updateUser,
 };

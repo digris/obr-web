@@ -1,16 +1,16 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
 import { DateTime } from "luxon";
-import { useObjKey } from "@/composables/obj";
+import { computed, defineComponent } from "vue";
 
-import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import CircleButton from "@/components/ui/button/CircleButton.vue";
-import UserRating from "@/components/rating/UserRating.vue";
-import ContextMenu from "@/components/context-menu/ContextMenu.vue";
-import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import PlaylistName from "@/components/catalog/playlist/Name.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
 import { useDevice } from "@/composables/device";
+import { useObjKey } from "@/composables/obj";
 
 export default defineComponent({
   components: {

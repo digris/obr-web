@@ -1,14 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, onActivated } from "vue";
-import { useBroadcastStore } from "@/stores/broadcast";
 
-import DetailPage from "@/layouts/DetailPage.vue";
-import DetailHeader from "@/layouts/DetailHeader.vue";
-import LazyImage from "@/components/ui/LazyImage.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
-import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
-import Searchbar from "@/components/filter/Searchbar.vue";
 import PlaylistList from "@/components/catalog/playlist/List.vue";
+import Searchbar from "@/components/filter/Searchbar.vue";
+import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailPage from "@/layouts/DetailPage.vue";
+import { useBroadcastStore } from "@/stores/broadcast";
 
 export default defineComponent({
   components: {

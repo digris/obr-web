@@ -1,9 +1,10 @@
 <script lang="ts">
-import { computed, defineComponent, ref, onDeactivated } from "vue";
 import { useElementHover } from "@vueuse/core";
-import { getContrastColor } from "@/utils/color";
-import { useObjKey } from "@/composables/obj";
+import { computed, defineComponent, onDeactivated, ref } from "vue";
+
 import UserRating from "@/components/rating/UserRating.vue";
+import { useObjKey } from "@/composables/obj";
+import { getContrastColor } from "@/utils/color";
 
 export default defineComponent({
   components: {

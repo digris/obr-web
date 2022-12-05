@@ -1,6 +1,6 @@
+import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
-import { storeToRefs } from "pinia";
 import { useAccountStore } from "@/stores/account";
 
 const useAccount = () => {

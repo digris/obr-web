@@ -1,14 +1,15 @@
 <script lang="ts">
-import type { AnnotatedSchedule } from "@/stores/schedule";
+import { storeToRefs } from "pinia";
 import type { PropType } from "vue";
 import { computed, defineComponent, ref } from "vue";
+
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
-import { storeToRefs } from "pinia";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueControls } from "@/composables/queue";
+import type { AnnotatedSchedule } from "@/stores/schedule";
 import { useScheduleStore } from "@/stores/schedule";
 import { requireSubscription } from "@/utils/account";
-import { useQueueControls } from "@/composables/queue";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 export default defineComponent({
   components: {

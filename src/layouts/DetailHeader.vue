@@ -1,11 +1,11 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import UserRating from "@/components/rating/UserRating.vue";
 import BackButton from "@/components/ui/button/BackButton.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
-import UserRating from "@/components/rating/UserRating.vue";
-import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 
 export default defineComponent({
   components: {

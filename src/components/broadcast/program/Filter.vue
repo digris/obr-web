@@ -1,7 +1,8 @@
 <script lang="ts">
+import { DateTime } from "luxon";
 import type { PropType } from "vue";
 import { computed, defineComponent, ref, watch } from "vue";
-import { DateTime } from "luxon";
+
 import DatetInput from "@/components/ui/form/DatetInput.vue";
 
 export type Time = {

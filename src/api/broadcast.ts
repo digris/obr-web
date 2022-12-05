@@ -48,4 +48,4 @@ async function getEmission(uid: string) {
   return response.data;
 }
 
-export { getSchedule, getProgram, getEditors, getEditor, getEmission };
+export { getEditor, getEditors, getEmission, getProgram, getSchedule };

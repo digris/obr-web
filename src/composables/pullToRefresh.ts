@@ -1,8 +1,8 @@
+import { useStyleTag } from "@vueuse/core";
+import PullToRefresh from "pulltorefreshjs";
 import type { Ref } from "vue";
 import { onActivated, onDeactivated } from "vue";
 import { useI18n } from "vue-i18n";
-import { useStyleTag } from "@vueuse/core";
-import PullToRefresh from "pulltorefreshjs";
 
 const STYLE = `
   .ptr--ptr {

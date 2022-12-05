@@ -1,14 +1,15 @@
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
 import type { PropType } from "vue";
-import { useIconSize } from "@/composables/icon";
-import { getContrastColor } from "@/utils/color";
-import { useDevice } from "@/composables/device";
-import IconPlay from "@/components/ui/icon/IconPlay.vue";
-import IconPlayQueued from "@/components/ui/icon/IconPlayQueued.vue";
-import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
+import { computed, defineComponent, ref } from "vue";
+
 import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
 import IconPause from "@/components/ui/icon/IconPause.vue";
+import IconPlay from "@/components/ui/icon/IconPlay.vue";
+import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
+import IconPlayQueued from "@/components/ui/icon/IconPlayQueued.vue";
+import { useDevice } from "@/composables/device";
+import { useIconSize } from "@/composables/icon";
+import { getContrastColor } from "@/utils/color";
 
 export default defineComponent({
   components: {},

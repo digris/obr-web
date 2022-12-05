@@ -1,4 +1,5 @@
 <script type="ts">
+import { storeToRefs } from "pinia";
 import {
   computed,
   defineComponent, onMounted,
@@ -6,13 +7,12 @@ import {
   watch,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { storeToRefs } from "pinia";
-import { useUiStore } from "@/stores/ui";
-import { useDevice } from "@/composables/device";
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconFilter from '@/components/ui/icon/IconFilter.vue';
 import IconSearch from '@/components/ui/icon/IconSearch.vue';
+import { useDevice } from "@/composables/device";
+import { useUiStore } from "@/stores/ui";
 
 export default defineComponent({
   components: {

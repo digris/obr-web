@@ -1,10 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useObjKey } from "@/composables/obj";
-import LazyImage from "@/components/ui/LazyImage.vue";
-import CircleButton from "@/components/ui/button/CircleButton.vue";
+
 import UserRating from "@/components/rating/UserRating.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
 import { useDevice } from "@/composables/device";
+import { useObjKey } from "@/composables/obj";
 
 export default defineComponent({
   components: {

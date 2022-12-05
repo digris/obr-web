@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
+
 import { useAccount } from "@/composables/account";
 
 export default defineComponent({

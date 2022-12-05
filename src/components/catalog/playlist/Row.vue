@@ -1,17 +1,17 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
 import { DateTime } from "luxon";
-import { useObjKey } from "@/composables/obj";
-import { useDevice } from "@/composables/device";
+import { computed, defineComponent, ref } from "vue";
 
-import CircleButton from "@/components/ui/button/CircleButton.vue";
-import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import PlaylistName from "@/components/catalog/playlist/Name.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import UserRating from "@/components/rating/UserRating.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
 import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import Duration from "@/components/ui/time/Duration.vue";
-import PlaylistName from "@/components/catalog/playlist/Name.vue";
+import { useDevice } from "@/composables/device";
+import { useObjKey } from "@/composables/obj";
 
 export default defineComponent({
   components: {

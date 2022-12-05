@@ -1,16 +1,16 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, computed, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
-import { useUiStore } from "@/stores/ui";
-import { useRatingStore } from "@/stores/rating";
-import { getArtists, getArtistsTags } from "@/api/catalog";
+import { storeToRefs } from "pinia";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
+import { getArtists, getArtistsTags } from "@/api/catalog";
+import ArtistCard from "@/components/catalog/artist/Card.vue";
+import ListFilter from "@/components/filter/ListFilter.vue";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import NoResults from "@/components/ui/loading/NoResults.vue";
-import ListFilter from "@/components/filter/ListFilter.vue";
-import ArtistCard from "@/components/catalog/artist/Card.vue";
+import { useRatingStore } from "@/stores/rating";
+import { useUiStore } from "@/stores/ui";
 
 export default defineComponent({
   components: {

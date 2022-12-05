@@ -1,11 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref, onActivated } from "vue";
+import { defineComponent, onActivated, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { getNewsletters, updateSubscriptions } from "@/api/newsletter";
 
-import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
-import Section from "./Section.vue";
+import { getNewsletters, updateSubscriptions } from "@/api/newsletter";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
+import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+
+import Section from "./Section.vue";
 
 export default defineComponent({
   components: {

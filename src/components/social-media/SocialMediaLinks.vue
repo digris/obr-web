@@ -1,8 +1,9 @@
 <script type="ts">
 import { computed, defineComponent } from 'vue';
-import IconInstagram from "@/components/ui/icon/brand/IconInstagram.vue";
+
 import IconFacebook from "@/components/ui/icon/brand/IconFacebook.vue";
 import IconGithub from "@/components/ui/icon/brand/IconGithub.vue";
+import IconInstagram from "@/components/ui/icon/brand/IconInstagram.vue";
 
 export default defineComponent({
   components: {

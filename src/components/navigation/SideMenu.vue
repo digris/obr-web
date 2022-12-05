@@ -1,13 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+
+import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
+import ToggleThemeButton from "@/components/navigation/ToggleThemeButton.vue";
+import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
-import SidePanel from "@/components/ui/panel/SidePanel.vue";
-import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
-import ToggleThemeButton from "@/components/navigation/ToggleThemeButton.vue";
 
 export default defineComponent({
   components: {

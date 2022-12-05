@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import IconSkip from "@/components/ui/icon/IconSkip.vue";
+
 import Circle from "./Circle.vue";
 
 export default defineComponent({

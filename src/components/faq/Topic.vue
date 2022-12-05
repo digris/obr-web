@@ -1,12 +1,12 @@
 <script lang="ts">
-import type { PropType } from "vue";
-import type { Topic } from "@/typings/api";
-import { defineComponent, computed, onActivated, onMounted, ref } from "vue";
 import { whenever } from "@vueuse/core";
 import { useRouteHash } from "@vueuse/router";
 import showdown from "showdown";
+import type { PropType } from "vue";
+import { computed, defineComponent, onActivated, onMounted, ref } from "vue";
 
 import ExpandableSection from "@/components/ui/section/ExpandableSection.vue";
+import type { Topic } from "@/typings/api";
 
 const converter = new showdown.Converter();
 

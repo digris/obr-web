@@ -1,10 +1,11 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
-import Section from "./Section.vue";
+
 import Form from "./PersonalForm.vue";
+import Section from "./Section.vue";
 
 export default defineComponent({
   components: {

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import Duration from "@/components/ui/time/Duration.vue";
 
 export default defineComponent({

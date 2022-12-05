@@ -1,15 +1,15 @@
 <script lang="ts">
+import { DateTime } from "luxon";
 import {
   computed,
   defineComponent,
-  ref,
-  onMounted,
-  onUnmounted,
   onActivated,
   onDeactivated,
+  onMounted,
+  onUnmounted,
+  ref,
 } from "vue";
 import { useI18n } from "vue-i18n";
-import { DateTime } from "luxon";
 
 const TIME_UPDATE_INTERVAL = 60000;
 

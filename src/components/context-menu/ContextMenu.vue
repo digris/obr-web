@@ -1,19 +1,20 @@
 <script type="ts">
+import { onClickOutside } from '@vueuse/core';
 import {
-  defineComponent,
-  ref,
   computed,
+  defineComponent,
   onMounted,
+  ref,
 } from 'vue';
 
-import { onClickOutside } from '@vueuse/core';
-import { useIconSize } from "@/composables/icon";
-import eventBus from '@/eventBus';
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
-import ObjectActions from './ObjectActions.vue';
-import ListActions from './ListActions.vue';
 import { useDevice } from '@/composables/device';
+import { useIconSize } from "@/composables/icon";
+import eventBus from '@/eventBus';
+
+import ListActions from './ListActions.vue';
+import ObjectActions from './ObjectActions.vue';
 
 export default defineComponent({
   props: {

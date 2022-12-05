@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
+
+import { getMoods } from "@/api/catalog";
 import { usePullToRefresh } from "@/composables/pullToRefresh";
 import { useRatingStore } from "@/stores/rating";
-import { getMoods } from "@/api/catalog";
 
 import MoodCard from "./Card.vue";
 

@@ -1,16 +1,15 @@
 <script lang="ts">
-import { ref, computed, defineComponent, onMounted, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
 
-import { usePlayerState, usePlayerControls } from "@/composables/player";
-import { useQueueControls } from "@/composables/queue";
-import { getContrastColor, getMediaColor } from "@/utils/color";
-
-import CircleButton from "@/components/ui/button/CircleButton.vue";
-import IconRemove from "@/components/ui/icon/IconRemove.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 import UserRating from "@/components/rating/UserRating.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import IconRemove from "@/components/ui/icon/IconRemove.vue";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueControls } from "@/composables/queue";
+import { getContrastColor, getMediaColor } from "@/utils/color";
 
 export default defineComponent({
   components: {

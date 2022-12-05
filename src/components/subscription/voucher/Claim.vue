@@ -1,15 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useAccount } from "@/composables/account";
+
 import { getVoucher, redeemVoucher } from "@/api/subscription";
-
-import eventBus from "@/eventBus";
-
-import ModalPanel from "@/components/ui/panel/ModalPanel.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ModalPanel from "@/components/ui/panel/ModalPanel.vue";
+import { useAccount } from "@/composables/account";
+import eventBus from "@/eventBus";
 
 const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
 

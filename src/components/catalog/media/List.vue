@@ -1,32 +1,31 @@
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  onMounted,
-  onActivated,
-  onDeactivated,
-  ref,
-  watch,
-  onUnmounted,
-} from "vue";
-
-import { useI18n } from "vue-i18n";
-import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
 import { DateTime } from "luxon";
+import { storeToRefs } from "pinia";
 import PullToRefresh from "pulltorefreshjs";
-import { useDevice } from "@/composables/device";
-import { useUiStore } from "@/stores/ui";
-import { useRatingStore } from "@/stores/rating";
+import {
+  computed,
+  defineComponent,
+  onActivated,
+  onDeactivated,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from "vue";
+import { useI18n } from "vue-i18n";
+import { useRoute, useRouter } from "vue-router";
 
-import LoadingMore from "@/components/ui/loading/Loading.vue";
-import ListFilter from "@/components/filter/ListFilter.vue";
-import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
-import ContextMenu from "@/components/context-menu/ContextMenu.vue";
-import MediaRowHeader from "@/components/catalog/media/RowHeader.vue";
-import MediaRow from "@/components/catalog/media/Row.vue";
 import { getMedia, getMediaTags } from "@/api/catalog";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
+import MediaRow from "@/components/catalog/media/Row.vue";
+import MediaRowHeader from "@/components/catalog/media/RowHeader.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import ListFilter from "@/components/filter/ListFilter.vue";
+import LoadingMore from "@/components/ui/loading/Loading.vue";
+import { useDevice } from "@/composables/device";
+import { useRatingStore } from "@/stores/rating";
+import { useUiStore } from "@/stores/ui";
 
 export default defineComponent({
   components: {

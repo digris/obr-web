@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import { useNotification } from "@/composables/notification";
 
 import CloseButton from "./CloseButton.vue";

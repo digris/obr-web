@@ -1,11 +1,13 @@
 <script lang="ts">
+import { useIntervalFn } from "@vueuse/core";
+import QrcodeVue from "qrcode.vue";
 import type { PropType } from "vue";
-import type { User } from "@/typings/api";
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useIntervalFn } from "@vueuse/core";
+
 import { getSignedLoginCredentials } from "@/api/account";
-import QrcodeVue from "qrcode.vue";
+import type { User } from "@/typings/api";
+
 import Section from "../settings/Section.vue";
 
 export default defineComponent({

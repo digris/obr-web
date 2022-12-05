@@ -2,13 +2,13 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-import Section from "./Section.vue";
 import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
-
 import imgApple from "@/assets/brand-icons/apple.svg";
+import imgDeezer from "@/assets/brand-icons/deezer.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
-import imgDeezer from "@/assets/brand-icons/deezer.svg";
+
+import Section from "./Section.vue";
 
 const ICONS = {
   apple: imgApple,

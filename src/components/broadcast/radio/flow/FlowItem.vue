@@ -1,13 +1,15 @@
 <script lang="ts">
-import type { AnnotatedSchedule } from "@/stores/schedule";
-import type { PropType } from "vue";
-import { defineComponent, ref, watch, computed, onMounted, nextTick } from "vue";
-import { useWindowSize, useThrottleFn, useElementBounding } from "@vueuse/core";
+import { useElementBounding, useThrottleFn, useWindowSize } from "@vueuse/core";
 import { round } from "lodash-es";
 import { DateTime } from "luxon";
-import { getContrastColor } from "@/utils/color";
-import eventBus from "@/eventBus";
+import type { PropType } from "vue";
+import { computed, defineComponent, nextTick, onMounted, ref, watch } from "vue";
+
 import LazyImage from "@/components/ui/LazyImage.vue";
+import eventBus from "@/eventBus";
+import type { AnnotatedSchedule } from "@/stores/schedule";
+import { getContrastColor } from "@/utils/color";
+
 import FlowItemPlay from "./FlowItemPlay.vue";
 import Ticker from "./ticker/Ticker.vue";
 

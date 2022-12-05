@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+
 import AudioSpectrum from "@/components/ui/audio/AudioSpectrum.vue";
 
 const BASE_SIZE = 48;

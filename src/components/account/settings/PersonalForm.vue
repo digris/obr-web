@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { updateUser } from "@/api/account";
 
+import { updateUser } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
-import TextInput from "@/components/ui/form/TextInput.vue";
 import SelectInput from "@/components/ui/form/SelectInput.vue";
+import TextInput from "@/components/ui/form/TextInput.vue";
 
 export default defineComponent({
   components: {

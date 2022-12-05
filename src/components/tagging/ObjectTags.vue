@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+
 import Tag from "./Tag.vue";
 
 export default defineComponent({

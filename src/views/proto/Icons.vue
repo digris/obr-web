@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import CircleButton from "@/components/ui/button/CircleButton.vue";
-import IconPType from "@/components/ui/icon/IconPType.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
+import IconPType from "@/components/ui/icon/IconPType.vue";
 
 export default defineComponent({
   components: {

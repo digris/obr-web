@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref, computed, watch, onMounted } from "vue";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
+
 import type { AudioAnalyser } from "@/player/analyser";
 
 function maxVolume(data: Uint8Array) {

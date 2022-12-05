@@ -1,7 +1,9 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+
 import { useAccount } from "@/composables/account";
 import { useObjKey } from "@/composables/obj";
+
 import Identifier from "./Identifier.vue";
 
 export default defineComponent({

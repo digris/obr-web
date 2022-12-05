@@ -1,8 +1,9 @@
+import { watch } from "vue";
+
 import { useDevice } from "@/composables/device";
-import { usePlayerState, usePlayerControls } from "@/composables/player";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
 import { getImageSrc } from "@/utils/image";
-import { watch } from "vue";
 
 class MediaSessionHandler {
   session: MediaSession | null;

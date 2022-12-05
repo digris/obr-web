@@ -1,14 +1,14 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { debounce } from "lodash-es";
 import * as EmailValidator from "email-validator";
-import { useAccount } from "@/composables/account";
+import { debounce } from "lodash-es";
+import { computed, defineComponent, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { checkLoginEmail, sendLoginEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
 import Message from "@/components/ui/Message.vue";
+import { useAccount } from "@/composables/account";
 
 export enum Flow {
   Password = "password",

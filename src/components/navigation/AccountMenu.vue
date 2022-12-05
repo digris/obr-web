@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
 

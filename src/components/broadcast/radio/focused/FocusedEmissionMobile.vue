@@ -1,8 +1,9 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import type { ScheduleEmission, SchedulePlaylist } from "@/typings/api";
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
+
+import type { ScheduleEmission, SchedulePlaylist } from "@/typings/api";
 
 export default defineComponent({
   props: {

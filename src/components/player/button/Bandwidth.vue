@@ -1,7 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useSettingsStore } from "@/stores/settings";
+
 import { useAccount } from "@/composables/account";
+import { useSettingsStore } from "@/stores/settings";
 
 export default defineComponent({
   setup() {

@@ -1,14 +1,15 @@
 <script lang="ts">
-import type { AnnotatedSchedule } from "@/stores/schedule";
+import { storeToRefs } from "pinia";
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
-import { storeToRefs } from "pinia";
-import { useTimeStore } from "@/stores/time";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconProgram from "@/components/ui/icon/IconProgram.vue";
-import StationTime from "./station-time/StationTime.vue";
+import type { AnnotatedSchedule } from "@/stores/schedule";
+import { useTimeStore } from "@/stores/time";
+
 import HistoryTime from "./station-time/HistoryTime.vue";
+import StationTime from "./station-time/StationTime.vue";
 
 export default defineComponent({
   components: {

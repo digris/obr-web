@@ -1,9 +1,9 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 
-import SocialLogin from "@/components/account/SocialLogin.vue";
 import EmailLoginForm from "@/components/account/EmailLoginForm.vue";
 import EmailLoginVerify from "@/components/account/EmailLoginVerify.vue";
+import SocialLogin from "@/components/account/SocialLogin.vue";
 
 export default defineComponent({
   components: {

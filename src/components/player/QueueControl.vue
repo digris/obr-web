@@ -1,8 +1,9 @@
 <script lang="ts">
-import { ref, defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
-import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
 import IconQueue from "@/components/ui/icon/IconQueue.vue";
+import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
+
 import Circle from "./button/Circle.vue";
 
 export default defineComponent({

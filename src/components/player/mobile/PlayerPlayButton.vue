@@ -1,7 +1,9 @@
 <script lang="ts">
-import { defineComponent } from "vue";
 import type { PropType } from "vue";
+import { defineComponent } from "vue";
+
 import { usePlayerControls, usePlayerState } from "@/composables/player";
+
 import ButtonPlay from "../button/ButtonPlay.vue";
 
 export default defineComponent({

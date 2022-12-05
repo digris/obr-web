@@ -1,6 +1,7 @@
 <script type="ts">
-import { defineComponent, computed, watch } from 'vue';
 import { storeToRefs } from "pinia";
+import { computed, defineComponent, watch } from 'vue';
+
 import { useSettingsStore } from "@/stores/settings";
 
 const DARK_VALUE = "dark"

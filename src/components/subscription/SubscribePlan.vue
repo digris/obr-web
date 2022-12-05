@@ -1,12 +1,13 @@
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
 import { loadStripe } from "@stripe/stripe-js";
-import settings from "@/settings";
+import { computed, defineComponent, onMounted, ref } from "vue";
+
+import { createStripeCheckoutSession, getPlanOptions } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
-import { getPlanOptions, createStripeCheckoutSession } from "@/api/subscription";
 import Datetime from "@/components/ui/date/Datetime.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
 import Money from "@/components/ui/Money.vue";
+import settings from "@/settings";
 
 const { STRIPE_PUBLISHABLE_KEY } = settings;
 // const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);

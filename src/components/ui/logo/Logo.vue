@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { computed, defineComponent } from "vue";
 
 const BASE_SIZE = 48;
 

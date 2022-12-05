@@ -1,28 +1,33 @@
 import "./style/main.scss";
+
+import OpenReplay from "@openreplay/tracker";
+import trackerAssist from "@openreplay/tracker-assist";
+import trackerAxios from "@openreplay/tracker-axios";
+import { Integrations } from "@sentry/tracing";
+import * as Sentry from "@sentry/vue";
 import log from "loglevel";
+import { createPinia } from "pinia";
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
-import { createPinia } from "pinia";
-import * as Sentry from "@sentry/vue";
-import { Integrations } from "@sentry/tracing";
-import OpenReplay from "@openreplay/tracker";
-import trackerAxios from "@openreplay/tracker-axios";
-import trackerAssist from "@openreplay/tracker-assist";
+
+import { APIClient } from "@/api/client";
+// @ts-ignore
+import de from "@/locales/de.yml";
+// @ts-ignore
+import en from "@/locales/en.yml";
+import createMediaSessionHandler from "@/player/mediaSession";
 import settings from "@/settings";
-import { useSettingsStore } from "@/stores/settings";
 import createEventHandler from "@/stats/event";
-import setDocumentTheme from "@/utils/theme";
-import createUIStateHandler from "@/utils/ui";
+import { useSettingsStore } from "@/stores/settings";
 import createAccountHandler from "@/utils/account";
 import createScheduleHandler from "@/utils/schedule";
-import createMediaSessionHandler from "@/player/mediaSession";
-import { APIClient } from "@/api/client";
+import setDocumentTheme from "@/utils/theme";
+import createUIStateHandler from "@/utils/ui";
 
 import App from "./App.vue";
-import router from "./router";
-
 // directives
 import { TooltipDirective } from "./directives/tooltip";
+import router from "./router";
 
 log.setLevel("TRACE");
 
@@ -40,11 +45,6 @@ createScheduleHandler();
 createAccountHandler();
 createUIStateHandler();
 createMediaSessionHandler();
-
-// @ts-ignore
-import de from "@/locales/de.yml";
-// @ts-ignore
-import en from "@/locales/en.yml";
 
 // import { numberFormats } from "@/locales/formats";
 

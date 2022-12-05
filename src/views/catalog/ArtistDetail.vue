@@ -1,18 +1,18 @@
 <script lang="ts">
+import { useTitle } from "@vueuse/core";
 import { computed, defineComponent, onActivated, onBeforeUpdate } from "vue";
 import { useI18n } from "vue-i18n";
-import { useTitle } from "@vueuse/core";
-import { useCatalogStore } from "@/stores/catalog";
 
-import DetailPage from "@/layouts/DetailPage.vue";
-import DetailHeader from "@/layouts/DetailHeader.vue";
-import LazyImage from "@/components/ui/LazyImage.vue";
-import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
-import Duration from "@/components/ui/time/Duration.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
-import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import MediaList from "@/components/catalog/media/List.vue";
+import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import Duration from "@/components/ui/time/Duration.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailPage from "@/layouts/DetailPage.vue";
+import { useCatalogStore } from "@/stores/catalog";
 
 export default defineComponent({
   components: {

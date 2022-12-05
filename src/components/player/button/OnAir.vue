@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 export default defineComponent({

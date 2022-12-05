@@ -1,20 +1,19 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
 import { invoke, until } from "@vueuse/core";
 import { storeToRefs } from "pinia";
-import { useUiStore } from "@/stores/ui";
-import { usePlayerState } from "@/composables/player";
-import { getContrastColor } from "@/utils/color";
-import { useQueueState } from "@/composables/queue";
-import { useDevice } from "@/composables/device";
+import { computed, defineComponent, ref } from "vue";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import { useDevice } from "@/composables/device";
+import { usePlayerState } from "@/composables/player";
+import { useQueueState } from "@/composables/queue";
+import { useUiStore } from "@/stores/ui";
+import { getContrastColor } from "@/utils/color";
 
+import OnAir from "../button/OnAir.vue";
 // NOTE: shared components for desktop & mobile
 import Queue from "../Queue.vue";
 import QueueControl from "../QueueControl.vue";
-import OnAir from "../button/OnAir.vue";
-
 // NOTE: adapted / extra components for mobile
 import Panel from "./Panel.vue";
 import PlayerPlayButton from "./PlayerPlayButton.vue";

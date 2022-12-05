@@ -1,7 +1,8 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { usePlayerControls } from "@/composables/player";
 import shaka from "shaka-player";
+import { defineComponent } from "vue";
+
+import { usePlayerControls } from "@/composables/player";
 
 const SHAKA_CONFIG = {
   manifest: {
