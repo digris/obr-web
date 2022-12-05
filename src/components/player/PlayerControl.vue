@@ -79,20 +79,25 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .player-control {
   display: flex;
+
   .left,
   .right {
     display: flex;
     align-items: center;
     transition: opacity 500ms;
   }
+
   .time {
     @include typo.small;
+
     margin: 0 0.5rem;
     width: 54px;
     overflow: hidden;
   }
+
   &.is-live {
     .left,
     .right {

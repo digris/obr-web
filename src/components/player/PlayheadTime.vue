@@ -28,6 +28,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .playhead-time {
   height: 22px;
   width: 60px;
@@ -35,8 +36,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+
   &__value {
     @include typo.small;
+
     border-radius: 3px;
     height: inherit;
     padding: 0.5rem;
@@ -52,9 +55,11 @@ export default defineComponent({
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

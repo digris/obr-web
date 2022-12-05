@@ -59,11 +59,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+
 .search-result {
   display: grid;
   grid-template-columns: 48px auto;
   gap: 1rem;
   padding: 8px 0;
+
   .meta {
     display: flex;
     flex-direction: column;
@@ -71,18 +73,20 @@ export default defineComponent({
     white-space: nowrap;
     overflow: hidden;
     padding-right: 3rem;
+
     .title,
     .subtitle {
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     .subtitle {
       @include typo.light;
       @include typo.dim;
     }
   }
   @include responsive.on-hover {
-    background: rgba(var(--c-black), 0.075);
+    background: rgb(var(--c-black) 0.075);
     border-color: transparent;
   }
 }

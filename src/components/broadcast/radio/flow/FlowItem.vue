@@ -225,65 +225,60 @@ variables defined in parent component(s):
 */
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .flow-item {
-  display: none;
-  //background-color: rgba(255, 255, 255, 0.9);
-  width: var(--item-size);
+  position: relative;
   height: var(--item-size);
+  width: var(--item-size);
+  display: none;
   flex-direction: column;
   font-size: 12px;
-  position: relative;
-  //transition: filter 500ms;
-  //z-index: 99;
+
   .translate-x {
-    position: absolute;
     top: 0;
-    left: 0;
-    width: var(--item-size);
+    position: absolute;
     height: var(--item-size);
-    //background: deepskyblue;
-    //border: 1px solid deepskyblue;
-    //pointer-events: none;
+    width: var(--item-size);
+    left: 0;
   }
+
   .scale {
-    position: absolute;
     top: 0;
-    left: 0;
-    width: var(--item-size);
+    position: absolute;
     height: var(--item-size);
-    //border: 1px solid black;
+    width: var(--item-size);
+    left: 0;
     background: rgba(var(--c-bg, 0.9));
     transform-origin: left;
     box-shadow: 0 0 20px rgb(0 0 0 / 50%);
   }
+
   .actions {
-    position: absolute;
-    //z-index: 999;
     top: 0;
-    left: 0;
-    width: 100%;
+    position: absolute;
     height: 100%;
+    width: 100%;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+
     .circle-button {
-      background: rgba(var(--c-bg), 1);
+      background: rgb(var(--c-bg) 1);
+
       &:hover {
-        background: rgba(var(--c-bg), 0.8);
+        background: rgb(var(--c-bg) 0.8);
       }
     }
   }
-  /*
-  &:hover {
-    background: #6def6d;
-  }
-  */
+
   .ticker {
     @include typo.large;
-    position: absolute;
+
     top: 20px;
-    left: 0;
+    position: absolute;
     width: 100%;
+    left: 0;
     @include responsive.bp-medium {
       top: 10px;
     }
@@ -294,9 +289,11 @@ variables defined in parent component(s):
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

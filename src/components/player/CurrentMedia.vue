@@ -70,12 +70,13 @@ export default defineComponent({
 .current-media {
   display: grid;
   grid-template-columns: 64px 1fr;
+
   .visual {
-    //padding: 0.75rem;
-    width: 3rem;
     height: 3rem;
-    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+    width: 3rem;
+    box-shadow: 0 0 1px 1px rgb(0 0 0 / 20%);
   }
+
   .metadata {
     display: flex;
     flex-direction: column;
@@ -84,6 +85,7 @@ export default defineComponent({
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
     &--primary,
     &--secondary {
       max-width: 100%;
@@ -91,6 +93,7 @@ export default defineComponent({
       white-space: inherit;
       text-overflow: inherit;
     }
+
     /*
     &--secondary {
       color: rgba(var(--c-fg), 0.5);

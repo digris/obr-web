@@ -36,6 +36,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/live-color";
+
 .editor {
   display: inline-flex;
   align-items: center;
@@ -43,35 +44,40 @@ export default defineComponent({
   margin-top: 0.75rem;
   border-radius: 1.5rem;
   transition: color, background-color 200ms;
+
   .visual {
+    height: 3rem;
+    width: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+
     .image {
+      height: 3rem;
       width: 3rem;
       min-width: unset;
       max-width: 3rem;
-      height: 3rem;
       border-radius: 50%;
       filter: grayscale(1);
       transition: width 100ms, height 100ms;
+
       :deep(> img) {
         border-radius: 50%;
       }
     }
   }
+
   .name {
     display: flex;
     align-items: center;
     height: 3rem;
     padding: 0 1rem;
   }
+
   &:hover {
     .image {
-      width: 2.5rem;
       height: 2.5rem;
+      width: 2.5rem;
     }
   }
   @include responsive.on-hover {
@@ -81,6 +87,7 @@ export default defineComponent({
     height: unset;
     margin-top: unset;
     border-radius: unset;
+
     .name {
       height: unset;
       padding: unset;

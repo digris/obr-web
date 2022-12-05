@@ -39,25 +39,29 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .language-chooser {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 0.5rem;
+
   .language {
-    //@include typo.tiny;
     @include typo.uppercase;
+
     height: 24px;
     width: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
+
     span {
       border-bottom: 2px solid transparent;
     }
+
     &:hover,
     &.is-current {
       span {
-        border-bottom-color: currentColor;
+        border-bottom-color: currentcolor;
       }
     }
   }

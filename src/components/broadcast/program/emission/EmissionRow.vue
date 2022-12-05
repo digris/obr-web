@@ -255,6 +255,7 @@ export default defineComponent({
 
 .emission-row {
   @include container.default;
+
   display: grid;
   grid-row-gap: 0;
   grid-column-gap: 1rem;
@@ -280,7 +281,9 @@ export default defineComponent({
   .name {
     grid-area: name;
     @include typo.large;
+
     min-width: 0;
+
     > a,
     > span {
       overflow: hidden;
@@ -302,6 +305,7 @@ export default defineComponent({
   .time-start {
     grid-area: time-start;
     @include typo.large;
+
     justify-content: flex-end;
   }
 
@@ -314,19 +318,18 @@ export default defineComponent({
     grid-template-areas: "play name time-start actions";
     grid-template-columns: 40px 8fr 4fr 40px;
     min-height: 60px;
-    //padding: 10px 20px;
+
     .play {
       margin-left: 4px;
     }
+
     .tags {
       display: none;
     }
+
     .editor {
       display: none;
     }
-    //.name {
-    //  line-height: 1.25rem;
-    //}
   }
 }
 </style>

@@ -256,10 +256,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
+
 .list-filter-container {
   background: rgb(var(--c-black));
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+
   .list-filter {
     @include container.default;
   }
@@ -267,8 +269,10 @@ export default defineComponent({
 
 .list-actions {
   background: rgb(var(--c-gray-500));
+
   > .container {
     @include container.default;
+
     display: grid;
     grid-row-gap: 0;
     grid-column-gap: 1rem;
@@ -285,8 +289,8 @@ export default defineComponent({
 }
 
 .media-list {
-  //margin: 0 0 8rem;
   background: rgb(var(--c-white));
+
   .table-header {
     background: yellow;
   }

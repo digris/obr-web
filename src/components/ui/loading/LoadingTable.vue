@@ -36,15 +36,19 @@ export default defineComponent({
   from {
     left: -150px;
   }
+
   to {
     left: 100%;
   }
 }
+
 .loading-table {
   width: 100%;
 }
+
 .row {
   border-bottom: 1px solid rgb(var(--c-gray-200));
+
   .container {
     display: grid;
     grid-gap: 1rem;
@@ -55,23 +59,27 @@ export default defineComponent({
     margin-left: auto;
     padding: 0 1.5rem;
   }
+
   &__title {
     display: flex;
     align-items: center;
+
     .line {
       position: relative;
+      height: 1.25rem;
+      width: 100%;
       display: flex;
       align-items: center;
-      width: 100%;
-      height: 1.25rem;
+
       .bar {
         height: 1rem;
-        background: rgba(128, 128, 128, 0.1);
+        background: rgb(128 128 128 / 10%);
       }
+
       &--primary {
         .bar {
-          width: 80%;
           height: 2rem;
+          width: 80%;
         }
       }
     }

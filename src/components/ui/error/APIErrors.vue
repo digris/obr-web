@@ -43,27 +43,34 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .errors {
   padding: 0.75rem;
   color: rgb(var(--c-black));
-  background: rgba(var(--c-red), 0.66);
+  background: rgb(var(--c-red) 0.66);
   border-radius: 3px;
 }
+
 .error {
   position: relative;
+
   &__message {
     @include typo.bold;
+
     &:not(:first-child) {
       padding-top: 0.5rem;
     }
   }
+
   &__status {
     @include typo.small;
+
+    top: 4px;
     position: absolute;
     right: 0;
-    top: 4px;
   }
 }
+
 .error:not(:last-child) {
   padding-bottom: 0.5rem;
 }

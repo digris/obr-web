@@ -173,6 +173,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .button-play {
   position: relative;
   display: inline-grid;
@@ -181,28 +182,31 @@ export default defineComponent({
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background-color 750ms;
+
   .outline {
-    position: absolute;
     top: -1px;
-    left: -1px;
-    width: calc(100% + 2px);
+    position: absolute;
     height: calc(100% + 2px);
-    border: var(--outline-width) solid rgba(var(--c-fg), var(--outline-opacity));
+    width: calc(100% + 2px);
+    left: -1px;
+    border: var(--outline-width) solid rgb(var(--c-fg) var(--outline-opacity));
     border-radius: calc(var(--size) / 2);
   }
+
   &.is-filled {
     background: rgb(var(--c-bg));
   }
   @include responsive.on-hover {
     transition: background-color 200ms;
-    background: rgba(var(--c-bg), var(--hover-bg-opacity));
+    background: rgb(var(--c-bg) var(--hover-bg-opacity));
   }
 }
+
 .trigger-area {
-  background: transparent;
   position: absolute;
-  width: var(--size);
   height: var(--size);
+  width: var(--size);
+  background: transparent;
   border-radius: calc(var(--size) / 2);
 }
 </style>

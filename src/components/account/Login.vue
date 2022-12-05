@@ -18,6 +18,7 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/style/elements/section";
+
 .section {
   @include section.default;
 }

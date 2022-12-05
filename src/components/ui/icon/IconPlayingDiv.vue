@@ -48,19 +48,23 @@ export default defineComponent({
   </div>
 </template>
 <style lang="scss">
-//TODO: how to implement keyframes / animations scoped?
+// TODO: how to implement keyframes / animations scoped?
 @keyframes eq {
   0%,
   80%,
   100% {
     height: 50%;
   }
+
   35% {
     height: 100%;
   }
+
   50% {
     height: 70%;
   }
+
+  /* stylelint-disable-next-line keyframe-block-no-duplicate-selectors */
   80% {
     height: 80%;
   }
@@ -72,27 +76,31 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
 }
+
 .playing {
+  height: 14px;
+  width: 22px;
   display: grid;
   grid-column-gap: 3px;
   grid-template-columns: 3px 3px 3px 3px;
   align-items: flex-end;
-  width: 22px;
-  height: 14px;
 
   .bar {
-    width: 3px;
     height: 10px;
+    width: 3px;
     background: var(--color);
     transition: height 200ms;
     animation: eq 1200ms infinite;
+
     &--1 {
       animation-delay: -550ms;
     }
+
     &--2 {
       transition: opacity 100ms;
       animation-delay: -700ms;
     }
+
     &--3 {
       animation-delay: -350ms;
     }

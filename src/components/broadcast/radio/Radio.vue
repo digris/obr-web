@@ -149,64 +149,69 @@ export default defineComponent({
 <style lang="scss" scoped>
 .radio {
   position: relative;
+
   > .header-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 124px;
-    //cursor: pointer;
     z-index: 10;
+
     > .radio-header {
       position: absolute;
       width: var(--item-size);
     }
   }
+
   > .main {
-    //background: yellow;
     display: flex;
     position: relative;
+
     > .flow {
       overflow: hidden;
       top: 0;
       width: 100%;
       margin: -60px 0;
     }
+
     > .left,
     > .right {
-      //background: rgba(255, 255, 0, 0.25);
-      position: absolute;
       top: 0;
-      display: flex;
-      justify-content: center;
+      position: absolute;
       height: 100%;
       width: 25%;
+      display: flex;
+      justify-content: center;
       z-index: 19;
-      //background: rgba(255, 255, 0, 0.25);
+
       .metadata {
         width: 100%;
       }
+
       .paginate {
+        top: calc(var(--item-size) / 2 - 60px);
         position: absolute;
-        //height: 100%;
+        height: 120px;
+        width: 120px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 18;
-        height: 120px;
-        width: 120px;
-        top: calc(var(--item-size) / 2 - 60px);
       }
     }
+
     > .left {
       padding-left: 1rem;
     }
+
     > .right {
       right: 0;
       padding-right: 1rem;
     }
   }
+
   > .rating {
     display: flex;
     align-items: center;

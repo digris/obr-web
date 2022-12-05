@@ -144,23 +144,25 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
+
 // NOTE: color variables are set in parent Player component
 .player-panel {
   z-index: 20;
   position: fixed;
   width: 100%;
   min-height: calc(100% + 60px);
-  //top: 0;
   left: 0;
   bottom: 0;
   background: rgb(var(--c-bg));
   display: flex;
   flex-direction: column;
   transition: top 200ms, background 500ms;
+
   &.is-swiping {
     transition-duration: 1ms;
-    background: rgba(var(--c-bg), 0.95);
+    background: rgb(var(--c-bg) 0.95);
   }
+
   > nav {
     height: 60px;
     display: flex;
@@ -168,6 +170,7 @@ export default defineComponent({
     justify-content: end;
     padding: 0.625rem;
   }
+
   > main {
     display: flex;
     row-gap: 1rem;
@@ -175,42 +178,47 @@ export default defineComponent({
     align-items: center;
     padding: 0.625rem;
     color: rgb(var(--c-fg));
+
     .visual {
       position: relative;
       width: 70vw;
       aspect-ratio: 1;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 20px rgb(0 0 0 / 40%);
+
       .next {
-        position: absolute;
         top: 0;
+        position: absolute;
         opacity: 0;
       }
     }
+
     .meta {
       display: flex;
       align-items: center;
       justify-content: center;
+
       :deep(.metadata) {
         align-items: center;
       }
+
       height: 32px;
     }
+
     .playhead-container {
       width: 100%;
       min-height: 42px;
     }
+
     .controls {
       width: 100%;
-      //padding: 0 0.625rem;
       display: grid;
       grid-template-columns: 40px 1fr 40px;
       align-items: center;
       justify-content: center;
+
       .player-control {
         grid-column: 2/3;
         justify-self: center;
-      }
-      .user-rating {
       }
     }
   }
@@ -221,10 +229,12 @@ export default defineComponent({
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
 }
+
 .slide-enter-from {
   transform: translate(0, 100%);
   opacity: 0;
 }
+
 .slide-leave-to {
   transform: translate(0, 100%);
 }

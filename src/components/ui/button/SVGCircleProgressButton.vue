@@ -62,6 +62,7 @@ export default defineComponent({
 .circle-progress-button {
   background: yellow;
 }
+
 circle {
   transform: rotate(0.1deg);
   fill: transparent;
@@ -69,11 +70,11 @@ circle {
 }
 
 .progress {
-  position: absolute;
   top: 50%;
-  left: 50%;
-  width: 160px;
+  position: absolute;
   height: 160px;
+  width: 160px;
+  left: 50%;
   margin: -80px 0 0 -80px;
   cursor: pointer;
 }
@@ -95,6 +96,6 @@ circle {
   stroke: #7e3451;
   stroke-width: 10px;
   stroke-dasharray: 100 999;
-  stroke-dashoffset: 0px;
+  stroke-dashoffset: 0;
 }
 </style>

@@ -199,11 +199,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 @use "@/style/elements/grid";
+
 .list-filter-container {
   background: rgb(var(--c-black));
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   margin-bottom: 1rem;
+
   .list-filter {
     @include container.default;
   }
@@ -211,15 +213,21 @@ export default defineComponent({
 
 .playlist-list {
   margin-bottom: 0;
+
   .list-container {
-    &.layout--grid {
-      @include container.default;
-      @include grid.default;
+    &.layout {
+      &--grid {
+        @include container.default;
+        @include grid.default;
+      }
     }
   }
+
   .loading-more {
-    &.layout--grid {
-      @include container.default;
+    &.layout {
+      &--grid {
+        @include container.default;
+      }
     }
   }
 }

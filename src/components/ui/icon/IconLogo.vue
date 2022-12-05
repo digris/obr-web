@@ -111,36 +111,45 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
-//TODO: how to implement keyframes / animations scoped?
+// TODO: how to implement keyframes / animations scoped?
 @keyframes eq-left {
   0%,
   100% {
     height: 14px;
   }
+
   10% {
     height: 32px;
   }
+
   20% {
     height: 26px;
   }
+
   30% {
     height: 32px;
   }
+
   40% {
     height: 20px;
   }
+
   50% {
     height: 30px;
   }
+
   60% {
     height: 22px;
   }
+
   70% {
     height: 26px;
   }
+
   82% {
     height: 20px;
   }
+
   90% {
     height: 30px;
   }
@@ -152,13 +161,16 @@ svg {
   &:hover {
     background: transparent;
   }
+
   .playing {
     transform: rotate(180deg);
     transform-origin: center;
+
     &--left {
       animation: eq-left 2000ms infinite;
       animation-timing-function: ease-in-out;
     }
+
     &--right {
       animation: eq-left 2000ms infinite;
       animation-timing-function: linear;

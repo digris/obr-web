@@ -47,9 +47,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .expandable-section {
   border-top: 1px solid rgb(var(--c-gray-200));
   transition: background 200ms;
+
   /*
   &.is-expanded {
     background: rgba(var(--c-black), 0.025);
@@ -57,14 +59,17 @@ export default defineComponent({
   */
   .title {
     @include typo.large;
+
     min-height: calc(108px - 1rem);
     display: flex;
     align-items: center;
     cursor: pointer;
+
     .text {
       flex-grow: 1;
     }
   }
+
   .content {
     margin-bottom: 2rem;
   }
@@ -72,6 +77,7 @@ export default defineComponent({
     .title {
       min-height: calc(60px - 1rem);
     }
+
     .content {
       margin-top: 0.25rem;
       margin-bottom: 1rem;

@@ -15,11 +15,13 @@
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .service {
   .title {
     @include typo.x-large;
     @include typo.bold;
   }
+
   > ul {
     margin-top: 1rem;
     line-height: 2;

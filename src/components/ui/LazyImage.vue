@@ -128,28 +128,31 @@ export default {
   max-width: 100%;
   aspect-ratio: var(--ratio);
   overflow: hidden;
+
   img {
     min-width: 100%;
     max-width: 100%;
-    background: rgba(var(--c-color), 0.5);
+    background: rgb(var(--c-color) 0.5);
     opacity: 1;
     filter: var(--image-filter);
     transition: opacity 100ms;
     image-rendering: pixelated;
     aspect-ratio: var(--ratio);
+
     &.is-pending,
     &.is-loading {
       opacity: 0.9;
     }
   }
+
   .overlay {
-    position: absolute;
     top: 0;
+    position: absolute;
+    width: 100%;
     left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     aspect-ratio: var(--ratio);
   }
 }

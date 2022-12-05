@@ -94,6 +94,7 @@ export default defineComponent({
 
 .media-row {
   @include container.default;
+
   display: grid;
   grid-row-gap: 0;
   grid-column-gap: 1rem;
@@ -103,7 +104,6 @@ export default defineComponent({
   grid-template-columns: 48px 9fr 8fr 2fr 96px;
   padding: 0.75rem 1.5rem 0.75rem 1rem;
   color: rgb(var(--c-black));
-  //background-color: rgb(var(--c-white));
 
   > div {
     display: flex;
@@ -120,7 +120,9 @@ export default defineComponent({
   .name {
     grid-area: name;
     @include typo.large;
+
     min-width: 0;
+
     > a,
     > span {
       overflow: hidden;
@@ -132,6 +134,7 @@ export default defineComponent({
   .artist {
     grid-area: artist;
     overflow: hidden;
+
     > div {
       overflow: hidden;
       white-space: nowrap;
@@ -142,6 +145,7 @@ export default defineComponent({
   .release {
     grid-area: release;
     overflow: hidden;
+
     > div {
       overflow: hidden;
       white-space: nowrap;
@@ -152,6 +156,7 @@ export default defineComponent({
   .time-start {
     grid-area: time-start;
     @include typo.large;
+
     justify-content: flex-end;
   }
 
@@ -168,19 +173,24 @@ export default defineComponent({
     grid-template-columns: 40px 8fr 4fr 40px;
     min-height: 60px;
     padding-left: 0;
+
     .play {
       margin-left: 4px;
     }
+
     .release {
       display: none;
     }
+
     .name {
       line-height: 1.25rem;
       align-self: end;
     }
+
     .artist {
       @include typo.dim;
       @include typo.light;
+
       line-height: 1.25rem;
       align-self: start;
       white-space: nowrap;

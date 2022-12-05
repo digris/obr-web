@@ -147,31 +147,41 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/button";
+
 .claim-voucher {
   .code {
     @include typo.x-large;
+
     padding: 0 0 1rem;
   }
+
   .error {
     padding: 0 0 1rem;
+
     &__notes {
       @include typo.large;
+
       padding: 0 0 1rem;
     }
   }
+
   .voucher {
     padding: 0 0 1rem;
+
     &__details {
       @include typo.large;
     }
   }
+
   .actions {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 1rem 0 0;
+
     .button {
       @include button.default(3rem);
+
       min-width: 33%;
     }
   }

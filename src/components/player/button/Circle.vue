@@ -90,48 +90,57 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .circle-button {
+  height: var(--size);
+  width: var(--size);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--size);
   min-width: var(--size);
-  height: var(--size);
   min-height: var(--size);
   border: var(--outline-width) solid transparent;
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
   transition: background 200ms, color 200ms, border 200ms;
+
   &.has-bg-color {
     /* TODO: likley this could be implemented in a nicer way.. */
     background: var(--c-circle-bg-color);
   }
+
   &.is-outlined {
-    border-color: rgba(var(--c-fg), var(--outline-opacity));
+    border-color: rgb(var(--c-fg) var(--outline-opacity));
   }
+
   &.is-active {
     background: rgb(var(--c-fg));
   }
+
   &.is-disabled {
     opacity: 0.8;
     pointer-events: none;
+
     > :deep(*) {
       opacity: 0.4;
     }
   }
+
   &.is-inactive {
     opacity: 0.8;
+
     > :deep(*) {
       opacity: 0.4;
     }
   }
   @include responsive.on-hover {
-    background: rgba(var(--c-fg), 0.15);
-    //background: var(--hover-bg-color);
+    background: rgb(var(--c-fg) 0.15);
     border-color: transparent;
+
     &.is-outlined {
       border-color: transparent;
     }
+
     &.has-hover-bg-color {
       background: var(--hover-bg-color);
     }

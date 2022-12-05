@@ -66,13 +66,16 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+
   .program {
-    width: 60px;
     height: 48px;
+    width: 60px;
   }
+
   .time {
     flex-grow: 1;
   }
+
   .time-shift {
     width: 60px;
     opacity: 0;
@@ -82,9 +85,11 @@ export default defineComponent({
 .time-enter-active {
   transition: opacity 500ms;
 }
+
 .time-enter-from {
   opacity: 0;
 }
+
 .time-leave-to {
   opacity: 0;
 }

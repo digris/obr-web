@@ -65,6 +65,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .datetime {
   display: inline-flex;
+
   .date {
     text-transform: capitalize;
     margin-right: 0.5em;

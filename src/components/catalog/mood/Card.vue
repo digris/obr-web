@@ -61,6 +61,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+
 .card {
   position: relative;
   width: 100%;
@@ -68,55 +69,63 @@ export default defineComponent({
   color: rgb(var(--c-fg));
   background: rgb(var(--c-bg));
   transition: color 200ms, background 300ms;
-  &:hover {
-    color: rgb(var(--c-bg));
-    background: rgb(var(--c-black));
-    .panel {
-      color: rgb(var(--c-gb));
-    }
-  }
+
   .panel {
-    display: grid;
-    width: 100%;
     height: 100%;
+    width: 100%;
+    display: grid;
     color: rgb(var(--c-fg));
+
     .rating {
       position: absolute;
-      width: 100%;
-      //height: calc(50% - var(--t-fs-large) / 2);
       height: calc(50%);
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .name {
       @include typo.large;
+
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100%;
       padding: 1rem;
     }
+
     .teaser {
       @include typo.default;
+
       position: absolute;
-      bottom: 1rem;
-      //display: flex;
-      align-items: flex-start;
-      width: 100%;
       height: 50%;
+      width: 100%;
+      bottom: 1rem;
+      align-items: flex-start;
       padding: 3rem 1rem 1rem;
       overflow-y: hidden;
       text-align: center;
     }
   }
+
+  &:hover {
+    color: rgb(var(--c-bg));
+    background: rgb(var(--c-black));
+
+    .panel {
+      color: rgb(var(--c-gb));
+    }
+  }
+
   @include responsive.bp-medium {
     .panel {
       .rating {
-        width: unset;
         height: unset;
+        width: unset;
         right: 0;
       }
+
       .teaser {
         display: none;
       }

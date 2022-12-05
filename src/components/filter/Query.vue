@@ -34,6 +34,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .query {
   display: inline-flex;
   align-items: center;
@@ -42,16 +43,19 @@ export default defineComponent({
   color: rgb(var(--c-black));
   text-transform: lowercase;
   background: rgb(var(--c-white));
-  border: 1px solid rgba(var(--c-page-fg), 0.2);
+  border: 1px solid rgb(var(--c-page-fg) 0.2);
   border-radius: 1rem;
   cursor: pointer;
+
   &:hover {
     background: rgb(var(--c-gray-100));
   }
+
   &.is-selected {
     color: rgb(var(--c-white));
     background: rgb(var(--c-black));
   }
+
   &__clear {
     margin-left: 0.5rem;
   }

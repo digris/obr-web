@@ -57,9 +57,11 @@ export default defineComponent({
 @use "@/style/elements/container";
 @use "@/style/elements/title";
 @use "@/style/elements/list-menu";
+
 .title {
   @include title.default;
 }
+
 .list-menu {
   @include container.default;
   @include list-menu.default;

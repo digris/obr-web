@@ -47,20 +47,23 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   padding: 2rem;
+
   .links {
     display: flex;
+
     .link {
+      height: 56px;
+      width: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 56px;
-      height: 56px;
       margin: 0 0.5rem;
       color: rgb(var(--c-white));
       background: rgb(var(--c-black));
       border-radius: 28px;
+
       &:hover {
-        background: rgba(var(--c-black), 0.75);
+        background: rgb(var(--c-black) 0.75);
       }
     }
   }

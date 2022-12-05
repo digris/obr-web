@@ -22,8 +22,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
+
 .main-menu {
   color: inherit;
+
   > a {
     display: flex;
     align-items: center;
@@ -36,19 +38,24 @@ export default defineComponent({
     border-left: 1px solid transparent;
     transition: color, background-color 10ms, border-color 100ms;
     @include live-color.fg;
+
     &:hover {
-      background: rgba(var(--c-page-fg), 0.1);
+      background: rgb(var(--c-page-fg) 0.1);
       transition: color, background-color 200ms;
     }
+
     &.router-link-active {
       @include live-color.fg-inverse;
       @include live-color.bg-inverse;
+
       transition: color, background-color 200ms;
     }
+
     &:not(&.router-link-active) {
-      border-left-color: rgba(var(--c-page-fg), 0.2);
+      border-left-color: rgb(var(--c-page-fg) 0.2);
+
       &:last-child {
-        border-right-color: rgba(var(--c-page-fg), 0.2);
+        border-right-color: rgb(var(--c-page-fg) 0.2);
       }
     }
   }

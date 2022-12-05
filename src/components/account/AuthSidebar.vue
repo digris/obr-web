@@ -60,16 +60,20 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .title {
   @include typo.x-large;
   @include typo.bold;
+
   display: flex;
   justify-content: flex-start;
 }
+
 .auth-panel {
   min-height: 100%;
   overflow-y: auto;
 }
+
 .section.availability {
   flex-grow: 1;
   padding-bottom: 1rem;
@@ -79,22 +83,26 @@ export default defineComponent({
     @include typo.small;
   }
 }
+
 .terms {
   @include responsive.bp-medium {
     @include typo.small;
   }
 }
+
 .lead {
   @include typo.large;
+
   a {
     text-decoration: underline;
     cursor: pointer;
   }
 }
+
 .message {
-  margin: 1rem 0 1rem;
+  margin: 1rem 0;
   padding: 1rem;
-  background: rgba(var(--c-cta), 0.1);
+  background: rgb(var(--c-cta) 0.1);
   border-left: 4px solid rgb(var(--c-cta));
 }
 </style>

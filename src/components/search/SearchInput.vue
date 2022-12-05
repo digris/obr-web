@@ -35,12 +35,15 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .search-input {
   > input {
     @include typo.large;
     @include typo.bold;
+
     border: none;
     width: 100%;
+
     /*
     &:hover,
     &:focus {
@@ -50,8 +53,9 @@ export default defineComponent({
     &:focus {
       outline: none;
     }
+
     &::placeholder {
-      color: rgba(var(--c-black), 0.2);
+      color: rgb(var(--c-black) 0.2);
     }
   }
 }

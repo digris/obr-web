@@ -109,14 +109,17 @@ export default defineComponent({
 .location {
   margin-top: 0.5rem;
 }
+
 .tags {
   margin: 0 0 1rem;
 }
+
 .description {
   margin: 1rem 0;
   line-height: 1.25;
   max-width: 480px;
 }
+
 .identifiers {
   margin: 1rem 0;
 }

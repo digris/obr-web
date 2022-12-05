@@ -70,9 +70,11 @@ export default defineComponent({
 
   :deep(pre) {
     color: white;
+
     .comment {
       color: #a09f9f;
     }
+
     .string {
       color: #6def6d;
     }

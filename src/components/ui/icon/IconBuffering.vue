@@ -52,9 +52,11 @@ export default defineComponent({
   0% {
     transform: scaleY(100%);
   }
+
   80% {
     transform: scaleY(10%);
   }
+
   100% {
     transform: scaleY(100%);
   }
@@ -64,15 +66,19 @@ svg {
   line {
     transform-origin: center;
     animation: buffering 1200ms infinite;
+
     &:nth-child(1) {
       animation-delay: -600ms;
     }
+
     &:nth-child(2) {
       animation-delay: -450ms;
     }
+
     &:nth-child(3) {
       animation-delay: -300ms;
     }
+
     &:nth-child(4) {
       animation-delay: -150ms;
     }

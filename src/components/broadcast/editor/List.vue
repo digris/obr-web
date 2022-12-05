@@ -58,13 +58,17 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
 @use "@/style/elements/grid";
+
 .editor-list {
   @include container.default;
+
   margin-bottom: 0;
 }
+
 .grid {
   @include grid.default;
 }
+
 /*
 .former-editors {
   margin-top: 2rem;

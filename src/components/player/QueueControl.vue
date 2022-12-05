@@ -75,13 +75,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .queue-control {
   .number {
+    top: -4px;
+    position: absolute;
+    width: auto;
     pointer-events: none;
     display: flex;
-    position: absolute;
-    top: -4px;
     right: -3px;
     background: rgb(var(--c-white));
-    width: auto;
     min-width: 20px;
     min-height: 20px;
     border-radius: 10px;
@@ -92,6 +92,7 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     transition: font-size 200ms;
+
     &.is-tweening {
       font-size: 20px;
     }

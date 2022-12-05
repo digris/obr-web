@@ -99,13 +99,13 @@ export default defineComponent({
  */
 
 .mask {
-  z-index: 20;
-  position: fixed;
-  width: 100%;
-  height: 100%;
   top: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 20;
   left: 0;
-  background: rgba(var(--c-black), 0.8);
+  background: rgb(var(--c-black) 0.8);
 }
 
 .queue {
@@ -119,11 +119,14 @@ export default defineComponent({
   color: rgb(var(--c-white));
   background: rgb(var(--c-black));
   overscroll-behavior: contain;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   .container {
     @include container.default;
+
     padding-top: 2rem;
     padding-bottom: 92px;
   }
@@ -135,35 +138,39 @@ export default defineComponent({
 }
 
 .actions {
-  z-index: 21;
-  border-top: 1px solid rgba(var(--c-white), 0.25);
+  position: fixed;
   height: 76px;
+  width: 100%;
+  z-index: 21;
+  border-top: 1px solid rgb(var(--c-white) 0.25);
+  bottom: 72px; // player height
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background: rgb(var(--c-black));
+
   .container {
     @include container.default;
+
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
     > div {
       margin-left: 0.5rem;
     }
   }
-  //backdrop-filter: blur(8px);
-  position: fixed;
-  bottom: 72px; // player height
-  width: 100%;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  background: rgb(var(--c-black));
 
   @include responsive.bp-medium {
     height: 60px;
     bottom: var(--player-height);
+
     .container {
       > div {
         margin-left: unset;
       }
+
       .clear-queue {
         flex-grow: 1;
         align-items: center;
@@ -183,11 +190,11 @@ export default defineComponent({
   align-items: center;
   padding: 0 1.5rem;
   color: rgb(var(--c-white));
-  border: 1px solid rgba(var(--c-white), 0.2);
+  border: 1px solid rgb(var(--c-white) 0.2);
   transition: background-color 200ms;
   @include responsive.on-hover {
     border-color: transparent;
-    background: rgba(var(--c-white), 0.1);
+    background: rgb(var(--c-white) 0.1);
   }
   @include responsive.bp-medium {
     height: 40px;
@@ -201,9 +208,11 @@ export default defineComponent({
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }
@@ -213,10 +222,12 @@ export default defineComponent({
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
 }
+
 .slide-enter-from {
   transform: translate(0, 100%);
   opacity: 0;
 }
+
 .slide-leave-to {
   transform: translate(0, 200%);
 }
@@ -226,9 +237,8 @@ export default defineComponent({
 .queue-leave-active {
   transition: opacity 300ms, transform 100ms;
 }
-//.queue-enter-from,
+
 .queue-leave-to {
   opacity: 0;
-  //transform: translateY(2rem);
 }
 </style>

@@ -158,15 +158,20 @@ export default defineComponent({
 
 .app-bridge {
   padding: 1rem;
+
   > section {
     @include section.default;
+
     margin-bottom: 4rem;
   }
+
   button,
   .button {
     @include button.default(2rem);
+
     cursor: pointer;
   }
+
   .controls {
     display: flex;
   }

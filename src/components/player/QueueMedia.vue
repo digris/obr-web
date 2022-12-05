@@ -141,6 +141,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .media-row {
   display: grid;
   grid-row-gap: 0;
@@ -172,7 +173,9 @@ export default defineComponent({
   .name {
     grid-area: name;
     @include typo.large;
+
     min-width: 0;
+
     > span {
       overflow: hidden;
       white-space: nowrap;
@@ -188,6 +191,7 @@ export default defineComponent({
   .release {
     grid-area: release;
     min-width: 0;
+
     > span {
       overflow: hidden;
       white-space: nowrap;
@@ -205,28 +209,27 @@ export default defineComponent({
       "play artist actions";
     grid-template-columns: 48px 1fr 96px;
     padding: 0.375rem 0;
+
     .name {
       @include typo.default;
     }
+
     .artist {
       @include typo.default;
       @include typo.dim;
       @include typo.light;
+
       min-width: 0;
-      margin-top: -4px; //TODO: just a quick fix
+      margin-top: -4px; // TODO: just a quick fix
       overflow: hidden;
+
       > div {
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
       }
     }
-    //TODO: just a quick fix
-    .play,
-    .actions {
-      color: yellow;
-      //transform: scale(calc(40 / 48));
-    }
+
     .release,
     .airplays,
     .duration {

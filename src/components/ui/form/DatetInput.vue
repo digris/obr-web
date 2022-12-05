@@ -62,51 +62,54 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/form";
+
 .date-input {
-  //display: grid;
   position: relative;
+
   input {
-    //@include typo.large;
-    //@include typo.bold;
     display: grid;
     height: 100%;
     grid-template-columns: 1fr 32px;
     width: 100%;
     padding: 0.25em 0.5em;
-    color: currentColor;
-    border: 3px solid currentColor;
+    color: currentcolor;
+    border: 3px solid currentcolor;
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
+
     &:focus {
-      background: rgba(var(--c-black), 0.1);
+      background: rgb(var(--c-black) 0.1);
       border-color: transparent;
       outline: none;
     }
+
     &:hover {
-      background: rgba(var(--c-black), 0.1);
-      //border-color: transparent;
+      background: rgb(var(--c-black) 0.1);
       outline: none;
       cursor: pointer;
     }
+
     &:not(:valid) {
-      background: rgba(var(--c-warning), 0.1);
+      background: rgb(var(--c-warning) 0.1);
     }
+
     &::-webkit-calendar-picker-indicator {
-      opacity: 0;
-      width: 30px;
       height: 100%;
+      width: 30px;
+      opacity: 0;
       z-index: 1;
       cursor: pointer;
     }
   }
+
   .icon {
-    position: absolute;
     top: 0;
+    position: absolute;
+    height: 100%;
     right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
     pointer-events: none;
   }
 }

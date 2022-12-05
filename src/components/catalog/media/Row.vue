@@ -119,6 +119,7 @@ export default defineComponent({
 
 .container {
   @include container.default;
+
   display: grid;
   grid-row-gap: 0;
   grid-column-gap: 1rem;
@@ -126,11 +127,8 @@ export default defineComponent({
     "play name artist  duration actions"
     "play name release airplays actions";
   grid-template-columns: 96px 16fr 10fr 6fr 96px;
-  //padding-top: 0.7rem;
-  //padding-bottom: 0.7rem;
   height: 71px;
   color: rgb(var(--c-black));
-  //TODO: find a modular way to handle color / ui transitions
   transition: border-bottom 200ms 1400ms, color 200ms, background 200ms;
 
   > div {
@@ -146,8 +144,10 @@ export default defineComponent({
   .name {
     grid-area: name;
     @include typo.large;
+
     min-width: 0;
     margin-left: -48px;
+
     > a {
       overflow: hidden;
       white-space: nowrap;
@@ -159,6 +159,7 @@ export default defineComponent({
     grid-area: artist;
     align-self: end;
     overflow: hidden;
+
     > div {
       overflow: hidden;
     }
@@ -168,11 +169,9 @@ export default defineComponent({
     grid-area: release;
     align-self: start;
     min-width: 0;
-    //overflow: hidden;
+
     > div {
       overflow: hidden;
-      //white-space: nowrap;
-      //text-overflow: ellipsis;
     }
   }
 
@@ -198,15 +197,18 @@ export default defineComponent({
       "play artist actions";
     grid-template-columns: 80px 1fr 80px;
     height: 60px;
+
     .release,
     .airplays,
     .duration {
       display: none;
     }
+
     .name {
       align-self: end;
       margin-left: -40px;
     }
+
     .artist {
       align-self: start;
       margin-left: -40px;

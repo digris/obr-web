@@ -84,15 +84,9 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/card";
+
 .card {
   @include card.default;
   @include card.actions-on-hover;
-  //@include responsive.bp-medium {
-  //  .meta {
-  //    .subtitle {
-  //      @include typo.small;
-  //    }
-  //  }
-  //}
 }
 </style>

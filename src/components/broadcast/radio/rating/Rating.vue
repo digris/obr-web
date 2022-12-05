@@ -185,22 +185,28 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/button";
+
 .rating {
   display: grid;
   grid-template-columns: repeat(4, 4rem);
+
   > div {
     align-self: center;
     justify-self: center;
   }
+
   .total {
     @include typo.dim;
     @include typo.light;
+
     opacity: 0;
   }
+
   .flip-container {
-    width: 100%;
     height: 100%;
+    width: 100%;
     transition: opacity 200ms ease-in-out, transform 200ms ease-in;
+
     &.is-flipped {
       transform: rotateY(89deg);
     }
@@ -209,30 +215,38 @@ export default defineComponent({
     grid-template-columns: auto 52px 52px auto;
   }
 }
+
 .prompt {
   &__lead {
     padding: 0 0 1rem;
     @include typo.large;
   }
+
   &__scopes {
     padding: 1rem 0;
   }
+
   &__comment {
     padding: 1rem 0;
+
     textarea {
       @include typo.large;
+
       width: 100%;
       min-height: 4rem;
       padding: 0.54rem;
     }
   }
+
   &__actions {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 1rem 0;
+
     .button {
       @include button.default(3rem);
+
       min-width: 33%;
     }
   }

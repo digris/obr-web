@@ -40,12 +40,15 @@ export default defineComponent({
 @use "@/style/elements/container";
 @use "@/style/elements/title";
 @use "@/style/elements/list-menu";
+
 .collection {
   margin-bottom: 12rem;
 }
+
 .title {
   @include title.default;
 }
+
 .list-menu {
   @include container.default;
   @include list-menu.default;

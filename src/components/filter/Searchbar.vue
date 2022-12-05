@@ -119,29 +119,35 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+
 .searchbar {
   display: flex;
   flex-grow: 1;
   align-items: center;
   justify-content: flex-end;
+
   .search-input {
     height: 40px;
+
     > input {
       @include typo.default;
+
       box-sizing: border-box;
       height: 100%;
       padding: 3px 0.5rem 0 1rem;
       color: rgb(var(--c-page-fg));
       background: transparent;
       border: 0;
-      border-bottom: 3px solid rgba(var(--c-page-fg), 0.8);
+      border-bottom: 3px solid rgb(var(--c-page-fg) 0.8);
       transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
+
       &:focus {
-        background: rgba(var(--c-black), 0.1);
-        border-bottom: 3px solid rgba(var(--c-page-fg), 0);
+        background: rgb(var(--c-black) 0.1);
+        border-bottom: 3px solid rgb(var(--c-page-fg) 0);
         outline: none;
       }
     }
+
     &.has-query {
       > input {
         color: rgb(var(--c-white));
@@ -154,8 +160,10 @@ export default defineComponent({
     .search-button {
       order: -1;
     }
+
     .search-input {
       flex-grow: 1;
+
       > input {
         border: 1px solid rgb(var(--c-gray-200));
         width: 100%;

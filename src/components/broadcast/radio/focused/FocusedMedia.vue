@@ -80,42 +80,55 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/live-color";
 @use "@/style/base/responsive";
+
 .context {
   @include typo.default;
+
   text-transform: capitalize;
-  &:after {
+
+  &::after {
     content: ":";
   }
 }
+
 .title {
   @include typo.large;
 }
+
 .subtitle {
   display: flex;
   margin-top: 0;
+
   &--artists {
     margin-top: 0.75rem;
   }
+
   &--label {
     margin-right: 0.25rem;
-    &:first-letter {
+
+    &::first-letter {
       text-transform: uppercase;
     }
-    &:after {
+
+    &::after {
       content: ": ";
     }
   }
+
   .media-artists {
     max-width: 100%;
   }
+
   .media-releases {
     max-width: 100%;
+
     :deep(a),
     :deep(span) {
       white-space: unset;
     }
   }
 }
+
 a {
   transition: color, background-color 200ms;
   @include responsive.on-hover {

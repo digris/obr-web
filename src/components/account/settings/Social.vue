@@ -166,6 +166,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .info {
   padding: 0.5rem 2rem 1rem 0;
   opacity: 0.5;
@@ -173,6 +174,7 @@ export default defineComponent({
     @include typo.small;
   }
 }
+
 .backend {
   display: grid;
   grid-template-columns: 32px auto 120px;
@@ -182,36 +184,44 @@ export default defineComponent({
   color: rgb(var(--c-black));
   border: 1px solid rgb(var(--c-gray-200));
   border-radius: 3px;
+
   &:hover {
-    background: rgba(var(--c-black), 0.1);
+    background: rgb(var(--c-black) 0.1);
   }
+
   .logo {
     height: 1.5rem;
     margin-right: 1rem;
   }
+
   .title {
     flex-grow: 1;
     line-height: 1rem;
+
     .uid {
       @include typo.small;
       @include typo.dim;
+
       margin-left: 0.5rem;
       @include responsive.bp-medium {
         margin-left: 0;
       }
     }
   }
+
   .button {
     min-width: 120px;
     padding: 0.75rem 1.5rem;
-    background: rgba(var(--c-black), 0.1);
+    background: rgb(var(--c-black) 0.1);
     border: 0;
     cursor: pointer;
-    color: rgb(0, 0, 0);
+    color: rgb(0 0 0);
+
     &:disabled {
       cursor: not-allowed;
     }
   }
+
   /*
   &--spotify {
     color: rgb(var(--c-white));

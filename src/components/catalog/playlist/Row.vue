@@ -130,6 +130,7 @@ export default defineComponent({
 
 .container {
   @include container.default;
+
   display: grid;
   grid-row-gap: 0;
   grid-column-gap: 1rem;
@@ -153,8 +154,10 @@ export default defineComponent({
   .name {
     grid-area: name;
     @include typo.large;
+
     min-width: 0;
     margin-left: -48px;
+
     > a {
       overflow: hidden;
       white-space: nowrap;
@@ -166,6 +169,7 @@ export default defineComponent({
     grid-area: editor;
     align-self: end;
     min-width: 0;
+
     > a {
       overflow: hidden;
       white-space: nowrap;
@@ -207,16 +211,19 @@ export default defineComponent({
       "play tags actions";
     grid-template-columns: 80px 1fr 80px;
     height: 60px;
+
     .editor,
     .airplays,
     .emissions,
     .duration {
       display: none;
     }
+
     .name {
       align-self: end;
       margin-left: -40px;
     }
+
     .tags {
       align-self: start;
       margin-left: -40px;

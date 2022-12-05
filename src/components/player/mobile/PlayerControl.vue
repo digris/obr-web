@@ -74,15 +74,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .player-control {
   display: flex;
   column-gap: 1rem;
+
   .left,
   .right {
     display: flex;
     align-items: center;
     transition: opacity 500ms;
   }
+
   &.is-live {
     .left,
     .right {

@@ -66,27 +66,29 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .mask {
-  position: fixed;
   top: 0;
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 111;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgb(0 0 0 / 90%);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
+
 .side-panel {
-  position: fixed;
   top: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
   right: 0;
   z-index: 112;
   display: flex;
   flex-direction: column;
-  width: 100%;
   max-width: 50vw;
   min-width: 50vw;
-  height: 100%;
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
@@ -103,18 +105,20 @@ export default defineComponent({
     height: 75px;
     margin: 0 1.5rem 0.5rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
+
     .slot {
       flex-grow: 1;
     }
     @include responsive.bp-medium {
       height: 60px;
-      //background: red;
-      margin: 0 0.5rem 0;
+      margin: 0 0.5rem;
+
       .close {
         display: flex;
       }
     }
   }
+
   &__body {
     flex-grow: 1;
     padding: 0 1.5rem 1rem;
@@ -123,31 +127,30 @@ export default defineComponent({
       padding: 0 0.625rem 0.5rem;
     }
   }
+
   &__footer {
     margin: 0 1.5rem;
     padding: 1rem 0;
     border-top: 1px solid rgb(var(--c-gray-200));
-    //background: red;
     @include responsive.bp-medium {
       margin: 0 0.625rem;
       padding: 0.5rem 0;
     }
   }
 }
+
 .aside {
-  position: fixed;
   top: 0;
+  position: fixed;
+  height: 100%;
+  width: 50vw;
   left: 0;
   z-index: 111;
   display: flex;
   flex-direction: column;
-  //align-items: center;
-  //justify-content: center;
   padding-top: calc(75px + 0.5rem);
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  width: 50vw;
-  height: 100%;
   color: rgb(var(--c-white));
   @include responsive.bp-medium {
     display: none;
@@ -158,9 +161,11 @@ export default defineComponent({
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }
@@ -169,9 +174,11 @@ export default defineComponent({
 .slide-leave-active {
   transition: transform 200ms ease-out;
 }
+
 .slide-enter-from {
   transform: translate(100%, 0);
 }
+
 .slide-leave-to {
   transform: translate(100%, 0);
 }

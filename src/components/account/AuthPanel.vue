@@ -65,16 +65,21 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .auth-panel {
   display: flex;
   flex-direction: column;
+
   .subtitle {
     @include typo.large;
+
     display: flex;
     justify-content: flex-start;
   }
+
   .social {
     margin-top: 2rem;
+
     > p {
       margin-bottom: 1rem;
       @include responsive.bp-medium {
@@ -82,6 +87,7 @@ export default defineComponent({
       }
     }
   }
+
   .email {
     > p {
       margin-bottom: 0.5rem;

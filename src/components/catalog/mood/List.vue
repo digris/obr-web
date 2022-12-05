@@ -44,12 +44,16 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
 @use "@/style/elements/grid";
+
 .mood-list {
   @include container.default;
+
   margin-bottom: 0;
 }
+
 .grid {
   @include grid.default;
+
   grid-row-gap: 0.5rem;
   @include responsive.bp-medium {
     grid-row-gap: 0.625rem;

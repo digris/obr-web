@@ -18,15 +18,19 @@ defineProps({
     transform: translate3d(0, 0, 0);
     visibility: visible;
   }
+
   100% {
     transform: translate3d(-100%, 0, 0);
   }
 }
+
 $duration: 10s;
+
 .ticker {
   overflow-x: hidden;
   display: inline-block;
   pointer-events: none;
+
   &__panel {
     padding-left: 100%;
     padding-right: 100%;

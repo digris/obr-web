@@ -32,10 +32,12 @@ export default defineComponent({
   from {
     left: -150px;
   }
+
   to {
     left: 100%;
   }
 }
+
 .loading-grid {
   display: grid;
   grid-column-gap: 0.5rem;
@@ -46,30 +48,36 @@ export default defineComponent({
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 .card {
   &__visual {
     width: 100%;
-    background: rgba(128, 128, 128, 0.1);
+    background: rgb(128 128 128 / 10%);
     aspect-ratio: 1 / 1;
   }
+
   &__meta {
-    padding: 0.5rem 0 0 0;
+    padding: 0.5rem 0 0;
+
     .line {
       position: relative;
+      height: 1.25rem;
+      width: 100%;
       display: flex;
       align-items: center;
-      width: 100%;
-      height: 1.25rem;
+
       .bar {
         height: 1rem;
-        background: rgba(128, 128, 128, 0.2);
+        background: rgb(128 128 128 / 20%);
       }
+
       &--primary {
         .bar {
-          width: 60%;
           height: 1.1rem;
+          width: 60%;
         }
       }
+
       &--secondary {
         .bar {
           width: 24%;

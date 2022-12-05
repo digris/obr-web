@@ -30,10 +30,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 @use "@/style/elements/detail-header";
+
 .not-found {
   @include container.default;
+
   margin-bottom: 12rem;
 }
+
 .header {
   @include detail-header.default;
 }

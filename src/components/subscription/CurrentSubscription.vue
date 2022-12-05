@@ -68,18 +68,22 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .subscription {
   position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   color: rgb(var(--c-black));
   cursor: pointer;
+
   &.is-active {
     color: rgb(var(--c-green));
   }
+
   &.is-expired {
     color: rgb(var(--c-red));
   }
+
   &.is-blocked {
     color: rgb(var(--c-red));
   }

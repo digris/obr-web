@@ -97,8 +97,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/form";
+
 .form {
   @include form.default;
+
   .input-container {
     @include form.top-label;
   }

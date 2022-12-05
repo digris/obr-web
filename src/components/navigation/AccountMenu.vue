@@ -41,9 +41,11 @@ export default defineComponent({
   text-decoration: none;
   border-radius: 24px;
   transition: color, border 100ms 400ms, background-color 500ms;
-  border: 1px solid rgba(var(--c-page-fg), 0.25);
+  border: 1px solid rgb(var(--c-page-fg) 0.25);
+
   &:hover {
     @include live-color.bg-inverse(0.1);
+
     transition: color, background-color 200ms;
   }
 }
@@ -54,6 +56,7 @@ export default defineComponent({
   justify-content: center;
   height: 100%;
   color: inherit;
+
   > a.menu-link {
     @include menu-button;
   }

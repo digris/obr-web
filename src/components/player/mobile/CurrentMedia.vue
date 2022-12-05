@@ -42,8 +42,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .current-media {
   display: grid;
+
   .metadata {
     display: flex;
     flex-direction: column;
@@ -52,16 +54,16 @@ export default defineComponent({
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
     &--primary,
     &--secondary {
-      //@include typo.small;
       max-width: 100%;
       overflow: inherit;
       white-space: inherit;
       text-overflow: inherit;
     }
+
     &--secondary {
-      //@include typo.small;
       @include typo.dim;
     }
   }

@@ -142,6 +142,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
+
 .section {
   @include container.section;
 }

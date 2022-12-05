@@ -27,13 +27,17 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
 @use "@/style/base/typo";
+
 .account {
   @include container.small;
+
   margin-bottom: 12rem;
 }
+
 .header {
   @include typo.x-large;
-  margin: 2rem 0 2rem;
+
+  margin: 2rem 0;
   @include responsive.bp-medium {
     margin: 0.625rem 0;
   }

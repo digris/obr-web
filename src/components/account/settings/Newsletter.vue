@@ -88,15 +88,19 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/form";
+
 .newsletter {
   display: flex;
   gap: 1rem;
 }
+
 .form {
   @include form.default;
+
   .subscriptions {
     display: flex;
     flex-direction: column;
+
     .subscription {
       display: grid;
       grid-template-areas:
@@ -105,15 +109,18 @@ export default defineComponent({
       grid-template-columns: 36px 1fr;
       grid-column-gap: 1rem;
       margin-bottom: 1rem;
+
       > input {
-        grid-area: checkbox;
-        width: 36px;
         height: 36px;
+        width: 36px;
+        grid-area: checkbox;
       }
+
       > .title {
         grid-area: title;
         @include typo.large;
       }
+
       > .description {
         grid-area: description;
         @include typo.dim;

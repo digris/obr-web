@@ -52,45 +52,49 @@ export default defineComponent({
 </style>
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
+
 .history-time {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .bubble {
     border-radius: 24px;
     @include live-color.bg-inverse;
     @include live-color.fg-inverse;
+
     transition: background-color 600ms, color 100ms 1ms, font-size 200ms;
     height: 48px;
-    //width: 128px;
     align-items: center;
     justify-content: center;
     font-size: 20px;
     padding: 0 0 0 24px;
     display: flex;
+
     > .time {
       flex-grow: 1;
       display: grid;
-      //background: rgba(255, 255, 0, 0.3);
       grid-template-columns: 20px 12px 20px;
+
       > span {
         justify-self: center;
       }
+
       .hour,
       .minute {
         font-weight: 600;
-        //font-size: 1em;
       }
+
       .separator {
         padding-top: 2px;
         font-size: 16px;
         animation: pulsate 2s linear infinite;
       }
     }
+
     .icon {
       cursor: pointer;
       width: 50px;
-      //height: 48px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
