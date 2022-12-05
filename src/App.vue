@@ -7,7 +7,7 @@ import { useAccount } from "@/composables/account";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
 import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
-import AuthPanel from "@/components/account/AuthPanel.vue";
+import AuthSidebar from "@/components/account/AuthSidebar.vue";
 import Subscribe from "@/components/subscription/Subscribe.vue";
 import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
 import Player from "@/components/player/Player.vue";
@@ -30,7 +30,7 @@ export default defineComponent({
     SideMenu,
     GlobalSearch,
     Notifications,
-    AuthPanel,
+    AuthSidebar,
     Subscribe,
     GeoblockNotice,
     Player,
@@ -65,7 +65,7 @@ export default defineComponent({
       <component :is="Component" />
     </keep-alive>
   </router-view>
-  <AuthPanel />
+  <AuthSidebar />
   <Subscribe />
   <GeoblockNotice />
   <ClaimVoucher />

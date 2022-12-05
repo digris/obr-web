@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "redirect",
     "electronic_mail",
     "stats",
+    "newsletter",
     "slack",
     #
     "usersnap",
@@ -382,9 +383,10 @@ REST_FRAMEWORK = {
         "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
     ],
     "DEFAULT_PARSER_CLASSES": [
-        "djangorestframework_camel_case.parser.CamelCaseFormParser",
-        "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        # NOTE: do we need these parsers?
+        # "djangorestframework_camel_case.parser.CamelCaseFormParser",
+        # "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
     ],
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.AnonRateThrottle",
