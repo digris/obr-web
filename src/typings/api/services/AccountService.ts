@@ -17,18 +17,18 @@ import { request as __request } from '../core/request';
 export class AccountService {
 
     /**
-     * @param formData
+     * @param requestBody
      * @returns Address
      * @throws ApiError
      */
     public static userUpdateAddress(
-        formData?: PatchedAddressRequest,
+        requestBody?: PatchedAddressRequest,
     ): CancelablePromise<Address> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/account/address/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -45,35 +45,35 @@ export class AccountService {
 
     /**
      * Update or set email address
-     * @param formData
+     * @param requestBody
      * @returns void
      * @throws ApiError
      */
     public static userUpdateEmail(
-        formData: EmailUpdateRequest,
+        requestBody: EmailUpdateRequest,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/account/email/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
     /**
      * Update or set password
-     * @param formData
+     * @param requestBody
      * @returns void
      * @throws ApiError
      */
     public static userUpdatePassword(
-        formData: PasswordUpdateRequest,
+        requestBody: PasswordUpdateRequest,
     ): CancelablePromise<void> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/account/password/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -133,18 +133,18 @@ export class AccountService {
     }
 
     /**
-     * @param formData
+     * @param requestBody
      * @returns User
      * @throws ApiError
      */
     public static userPartialUpdate(
-        formData?: PatchedUserRequest,
+        requestBody?: PatchedUserRequest,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/account/users/me/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

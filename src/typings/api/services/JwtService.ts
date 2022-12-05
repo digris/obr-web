@@ -15,36 +15,36 @@ export class JwtService {
     /**
      * Takes a set of user credentials and returns a sliding JSON web token to
      * prove the authentication of those credentials.
-     * @param formData
+     * @param requestBody
      * @returns TokenObtainSliding
      * @throws ApiError
      */
     public static jwtCreate(
-        formData: TokenObtainSlidingRequest,
+        requestBody: TokenObtainSlidingRequest,
     ): CancelablePromise<TokenObtainSliding> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/jwt/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
     /**
      * Takes a sliding JSON web token and returns a new, refreshed version if the
      * token's refresh period has not expired.
-     * @param formData
+     * @param requestBody
      * @returns TokenRefreshSliding
      * @throws ApiError
      */
     public static jwtRefreshCreate(
-        formData: TokenRefreshSlidingRequest,
+        requestBody: TokenRefreshSlidingRequest,
     ): CancelablePromise<TokenRefreshSliding> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/jwt/refresh/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

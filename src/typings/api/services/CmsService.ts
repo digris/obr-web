@@ -14,7 +14,7 @@ export class CmsService {
      * @returns Page
      * @throws ApiError
      */
-    public static cmsPageRetrieve(
+    public static page(
         path: string,
     ): CancelablePromise<Page> {
         return __request(OpenAPI, {

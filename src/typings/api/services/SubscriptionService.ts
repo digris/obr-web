@@ -37,18 +37,18 @@ export class SubscriptionService {
     }
 
     /**
-     * @param formData
+     * @param requestBody
      * @returns Payment
      * @throws ApiError
      */
     public static subscriptionPaymentStripeCreate(
-        formData: PaymentCreateRequest,
+        requestBody: PaymentCreateRequest,
     ): CancelablePromise<Payment> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/subscription/payment/stripe/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -107,18 +107,18 @@ export class SubscriptionService {
     }
 
     /**
-     * @param formData
+     * @param requestBody
      * @returns Voucher
      * @throws ApiError
      */
     public static subscriptionVoucherCreate(
-        formData?: VoucherRequest,
+        requestBody?: VoucherRequest,
     ): CancelablePromise<Voucher> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/subscription/voucher/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

@@ -17,18 +17,18 @@ export class AuthenticationService {
 
     /**
      * Login user by email & password
-     * @param formData
+     * @param requestBody
      * @returns User
      * @throws ApiError
      */
     public static login(
-        formData: LoginRequest,
+        requestBody: LoginRequest,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/account/login/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -64,18 +64,18 @@ export class AuthenticationService {
 
     /**
      * Send email with login token to given address
-     * @param formData
+     * @param requestBody
      * @returns SendEmailLogin
      * @throws ApiError
      */
     public static sendEmailLogin(
-        formData: SendEmailLoginRequest,
+        requestBody: SendEmailLoginRequest,
     ): CancelablePromise<SendEmailLogin> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/account/send-email-login/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
@@ -113,18 +113,18 @@ export class AuthenticationService {
     /**
      * Login user by email & login token.
      * Responds `200` for existing and `201` for created user.
-     * @param formData
+     * @param requestBody
      * @returns User
      * @throws ApiError
      */
     public static tokenLogin(
-        formData: TokenLoginRequest,
+        requestBody: TokenLoginRequest,
     ): CancelablePromise<User> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/account/token-login/',
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
