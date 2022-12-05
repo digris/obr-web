@@ -3,7 +3,7 @@
 
 @mixin visual {
   position: relative;
-  background: rgb(var(--c-white) 0.25);
+  background: rgb(var(--c-white) / 25%);
 
   .rating {
     top: 0;
@@ -62,7 +62,7 @@
 
   @include responsive.on-hover {
     .visual {
-      background: rgb(var(--c-black) 0.2);
+      background: rgb(var(--c-black) / 20%);
 
       :deep(img) {
         opacity: 0.5;

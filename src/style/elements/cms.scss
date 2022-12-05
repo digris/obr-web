@@ -63,7 +63,7 @@
       }
 
       &:not(:last-child) {
-        border-right: 1px solid rgb(var(--c-page-fg) 0.25);
+        border-right: 1px solid rgb(var(--c-page-fg) / 25%);
       }
     }
   }
@@ -71,7 +71,7 @@
   > tbody {
     td {
       padding: 0.3rem;
-      border-bottom: 1px solid rgb(var(--c-page-fg) 0.25);
+      border-bottom: 1px solid rgb(var(--c-page-fg) / 25%);
       user-select: text;
 
       &:first-child {
@@ -79,7 +79,7 @@
       }
 
       &:not(:last-child) {
-        border-right: 1px solid rgb(var(--c-page-fg) 0.25);
+        border-right: 1px solid rgb(var(--c-page-fg) / 25%);
       }
     }
   }

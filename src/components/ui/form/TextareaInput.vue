@@ -68,7 +68,7 @@ export default defineComponent({
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
 
     &:focus {
-      background: rgb(var(--c-black) 0.1);
+      background: rgb(var(--c-black) / 10%);
       border-color: transparent;
       outline: none;
     }

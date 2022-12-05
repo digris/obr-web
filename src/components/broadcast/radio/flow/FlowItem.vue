@@ -154,8 +154,8 @@ export default defineComponent({
       const bg = image.value?.rgb ?? [0, 0, 0];
       const fg = getContrastColor(bg);
       return {
-        "--c-bg": bg.join(","),
-        "--c-fg": fg.join(","),
+        "--c-bg": bg.join(" "),
+        "--c-fg": fg.join(" "),
       };
     });
 

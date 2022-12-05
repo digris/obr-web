@@ -30,7 +30,7 @@ export default {
       :key="`color-${index}`"
       @click="setColor(color)"
       :style="{
-        background: `rgb(${color.join(',')})`,
+        background: `rgb(${color.join(' ')})`,
       }"
     ></div>
   </div>

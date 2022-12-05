@@ -36,7 +36,7 @@
   id="body"
   {% if client_mode %}data-client-mode="{{ client_mode }}"{% endif %}
   data-page-color="live"
-  {% if color %}style="--c-live-bg: {{ color|join:',' }}"{% endif %}
+  {% if color %}style="--c-live-bg: {{ color|join:' ' }}"{% endif %}
 >
   <div id="app"></div>
   {% spaceless %}

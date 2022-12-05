@@ -25,8 +25,8 @@ export default defineComponent({
       const bg = props.mood?.rgb ?? [128, 128, 128];
       const fg = getContrastColor(bg);
       return {
-        "--c-bg": bg.join(","),
-        "--c-fg": fg.join(","),
+        "--c-bg": bg.join(" "),
+        "--c-fg": fg.join(" "),
       };
     });
     onDeactivated(() => {

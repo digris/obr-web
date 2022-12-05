@@ -105,7 +105,7 @@ export default defineComponent({
     <CircleButton
       class="filter-button"
       :filled="filterExpanded"
-      :hover-background-opacity="filterExpanded ? 0.8 : 0.1"
+      :hover-background-opacity="filterExpanded ? '80%' : '10%'"
       @click="toggleFilter"
     >
       <IconFilter

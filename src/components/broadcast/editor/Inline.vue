@@ -81,7 +81,7 @@ export default defineComponent({
     }
   }
   @include responsive.on-hover {
-    @include live-color.bg-inverse(0.1);
+    @include live-color.bg-inverse(10%);
   }
   @include responsive.bp-medium {
     height: unset;

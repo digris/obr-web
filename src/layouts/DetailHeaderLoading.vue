@@ -155,7 +155,7 @@ export default defineComponent({
         height: 50vh;
         min-height: 280px;
         max-height: 620px;
-        background: rgb(var(--c-white) 0.1);
+        background: rgb(var(--c-white) / 10%);
         aspect-ratio: 1;
         border-radius: 50%;
       }

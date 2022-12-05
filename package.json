@@ -9,7 +9,7 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "yarn lint:eslint && yarn lint:stylelint",
     "lint:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
-    "lint:stylelint": "stylelint \"**/*.{vue,scss}\" --fix",
+    "lint:stylelint": "stylelint \"**/*.{vue,scss}\"",
     "fix": "yarn fix:eslint && yarn fix:stylelint",
     "fix:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "fix:stylelint": "stylelint \"**/*.{vue,scss}\" --fix",

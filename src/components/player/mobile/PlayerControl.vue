@@ -62,7 +62,7 @@ export default defineComponent({
       :is-buffering="isBuffering"
       :outlined="true"
       :outline-width="3"
-      :outline-opacity="1"
+      outline-opacity="100%"
       :base-color="fgColor"
       :scale="1.25"
       @pause="pause"

@@ -13,16 +13,16 @@ export default defineComponent({
   },
   setup() {
     const stageVarsA = {
-      "--c-fg": "0,0,0",
-      "--c-fg-inverse": "255,255,255",
-      "--c-bg": "200,255,255",
-      "--c-active": "255,0,255",
+      "--c-fg": "0 0 0",
+      "--c-fg-inverse": "255 255 255",
+      "--c-bg": "200 255 255",
+      "--c-active": "255 0 255",
     };
     const stageVarsB = {
-      "--c-fg": "255,255,255",
-      "--c-fg-inverse": "0,0,0",
-      "--c-bg": "0,0,0",
-      "--c-active": "255,255,0",
+      "--c-fg": "255 255 255",
+      "--c-fg-inverse": "0 0 0",
+      "--c-bg": "0 0 0",
+      "--c-active": "255 255 0",
     };
     return {
       stageVarsA,
@@ -44,7 +44,7 @@ export default defineComponent({
           <CircleButton
             :outlined="true"
             :outline-width="2"
-            :outline-opacity="1"
+            outline-opacity="100%"
             :outline-on-hover="true"
           >
             <IconLogo :scale="1" />
@@ -54,7 +54,7 @@ export default defineComponent({
           <CircleButton
             :outlined="true"
             :outline-width="3"
-            :outline-opacity="1"
+            outline-opacity="100%"
             :outline-on-hover="true"
             :scale="2"
           >
@@ -65,7 +65,7 @@ export default defineComponent({
           <CircleButton
             :outlined="true"
             :outline-width="2"
-            :outline-opacity="1"
+            outline-opacity="100%"
             :outline-on-hover="true"
           >
             <IconLogo :scale="1" mode="pause" />
@@ -75,7 +75,7 @@ export default defineComponent({
           <CircleButton
             :outlined="true"
             :outline-width="2"
-            :outline-opacity="1"
+            outline-opacity="100%"
             :outline-on-hover="true"
           >
             <IconLogo :scale="1" mode="playing" />
@@ -102,17 +102,17 @@ export default defineComponent({
           </CircleButton>
         </div>
         <div>
-          <CircleButton :filled="true" :hover-background-opacity="0.6">
+          <CircleButton :filled="true" hover-background-opacity="10%">
             <IconPType color-var="--c-white" />
           </CircleButton>
         </div>
         <div>
-          <CircleButton :filled="true" fill-color-var="--c-active" :hover-background-opacity="0.9">
+          <CircleButton :filled="true" fill-color-var="--c-active" hover-background-opacity="90%">
             <IconPType color-var="--c-white" />
           </CircleButton>
         </div>
         <div>
-          <CircleButton :filled="true" :hover-background-opacity="0.9">
+          <CircleButton :filled="true" hover-background-opacity="90%">
             <IconPType color-var="--c-red" />
           </CircleButton>
         </div>
@@ -142,12 +142,12 @@ export default defineComponent({
           </CircleButton>
         </div>
         <div>
-          <CircleButton :filled="true" :hover-background-opacity="0.6">
+          <CircleButton :filled="true" hover-background-opacity="60%">
             <IconPType color-var="--c-black" />
           </CircleButton>
         </div>
         <div>
-          <CircleButton :filled="true" fill-color-var="--c-active" :hover-background-opacity="0.6">
+          <CircleButton :filled="true" fill-color-var="--c-active" hover-background-opacity="60%">
             <IconPType color-var="--c-black" />
           </CircleButton>
         </div>
