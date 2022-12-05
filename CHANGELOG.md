@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.53 (2022-12-05)
+### Fix
+* Add FAQ & CMS section styling ([`29804a9`](https://github.com/digris/obr-web/commit/29804a9b559e9499c2cc223a4e55f4f89b7b3765))
+
 ## v0.0.52 (2022-12-02)
 ### Fix
 * Adjust play icon animations ([`c4ed327`](https://github.com/digris/obr-web/commit/c4ed3274a6f05cee581abf837975a04a3b6502d3))
