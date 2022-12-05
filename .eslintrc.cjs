@@ -5,28 +5,24 @@ module.exports = {
   root: true,
   extends: [
     "plugin:vue/vue3-essential",
-    // ported from previous webpack setup
-    // '@vue/airbnb',
-    // '@vue/typescript',
-    // below the vue3 suggested ones
     "eslint:recommended",
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
   ],
   rules: {
-    // ignores during transition to vite
-    "vue/multi-word-component-names": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-types": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    //
     "arrow-body-style": "off",
     "no-shadow": "off",
-    "import/prefer-default-export": "off",
-    "@typescript-eslint/no-shadow": ["error"],
     "no-unused-vars": "off",
+    "import/prefer-default-export": "off",
+    //
+    "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/no-unused-vars": ["error"],
+    //
+    "vue/multi-word-component-names": "off",
+    // transition
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-empty-function": "off",
     /*
     "vue/max-attributes-per-line": [
       "error",

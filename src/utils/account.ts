@@ -57,7 +57,7 @@ export default function () {
   return new AccountHandler();
 }
 
-// eslint-disable-next-line arrow-body-style
+// eslint-disable-next-line arrow-body-style, @typescript-eslint/ban-types
 const requireSubscription = (fn: Function, message = "") => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
