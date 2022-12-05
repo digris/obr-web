@@ -1,7 +1,7 @@
 <script lang="ts">
-import { useEventListener, useSwipe } from "@vueuse/core";
 import { computed, defineComponent, ref, watch } from "vue";
 import { useRoute } from "vue-router";
+import { useEventListener, useSwipe } from "@vueuse/core";
 
 import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";

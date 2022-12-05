@@ -1,7 +1,7 @@
 <script lang="ts">
+import { computed, defineComponent, ref } from "vue";
 import { refAutoReset, useElementSize } from "@vueuse/core";
 import { round } from "lodash-es";
-import { computed, defineComponent, ref } from "vue";
 
 import Duration from "@/components/ui/time/Duration.vue";
 import { usePlayerState } from "@/composables/player";

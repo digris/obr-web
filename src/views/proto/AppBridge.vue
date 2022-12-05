@@ -1,6 +1,6 @@
 <script lang="ts">
-import { storeToRefs } from "pinia";
 import { computed, defineComponent, ref } from "vue";
+import { storeToRefs } from "pinia";
 
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";

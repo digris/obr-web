@@ -1,6 +1,6 @@
-import { isEqual } from "lodash-es";
-import { DateTime } from "luxon";
 import { createRouter, createWebHistory } from "vue-router";
+import { DateTime } from "luxon";
+import { isEqual } from "lodash-es";
 
 import { getUser } from "@/api/account";
 import AccountEmailLogin from "@/components/account/EmailLogin.vue";

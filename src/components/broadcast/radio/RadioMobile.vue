@@ -1,8 +1,8 @@
 <script lang="ts">
-import { useWindowSize, whenever } from "@vueuse/core";
-import { round } from "lodash-es";
-import { storeToRefs } from "pinia";
 import { computed, defineComponent, ref, watch } from "vue";
+import { useWindowSize, whenever } from "@vueuse/core";
+import { storeToRefs } from "pinia";
+import { round } from "lodash-es";
 
 import { usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";

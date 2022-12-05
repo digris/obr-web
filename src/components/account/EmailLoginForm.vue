@@ -1,8 +1,8 @@
 <script lang="ts">
-import * as EmailValidator from "email-validator";
-import { debounce } from "lodash-es";
 import { computed, defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import * as EmailValidator from "email-validator";
+import { debounce } from "lodash-es";
 
 import { checkLoginEmail, sendLoginEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";

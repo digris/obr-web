@@ -1,7 +1,7 @@
 <script lang="ts">
-import { storeToRefs } from "pinia";
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
+import { storeToRefs } from "pinia";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconProgram from "@/components/ui/icon/IconProgram.vue";

@@ -1,9 +1,9 @@
 <script lang="ts">
-import { useElementBounding, useThrottleFn, useWindowSize } from "@vueuse/core";
-import { round } from "lodash-es";
-import { DateTime } from "luxon";
 import type { PropType } from "vue";
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from "vue";
+import { useElementBounding, useThrottleFn, useWindowSize } from "@vueuse/core";
+import { DateTime } from "luxon";
+import { round } from "lodash-es";
 
 import LazyImage from "@/components/ui/LazyImage.vue";
 import eventBus from "@/eventBus";

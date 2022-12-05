@@ -1,6 +1,6 @@
 <script lang="ts">
-import { tween } from "shifty";
 import { defineComponent, ref, watch } from "vue";
+import { tween } from "shifty";
 
 export default defineComponent({
   props: {

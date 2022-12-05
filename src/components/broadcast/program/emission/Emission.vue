@@ -1,6 +1,6 @@
 <script lang="ts">
-import { DateTime } from "luxon";
 import { computed, defineComponent, onActivated, onMounted, onUnmounted, ref, watch } from "vue";
+import { DateTime } from "luxon";
 
 import { getEmission } from "@/api/broadcast";
 import { usePlayerControls } from "@/composables/player";

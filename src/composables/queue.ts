@@ -1,7 +1,7 @@
-import { shuffle } from "lodash-es";
+import { computed } from "vue";
 import log from "loglevel";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
+import { shuffle } from "lodash-es";
 
 import { getMedia } from "@/api/catalog";
 import { useDevice } from "@/composables/device";

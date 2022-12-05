@@ -1,7 +1,7 @@
 <script lang="ts">
-import { DateTime } from "luxon";
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
+import { DateTime } from "luxon";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconAlert from "@/components/ui/icon/IconAlert.vue";

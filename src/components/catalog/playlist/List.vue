@@ -1,8 +1,8 @@
 <script lang="ts">
-import { isEqual } from "lodash-es";
-import { storeToRefs } from "pinia";
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+import { isEqual } from "lodash-es";
 
 import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 import PlaylistCard from "@/components/catalog/playlist/Card.vue";

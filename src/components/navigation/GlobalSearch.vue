@@ -1,6 +1,6 @@
 <script lang="ts">
-import { watchDebounced } from "@vueuse/core";
 import { defineComponent, ref } from "vue";
+import { watchDebounced } from "@vueuse/core";
 
 import { getGlobalMediaSearchResults } from "@/api/search";
 import SearchInput from "@/components/search/SearchInput.vue";

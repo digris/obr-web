@@ -1,7 +1,7 @@
-import { watchThrottled } from "@vueuse/core";
-import { debounce, isEqual } from "lodash-es";
-import log from "loglevel";
 import { computed } from "vue";
+import { watchThrottled } from "@vueuse/core";
+import log from "loglevel";
+import { debounce, isEqual } from "lodash-es";
 
 import { createPlayerEvents } from "@/api/stats";
 import { usePlayerState } from "@/composables/player";

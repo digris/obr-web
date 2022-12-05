@@ -1,12 +1,12 @@
-import { isEqual, round } from "lodash-es";
+import { computed, ref, watch } from "vue";
 import log from "loglevel";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 // @ts-ignore
 import muxjs from "mux.js";
-import { storeToRefs } from "pinia";
 // @ts-ignore
 import shaka from "shaka-player";
-import { computed, ref, watch } from "vue";
+import { storeToRefs } from "pinia";
+import { isEqual, round } from "lodash-es";
 
 import { useDevice } from "@/composables/device";
 import { usePlayerControls } from "@/composables/player";

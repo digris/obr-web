@@ -1,6 +1,6 @@
 <script lang="ts">
-import { DateTime } from "luxon";
 import { computed, defineComponent } from "vue";
+import { DateTime } from "luxon";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";

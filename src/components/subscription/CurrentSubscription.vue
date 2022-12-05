@@ -1,6 +1,6 @@
 <script lang="ts">
-import { DateTime } from "luxon";
 import { computed, defineComponent, ref } from "vue";
+import { DateTime } from "luxon";
 
 import Datetime from "@/components/ui/date/Datetime.vue";
 import { useAccount } from "@/composables/account";
