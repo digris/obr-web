@@ -4,38 +4,47 @@
   display: flex;
   margin-top: 1.7rem;
   margin-bottom: 1rem;
+
   .menu {
     > a {
       display: inline-block;
       margin-right: 1.5rem;
       padding: 0 0 0.5rem;
       color: rgb(var(--c-page-fg));
-      &:after {
+
+      &::after {
         content: " ";
         font-size: 0;
       }
-      &:first-letter {
+
+      &::first-letter {
         text-transform: uppercase;
       }
+
       &.router-link-exact-active {
         border-bottom: 2.5px solid rgb(var(--c-page-fg));
       }
     }
+
     &--primary {
       flex-grow: 1;
       min-height: 2rem;
       margin-top: 1rem;
     }
   }
+
   @include responsive.bp-medium {
     margin-top: 0.625rem;
     margin-bottom: 0.625rem;
     flex-direction: column;
+
     .menu {
       overflow-x: scroll;
+
       &::-webkit-scrollbar {
         display: none;
       }
+
       &--primary {
         display: flex;
         flex-direction: row;

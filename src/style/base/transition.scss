@@ -1,12 +1,10 @@
 .fade-enter-active,
-.fade-leave-active,
-{
+.fade-leave-active, {
   opacity: 1;
   transition: opacity 100ms linear;
 }
 
 .fade-enter,
-.fade-leave-to
-{
+.fade-leave-to {
   opacity: 0;
 }

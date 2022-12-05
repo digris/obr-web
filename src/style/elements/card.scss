@@ -3,11 +3,12 @@
 
 @mixin visual {
   position: relative;
-  background: rgba(var(--c-white), 0.25);
+  background: rgb(var(--c-white) 0.25);
+
   .rating {
+    top: 0;
     position: absolute;
     right: 0;
-    top: 0;
   }
 }
 
@@ -17,25 +18,31 @@
     "title    actions"
     "subtitle actions";
   grid-template-columns: 1fr 72px;
+
   .title {
     grid-area: title;
     align-self: end;
     margin-top: 6px;
     overflow: hidden;
   }
+
   .subtitle {
     grid-area: subtitle;
     align-self: start;
+
     @include typo.dim;
     @include typo.light;
+
     text-transform: capitalize;
     overflow: hidden;
   }
+
   .actions {
     grid-area: actions;
     display: flex;
     justify-content: end;
   }
+
   @include responsive.bp-medium {
     // NOTE: we do not show actions on mobile
     //       basically there is no need for grid, but to have the same
@@ -48,12 +55,15 @@
   .visual {
     @include visual;
   }
+
   .meta {
     @include meta;
   }
+
   @include responsive.on-hover {
     .visual {
-      background: rgba(var(--c-black), 0.2);
+      background: rgb(var(--c-black) 0.2);
+
       :deep(img) {
         opacity: 0.5;
       }
@@ -66,6 +76,7 @@
     opacity: 0;
     transition: opacity 200ms;
   }
+
   @include responsive.on-hover {
     .actions {
       opacity: 1;

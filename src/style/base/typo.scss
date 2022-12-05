@@ -1,20 +1,19 @@
 @charset "UTF-8";
-
 @use "../base/responsive";
 
 body {
   font-weight: var(--font-weight);
   font-size: var(--font-size);
   font-family: var(--font-family);
-  font-feature-settings: 'kern' 1;
+  font-feature-settings: "kern" 1;
   font-kerning: normal;
-
   -moz-osx-font-smoothing: grayscale;
-  //-webkit-font-smoothing: antialiased;
+
+  // -webkit-font-smoothing: antialiased;
   -webkit-font-smoothing: subpixel-antialiased;
 
   &[data-client-mode="app"] {
-    font-feature-settings: 'kern' 1;
+    font-feature-settings: "kern" 1;
     font-kerning: normal;
   }
 }
@@ -24,27 +23,22 @@ body {
 }
 
 @mixin x-large {
-  //font-size: 4rem;
   font-size: var(--t-fs-x-large);
 }
 
 @mixin large {
-  //font-size: 2rem;
   font-size: var(--t-fs-large);
 }
 
 @mixin default {
-  //font-size: 1rem;
   font-size: var(--t-fs-default);
 }
 
 @mixin small {
-  //font-size: 0.75rem;
   font-size: var(--t-fs-small);
 }
 
 @mixin tiny {
-  //font-size: 0.625rem;
   font-size: var(--t-fs-tiny);
 }
 

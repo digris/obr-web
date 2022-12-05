@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 @use "../base/responsive";
 
 @mixin default {
@@ -14,19 +13,25 @@
       margin-bottom: 0.75rem;
     }
   }
+
+  /* stylelint-disable-next-line no-descending-specificity */
   ul,
   ol {
     list-style-position: outside;
     margin-left: 1.25rem;
   }
+
   a {
     text-decoration: underline;
   }
+
+  /* stylelint-disable-next-line no-descending-specificity */
   pre {
     color: white;
     background: #333;
     padding: 0.5rem;
     user-select: text;
+
     code {
       font-size: 86%;
     }

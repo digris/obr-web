@@ -1,25 +1,20 @@
 @mixin browser-setup {
-  user-select: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
   -webkit-tap-highlight-color: transparent;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  user-select: none;
 }
 
 html,
 body {
   min-height: 100%;
-  //background-color: rgb(var(--c-white));
 }
 
 body > #app {
   @include browser-setup;
+
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  //min-height: calc(100vh + 1px);
 
   > .content {
     position: relative;
@@ -36,7 +31,6 @@ html {
 body {
   color: rgb(var(--c-page-fg));
   background: rgb(var(--c-page-bg));
-  //transition: background-color 600ms, color 100ms 400ms;
   transition: background-color 600ms, color 100ms 1ms;
 
   a {

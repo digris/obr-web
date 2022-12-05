@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
-$cp: rgb(0, 230, 170);
-
+$cp: rgb(0 230 170);
 $color-palette: (
   black: (0, 0, 0),
   white: (255, 255, 255),
@@ -11,10 +10,6 @@ $color-palette: (
 
   red: (255, 0, 0),
   green: (0, 144, 80),
-
-  //cta: (10, 170, 200),
-  //cta-active: (7, 198, 234),
-  //cta-100: (224, 248, 255),
 
   cta: (10, 10, 10),
   cta-active: (20, 20, 20),
@@ -37,24 +32,21 @@ $color-palette: (
   gray-800: (60, 60, 60),
   gray-900: (30, 30, 30),
 
-  //initial values - controlled via js later on
+  // initial values - controlled via js later on
   page-fg: (0, 0, 0),
   page-bg: (255, 255, 255),
   page-fg-inverse: (255, 255, 255),
 );
-
 $color-palette-dark: (
   black: (255, 255, 255),
   white: (20, 20, 20),
   page-fg-inverse: (20, 20, 20),
 );
-
 $page-color-light: (
   page-fg: (0, 0, 0),
   page-bg: (255, 255, 255),
   page-fg-inverse: (255, 255, 255),
 );
-
 $page-color-dark: (
   page-fg: (0, 0, 0),
   page-bg: (102, 102, 102),

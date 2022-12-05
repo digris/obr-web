@@ -6,10 +6,12 @@
   @include container.default;
   @include typo.x-large;
   @include typo.bold;
+
   margin: 1.25rem auto 1.5rem;
   padding: 0 1.5rem;
+
   @include responsive.bp-medium {
-    margin: 0.5rem auto 0.5rem;
+    margin: 0.5rem auto;
     padding: 0 0.625rem;
   }
 }
