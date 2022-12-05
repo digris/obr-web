@@ -12,15 +12,25 @@ module.exports = {
         'stylelint-config-prettier',
     ],
     rules: {
-        'scss/double-slash-comment-whitespace-inside': 'always',
-        'order/properties-order': ['top', 'position', 'height', 'width',],
+        'declaration-block-no-redundant-longhand-properties': [
+          true,
+          {
+            ignoreShorthands: ['grid-gap'],
+          }
+        ],
         'selector-pseudo-class-no-unknown': [
           true,
           {
             ignorePseudoClasses: ['deep'],
           }
-        ]
+        ],
+        'scss/double-slash-comment-whitespace-inside': 'always',
+        'order/properties-order': ['top', 'position', 'height', 'width',],
     },
     // customSyntax: 'postcss-html',
-    ignoreFiles: ['**/*.tsx', '**/*.ts',],
+    ignoreFiles: [
+      '**/*.tsx',
+      '**/*.ts',
+      'src/views/proto/**.*',
+    ],
 }
