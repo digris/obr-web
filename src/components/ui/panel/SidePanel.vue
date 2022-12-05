@@ -141,8 +141,11 @@ export default defineComponent({
   z-index: 111;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  //align-items: center;
+  //justify-content: center;
+  padding-top: calc(75px + 0.5rem);
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   width: 50vw;
   height: 100%;
   color: rgb(var(--c-white));

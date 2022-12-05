@@ -38,7 +38,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <div v-if="subscription && !isBlocked" class="subscription-status">
+    <div v-if="subscription" class="subscription-status">
       <router-link
         :to="{ name: 'accountSettings' }"
         class="status"
@@ -47,15 +47,15 @@ export default defineComponent({
           'is-expired': !isActive,
         }"
       >
-        <div v-if="isActive">
-          <span> Free access </span>
-          <br />
-          <span v-text="t('subscription.numDaysRemaining', numDaysRemaining)" />
-        </div>
-        <div v-else class="icon-alert">
+        <div v-if="!isActive || isBlocked" class="icon-alert">
           <CircleButton>
             <IconAlert :scale="0.8" />
           </CircleButton>
+        </div>
+        <div v-else>
+          <span> Free access </span>
+          <br />
+          <span v-text="t('subscription.numDaysRemaining', numDaysRemaining)" />
         </div>
       </router-link>
     </div>

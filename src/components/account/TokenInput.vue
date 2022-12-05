@@ -14,6 +14,9 @@ export default defineComponent({
     const inputEl = ref(null);
     const inputValue = ref("");
     const parseInput = (value: string) => {
+      if (value.length >= 4 && value[3] !== "-") {
+        value = [value.slice(0, 3), "-", value.slice(3)].join("");
+      }
       return value.toUpperCase();
     };
     const handleInput = (e: any) => {

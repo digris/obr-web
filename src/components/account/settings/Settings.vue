@@ -66,7 +66,7 @@ export default defineComponent({
     <Password />
     <Personal :user="user" @updated="loadUser" />
     <Address :address="address" @updated="loadUser" />
-    <Newsletter :user="user" @updated="loadUser" />
+    <Newsletter />
     <Social />
     <!--
     <Support :user="user" />
