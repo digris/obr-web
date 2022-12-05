@@ -1,5 +1,6 @@
-import log from "loglevel";
 import { useIntervalFn } from "@vueuse/core";
+import log from "loglevel";
+
 import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";

@@ -1,6 +1,6 @@
 <script lang="ts">
-import { defineComponent, computed, watch } from "vue";
 import { useEventListener } from "@vueuse/core";
+import { computed, defineComponent, watch } from "vue";
 import { useRoute } from "vue-router";
 
 import CloseButton from "./CloseButton.vue";

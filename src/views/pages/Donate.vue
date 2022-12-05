@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import Page from "@/views/pages/Page.vue";
 import { useI18n } from "vue-i18n";
+
 import twintQrCode from "@/assets/pages/donate/twint-qr-code.png";
+import Page from "@/views/pages/Page.vue";
 
 export default defineComponent({
   components: {

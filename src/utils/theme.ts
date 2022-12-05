@@ -1,5 +1,6 @@
-import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
+
+import { useSettingsStore } from "@/stores/settings";
 
 const DATA_ATTRIBUTE = "data-theme";
 

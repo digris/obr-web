@@ -1,7 +1,9 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import type { SearchMediaResult } from "@/typings/api";
 import { defineComponent } from "vue";
+
+import type { SearchMediaResult } from "@/typings/api";
+
 import Result from "./SearchResultsResult.vue";
 
 export default defineComponent({

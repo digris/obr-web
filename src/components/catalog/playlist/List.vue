@@ -1,18 +1,18 @@
 <script lang="ts">
-import { defineComponent, ref, computed, watch, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
-import { useDevice } from "@/composables/device";
-import { useUiStore } from "@/stores/ui";
-import { useRatingStore } from "@/stores/rating";
-import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
+import { storeToRefs } from "pinia";
+import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-import LoadingMore from "@/components/ui/loading/Loading.vue";
-import ListFilter from "@/components/filter/ListFilter.vue";
+import { getPlaylists, getPlaylistsTags } from "@/api/catalog";
 import PlaylistCard from "@/components/catalog/playlist/Card.vue";
-import PlaylistRowHeader from "@/components/catalog/playlist/RowHeader.vue";
 import PlaylistRow from "@/components/catalog/playlist/Row.vue";
+import PlaylistRowHeader from "@/components/catalog/playlist/RowHeader.vue";
+import ListFilter from "@/components/filter/ListFilter.vue";
+import LoadingMore from "@/components/ui/loading/Loading.vue";
+import { useDevice } from "@/composables/device";
+import { useRatingStore } from "@/stores/rating";
+import { useUiStore } from "@/stores/ui";
 
 export default defineComponent({
   components: {

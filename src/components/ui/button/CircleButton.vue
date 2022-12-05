@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import { useIconSize } from "@/composables/icon";
 
 export default defineComponent({

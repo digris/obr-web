@@ -1,11 +1,11 @@
 <script lang="ts">
-import type { Page } from "@/typings/api";
-import { defineComponent, ref, watch, onBeforeMount } from "vue";
+import { defineComponent, onBeforeMount, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { getPage } from "@/api/cms";
 
+import { getPage } from "@/api/cms";
 import Section from "@/components/cms/Section.vue";
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
+import type { Page } from "@/typings/api";
 
 export default defineComponent({
   props: {

@@ -1,43 +1,43 @@
-import { createRouter, createWebHistory } from "vue-router";
 import { isEqual } from "lodash-es";
 import { DateTime } from "luxon";
-// import store from "@/store";
-import NotFound from "@/views/NotFound.vue";
-// import OnAir from '@/views/OnAir.vue';
-import Radio from "@/views/Radio.vue";
-import Program from "@/views/Program.vue";
-import Discover from "@/views/Discover.vue";
-import Collection from "@/views/Collection.vue";
-import Account from "@/views/Account.vue";
-import Page from "@/views/cms/Page.vue";
-import Faq from "@/views/faq/Faq.vue";
-import EditorList from "@/components/broadcast/editor/List.vue";
-import MoodList from "@/components/catalog/mood/List.vue";
-import MoodDetail from "@/views/catalog/MoodDetail.vue";
-import ArtistList from "@/components/catalog/artist/List.vue";
-import ArtistDetail from "@/views/catalog/ArtistDetail.vue";
-import PlaylistList from "@/components/catalog/playlist/List.vue";
-import PlaylistDetail from "@/views/catalog/PlaylistDetail.vue";
-import EditorDetail from "@/views/broadcast/EditorDetail.vue";
-import MediaList from "@/components/catalog/media/List.vue";
-import MediaDetail from "@/views/catalog/MediaDetail.vue";
-import AccountLogin from "@/components/account/Login.vue";
-import AccountEmailLogin from "@/components/account/EmailLogin.vue";
-import AccountSettings from "@/components/account/settings/Settings.vue";
-import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
-import Searchbar from "@/components/filter/Searchbar.vue";
-//
-import Donate from "@/views/pages/Donate.vue";
-//
-import ProtoBase from "@/views/proto/Proto.vue";
-import ProtoIcons from "@/views/proto/Icons.vue";
-import ProtoRating from "@/views/proto/Rating.vue";
-import ProtoAppBridge from "@/views/proto/AppBridge.vue";
-import ProtoPlayer from "@/views/proto/Player.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 import { getUser } from "@/api/account";
+import AccountEmailLogin from "@/components/account/EmailLogin.vue";
+import AccountLogin from "@/components/account/Login.vue";
+import AccountSettings from "@/components/account/settings/Settings.vue";
+import EditorList from "@/components/broadcast/editor/List.vue";
+import ArtistList from "@/components/catalog/artist/List.vue";
+import MediaList from "@/components/catalog/media/List.vue";
+import MoodList from "@/components/catalog/mood/List.vue";
+import PlaylistList from "@/components/catalog/playlist/List.vue";
+import Searchbar from "@/components/filter/Searchbar.vue";
+import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
 import { setBodyColorTheme } from "@/utils/color";
 import { parseFilterQuery } from "@/utils/filter";
+import Account from "@/views/Account.vue";
+import EditorDetail from "@/views/broadcast/EditorDetail.vue";
+import ArtistDetail from "@/views/catalog/ArtistDetail.vue";
+import MediaDetail from "@/views/catalog/MediaDetail.vue";
+import MoodDetail from "@/views/catalog/MoodDetail.vue";
+import PlaylistDetail from "@/views/catalog/PlaylistDetail.vue";
+import Page from "@/views/cms/Page.vue";
+import Collection from "@/views/Collection.vue";
+import Discover from "@/views/Discover.vue";
+import Faq from "@/views/faq/Faq.vue";
+// import store from "@/store";
+import NotFound from "@/views/NotFound.vue";
+//
+import Donate from "@/views/pages/Donate.vue";
+import Program from "@/views/Program.vue";
+import ProtoAppBridge from "@/views/proto/AppBridge.vue";
+import ProtoIcons from "@/views/proto/Icons.vue";
+import ProtoPlayer from "@/views/proto/Player.vue";
+//
+import ProtoBase from "@/views/proto/Proto.vue";
+import ProtoRating from "@/views/proto/Rating.vue";
+// import OnAir from '@/views/OnAir.vue';
+import Radio from "@/views/Radio.vue";
 
 const isAuthenticated = async () => {
   return await getUser();

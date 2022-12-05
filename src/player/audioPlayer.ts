@@ -1,20 +1,21 @@
+import { isEqual, round } from "lodash-es";
 import log from "loglevel";
-// @ts-ignore
-import shaka from "shaka-player";
 // import shaka from "shaka-player/dist/shaka-player.compiled.debug";
 // @ts-ignore
 import muxjs from "mux.js";
-import { computed, ref, watch } from "vue";
-import { isEqual, round } from "lodash-es";
-import type { AudioAnalyser } from "@/player/analyser";
-import type { PlayerState } from "@/stores/player";
-import { useDevice } from "@/composables/device";
-import { usePlayerStore } from "@/stores/player";
-import { usePlayerControls } from "@/composables/player";
-import { useSettingsStore } from "@/stores/settings";
-import { useQueueControls } from "@/composables/queue";
 import { storeToRefs } from "pinia";
+// @ts-ignore
+import shaka from "shaka-player";
+import { computed, ref, watch } from "vue";
+
+import { useDevice } from "@/composables/device";
+import { usePlayerControls } from "@/composables/player";
+import { useQueueControls } from "@/composables/queue";
+import type { AudioAnalyser } from "@/player/analyser";
 import { createAudioAnalyser } from "@/player/analyser";
+import type { PlayerState } from "@/stores/player";
+import { usePlayerStore } from "@/stores/player";
+import { useSettingsStore } from "@/stores/settings";
 
 shaka.dependencies.add("muxjs", muxjs);
 

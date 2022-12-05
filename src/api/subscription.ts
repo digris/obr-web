@@ -38,9 +38,9 @@ async function redeemVoucher(code: string) {
 }
 
 export {
-  getPlanOptions,
   // payment
   createStripeCheckoutSession,
+  getPlanOptions,
   // voucher
   getVoucher,
   redeemVoucher,

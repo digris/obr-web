@@ -1,18 +1,18 @@
 <script lang="ts">
-import { computed, ref, onActivated, defineComponent } from "vue";
+import { computed, defineComponent, onActivated, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useCatalogStore } from "@/stores/catalog";
-import type { Tag } from "@/typings/api/models/Tag";
 
-import DetailPage from "@/layouts/DetailPage.vue";
-import DetailHeader from "@/layouts/DetailHeader.vue";
-import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
-import Searchbar from "@/components/filter/Searchbar.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import Visual from "@/components/catalog/mood/Visual.vue";
+import Searchbar from "@/components/filter/Searchbar.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
+import DetailPage from "@/layouts/DetailPage.vue";
+import { useCatalogStore } from "@/stores/catalog";
+import type { Tag } from "@/typings/api/models/Tag";
 
 export default defineComponent({
   components: {

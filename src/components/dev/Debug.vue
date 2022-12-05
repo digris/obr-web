@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { computed, defineComponent } from "vue";
 
 const formatJSON = (value: any) => {
   let json = JSON.stringify(value, null, 4);

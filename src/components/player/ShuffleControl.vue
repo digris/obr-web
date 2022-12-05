@@ -1,10 +1,11 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useSettingsStore } from "@/stores/settings";
 import { storeToRefs } from "pinia";
-import { useQueueControls } from "@/composables/queue";
+import { defineComponent } from "vue";
 
 import IconShuffle from "@/components/ui/icon/IconShuffle.vue";
+import { useQueueControls } from "@/composables/queue";
+import { useSettingsStore } from "@/stores/settings";
+
 import Circle from "./button/Circle.vue";
 
 export default defineComponent({

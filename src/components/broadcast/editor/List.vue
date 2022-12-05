@@ -1,7 +1,8 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, computed } from "vue";
-import { useRatingStore } from "@/stores/rating";
+import { computed, defineComponent, onMounted, ref } from "vue";
+
 import { getEditors } from "@/api/broadcast";
+import { useRatingStore } from "@/stores/rating";
 
 import EditorCard from "./Card.vue";
 

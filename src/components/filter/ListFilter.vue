@@ -1,5 +1,6 @@
 <script lang="js">
 import { computed, defineComponent } from 'vue';
+
 import Query from './Query.vue';
 import Tag from './Tag.vue';
 

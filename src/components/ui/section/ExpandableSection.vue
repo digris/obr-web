@@ -2,8 +2,8 @@
 import { defineComponent } from "vue";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
-import IconPlus from "@/components/ui/icon/IconPlus.vue";
 import IconMinus from "@/components/ui/icon/IconMinus.vue";
+import IconPlus from "@/components/ui/icon/IconPlus.vue";
 
 export default defineComponent({
   components: {

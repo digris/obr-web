@@ -1,9 +1,11 @@
 <script lang="ts">
-import type { AnnotatedSchedule } from "@/stores/schedule";
+import { useDocumentVisibility, useScroll, useThrottleFn, useWindowSize } from "@vueuse/core";
 import type { PropType } from "vue";
-import { defineComponent, ref, computed, nextTick, watch, onActivated, onDeactivated } from "vue";
-import { useScroll, useThrottleFn, useWindowSize, useDocumentVisibility } from "@vueuse/core";
+import { computed, defineComponent, nextTick, onActivated, onDeactivated, ref, watch } from "vue";
+
 import eventBus from "@/eventBus";
+import type { AnnotatedSchedule } from "@/stores/schedule";
+
 import FlowItem from "./FlowItem.vue";
 import FlowPlaceholderItem from "./FlowPlaceholderItem.vue";
 

@@ -9,6 +9,7 @@ module.exports = {
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
   ],
+  plugins: ["simple-import-sort", "import"],
   rules: {
     "arrow-body-style": "off",
     "no-shadow": "off",
@@ -23,6 +24,11 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-empty-function": "off",
+    //
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/first": "error",
+    "import/no-duplicates": "error",
     /*
     "vue/max-attributes-per-line": [
       "error",

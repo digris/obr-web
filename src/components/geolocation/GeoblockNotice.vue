@@ -1,8 +1,9 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import eventBus from "@/eventBus";
+
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import eventBus from "@/eventBus";
 
 export default defineComponent({
   components: {

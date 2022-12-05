@@ -1,7 +1,8 @@
-import type { Emission } from "@/typings/api";
-import { defineStore } from "pinia";
-import { getProgram } from "@/api/broadcast";
 import { DateTime } from "luxon";
+import { defineStore } from "pinia";
+
+import { getProgram } from "@/api/broadcast";
+import type { Emission } from "@/typings/api";
 
 export type AnnotatedEmission = Emission & {
   dtStart: DateTime;

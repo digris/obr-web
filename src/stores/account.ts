@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { login, logout, loginByToken, loginBySignedEmail, getUser } from "@/api/account";
+
+import { getUser, login, loginBySignedEmail, loginByToken, logout } from "@/api/account";
 
 interface State {
   user: any | null;

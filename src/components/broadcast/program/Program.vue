@@ -1,11 +1,13 @@
 <script lang="ts">
-import { defineComponent, ref, computed, onActivated, watch } from "vue";
 import { isEqual } from "lodash-es";
-import Filter from "./Filter.vue";
-import Emission from "./emission/Emission.vue";
 import { DateTime } from "luxon";
 import { storeToRefs } from "pinia";
+import { computed, defineComponent, onActivated, ref, watch } from "vue";
+
 import { useProgramStore } from "@/stores/program";
+
+import Emission from "./emission/Emission.vue";
+import Filter from "./Filter.vue";
 
 export default defineComponent({
   components: {

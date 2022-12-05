@@ -1,6 +1,7 @@
-import settings from "@/settings";
 import { watchDebounced } from "@vueuse/core";
 import { storeToRefs } from "pinia";
+
+import settings from "@/settings";
 import { useUiStore } from "@/stores/ui";
 import { getContrastColor } from "@/utils/color";
 

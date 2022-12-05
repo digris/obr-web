@@ -1,7 +1,8 @@
-import log from "loglevel";
-import type { Media } from "@/typings/api";
-import { defineStore } from "pinia";
 import { shuffle } from "lodash-es";
+import log from "loglevel";
+import { defineStore } from "pinia";
+
+import type { Media } from "@/typings/api";
 
 export type AnnotatedMedia = Media & {
   scope: Array<string>;

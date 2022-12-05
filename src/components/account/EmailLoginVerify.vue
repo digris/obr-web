@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useAccount } from "@/composables/account";
 
+import TokenInput from "@/components/account/TokenInput.vue";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
-import TokenInput from "@/components/account/TokenInput.vue";
+import { useAccount } from "@/composables/account";
 
 const tokenRegex = new RegExp("^([A-Z0-9]{3})-?([A-Z0-9]{3})$");
 

@@ -1,18 +1,19 @@
 <script lang="ts">
+import { useEventListener, useSwipe } from "@vueuse/core";
 import { computed, defineComponent, ref, watch } from "vue";
 import { useRoute } from "vue-router";
-import { useEventListener } from "@vueuse/core";
-import { useSwipe } from "@vueuse/core";
-import { preloadImage } from "@/utils/image";
-import { getContrastColor } from "@/utils/color";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
-import LazyImage from "@/components/ui/LazyImage.vue";
+
+import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconClose from "@/components/ui/icon/IconClose.vue";
-import UserRating from "@/components/rating/UserRating.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { getContrastColor } from "@/utils/color";
+import { preloadImage } from "@/utils/image";
+
 import CurrentMedia from "./CurrentMedia.vue";
-import Playhead from "./Playhead.vue";
 import PlayerControl from "./PlayerControl.vue";
+import Playhead from "./Playhead.vue";
 
 export default defineComponent({
   components: {

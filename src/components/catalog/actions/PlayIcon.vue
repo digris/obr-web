@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import IconPlay from "@/components/ui/icon/IconPlay.vue";
 

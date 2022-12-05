@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-
 import { mount } from "@vue/test-utils";
+import { describe, expect, it } from "vitest";
+
 import ColorChoser from "@/components/colors/ColorChooser.vue";
 
 describe("ColorChoser", () => {

@@ -1,9 +1,11 @@
 <script lang="ts">
-import type { PropType } from "vue";
-import type { Media } from "@/typings/api";
-import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
 import { DateTime } from "luxon";
+import type { PropType } from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
+
 import Duration from "@/components/ui/time/Duration.vue";
+import type { Media } from "@/typings/api";
+
 import MediaRow from "./MediaRow.vue";
 
 export default defineComponent({

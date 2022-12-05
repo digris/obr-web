@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 
 export default defineComponent({

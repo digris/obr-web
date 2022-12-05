@@ -1,8 +1,9 @@
-import type { Schedule, Media } from "@/typings/api";
-import { defineStore } from "pinia";
 import { DateTime } from "luxon";
-import { useTimeStore } from "@/stores/time";
+import { defineStore } from "pinia";
+
 import { getSchedule } from "@/api/broadcast";
+import { useTimeStore } from "@/stores/time";
+import type { Media, Schedule } from "@/typings/api";
 
 export type AnnotatedSchedule = Schedule & {
   dtStart: DateTime;

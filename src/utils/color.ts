@@ -19,4 +19,4 @@ const setBodyColorTheme = (theme: string) => {
   body.setAttribute("data-page-color", theme);
 };
 
-export { getMediaColor, getContrastColor, setBodyColorTheme };
+export { getContrastColor, getMediaColor, setBodyColorTheme };

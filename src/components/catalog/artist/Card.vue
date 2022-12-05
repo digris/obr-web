@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useObjKey } from "@/composables/obj";
 
-import LazyImage from "@/components/ui/LazyImage.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import CircleButton from "@/components/ui/button/CircleButton.vue";
-import UserRating from "@/components/rating/UserRating.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
+import UserRating from "@/components/rating/UserRating.vue";
+import CircleButton from "@/components/ui/button/CircleButton.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
 import { useDevice } from "@/composables/device";
+import { useObjKey } from "@/composables/obj";
 
 export default defineComponent({
   components: {

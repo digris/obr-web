@@ -34,4 +34,4 @@ const preloadImage = async (image: any, size = 800) => {
   }
 };
 
-export { getImageSrc, getImageColor, preloadImage };
+export { getImageColor, getImageSrc, preloadImage };

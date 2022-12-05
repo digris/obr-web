@@ -1,17 +1,17 @@
 <script lang="ts">
+import { debounce } from "lodash-es";
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
-import { useObjKey } from "@/composables/obj";
-import { requireSubscription } from "@/utils/account";
-import { useQueueControls } from "@/composables/queue";
-
 import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
-import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
-import Action from "./actions/Action.vue";
+import IconHeart from "@/components/ui/icon/IconHeart.vue";
+import { useObjKey } from "@/composables/obj";
+import { useQueueControls } from "@/composables/queue";
 import { useRatingStore } from "@/stores/rating";
-import { debounce } from "lodash-es";
+import { requireSubscription } from "@/utils/account";
+
+import Action from "./actions/Action.vue";
 
 export default defineComponent({
   props: {

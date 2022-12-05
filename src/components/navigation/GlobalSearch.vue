@@ -1,11 +1,12 @@
 <script lang="ts">
-import { defineComponent, ref } from "vue";
 import { watchDebounced } from "@vueuse/core";
+import { defineComponent, ref } from "vue";
+
 import { getGlobalMediaSearchResults } from "@/api/search";
-import eventBus from "@/eventBus";
-import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import SearchInput from "@/components/search/SearchInput.vue";
 import SearchResults from "@/components/search/SearchResults.vue";
+import SidePanel from "@/components/ui/panel/SidePanel.vue";
+import eventBus from "@/eventBus";
 
 export default defineComponent({
   components: {

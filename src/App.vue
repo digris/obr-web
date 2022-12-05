@@ -1,20 +1,21 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
 import { useWindowSize } from "@vueuse/core";
-import { AudioPlayer } from "@/player/audioPlayer";
+import { computed, defineComponent } from "vue";
+
 import { AppBridge } from "@/app-bridge/appBridge";
-import { useAccount } from "@/composables/account";
+import AuthSidebar from "@/components/account/AuthSidebar.vue";
+import DebugPanel from "@/components/dev/DebugPanel.vue";
+import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
+import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
-import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
-import AuthSidebar from "@/components/account/AuthSidebar.vue";
-import Subscribe from "@/components/subscription/Subscribe.vue";
-import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
-import Player from "@/components/player/Player.vue";
-import MobilePlayer from "@/components/player/mobile/Player.vue";
 import Notifications from "@/components/notification/Notifications.vue";
+import MobilePlayer from "@/components/player/mobile/Player.vue";
+import Player from "@/components/player/Player.vue";
+import Subscribe from "@/components/subscription/Subscribe.vue";
 import ClaimVoucher from "@/components/subscription/voucher/Claim.vue";
-import DebugPanel from "@/components/dev/DebugPanel.vue";
+import { useAccount } from "@/composables/account";
+import { AudioPlayer } from "@/player/audioPlayer";
 
 declare global {
   interface Window {

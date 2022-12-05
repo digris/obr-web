@@ -1,6 +1,7 @@
-import { computed } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import Bowser from "bowser";
+import { computed } from "vue";
+
 import settings from "@/settings";
 
 const parser = Bowser.getParser(window.navigator.userAgent);

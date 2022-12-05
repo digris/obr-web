@@ -1,9 +1,10 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import type { SearchMediaResult } from "@/typings/api";
 import { computed, defineComponent } from "vue";
-import LazyImage from "@/components/ui/LazyImage.vue";
+
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import type { SearchMediaResult } from "@/typings/api";
 
 export default defineComponent({
   components: {

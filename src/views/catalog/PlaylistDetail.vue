@@ -1,21 +1,20 @@
 <script lang="ts">
-import { computed, onActivated, defineComponent } from "vue";
+import { computed, defineComponent, onActivated } from "vue";
 import { useI18n } from "vue-i18n";
-import { useCatalogStore } from "@/stores/catalog";
 
-import { playlistTitle } from "@/utils/catalog";
-
-import DetailPage from "@/layouts/DetailPage.vue";
+import EditorInline from "@/components/broadcast/editor/Inline.vue";
+import PlayAction from "@/components/catalog/actions/PlayAction.vue";
+import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
+import MediaList from "@/components/catalog/media/List.vue";
+import Visual from "@/components/catalog/playlist/Visual.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
+import Duration from "@/components/ui/time/Duration.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
-import LazyImage from "@/components/ui/LazyImage.vue";
-import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
-import Duration from "@/components/ui/time/Duration.vue";
-import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
-import MediaList from "@/components/catalog/media/List.vue";
-import EditorInline from "@/components/broadcast/editor/Inline.vue";
-import Visual from "@/components/catalog/playlist/Visual.vue";
+import DetailPage from "@/layouts/DetailPage.vue";
+import { useCatalogStore } from "@/stores/catalog";
+import { playlistTitle } from "@/utils/catalog";
 
 export default defineComponent({
   components: {

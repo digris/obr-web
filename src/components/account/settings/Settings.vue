@@ -1,20 +1,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useAccount } from "@/composables/account";
-import { useDevice } from "@/composables/device";
 
-import Section from "@/components/account/settings/Section.vue";
-import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
-import Stream from "@/components/account/settings/Stream.vue";
-import Email from "@/components/account/settings/Email.vue";
-import Password from "@/components/account/settings/Password.vue";
-import Personal from "@/components/account/settings/Personal.vue";
-import Address from "@/components/account/settings/Address.vue";
-import Newsletter from "@/components/account/settings/Newsletter.vue";
-import Social from "@/components/account/settings/Social.vue";
 // import Support from "@/components/account/settings/Support.vue";
 import QRCodeLogin from "@/components/account/qrcode/QRCodeLogin.vue";
+import Address from "@/components/account/settings/Address.vue";
+import Email from "@/components/account/settings/Email.vue";
+import Newsletter from "@/components/account/settings/Newsletter.vue";
+import Password from "@/components/account/settings/Password.vue";
+import Personal from "@/components/account/settings/Personal.vue";
+import Section from "@/components/account/settings/Section.vue";
+import Social from "@/components/account/settings/Social.vue";
+import Stream from "@/components/account/settings/Stream.vue";
+import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
+import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   components: {

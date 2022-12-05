@@ -1,19 +1,19 @@
 <script lang="ts">
-import { computed, defineComponent, ref, onMounted, onUnmounted, onActivated, watch } from "vue";
 import { DateTime } from "luxon";
-import { useDevice } from "@/composables/device";
-import { usePlayerControls } from "@/composables/player";
-import { getEmission } from "@/api/broadcast";
-import { useObjKey } from "@/composables/obj";
+import { computed, defineComponent, onActivated, onMounted, onUnmounted, ref, watch } from "vue";
 
-import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import { getEmission } from "@/api/broadcast";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
+import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
 import UserRating from "@/components/rating/UserRating.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 // import IconPlus from "@/components/ui/icon/IconPlus.vue";
 // import IconMinus from "@/components/ui/icon/IconMinus.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";
+import { useDevice } from "@/composables/device";
+import { useObjKey } from "@/composables/obj";
+import { usePlayerControls } from "@/composables/player";
 
 export default defineComponent({
   components: {

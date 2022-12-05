@@ -1,8 +1,9 @@
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useSettingsStore } from "@/stores/settings";
+
 import { useDevice } from "@/composables/device";
+import { useSettingsStore } from "@/stores/settings";
 
 import Section from "./Section.vue";
 

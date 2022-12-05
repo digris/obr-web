@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref, computed, onActivated } from "vue";
+import { computed, defineComponent, onActivated, ref } from "vue";
+
 import { useRatingStore } from "@/stores/rating";
 
 export default defineComponent({

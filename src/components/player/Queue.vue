@@ -1,11 +1,13 @@
 <script lang="ts">
-import { defineComponent } from "vue";
 import { useEventListener } from "@vueuse/core";
-import { useQueueState, useQueueControls } from "@/composables/queue";
+import { defineComponent } from "vue";
+
 import QueueMedia from "@/components/player/QueueMedia.vue";
-import ShuffleControl from "./ShuffleControl.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";
+import { useQueueControls, useQueueState } from "@/composables/queue";
+
 import Circle from "./button/Circle.vue";
+import ShuffleControl from "./ShuffleControl.vue";
 
 export default defineComponent({
   components: {

@@ -2,13 +2,13 @@
 import type { PropType } from "vue";
 import { defineComponent, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import type { Address } from "@/typings/api";
-import { getAddressCountries, updateAddress } from "@/api/account";
 
+import { getAddressCountries, updateAddress } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
-import TextInput from "@/components/ui/form/TextInput.vue";
 import SelectInput from "@/components/ui/form/SelectInput.vue";
+import TextInput from "@/components/ui/form/TextInput.vue";
+import type { Address } from "@/typings/api";
 
 export default defineComponent({
   components: {

@@ -1,6 +1,6 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
 import { DateTime } from "luxon";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   props: {

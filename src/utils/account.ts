@@ -1,11 +1,12 @@
-import { watch } from "vue";
-import { useIntervalFn } from "@vueuse/core";
 import * as Sentry from "@sentry/vue";
+import { useIntervalFn } from "@vueuse/core";
 import { isEqual } from "lodash-es";
-import eventBus from "@/eventBus";
-import type { User } from "@/typings/api";
+import { watch } from "vue";
+
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
+import eventBus from "@/eventBus";
+import type { User } from "@/typings/api";
 
 const USER_POLLING_INTERVAL = 5 * 60 * 1000;
 

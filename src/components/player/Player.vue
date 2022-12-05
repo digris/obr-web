@@ -1,18 +1,20 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { getContrastColor } from "@/utils/color";
+
 import UserRating from "@/components/rating/UserRating.vue";
-import CurrentMedia from "./CurrentMedia.vue";
-import Playhead from "./Playhead.vue";
-import Queue from "./Queue.vue";
-import OnAir from "./button/OnAir.vue";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueState } from "@/composables/queue";
+import { getContrastColor } from "@/utils/color";
+
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
+import OnAir from "./button/OnAir.vue";
+import CurrentMedia from "./CurrentMedia.vue";
 import PlayerControl from "./PlayerControl.vue";
-import VolumeControl from "./VolumeControl.vue";
+import Playhead from "./Playhead.vue";
+import Queue from "./Queue.vue";
 import QueueControl from "./QueueControl.vue";
-import { useQueueState } from "@/composables/queue";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
+import VolumeControl from "./VolumeControl.vue";
 
 export default defineComponent({
   components: {

@@ -1,15 +1,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useDevice } from "@/composables/device";
-import eventBus from "@/eventBus";
-import Logo from "@/components/ui/logo/Logo.vue";
-import MainMenu from "@/components/navigation/MainMenu.vue";
+
 import AccountMenu from "@/components/navigation/AccountMenu.vue";
+import MainMenu from "@/components/navigation/MainMenu.vue";
 import SubscriptionStatus from "@/components/navigation/SubscriptionStatus.vue";
-import ToggleSearchButton from "@/components/navigation/ToggleSearchButton.vue";
 import ToggleMenuButton from "@/components/navigation/ToggleMenuButton.vue";
+import ToggleSearchButton from "@/components/navigation/ToggleSearchButton.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconProgram from "@/components/ui/icon/IconProgram.vue";
+import Logo from "@/components/ui/logo/Logo.vue";
+import { useDevice } from "@/composables/device";
+import eventBus from "@/eventBus";
 
 export default defineComponent({
   components: {

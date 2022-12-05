@@ -1,13 +1,14 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
 import { DateTime } from "luxon";
-import { useDevice } from "@/composables/device";
+import { computed, defineComponent, ref } from "vue";
+
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
+import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   components: {

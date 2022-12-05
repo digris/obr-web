@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import LazyImage from "@/components/ui/LazyImage.vue";
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+import LazyImage from "@/components/ui/LazyImage.vue";
 
 export default defineComponent({
   props: {

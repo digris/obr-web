@@ -2,12 +2,12 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
-import { requireSubscription } from "@/utils/account";
-import { useQueueControls } from "@/composables/queue";
-
-import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
-import Action from "./actions/Action.vue";
 import { getMedia } from "@/api/catalog";
+import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
+import { useQueueControls } from "@/composables/queue";
+import { requireSubscription } from "@/utils/account";
+
+import Action from "./actions/Action.vue";
 
 export default defineComponent({
   props: {

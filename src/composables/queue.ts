@@ -1,15 +1,15 @@
-import log from "loglevel";
-import { computed } from "vue";
-import { storeToRefs } from "pinia";
 import { shuffle } from "lodash-es";
+import log from "loglevel";
+import { storeToRefs } from "pinia";
+import { computed } from "vue";
 
-import type { Media } from "@/typings/api";
-import type { AnnotatedMedia } from "@/stores/queue";
+import { getMedia } from "@/api/catalog";
 import { useDevice } from "@/composables/device";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
 import { useSettingsStore } from "@/stores/settings";
-import { getMedia } from "@/api/catalog";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
+import type { Media } from "@/typings/api";
 
 const annotateMedia = (media: Array<Media>, scope: Array<string> = []): Array<AnnotatedMedia> => {
   return media.map((mediaObj: Media) => {
@@ -201,4 +201,4 @@ const useQueueControls = () => {
   };
 };
 
-export { useQueueState, useQueueControls };
+export { useQueueControls, useQueueState };

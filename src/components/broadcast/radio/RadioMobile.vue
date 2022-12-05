@@ -1,14 +1,16 @@
 <script lang="ts">
-import type { AnnotatedSchedule } from "@/stores/schedule";
-import { ref, computed, defineComponent, watch } from "vue";
+import { useWindowSize, whenever } from "@vueuse/core";
+import { round } from "lodash-es";
 import { storeToRefs } from "pinia";
+import { computed, defineComponent, ref, watch } from "vue";
+
+import { usePlayerState } from "@/composables/player";
+import eventBus from "@/eventBus";
+import type { AnnotatedSchedule } from "@/stores/schedule";
 import { useScheduleStore } from "@/stores/schedule";
 import { useUiStore } from "@/stores/ui";
-import { usePlayerState } from "@/composables/player";
-import { useWindowSize, whenever } from "@vueuse/core";
 import { preloadImage } from "@/utils/image";
-import { round } from "lodash-es";
-import eventBus from "@/eventBus";
+
 import Flow from "./flow/Flow.vue";
 import FocusedEmission from "./focused/FocusedEmissionMobile.vue";
 import FocusedMedia from "./focused/FocusedMediaMobile.vue";

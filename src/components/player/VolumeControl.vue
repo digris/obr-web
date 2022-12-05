@@ -1,9 +1,10 @@
 <script lang="ts">
-import { ref, defineComponent } from "vue";
 import { storeToRefs } from "pinia";
-import { useSettingsStore } from "@/stores/settings";
+import { defineComponent, ref } from "vue";
 
 import IconSpeaker from "@/components/ui/icon/IconSpeaker.vue";
+import { useSettingsStore } from "@/stores/settings";
+
 import Circle from "./button/Circle.vue";
 
 export default defineComponent({

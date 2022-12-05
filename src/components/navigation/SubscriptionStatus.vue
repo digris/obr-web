@@ -1,10 +1,11 @@
 <script lang="ts">
+import { DateTime } from "luxon";
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { DateTime } from "luxon";
-import { useAccount } from "@/composables/account";
+
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconAlert from "@/components/ui/icon/IconAlert.vue";
+import { useAccount } from "@/composables/account";
 
 export default defineComponent({
   components: {

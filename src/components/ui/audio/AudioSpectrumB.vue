@@ -1,5 +1,6 @@
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
+
 import type { AudioAnalyser } from "@/player/analyser";
 
 const drawCanvas = async (

@@ -1,15 +1,16 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import type { PropType } from "vue";
 import { useMagicKeys, useVibrate } from "@vueuse/core";
-import { useRatingStore } from "@/stores/rating";
-import { usePlayerState, usePlayerControls } from "@/composables/player";
-import { useQueueControls, useQueueState } from "@/composables/queue";
-import { useObjCtUid } from "@/composables/obj";
-import { requireSubscription } from "@/utils/account";
+import type { PropType } from "vue";
+import { computed, defineComponent, ref } from "vue";
+
 import { getMedia } from "@/api/catalog";
-import { getContrastColor } from "@/utils/color";
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
+import { useObjCtUid } from "@/composables/obj";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueControls, useQueueState } from "@/composables/queue";
+import { useRatingStore } from "@/stores/rating";
+import { requireSubscription } from "@/utils/account";
+import { getContrastColor } from "@/utils/color";
 
 export default defineComponent({
   components: {

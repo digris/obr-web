@@ -1,5 +1,5 @@
+import { useNavigatorLanguage, useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { useStorage, useNavigatorLanguage } from "@vueuse/core";
 
 interface State {
   theme: "light" | "dark" | null;

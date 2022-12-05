@@ -1,11 +1,13 @@
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
-import { useAccount } from "@/composables/account";
 import { debounce } from "lodash-es";
-import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import { computed, defineComponent, ref } from "vue";
+
 import { getVoucher, redeemVoucher } from "@/api/subscription";
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
+import APIErrors from "@/components/ui/error/APIErrors.vue";
+import { useAccount } from "@/composables/account";
+
 import CodeInput from "./voucher/CodeInput.vue";
 
 const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
