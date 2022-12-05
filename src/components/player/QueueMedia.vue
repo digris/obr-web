@@ -140,7 +140,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .media-row {
   display: grid;
   grid-row-gap: 0;

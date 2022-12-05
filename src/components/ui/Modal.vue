@@ -71,7 +71,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 $z-mask: 4;
 $z-modal: 5;
 $z-header: 10;

@@ -35,7 +35,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .media-artists {
   display: inline-flex;
   overflow: hidden;

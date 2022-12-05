@@ -63,7 +63,7 @@ en:
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .donate {
   display: grid;
   grid-gap: 1rem;

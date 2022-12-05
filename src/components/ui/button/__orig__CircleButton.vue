@@ -87,7 +87,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .circle-button {
   display: inline-flex;
   align-items: center;

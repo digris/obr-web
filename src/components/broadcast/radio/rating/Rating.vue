@@ -183,7 +183,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 @use "@/style/elements/button";
 .rating {
   display: grid;
