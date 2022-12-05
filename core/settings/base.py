@@ -401,6 +401,7 @@ REST_FRAMEWORK = {
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # 'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
 }
 
 SIMPLE_JWT = {
