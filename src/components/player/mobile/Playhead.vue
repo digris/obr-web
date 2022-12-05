@@ -194,7 +194,7 @@ export default defineComponent({
     height: 4px;
     width: 100%;
     pointer-events: none;
-    background: rgb(var(--c-fg) 0.2);
+    background: rgb(var(--c-fg) / 20%);
   }
 
   .cue {
@@ -240,7 +240,7 @@ export default defineComponent({
       height: 4px;
       width: 1%;
       pointer-events: none;
-      background: rgb(var(--c-fg) 1);
+      background: rgb(var(--c-fg) / 100%);
       transition: width 100ms linear;
 
       &.is-seeking {
@@ -257,7 +257,7 @@ export default defineComponent({
       border-radius: 10px;
       pointer-events: none;
       transition: left 100ms linear;
-      box-shadow: 0 0 4px rgb(var(--c-fg) 0.5);
+      box-shadow: 0 0 4px rgb(var(--c-fg) / 50%);
 
       &.is-seeking {
         transition-duration: 1ms;
