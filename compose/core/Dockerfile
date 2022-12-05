@@ -1,7 +1,7 @@
 #######################################################################
 # python base image
 #######################################################################
-FROM python:3.10-slim as python-base
+FROM python:3.11-slim as python-base
 ARG GIT_SHORT_SHA=""
 WORKDIR /root/
 

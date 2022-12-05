@@ -1,4 +1,4 @@
-from google.cloud import bigquery
+from google.cloud import bigquery  # NOTE: does currently not support python 3.11
 from stats.models import PlayerEvent
 
 
