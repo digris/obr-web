@@ -29,7 +29,6 @@ export default defineComponent({
     const onCondense = () => (hash.value = "");
     const answerHtml = computed(() => converter.makeHtml(props.topic.answer));
     const scrollTo = () => {
-      console.debug("scrollTo");
       if (isExpanded.value && el.value) {
         // @ts-ignore
         el.value?.scrollIntoViewIfNeeded({
@@ -69,8 +68,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/markdown";
 .topic {
-  padding: 0.5rem 0;
+  border-top: 0;
   border-bottom: 1px solid rgb(var(--c-gray-200));
+  &.is-expanded {
+    color: rgb(var(--c-green));
+  }
   :deep(.answer) {
     @include markdown.default;
     p {

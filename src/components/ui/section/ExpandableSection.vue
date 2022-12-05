@@ -48,12 +48,13 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/abstracts/responsive";
 .expandable-section {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgb(var(--c-gray-200));
+  border-top: 1px solid rgb(var(--c-gray-200));
   transition: background 200ms;
+  /*
   &.is-expanded {
     background: rgba(var(--c-black), 0.025);
   }
+  */
   .title {
     @include typo.large;
     min-height: calc(108px - 1rem);
@@ -62,13 +63,10 @@ export default defineComponent({
     cursor: pointer;
     .text {
       flex-grow: 1;
-      padding-left: 0.5rem;
     }
   }
   .content {
     margin-bottom: 2rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
   }
   @include responsive.bp-medium {
     .title {
