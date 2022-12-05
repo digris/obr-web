@@ -1,9 +1,10 @@
 import logging
-import requests
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
-from account.models import User, MigrationSource
+import requests
+from account.models import MigrationSource, User
 
 OBR_SYNC_ENDPOINT = getattr(settings, "OBR_SYNC_ENDPOINT", None)
 OBR_SYNC_TOKEN = getattr(settings, "OBR_SYNC_TOKEN", None)

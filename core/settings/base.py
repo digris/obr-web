@@ -1,8 +1,10 @@
-import environ
 import os
 import sys
 from datetime import timedelta
 from pathlib import Path
+
+import environ
+
 from .. import __version__
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent

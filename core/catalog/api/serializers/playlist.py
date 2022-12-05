@@ -1,13 +1,12 @@
-from rest_flex_fields.serializers import FlexFieldsSerializerMixin
-from rest_framework import serializers
-from api_extra.serializers import CTUIDModelSerializer
-from catalog.api.serializers import MediaSerializer
+from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSerializer
 from broadcast.models.editor import Editor
 from broadcast.models.emission import Emission
+from catalog.api.serializers import MediaSerializer
 from catalog.models import Playlist, PlaylistMedia, Series
 from image.api.serializers import ImageSerializer
+from rest_flex_fields.serializers import FlexFieldsSerializerMixin
+from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
-from api_extra.serializers import DurationInSecondsSerializer
 
 
 class PlaylistMediaSerializer(

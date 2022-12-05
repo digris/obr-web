@@ -1,11 +1,10 @@
 import logging
 
-from rest_framework import status, permissions
+from drf_spectacular.utils import extend_schema
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
-
 from subscription.api import serializers
 from subscription.utils import plan, voucher
 

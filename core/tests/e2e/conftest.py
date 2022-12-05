@@ -1,7 +1,8 @@
 import os
-import pytest
+
 from django.core.management import call_command
 
+import pytest
 
 FIXTURE_PATH = "./core/tests/db-fixtures/"
 FIXTURE_FILES = []

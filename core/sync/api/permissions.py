@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission
 
-
 # see account `GlobalPermissions`
 SYNC_PERMISSION = "account.api_sync_webhooks"
 

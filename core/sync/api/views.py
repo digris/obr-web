@@ -1,14 +1,14 @@
 import logging
 from datetime import datetime, timedelta
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from drf_spectacular.utils import extend_schema
 
 from broadcast.sync.schedule import sync_schedule
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from sync.update import update_by_app
-from . import serializers, permissions
 
+from . import permissions, serializers
 
 logger = logging.getLogger(__name__)
 

@@ -1,20 +1,19 @@
+import hashlib
 import logging
+import mimetypes
 import os
 import re
-import hashlib
-import mimetypes
 import shutil
 from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
+
 from google.cloud import storage
-
-from sync import api_client
-from sync.utils import update_relations, update_tags, update_identifier
-
 from identifier.models import IdentifierScope
+from sync import api_client
+from sync.utils import update_identifier, update_relations, update_tags
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ class MasterDownloadException(Exception):
 # pylint: disable=too-many-locals, unused-argument
 def sync_media(media, skip_media=False, **kwargs):
     # pylint: disable=import-outside-toplevel
-    from catalog.models import Artist, MediaArtists, Release, ReleaseMedia, Master
+    from catalog.models import Artist, Master, MediaArtists, Release, ReleaseMedia
 
     try:
         data = api_client.get(f"media/{media.uuid}/")

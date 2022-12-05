@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from image.api.serializers import ImageSerializer
+from rest_framework import serializers
 
 
 class SearchMediaResultSerializer(serializers.Serializer):

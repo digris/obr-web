@@ -10,8 +10,10 @@ env = environ.Env()
 env.read_env(env.str("ENV_PATH", ".env"))
 
 from .base import *  # NOQA
-from .development import *  # NOQA
 
+# from .gcp_logging import LOGGING  # NOQA
+from .dev_logging import LOGGING  # NOQA
+from .development import *  # NOQA
 
 ##################################################################
 # make sure to add further setting overrides *after*
@@ -23,6 +25,3 @@ from .development import *  # NOQA
 # print("DEBUG", settings.DEBUG)
 # print("DATABASES", settings.DATABASES)
 # print("EMAIL_BACKEND", settings.EMAIL_BACKEND)
-
-# from .gcp_logging import LOGGING  # NOQA
-from .dev_logging import LOGGING  # NOQA

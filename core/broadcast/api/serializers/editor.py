@@ -1,17 +1,16 @@
-from rest_flex_fields.serializers import FlexFieldsSerializerMixin
-from rest_framework import serializers
-
-from drf_spectacular.utils import (
-    extend_schema_serializer,
-    extend_schema_field,
-    OpenApiExample,
-    OpenApiTypes,
-)
 from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models.editor import Editor, EditorImage
-from image.api.serializers import BaseImageSerializer
-from tagging.api.serializers import TagSerializer
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiTypes,
+    extend_schema_field,
+    extend_schema_serializer,
+)
 from identifier.api.serializers import IdentifierSerializer
+from image.api.serializers import BaseImageSerializer
+from rest_flex_fields.serializers import FlexFieldsSerializerMixin
+from rest_framework import serializers
+from tagging.api.serializers import TagSerializer
 
 
 class ImageSerializer(

@@ -1,7 +1,9 @@
 import logging
+
 from django.conf import settings
-from slack_sdk.webhook import WebhookClient
+
 from slack_sdk.errors import SlackApiError
+from slack_sdk.webhook import WebhookClient
 
 logger = logging.getLogger(__name__)
 

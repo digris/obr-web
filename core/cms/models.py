@@ -1,9 +1,9 @@
-import markdown
 from django import forms
 from django.db import models
 from django.utils.text import slugify
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
 
+import markdown
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 MARKDOWN_EXTENSIONS = [
     "markdown.extensions.tables",

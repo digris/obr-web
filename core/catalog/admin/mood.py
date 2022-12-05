@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.db import models
-from modeltranslation.admin import TranslationAdmin
-from django_json_widget.widgets import JSONEditorWidget
-from tagging.models import TaggedItem
+
 from catalog.models.mood import Mood
+from django_json_widget.widgets import JSONEditorWidget
+from modeltranslation.admin import TranslationAdmin
+from tagging.models import TaggedItem
 
 
 class TaggedItemInline(GenericTabularInline):

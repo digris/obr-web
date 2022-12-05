@@ -4,7 +4,7 @@ from datetime import datetime
 from django.utils import timezone
 
 from sync import api_client
-from sync.utils import update_tags, update_image
+from sync.utils import update_image, update_tags
 
 logger = logging.getLogger(__name__)
 

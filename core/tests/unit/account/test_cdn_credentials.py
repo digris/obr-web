@@ -1,10 +1,9 @@
 import datetime
 
 import pytest
+from account.cdn_credentials.policy import get_cdn_policy, get_signed_cookie
+from account.cdn_credentials.utils import remove_credentials, set_credentials
 from freezegun import freeze_time
-
-from account.cdn_credentials.policy import get_signed_cookie, get_cdn_policy
-from account.cdn_credentials.utils import set_credentials, remove_credentials
 
 
 def test_get_signed_cookie():

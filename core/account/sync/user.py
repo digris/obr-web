@@ -1,8 +1,9 @@
 import logging
 from datetime import datetime
+
 from django.apps import apps
-from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
+from django.utils import timezone
 
 from rating.models import Vote
 from sync import api_client
@@ -33,7 +34,7 @@ def sync_user_account(user):
         return None
 
     # pylint: disable=import-outside-toplevel
-    from account.models import User, Address, Gender
+    from account.models import Address, Gender, User
 
     update = {}
 

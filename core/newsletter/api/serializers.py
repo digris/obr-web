@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from api_extra.serializers import CTUIDSerializer
+from rest_framework import serializers
 
 
 class NewsletterSerializer(

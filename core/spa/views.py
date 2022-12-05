@@ -1,9 +1,9 @@
 import logging
 
 from django.http import Http404
-from django.views.generic import TemplateView, View
-from django.views.decorators.cache import never_cache
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.generic import TemplateView, View
 
 from broadcast.utils import get_current_media
 

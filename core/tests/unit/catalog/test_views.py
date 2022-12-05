@@ -1,12 +1,13 @@
-import pytest
 import json
-from django.test import RequestFactory
-from django.urls import reverse
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
+from django.test import RequestFactory
+from django.urls import reverse
+
+import pytest
 from catalog.api.views import ArtistViewSet, MoodViewSet, PlaylistViewSet
 from mixer.backend.django import mixer
-
 
 User = get_user_model()
 

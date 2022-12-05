@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from sync.update import update_by_app
 
 

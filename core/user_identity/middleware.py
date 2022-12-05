@@ -1,6 +1,6 @@
 import logging
 
-from .utils import get_user_identity, get_device_key
+from .utils import get_device_key, get_user_identity
 
 logger = logging.getLogger(__name__)
 

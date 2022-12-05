@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db.models.functions import Now
+
 from tagging.models import Tag
 from tagging.sync.tag import sync_tag
 

@@ -1,7 +1,8 @@
 from django.db.models import Q
-from rest_framework import mixins, viewsets
 
 from catalog.models import Media
+from rest_framework import mixins, viewsets
+
 from .serializers import SearchMediaResultSerializer
 
 

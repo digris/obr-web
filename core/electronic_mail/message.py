@@ -1,9 +1,11 @@
 import logging
 import os
 from smtplib import SMTPException
+
 from django.conf import settings
-from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, SendGridException
 

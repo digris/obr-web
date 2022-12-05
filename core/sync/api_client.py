@@ -1,8 +1,9 @@
 import json
 import logging
 
-import requests
 from django.conf import settings
+
+import requests
 
 SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
 SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")

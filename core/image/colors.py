@@ -1,7 +1,7 @@
 import io
 
-from PIL import Image, PngImagePlugin
 from colorthief import ColorThief
+from PIL import Image, PngImagePlugin
 
 RESIZE_TO = 100
 

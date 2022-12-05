@@ -6,11 +6,10 @@ from django.db.models.functions import Now
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin, CTModelMixin
-from catalog.sync.media import sync_media, sync_master
+from base.models.mixins import CTModelMixin, CTUIDModelMixin, TimestampedModelMixin
+from catalog.sync.media import sync_master, sync_media
 from sync.models.mixins import SyncModelMixin
 from tagging.managers import TaggableManager
-
 from tagging.models import TaggedItem
 
 

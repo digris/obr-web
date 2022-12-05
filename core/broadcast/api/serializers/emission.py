@@ -1,11 +1,10 @@
+from api_extra.serializers import CTUIDModelSerializer
+from broadcast.models import Emission
+from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
+from catalog.models import Media, Playlist
+from image.api.serializers import ImageSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
-
-from broadcast.models import Emission
-from api_extra.serializers import CTUIDModelSerializer
-from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
-from catalog.models import Playlist, Media
-from image.api.serializers import ImageSerializer
 
 
 class EmissionPlaylistSerializer(

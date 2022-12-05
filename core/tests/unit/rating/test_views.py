@@ -1,12 +1,13 @@
-import pytest
 import json
-from django.urls import reverse
-from django.contrib.auth import get_user_model
-from rest_framework.test import APIRequestFactory
-from mixer.backend.django import mixer
-from rating.models import Vote
-from rating.api.views import ObjectRatingView
 
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+
+import pytest
+from mixer.backend.django import mixer
+from rating.api.views import ObjectRatingView
+from rating.models import Vote
+from rest_framework.test import APIRequestFactory
 
 User = get_user_model()
 

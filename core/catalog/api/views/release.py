@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import mixins, viewsets
-from rest_framework.exceptions import ParseError
 
 from catalog.api import serializers
 from catalog.models import Release
+from rest_framework import mixins, viewsets
+from rest_framework.exceptions import ParseError
 
 
 class ReleaseViewSet(

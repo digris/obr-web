@@ -1,12 +1,12 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
 from django.conf import settings
 
 from base import version
-from base.utils.urls import get_absolute_url
 from base.api import serializers
+from base.utils.urls import get_absolute_url
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class VersionView(APIView):

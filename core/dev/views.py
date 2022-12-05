@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponsePermanentRedirect
+
 from electronic_mail.message import BaseMessage
 
 

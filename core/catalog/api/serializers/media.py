@@ -1,14 +1,12 @@
-from rest_flex_fields.serializers import FlexFieldsSerializerMixin
-from rest_framework import serializers
-
-from api_extra.serializers import CTUIDModelSerializer
+from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSerializer
 from catalog.api.serializers.release import ReleaseSerializer
 from catalog.models import Media, MediaArtists
-from image.api.serializers import BaseImageSerializer
 from catalog.models.release import ReleaseImage as Image
-from tagging.api.serializers import TagSerializer
 from identifier.api.serializers import IdentifierSerializer
-from api_extra.serializers import DurationInSecondsSerializer
+from image.api.serializers import BaseImageSerializer
+from rest_flex_fields.serializers import FlexFieldsSerializerMixin
+from rest_framework import serializers
+from tagging.api.serializers import TagSerializer
 
 
 class MediaImageSerializer(BaseImageSerializer):

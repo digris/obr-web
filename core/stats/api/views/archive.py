@@ -1,9 +1,8 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 from drf_spectacular.utils import extend_schema
-
-from stats.api import serializers, permissions
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from stats.api import permissions, serializers
 from stats.archive import archive_airplays, archive_emissions
 
 

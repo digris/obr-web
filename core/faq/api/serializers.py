@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from api_extra.serializers import CTUIDModelSerializer
+from rest_framework import serializers
+
 from ..models import Category, Topic
 
 

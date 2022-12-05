@@ -8,6 +8,7 @@ from django.utils import timezone
 
 from broadcast import signals as broadcast_signals
 from catalog.sync.airplay import sync_airplays
+
 from .models.mixins import SyncModelMixin, SyncState
 
 SKIP_ALL = getattr(settings, "OBP_SYNC_SKIP_ALL", False)

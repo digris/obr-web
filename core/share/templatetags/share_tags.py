@@ -1,4 +1,5 @@
 from django import template
+
 from ..meta import get_meta_for_request
 
 register = template.Library()

@@ -1,5 +1,6 @@
 from django.db import models
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 
 class Newsletter(

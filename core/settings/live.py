@@ -3,7 +3,6 @@ import io
 import environ
 import google.auth
 import sentry_sdk
-
 from google.cloud import secretmanager
 from sentry_sdk.integrations.django import DjangoIntegration
 

@@ -1,6 +1,5 @@
 from django.conf import settings
 
-
 URL = getattr(settings, "IMAGE_RESIZER_ENDPOINT", None)
 DEFAULT_RESIZE_KIND = "scale"
 

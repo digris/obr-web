@@ -1,4 +1,4 @@
-from .version import get_version, get_short_sha
+from .version import get_short_sha, get_version
 
 
 def version(request):

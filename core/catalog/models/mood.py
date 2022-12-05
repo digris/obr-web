@@ -2,8 +2,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
 
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
-from tagging.models import TaggedItem, TaggableManager
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from tagging.models import TaggableManager, TaggedItem
 
 
 class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):

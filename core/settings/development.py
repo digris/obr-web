@@ -1,4 +1,5 @@
 import environ
+
 from .base import *
 
 SITE_URL = "http://local.obr-next:3000"

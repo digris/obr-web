@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib import admin
 from django.db import models
+
 from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
+
 from .models import Page, Section
 
 

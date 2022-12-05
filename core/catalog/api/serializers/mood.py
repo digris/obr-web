@@ -1,10 +1,7 @@
-from rest_framework import serializers
-from api_extra.serializers import RGBValueField
-
-from api_extra.serializers import CTUIDModelSerializer
+from api_extra.serializers import CTUIDModelSerializer, RGBValueField
 from catalog.models import Mood
+from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
-
 
 # class RayColorsSerializer(serializers.Serializer):
 #     inner = serializers.ListField(

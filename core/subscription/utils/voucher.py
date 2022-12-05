@@ -1,13 +1,12 @@
 import re
-
 from datetime import timedelta
 
-from django.utils import timezone
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from subscription.models import Voucher, Redemption
-from subscription.utils import get_subscription, extend_subscription
+from subscription.models import Redemption, Voucher
+from subscription.utils import extend_subscription, get_subscription
 
 
 class VoucherValidationException(Exception):

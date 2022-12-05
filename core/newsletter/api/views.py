@@ -1,12 +1,13 @@
 import logging
 
 from django.db.models import Count, Q
+
+from drf_spectacular.utils import extend_schema
+from newsletter.models import Newsletter, Subscription
 from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
 
-from newsletter.models import Newsletter, Subscription
 from . import serializers
 
 logger = logging.getLogger(__name__)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from subscription.models import Subscription, Payment, Voucher, Redemption
+from subscription.models import Payment, Redemption, Subscription, Voucher
 
 
 @admin.register(Subscription)

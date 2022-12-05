@@ -1,14 +1,14 @@
 import os
+
 import django
 from django.core.handlers.asgi import (
     ASGIHandler,
+    FileResponse,
     RequestAborted,
     set_script_prefix,
-    sync_to_async,
     signals,
-    FileResponse,
+    sync_to_async,
 )
-
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings.default")
 

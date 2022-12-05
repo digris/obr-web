@@ -1,11 +1,11 @@
 import logging
 
 from django.shortcuts import get_object_or_404
-from rest_framework import mixins, viewsets
-from rest_framework.exceptions import ParseError
 
 from broadcast.api import serializers
 from broadcast.models import Emission
+from rest_framework import mixins, viewsets
+from rest_framework.exceptions import ParseError
 from stats.models import Emission as ArchivedEmission
 
 logger = logging.getLogger(__name__)

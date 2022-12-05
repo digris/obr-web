@@ -3,16 +3,13 @@ import logging
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
-from drf_spectacular.utils import (
-    extend_schema,
-    OpenApiParameter,
-)
-from rest_framework import mixins, viewsets
-from rest_framework.exceptions import ParseError
 
-from rating.queries import annotate_qs_width_user_rating
 from broadcast.api import serializers
 from broadcast.models import Editor
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rating.queries import annotate_qs_width_user_rating
+from rest_framework import mixins, viewsets
+from rest_framework.exceptions import ParseError
 
 logger = logging.getLogger(__name__)
 
