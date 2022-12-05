@@ -82,39 +82,46 @@ export default defineComponent({
   grid-template-columns: 1rem auto;
   gap: 1rem;
   line-height: 1.1;
+
   + .radio-input {
     margin-top: 0.5rem;
   }
+
   input[type="radio"] {
-    display: grid;
-    width: var(--size);
     height: var(--size);
+    width: var(--size);
+    display: grid;
     margin: 0;
-    color: currentColor;
+    color: currentcolor;
     font: inherit;
+
     /* For iOS < 15 to remove gradient background */
     background-color: #fff;
-    border: 3px solid currentColor;
+    border: 3px solid currentcolor;
     border-radius: 50%;
     cursor: pointer;
     appearance: none;
     place-content: center;
-    &:before {
-      width: var(--size);
+
+    &::before {
       height: var(--size);
+      width: var(--size);
       border-radius: 50%;
-      box-shadow: inset var(--size) var(--size) currentColor;
+      box-shadow: inset var(--size) var(--size) currentcolor;
       transform: scale(0);
       transition: 50ms transform ease-in-out;
       content: "";
     }
+
     &:focus {
       outline: none;
     }
+
     &:checked::before {
       transform: scale(1);
     }
   }
+
   label {
     padding-top: 4px;
     cursor: pointer;

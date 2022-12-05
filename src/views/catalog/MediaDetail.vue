@@ -102,6 +102,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .tags,
 .identifiers {
   margin: 0.5rem 0;

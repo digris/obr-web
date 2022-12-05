@@ -54,29 +54,39 @@ export default defineComponent({
   100% {
     transform: scaleY(40%);
   }
+
   35% {
     transform: scaleY(100%);
   }
+
   50% {
     transform: scaleY(60%);
   }
+
+  /* stylelint-disable-next-line keyframe-block-no-duplicate-selectors */
   80% {
     transform: scaleY(80%);
   }
 }
+
 svg {
   transform: rotate(180deg) translateY(32%);
+
   line {
     animation: eq 1200ms infinite;
+
     &:nth-child(1) {
       animation-delay: -550ms;
     }
+
     &:nth-child(2) {
       animation-delay: -700ms;
     }
+
     &:nth-child(3) {
       animation-delay: -350ms;
     }
+
     &:nth-child(4) {
       animation-delay: -250ms;
     }

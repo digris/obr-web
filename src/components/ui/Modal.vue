@@ -72,13 +72,15 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 $z-mask: 4;
 $z-modal: 5;
 $z-header: 10;
 $z-feedback: 9;
+
 .mask {
-  position: fixed;
   top: 0;
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
@@ -86,9 +88,10 @@ $z-feedback: 9;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(var(--c-black), 0.7);
+  background: rgb(var(--c-black) 0.7);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
+
 .modal {
   position: relative;
   z-index: $z-modal;
@@ -111,9 +114,11 @@ $z-feedback: 9;
     justify-content: flex-end;
     height: 3rem;
     padding: 0 1rem;
+
     .title {
       flex-grow: 1;
     }
+
     .close-button {
       font-size: 1.5rem;
       background: transparent;
@@ -121,23 +126,26 @@ $z-feedback: 9;
       cursor: pointer;
     }
   }
+
   &__body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     padding: 1rem;
   }
+
   &__footer {
     padding: 1rem;
   }
+
   &__feedback {
-    position: absolute;
     top: 0;
+    position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     z-index: $z-feedback;
-    padding: 4rem 1rem 1rem 1rem;
+    padding: 4rem 1rem 1rem;
     color: rgb(var(--c-black));
     background: rgb(var(--c-selected));
   }
@@ -147,6 +155,7 @@ $z-feedback: 9;
 .fade-leave-active {
   transition: opacity 300ms;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

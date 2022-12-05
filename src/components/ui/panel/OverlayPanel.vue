@@ -71,30 +71,32 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
+
 .overlay-panel {
-  position: fixed;
   top: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
   left: 0;
   z-index: 45;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   color: rgb(var(--c-black));
   font-weight: 500;
   background: rgb(var(--c-white));
-  //background: rgb(0, 0, 0);
   overflow-y: auto;
+  overscroll-behavior: auto contain;
+
   &::-webkit-scrollbar {
     display: none;
   }
-  overscroll-behavior: auto contain;
 
   .header {
     @include container.small;
-    position: sticky;
+
     top: 0;
+    position: sticky;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -109,6 +111,7 @@ export default defineComponent({
 
   .container {
     @include container.small;
+
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -128,29 +131,28 @@ export default defineComponent({
     height: 78px;
     margin-top: 0;
   }
+
   &__content {
     flex-grow: 1;
+
     &__title {
       @include typo.x-large;
       @include typo.bold;
+
       padding: 0.5rem 0 1.5rem;
     }
   }
-  /*
-  &__footer {
-    padding: 1rem 0;
-    background: red;
-  }
-  */
 }
 
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

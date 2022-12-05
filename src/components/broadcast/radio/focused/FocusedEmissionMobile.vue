@@ -52,17 +52,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .focused-emission {
   max-width: 100%;
   line-height: 20px;
+
   .title,
   .editor {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   .title {
-    &:first-letter {
+    &::first-letter {
       text-transform: uppercase;
     }
   }

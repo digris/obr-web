@@ -33,9 +33,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .play-icon {
-  position: absolute;
   top: 0;
+  position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
@@ -44,19 +45,20 @@ export default defineComponent({
   justify-content: center;
   /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
   :deep(.container) {
+    height: 48px;
+    width: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
-    background: rgba(var(--c-black), 0.6);
-    border: 1px solid rgba(var(--c-white), 0.5);
+    background: rgb(var(--c-black) 0.6);
+    border: 1px solid rgb(var(--c-white) 0.5);
     border-radius: 24px;
     cursor: pointer;
     transition: background 100ms;
     @include responsive.on-hover {
-      background: rgba(var(--c-black), 0.9);
+      background: rgb(var(--c-black) 0.9);
     }
+
     &.is-loading {
       cursor: wait;
       opacity: 0.8;

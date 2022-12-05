@@ -41,24 +41,31 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/container";
+
 .page {
   @include container.small;
+
   .title {
     padding: 1.5rem 0;
+
     > h1 {
       @include typo.x-large;
       @include typo.bold;
     }
   }
+
   .lead {
     @include typo.large;
+
     margin: 0 0 2rem;
     padding: 0 0 2rem;
     border-bottom: 1px solid rgb(var(--c-gray-200));
   }
+
   .body {
     background: inherit;
   }
+
   .appendix {
     padding: 2rem 0 6rem;
   }

@@ -36,14 +36,16 @@ export default defineComponent({
   </div>
 </template>
 <style lang="scss">
-//TODO: how to implement keyframes / animations scoped?
+// TODO: how to implement keyframes / animations scoped?
 @keyframes buffering {
   0% {
     height: 0%;
   }
+
   10% {
     height: 10%;
   }
+
   100% {
     height: 100%;
   }
@@ -51,27 +53,31 @@ export default defineComponent({
 </style>
 <style lang="scss" scoped>
 .buffering {
+  height: 14px;
+  width: 22px;
   display: grid;
   grid-column-gap: 3px;
   grid-template-columns: 3px 3px 3px 3px;
   align-items: center;
-  width: 22px;
-  height: 14px;
 
   .bar {
-    width: 3px;
     height: 14px;
+    width: 3px;
     background: var(--color);
     animation: buffering 1200ms infinite;
+
     &--1 {
       animation-delay: -800ms;
     }
+
     &--2 {
       animation-delay: -600ms;
     }
+
     &--3 {
       animation-delay: -400ms;
     }
+
     &--4 {
       animation-delay: -200ms;
     }

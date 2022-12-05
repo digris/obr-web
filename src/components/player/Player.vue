@@ -130,10 +130,10 @@ $player-height: 72px;
 
 .player {
   position: fixed;
+  height: $player-height;
+  width: 100%;
   bottom: 0;
   z-index: 110;
-  width: 100%;
-  height: $player-height;
   color: rgba(var(--c-fg));
   background: rgba(var(--c-bg));
   transition: background 1000ms;
@@ -141,15 +141,16 @@ $player-height: 72px;
 
 .playhead {
   position: absolute;
-  //background: rgba(255,0,255,0.2);
   bottom: 54px;
 }
 
 .container {
   @include container.default;
+
   padding-top: 0.25rem;
   display: grid;
   grid-template-columns: 4fr 6fr 4fr;
+
   .left,
   .center,
   .right {
@@ -158,18 +159,23 @@ $player-height: 72px;
     justify-content: flex-start;
     height: $player-height;
   }
+
   .left {
     justify-content: flex-start;
   }
+
   .center {
     justify-content: center;
   }
+
   .right {
     justify-content: flex-end;
+
     .bandwidth {
       margin-left: 1rem;
       margin-right: 1rem;
     }
+
     .circle-button {
       position: relative;
     }
@@ -180,10 +186,12 @@ $player-height: 72px;
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
 }
+
 .slide-enter-from {
   transform: translate(0, 100%);
   opacity: 0;
 }
+
 .slide-leave-to {
   transform: translate(0, 100%);
 }

@@ -59,16 +59,21 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/live-color";
 @use "@/style/base/responsive";
+
 .context {
   @include typo.default;
+
   text-transform: capitalize;
-  &:after {
+
+  &::after {
     content: ":";
   }
 }
+
 .title {
   @include typo.large;
 }
+
 a {
   transition: color, background-color 200ms;
   @include responsive.on-hover {

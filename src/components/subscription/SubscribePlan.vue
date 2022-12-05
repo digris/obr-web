@@ -150,12 +150,15 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/elements/section";
 @use "@/style/elements/button";
+
 .section {
   @include section.default;
+
   &.info {
     .message {
       padding: 1rem 0;
     }
+
     .details {
       font-size: 150%;
     }
@@ -175,47 +178,38 @@ export default defineComponent({
   align-items: center;
   padding: 1rem;
   background: rgb(var(--c-white));
-  box-shadow: 0 0 3px rgba(var(--c-black), 0.33);
+  box-shadow: 0 0 3px rgb(var(--c-black) 0.33);
   cursor: pointer;
   transition: background 100ms;
+
   &:hover {
     background: rgb(var(--c-gray-100));
   }
+
   &.is-selected {
     color: rgb(var(--c-white));
     background: rgb(var(--c-green));
   }
+
   .price {
     font-size: 200%;
   }
+
   .separator {
-    width: 100%;
     height: 1px;
+    width: 100%;
     margin: 1rem 0;
     background: rgb(var(--c-gray-100));
   }
+
   .title {
     padding: 0;
   }
+
   .until-date {
     padding: 0;
   }
-  //@include responsive.bp-medium {
-  //  padding: 0.25rem 0.5rem 0.5rem;
-  //  .price {
-  //    font-size: 120%;
-  //  }
-  //  .separator {
-  //    display: none;
-  //  }
-  //  .title {
-  //    @include typo.small;
-  //    padding-top: 0.25rem;
-  //  }
-  //  .until-date {
-  //    @include typo.small;
-  //  }
-  //}
+
   @include responsive.bp-medium {
     padding: 0.5rem 1rem 0.5rem 0.5rem;
     display: grid;
@@ -223,34 +217,43 @@ export default defineComponent({
     grid-template-areas:
       "title price"
       "date  price";
+
     .separator {
       display: none;
     }
+
     .price {
       grid-area: price;
       font-size: 120%;
       justify-self: end;
     }
+
     .title {
       grid-area: title;
     }
+
     .until-date {
       grid-area: date;
       @include typo.small;
     }
   }
 }
+
 .options {
   @include options;
+
   .option {
     @include option;
   }
 }
+
 .total {
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
+
   .title {
     margin-bottom: 0.5rem;
   }
+
   .price {
     @include typo.large;
     @include typo.bold;
@@ -260,12 +263,15 @@ export default defineComponent({
     }
   }
 }
+
 .actions {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   .button {
     @include button.default(3rem);
+
     min-width: 33%;
     margin-right: 0.5rem;
     margin-left: 0.5rem;

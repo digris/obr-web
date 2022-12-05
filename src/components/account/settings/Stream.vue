@@ -72,6 +72,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .info {
   padding: 0 2rem 1rem 0;
   opacity: 0.5;
@@ -80,10 +81,12 @@ export default defineComponent({
     @include typo.small;
   }
 }
+
 .options {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
+
   .option {
     cursor: pointer;
     padding: 0.5rem;
@@ -91,9 +94,11 @@ export default defineComponent({
     border: 1px solid rgb(var(--c-gray-200));
     border-radius: 3px;
     transition: background 200ms;
+
     &:hover {
-      background: rgba(var(--c-black), 0.1);
+      background: rgb(var(--c-black) 0.1);
     }
+
     &.is-current {
       color: rgb(var(--c-white));
       background: rgb(var(--c-green));
@@ -103,8 +108,10 @@ export default defineComponent({
   @include responsive.bp-medium {
     grid-template-columns: unset;
     grid-gap: 0.5rem;
+
     .option {
       display: flex;
+
       .title {
         flex-grow: 1;
       }

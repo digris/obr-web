@@ -181,46 +181,50 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .playhead {
   display: flex;
   position: relative;
   min-height: 32px;
+
   .track {
-    width: 100%;
-    position: absolute;
-    pointer-events: none;
-    background: rgba(var(--c-fg), 0.2);
-    height: 4px;
     top: 14px;
-  }
-  .cue {
     position: absolute;
+    height: 4px;
+    width: 100%;
+    pointer-events: none;
+    background: rgb(var(--c-fg) 0.2);
+  }
+
+  .cue {
     top: 12px;
-    width: 2px;
+    position: absolute;
     height: 9px;
+    width: 2px;
     background: rgb(var(--c-fg));
   }
+
   .seek-container {
     position: relative;
-    //background: rgba(200, 0, 200, 0.2);
-    //width: 70%;
     width: 100%;
+
     input[type="range"] {
-      -webkit-appearance: none;
       appearance: none;
       background: transparent;
       height: 32px;
       width: 100%;
+
       &:focus {
         outline: none;
       }
+
       // track
       &::-webkit-slider-runnable-track {
         height: 32px;
       }
+
       // thumb (used as handler only)
       &::-webkit-slider-thumb {
-        -webkit-appearance: none;
         appearance: none;
         opacity: 0;
         margin-top: 12px;
@@ -228,52 +232,60 @@ export default defineComponent({
         width: 20px;
       }
     }
+
     .progress {
-      //width: 100%;
-      position: absolute;
-      pointer-events: none;
-      background: rgba(var(--c-fg), 1);
-      height: 4px;
       top: 14px;
+      position: absolute;
+      height: 4px;
       width: 1%;
+      pointer-events: none;
+      background: rgb(var(--c-fg) 1);
       transition: width 100ms linear;
+
       &.is-seeking {
         transition-duration: 1ms;
       }
     }
+
     .thumb {
-      background: rgba(var(--c-bg), 1);
-      border-radius: 10px;
-      width: 20px;
-      height: 20px;
-      position: absolute;
-      pointer-events: none;
       top: 6px;
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      background: rgb(var(--c-bg) 1);
+      border-radius: 10px;
+      pointer-events: none;
       transition: left 100ms linear;
-      box-shadow: 0 0 4px rgba(var(--c-fg), 0.5);
+      box-shadow: 0 0 4px rgb(var(--c-fg) 0.5);
+
       &.is-seeking {
         transition-duration: 1ms;
       }
-      &:after {
-        content: "";
-        width: 8px;
-        height: 8px;
-        background: rgb(var(--c-fg));
-        position: absolute;
+
+      &::after {
         top: 6px;
+        position: absolute;
+        height: 8px;
+        width: 8px;
+        content: "";
+        background: rgb(var(--c-fg));
         left: 6px;
         border-radius: 4px;
       }
     }
   }
+
   .time {
     @include typo.small;
-    position: absolute;
+
     top: -10px;
+    position: absolute;
     pointer-events: none;
+
     &--current {
       left: 0;
     }
+
     &--total {
       right: 0;
     }
@@ -289,9 +301,11 @@ export default defineComponent({
   transition: transform 200ms;
   transform: scale(1);
 }
+
 .thumb-enter-from {
   transform: scale(0);
 }
+
 .thumb-leave-to {
   transform: scale(0);
 }

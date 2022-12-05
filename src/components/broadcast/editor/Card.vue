@@ -61,8 +61,10 @@ export default defineComponent({
 </template>
 <style lang="scss" scoped>
 @use "@/style/elements/card";
+
 .card {
   @include card.default;
+
   .visual {
     .lazy-image {
       &.is-grayscale {

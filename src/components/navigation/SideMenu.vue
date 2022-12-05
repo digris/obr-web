@@ -177,29 +177,38 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/elements/section";
 @use "@/style/base/typo";
+
 .side-menu {
   overflow-y: scroll;
   max-height: 100%;
   overscroll-behavior: contain;
+
   .section {
     display: flex;
     flex-direction: column;
     padding: 14px 0;
+
     &:first-child {
       padding-top: 7px;
     }
+
     &:not(:last-child) {
       border-bottom: 1px solid rgb(var(--c-gray-200));
     }
+
     > a {
       line-height: 150%;
+
       &:hover {
         opacity: 0.5;
       }
     }
+
     &--primary {
+      /* stylelint-disable-next-line no-descending-specificity */
       > a {
         @include typo.bold;
+
         font-size: 4rem;
         line-height: 100%;
       }
@@ -208,25 +217,27 @@ export default defineComponent({
   @include responsive.bp-medium {
     .section {
       padding: 10px 0;
+
       &:first-child {
         padding-top: 10px;
       }
+
       &--primary {
         > a {
           font-size: 2.5rem;
         }
+
         padding: 12px 0;
       }
     }
   }
 }
+
 .footer {
   display: flex;
   min-height: 2rem;
   align-items: center;
-  //border-top: 1px solid rgb(var(--c-gray-200));
-  //padding-top: 0.5rem;
-  //padding-bottom: 1rem;
+
   .ui-mode-chooser {
     flex-grow: 1;
   }

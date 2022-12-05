@@ -112,15 +112,19 @@ export default defineComponent({
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
   }
+
   .tag {
     margin-bottom: 0.25rem;
+
     &:not(:last-child) {
       margin-right: 0.25rem;
     }
   }
+
   &.is-loading {
     cursor: wait;
     opacity: 0.7;
+
     > * {
       pointer-events: none;
     }

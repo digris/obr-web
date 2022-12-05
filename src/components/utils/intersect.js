@@ -64,7 +64,7 @@ export default {
       return this.$slots.default()[0];
     }
     return this.$slots.default()[1];
-    // // eslint-disable-next-line prefer-destructuring
+    // eslint-disable-next-line prefer-destructuring
     // return this.$slots.default() ? this.$slots.default()[0] : null;
   },
 };

@@ -195,23 +195,31 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/form";
+
 .form {
   @include form.default;
+
   display: flex;
   flex-direction: column;
+
   .input-container {
     @include form.top-label;
+
     width: 100%;
+
     > label {
-      &:after {
+      &::after {
         content: ":";
       }
     }
+
     .input {
       @include typo.large;
     }
+
     &.submit {
       padding-top: 2rem;
+
       .button {
         max-width: 33%;
         @include responsive.bp-medium {
@@ -219,12 +227,14 @@ export default defineComponent({
         }
       }
     }
+
     .help {
       > span {
         padding-right: 0.5rem;
       }
       @include responsive.bp-medium {
         @include typo.small;
+
         padding-top: 1rem;
         flex-direction: column;
         align-items: start;
@@ -233,6 +243,7 @@ export default defineComponent({
     }
   }
 }
+
 .form-messages,
 .form-errors {
   margin: 1rem 0;

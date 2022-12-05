@@ -145,57 +145,68 @@ export default defineComponent({
 <style lang="scss" scoped>
 .playhead-progress {
   position: relative;
-  width: 100%;
   height: 32px;
+  width: 100%;
+
   svg {
-    width: 100%;
     height: 32px;
+    width: 100%;
   }
+
   .progress-total {
     transition: fill 100ms;
-    fill: rgba(var(--c-fg), 0.2);
+    fill: rgb(var(--c-fg) 0.2);
   }
+
   .progress-position {
     // NOTE: width transition duration equals audioPlayer's POLL_INTERVAL
     transition: fill 100ms, width 100ms linear;
-    fill: rgba(var(--c-fg), 0.5);
+    fill: rgb(var(--c-fg) 0.5);
   }
+
   .progress-placeholder {
-    fill: rgba(var(--c-fg), 0.2);
+    fill: rgb(var(--c-fg) 0.2);
   }
+
   .cue-point {
-    fill: rgba(var(--c-fg), 1);
+    fill: rgb(var(--c-fg) 1);
   }
+
   &.is-buffering {
     svg {
       cursor: wait;
     }
   }
+
   &.is-hover {
     .progress-position {
-      fill: rgba(var(--c-fg), 1);
+      fill: rgb(var(--c-fg) 1);
     }
   }
+
   &.is-ondemand {
     svg {
       cursor: pointer;
     }
   }
+
   &.is-live {
     .progress-total {
-      fill: rgba(var(--c-fg), 0);
+      fill: rgb(var(--c-fg) 0);
     }
   }
 }
+
 .playhead-handle {
-  pointer-events: none;
-  position: absolute;
   top: 5px;
+  position: absolute;
+  pointer-events: none;
   transition: left 100ms linear;
 }
+
 .playhead-time {
-  pointer-events: none;
-  position: absolute;
   top: -13px;
+  position: absolute;
+  pointer-events: none;
 }
 </style>

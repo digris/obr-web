@@ -114,6 +114,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   transition: opacity 200ms ease-in-out, transform 200ms ease-in;
+
   &.is-flipped {
     transform: rotateY(89deg);
   }

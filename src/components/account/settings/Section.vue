@@ -56,15 +56,19 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+
 .section {
   margin: 2rem 0;
+
   .title {
     padding-bottom: 0.4rem;
     @include responsive.bp-medium {
       @include typo.small;
+
       padding-bottom: 0.6rem;
     }
   }
+
   /*
   .panel {
     padding-top: 0.75rem;
@@ -77,17 +81,20 @@ export default defineComponent({
       border: 1px solid rgb(var(--c-gray-200));
     }
   }
+
   &.is-editable {
     .panel {
       cursor: pointer;
       position: relative;
+
       &:hover {
-        background: rgba(var(--c-black), 0.1);
+        background: rgb(var(--c-black) 0.1);
       }
+
       .panel-icon {
+        top: 0;
         position: absolute;
         right: 0;
-        top: 0;
       }
     }
   }

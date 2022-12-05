@@ -67,25 +67,32 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+
 .global-search {
   background: white;
+
   .feedback {
     padding: 0.5rem 0;
   }
 }
+
 .search-input {
   > input {
     @include typo.large;
     @include typo.bold;
+
     border: none;
+
     &:focus {
       outline: none;
     }
+
     &::placeholder {
-      color: rgba(var(--c-black), 0.2);
+      color: rgb(var(--c-black) 0.2);
     }
   }
 }
+
 .search-results {
   border-top: 3px solid rgb(var(--c-black));
   margin-top: -12px;

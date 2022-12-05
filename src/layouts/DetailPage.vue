@@ -54,36 +54,39 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
+
 .detail {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 78px);
+
   &__header {
     background: transparent;
   }
+
   &__body {
     background: rgb(var(--c-white));
-    //:deep(.list-filter-container) {
-    //  padding-top: 1rem;
-    //}
   }
+
   &__space {
     flex-grow: 1;
     min-height: 4rem;
     background: rgb(var(--c-white));
   }
+
   &__appendix {
     padding: 2rem 0 6rem;
     background: rgb(var(--c-white));
   }
 }
+
 .background {
-  position: absolute;
-  z-index: 1;
   top: 0;
+  position: absolute;
   width: 100%;
+  z-index: 1;
   overflow: hidden;
 }
 </style>

@@ -39,16 +39,19 @@ export default defineComponent({
   height: 3rem;
   border-bottom: 1px solid rgb(var(--c-gray-200));
   cursor: pointer;
+
   &:hover {
     background: rgb(var(--c-gray-100));
   }
+
   &__icon {
+    height: 48px;
+    width: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
   }
+
   &__name {
     display: inline-flex;
     flex-grow: 1;
@@ -56,8 +59,9 @@ export default defineComponent({
     justify-content: flex-start;
     height: 48px;
     padding-right: 1rem;
+
     > span {
-      &:first-letter {
+      &::first-letter {
         text-transform: uppercase;
       }
     }

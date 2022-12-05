@@ -103,17 +103,23 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/form";
+
 .form {
   @include form.default;
+
   display: flex;
   flex-direction: column;
+
   .input-container {
     width: 100%;
+
     .input {
       @include typo.large;
     }
+
     &.submit {
       padding-top: 2rem;
+
       .button {
         max-width: 33%;
         @include responsive.bp-medium {
@@ -122,26 +128,29 @@ export default defineComponent({
       }
     }
   }
+
   .token-input {
     display: flex;
     flex-direction: column;
-    //align-items: center;
-    //justify-content: center;
     padding: 1rem 0;
   }
 }
+
 .lead {
   .title {
     @include typo.large;
   }
+
   .note {
     margin-top: 1rem;
   }
+
   a {
     text-decoration: underline;
     cursor: pointer;
   }
 }
+
 .form-messages,
 .form-errors {
   margin: 1rem 0;

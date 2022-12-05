@@ -236,53 +236,21 @@ export default defineComponent({
     background: rgb(var(--c-bg-hover));
   }
 
-  /*
-  &.is-past {
-    color: rgb(var(--c-black));
-    background-color: rgb(var(--c-gray-100));
-    &:hover {
-      background-color: rgb(var(--c-gray-100));
-    }
-  }
-  &.is-current {
-    color: rgb(var(--c-white));
-    background-color: rgb(var(--c-black));
-    &:hover {
-      background-color: rgb(var(--c-gray-900));
-    }
-  }
-
-  &.is-upcoming {
-    color: rgb(var(--c-black));
-    background-color: rgb(var(--c-white));
-    cursor: default;
-    opacity: 0.5;
-  }
-  */
-
   &.is-expanded {
     position: relative;
-    /*
-    color: rgb(var(--c-white));
-    background-color: rgb(var(--c-black));
-    &:hover {
-      background-color: rgb(var(--c-gray-900));
-    }
-    */
+
     .emission-row {
-      //background: darkorange;
-      position: sticky;
       top: 0;
+      position: sticky;
       z-index: 1;
     }
+
     .media-set {
       position: relative;
       min-height: 72px;
       overflow: hidden;
-      //background: white;
       border-left: solid 0.5rem rgb(var(--c-bg));
       background: rgb(var(--c-white));
-      //z-index: 30;
     }
   }
 }

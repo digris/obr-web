@@ -27,6 +27,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/container";
+
 .media-row-header {
   background: rgb(var(--c-white));
   height: 41px;
@@ -36,17 +37,21 @@ export default defineComponent({
 
 .container {
   @include container.default;
+
   display: grid;
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-columns: 96px 16fr 10fr 6fr 96px;
+
   .label {
-    &:first-letter {
+    &::first-letter {
       text-transform: uppercase;
     }
+
     &--track {
       margin-left: -48px;
     }
+
     &--airtime {
       grid-column: span 2;
     }

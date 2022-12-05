@@ -64,14 +64,17 @@ en:
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .donate {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 1fr;
+
   .method {
     h3 {
       margin-bottom: 1rem;
     }
+
     &.twint {
       img {
         max-width: 50%;
@@ -80,13 +83,16 @@ en:
   }
   @include responsive.bp-medium {
     grid-template-columns: unset;
+
     .method {
       margin-bottom: 2rem;
+
       &.twint {
         > a {
           display: flex;
           justify-content: center;
         }
+
         img {
           max-width: 75%;
         }
@@ -94,6 +100,7 @@ en:
     }
   }
 }
+
 .note {
   margin-top: 1rem;
 }

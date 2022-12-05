@@ -133,15 +133,19 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/form";
+
 .form {
   @include form.default;
+
   .input-container {
     @include form.top-label;
+
     :deep(input) {
       &::placeholder {
-        color: rgba(var(--c-black), 0.2);
+        color: rgb(var(--c-black) 0.2);
       }
     }
+
     &--2-2 {
       display: grid;
       grid-gap: 1rem;

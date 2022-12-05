@@ -161,52 +161,51 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .flow {
-  width: 100%;
-  height: calc(var(--item-size) + 120px);
   position: relative;
+  height: calc(var(--item-size) + 120px);
+  width: 100%;
+
   > .panel {
-    width: 100%;
     height: 100%;
+    width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
     display: flex;
     scroll-snap-type: x mandatory;
-    //padding: 0 30%;
     direction: rtl;
-    //scroll-behavior: smooth;
-    /**/
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     .flow-item {
-      /* flow */
       direction: ltr;
       flex: 0 0 var(--item-size);
       margin: 60px 0;
       display: flex;
       scroll-snap-align: center;
     }
-    /**/
+
     .cta {
+      height: var(--item-size);
+      width: var(--item-size);
       direction: ltr;
       flex: 0 0 var(--item-size);
       margin: 60px 100px 60px 0;
       display: flex;
       scroll-snap-align: center;
-      width: var(--item-size);
-      height: var(--item-size);
-      //background: black;
       align-items: center;
       justify-content: center;
       text-align: center;
     }
   }
+
   .placeholder {
-    position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    position: absolute;
     height: 100%;
+    width: 100%;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,9 +218,11 @@ export default defineComponent({
 .fade-leave-active {
   transition: opacity 300ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

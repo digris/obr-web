@@ -50,22 +50,25 @@ export default defineComponent({
   grid-template-rows: 1rem auto;
   gap: 1rem;
   color: rgb(var(--c-black));
+
   label {
     cursor: unset;
   }
+
   textarea {
     display: grid;
     width: 100%;
     min-height: 6rem;
     padding: 0.25em 0.5em;
-    color: currentColor;
+    color: currentcolor;
     font-size: 2em;
     font-family: var(--font-family);
-    border: 3px solid currentColor;
+    border: 3px solid currentcolor;
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
+
     &:focus {
-      background: rgba(var(--c-black), 0.1);
+      background: rgb(var(--c-black) 0.1);
       border-color: transparent;
       outline: none;
     }

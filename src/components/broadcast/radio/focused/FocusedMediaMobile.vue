@@ -35,9 +35,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .focused-media {
   max-width: 100%;
   line-height: 20px;
+
   .name,
   .artist {
     white-space: nowrap;

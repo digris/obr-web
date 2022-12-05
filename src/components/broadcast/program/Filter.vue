@@ -74,17 +74,21 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .filter {
   position: relative;
   height: 38px;
   display: flex;
   min-width: 240px;
+
   > select {
     background: white;
     padding: 0 0.5rem;
   }
+
   > .date-input {
     width: 100%;
+
     :deep(> input) {
       width: 240px;
       padding: 0 0.5rem;

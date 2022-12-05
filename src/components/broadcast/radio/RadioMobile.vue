@@ -120,16 +120,19 @@ export default defineComponent({
     padding: 0 1rem;
     width: 100%;
     text-align: center;
+
     .focused-emission {
       position: absolute;
       z-index: 15;
       padding: inherit;
     }
   }
+
   > .flow {
     background: transparent;
     margin: -60px 0;
   }
+
   > .media {
     display: flex;
     align-items: center;
@@ -137,12 +140,14 @@ export default defineComponent({
     height: 68px;
     text-align: center;
     padding: 0 1rem;
+
     .focused-media {
       position: absolute;
       z-index: 15;
       padding: inherit;
     }
   }
+
   > .rating {
     display: flex;
     align-items: center;

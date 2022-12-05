@@ -139,6 +139,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .player-container {
   position: fixed;
   bottom: 0;
@@ -146,24 +147,28 @@ export default defineComponent({
   height: var(--player-height);
   width: 100%;
   background: rgba(var(--c-bg));
-  box-shadow: 0 0 1px 1px rgba(var(--c-fg), 0.2);
+  box-shadow: 0 0 1px 1px rgb(var(--c-fg) 0.2);
   transition: background 200ms;
   transition-delay: 1ms;
+
   .player-bg {
+    top: 0;
     position: absolute;
     pointer-events: none;
-    top: 0;
     bottom: 0;
     left: 0;
     right: 0;
   }
+
   &.has-panel {
     transition-delay: 100ms;
+
     .player-bg {
-      background: rgba(var(--c-fg), 0.1);
+      background: rgb(var(--c-fg) 0.1);
     }
   }
 }
+
 .player {
   color: rgba(var(--c-fg));
   transition: background 1000ms;
@@ -171,15 +176,18 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+
   .player-control {
     margin: auto 0.625rem;
     display: flex;
   }
+
   .current-media {
     flex-grow: 1;
     display: flex;
     height: 100%;
     overflow: hidden;
+
     .media {
       flex-grow: 1;
       display: flex;
@@ -189,27 +197,33 @@ export default defineComponent({
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
     .name {
       @include typo.small;
+
       width: 100%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
     .artists {
       @include typo.small;
       @include typo.dim;
       @include typo.light;
     }
   }
+
   .right {
-    margin: auto 0.625rem auto 0.625rem;
+    margin: auto 0.625rem;
     display: flex;
     align-items: center;
     justify-content: center;
+
     .on-air {
       margin-right: 0.25rem;
     }
+
     .queue-control {
       :deep(.number) {
         right: 0.625rem;
@@ -226,10 +240,12 @@ export default defineComponent({
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
 }
+
 .slide-enter-from {
   transform: translate(0, 100%);
   opacity: 0;
 }
+
 .slide-leave-to {
   transform: translate(0, 100%);
 }

@@ -24,19 +24,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .playhead-handle {
-  display: inline-flex;
-  width: 20px;
   height: 20px;
-  //background: rgba(20,255,20,0.5);
+  width: 20px;
   background: rgb(var(--c-fg-inverse));
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(var(--c-fg), 0.4);
+  border: 1px solid rgb(var(--c-fg) 0.4);
+
   &__inner {
-    width: 8px;
     height: 8px;
+    width: 8px;
     background: rgb(var(--c-fg));
     border-radius: 4px;
   }
@@ -46,9 +45,11 @@ export default defineComponent({
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

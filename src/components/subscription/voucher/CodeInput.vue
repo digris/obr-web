@@ -67,24 +67,30 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/form";
+
 .code-input {
   @include form.default;
+
   .input-container {
     @include form.top-label;
+
     > label {
-      &:after {
+      &::after {
         content: ":";
       }
     }
   }
+
   .input {
     @include form.input;
+
     font-size: 200%;
     transition: background 200ms;
   }
+
   &.is-valid {
     .input {
-      background: rgba(var(--c-success), 0.1);
+      background: rgb(var(--c-success) 0.1);
       border-color: rgb(var(--c-success));
     }
   }

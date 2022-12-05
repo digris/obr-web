@@ -67,14 +67,18 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/markdown";
+
 .topic {
   border-top: 0;
   border-bottom: 1px solid rgb(var(--c-gray-200));
+
   &.is-expanded {
     color: rgb(var(--c-green));
   }
+
   :deep(.answer) {
     @include markdown.default;
+
     p {
       max-width: 800px;
     }

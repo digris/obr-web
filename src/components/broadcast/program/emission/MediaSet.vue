@@ -80,20 +80,22 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .media-set {
   .media-row {
     &:not(&:first-child) {
       border-top: 1px solid rgb(var(--c-gray-200));
     }
   }
+
   .feature-media {
     border-top: 1px solid rgb(var(--c-gray-200));
     display: flex;
     align-items: center;
     justify-content: flex-start;
     color: rgb(var(--c-gray-200));
-    //padding: 1rem calc(2.5rem + 96px) 1rem 1rem;
     padding: 1rem 1rem 1rem calc(2rem + 48px);
+
     .next-start {
       @include typo.large;
     }
@@ -108,6 +110,7 @@ export default defineComponent({
 .list-leave-active {
   transition: opacity 0.5s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
   opacity: 0;

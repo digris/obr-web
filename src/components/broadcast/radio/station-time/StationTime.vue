@@ -37,6 +37,7 @@ export default defineComponent({
 </style>
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
+
 .station-time {
   display: grid;
   grid-template-columns: 1em 0.5em 1em;
@@ -44,14 +45,17 @@ export default defineComponent({
   justify-content: center;
   font-size: 64px;
   transition: background-color 20ms, color 100ms, font-size 200ms;
+
   > span {
     justify-self: center;
   }
+
   .hour,
   .minute {
     font-weight: 600;
     font-size: 1em;
   }
+
   .separator {
     font-size: 0.5em;
     animation: pulsate 2s linear infinite;

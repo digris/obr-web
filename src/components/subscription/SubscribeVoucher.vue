@@ -123,27 +123,35 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/elements/section";
 @use "@/style/elements/button";
+
 .section {
   @include section.default;
+
   &.info {
     .message {
       padding: 1rem 0;
     }
+
     .details {
       font-size: 150%;
     }
   }
+
   &.voucher {
     @include typo.large;
+
     padding-left: 0.5rem;
   }
 }
+
 .actions {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   .button {
     @include button.default(3rem);
+
     min-width: 33%;
     margin-right: 0.5rem;
     margin-left: 0.5rem;

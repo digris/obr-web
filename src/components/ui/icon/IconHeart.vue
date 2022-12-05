@@ -73,12 +73,15 @@ svg {
 .fade-enter-active {
   transition: opacity 200ms;
 }
+
 .fade-leave-active {
   transition: opacity 200ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

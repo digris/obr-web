@@ -64,22 +64,26 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .subscription-status {
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+
   .status {
     @include typo.tiny;
     @include typo.uppercase;
+
+    height: 100%;
+    width: 100%;
     text-align: right;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    width: 100%;
-    height: 100%;
     line-height: 14px;
+
     /*
     &.is-expired {
       color: rgb(var(--c-warning));

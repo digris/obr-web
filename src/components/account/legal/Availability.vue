@@ -15,6 +15,7 @@ const faqUrl = "/faq/";
 <style lang="scss" scoped>
 .availability {
   white-space: pre-line;
+
   a {
     text-decoration: underline;
   }

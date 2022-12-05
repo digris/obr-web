@@ -194,9 +194,11 @@ export default defineComponent({
 .play-action {
   display: inline-grid;
   position: relative;
+
   .container {
     display: inline-grid;
   }
+
   .is-loading {
     cursor: wait;
   }

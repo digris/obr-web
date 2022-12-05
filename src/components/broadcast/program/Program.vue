@@ -103,9 +103,11 @@ export default defineComponent({
 
 .header {
   border-bottom: 1px solid rgb(var(--c-gray-200));
+
   .title {
     @include title.default;
   }
+
   .filter-container {
     padding: 0.5rem 0 1.5rem;
     display: flex;

@@ -57,10 +57,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .datetime {
   display: inline-flex;
+
   &__date,
   &__time {
     white-space: nowrap;
   }
+
   &__separator {
     padding-left: 0.5rem;
   }

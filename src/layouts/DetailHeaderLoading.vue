@@ -70,9 +70,11 @@ export default defineComponent({
   height: 50vh;
   min-height: 280px;
   max-height: 620px;
+
   .image {
     height: 100%;
   }
+
   img {
     border-radius: 50%;
   }
@@ -82,35 +84,42 @@ export default defineComponent({
   position: relative;
   display: flex;
   flex-direction: column;
+
   .top,
   .main,
   .bottom,
   .appendix {
     @include container.default;
+
     z-index: 3;
   }
+
   .top {
-    position: sticky;
     top: 0;
+    position: sticky;
+    height: 4rem;
     z-index: 4;
     display: grid;
     grid-template-columns: 64px auto 1fr;
     align-items: center;
-    height: 4rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+
     > .back {
       display: flex;
       align-items: center;
+
       .scope {
         padding-left: 1rem;
       }
     }
+
     > .actions {
       display: flex;
       justify-self: flex-end;
     }
   }
+
   .bottom {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -118,41 +127,50 @@ export default defineComponent({
     height: 3rem;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+
     .meta {
       padding-left: 1rem;
     }
+
     > .filterbar {
       background: transparent;
     }
   }
+
   .main {
     position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
+
     .visual {
       display: flex;
       align-items: center;
       justify-content: center;
+
       .image {
         @include visual-image;
+
         height: 50vh;
         min-height: 280px;
         max-height: 620px;
-        background: rgba(var(--c-white), 0.1);
+        background: rgb(var(--c-white) 0.1);
         aspect-ratio: 1;
         border-radius: 50%;
       }
     }
+
     .body {
-      position: absolute;
       top: 0;
+      position: absolute;
       width: calc(50% - 48px); // TODO: width calculation
       margin-top: -1.5rem;
       padding-left: calc(48px + 1rem);
+
       .title {
         margin-bottom: 0.5rem;
+
         /*
         &--scope {
           @include typo.default;
@@ -163,6 +181,7 @@ export default defineComponent({
         &--primary {
           @include typo.x-large;
           @include typo.bold;
+
           line-height: 4rem;
         }
       }
@@ -173,16 +192,20 @@ export default defineComponent({
       grid-template-columns: 80px auto 80px;
       margin: 0;
       height: 60px;
+
       .scope {
         display: flex;
         justify-content: center;
       }
     }
+
     .main {
       align-items: center;
+
       .visual {
         width: 73%;
         aspect-ratio: 1;
+
         .image {
           height: unset;
           aspect-ratio: 1;

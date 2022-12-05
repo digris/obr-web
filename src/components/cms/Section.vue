@@ -50,26 +50,33 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/elements/container";
 @use "@/style/elements/cms";
+
 .section {
   .title {
     @include typo.large;
     @include typo.bold;
+
     margin: 0 0 0.5rem;
   }
+
   :deep(.body) {
     @include cms.content;
     @include cms.pyembed;
+
     > .toc {
       @include cms.toc;
     }
+
     > .admonition {
       @include cms.admonition;
     }
+
     > table {
       @include cms.table;
     }
   }
 }
+
 .expandable-section {
   :deep(.title) {
     @include typo.bold;

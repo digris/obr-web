@@ -54,30 +54,38 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/elements/section";
+
 .section {
   @include section.default;
 }
+
 .current-subscription-text {
   margin: 2rem 0;
 }
+
 .title {
   @include typo.x-large;
   @include typo.bold;
 }
+
 .note {
   @include typo.large;
+
   a {
     text-decoration: underline;
     cursor: pointer;
   }
 }
+
 .faq-note {
   margin-top: 1rem;
+
   a {
     text-decoration: underline;
     cursor: pointer;
   }
 }
+
 .legal {
   font-size: 90%;
   opacity: 0.5;

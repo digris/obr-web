@@ -46,6 +46,7 @@ export default defineComponent({
 .visual-container {
   padding-top: 42px;
 }
+
 .visual {
   display: flex;
   flex-direction: column;

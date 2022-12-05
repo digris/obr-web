@@ -36,24 +36,29 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
 @use "@/style/base/responsive";
+
 .media-artists {
   display: inline-flex;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .artist {
   // NOTE: this adds ellipsis to *all* child elements
   overflow: hidden;
   text-overflow: ellipsis;
+
   &__join {
     margin-right: 0.25rem;
     margin-left: 0.25rem;
     opacity: 0.5;
+
     &--spaceless {
       margin-right: 0;
       margin-left: 0;
     }
   }
+
   &__name {
     white-space: nowrap;
     transition: color, background-color 200ms;

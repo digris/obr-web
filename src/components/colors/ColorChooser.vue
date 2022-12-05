@@ -38,19 +38,21 @@ export default {
 
 <style lang="scss" scoped>
 .color-chooser {
-  position: fixed;
   top: 60px;
+  position: fixed;
   right: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
+
   .color {
-    width: 32px;
     height: 32px;
+    width: 32px;
     margin-bottom: 8px;
     cursor: pointer;
     transition: width 100ms;
+
     &:hover {
       width: 48px;
     }

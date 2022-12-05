@@ -46,17 +46,20 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 54px auto auto;
   grid-column-gap: 0.5rem;
+
   > input {
     opacity: 0;
     width: 0;
   }
+
   .outline {
     position: relative;
     cursor: pointer;
     background-color: rgb(var(--c-fg));
     transition: 200ms;
     border-radius: 30px;
-    &:before {
+
+    &::before {
       position: absolute;
       content: "";
       height: 24px;
@@ -68,13 +71,15 @@ export default defineComponent({
       border-radius: 50%;
     }
   }
+
   &.is-dark {
     .outline {
-      &:before {
+      &::before {
         left: 27px;
       }
     }
   }
+
   .label {
     line-height: 30px;
   }

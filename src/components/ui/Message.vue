@@ -32,17 +32,22 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .message {
   @include typo.bold;
+
   padding: 1rem;
   color: rgb(var(--c-white));
   background: rgb(var(--c-black));
+
   &--info {
     background: rgb(var(--c-info));
   }
+
   &--warning {
     background: rgb(var(--c-warning));
   }
+
   &--success {
     background: rgb(var(--c-success));
   }

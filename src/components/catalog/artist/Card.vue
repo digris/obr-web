@@ -73,6 +73,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/elements/card";
+
 .card {
   @include card.default;
 }

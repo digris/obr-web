@@ -159,12 +159,13 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
-//TODO: how to implement keyframes / animations scoped?
+// TODO: how to implement keyframes / animations scoped?
 @keyframes eq-bars-7 {
   0%,
   100% {
     opacity: 1;
   }
+
   15%,
   70% {
     opacity: 0;
@@ -175,6 +176,7 @@ export default defineComponent({
   100% {
     opacity: 1;
   }
+
   25%,
   70% {
     opacity: 0;
@@ -185,6 +187,7 @@ export default defineComponent({
   100% {
     opacity: 1;
   }
+
   30%,
   70% {
     opacity: 0;
@@ -195,6 +198,7 @@ export default defineComponent({
   100% {
     opacity: 1;
   }
+
   40%,
   60% {
     opacity: 0;
@@ -205,6 +209,7 @@ export default defineComponent({
   100% {
     opacity: 1;
   }
+
   45%,
   55% {
     opacity: 0;
@@ -217,30 +222,38 @@ svg {
   &:hover {
     background: transparent;
   }
+
   .playing {
     polyline {
       stroke-width: 2.5;
     }
+
     &--left,
     &--right {
       :nth-child(7) {
         animation: eq-bars-7 800ms infinite;
       }
+
       :nth-child(6) {
         animation: eq-bars-6 800ms infinite;
       }
+
       :nth-child(5) {
         animation: eq-bars-5 800ms infinite;
       }
+
       :nth-child(4) {
         animation: eq-bars-4 800ms infinite;
       }
+
       :nth-child(3) {
         animation: eq-bars-3 800ms infinite;
       }
+
       :nth-child(2) {
         animation: eq-bars-2 800ms infinite;
       }
+
       :nth-child(1) {
         animation: eq-bars-1 800ms infinite;
       }

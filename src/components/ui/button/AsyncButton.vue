@@ -128,19 +128,24 @@ export default defineComponent({
 <style lang="scss" scoped>
 .async-button {
   transition: background-color 300ms ease-in-out, box-shadow 200ms;
+
   &.has-error {
     background-color: rgb(var(--c-red));
   }
+
   &.is-loading {
     cursor: wait !important;
   }
+
   &.is-success {
-    box-shadow: 0 0 1px 3px rgba(var(--c-cta-active), 0.1);
+    box-shadow: 0 0 1px 3px rgb(var(--c-cta-active) 0.1);
   }
+
   &.is-disabled {
     cursor: not-allowed !important;
     opacity: 0.5;
   }
+
   .loading-spinner {
     height: 75%;
   }

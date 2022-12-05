@@ -32,8 +32,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .search-results {
   background: transparent;
+
   > .search-result {
     border-bottom: 1px solid rgb(var(--c-gray-200));
   }

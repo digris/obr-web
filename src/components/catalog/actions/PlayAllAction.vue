@@ -62,8 +62,8 @@ export default defineComponent({
     display: flex;
     align-items: center;
     cursor: pointer;
-    //margin-left: -20px;
     padding-right: 1rem;
+
     .circle-button {
       margin-right: 1rem;
     }

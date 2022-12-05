@@ -104,6 +104,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .social-login {
   .backends {
     display: grid;
@@ -114,6 +115,7 @@ export default defineComponent({
       grid-template-columns: repeat(1, 1fr);
     }
   }
+
   .backend {
     display: inline-flex;
     align-items: center;
@@ -124,22 +126,27 @@ export default defineComponent({
     border-radius: 2rem;
     cursor: pointer;
     transition: border-radius 100ms;
+
     .logo {
       height: 1.5rem;
       margin-right: 1rem;
     }
+
     .name {
       flex-grow: 1;
+
       .uid {
-        color: rgba(var(--c-black), 0.5);
+        color: rgb(var(--c-black) 0.5);
         text-transform: lowercase;
       }
     }
+
     &--facebook {
       color: rgb(var(--c-white));
       background: #1877f2;
       border-color: #1877f2;
     }
+
     &:hover {
       border-radius: 4px;
     }

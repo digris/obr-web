@@ -158,27 +158,25 @@ export default defineComponent({
 .ptype-view {
   background: rgb(var(--white));
 }
+
 .stage {
   padding: 2rem;
   background: rgb(var(--c-bg));
+
   .row {
     border-bottom: 1px solid #a9a9a9;
     padding: 2rem 0;
     display: grid;
     grid-gap: 2rem;
     grid-template-columns: repeat(auto-fill, 64px);
-    //> div {
-    //  border-right: 1px solid #a9a9a9;
-    //}
   }
 }
+
 .t {
   font-size: 24px;
+
   &--500 {
     font-weight: 500;
-  }
-  &--alt {
-    font-family: plex;
   }
 }
 </style>

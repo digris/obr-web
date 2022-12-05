@@ -54,18 +54,18 @@ export default defineComponent({
 <style lang="scss" scoped>
 .placeholder-item {
   position: relative;
-  width: var(--item-size);
   height: var(--item-size);
-  //background: rgba(var(--c-page-fg), 0.9);
-  background: rgba(var(--c-page-fg), 1);
+  width: var(--item-size);
+  background: rgb(var(--c-page-fg) 1);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 0 20px rgb(0 0 0 / 50%);
+
   .circle-button {
-    //background: yellow;
     background: rgb(var(--c-page-bg));
   }
+
   .icon-dab {
     position: absolute;
     bottom: 6px;

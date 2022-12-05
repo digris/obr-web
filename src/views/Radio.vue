@@ -20,5 +20,3 @@ export default defineComponent({
 <template>
   <component :is="component" />
 </template>
-
-<style lang="scss" scoped></style>

@@ -27,10 +27,12 @@ export default defineComponent({
 .media-releases {
   display: inline-flex;
 }
+
 .release {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+
   &__name {
     white-space: nowrap;
   }

@@ -53,23 +53,30 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/elements/container";
 @use "@/style/elements/title";
+
 .faq {
   @include container.small;
+
   .title {
     padding: 1.5rem 0;
+
     > h1 {
       @include typo.x-large;
       @include typo.bold;
     }
   }
+
   .body {
     .category {
       margin-bottom: 4rem;
+
       > h2 {
         @include typo.default;
+
         margin-bottom: 0.5rem;
       }
     }
+
     .topics {
       border-top: 1px solid rgb(var(--c-gray-200));
     }

@@ -88,23 +88,28 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/form";
+
 .text-input {
   display: grid;
   grid-template-rows: 1rem auto;
   column-gap: 1rem;
   row-gap: 1rem;
   color: rgb(var(--c-black));
+
   .top {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 1rem;
     align-items: center;
+
     label {
       cursor: unset;
     }
+
     .errors {
       @include typo.light;
       @include typo.small;
+
       color: rgb(var(--c-red));
       text-align: right;
       @include responsive.bp-medium {
@@ -112,25 +117,30 @@ export default defineComponent({
       }
     }
   }
+
   input {
     @include typo.large;
     @include typo.bold;
+
     display: grid;
     width: 100%;
     padding: 0.25em 0.5em;
-    color: currentColor;
-    border: 3px solid currentColor;
+    color: currentcolor;
+    border: 3px solid currentcolor;
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
+
     &:focus {
-      background: rgba(var(--c-black), 0.1);
+      background: rgb(var(--c-black) 0.1);
       border-color: transparent;
       outline: none;
     }
+
     &:not(:valid) {
-      background: rgba(var(--c-warning), 0.1);
+      background: rgb(var(--c-warning) 0.1);
     }
   }
+
   &.has-error {
     input {
       border-color: rgb(var(--c-red));

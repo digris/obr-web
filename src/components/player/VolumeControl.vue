@@ -41,11 +41,12 @@ export default defineComponent({
 .volume-control {
   cursor: pointer;
 }
+
 .slider {
-  //position: absolute;
   bottom: 0;
   width: 130px;
 }
+
 .slide-enter-active,
 .slide-leave-active {
   transition: width 200ms, transform 200ms, opacity 200ms;
@@ -53,12 +54,14 @@ export default defineComponent({
   width: 130px;
   overflow: hidden;
 }
+
 .slide-enter-from {
   transform: scaleX(0);
   opacity: 0;
   width: 0;
   overflow: hidden;
 }
+
 .slide-leave-to {
   transform: scale(0);
   width: 0;

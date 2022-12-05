@@ -80,26 +80,26 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
+
 .circle-button {
-  //display: inline-grid;
   position: relative;
+  height: var(--size);
+  width: var(--size);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--size);
   min-width: var(--size);
-  height: var(--size);
   min-height: var(--size);
   border-radius: calc(var(--size) / 2);
   cursor: pointer;
 
   .outline {
-    position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    position: absolute;
     height: 100%;
-    border: var(--outline-width) solid rgba(var(--c-main), var(--outline-opacity));
+    width: 100%;
+    left: 0;
+    border: var(--outline-width) solid rgb(var(--c-main) var(--outline-opacity));
     border-radius: calc(var(--size) / 2);
   }
 
@@ -114,16 +114,19 @@ export default defineComponent({
 
   @include responsive.hover-supported {
     transition: background 1000ms, color 200ms, border 200ms;
+
     .outline {
       transition: inherit;
     }
   }
 
   @include responsive.on-hover {
-    background: rgba(var(--c-main), var(--hover-background-opacity));
+    background: rgb(var(--c-main) var(--hover-background-opacity));
+
     &.is-filled {
-      background: rgba(var(--c-fill), var(--hover-background-opacity));
+      background: rgb(var(--c-fill) var(--hover-background-opacity));
     }
+
     .outline {
       border-color: var(--outline-hover-color);
     }

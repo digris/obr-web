@@ -30,7 +30,7 @@ export default defineComponent({
   padding: 1rem;
   font-weight: 300;
   font-size: 0.8rem;
-  color: #ffffff;
+  color: #fff;
   background: #000;
 }
 </style>

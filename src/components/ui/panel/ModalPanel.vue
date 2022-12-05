@@ -66,27 +66,27 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
+
 .modal-panel {
-  position: fixed;
   top: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
   left: 0;
   z-index: 29;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  //overflow: hidden;
   color: rgb(var(--c-black));
   font-weight: 500;
-  background: rgba(var(--c-black), 0.8);
+  background: rgb(var(--c-black) 0.8);
 
   .container {
     @include container.small;
+
     display: flex;
     flex-direction: column;
     padding-bottom: 1rem;
-    //height: 100%;
     background: rgb(var(--c-white));
   }
 
@@ -98,26 +98,27 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    //height: 72px;
     height: 78px;
     margin-top: 0;
-    //border-bottom: 1px solid rgb(var(--c-gray-100));
-    //border-bottom: 1px solid rgb(var(--c-black));
-    //border-bottom: 7px solid rgb(var(--c-black));
   }
+
   &__content {
     flex-grow: 1;
     max-height: calc(100% - 72px);
+
     /* right padding for scrollbar */
     padding-right: 0.75rem;
     overflow-y: auto;
     overscroll-behavior: contain;
+
     &::-webkit-scrollbar {
       display: none;
     }
+
     &__title {
       @include typo.x-large;
       @include typo.bold;
+
       padding: 0.5rem 0 1.5rem;
     }
   }
@@ -127,9 +128,11 @@ export default defineComponent({
 .fade-leave-active {
   transition: opacity 100ms;
 }
+
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

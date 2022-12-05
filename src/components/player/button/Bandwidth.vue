@@ -28,6 +28,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+
 .bandwidth {
   display: flex;
   align-items: center;
@@ -35,16 +36,18 @@ export default defineComponent({
   height: 1.5rem;
   border-radius: 0.75rem;
   padding: 0 0.75rem;
-  border: 1px solid rgba(var(--c-fg), 0.25);
+  border: 1px solid rgb(var(--c-fg) 0.25);
   transition: border 100ms, background 100ms;
   cursor: pointer;
   min-width: 48px;
+
   &__text {
     @include typo.small;
+
     color: rgb(var(--c-fg));
   }
   @include responsive.on-hover {
-    background: rgba(var(--c-fg), 0.125);
+    background: rgb(var(--c-fg) 0.125);
     border-color: transparent;
   }
 }

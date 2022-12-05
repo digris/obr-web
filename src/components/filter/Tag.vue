@@ -37,6 +37,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
+
 .tag {
   position: relative;
   display: inline-flex;
@@ -44,50 +45,57 @@ export default defineComponent({
   height: 2rem;
   padding: 0.25rem 1rem;
   color: rgb(var(--c-white));
-  background: rgba(var(--c-white), 0.2);
-  //border: 1px solid rgba(var(--c-white), 0.2);
+  background: rgb(var(--c-white) 0.2);
   border-radius: 1rem;
   cursor: pointer;
   text-transform: capitalize;
   font-weight: 400;
+
   &.is-selected {
     color: rgb(var(--c-black));
     background: rgb(var(--c-white));
   }
+
   &__type {
     display: none;
     padding-left: 0.5rem;
     @include typo.tiny;
     @include typo.dim;
   }
+
   &__count {
     @include typo.tiny;
+
     position: absolute;
     bottom: 2rem;
     display: none;
     align-items: center;
     justify-content: center;
     width: calc(100% - 2rem);
+
     &__value {
+      height: 26px;
+      width: 26px;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 26px;
-      height: 26px;
-      color: #fff;
       background: rgb(var(--c-white));
       color: rgb(var(--c-black));
-      border: 1px solid rgba(var(--c-black), 0.2);
+      border: 1px solid rgb(var(--c-black) 0.2);
       border-radius: 12px;
     }
   }
   @include responsive.on-hover {
     background: rgb(var(--c-gray-800));
-    .tag__count {
-      display: flex;
+
+    .tag {
+      &__count {
+        display: flex;
+      }
     }
+
     &.is-selected {
-      background: rgba(var(--c-white), 0.8);
+      background: rgb(var(--c-white) 0.8);
     }
   }
 }

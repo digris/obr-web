@@ -62,13 +62,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+
 .qr-code-login {
   .info {
     padding: 0.5rem 2rem 1rem 0;
     opacity: 0.5;
   }
+
   .code {
     max-width: 240px;
+
     .qr-code {
       aspect-ratio: 1;
       min-width: 100%;
