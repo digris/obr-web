@@ -6,26 +6,26 @@
   transition: color 1000ms, background-color 100ms 10ms;
 }
 
-@mixin fg($alpha: 1) {
+@mixin fg($alpha: 100%) {
   @include transition;
 
-  color: rgb(var(--c-page-fg) $alpha);
+  color: rgb(var(--c-page-fg) / $alpha);
 }
 
-@mixin fg-inverse($alpha: 1) {
+@mixin fg-inverse($alpha: 100%) {
   @include transition-inverse;
 
-  color: rgb(var(--c-page-fg-inverse) $alpha);
+  color: rgb(var(--c-page-fg-inverse) / $alpha);
 }
 
-@mixin bg($alpha: 1) {
+@mixin bg($alpha: 100%) {
   @include transition;
 
-  background-color: rgb(var(--c-page-bg) $alpha);
+  background-color: rgb(var(--c-page-bg) / $alpha);
 }
 
-@mixin bg-inverse($alpha: 1, $transition: true) {
-  background-color: rgb(var(--c-page-fg) $alpha);
+@mixin bg-inverse($alpha: 100%, $transition: true) {
+  background-color: rgb(var(--c-page-fg) / $alpha);
 
   @if $transition {
     @include transition-inverse;

@@ -54,18 +54,18 @@ export default defineComponent({
         const fg = getContrastColor(bg);
         const fgInverse = getContrastColor(fg);
         const colors = {
-          "--c-bg": bg.join(","),
-          "--c-fg": fg.join(","),
-          "--c-fg-inverse": fgInverse.join(","),
+          "--c-bg": bg.join(" "),
+          "--c-fg": fg.join(" "),
+          "--c-fg-inverse": fgInverse.join(" "),
         };
         return colors;
       } catch (e) {
         console.warn(e);
       }
       return {
-        "--c-bg": isLive.value ? "255, 255, 255" : "0, 0, 0",
-        "--c-fg": isLive.value ? "0, 0, 0" : "255, 255, 255",
-        "--c-fg-inverse": isLive.value ? "255, 255, 255" : "0, 0, 0",
+        "--c-bg": isLive.value ? "255 255 255" : "0 0 0",
+        "--c-fg": isLive.value ? "0 0 0" : "255 255 255",
+        "--c-fg-inverse": isLive.value ? "255 255 255" : "0 0 0",
       };
     });
     const queueVisible = ref(false);

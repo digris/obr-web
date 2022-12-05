@@ -65,9 +65,9 @@ export default defineComponent({
         const fg = getContrastColor(bg);
         const fgInverse = getContrastColor(fg);
         return {
-          "--c-bg": bg.join(","),
-          "--c-fg": fg.join(","),
-          "--c-fg-inverse": fgInverse.join(","),
+          "--c-bg": bg.join(" "),
+          "--c-fg": fg.join(" "),
+          "--c-fg-inverse": fgInverse.join(" "),
         };
       } catch (e) {
         console.warn(e);

@@ -1,12 +1,12 @@
 @charset "UTF-8";
+
 @import
   "base/mixins",
   "base/colors",
-  "base/variables-export";
-@import
   "base/reset",
   "base/font",
-  "base/typo";
+  "base/typo",
+  "base/variables-export";
 @import
   "elements/code",
   "elements/debug";

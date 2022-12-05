@@ -26,6 +26,7 @@ module.exports = {
         ],
         'scss/double-slash-comment-whitespace-inside': 'always',
         'order/properties-order': ['top', 'position', 'height', 'width',],
+        'color-function-notation': 'modern',
     },
     // customSyntax: 'postcss-html',
     ignoreFiles: [

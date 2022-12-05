@@ -5,7 +5,7 @@
 @mixin input {
   @include typo.bold;
 
-  border: 3px solid rgb(var(--c-black) 1);
+  border: 3px solid rgb(var(--c-black));
   border-radius: 3px;
   transition: border 200ms, background 200ms;
 
@@ -86,7 +86,7 @@
   input:not(:placeholder-shown) + label {
     top: 14px;
     bottom: unset;
-    color: rgb(var(--c-black) 0.5);
+    color: rgb(var(--c-black) / 50%);
     font-size: 75%;
     opacity: 1;
     transition: opacity 100ms, transform 100ms;

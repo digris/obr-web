@@ -27,7 +27,7 @@ interface Ray {
 }
 
 const colorToRGBA = (color: RGBAColor) => {
-  return `rgba(${color.join(",")})`;
+  return `rgba(${color.join(" ")})`;
 };
 
 const drawCanvas = async (
@@ -90,7 +90,7 @@ export default defineComponent({
       };
     });
     const containerStyle = computed(() => {
-      const bg = props.color.join(",");
+      const bg = props.color.join(" ");
       return {
         // TODO: implement calculation taking into account screen size
         height: `${props.height + 300}px`,

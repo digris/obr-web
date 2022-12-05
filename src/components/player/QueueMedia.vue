@@ -54,7 +54,7 @@ export default defineComponent({
     const buttonCssVars = computed(() => {
       if (color.value && props.isCurrent) {
         return {
-          "--c-fg": color.value.join(","),
+          "--c-fg": color.value.join(" "),
         };
       }
       return {

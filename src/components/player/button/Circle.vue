@@ -22,8 +22,8 @@ export default defineComponent({
       default: 1,
     },
     outlineOpacity: {
-      type: Number,
-      default: 0.15,
+      type: String,
+      default: "15%",
     },
     active: {
       type: Boolean,
@@ -111,7 +111,7 @@ export default defineComponent({
   }
 
   &.is-outlined {
-    border-color: rgb(var(--c-fg) var(--outline-opacity));
+    border-color: rgb(var(--c-fg) / var(--outline-opacity));
   }
 
   &.is-active {

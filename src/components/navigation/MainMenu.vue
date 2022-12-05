@@ -23,10 +23,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
 
+
 .main-menu {
   color: inherit;
 
   > a {
+    @include live-color.fg;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,10 +40,9 @@ export default defineComponent({
     border-right: 1px solid transparent;
     border-left: 1px solid transparent;
     transition: color, background-color 10ms, border-color 100ms;
-    @include live-color.fg;
 
     &:hover {
-      background: rgb(var(--c-page-fg) 0.1);
+      background: rgb(var(--c-page-fg) / 10%);
       transition: color, background-color 200ms;
     }
 
@@ -52,10 +54,10 @@ export default defineComponent({
     }
 
     &:not(&.router-link-active) {
-      border-left-color: rgb(var(--c-page-fg) 0.2);
+      border-left-color: rgb(var(--c-page-fg) / 20%);
 
       &:last-child {
-        border-right-color: rgb(var(--c-page-fg) 0.2);
+        border-right-color: rgb(var(--c-page-fg) / 20%);
       }
     }
   }

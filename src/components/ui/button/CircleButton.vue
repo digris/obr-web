@@ -14,16 +14,16 @@ export default defineComponent({
       default: "--c-fg",
     },
     hoverBackgroundOpacity: {
-      type: Number,
-      default: 0.1,
+      type: String,
+      default: "10%",
     },
     outlined: {
       type: Boolean,
       default: false,
     },
     outlineOpacity: {
-      type: Number,
-      default: 0.1,
+      type: String,
+      default: "10%",
     },
     outlineWidth: {
       type: Number,
@@ -100,7 +100,7 @@ export default defineComponent({
     height: 100%;
     width: 100%;
     left: 0;
-    border: var(--outline-width) solid rgb(var(--c-main) var(--outline-opacity));
+    border: var(--outline-width) solid rgb(var(--c-main) / var(--outline-opacity));
     border-radius: calc(var(--size) / 2);
   }
 
@@ -122,22 +122,15 @@ export default defineComponent({
   }
 
   @include responsive.on-hover {
-    background: rgb(var(--c-main) var(--hover-background-opacity));
+    background: rgb(var(--c-main) / var(--hover-background-opacity));
 
     &.is-filled {
-      background: rgb(var(--c-fill) var(--hover-background-opacity));
+      background: rgb(var(--c-fill) / var(--hover-background-opacity));
     }
 
     .outline {
       border-color: var(--outline-hover-color);
     }
   }
-
-  /*
-  @include responsive.on-tap {
-    background: rgba(var(--c-main), 0.1);
-    border-color: var(--outline-hover-color);
-  }
-  */
 }
 </style>

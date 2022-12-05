@@ -8,7 +8,7 @@ import { getContrastColor } from "@/utils/color";
 const setDocumentThemeColor = (color: Array<number>) => {
   const el: HTMLMetaElement | null = document.getElementById("theme-color");
   if (el) {
-    el.content = `rgb(${color.join(",")})`;
+    el.content = `rgb(${color.join(" ")})`;
   }
 };
 
@@ -17,9 +17,9 @@ const setDocumentPrimaryColor = (color: Array<number>) => {
   const fg = getContrastColor(bg);
   const fgInverse = getContrastColor(fg);
   const { style } = document.body;
-  style.setProperty("--c-live-bg", bg.join(","));
-  style.setProperty("--c-live-fg", fg.join(","));
-  style.setProperty("--c-live-fg-inverse", fgInverse.join(","));
+  style.setProperty("--c-live-bg", bg.join(" "));
+  style.setProperty("--c-live-fg", fg.join(" "));
+  style.setProperty("--c-live-fg-inverse", fgInverse.join(" "));
   setTimeout(() => {
     setDocumentThemeColor(color);
   }, 50);

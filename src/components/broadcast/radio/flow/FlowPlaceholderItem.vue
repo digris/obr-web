@@ -36,7 +36,7 @@ export default defineComponent({
   <div class="placeholder-item">
     <CircleButton
       :scale="3.35"
-      :outline-opacity="1"
+      outline-opacity="100%"
       :outline-width="6"
       :filled="true"
       :outlined="true"

@@ -66,10 +66,10 @@ export default {
     const cssVars = computed(() => {
       if (!color.value) {
         return {
-          "--c-color": "128,128,128",
+          "--c-color": "128 128 128",
         };
       }
-      const rgb = color.value.join(",");
+      const rgb = color.value.join(" ");
       return {
         "--c-color": rgb,
       };
@@ -133,7 +133,7 @@ export default {
   img {
     min-width: 100%;
     max-width: 100%;
-    background: rgb(var(--c-color) 0.5);
+    background: rgb(var(--c-color) / 100%);
     opacity: 1;
     filter: var(--image-filter);
     transition: opacity 100ms;

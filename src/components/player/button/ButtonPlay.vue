@@ -59,8 +59,8 @@ export default defineComponent({
       default: 1,
     },
     outlineOpacity: {
-      type: Number,
-      default: 0.15,
+      type: String,
+      default: "15%",
     },
     shadowed: {
       type: Boolean,
@@ -123,9 +123,9 @@ export default defineComponent({
     });
     const hoverBgOpacity = computed(() => {
       if (isFilled.value) {
-        return 0.8;
+        return "80%";
       }
-      return 0.1;
+      return "10%";
     });
     return {
       icon,
@@ -154,8 +154,8 @@ export default defineComponent({
     }"
     :style="{
       '--size': `${iconSize}px`,
-      '--c-fg': fgColor.join(','),
-      '--c-bg': bgColor.join(','),
+      '--c-fg': fgColor.join(' '),
+      '--c-bg': bgColor.join(' '),
       '--hover-bg-opacity': hoverBgOpacity,
       '--outline-width': `${outlineWidth}px`,
       '--outline-opacity': outlineOpacity,
@@ -190,7 +190,7 @@ export default defineComponent({
     height: calc(100% + 2px);
     width: calc(100% + 2px);
     left: -1px;
-    border: var(--outline-width) solid rgb(var(--c-fg) var(--outline-opacity));
+    border: var(--outline-width) solid rgb(var(--c-fg) / var(--outline-opacity));
     border-radius: calc(var(--size) / 2);
   }
 
@@ -199,7 +199,7 @@ export default defineComponent({
   }
   @include responsive.on-hover {
     transition: background-color 200ms;
-    background: rgb(var(--c-bg) var(--hover-bg-opacity));
+    background: rgb(var(--c-bg) / var(--hover-bg-opacity));
   }
 }
 

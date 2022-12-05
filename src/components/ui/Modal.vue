@@ -88,7 +88,7 @@ $z-feedback: 9;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(var(--c-black) 0.7);
+  background: rgb(var(--c-black) / 70%);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
 

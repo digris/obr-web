@@ -20,13 +20,13 @@
   transition: background 250ms, border-radius 100ms;
 
   &:focus {
-    outline: 1px solid rgb(var(--c-black) 0.5);
+    outline: 1px solid rgb(var(--c-black) / 50%);
     outline-offset: 2px;
   }
 
   &:not(:disabled) {
     @include responsive.on-hover {
-      background: rgb(var(--c-black) 0.9);
+      background: rgb(var(--c-black) / 90%);
       border-radius: $height * 0.5;
       transition: background 100ms, border-radius 100ms;
     }
