@@ -156,21 +156,21 @@ export default defineComponent({
 
   .progress-total {
     transition: fill 100ms;
-    fill: rgb(var(--c-fg) 0.2);
+    fill: rgb(var(--c-fg) / 20%);
   }
 
   .progress-position {
     // NOTE: width transition duration equals audioPlayer's POLL_INTERVAL
     transition: fill 100ms, width 100ms linear;
-    fill: rgb(var(--c-fg) 0.5);
+    fill: rgb(var(--c-fg) / 50%);
   }
 
   .progress-placeholder {
-    fill: rgb(var(--c-fg) 0.2);
+    fill: rgb(var(--c-fg) / 20%);
   }
 
   .cue-point {
-    fill: rgb(var(--c-fg) 1);
+    fill: rgb(var(--c-fg) / 10%);
   }
 
   &.is-buffering {
@@ -181,7 +181,7 @@ export default defineComponent({
 
   &.is-hover {
     .progress-position {
-      fill: rgb(var(--c-fg) 1);
+      fill: rgb(var(--c-fg) / 100%);
     }
   }
 
@@ -193,7 +193,7 @@ export default defineComponent({
 
   &.is-live {
     .progress-total {
-      fill: rgb(var(--c-fg) 0);
+      fill: rgb(var(--c-fg) / 0%);
     }
   }
 }
