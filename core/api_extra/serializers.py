@@ -15,6 +15,21 @@ class RGBValueField(
     max_value = 255
 
 
+class CTUIDSerializer(
+    serializers.Serializer,
+):
+    ct = serializers.CharField(
+        read_only=True,
+        help_text="Content type",
+    )
+    uid = serializers.CharField(
+        read_only=True,
+        min_length=8,
+        max_length=8,
+        help_text="UID",
+    )
+
+
 class CTUIDModelSerializer(
     serializers.ModelSerializer,
 ):

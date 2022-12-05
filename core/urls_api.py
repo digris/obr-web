@@ -163,6 +163,10 @@ urlpatterns = [
         include("cms.api.urls", "cms"),
     ),
     path(
+        "newsletter/",
+        include("newsletter.api.urls", "newsletter"),
+    ),
+    path(
         "sync/",
         include("sync.api.urls", "sync"),
     ),
