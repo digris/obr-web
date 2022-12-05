@@ -12,20 +12,22 @@ GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 
 lint:
 	yarn lint
-	black --check ./core/
+	black --check core/
+	poetry run isort core/ --check
 	poetry run ./manage.py spectacular --file /dev/null --validate --fail-on-warn
 	poetry run prospector -p ./core/
 
 fix:
 	yarn fix
-	find ./core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
-	black ./core/
+	find core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
+	black core/
+	poetry run isort core/
 
 test-be:
-	pytest -m "not e2e" -s ./core/tests/
+	pytest -m "not e2e" -s core/tests/
 
 test-e2e:
-	pytest -m "e2e" -s ./core/tests/
+	pytest -m "e2e" -s core/tests/
 
 test-fe:
 	yarn test:unit

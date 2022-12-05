@@ -82,6 +82,14 @@ prospector = "^1.7.7"
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
+[tool.isort]
+profile = "black"
+force_single_line = false
+default_section = "THIRDPARTY"
+known_first_party = "core"  # change it for the name of your django project
+known_django = "django"
+sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+
 [tool.semantic_release]
 version_variable = [
     "core/__init__.py:__version__",
