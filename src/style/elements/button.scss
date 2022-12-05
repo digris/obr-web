@@ -4,6 +4,7 @@
 
 @mixin default($height: 3rem) {
   @include typo.bold;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,14 +18,15 @@
   border-radius: math.div($height, 12);
   cursor: pointer;
   transition: background 250ms, border-radius 100ms;
+
   &:focus {
-    outline: 1px solid rgba(var(--c-black), 0.5);
+    outline: 1px solid rgb(var(--c-black) 0.5);
     outline-offset: 2px;
   }
+
   &:not(:disabled) {
     @include responsive.on-hover {
-      background: rgba(var(--c-black), 0.9);
-      //background: rgb(var(--c-cta));
+      background: rgb(var(--c-black) 0.9);
       border-radius: $height * 0.5;
       transition: background 100ms, border-radius 100ms;
     }

@@ -10,6 +10,8 @@ pre {
     line-height: 1rem;
     background: #222;
   }
+
+  /* stylelint-disable-next-line selector-class-pattern */
   &._debug {
     display: none;
   }

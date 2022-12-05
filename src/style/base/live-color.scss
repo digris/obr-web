@@ -8,21 +8,25 @@
 
 @mixin fg($alpha: 1) {
   @include transition;
-  color: rgba(var(--c-page-fg), $alpha);
+
+  color: rgb(var(--c-page-fg) $alpha);
 }
 
 @mixin fg-inverse($alpha: 1) {
   @include transition-inverse;
-  color: rgba(var(--c-page-fg-inverse), $alpha);
+
+  color: rgb(var(--c-page-fg-inverse) $alpha);
 }
 
 @mixin bg($alpha: 1) {
   @include transition;
-  background-color: rgba(var(--c-page-bg), $alpha);
+
+  background-color: rgb(var(--c-page-bg) $alpha);
 }
 
 @mixin bg-inverse($alpha: 1, $transition: true) {
-  background-color: rgba(var(--c-page-fg), $alpha);
+  background-color: rgb(var(--c-page-fg) $alpha);
+
   @if $transition {
     @include transition-inverse;
   }

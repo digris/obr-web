@@ -1,20 +1,22 @@
-//styling for @/src/directives/tooltip.ts
+// styling for @/src/directives/tooltip.ts
 
 .has-tooltip {
   position: relative;
-  &:before {
-    position: absolute;
+
+  &::before {
     top: calc(100% + 4px);
-    z-index: 101;
+    position: absolute;
     display: none;
+    z-index: 101;
     padding: 0.3rem 0.5rem;
     color: rgb(var(--c-white));
     white-space: nowrap;
     background: rgb(var(--c-black));
     content: var(--tooltip-text);
   }
+
   &:hover {
-    &:before {
+    &::before {
       display: block;
     }
   }

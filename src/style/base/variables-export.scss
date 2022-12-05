@@ -1,17 +1,14 @@
 @charset "UTF-8";
-
 @use "@/style/base/responsive";
-
 @import "colors";
 
 :root {
   --grid-gap: 1rem;
   --font-weight: 500;
   --font-size: 1rem;
-  --font-family: 'IBM Plex Sans', 'Helvetica Neue','Helvetica','Robotox','Roboto','Source Sans Pro', sans-serif;
+  --font-family: "IBM Plex Sans", "Helvetica Neue", "Helvetica", "Robotox", "Roboto", "Source Sans Pro", sans-serif;
   --container-width: 1800px;
   --image-filter: brightness(0.95) grayscale(0.1);
-  //
   --bp-small: 320px;
   --bp-medium: 720px;
   --bp-large: 1024px;
@@ -43,19 +40,12 @@
   }
 }
 
-//@media (prefers-color-scheme: dark) {
-//  :root {
-//    @each $name, $color in $color-palette-dark {
-//      --c-#{"" + $name}: #{$color};
-//    }
-//  }
-//}
-
 // NOTE: just for testing the switch. logic needs to be reworked.
 [data-theme="dark"] {
   @each $name, $color in $color-palette-dark {
     --c-#{"" + $name}: #{$color};
   }
+
   &[data-page-color="light"] {
     --c-white: 30, 30, 30;
     --c-black: 255, 255, 255;
@@ -63,6 +53,7 @@
     --c-page-fg: 255, 255, 255;
     --c-fg: 255, 255, 255;
   }
+
   &[data-page-color="dark"] {
     --c-white: 30, 30, 30;
     --c-black: 255, 255, 255;
@@ -90,7 +81,6 @@
   }
 }
 
-
 /* stylelint-disable-next-line no-duplicate-selectors */
 :root {
   --t-fs-x-large: 4rem;
@@ -103,6 +93,7 @@
   --t-lh-small: 0.75rem;
   --t-fs-tiny: 0.625rem;
   --t-lh-tiny: 0.625rem;
+
   @include responsive.bp-medium {
     --t-fs-x-large: 2.5rem;
     --t-lh-x-large: 2.5rem;
@@ -120,9 +111,8 @@
 // NOTE: just for testing modes. logic needs to be reworked.
 [data-client-mode="app"] {
   --font-size: 1rem;
-  --font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji";
+  --font-family: -apple-system, blinkmacsystemfont, "Apple Color Emoji";
 }
-
 
 /* stylelint-disable-next-line no-duplicate-selectors */
 :root {

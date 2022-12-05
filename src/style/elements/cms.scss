@@ -8,6 +8,7 @@
 
 @mixin toc {
   @include block-spacing;
+
   > ul,
   > ol {
     margin-left: 1.5rem;
@@ -17,14 +18,18 @@
 
 @mixin admonition {
   @include block-spacing;
+
   margin: 1rem 0;
   padding: 1rem;
   border: 3px solid rgb(var(--c-black));
+
   @include content;
+
   .admonition-title {
     @include block-spacing;
     @include typo.large;
   }
+
   > * {
     &:last-child {
       margin-bottom: 0;
@@ -36,59 +41,73 @@
 @mixin table {
   @include typo.light;
   @include block-spacing;
+
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
+
   > thead {
     color: rgb(var(--c-page-fg));
     background: rgb(var(--c-page-bg));
     font-weight: inherit;
+
     th {
       padding: 0.3rem;
       text-align: left;
       font-weight: inherit;
       border-top: 2px solid rgb(var(--c-page-fg));
       border-bottom: 2px solid rgb(var(--c-page-fg));
+
       &:first-child {
         padding-left: 0;
       }
+
       &:not(:last-child) {
-        border-right: 1px solid rgba(var(--c-page-fg), 0.25);
+        border-right: 1px solid rgb(var(--c-page-fg) 0.25);
       }
     }
   }
+
   > tbody {
     td {
       padding: 0.3rem;
-      border-bottom: 1px solid rgba(var(--c-page-fg), 0.25);
+      border-bottom: 1px solid rgb(var(--c-page-fg) 0.25);
       user-select: text;
+
       &:first-child {
         padding-left: 0;
       }
+
       &:not(:last-child) {
-        border-right: 1px solid rgba(var(--c-page-fg), 0.25);
+        border-right: 1px solid rgb(var(--c-page-fg) 0.25);
       }
     }
   }
+
   @include responsive.bp-medium {
     > thead {
       display: none;
     }
+
     > tbody {
       > tr {
         display: flex;
         flex-direction: column;
         padding-top: 1rem;
+
         > td {
           &:first-child {
             padding-left: 0.3rem;
           }
+
           &:not(:last-child) {
             border-right: none;
           }
+
           &:last-child {
             border-bottom: 2px solid rgb(var(--c-page-fg));
           }
+
           text-align: left;
         }
       }
@@ -99,8 +118,9 @@
 @mixin pyembed {
   > iframe {
     @include block-spacing;
-    width: 100%;
+
     height: 100%;
+    width: 100%;
     aspect-ratio: 16 / 9;
   }
 }
@@ -111,19 +131,23 @@
   > h3 {
     @include typo.large;
     @include typo.bold;
+
     margin: 2rem 0 0.5rem;
-    //@include block-spacing(0.5);
   }
+
   > h4,
   > h5,
   > h6 {
     @include typo.bold;
+
     margin-bottom: 1rem;
-    //@include block-spacing(0.5);
   }
+
   > p {
     @include block-spacing;
+
     line-height: 120%;
+
     > em {
       padding: 0 0.2em;
       color: rgb(var(--c-page-bg));
@@ -131,21 +155,26 @@
       font-style: normal;
     }
   }
+
   > ol,
   > ul {
     @include block-spacing;
+
     margin-bottom: 0.75rem;
     margin-left: 1.5rem;
     padding-bottom: 0.75rem;
     list-style-position: outside;
+
     > li {
       margin-bottom: 1rem;
     }
   }
+
   > hr {
     margin: 2rem 0;
     border-bottom: 1px solid rgb(var(--c-gray-200));
   }
+
   a {
     text-decoration: underline;
   }

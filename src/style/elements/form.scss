@@ -4,13 +4,13 @@
 
 @mixin input {
   @include typo.bold;
-  border: 3px solid rgba(var(--c-black), 1);
+
+  border: 3px solid rgb(var(--c-black) 1);
   border-radius: 3px;
   transition: border 200ms, background 200ms;
+
   &:focus,
   &:focus-visible {
-    //background: rgba(var(--c-black), .1);
-    //border-color: rgba(var(--c-black), .1);
     color: rgb(var(--c-black));
     background: rgb(var(--c-gray-100));
     border-color: rgb(var(--c-gray-100));
@@ -21,36 +21,41 @@
 @mixin top-label {
   display: flex;
   flex-direction: column;
+
   label {
     display: flex;
     align-items: center;
     height: 3rem;
     color: inherit;
-    //text-transform: uppercase;
   }
+
   .help {
     display: flex;
     align-items: center;
     height: 3rem;
     color: inherit;
+
     a {
       text-decoration: underline;
       cursor: pointer;
     }
   }
+
   @include responsive.bp-medium {
     label {
       @include typo.small;
+
       height: 2rem;
     }
   }
 }
 
 @mixin float-label {
-  position:  relative;
+  position: relative;
+
   label {
-    position: absolute;
     top: 0;
+    position: absolute;
     bottom: 0;
     left: 0.5rem;
     display: flex;
@@ -60,23 +65,28 @@
     transition: opacity 10ms, transform 100ms;
     pointer-events: none;
   }
+
   input,
   .input {
     min-height: 3rem;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem;
+
     &:not(:placeholder-shown) {
       padding: 0.85rem 0.5rem 0.15rem;
       transition: padding 100ms ease;
     }
   }
+
+  /*
   input:not(:placeholder-shown) {
-    //padding: 28px 0 12px 0;
+    padding: 28px 0 12px 0;
   }
+  */
+
   input:not(:placeholder-shown) + label {
     top: 14px;
     bottom: unset;
-    color: rgba(var(--c-black), 0.5);
-    //transform:  translateY(-0.75rem);
+    color: rgb(var(--c-black) 0.5);
     font-size: 75%;
     opacity: 1;
     transition: opacity 100ms, transform 100ms;
@@ -86,36 +96,44 @@
 @mixin default {
   display: flex;
   flex-direction: column;
+
   .button {
     @include button.default;
+
     display: flex;
     width: 100%;
   }
+
   .input-container {
     display: flex;
     align-content: center;
-    //margin: 0.5rem 0;
     width: 100%;
     padding: 0.5rem 0;
+
     &.submit {
       padding-top: 2rem;
+
       .button {
         max-width: 33%;
+
         @include responsive.bp-medium {
           max-width: unset;
         }
       }
     }
   }
+
   .input {
     @include input;
+
     display: flex;
     align-content: center;
     width: 100%;
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem;
   }
+
   .form-messages,
   .form-errors {
-    margin: 0 0 1rem 0;
+    margin: 0 0 1rem;
   }
 }

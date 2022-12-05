@@ -6,6 +6,7 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1.5rem;
+
   @include responsive.bp-medium {
     padding: 0 0.625rem;
   }
@@ -17,6 +18,7 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;
+
   @include responsive.bp-medium {
     padding: 0 0.625rem;
   }
@@ -28,17 +30,21 @@
   margin-right: auto;
   margin-left: auto;
   padding: 0 1rem;
+
   @include responsive.bp-medium {
     padding: 0 0.625rem;
   }
 }
 
 @mixin section {
-  &.section--light {
-    background: rgb(var(--c-white));
-  }
-  &.section--dark {
-    color: rgb(var(--c-white));
-    background: rgb(var(--c-black));
+  &.section {
+    &--light {
+      background: rgb(var(--c-white));
+    }
+
+    &--dark {
+      color: rgb(var(--c-white));
+      background: rgb(var(--c-black));
+    }
   }
 }
