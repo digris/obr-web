@@ -1,6 +1,6 @@
 <script lang="ts">
-import { storeToRefs } from "pinia";
 import { defineComponent, ref } from "vue";
+import { storeToRefs } from "pinia";
 
 import IconSpeaker from "@/components/ui/icon/IconSpeaker.vue";
 import { useSettingsStore } from "@/stores/settings";

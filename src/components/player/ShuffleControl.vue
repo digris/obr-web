@@ -1,6 +1,6 @@
 <script lang="ts">
-import { storeToRefs } from "pinia";
 import { defineComponent } from "vue";
+import { storeToRefs } from "pinia";
 
 import IconShuffle from "@/components/ui/icon/IconShuffle.vue";
 import { useQueueControls } from "@/composables/queue";

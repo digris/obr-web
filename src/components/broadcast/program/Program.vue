@@ -1,8 +1,8 @@
 <script lang="ts">
-import { isEqual } from "lodash-es";
+import { computed, defineComponent, onActivated, ref, watch } from "vue";
 import { DateTime } from "luxon";
 import { storeToRefs } from "pinia";
-import { computed, defineComponent, onActivated, ref, watch } from "vue";
+import { isEqual } from "lodash-es";
 
 import { useProgramStore } from "@/stores/program";
 

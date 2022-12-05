@@ -1,7 +1,7 @@
 <script lang="ts">
+import { computed, defineComponent, ref } from "vue";
 import { invoke, until } from "@vueuse/core";
 import { storeToRefs } from "pinia";
-import { computed, defineComponent, ref } from "vue";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import { useDevice } from "@/composables/device";

@@ -1,6 +1,6 @@
 <script lang="ts">
-import shaka from "shaka-player";
 import { defineComponent } from "vue";
+import shaka from "shaka-player";
 
 import { usePlayerControls } from "@/composables/player";
 

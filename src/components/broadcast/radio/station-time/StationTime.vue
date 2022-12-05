@@ -1,6 +1,6 @@
 <script lang="ts">
-import { storeToRefs } from "pinia";
 import { computed, defineComponent } from "vue";
+import { storeToRefs } from "pinia";
 
 import { useTimeStore } from "@/stores/time";
 import { zeroPad } from "@/utils/format";

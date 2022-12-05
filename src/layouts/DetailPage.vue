@@ -1,6 +1,6 @@
 <script lang="ts">
-import { useElementSize } from "@vueuse/core";
 import { computed, defineComponent, ref } from "vue";
+import { useElementSize } from "@vueuse/core";
 
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 

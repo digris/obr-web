@@ -1,7 +1,7 @@
 <script lang="ts">
-import { useMagicKeys, useVibrate } from "@vueuse/core";
 import type { PropType } from "vue";
 import { computed, defineComponent, ref } from "vue";
+import { useMagicKeys, useVibrate } from "@vueuse/core";
 
 import { getMedia } from "@/api/catalog";
 import ButtonPlay from "@/components/player/button/ButtonPlay.vue";

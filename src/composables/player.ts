@@ -1,6 +1,6 @@
+import { computed } from "vue";
 import log from "loglevel";
 import { storeToRefs } from "pinia";
-import { computed } from "vue";
 
 import { useDevice } from "@/composables/device";
 import { getMediaUrl } from "@/player/media";

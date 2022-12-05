@@ -1,11 +1,11 @@
 <script type="ts">
-import { onClickOutside } from '@vueuse/core';
 import {
   computed,
   defineComponent,
   onMounted,
   ref,
 } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';

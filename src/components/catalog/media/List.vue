@@ -1,8 +1,4 @@
 <script lang="ts">
-import { isEqual } from "lodash-es";
-import { DateTime } from "luxon";
-import { storeToRefs } from "pinia";
-import PullToRefresh from "pulltorefreshjs";
 import {
   computed,
   defineComponent,
@@ -15,6 +11,10 @@ import {
 } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
+import { DateTime } from "luxon";
+import PullToRefresh from "pulltorefreshjs";
+import { storeToRefs } from "pinia";
+import { isEqual } from "lodash-es";
 
 import { getMedia, getMediaTags } from "@/api/catalog";
 import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";

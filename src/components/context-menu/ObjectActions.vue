@@ -1,7 +1,7 @@
 <script lang="ts">
-import { debounce } from "lodash-es";
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
+import { debounce } from "lodash-es";
 
 import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";

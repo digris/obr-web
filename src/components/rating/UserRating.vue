@@ -1,6 +1,6 @@
 <script lang="ts">
-import { debounce } from "lodash-es";
 import { computed, defineComponent, onMounted, ref } from "vue";
+import { debounce } from "lodash-es";
 
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";

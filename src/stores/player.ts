@@ -1,5 +1,5 @@
-import { round } from "lodash-es";
 import { defineStore } from "pinia";
+import { round } from "lodash-es";
 
 type mode = "live" | "ondemand"; // NOTE: unify to "onDemand" (obr-app)
 type state = "stopped" | "playing" | "paused" | "buffering";

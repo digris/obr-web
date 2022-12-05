@@ -1,7 +1,7 @@
 <script lang="ts">
-import { useTitle } from "@vueuse/core";
 import { computed, defineComponent, onActivated, onBeforeUpdate } from "vue";
 import { useI18n } from "vue-i18n";
+import { useTitle } from "@vueuse/core";
 
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";

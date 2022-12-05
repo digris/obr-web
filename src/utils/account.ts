@@ -1,7 +1,7 @@
+import { watch } from "vue";
 import * as Sentry from "@sentry/vue";
 import { useIntervalFn } from "@vueuse/core";
 import { isEqual } from "lodash-es";
-import { watch } from "vue";
 
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";

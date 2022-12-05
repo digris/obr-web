@@ -1,6 +1,6 @@
 <script lang="ts">
-import { useElementHover } from "@vueuse/core";
 import { computed, defineComponent, onDeactivated, ref } from "vue";
+import { useElementHover } from "@vueuse/core";
 
 import UserRating from "@/components/rating/UserRating.vue";
 import { useObjKey } from "@/composables/obj";

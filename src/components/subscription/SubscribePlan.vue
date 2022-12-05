@@ -1,6 +1,6 @@
 <script lang="ts">
-import { loadStripe } from "@stripe/stripe-js";
 import { computed, defineComponent, onMounted, ref } from "vue";
+import { loadStripe } from "@stripe/stripe-js";
 
 import { createStripeCheckoutSession, getPlanOptions } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";

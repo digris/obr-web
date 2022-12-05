@@ -5,9 +5,9 @@
  * the actual program data is handled by components/broadcast/program/Program.vue
  */
 
-import { DateTime } from "luxon";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { DateTime } from "luxon";
 
 import Program from "@/components/broadcast/program/Program.vue";
 

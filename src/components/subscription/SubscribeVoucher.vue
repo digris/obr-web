@@ -1,6 +1,6 @@
 <script lang="ts">
-import { debounce } from "lodash-es";
 import { computed, defineComponent, ref } from "vue";
+import { debounce } from "lodash-es";
 
 import { getVoucher, redeemVoucher } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";

@@ -1,5 +1,5 @@
-import "./style/main.scss";
-
+import { createApp } from "vue";
+import { createI18n } from "vue-i18n";
 import OpenReplay from "@openreplay/tracker";
 import trackerAssist from "@openreplay/tracker-assist";
 import trackerAxios from "@openreplay/tracker-axios";
@@ -7,8 +7,6 @@ import { Integrations } from "@sentry/tracing";
 import * as Sentry from "@sentry/vue";
 import log from "loglevel";
 import { createPinia } from "pinia";
-import { createApp } from "vue";
-import { createI18n } from "vue-i18n";
 
 import { APIClient } from "@/api/client";
 // @ts-ignore
@@ -28,6 +26,8 @@ import App from "./App.vue";
 // directives
 import { TooltipDirective } from "./directives/tooltip";
 import router from "./router";
+
+import "./style/main.scss";
 
 log.setLevel("TRACE");
 

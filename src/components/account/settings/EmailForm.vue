@@ -1,7 +1,7 @@
 <script lang="ts">
-import * as EmailValidator from "email-validator";
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import * as EmailValidator from "email-validator";
 
 import { updateUser } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";

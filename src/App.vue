@@ -1,6 +1,6 @@
 <script lang="ts">
-import { useWindowSize } from "@vueuse/core";
 import { computed, defineComponent } from "vue";
+import { useWindowSize } from "@vueuse/core";
 
 import { AppBridge } from "@/app-bridge/appBridge";
 import AuthSidebar from "@/components/account/AuthSidebar.vue";

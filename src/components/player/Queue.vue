@@ -1,6 +1,6 @@
 <script lang="ts">
-import { useEventListener } from "@vueuse/core";
 import { defineComponent } from "vue";
+import { useEventListener } from "@vueuse/core";
 
 import QueueMedia from "@/components/player/QueueMedia.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";

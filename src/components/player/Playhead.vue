@@ -1,7 +1,7 @@
 <script lang="ts">
+import { computed, defineComponent, ref } from "vue";
 import { useElementSize, useMouseInElement } from "@vueuse/core";
 import { round } from "lodash-es";
-import { computed, defineComponent, ref } from "vue";
 
 import PlayheadHandle from "@/components/player/PlayheadHandle.vue";
 import PlayheadTime from "@/components/player/PlayheadTime.vue";

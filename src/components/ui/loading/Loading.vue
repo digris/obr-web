@@ -1,7 +1,7 @@
 <script lang="ts">
+import { computed, defineComponent, ref, watch } from "vue";
 import { useElementVisibility } from "@vueuse/core";
 import { debounce } from "lodash-es";
-import { computed, defineComponent, ref, watch } from "vue";
 
 import LoadingGrid from "./LoadingGrid.vue";
 import LoadingTable from "./LoadingTable.vue";

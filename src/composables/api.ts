@@ -1,5 +1,5 @@
-import { useStorage } from "@vueuse/core";
 import { computed } from "vue";
+import { useStorage } from "@vueuse/core";
 
 import settings from "@/settings";
 

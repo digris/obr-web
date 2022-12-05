@@ -1,9 +1,9 @@
 <script lang="ts">
-import { useIntervalFn } from "@vueuse/core";
-import QrcodeVue from "qrcode.vue";
 import type { PropType } from "vue";
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useIntervalFn } from "@vueuse/core";
+import QrcodeVue from "qrcode.vue";
 
 import { getSignedLoginCredentials } from "@/api/account";
 import type { User } from "@/typings/api";

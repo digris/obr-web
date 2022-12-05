@@ -1,7 +1,7 @@
 <script lang="ts">
-import { useDocumentVisibility, useScroll, useThrottleFn, useWindowSize } from "@vueuse/core";
 import type { PropType } from "vue";
 import { computed, defineComponent, nextTick, onActivated, onDeactivated, ref, watch } from "vue";
+import { useDocumentVisibility, useScroll, useThrottleFn, useWindowSize } from "@vueuse/core";
 
 import eventBus from "@/eventBus";
 import type { AnnotatedSchedule } from "@/stores/schedule";
