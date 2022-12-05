@@ -1,16 +1,16 @@
 import logging
+from datetime import timedelta
 
+from django.db import IntegrityError, transaction
 from django.db.models import Count
 from django.utils import timezone
-from datetime import timedelta
-from catalog.models import Playlist, Media
-from catalog.models import Airplay as CatalogAirplay
-from django.db import transaction, IntegrityError
+
 from broadcast.models import Emission as BroadcastEmission
-from .settings import ARCHIVE_AFTER_DAYS
+from catalog.models import Airplay as CatalogAirplay
+from catalog.models import Media, Playlist
 
 from .models import Airplay, Emission
-
+from .settings import ARCHIVE_AFTER_DAYS
 
 logger = logging.getLogger(__name__)
 

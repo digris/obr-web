@@ -1,10 +1,10 @@
 import logging
 
 from django.conf import settings
-from rest_framework import serializers
 
-from subscription.models import Subscription, Voucher
 from api_extra.serializers import CTUIDModelSerializer
+from rest_framework import serializers
+from subscription.models import Subscription, Voucher
 
 SITE_URL = getattr(settings, "SITE_URL")
 

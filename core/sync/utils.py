@@ -1,16 +1,15 @@
 import logging
 import pathlib
-import filetype
-
 from urllib.parse import urlparse
 from urllib.request import urlopen
 
-from django.db import transaction
-from django.db.utils import IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
+from django.db import transaction
+from django.db.utils import IntegrityError
 
+import filetype
 from identifier.models import Identifier, IdentifierScope
 from tagging.models import Tag, TaggedItem, TagType
 

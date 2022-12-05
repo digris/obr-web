@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from broadcast.models import Emission
-from catalog.models import Playlist, Media, Release, Artist
+from catalog.models import Artist, Media, Playlist, Release
 
 
 class Command(BaseCommand):

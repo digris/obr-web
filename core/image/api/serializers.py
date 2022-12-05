@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from api_extra.serializers import RGBValueField
+from rest_framework import serializers
 
 
 class BaseImageSerializer(serializers.ModelSerializer):

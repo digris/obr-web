@@ -1,9 +1,11 @@
 from django.http import Http404
-from rest_framework.views import APIView
-from rest_framework.response import Response
+
 from drf_spectacular.utils import extend_schema
-from . import serializers
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from ..models import Page
+from . import serializers
 
 
 class PageView(APIView):

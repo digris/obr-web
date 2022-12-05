@@ -1,22 +1,21 @@
 from datetime import timedelta
 
-from django.core.exceptions import FieldError
 from django.conf import settings
+from django.core.exceptions import FieldError
 from django.db.models import Count, Max, Q, Sum
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
+
+from catalog.api import serializers
+from catalog.models import Artist
 from django_filters import rest_framework as filters
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
-
-from catalog.api import serializers
-from catalog.models import Artist
 from tagging import utils as tagging_utils
-
 
 MEDIA_MIN_DURATION = 12
 # DEFAULT_ORDERING = "-created"

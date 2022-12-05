@@ -1,12 +1,12 @@
 from django.urls import reverse
-from drf_spectacular.utils import extend_schema_field, OpenApiTypes
+
+from account.models import Address, Settings, User
+from api_extra.serializers import CTUIDModelSerializer
+from django_countries.serializer_fields import CountryField
+from drf_spectacular.utils import OpenApiTypes, extend_schema_field
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
-from django_countries.serializer_fields import CountryField
 from social_django.models import UserSocialAuth
-
-from api_extra.serializers import CTUIDModelSerializer
-from account.models import User, Settings, Address
 from subscription.models import Subscription
 
 

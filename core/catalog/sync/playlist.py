@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 
 from sync import api_client
-from sync.utils import update_tags, update_image
+from sync.utils import update_image, update_tags
 
 logger = logging.getLogger(__name__)
 
@@ -30,13 +30,12 @@ def get_playlist_media(items):
 # pylint: disable=too-many-locals
 def sync_playlist(playlist, skip_images=False, **kwargs):
     # pylint: disable=import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
+    from broadcast.models import Editor
     from catalog.models.media import Media
 
     # pylint: disable=import-outside-toplevel
-    from catalog.models.playlist import Series, PlaylistMedia, PlaylistImage
-
-    # pylint: disable=import-outside-toplevel
-    from broadcast.models import Editor
+    from catalog.models.playlist import PlaylistImage, PlaylistMedia, Series
 
     try:
         data = api_client.get(f"playlists/{playlist.uuid}/")

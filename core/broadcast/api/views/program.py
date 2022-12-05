@@ -1,19 +1,16 @@
 import logging
 from datetime import datetime, timedelta
 from itertools import chain
+
 from django.db.models import Q
 from django.utils import timezone
-from drf_spectacular.utils import (
-    extend_schema,
-    OpenApiParameter,
-    OpenApiTypes,
-)
-from rest_framework import status
-from rest_framework.generics import GenericAPIView
-from rest_framework.response import Response
 
 from broadcast.api import serializers
 from broadcast.models import Emission
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
+from rest_framework import status
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
 from stats.models import Emission as ArchivedEmission
 
 logger = logging.getLogger(__name__)

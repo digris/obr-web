@@ -2,11 +2,11 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
 
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from catalog.sync.artist import sync_artist
 from image.models import BaseSortableImage
 from sync.models.mixins import SyncModelMixin
-from tagging.models import TaggedItem, TaggableManager
+from tagging.models import TaggableManager, TaggedItem
 
 
 class Artist(

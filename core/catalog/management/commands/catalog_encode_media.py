@@ -1,7 +1,9 @@
-import urllib3
-import certifi
 import json
+
 from django.core.management.base import BaseCommand, CommandError
+
+import certifi
+import urllib3
 from catalog.models import Master
 
 ENCODER_ENDPOINT = "https://media-encoder-kcek2ea7xq-oa.a.run.app"

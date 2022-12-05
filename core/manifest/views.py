@@ -1,5 +1,5 @@
-from django.templatetags.static import static
 from django.http import JsonResponse
+from django.templatetags.static import static
 
 
 def manifest_view(request):

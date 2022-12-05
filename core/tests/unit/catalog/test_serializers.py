@@ -1,10 +1,11 @@
-import pytest
-from mixer.backend.django import mixer
 from datetime import timedelta
-from catalog.models.media import Media
+
+import pytest
 from catalog.api.serializers.media import DurationInSecondsSerializer
-from catalog.models.playlist import Playlist, Series
 from catalog.api.serializers.playlist import PlaylistSerializer
+from catalog.models.media import Media
+from catalog.models.playlist import Playlist, Series
+from mixer.backend.django import mixer
 
 
 @pytest.mark.django_db

@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from identifier.models import Identifier
+from rest_framework import serializers
 
 
 class IdentifierSerializer(serializers.ModelSerializer):

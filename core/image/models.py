@@ -7,7 +7,8 @@ from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+
 from .colors import extract_colors
 
 logger = logging.getLogger(__name__)

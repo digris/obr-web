@@ -1,10 +1,10 @@
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.urls import include, path, re_path
-from django.conf.urls.i18n import i18n_patterns
 from django.views.static import serve
 
-from spa.views import SPAIndexView, SPA404View
+from spa.views import SPA404View, SPAIndexView
 
 SITE_URL = getattr(settings, "SITE_URL")
 

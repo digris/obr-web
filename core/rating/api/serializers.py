@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from ..models import Vote, VoteScope
 
-
 # SITE_URL = getattr(settings, 'SITE_URL')
 
 

@@ -1,10 +1,9 @@
-from rest_framework import serializers
-
 from api_extra.serializers import CTUIDModelSerializer
-from tagging.api.serializers import TagSerializer
-from catalog.api.serializers import PlaylistSerializer
 from broadcast.api.serializers import EditorSerializer
 from broadcast.models import Emission
+from catalog.api.serializers import PlaylistSerializer
+from rest_framework import serializers
+from tagging.api.serializers import TagSerializer
 
 
 class ProgramEmissionSerializer(

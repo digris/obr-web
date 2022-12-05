@@ -1,11 +1,12 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-# from taggit.managers import TaggableManager  # NOQA
-from taggit.models import TagBase, GenericTaggedItemBase
-
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from sync.models.mixins import SyncTimeModelMixin
+
+# from taggit.managers import TaggableManager  # NOQA
+from taggit.models import GenericTaggedItemBase, TagBase
+
 from .managers import TaggableManager  # NOQA
 
 

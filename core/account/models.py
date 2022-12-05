@@ -2,21 +2,20 @@ from datetime import timedelta
 
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-from django_countries.fields import CountryField
-from rest_framework_simplejwt.tokens import SlidingToken
-
 from account import signals as account_signals
 from account import token_login
+from account.cdn_credentials.policy import get_cdn_policy
 from account.settings import LOGIN_TOKEN_MAX_AGE
 from account.sync.user import sync_user
-from account.cdn_credentials.policy import get_cdn_policy
 from base.models.mixins import CTUIDModelMixin
+from django_countries.fields import CountryField
+from rest_framework_simplejwt.tokens import SlidingToken
 from sync.models.mixins import SyncModelMixin
 
 

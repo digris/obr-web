@@ -1,8 +1,7 @@
-from rest_framework import serializers
-
-from catalog.models import Release
 from api_extra.serializers import CTUIDModelSerializer
+from catalog.models import Release
 from image.api.serializers import ImageSerializer
+from rest_framework import serializers
 
 
 class ReleaseSerializer(

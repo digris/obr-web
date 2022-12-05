@@ -1,16 +1,17 @@
 import logging
-import bleach
 
 from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+
+import bleach
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
 
-from . import serializers
 from ..models import Vote
+from . import serializers
 
 log = logging.getLogger(__name__)
 

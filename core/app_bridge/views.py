@@ -1,5 +1,7 @@
 import urllib.parse
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+
 from base.utils.signer import timestamp_signer
 
 REDIRECTOR_URL = (

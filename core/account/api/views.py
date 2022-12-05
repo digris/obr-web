@@ -5,25 +5,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
-from drf_spectacular.utils import (
-    extend_schema,
-    OpenApiParameter,
-    OpenApiExample,
-)
+
+from account import email_login, token_login
+from account.cdn_credentials.utils import remove_credentials, set_credentials
+from account.models import Address, User
+from account.utils import social_backends
+from base.utils.signer import timestamp_signer
+from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account import email_login, token_login
-from account.cdn_credentials.utils import (
-    set_credentials,
-    remove_credentials,
-)
-from account.models import User, Address
-from account.utils import social_backends
-from base.utils.signer import timestamp_signer
-from . import serializers
 from ..utils.address import get_countries
+from . import serializers
 
 logger = logging.getLogger(__name__)
 

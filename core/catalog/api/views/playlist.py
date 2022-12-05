@@ -2,14 +2,14 @@ from django.core.exceptions import FieldError
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 from django.shortcuts import get_object_or_404
+
+from catalog.api import serializers
+from catalog.models import Playlist
 from django_filters import rest_framework as filters
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
-
-from catalog.api import serializers
-from catalog.models import Playlist
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12

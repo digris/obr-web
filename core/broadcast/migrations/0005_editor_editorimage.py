@@ -3,11 +3,11 @@
 import uuid
 
 import django.db.models.deletion
-import taggit.managers
 from django.conf import settings
 from django.db import migrations, models
 
 import image.models
+import taggit.managers
 
 
 class Migration(migrations.Migration):

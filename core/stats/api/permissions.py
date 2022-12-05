@@ -1,6 +1,5 @@
 from rest_framework.permissions import BasePermission
 
-
 # see account `GlobalPermissions`
 STATS_PERMISSION = "account.api_stats_webhooks"
 

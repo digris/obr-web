@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.db.models import Max
 
-from catalog.models.media import Media, Airplay, Master
+from catalog.models.media import Airplay, Master, Media
 from identifier.admin import IdentifierInline
 from sync.admin import sync_qs_action
 

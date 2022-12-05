@@ -1,9 +1,10 @@
 import logging
 from datetime import timedelta
+
 from django.apps import apps
-from django.utils import timezone
-from django.db.models.functions import Now
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.functions import Now
+from django.utils import timezone
 
 from sync.models.mixins import SyncModelMixin, SyncState
 

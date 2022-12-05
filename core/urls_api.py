@@ -1,5 +1,12 @@
 from django.urls import include, path
 
+from drf_spectacular.utils import extend_schema, inline_serializer
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularJSONAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -8,14 +15,6 @@ from rest_framework_simplejwt.views import (
     TokenObtainSlidingView,
     TokenRefreshSlidingView,
 )
-from drf_spectacular.utils import extend_schema, inline_serializer
-from drf_spectacular.views import (
-    SpectacularAPIView,
-    SpectacularJSONAPIView,
-    SpectacularRedocView,
-    SpectacularSwaggerView,
-)
-
 
 app_name = "api"
 

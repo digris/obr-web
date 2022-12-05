@@ -1,7 +1,7 @@
 import logging
 
+from account.models import MigrationSource, User
 from sync import api_client
-from account.models import User, MigrationSource
 
 logger = logging.getLogger(__name__)
 

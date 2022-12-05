@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import mixins, viewsets
-from rest_framework.exceptions import ParseError
 
-from rating.queries import annotate_qs_width_user_rating
 from catalog.api import serializers
 from catalog.models import Mood
+from rating.queries import annotate_qs_width_user_rating
+from rest_framework import mixins, viewsets
+from rest_framework.exceptions import ParseError
 
 MEDIA_MIN_DURATION = 12
 

@@ -1,5 +1,3 @@
-from rest_framework import serializers
-
 from broadcast.api.serializers import EditorSerializer
 from broadcast.models import Emission
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
@@ -7,7 +5,9 @@ from catalog.api.serializers import PlaylistSerializer as CatalogPlaylistSeriali
 from catalog.api.serializers.media import (
     MediaImageSerializer as CatalogMediaImageSerializer,
 )
-from catalog.models import Playlist, Media
+from catalog.models import Media, Playlist
+from rest_framework import serializers
+
 from .emission import EmissionSerializer
 
 

@@ -3,8 +3,7 @@ from datetime import timedelta
 from django.db import models
 from django.utils import timezone
 
-from base.models.mixins import TimestampedModelMixin, CTUIDModelMixin
-
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 MEDIA_MIN_DURATION = 12
 

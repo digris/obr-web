@@ -2,11 +2,11 @@ import logging
 from datetime import datetime, timedelta
 
 from django.utils import timezone
-from pytz.exceptions import AmbiguousTimeError, NonExistentTimeError
 
 from broadcast import signals as broadcast_signals
 from broadcast.models import Emission
 from catalog.models.playlist import Playlist
+from pytz.exceptions import AmbiguousTimeError, NonExistentTimeError
 from sync import api_client
 
 logger = logging.getLogger(__name__)

@@ -1,5 +1,7 @@
 import logging
+
 from django.db import models
+
 from base.models.mixins import CTUIDModelMixin
 
 logger = logging.getLogger(__name__)

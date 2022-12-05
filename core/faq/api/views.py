@@ -1,6 +1,7 @@
 from rest_framework import mixins, viewsets
-from . import serializers
+
 from ..models import Category
+from . import serializers
 
 
 class CategoryViewSet(

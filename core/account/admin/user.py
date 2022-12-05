@@ -2,12 +2,13 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.template.response import TemplateResponse
 from django.urls import path
-from social_django.models import UserSocialAuth
 
+from social_django.models import UserSocialAuth
 from subscription.models import Subscription
 from sync.admin import sync_qs_action
-from ..forms import UserCreationForm, UserChangeForm
-from ..models import User, Settings, Address, LoginToken
+
+from ..forms import UserChangeForm, UserCreationForm
+from ..models import Address, LoginToken, Settings, User
 
 
 class UserSocialAuthInline(admin.TabularInline):

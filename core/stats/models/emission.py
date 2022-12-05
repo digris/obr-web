@@ -1,10 +1,10 @@
 import logging
-from django.db import models
-from django.utils import timezone
 from datetime import timedelta
 
-from base.models.mixins import CTUIDModelMixin
+from django.db import models
+from django.utils import timezone
 
+from base.models.mixins import CTUIDModelMixin
 
 logger = logging.getLogger(__name__)
 

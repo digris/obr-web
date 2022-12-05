@@ -1,7 +1,8 @@
 from django.apps import apps
 from django.http import HttpResponseRedirect
-from rest_framework.views import APIView
+
 from drf_spectacular.utils import extend_schema
+from rest_framework.views import APIView
 
 OBP_URL = "https://www.openbroadcast.org"
 OBP_URL_MAP = {

@@ -2,9 +2,10 @@
 
 import datetime
 
-import taggit.managers
 from django.db import migrations, models
 from django.utils.timezone import utc
+
+import taggit.managers
 
 
 class Migration(migrations.Migration):

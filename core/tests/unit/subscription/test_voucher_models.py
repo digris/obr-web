@@ -1,10 +1,10 @@
 import re
 
-import pytest
 from django.contrib.auth import get_user_model
-from freezegun import freeze_time
 
-from subscription.models import Voucher, Redemption
+import pytest
+from freezegun import freeze_time
+from subscription.models import Redemption, Voucher
 from subscription.models.voucher import generate_code, get_default_code
 
 User = get_user_model()

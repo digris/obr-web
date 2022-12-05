@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
-from google.cloud import storage
+
 from catalog.models import Master
+from google.cloud import storage
 
 # https://console.cloud.google.com/storage/browser?project=open-broadcast&prefix=
 MASTER_BUCKET = "obr-master"
