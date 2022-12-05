@@ -1,23 +1,18 @@
 <script lang="ts">
-import eventBus from "@/eventBus";
+import AuthPanel from "@/components/account/AuthPanel.vue";
 
 export default {
+  components: {
+    AuthPanel,
+  },
   setup() {
-    const login = () => {
-      const event = {
-        intent: "login",
-      };
-      eventBus.emit("account:authenticate", event);
-    };
-    return {
-      login,
-    };
+    return {};
   },
 };
 </script>
 <template>
   <section class="section">
-    <i18n-t @click.prevent="login" keypath="account.auth.login" tag="button" />
+    <AuthPanel />
   </section>
 </template>
 

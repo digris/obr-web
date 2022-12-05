@@ -80,8 +80,9 @@ account:
     resetPassword: Login mit E-Mail-Bestätigung
     accountExists: Konto bereits vorhanden. Klicke auf "Code senden"
     loginToken: Login-Code
-    loginEmailSent: "Eine E-Mail mit einem Login-Code wurde an {0} geschickt.
-                     Falls du keine Nachricht erhalten hast, prüfe deinen Spam Ordner."
+    loginEmailSent:
+      title: Eine E-Mail mit einem Login-Code wurde an {0} geschickt.
+      note: Falls du keine Nachricht erhalten hast, prüfe deinen Spam Ordner.
     loginEmailSendAgain: E-Mail erneut senden
     social:
       continueWith: Weiter mit {0}

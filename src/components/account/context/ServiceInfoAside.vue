@@ -16,9 +16,8 @@
 <style lang="scss" scoped>
 @use "@/style/base/typo";
 .service {
-  padding: 2rem 4rem;
   .title {
-    @include typo.large;
+    @include typo.x-large;
     @include typo.bold;
   }
   > ul {

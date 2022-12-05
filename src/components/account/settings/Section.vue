@@ -72,6 +72,7 @@ export default defineComponent({
   */
   &.is-outlined {
     .panel {
+      min-height: 46px;
       padding: 0.75rem;
       border: 1px solid rgb(var(--c-gray-200));
     }

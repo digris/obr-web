@@ -76,9 +76,10 @@ export default defineComponent({
 <template>
   <div>
     <p class="lead">
-      <i18n-t keypath="account.auth.loginEmailSent" tag="div" class="title">
+      <i18n-t keypath="account.auth.loginEmailSent.title" tag="div" class="title">
         <em v-text="email" />
       </i18n-t>
+      <i18n-t keypath="account.auth.loginEmailSent.note" tag="div" class="note" />
       <i18n-t @click.prevent="reset" keypath="account.auth.loginEmailSendAgain" tag="a" />
     </p>
     <form class="form" @submit.prevent="submitForm">
@@ -130,7 +131,12 @@ export default defineComponent({
   }
 }
 .lead {
-  @include typo.large;
+  .title {
+    @include typo.large;
+  }
+  .note {
+    margin-top: 1rem;
+  }
   a {
     text-decoration: underline;
     cursor: pointer;
