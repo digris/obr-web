@@ -142,7 +142,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 @use "@/style/elements/container";
 // NOTE: color variables are set in parent Player component
 .player-panel {

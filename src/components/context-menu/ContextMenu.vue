@@ -140,7 +140,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .context-menu {
   position: relative;
   &__icon {

@@ -1,6 +1,6 @@
 @use "sass:math";
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 
 @mixin default($height: 3rem) {
   @include typo.bold;

@@ -224,7 +224,7 @@ variables defined in parent component(s):
  --item-size
 */
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .flow-item {
   display: none;
   //background-color: rgba(255, 255, 255, 0.9);

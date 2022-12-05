@@ -46,7 +46,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .expandable-section {
   border-top: 1px solid rgb(var(--c-gray-200));
   transition: background 200ms;

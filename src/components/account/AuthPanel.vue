@@ -64,7 +64,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .auth-panel {
   display: flex;
   flex-direction: column;

@@ -59,7 +59,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 @use "@/style/base/typo";
 .card {
   position: relative;

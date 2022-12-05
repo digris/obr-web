@@ -172,7 +172,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .button-play {
   position: relative;
   display: inline-grid;

@@ -1,5 +1,5 @@
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 
 @mixin block-spacing() {
   margin-bottom: 0.5rem;

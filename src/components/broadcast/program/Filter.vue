@@ -73,7 +73,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .filter {
   position: relative;
   height: 38px;

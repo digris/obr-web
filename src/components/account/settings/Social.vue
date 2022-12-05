@@ -165,7 +165,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .info {
   padding: 0.5rem 2rem 1rem 0;
   opacity: 0.5;

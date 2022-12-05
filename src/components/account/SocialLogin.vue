@@ -103,7 +103,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .social-login {
   .backends {
     display: grid;

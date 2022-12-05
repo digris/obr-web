@@ -32,7 +32,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-@use "@/style/abstracts/responsive";
+@use "@/style/base/responsive";
 .play-icon {
   position: absolute;
   top: 0;
