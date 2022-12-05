@@ -33,14 +33,14 @@ export class RatingService {
     /**
      * @param objCt
      * @param objUid
-     * @param formData
+     * @param requestBody
      * @returns Vote
      * @throws ApiError
      */
     public static ratingCreate(
         objCt: string,
         objUid: string,
-        formData: VoteRequest,
+        requestBody: VoteRequest,
     ): CancelablePromise<Vote> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -49,8 +49,8 @@ export class RatingService {
                 'objCt': objCt,
                 'objUid': objUid,
             },
-            formData: formData,
-            mediaType: 'application/x-www-form-urlencoded',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 

@@ -11,7 +11,7 @@ export type Voucher = {
      * UID
      */
     readonly uid?: string;
-    readonly code?: string;
+    code?: string;
     readonly codeDisplay?: string;
     numDays?: number;
     readonly isValid?: boolean;
