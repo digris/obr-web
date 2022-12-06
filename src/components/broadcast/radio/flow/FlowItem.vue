@@ -150,7 +150,6 @@ export default defineComponent({
       };
     });
     const cssVars = computed(() => {
-      // const rbg = props.item.r
       const bg = image.value?.rgb ?? [0, 0, 0];
       const fg = getContrastColor(bg);
       return {
@@ -161,7 +160,6 @@ export default defineComponent({
 
     return {
       el,
-      // offset,
       elX,
       offset,
       focus,
@@ -172,8 +170,6 @@ export default defineComponent({
       cssVars,
       image,
       release,
-      // x,
-      // right,
       timeStart,
       translateX,
       scale,
@@ -192,9 +188,6 @@ export default defineComponent({
       ...cssVars,
     }"
   >
-    <div v-if="false" style="z-index: 999; background: white">
-      <pre v-text="{ offset, focus, relativePosition, translateX, scale, timeStart, cssVars }" />
-    </div>
     <div
       v-if="isVisible"
       class="translate-x"
@@ -266,10 +259,10 @@ variables defined in parent component(s):
     justify-content: center;
 
     .circle-button {
-      background: rgb(var(--c-bg) 1);
+      background: rgb(var(--c-bg) / 100%);
 
       &:hover {
-        background: rgb(var(--c-bg) 0.8);
+        background: rgb(var(--c-bg) / 80%);
       }
     }
   }

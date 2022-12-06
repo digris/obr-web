@@ -1,6 +1,6 @@
 {
   "name": "openbroadcast.ch",
-  "version": "0.0.1",
+  "version": "0.0.53",
   "license": "MIT",
   "scripts": {
     "serve": "vite",
@@ -15,6 +15,9 @@
     "fix:stylelint": "stylelint \"**/*.{vue,scss}\" --fix",
     "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./src/typings/api/",
     "postinstall": "patch-package"
+  },
+  "engines" : {
+    "node" : ">=16.0.0 <19.0.0"
   },
   "dependencies": {
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",

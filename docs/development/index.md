@@ -28,14 +28,14 @@ See `package.json` and `pyproject.toml` for version details.
 ```shell
 # install python packages
 # using pyenv:
-pyenv install 3.10.5
+pyenv install 3.11.0
 
-poetry env use python3.10
+poetry env use python3.11
 poetry install
 
 # install npm packages
 # using nvm & yarn:
-nvm use v16.18.1
+nvm use v18.12.1
 yarn install
 ```
 

@@ -23,7 +23,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
 
-
 .main-menu {
   color: inherit;
 

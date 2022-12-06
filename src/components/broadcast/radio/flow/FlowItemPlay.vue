@@ -5,6 +5,7 @@ import { storeToRefs } from "pinia";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
+import { useDevice } from "@/composables/device";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
 import type { AnnotatedSchedule } from "@/stores/schedule";
@@ -23,6 +24,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { isMobile } = useDevice();
     // state & controls
     // queue states
     const { current: currentScheduleItem } = storeToRefs(useScheduleStore());
@@ -58,19 +60,20 @@ export default defineComponent({
     });
     const handleClick = async () => {
       if (isBuffering.value || isPlaying.value) {
-        pausePlayer();
+        await pausePlayer();
         return;
       }
       if (isCurrentScheduleItem.value) {
         const startTime = -10;
-        playLive(startTime);
+        await playLive(startTime);
       } else if (isPaused.value) {
-        resumePlayer();
+        await resumePlayer();
       } else {
         startPlayMedia(props.item.media);
       }
     };
     return {
+      isMobile,
       isHover,
       iconMode,
       handleClick,
@@ -88,8 +91,8 @@ export default defineComponent({
     :outlined="true"
     :outline-on-hover="true"
     color-var="--c-fg"
-    @mouseover="isHover = true"
-    @mouseleave="isHover = false"
+    @mouseover="isMobile ? null : (isHover = true)"
+    @mouseleave="isMobile ? null : (isHover = false)"
     @click="handleClick"
   >
     <IconLogo :mode="iconMode" :scale="3.35" :outline-width="1.8" color-var="--c-fg" />
