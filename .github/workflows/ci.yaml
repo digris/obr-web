@@ -29,7 +29,7 @@ jobs:
       - run: pip install black
       - run: black --version
       - run: black ./core/ --check
-      - run: pip install poetry==1.1.13
+      - run: pip install poetry==1.2.2
       - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
 #      - run: prospector -p ./core/
 
@@ -43,10 +43,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
         with:
-#          python-version: '3.9'
           python-version: ${{ matrix.python-version }}
           architecture: 'x64'
-      - run: pip install poetry==1.1.13
+      - run: pip install poetry==1.2.2
       - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
       - run: make test-be
 
@@ -79,7 +78,7 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install
       - run: yarn build
-      - run: pip install poetry==1.1.13
+      - run: pip install poetry==1.2.2
       - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
       - run: make test-e2e
       - uses: actions/upload-artifact@v3
