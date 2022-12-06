@@ -58,6 +58,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .play-all-small {
+  transition: opacity 100ms;
+
   .wrapper {
     display: flex;
     align-items: center;
@@ -67,6 +69,12 @@ export default defineComponent({
     .circle-button {
       margin-right: 1rem;
     }
+  }
+
+  &:has(.is-loading) {
+    pointer-events: none;
+    cursor: wait;
+    opacity: 0.5;
   }
 }
 </style>

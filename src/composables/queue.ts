@@ -17,7 +17,7 @@ const annotateMedia = (media: Array<Media>, scope: Array<string> = []): Array<An
     const artistKeys = mediaObj.artists.map((artistObj) => {
       return `${artistObj.ct}:${artistObj.uid}`;
     });
-    const mappedScope = scope ? [...scope, ...artistKeys] : artistKeys;
+    const mappedScope = scope.length ? [...scope, ...artistKeys] : artistKeys;
     return { ...mediaObj, scope: mappedScope };
   });
 };
