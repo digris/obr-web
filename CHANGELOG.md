@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.54 (2022-12-07)
+### Fix
+* Use `BaseImageSerializer` in release API ([`340d578`](https://github.com/digris/obr-web/commit/340d578c15f56d2f32e5bd79722cbda8a85422d6))
+
 ## v0.0.53 (2022-12-05)
 ### Fix
 * Add FAQ & CMS section styling ([`29804a9`](https://github.com/digris/obr-web/commit/29804a9b559e9499c2cc223a4e55f4f89b7b3765))
