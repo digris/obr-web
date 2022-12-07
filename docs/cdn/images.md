@@ -1,19 +1,5 @@
 # Image Processing / CDN
 
-## Image (Re-)Sizer Flow
-
-```mermaid
-sequenceDiagram
-    participant C as /images/
-    autonumber
-    C->>+LB:crop|scale
-    LB->>+cache:cache
-    cache-->>-C:hit
-    LB->>+resizer:lb
-    resizer->>-cache:cache
-    cache-->>+C:image
-```
-
 ## Endpoint
 
 For the "core" application the endpoint is configured by environment variable `IMAGE_RESIZER_ENDPOINT`  
@@ -55,4 +41,20 @@ Combine the two:
 ```
 # example
 https://next.openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg
+```
+
+![Blundetto](https://next.openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg)
+
+## Image (Re-)Sizer Flow
+
+```mermaid
+sequenceDiagram
+    participant C as /images/
+    autonumber
+    C->>+LB:crop|scale
+    LB->>+cache:cache
+    cache-->>-C:hit
+    LB->>+resizer:lb
+    resizer->>-cache:cache
+    cache-->>+C:image
 ```
