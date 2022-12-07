@@ -110,9 +110,9 @@ Vary: Accept
 }
 ```
 
-### Accessing the Media-CDN
+### Accessing CDN Resources
 
-See [docs/media-cdn/cdn](../media-cdn/cdn.md)
+See [docs/cdn/media](../cdn/media.md)
 
 
 ### "Password-less" Login

@@ -123,9 +123,8 @@ export default defineComponent({
       const { results } = await getMedia(100, 0, filter, ordering);
       // TODO: implement play behaviour in case (single) media is already queued
       // see: player/queue.ts:58
-      // await enqueueMedia(results, mode, scope.value);
-      const scope = props.objKey ? [props.objKey] : [];
-      await enqueueMedia(results, mode, scope);
+      const mediaScope = props.objKey ? [props.objKey] : [];
+      await enqueueMedia(results, mode, mediaScope);
       await startPlayCurrent(true);
       isLoading.value = false;
       await injectRatings(results);

@@ -1,4 +1,4 @@
-# CDN (GCP)
+# Media CDN (GCP)
 
 ## Protected Media Files (= encoded Audio)
 

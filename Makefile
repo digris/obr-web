@@ -15,13 +15,13 @@ lint:
 	black --check core/
 	poetry run isort core/ --check
 	poetry run ./manage.py spectacular --file /dev/null --validate --fail-on-warn
-	poetry run prospector -p ./core/
+	poetry run prospector -p core/
 
 fix:
 	yarn fix
 	find core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
-	black core/
 	poetry run isort core/
+	black core/
 
 test-be:
 	pytest -m "not e2e" -s core/tests/

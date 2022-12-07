@@ -9,7 +9,9 @@ from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
 
 
-class MediaImageSerializer(BaseImageSerializer):
+class MediaImageSerializer(
+    BaseImageSerializer,
+):
     class Meta(BaseImageSerializer.Meta):
         model = Image
 

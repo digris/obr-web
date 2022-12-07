@@ -71,6 +71,12 @@ class BaseImage(
         return self.file.url
 
     @cached_property
+    def ratio(self):
+        if self.file and self.file.width and self.file.height:
+            return round(self.file.width / self.file.height, 5)
+        return 1
+
+    @cached_property
     def rgb(self):
         if not self.colors:
             return None

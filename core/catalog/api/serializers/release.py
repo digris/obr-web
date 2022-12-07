@@ -1,7 +1,12 @@
 from api_extra.serializers import CTUIDModelSerializer
-from catalog.models import Release
-from image.api.serializers import ImageSerializer
+from catalog.models import Release, ReleaseImage
+from image.api.serializers import BaseImageSerializer
 from rest_framework import serializers
+
+
+class ReleaseImageSerializer(BaseImageSerializer):
+    class Meta(BaseImageSerializer.Meta):
+        model = ReleaseImage
 
 
 class ReleaseSerializer(
@@ -15,8 +20,9 @@ class ReleaseSerializer(
     name = serializers.CharField(
         read_only=True,
     )
-    image = ImageSerializer(
+    image = ReleaseImageSerializer(
         read_only=True,
+        allow_null=True,
     )
     num_media = serializers.IntegerField(
         read_only=True,
