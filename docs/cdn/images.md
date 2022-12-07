@@ -45,7 +45,10 @@ https://next.openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/607486
 
 ![Blundetto](https://next.openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg)
 
-## Image (Re-)Sizer Flow
+## Image (Re-)Sizer Implementation & Flow
+
+The resizer is implemented in Go and runs as cloud function on GCP.  
+- Source: [functions/http-image-resizer](../../functions/http-image-resizer/)
 
 ```mermaid
 sequenceDiagram
