@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.55 (2022-12-08)
+### Fix
+* Disable payment in (iOS) app mode ([`77b4b88`](https://github.com/digris/obr-web/commit/77b4b88d05456b54b75037521f607b60a609bd3a))
+
 ## v0.0.54 (2022-12-07)
 ### Fix
 * Use `BaseImageSerializer` in release API ([`340d578`](https://github.com/digris/obr-web/commit/340d578c15f56d2f32e5bd79722cbda8a85422d6))
