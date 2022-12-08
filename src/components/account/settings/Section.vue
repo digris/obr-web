@@ -17,9 +17,16 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { attrs, emit }) {
     const isEditable = computed(() => {
+      if (props.readonly) {
+        return false;
+      }
       return !!attrs.onEdit;
     });
     const handleEdit = () => {
@@ -41,6 +48,7 @@ export default defineComponent({
     class="section"
     :class="{
       'is-outlined': outlined,
+      'is-readonly': readonly,
       'is-editable': isEditable,
     }"
   >
@@ -70,11 +78,10 @@ export default defineComponent({
     }
   }
 
-  /*
-  .panel {
-    padding-top: 0.75rem;
+  &.is-readonly {
+    pointer-events: none;
   }
-  */
+
   &.is-outlined {
     .panel {
       min-height: 46px;

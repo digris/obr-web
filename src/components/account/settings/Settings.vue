@@ -2,7 +2,6 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
-// import Support from "@/components/account/settings/Support.vue";
 import QRCodeLogin from "@/components/account/qrcode/QRCodeLogin.vue";
 import Address from "@/components/account/settings/Address.vue";
 import Email from "@/components/account/settings/Email.vue";
@@ -27,16 +26,17 @@ export default defineComponent({
     Address,
     Newsletter,
     Social,
-    // Support,
     QRCodeLogin,
   },
   setup() {
     const { t } = useI18n();
+    const { isApp } = useDevice();
     const { user, subscription, settings, address, loadUser } = useAccount();
     const { isDesktop } = useDevice();
     const socialNext = window.location.pathname;
     return {
       t,
+      isApp,
       user,
       subscription,
       settings,
@@ -52,6 +52,7 @@ export default defineComponent({
 <template>
   <div v-if="user">
     <Section
+      :readonly="isApp"
       v-if="user"
       :title="t('account.settings.subscription.title')"
       @edit="
@@ -68,9 +69,6 @@ export default defineComponent({
     <Address :address="address" @updated="loadUser" />
     <Newsletter />
     <Social />
-    <!--
-    <Support :user="user" />
-    -->
     <QRCodeLogin v-if="isDesktop" :user="user" />
   </div>
 </template>

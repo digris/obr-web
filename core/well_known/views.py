@@ -14,35 +14,26 @@ def apple_app_site_association(request):
                 "apps": [],
                 "details": [
                     {
-                        "appIDs": [
-                            IOS_APP_ID,
+                        "appID": IOS_APP_ID,
+                        "paths": [
+                            "NOT /social/*",
                         ],
-                        "components": [
-                            {
-                                "/": "/social/login/*",
-                                "exclude": True,
-                                "comment": "OAuth login flow should be started in the os browser",
-                            },
-                            {
-                                "/": "/social/complete/*",
-                                "exclude": True,
-                                "comment": "OAuth login flow should be completed in the os browser",
-                            },
-                            {
-                                "/": "/*",
-                                "comment": "Matches any URL with a path that starts with /.",
-                            },
-                            {
-                                "/": "/social/login/*",
-                                "exclude": True,
-                                "comment": "OAuth login flow should be started in the os browser",
-                            },
-                            {
-                                "/": "/social/complete/*",
-                                "exclude": True,
-                                "comment": "OAuth login flow should be completed in the os browser",
-                            },
-                        ],
+                        # "components": [
+                        #     {
+                        #         "/": "/social/login/*",
+                        #         "exclude": True,
+                        #         "comment": "OAuth login flow should be started in the os browser",
+                        #     },
+                        #     {
+                        #         "/": "/social/complete/*",
+                        #         "exclude": True,
+                        #         "comment": "OAuth login flow should be completed in the os browser",
+                        #     },
+                        #     {
+                        #         "/": "/*",
+                        #         "comment": "Matches any URL with a path that starts with /.",
+                        #     },
+                        # ],
                     }
                 ],
             }

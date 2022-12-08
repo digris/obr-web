@@ -197,7 +197,7 @@ class MediaViewSet(
         except AssertionError as e:
             raise ParseError(f"Invalid UID: {self.kwargs['uid']}") from e
 
-        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
+        obj = get_object_or_404(self.queryset, uid=obj_uid)
 
         return obj
 
