@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.57 (2022-12-09)
+### Fix
+* Use same syntax for all color definitions ([`5e4839b`](https://github.com/digris/obr-web/commit/5e4839b77559ef386ca409ea95da8da031924447))
+
 ## v0.0.56 (2022-12-09)
 ### Fix
 * Do not use `rgba` color functions ([`2dce8e7`](https://github.com/digris/obr-web/commit/2dce8e7aab358ba925dc8389b47ae9482f1cda5d))
