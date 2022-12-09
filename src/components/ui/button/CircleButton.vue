@@ -66,7 +66,7 @@ export default defineComponent({
       '--outline-opacity': outlineOpacity,
       '--outline-width': `${outlineWidth}px`,
       '--hover-background-opacity': hoverBackgroundOpacity,
-      '--outline-hover-color': outlineOnHover ? 'rgba(var(--c-main)' : 'transparent',
+      '--outline-hover-color': outlineOnHover ? 'rgb(var(--c-main) / 100%)' : 'transparent',
     }"
     :class="{
       'is-outlined': outlined,
@@ -105,7 +105,7 @@ export default defineComponent({
   }
 
   &.is-filled {
-    background: rgb(var(--c-fill));
+    background: rgb(var(--c-fill) / 100%);
   }
 
   &.is-disabled {

@@ -78,10 +78,10 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 242px 1fr 146px 48px 48px;
   padding: 0 1.5rem 0 0;
-  background: rgb(var(--c-page-bg) 0.6);
+  background: rgb(var(--c-page-bg) / 80%);
   border-bottom: 7px solid rgb(var(--c-page-fg));
   transition: background 10ms;
-  backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
   @include responsive.bp-medium {
     height: 66px;
     grid-template-columns: 172px 1fr 40px 40px 40px;

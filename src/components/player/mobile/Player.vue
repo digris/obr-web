@@ -163,7 +163,7 @@ export default defineComponent({
     transition-delay: 100ms;
 
     .player-bg {
-      background: rgb(var(--c-fg) 0.1);
+      background: rgb(var(--c-fg) / 10%);
     }
   }
 }

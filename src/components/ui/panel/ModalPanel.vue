@@ -77,9 +77,9 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-black) / 100%);
   font-weight: 500;
-  background: rgb(var(--c-black) 0.8);
+  background: rgb(var(--c-black) / 80%);
 
   .container {
     @include container.small;
@@ -87,7 +87,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     padding-bottom: 1rem;
-    background: rgb(var(--c-white));
+    background: rgb(var(--c-white) / 100%);
   }
 
   @include responsive.bp-medium {

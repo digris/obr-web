@@ -93,12 +93,6 @@ export default defineComponent({
       white-space: inherit;
       text-overflow: inherit;
     }
-
-    /*
-    &--secondary {
-      color: rgba(var(--c-fg), 0.5);
-    }
-    */
   }
 }
 </style>

@@ -37,19 +37,19 @@ export default defineComponent({
   @include typo.bold;
 
   padding: 1rem;
-  color: rgb(var(--c-white));
-  background: rgb(var(--c-black));
+  color: rgb(var(--c-white) / 100%);
+  background: rgb(var(--c-black) / 100%);
 
   &--info {
-    background: rgb(var(--c-info));
+    background: rgb(var(--c-info) / 100%);
   }
 
   &--warning {
-    background: rgb(var(--c-warning));
+    background: rgb(var(--c-warning) / 100%);
   }
 
   &--success {
-    background: rgb(var(--c-success));
+    background: rgb(var(--c-success) / 100%);
   }
 }
 </style>

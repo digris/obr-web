@@ -40,15 +40,15 @@ export default defineComponent({
   align-items: center;
   height: 2rem;
   padding: 0.25rem 1rem;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-black) / 100%);
   text-transform: lowercase;
-  background: rgb(var(--c-white));
-  border: 1px solid rgb(var(--c-page-fg) 0.2);
+  background: rgb(var(--c-white) / 100%);
+  border: 1px solid rgb(var(--c-page-fg) / 20%);
   border-radius: 1rem;
   cursor: pointer;
 
   &:hover {
-    background: rgb(var(--c-gray-100));
+    background: rgb(var(--c-gray-100) / 100%);
   }
 
   &.is-selected {

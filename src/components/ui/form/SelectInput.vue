@@ -88,7 +88,7 @@ export default defineComponent({
   display: grid;
   grid-template-rows: 1rem auto;
   gap: 1rem;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-black) / 100%);
 
   label {
     cursor: unset;

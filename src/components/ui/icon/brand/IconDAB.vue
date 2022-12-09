@@ -13,7 +13,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const color = computed(() => `rgb(var(${props.colorVar}))`);
+    const color = computed(() => `rgb(var(${props.colorVar}) / 100%)`);
     const style = computed(() => {
       return {
         fill: color.value,

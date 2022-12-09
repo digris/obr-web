@@ -9,9 +9,9 @@
     display: none;
     z-index: 101;
     padding: 0.3rem 0.5rem;
-    color: rgb(var(--c-white));
+    color: rgb(var(--c-white) / 100%);
     white-space: nowrap;
-    background: rgb(var(--c-black));
+    background: rgb(var(--c-black) / 100%);
     content: var(--tooltip-text);
   }
 

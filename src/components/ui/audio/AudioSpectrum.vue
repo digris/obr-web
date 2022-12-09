@@ -22,7 +22,6 @@ const drawCanvas = async (
     const value = bins[i] * heightFactor;
     const x = i * (barWidth * 2) + barWidth / 3;
     const h = value;
-    // ctx.fillStyle = "rgb(0,0,0)";
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
   }
@@ -40,7 +39,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "rgb(255,0,255)",
+      default: "rgb(255 0 255 / 100%)",
     },
   },
   setup(props) {
@@ -50,7 +49,6 @@ export default defineComponent({
         height: `${props.height}px`,
         width: `${props.width}px`,
         transform: "scaleY(-1)",
-        // background: 'rgba(0,0,0,0.2)',
       };
     });
     onMounted(() => {

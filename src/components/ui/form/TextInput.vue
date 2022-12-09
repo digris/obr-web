@@ -94,7 +94,7 @@ export default defineComponent({
   grid-template-rows: 1rem auto;
   column-gap: 1rem;
   row-gap: 1rem;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-black) / 100%);
 
   .top {
     display: grid;
@@ -110,7 +110,7 @@ export default defineComponent({
       @include typo.light;
       @include typo.small;
 
-      color: rgb(var(--c-red));
+      color: rgb(var(--c-red) / 100%);
       text-align: right;
       @include responsive.bp-medium {
         display: none;
@@ -143,7 +143,7 @@ export default defineComponent({
 
   &.has-error {
     input {
-      border-color: rgb(var(--c-red));
+      border-color: rgb(var(--c-red) / 100%);
     }
   }
 }

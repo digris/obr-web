@@ -21,7 +21,7 @@ const drawCanvas = async (
     const value = bins[i] * heightFactor;
     const x = i * (barWidth * 1.5) + barWidth / 3;
     const h = value;
-    ctx.fillStyle = "rgb(0,0,0)";
+    ctx.fillStyle = "rgb(0 0 0 / 100%)";
     ctx.fillRect(x, y, w, h);
   }
 };
@@ -45,7 +45,6 @@ export default defineComponent({
         width: `${props.width}px`,
         transform: "scaleY(-1)",
         opacity: 0.2,
-        // background: 'rgba(0,0,0,0.2)',
       };
     });
     const numBins = computed(() => {

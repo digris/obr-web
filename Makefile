@@ -19,7 +19,7 @@ lint:
 
 fix:
 	yarn fix
-	find core/ -type f -name "*.py" -exec pyupgrade --py39-plus "{}" \;
+	find core/ -type f -name "*.py" -exec pyupgrade --py310-plus "{}" \;
 	poetry run isort core/
 	black core/
 

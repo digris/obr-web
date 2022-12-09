@@ -5,15 +5,15 @@
 @mixin input {
   @include typo.bold;
 
-  border: 3px solid rgb(var(--c-black));
+  border: 3px solid rgb(var(--c-black) / 100%);
   border-radius: 3px;
   transition: border 200ms, background 200ms;
 
   &:focus,
   &:focus-visible {
-    color: rgb(var(--c-black));
-    background: rgb(var(--c-gray-100));
-    border-color: rgb(var(--c-gray-100));
+    color: rgb(var(--c-black) / 100%);
+    background: rgb(var(--c-gray-100) / 100%);
+    border-color: rgb(var(--c-gray-100) / 100%);
     outline: none;
   }
 }

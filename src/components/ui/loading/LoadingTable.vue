@@ -47,7 +47,7 @@ export default defineComponent({
 }
 
 .row {
-  border-bottom: 1px solid rgb(var(--c-gray-200));
+  border-bottom: 1px solid rgb(var(--c-gray-200) / 100%);
 
   .container {
     display: grid;

@@ -57,7 +57,7 @@ export default defineComponent({
     :disabled="numQueued < 1"
     @click.prevent="onClick"
     :style="{
-      color: queueVisible ? 'rgb(var(--c-bg))' : 'rgb(var(--c-fg))',
+      color: queueVisible ? 'rgb(var(--c-bg) / 100%)' : 'rgb(var(--c-fg) / 100%)',
     }"
   >
     <IconQueue color-var="--c-fg" :num-queued="numQueued" />

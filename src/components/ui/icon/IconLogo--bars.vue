@@ -31,7 +31,7 @@ export default defineComponent({
   },
   setup(props) {
     const { iconSize: size } = useIconSize(props.scale);
-    const color = computed(() => `rgb(var(${props.colorVar}))`);
+    const color = computed(() => `rgb(var(${props.colorVar}) / 100%)`);
     const style = computed(() => {
       // const mode: Mode = Mode[props.mode as keyof typeof Mode];
       return {

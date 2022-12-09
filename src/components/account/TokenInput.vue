@@ -83,7 +83,7 @@ export default defineComponent({
   &.is-valid {
     .input {
       background: rgb(var(--c-success) / 10%);
-      border-color: rgb(var(--c-success));
+      border-color: rgb(var(--c-success) / 100%);
     }
   }
 }

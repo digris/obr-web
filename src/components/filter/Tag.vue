@@ -45,7 +45,7 @@ export default defineComponent({
   height: 2rem;
   padding: 0.25rem 1rem;
   color: rgb(var(--c-white));
-  background: rgb(var(--c-white) 0.2);
+  background: rgb(var(--c-white) / 20%);
   border-radius: 1rem;
   cursor: pointer;
   text-transform: capitalize;
@@ -53,7 +53,7 @@ export default defineComponent({
 
   &.is-selected {
     color: rgb(var(--c-black));
-    background: rgb(var(--c-white));
+    background: rgb(var(--c-white) / 100%);
   }
 
   &__type {

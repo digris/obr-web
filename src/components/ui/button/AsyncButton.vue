@@ -130,7 +130,7 @@ export default defineComponent({
   transition: background-color 300ms ease-in-out, box-shadow 200ms;
 
   &.has-error {
-    background-color: rgb(var(--c-red));
+    background-color: rgb(var(--c-red) / 100%);
   }
 
   &.is-loading {
@@ -138,7 +138,7 @@ export default defineComponent({
   }
 
   &.is-success {
-    box-shadow: 0 0 1px 3px rgb(var(--c-cta-active) 0.1);
+    box-shadow: 0 0 1px 3px rgb(var(--c-cta-active) / 10%);
   }
 
   &.is-disabled {

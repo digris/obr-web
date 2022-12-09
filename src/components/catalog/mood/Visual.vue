@@ -27,8 +27,8 @@ interface Ray {
 }
 
 const colorToRGBA = (color: RGBAColor) => {
-  const [r, g, b, a] = [...color]
-  return `rgba(${r} ${g} ${b} / ${a})`;
+  const [r, g, b, a] = [...color];
+  return `rgb(${r} ${g} ${b} / ${a})`;
 };
 
 const drawCanvas = async (

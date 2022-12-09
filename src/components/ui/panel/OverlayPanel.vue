@@ -82,9 +82,9 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-black) / 100%);
   font-weight: 500;
-  background: rgb(var(--c-white));
+  background: rgb(var(--c-white) / 100%);
   overflow-y: auto;
   overscroll-behavior: auto contain;
 
@@ -102,7 +102,7 @@ export default defineComponent({
     justify-content: flex-end;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    background: rgb(var(--c-white));
+    background: rgb(var(--c-white) / 100%);
     z-index: 50;
     @include responsive.bp-medium {
       height: 60px;

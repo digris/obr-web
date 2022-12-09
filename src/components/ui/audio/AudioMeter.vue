@@ -23,15 +23,6 @@ const drawCanvas = async (
   ctx.canvas.width = width;
   ctx.canvas.height = height;
 
-  // const center = {
-  //   x: width / 2,
-  //   y: height / 2 + offsetY / 2,
-  // };
-
-  // ctx.globalCompositeOperation = "darker";
-  // ctx.globalCompositeOperation = "lighter";
-  // ctx.fillStyle = "rgba(0, 0, 0, 1)";
-
   const space = width / 12;
   const w = width / 3;
   const yL = volL * height;
@@ -44,19 +35,6 @@ const drawCanvas = async (
   ctx.beginPath();
   ctx.rect(width / 2 + space, 0, w, yR);
   ctx.fill();
-
-  // ctx.beginPath();
-  // ctx.rect(0, 0, width, height);
-  // ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-  // ctx.fill();
-
-  // ctx.beginPath();
-  // ctx.rect(812, yR, 10, vR);
-  // ctx.fill();
-
-  // ctx.beginPath();
-  // ctx.rect(0, 0, 24, 24);
-  // ctx.fill();
 
   ctx.closePath();
 };

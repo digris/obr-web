@@ -44,12 +44,6 @@ export default defineComponent({
     border: none;
     width: 100%;
 
-    /*
-    &:hover,
-    &:focus {
-      background: rgba(var(--c-black), 0.05);
-    }
-    */
     &:focus {
       outline: none;
     }

@@ -21,7 +21,7 @@
 
   margin: 1rem 0;
   padding: 1rem;
-  border: 3px solid rgb(var(--c-black));
+  border: 3px solid rgb(var(--c-black) / 100%);
 
   @include content;
 
@@ -47,16 +47,16 @@
   width: 100%;
 
   > thead {
-    color: rgb(var(--c-page-fg));
-    background: rgb(var(--c-page-bg));
+    color: rgb(var(--c-page-fg) / 100%);
+    background: rgb(var(--c-page-bg) / 100%);
     font-weight: inherit;
 
     th {
       padding: 0.3rem;
       text-align: left;
       font-weight: inherit;
-      border-top: 2px solid rgb(var(--c-page-fg));
-      border-bottom: 2px solid rgb(var(--c-page-fg));
+      border-top: 2px solid rgb(var(--c-page-fg) / 100%);
+      border-bottom: 2px solid rgb(var(--c-page-fg) / 100%);
 
       &:first-child {
         padding-left: 0;
@@ -105,7 +105,7 @@
           }
 
           &:last-child {
-            border-bottom: 2px solid rgb(var(--c-page-fg));
+            border-bottom: 2px solid rgb(var(--c-page-fg) / 100%);
           }
 
           text-align: left;
@@ -150,8 +150,8 @@
 
     > em {
       padding: 0 0.2em;
-      color: rgb(var(--c-page-bg));
-      background: rgb(var(--c-page-fg));
+      color: rgb(var(--c-page-bg) / 100%);
+      background: rgb(var(--c-page-fg) / 100%);
       font-style: normal;
     }
   }
@@ -172,7 +172,7 @@
 
   > hr {
     margin: 2rem 0;
-    border-bottom: 1px solid rgb(var(--c-gray-200));
+    border-bottom: 1px solid rgb(var(--c-gray-200) / 100%);
   }
 
   a {

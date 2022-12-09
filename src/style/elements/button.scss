@@ -11,9 +11,9 @@
   min-height: $height;
   padding-right: math.div($height, 1.5);
   padding-left: math.div($height, 1.5);
-  color: rgb(var(--c-white));
+  color: rgb(var(--c-white) / 100%);
   font-size: math.div($height, 3);
-  background: rgb(var(--c-black));
+  background: rgb(var(--c-black) / 100%);
   border: none;
   border-radius: math.div($height, 12);
   cursor: pointer;
