@@ -243,7 +243,7 @@ variables defined in parent component(s):
     height: var(--item-size);
     width: var(--item-size);
     left: 0;
-    background: rgba(var(--c-bg, 0.9));
+    background: rgb(var(--c-bg) / 90%);
     transform-origin: left;
     box-shadow: 0 0 20px rgb(0 0 0 / 50%);
   }

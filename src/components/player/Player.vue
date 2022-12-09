@@ -136,8 +136,8 @@ $player-height: 72px;
   width: 100%;
   bottom: 0;
   z-index: 110;
-  color: rgba(var(--c-fg));
-  background: rgba(var(--c-bg));
+  color: rgb(var(--c-fg));
+  background: rgb(var(--c-bg));
   transition: background 1000ms;
 }
 

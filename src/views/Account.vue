@@ -31,15 +31,23 @@ export default defineComponent({
 .account {
   @include container.small;
 
-  margin-bottom: 12rem;
-}
+  margin-bottom: 4rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 
-.header {
-  @include typo.x-large;
+  .header {
+    @include typo.x-large;
 
-  margin: 2rem 0;
-  @include responsive.bp-medium {
-    margin: 0.625rem 0;
+    margin: 2rem 0;
+    @include responsive.bp-medium {
+      margin: 0.625rem 0;
+    }
+  }
+
+  .body {
+    flex-grow: 1;
+    display: flex;
   }
 }
 </style>

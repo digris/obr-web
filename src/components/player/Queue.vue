@@ -82,7 +82,7 @@ export default defineComponent({
         <Circle
           @click="close"
           background-color="rgb(var(--c-black))"
-          hover-background-color="rgba(var(--c-white), 0.1)"
+          hover-background-color="rgb(var(--c-white) / 10%)"
         >
           <IconCaret direction="down" color-var="--c-white" />
         </Circle>

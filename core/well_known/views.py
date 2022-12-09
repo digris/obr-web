@@ -17,17 +17,20 @@ def apple_app_site_association(request):
                         "appID": IOS_APP_ID,
                         "paths": [
                             "NOT /social/*",
+                            "NOT /app-bridge/social-auth-redirect/",
+                            "NOT /app-bridge/social-auth-redirect/*",
+                            "*",
                         ],
                         # "components": [
                         #     {
-                        #         "/": "/social/login/*",
+                        #         "/": "/social/*",
                         #         "exclude": True,
-                        #         "comment": "OAuth login flow should be started in the os browser",
+                        #         "comment": "OAuth login flow must be started in the os browser",
                         #     },
                         #     {
-                        #         "/": "/social/complete/*",
+                        #         "/": "/app-bridge/social-auth-redirect/*",
                         #         "exclude": True,
-                        #         "comment": "OAuth login flow should be completed in the os browser",
+                        #         "comment": "Auth redirect to be completed in the os browser",
                         #     },
                         #     {
                         #         "/": "/*",

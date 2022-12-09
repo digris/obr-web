@@ -145,7 +145,7 @@ export default defineComponent({
   z-index: 110;
   height: var(--player-height);
   width: 100%;
-  background: rgba(var(--c-bg));
+  background: rgb(var(--c-bg));
   box-shadow: 0 0 1px 1px rgb(var(--c-fg) 0.2);
   transition: background 200ms;
   transition-delay: 1ms;
@@ -169,7 +169,7 @@ export default defineComponent({
 }
 
 .player {
-  color: rgba(var(--c-fg));
+  color: rgb(var(--c-fg));
   transition: background 1000ms;
   height: 60px;
   display: flex;

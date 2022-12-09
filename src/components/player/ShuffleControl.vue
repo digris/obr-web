@@ -35,7 +35,7 @@ export default defineComponent({
     class="shuffle-control"
     :background-color="shuffleMode ? 'rgb(var(--c-white))' : 'rgb(var(--c-black))'"
     :hover-background-color="
-      shuffleMode ? 'rgba(var(--c-white), 0.9)' : 'rgba(var(--c-white), 0.1)'
+      shuffleMode ? 'rgb(var(--c-white) / 90%)' : 'rgb(var(--c-white) / 10%)'
     "
     @click.prevent="onClick"
   >

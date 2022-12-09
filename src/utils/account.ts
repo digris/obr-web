@@ -8,7 +8,7 @@ import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 import type { User } from "@/typings/api";
 
-const USER_POLLING_INTERVAL = 5 * 60 * 1000;
+const USER_POLLING_INTERVAL = 60 * 1000;
 
 const updateAppBridgeAccount = (user: User) => {
   if (window.appBridge) {
