@@ -157,12 +157,12 @@ export default defineComponent({
 </template>
 <style lang="scss" scoped>
 .ptype-view {
-  background: rgb(var(--white));
+  background: rgb(var(--white) / 100%);
 }
 
 .stage {
   padding: 2rem;
-  background: rgb(var(--c-bg));
+  background: rgb(var(--c-bg) / 100%);
 
   .row {
     border-bottom: 1px solid #a9a9a9;

@@ -129,7 +129,7 @@ export default defineComponent({
   height: 50vh;
   min-height: 280px;
   max-height: 620px;
-  background: rgb(var(--c-page-bg));
+  background: rgb(var(--c-page-bg) / 100%);
 
   .image {
     height: 100%;
