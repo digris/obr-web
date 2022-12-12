@@ -114,9 +114,9 @@ export default defineComponent({
       <g v-if="isOndemand">
         <rect
           v-if="position"
-          x="0"
+          :x="`${cueIn * 100}%`"
           y="14"
-          :width="`${position * 100}%`"
+          :width="`${(position - cueIn) * 100}%`"
           height="4"
           class="progress-position"
         />
