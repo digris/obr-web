@@ -3,6 +3,9 @@
 
 ## Example
 
+NOTE: in general the API uses seconds for duration based values.  
+      with **the exception** of "intra-playback" related values (fades, cues) that base on milliseconds.
+
 ### API Resource
 
 ```text
