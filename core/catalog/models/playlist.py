@@ -213,6 +213,7 @@ class PlaylistMedia(
         verbose_name = "Playlist media"
         verbose_name_plural = "Playlist media"
         db_table = "catalog_playlist_media"
+        ordering = ["position"]
 
     @property
     def effective_duration(self):
