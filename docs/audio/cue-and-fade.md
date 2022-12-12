@@ -5,7 +5,7 @@
 
 ### API Resource
 
-```json
+```text
 {
     "results": [
         {
