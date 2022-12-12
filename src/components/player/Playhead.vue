@@ -170,7 +170,7 @@ export default defineComponent({
   }
 
   .cue-point {
-    fill: rgb(var(--c-fg) / 10%);
+    fill: rgb(var(--c-fg) / 100%);
   }
 
   &.is-buffering {
