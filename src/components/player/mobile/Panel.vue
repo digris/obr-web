@@ -225,7 +225,7 @@ export default defineComponent({
   }
 }
 
-// panel transition
+// transitions
 .slide-enter-active,
 .slide-leave-active {
   transition: transform 200ms, opacity 200ms;
