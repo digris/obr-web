@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.59 (2022-12-12)
+### Fix
+* Add playlist media-set ordering ([`a2890e6`](https://github.com/digris/obr-web/commit/a2890e6aa85f84b1a4130d23a5dbbe3dec030129))
+
 ## v0.0.58 (2022-12-09)
 ### Fix
 * Use same syntax for all color definitions ([`777597f`](https://github.com/digris/obr-web/commit/777597fd5404800c21f044d7f1b3eb66ac29fc02))
