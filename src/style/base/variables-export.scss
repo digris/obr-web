@@ -47,19 +47,19 @@
   }
 
   &[data-page-color="light"] {
-    --c-white: 30, 30, 30;
-    --c-black: 255, 255, 255;
-    --c-page-bg: 30, 30, 30;
-    --c-page-fg: 255, 255, 255;
-    --c-fg: 255, 255, 255;
+    --c-white: 30 30 30;
+    --c-black: 255 255 255;
+    --c-page-bg: 30 30 30;
+    --c-page-fg: 255 255 255;
+    --c-fg: 255 255 255;
   }
 
   &[data-page-color="dark"] {
-    --c-white: 30, 30, 30;
-    --c-black: 255, 255, 255;
-    --c-page-bg: 50, 50, 50;
-    --c-page-fg: 255, 255, 255;
-    --c-fg: 255, 255, 255;
+    --c-white: 30 30 30;
+    --c-black: 255 255 255;
+    --c-page-bg: 50 50 50;
+    --c-page-fg: 255 255 255;
+    --c-fg: 255 255 255;
   }
 }
 

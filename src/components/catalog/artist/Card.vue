@@ -76,5 +76,6 @@ export default defineComponent({
 
 .card {
   @include card.default;
+  @include card.actions-on-hover;
 }
 </style>

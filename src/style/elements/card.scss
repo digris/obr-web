@@ -54,6 +54,14 @@
 @mixin default {
   .visual {
     @include visual;
+
+    /* needed for safari to pick up size */
+    display: flex;
+    aspect-ratio: 1 / 1;
+
+    :deep(.lazy-image) {
+      flex-grow: 1;
+    }
   }
 
   .meta {

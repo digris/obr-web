@@ -138,12 +138,12 @@ export default defineComponent({
       color: rgb(var(--c-page-fg));
       background: transparent;
       border: 0;
-      border-bottom: 3px solid rgb(var(--c-page-fg) 0.8);
+      border-bottom: 3px solid rgb(var(--c-page-fg) / 80%);
       transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
 
       &:focus {
-        background: rgb(var(--c-black) 0.1);
-        border-bottom: 3px solid rgb(var(--c-page-fg) 0);
+        background: rgb(var(--c-black) / 10%);
+        border-bottom: 3px solid rgb(var(--c-page-fg) / 0%);
         outline: none;
       }
     }
