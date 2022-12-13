@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.63 (2022-12-13)
+### Fix
+* Re-add django-admin-sortable2 ([`cb928ec`](https://github.com/digris/obr-web/commit/cb928ec6711e3fea785f10271321c2c57d0724b0))
+
 ## v0.0.62 (2022-12-13)
 ### Fix
 * Disable mood card hover for mobile ([`89f62ef`](https://github.com/digris/obr-web/commit/89f62efc563128a076fa5606c1cd63e344c75356))
