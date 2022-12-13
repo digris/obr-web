@@ -7,7 +7,6 @@ import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import Visual from "@/components/catalog/mood/Visual.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
-import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
@@ -21,7 +20,6 @@ export default defineComponent({
     DetailHeaderLoading,
     PlayAction,
     PlayAllAction,
-    ObjectTags,
     Searchbar,
     MediaList,
     Visual,
@@ -94,6 +92,7 @@ export default defineComponent({
         :show-context-menu="false"
         title-scope="Stimmung"
         :title="mood.name"
+        mobile-body-position="top"
       >
         <template #visual>
           <div
@@ -113,9 +112,11 @@ export default defineComponent({
             />
           </div>
         </template>
+        <!--
         <template #info-panel>
           <ObjectTags class="tags" :obj="mood" :limit="4" />
         </template>
+        -->
         <template #meta-panel>
           <PlayAllAction :obj-key="objKey">
             <span v-text="t('catalog.list.playAllTracks', 1)" />
@@ -139,11 +140,3 @@ export default defineComponent({
     </template>
   </DetailPage>
 </template>
-
-<style lang="scss" scoped>
-@use "@/style/elements/container";
-
-.section {
-  @include container.section;
-}
-</style>

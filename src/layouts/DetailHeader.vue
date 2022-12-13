@@ -41,6 +41,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    mobileBodyPosition: {
+      type: String,
+      default: "bottom",
+    },
   },
   setup(props) {
     const router = useRouter();
@@ -85,7 +89,7 @@ export default defineComponent({
       <div class="visual">
         <slot name="visual" />
       </div>
-      <div class="body">
+      <div class="body" :class="`mobile-position--${mobileBodyPosition}`">
         <div class="title">
           <h1 class="title--primary" v-text="title" />
         </div>
@@ -293,6 +297,24 @@ export default defineComponent({
             @include typo.large;
 
             line-height: unset;
+          }
+        }
+
+        /*
+          NOTE: ugly hack here: in a single case ("mood") we have to move the body / title
+                to the top...
+        */
+        &.mobile-position {
+          &--top {
+            top: -1rem;
+            position: absolute;
+            padding: 0;
+
+            .title {
+              &--primary {
+                @include typo.x-large;
+              }
+            }
           }
         }
 
