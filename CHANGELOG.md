@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.61 (2022-12-13)
+### Fix
+* Queue background-mask color ([`58a83f8`](https://github.com/digris/obr-web/commit/58a83f8a59cf4e7854d010fe1338b62f08103a53))
+
 ## v0.0.60 (2022-12-12)
 ### Fix
 * Exclude cue-in from playhead progress display ([`5b2e1a3`](https://github.com/digris/obr-web/commit/5b2e1a31af2fe54a9e8fb7cb932a4aabb6937e82))
