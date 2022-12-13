@@ -110,7 +110,7 @@ export default defineComponent({
     }
   }
 
-  &:hover {
+  @include responsive.on-hover {
     color: rgb(var(--c-bg));
     background: rgb(var(--c-black));
 
