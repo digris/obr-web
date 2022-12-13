@@ -51,6 +51,8 @@ google-api-core = "^2.8.1"
 django-modeltranslation = "^0.18.2"
 djangorestframework-simplejwt = "^5.2.0"
 sendgrid = "^6.9.7"
+django-admin-interface = "^0.24.0"
+django-admin-sortable2 = "^2.1.4"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"

@@ -31,6 +31,8 @@ SESSION_COOKIE_SAMESITE = None
 SITE_URL = ""
 
 INSTALLED_APPS = [
+    # "admin_interface",
+    # "colorfield",
     "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -48,7 +50,7 @@ INSTALLED_APPS = [
     "django_filters",
     "social_django",
     "django_countries",
-    # "adminsortable2",  # disabled for the moment. (wait for django 4 support)
+    "adminsortable2",  # disabled for the moment. (wait for django 4 support)
     "base",
     "tagging",
     "api_extra",
