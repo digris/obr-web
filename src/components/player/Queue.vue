@@ -107,7 +107,7 @@ export default defineComponent({
   width: 100%;
   z-index: 20;
   left: 0;
-  background: rgb(var(--c-black) 0.8);
+  background: rgb(var(--c-black) / 80%);
 }
 
 .queue {
