@@ -16,7 +16,7 @@
 #         artist = mixer.blend(Artist)
 #         admin = ArtistAdmin(model=Artist, admin_site=AdminSite())
 #         image_display = admin.image_display(obj=artist)
-#         assert image_display == get_admin_inline_image(obj=artist)
+#         assert image_display == get_admin_inline_image(obj.image=artist)
 #
 #
 # @pytest.mark.django_db
@@ -25,7 +25,7 @@
 #         playlist = mixer.blend(Playlist)
 #         admin = PlaylistAdmin(model=Playlist, admin_site=AdminSite())
 #         image_display = admin.image_display(obj=playlist)
-#         assert image_display == get_admin_inline_image(obj=playlist)
+#         assert image_display == get_admin_inline_image(obj.image=playlist)
 #
 #
 # @pytest.mark.django_db
@@ -34,7 +34,7 @@
 #         release = mixer.blend(Release)
 #         admin = ReleaseAdmin(model=Release, admin_site=AdminSite())
 #         image_display = admin.image_display(obj=release)
-#         assert image_display == get_admin_inline_image(obj=release)
+#         assert image_display == get_admin_inline_image(obj.image=release)
 #
 #     def test_num_media(self):
 #         release = mixer.blend(Release)

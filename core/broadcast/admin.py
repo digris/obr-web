@@ -83,4 +83,4 @@ class EditorAdmin(TranslationAdmin):
         description="Image",
     )
     def image_display(self, obj):  # pragma: no cover
-        return get_admin_inline_image(obj)
+        return get_admin_inline_image(obj.image)

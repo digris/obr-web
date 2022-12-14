@@ -17,16 +17,14 @@ class SortableImageInlineMixin(
 
     readonly_fields = [
         "image_display",
-        "colors",
-        "colors_display",
+        "color_display",
     ]
 
     fields = [
         "image_display",
         "file",
+        "color_display",
         "position",
-        "colors",
-        "colors_display",
     ]
 
     # formfield_overrides = {
@@ -37,18 +35,17 @@ class SortableImageInlineMixin(
         description="Image",
     )
     def image_display(self, obj):  # pragma: no cover
-        return get_admin_inline_image(obj.file)
+        return get_admin_inline_image(obj)
 
     @admin.display(
+        description="Color",
         empty_value="-",
     )
-    def colors_display(self, obj):
+    def color_display(self, obj):
         if not obj.colors:
             return None
         if primary := obj.colors.get("primary"):
             c0 = " ".join([str(b) for b in primary])
-            # c1 = ' '.join([str(b) for b in palette[0]])
-            # c2 = ' '.join([str(b) for b in palette[1]])
-            style = f"background: rgb({c0})"
-            return mark_safe(f'<div style="{style}">x</div>')
+            style = f"background: rgb({c0}); width:80px; height:80px;"
+            return mark_safe(f'<div style="{style}"></div>')
         return None

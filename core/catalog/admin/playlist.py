@@ -1,26 +1,36 @@
 from django.contrib import admin
 
-from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
+from adminsortable2.admin import (
+    SortableAdminBase,
+    SortableAdminMixin,
+    SortableInlineAdminMixin,
+)
 from catalog.models.playlist import Playlist, PlaylistImage, Series
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
 from sync.admin import sync_qs_action
 
 
-class PlaylistMediaInline(admin.TabularInline):
+class PlaylistMediaInline(
+    admin.TabularInline,
+):
     model = Playlist.media.through
     raw_id_fields = ["media"]
     extra = 0
 
 
 class PlaylistImageInline(
-    SortableImageInlineMixin, SortableInlineAdminMixin, admin.TabularInline
+    SortableImageInlineMixin,
+    SortableInlineAdminMixin,
+    admin.TabularInline,
 ):
     model = PlaylistImage
 
 
 @admin.register(Series)
-class SeriesAdmin(admin.ModelAdmin):
+class SeriesAdmin(
+    admin.ModelAdmin,
+):
     save_on_top = True
     list_display = [
         "name",
@@ -35,7 +45,7 @@ class SeriesAdmin(admin.ModelAdmin):
 
 @admin.register(Playlist)
 class PlaylistAdmin(
-    SortableAdminMixin,
+    SortableAdminBase,
     admin.ModelAdmin,
 ):
     save_on_top = True
@@ -98,4 +108,4 @@ class PlaylistAdmin(
         description="Image",
     )
     def image_display(self, obj):  # pragma: no cover
-        return get_admin_inline_image(obj)
+        return get_admin_inline_image(obj.image)
