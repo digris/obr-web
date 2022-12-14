@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { whenever } from "@vueuse/core";
 
 import TokenInput from "@/components/account/TokenInput.vue";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -55,6 +56,9 @@ export default defineComponent({
         throw err;
       }
     };
+
+    // auto-submit form when token (format) is valid
+    whenever(tokenValid, submitForm);
 
     const reset = async () => {
       emit("reset");

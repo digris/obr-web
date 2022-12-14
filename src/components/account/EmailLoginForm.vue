@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { whenever } from "@vueuse/core";
 import * as EmailValidator from "email-validator";
 import { debounce } from "lodash-es";
 
@@ -123,6 +124,10 @@ export default defineComponent({
     const resetPassword = async () => {
       await submitEmailLogin();
     };
+
+    // auto-submit form in case of existing account
+    whenever(emailExists, submitForm);
+
     return {
       flow,
       email,
