@@ -46,6 +46,7 @@ export default defineComponent({
         id="ti-1298"
         class="input"
         @keyup="handleInput"
+        @change="handleInput"
         :value="inputValue"
         maxlength="7"
         placeholder="Login-Code"

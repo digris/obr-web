@@ -126,7 +126,11 @@ export default defineComponent({
     };
 
     // auto-submit form in case of existing account
-    whenever(emailExists, submitForm);
+    whenever(emailExists, async () => {
+      if (!promptPassword.value) {
+        await submitForm();
+      }
+    });
 
     return {
       flow,
