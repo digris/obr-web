@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.64 (2022-12-14)
+### Fix
+* Add loading placeholder for social-login to auth-panel ([`a0131f2`](https://github.com/digris/obr-web/commit/a0131f299786d46e22373bedf625a02230102c5d))
+
 ## v0.0.63 (2022-12-13)
 ### Fix
 * Re-add django-admin-sortable2 ([`cb928ec`](https://github.com/digris/obr-web/commit/cb928ec6711e3fea785f10271321c2c57d0724b0))
