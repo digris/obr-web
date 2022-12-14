@@ -81,12 +81,12 @@ export default defineComponent({
       justify-content: center;
       background: rgb(var(--c-white));
       color: rgb(var(--c-black));
-      border: 1px solid rgb(var(--c-black) 0.2);
+      border: 1px solid rgb(var(--c-black) / 20%);
       border-radius: 12px;
     }
   }
   @include responsive.on-hover {
-    background: rgb(var(--c-gray-800));
+    background: rgb(var(--c-white) / 30%);
 
     .tag {
       &__count {
@@ -95,7 +95,7 @@ export default defineComponent({
     }
 
     &.is-selected {
-      background: rgb(var(--c-white) 0.8);
+      background: rgb(var(--c-white) / 80%);
     }
   }
 }

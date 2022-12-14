@@ -144,7 +144,7 @@ export default defineComponent({
   height: 76px;
   width: 100%;
   z-index: 21;
-  border-top: 1px solid rgb(var(--c-white) 0.25);
+  border-top: 1px solid rgb(var(--c-white) / 25%);
   bottom: 72px; // player height
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -192,11 +192,11 @@ export default defineComponent({
   align-items: center;
   padding: 0 1.5rem;
   color: rgb(var(--c-white));
-  border: 1px solid rgb(var(--c-white) 0.2);
+  border: 1px solid rgb(var(--c-white) / 20%);
   transition: background-color 200ms;
   @include responsive.on-hover {
     border-color: transparent;
-    background: rgb(var(--c-white) 0.1);
+    background: rgb(var(--c-white) / 10%);
   }
   @include responsive.bp-medium {
     height: 40px;

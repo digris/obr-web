@@ -137,7 +137,7 @@ export default defineComponent({
       flex-grow: 1;
 
       .uid {
-        color: rgb(var(--c-black) 0.5);
+        color: rgb(var(--c-black) / 50%);
         text-transform: lowercase;
       }
     }

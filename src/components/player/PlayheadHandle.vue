@@ -31,7 +31,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgb(var(--c-fg) 0.4);
+  border: 1px solid rgb(var(--c-fg) / 40%);
 
   &__inner {
     height: 8px;

@@ -96,7 +96,7 @@ export default defineComponent({
       font-size: 1rem;
       text-align: center;
       font-family: var(--font-family);
-      border: 1px solid rgb(var(--c-gray-200));
+      border: 1px solid rgb(var(--c-black) / 20%);
     }
   }
 }

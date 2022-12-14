@@ -269,6 +269,13 @@ export default defineComponent({
 .list-actions {
   background: rgb(var(--c-gray-500));
 
+  // NOTE: for sticky we need a solid background
+  @include responsive.bp-medium-up {
+    top: 75px;
+    position: sticky;
+    z-index: 2;
+  }
+
   > .container {
     @include container.default;
 
@@ -289,9 +296,5 @@ export default defineComponent({
 
 .media-list {
   background: rgb(var(--c-white));
-
-  .table-header {
-    background: yellow;
-  }
 }
 </style>

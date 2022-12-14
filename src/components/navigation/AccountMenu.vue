@@ -42,7 +42,7 @@ export default defineComponent({
   text-decoration: none;
   border-radius: 24px;
   transition: color, border 100ms 400ms, background-color 500ms;
-  border: 1px solid rgb(var(--c-page-fg) 0.25);
+  border: 1px solid rgb(var(--c-page-fg) / 25%);
 
   &:hover {
     @include live-color.bg-inverse(10%);

@@ -34,7 +34,9 @@ export default defineComponent({
     const keyPrefix = computed(() => props.obj?.uid);
     const objIdentifiers = computed(() => {
       // eslint-disable-next-line max-len
-      return props.obj && props.obj.identifiers ? props.obj.identifiers.slice(0, props.limit) : [];
+      return props.obj && props.obj.identifiers
+        ? props.obj.identifiers.slice(0, props.limit - 1)
+        : [];
     });
     const extraIdentifiers = computed(() => {
       if (isStaff.value) {

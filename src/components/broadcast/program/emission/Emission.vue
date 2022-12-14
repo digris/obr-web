@@ -129,23 +129,24 @@ export default defineComponent({
     const cssVars = computed(() => {
       let fg = "var(--c-black)";
       let bg = "var(--c-white)";
-      let bgHover = "var(--c-gray-50)";
+      let bgHover = "var(--c-black) / 5%";
 
       if (isExpanded.value) {
         fg = "var(--c-black)";
-        bg = "var(--c-gray-400)";
-        bgHover = "var(--c-gray-100)";
+        bg = "var(--c-gray-500)";
+        bgHover = "var(--c-gray-500)";
       }
 
       if (isCurrent.value) {
         fg = "var(--c-white)";
-        bg = "var(--c-black)";
-        bgHover = "var(--c-black)";
+        bg = "var(--c-black) / 100%";
+        bgHover = "var(--c-black) / 100%";
       }
 
       if (isUpcoming.value) {
         bg = "var(--c-white)";
-        fg = "var(--c-gray-400)";
+        fg = "var(--c-gray-500)";
+        bgHover = "var(--c-black) / 0%";
       }
       return {
         "--c-fg": fg,
@@ -230,13 +231,8 @@ export default defineComponent({
 
 .emission {
   color: rgb(var(--c-fg));
-  background-color: rgb(var(--c-bg));
-  border-bottom: 1px solid rgb(var(--c-gray-200));
+  border-bottom: 1px solid rgb(var(--c-black) / 20%);
   transition: background 200ms;
-
-  &:hover {
-    background: rgb(var(--c-bg-hover));
-  }
 
   &.is-expanded {
     position: relative;

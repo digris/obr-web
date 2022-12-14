@@ -146,7 +146,7 @@ export default defineComponent({
   height: var(--player-height);
   width: 100%;
   background: rgb(var(--c-bg));
-  box-shadow: 0 0 1px 1px rgb(var(--c-fg) 0.2);
+  box-shadow: 0 0 1px 1px rgb(var(--c-fg) / 20%);
   transition: background 200ms;
   transition-delay: 1ms;
 

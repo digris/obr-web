@@ -75,6 +75,7 @@ class MediaSerializer(
     )
     duration = DurationInSecondsSerializer(
         read_only=True,
+        help_text="in seconds",
     )
     latest_airplay = serializers.DateTimeField(
         read_only=True,

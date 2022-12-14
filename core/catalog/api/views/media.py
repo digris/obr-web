@@ -98,12 +98,6 @@ class MediaViewSet(
 ):
     """
     Media endpoint.
-
-    retrieve:
-    Returns a media instance.
-
-    list:
-    Returns all a list of media...
     """
 
     queryset = Media.objects.all()

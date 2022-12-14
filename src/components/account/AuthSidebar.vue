@@ -104,7 +104,7 @@ export default defineComponent({
 .message {
   margin: 1rem 0;
   padding: 1rem;
-  background: rgb(var(--c-cta) 0.1);
+  background: rgb(var(--c-cta) / 10%);
   border-left: 4px solid rgb(var(--c-cta));
 }
 </style>

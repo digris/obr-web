@@ -21,8 +21,10 @@ export default defineComponent({
   </div>
 </template>
 
+<!--
 <style lang="scss" scoped>
 .body {
   padding-bottom: 4rem;
 }
 </style>
+-->

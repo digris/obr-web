@@ -70,7 +70,7 @@ export default defineComponent({
 
 .topic {
   border-top: 0;
-  border-bottom: 1px solid rgb(var(--c-gray-200) / 100%);
+  border-bottom: 1px solid rgb(var(--c-black) / 20%);
 
   &.is-expanded {
     color: rgb(var(--c-green) / 100%);

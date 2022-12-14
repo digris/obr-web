@@ -104,7 +104,7 @@ export default defineComponent({
     justify-content: flex-end;
     height: 75px;
     margin: 0 1.5rem 0.5rem;
-    border-bottom: 1px solid rgb(var(--c-gray-200) / 100%);
+    border-bottom: 1px solid rgb(var(--c-black) / 20%);
 
     .slot {
       flex-grow: 1;
@@ -131,7 +131,7 @@ export default defineComponent({
   &__footer {
     margin: 0 1.5rem;
     padding: 1rem 0;
-    border-top: 1px solid rgb(var(--c-gray-200) / 100%);
+    border-top: 1px solid rgb(var(--c-black) / 20%);
     @include responsive.bp-medium {
       margin: 0 0.625rem;
       padding: 0.5rem 0;

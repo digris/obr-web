@@ -17,6 +17,7 @@ export default defineComponent({
     const feedbackClass = ref("is-info");
 
     onUpdated(() => {
+      // NOTE: 'feedback-logic' needs to be reworked
       hasFeedback.value = !!(slots.warning || slots.success || slots.info);
       if (slots.warning) {
         feedbackClass.value = "is-warning";
@@ -147,7 +148,6 @@ $z-feedback: 9;
     z-index: $z-feedback;
     padding: 4rem 1rem 1rem;
     color: rgb(var(--c-black) / 100%);
-    background: rgb(var(--c-selected) / 100%);
   }
 }
 

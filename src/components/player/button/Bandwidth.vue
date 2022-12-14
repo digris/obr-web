@@ -37,7 +37,7 @@ export default defineComponent({
   height: 1.5rem;
   border-radius: 0.75rem;
   padding: 0 0.75rem;
-  border: 1px solid rgb(var(--c-fg) 0.25);
+  border: 1px solid rgb(var(--c-fg) / 25%);
   transition: border 100ms, background 100ms;
   cursor: pointer;
   min-width: 48px;
@@ -48,7 +48,7 @@ export default defineComponent({
     color: rgb(var(--c-fg));
   }
   @include responsive.on-hover {
-    background: rgb(var(--c-fg) 0.125);
+    background: rgb(var(--c-fg) / 12.5%);
     border-color: transparent;
   }
 }

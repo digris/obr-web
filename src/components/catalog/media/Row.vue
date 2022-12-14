@@ -105,15 +105,15 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .media-row {
-  border-bottom: 1px solid rgb(var(--c-gray-200));
+  border-bottom: 1px solid rgb(var(--c-black) / 20%);
   transition: background 200ms;
 
   &:first-child {
-    border-top: 1px solid rgb(var(--c-gray-200));
+    border-top: 1px solid rgb(var(--c-black) / 20%);
   }
 
   @include responsive.on-hover {
-    background: rgb(var(--c-gray-100));
+    background: rgb(var(--c-black) / 10%);
   }
 }
 

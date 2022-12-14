@@ -11,8 +11,8 @@ export type Newsletter = {
      * UID
      */
     readonly uid?: string;
-    readonly key?: string;
     readonly title?: string;
+    readonly description?: string;
     readonly isSubscribed?: boolean;
 };
 

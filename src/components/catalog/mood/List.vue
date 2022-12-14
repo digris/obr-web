@@ -49,7 +49,7 @@ export default defineComponent({
 .mood-list {
   @include container.default;
 
-  margin-bottom: 0;
+  margin-bottom: 4rem;
 }
 
 .grid {

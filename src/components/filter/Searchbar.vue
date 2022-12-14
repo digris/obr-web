@@ -165,7 +165,7 @@ export default defineComponent({
       flex-grow: 1;
 
       > input {
-        border: 1px solid rgb(var(--c-gray-200));
+        border: 1px solid rgb(var(--c-black) / 20%);
         width: 100%;
       }
     }

@@ -25,6 +25,7 @@ export type Media = {
     readonly artistDisplay?: string;
     readonly artists?: Array<MediaArtist>;
     readonly releases?: Array<Release>;
+    readonly duration?: number;
     readonly latestAirplay?: string | null;
     readonly numAirplays?: number | null;
     readonly userRating?: number | null;

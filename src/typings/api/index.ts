@@ -51,6 +51,7 @@ export type { Program } from './models/Program';
 export type { ProgramEmission } from './models/ProgramEmission';
 export type { Ray } from './models/Ray';
 export type { Release } from './models/Release';
+export type { ReleaseImage } from './models/ReleaseImage';
 export type { Schedule } from './models/Schedule';
 export type { ScheduleEmission } from './models/ScheduleEmission';
 export type { ScheduleMedia } from './models/ScheduleMedia';

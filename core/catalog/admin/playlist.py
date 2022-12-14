@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from catalog.models.playlist import Playlist, PlaylistImage, Series
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
@@ -12,7 +13,9 @@ class PlaylistMediaInline(admin.TabularInline):
     extra = 0
 
 
-class PlaylistImageInline(SortableImageInlineMixin, admin.TabularInline):
+class PlaylistImageInline(
+    SortableImageInlineMixin, SortableInlineAdminMixin, admin.TabularInline
+):
     model = PlaylistImage
 
 
@@ -31,7 +34,10 @@ class SeriesAdmin(admin.ModelAdmin):
 
 
 @admin.register(Playlist)
-class PlaylistAdmin(admin.ModelAdmin):
+class PlaylistAdmin(
+    SortableAdminMixin,
+    admin.ModelAdmin,
+):
     save_on_top = True
     list_display = [
         "image_display",

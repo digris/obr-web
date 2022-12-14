@@ -104,7 +104,7 @@ export default defineComponent({
 
     &:hover {
       &:not(&.router-link-exact-active) {
-        background: rgb(var(--c-page-fg) 0.1);
+        background: rgb(var(--c-page-fg) / 10%);
       }
 
       transition: color, background-color 200ms;

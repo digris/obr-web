@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type EditorImage = {
+export type ReleaseImage = {
     /**
      * Content type
      */

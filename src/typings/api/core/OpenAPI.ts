@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 
 export const OpenAPI: OpenAPIConfig = {
     BASE: 'https://next.openbroadcast.ch',
-    VERSION: '0.0.51',
+    VERSION: '0.0.63',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',
     TOKEN: undefined,

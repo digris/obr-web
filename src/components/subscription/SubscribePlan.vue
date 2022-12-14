@@ -152,6 +152,10 @@ export default defineComponent({
 @use "@/style/elements/section";
 @use "@/style/elements/button";
 
+.subscribe-plan {
+  margin-bottom: 4rem;
+}
+
 .section {
   @include section.default;
 
@@ -179,17 +183,12 @@ export default defineComponent({
   align-items: center;
   padding: 1rem;
   background: rgb(var(--c-white));
-  box-shadow: 0 0 3px rgb(var(--c-black) 0.33);
+  box-shadow: 0 0 3px rgb(var(--c-black) / 33%);
   cursor: pointer;
   transition: background 100ms;
 
-  &:hover {
-    background: rgb(var(--c-gray-100));
-  }
-
-  &.is-selected {
-    color: rgb(var(--c-white));
-    background: rgb(var(--c-green));
+  @include responsive.on-hover {
+    background: rgb(var(--c-black) / 10%);
   }
 
   .price {
@@ -200,7 +199,7 @@ export default defineComponent({
     height: 1px;
     width: 100%;
     margin: 1rem 0;
-    background: rgb(var(--c-gray-100));
+    background: rgb(var(--c-black) / 20%);
   }
 
   .title {
@@ -209,6 +208,15 @@ export default defineComponent({
 
   .until-date {
     padding: 0;
+  }
+
+  &.is-selected {
+    color: rgb(var(--c-white));
+    background: rgb(var(--c-green));
+
+    .separator {
+      background: rgb(var(--c-white) / 20%);
+    }
   }
 
   @include responsive.bp-medium {

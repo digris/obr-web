@@ -128,7 +128,6 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/elements/section";
 @use "@/style/elements/button";
-@use "@/style/elements/tab-menu";
 
 .section {
   @include section.default;
@@ -136,10 +135,6 @@ export default defineComponent({
 
 .button {
   @include button.default;
-}
-
-.subscribe-menu {
-  @include tab-menu.default;
 }
 
 .current-subscription-text {

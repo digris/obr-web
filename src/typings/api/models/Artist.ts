@@ -20,6 +20,7 @@ export type Artist = {
     readonly url?: string;
     readonly name?: string;
     readonly numMedia?: number;
+    readonly mediaTotalDuration?: number;
     countryCode?: string | null;
     dateStart?: string | null;
     dateEnd?: string | null;

@@ -25,5 +25,6 @@ export type EmissionMedia = {
     readonly artistDisplay?: string;
     readonly artists?: Array<MediaArtist>;
     readonly releases?: Array<Release>;
+    readonly duration?: number;
 };
 

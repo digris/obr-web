@@ -57,7 +57,7 @@ export default defineComponent({
   position: relative;
   height: var(--item-size);
   width: var(--item-size);
-  background: rgb(var(--c-page-fg) 1);
+  background: rgb(var(--c-page-fg));
   display: flex;
   align-items: center;
   justify-content: center;

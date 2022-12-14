@@ -190,8 +190,9 @@ export default defineComponent({
   .release {
     grid-area: release;
     min-width: 0;
+    overflow: hidden;
 
-    > span {
+    :deep(span) {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;

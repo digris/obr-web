@@ -60,7 +60,7 @@ export default defineComponent({
 
     margin: 0 0 2rem;
     padding: 0 0 2rem;
-    border-bottom: 1px solid rgb(var(--c-gray-200) / 100%);
+    border-bottom: 1px solid rgb(var(--c-black) / 20%);
   }
 
   .body {

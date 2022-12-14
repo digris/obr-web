@@ -194,7 +194,7 @@ export default defineComponent({
     }
 
     &:not(:last-child) {
-      border-bottom: 1px solid rgb(var(--c-gray-200));
+      border-bottom: 1px solid rgb(var(--c-black) / 20%);
     }
 
     > a {

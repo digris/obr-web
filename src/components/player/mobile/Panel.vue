@@ -161,7 +161,7 @@ export default defineComponent({
 
   &.is-swiping {
     transition-duration: 1ms;
-    background: rgb(var(--c-bg) 0.95);
+    background: rgb(var(--c-bg) / 95%);
   }
 
   > nav {

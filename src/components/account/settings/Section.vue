@@ -86,7 +86,7 @@ export default defineComponent({
     .panel {
       min-height: 46px;
       padding: 0.75rem;
-      border: 1px solid rgb(var(--c-gray-200));
+      border: 1px solid rgb(var(--c-black) / 20%);
     }
   }
 
@@ -96,7 +96,7 @@ export default defineComponent({
       position: relative;
 
       &:hover {
-        background: rgb(var(--c-black) 0.1);
+        background: rgb(var(--c-black) / 10%);
       }
 
       .panel-icon {

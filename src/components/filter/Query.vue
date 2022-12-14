@@ -48,7 +48,7 @@ export default defineComponent({
   cursor: pointer;
 
   &:hover {
-    background: rgb(var(--c-gray-100) / 100%);
+    background: rgb(var(--c-black) / 10%);
   }
 
   &.is-selected {

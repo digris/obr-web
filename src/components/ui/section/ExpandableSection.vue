@@ -49,7 +49,7 @@ export default defineComponent({
 @use "@/style/base/responsive";
 
 .expandable-section {
-  border-top: 1px solid rgb(var(--c-gray-200) / 100%);
+  border-top: 1px solid rgb(var(--c-black) / 20%);
   transition: background 200ms;
 
   /*

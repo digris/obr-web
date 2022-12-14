@@ -86,16 +86,16 @@ export default defineComponent({
 .media-set {
   .media-row {
     &:not(&:first-child) {
-      border-top: 1px solid rgb(var(--c-gray-200));
+      border-top: 1px solid rgb(var(--c-black) / 20%);
     }
   }
 
   .feature-media {
-    border-top: 1px solid rgb(var(--c-gray-200));
+    border-top: 1px solid rgb(var(--c-black) / 20%);
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    color: rgb(var(--c-gray-200));
+    color: rgb(var(--c-black) / 20%);
     padding: 1rem 1rem 1rem calc(2rem + 48px);
 
     .next-start {

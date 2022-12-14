@@ -92,12 +92,12 @@ export default defineComponent({
     cursor: pointer;
     padding: 0.5rem;
     background: rgb(var(--c-white));
-    border: 1px solid rgb(var(--c-gray-200));
+    border: 1px solid rgb(var(--c-black) / 20%);
     border-radius: 3px;
     transition: background 200ms;
 
     &:hover {
-      background: rgb(var(--c-black) 0.1);
+      background: rgb(var(--c-black) / 10%);
     }
 
     &.is-current {

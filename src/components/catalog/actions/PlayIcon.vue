@@ -51,13 +51,13 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(var(--c-black) 0.6);
-    border: 1px solid rgb(var(--c-white) 0.5);
+    background: rgb(var(--c-black) / 60%);
+    border: 1px solid rgb(var(--c-white) / 50%);
     border-radius: 24px;
     cursor: pointer;
     transition: background 100ms;
     @include responsive.on-hover {
-      background: rgb(var(--c-black) 0.9);
+      background: rgb(var(--c-black) / 90%);
     }
 
     &.is-loading {

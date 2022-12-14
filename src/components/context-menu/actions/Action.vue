@@ -37,11 +37,11 @@ export default defineComponent({
   display: flex;
   align-items: center;
   height: 3rem;
-  border-bottom: 1px solid rgb(var(--c-gray-200));
+  border-bottom: 1px solid rgb(var(--c-black) / 20%);
   cursor: pointer;
 
   &:hover {
-    background: rgb(var(--c-gray-100));
+    background: rgb(var(--c-black) / 10%);
   }
 
   &__icon {

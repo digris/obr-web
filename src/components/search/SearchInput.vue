@@ -49,7 +49,7 @@ export default defineComponent({
     }
 
     &::placeholder {
-      color: rgb(var(--c-black) 0.2);
+      color: rgb(var(--c-black) / 20%);
     }
   }
 }

@@ -266,6 +266,10 @@ export default defineComponent({
   padding: 0.75rem 1.5rem;
   background: rgb(var(--c-bg));
 
+  @include responsive.on-hover {
+    background: rgb(var(--c-bg-hover));
+  }
+
   > div {
     display: flex;
     align-items: center;

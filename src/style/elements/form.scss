@@ -12,8 +12,8 @@
   &:focus,
   &:focus-visible {
     color: rgb(var(--c-black) / 100%);
-    background: rgb(var(--c-gray-100) / 100%);
-    border-color: rgb(var(--c-gray-100) / 100%);
+    background: rgb(var(--c-black) / 10%);
+    border-color: rgb(var(--c-black) / 10%);
     outline: none;
   }
 }

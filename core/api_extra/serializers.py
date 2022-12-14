@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.utils import OpenApiTypes, extend_schema_field
 from rest_framework import serializers
 
 
@@ -53,6 +53,7 @@ class CTUIDModelSerializer(
         abstract = True
 
 
+@extend_schema_field(OpenApiTypes.NUMBER,)
 class DurationInSecondsSerializer(
     serializers.Serializer,
 ):

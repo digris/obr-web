@@ -126,6 +126,10 @@ export default defineComponent({
 @use "@/style/elements/section";
 @use "@/style/elements/button";
 
+.subscribe-voucher {
+  margin-bottom: 4rem;
+}
+
 .section {
   @include section.default;
 

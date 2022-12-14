@@ -64,7 +64,7 @@ export default defineComponent({
       border-radius: 28px;
 
       &:hover {
-        background: rgb(var(--c-black) 0.75);
+        background: rgb(var(--c-black) / 75%);
       }
     }
   }

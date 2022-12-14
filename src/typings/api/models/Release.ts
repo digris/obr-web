@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { ReleaseImage } from './ReleaseImage';
+
 export type Release = {
     /**
      * Content type
@@ -15,5 +17,6 @@ export type Release = {
     readonly name?: string;
     readonly numMedia?: number;
     readonly isNew?: boolean;
+    readonly image?: ReleaseImage | null;
 };
 

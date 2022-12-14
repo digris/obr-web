@@ -3,16 +3,12 @@
 $color-palette: (
   black: 0 0 0,
   white: 255 255 255,
-
-  primary: 10 135 201,
-  secondary: 255 0 255,
-
+  gray-500: 120 120 120,
   red: 255 0 0,
   green: 0 144 80,
 
   cta: 10 10 10,
   cta-active: 20 20 20,
-  cta-100: 200 200 200,
 
   selected: 0 240 160,
 
@@ -20,16 +16,6 @@ $color-palette: (
   success: 0 200 160,
   warning: 240 80 80,
   error: 240 20 20,
-
-  gray-25: 250 250 250,
-  gray-50: 240 240 240,
-  gray-100: 230 230 230,
-  gray-200: 200 200 200,
-  gray-400: 180 180 180,
-  gray-500: 119 119 119,
-  gray-600: 100 100 100,
-  gray-800: 60 60 60,
-  gray-900: 30 30 30,
 
   // initial values - controlled via js later on
   page-fg: 0 0 0,
