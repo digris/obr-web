@@ -53,7 +53,9 @@ class CTUIDModelSerializer(
         abstract = True
 
 
-@extend_schema_field(OpenApiTypes.NUMBER,)
+@extend_schema_field(
+    OpenApiTypes.NUMBER,
+)
 class DurationInSecondsSerializer(
     serializers.Serializer,
 ):

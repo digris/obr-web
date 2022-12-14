@@ -72,8 +72,12 @@ export default defineComponent({
 }
 
 .auth-panel {
-  min-height: 100%;
   overflow-y: auto;
+
+  @include responsive.bp-medium {
+    min-height: 100%;
+    margin-bottom: 4rem;
+  }
 }
 
 .section.availability {

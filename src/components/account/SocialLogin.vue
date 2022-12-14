@@ -6,6 +6,7 @@ import imgApple from "@/assets/brand-icons/apple.svg";
 import imgDeezer from "@/assets/brand-icons/deezer.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
+import IconLoading from "@/components/ui/icon/IconBuffering.vue";
 import { useDevice } from "@/composables/device";
 
 const ICONS = {
@@ -24,6 +25,9 @@ interface Backend {
 }
 
 export default defineComponent({
+  components: {
+    IconLoading,
+  },
   props: {
     next: {
       type: String,
@@ -100,6 +104,9 @@ export default defineComponent({
         </i18n-t>
       </div>
     </section>
+    <section v-else class="backends backends--loading">
+      <IconLoading />
+    </section>
   </div>
 </template>
 
@@ -108,12 +115,20 @@ export default defineComponent({
 
 .social-login {
   .backends {
+    min-height: 48px;
     display: grid;
     grid-gap: 1rem;
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 2rem;
     @include responsive.bp-medium {
       grid-template-columns: repeat(1, 1fr);
+      min-height: 108px;
+    }
+
+    &--loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
