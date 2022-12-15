@@ -79,12 +79,6 @@ export class CatalogService {
 
     /**
      * Media endpoint.
-     *
-     * retrieve:
-     * Returns a media instance.
-     *
-     * list:
-     * Returns all a list of media...
      * @param limit Number of results to return per page.
      * @param objKey
      * @param offset The initial index from which to return the results.
@@ -112,12 +106,6 @@ export class CatalogService {
 
     /**
      * Media endpoint.
-     *
-     * retrieve:
-     * Returns a media instance.
-     *
-     * list:
-     * Returns all a list of media...
      * @param uid
      * @returns Media
      * @throws ApiError
@@ -136,12 +124,6 @@ export class CatalogService {
 
     /**
      * Media endpoint.
-     *
-     * retrieve:
-     * Returns a media instance.
-     *
-     * list:
-     * Returns all a list of media...
      * @returns Media
      * @throws ApiError
      */

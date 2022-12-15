@@ -1,5 +1,3 @@
-ACCOUNT:
-  ACCOUNT: Konto
 broadcast:
   ct:
     editor: Editor*in | Editor*innen
@@ -17,6 +15,7 @@ catalog:
 menu:
   accountSettings: Konto Einstellungen
   admin: Admin
+  userVouchers: Gutschein Codes
   home: Radio
   discover: Discover
   collection: Favoriten
@@ -69,6 +68,7 @@ formActions:
   save: Speichern
   send: Senden
 account:
+  title: Konto
   auth:
     login: Anmelden
     register: Konto erstellen

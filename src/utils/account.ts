@@ -5,10 +5,12 @@ import { isEqual } from "lodash-es";
 
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
+import { useSubscription } from "@/composables/subscription";
 import eventBus from "@/eventBus";
 import type { User } from "@/typings/api";
 
-const USER_POLLING_INTERVAL = 60 * 1000;
+const FAST_POLLING_INTERVAL = 60 * 1000;
+const SLOW_POLLING_INTERVAL = 5 * 60 * 1000;
 
 const updateAppBridgeAccount = (user: User) => {
   if (window.appBridge) {
@@ -35,6 +37,7 @@ const updateOpenRelayScope = (user: User) => {
 class AccountHandler {
   constructor() {
     const { user, loadUser } = useAccount();
+    const { loadUserVouchers } = useSubscription();
     const { isApp } = useDevice();
     watch(
       () => user.value,
@@ -50,7 +53,14 @@ class AccountHandler {
     );
     useIntervalFn(async () => {
       await loadUser();
-    }, USER_POLLING_INTERVAL);
+    }, FAST_POLLING_INTERVAL);
+    useIntervalFn(
+      async () => {
+        await loadUserVouchers();
+      },
+      SLOW_POLLING_INTERVAL,
+      { immediateCallback: true }
+    );
   }
 }
 

@@ -58,6 +58,8 @@ class PaymentView(
         responses={
             204: None,
         },
+        operation_id="stripe_get_payment",
+        tags=["subscription-payment"],
     )
     def get(request):
         return Response(
@@ -71,6 +73,8 @@ class PaymentView(
         responses={
             200: PaymentSerializer,
         },
+        operation_id="stripe_create_payment",
+        tags=["subscription-payment"],
     )
     def post(request):
 
@@ -156,6 +160,8 @@ class PaymentSuccessView(
             301: None,
             302: None,
         },
+        operation_id="stripe_payment_success",
+        tags=["subscription-payment"],
     )
     def get(self, request, signed_payment_uid):
         payment_uid = timestamp_signer.unsign(signed_payment_uid)
@@ -185,6 +191,8 @@ class PaymentWebhookView(
         responses={
             200: None,
         },
+        operation_id="stripe_payment_webhook",
+        tags=["subscription-payment"],
     )
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):

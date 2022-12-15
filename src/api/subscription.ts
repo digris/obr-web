@@ -1,5 +1,6 @@
 import { APIClient } from "@/api/client";
 import settings from "@/settings";
+import type { UserVoucher } from "@/typings/api";
 
 const SUBSCRIPTION_ENDPOINT = `${settings.API_BASE_URL}subscription/`;
 
@@ -37,11 +38,10 @@ async function redeemVoucher(code: string) {
   return response.data;
 }
 
-export {
-  // payment
-  createStripeCheckoutSession,
-  getPlanOptions,
-  // voucher
-  getVoucher,
-  redeemVoucher,
-};
+async function getUserVouchers(): Promise<Array<UserVoucher>> {
+  const url = `${SUBSCRIPTION_ENDPOINT}user-vouchers/`;
+  const response = await APIClient.get(url);
+  return response.data;
+}
+
+export { createStripeCheckoutSession, getPlanOptions, getUserVouchers, getVoucher, redeemVoucher };
