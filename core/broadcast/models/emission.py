@@ -104,6 +104,9 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
             )
             .select_related(
                 "media",
+                "playlist",
+                "playlist__series",
+                "playlist__editor",
             )
             .prefetch_related(
                 "media__artists",
@@ -111,6 +114,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 "media__media_artist__artist",
                 "media__releases",
                 "media__releases__images",
+                "playlist__editor__images",
             )
         )
         qs = qs.filter(

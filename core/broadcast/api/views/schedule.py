@@ -3,6 +3,8 @@ import logging
 from datetime import timedelta
 
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from broadcast.api import serializers
 from broadcast.models import Emission
@@ -14,24 +16,23 @@ logger = logging.getLogger(__name__)
 PROGRAM_MAX_EMISSIONS = 100
 
 
-class ScheduleView(GenericAPIView):
+class ScheduleView(
+    GenericAPIView,
+):
     serializer_class = serializers.ScheduleSerializer
 
     def get_queryset(self):
-        qs = (
-            Emission.objects.all()
-            .select_related(
-                "playlist",
-                "playlist__editor",
-                "playlist__series",
-            )
-            .prefetch_related(
-                "playlist__editor__images",
-                "playlist__editor__playlists",
-            )
+        qs = Emission.objects.select_related(
+            "playlist",
+            "playlist__editor",
+            "playlist__series",
+        ).prefetch_related(
+            "playlist__editor__images",
+            "playlist__editor__playlists",
         )
         return qs
 
+    @method_decorator(cache_page(5 * 60))
     def get(self, request):
         seconds_ahead = int(request.GET.get("secondsAhead", 0))
         seconds_back = int(request.GET.get("secondsBack", 0))
