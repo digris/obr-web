@@ -81,6 +81,7 @@ export type { TokenRefreshSlidingRequest } from './models/TokenRefreshSlidingReq
 export type { Topic } from './models/Topic';
 export { TypeEnum } from './models/TypeEnum';
 export type { User } from './models/User';
+export type { UserVoucher } from './models/UserVoucher';
 export type { Version } from './models/Version';
 export type { Vote } from './models/Vote';
 export type { VoteRequest } from './models/VoteRequest';
@@ -104,4 +105,5 @@ export { SchemaJsonService } from './services/SchemaJsonService';
 export { SearchService } from './services/SearchService';
 export { StatsService } from './services/StatsService';
 export { SubscriptionService } from './services/SubscriptionService';
+export { SubscriptionPaymentService } from './services/SubscriptionPaymentService';
 export { SyncService } from './services/SyncService';

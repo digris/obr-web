@@ -12,8 +12,8 @@ urlpatterns = [
     # ),
     path(
         "plan/",
-        views.SubscriptionPlanView.as_view(),
-        name="subscription-plan",
+        views.PlanView.as_view(),
+        name="plan",
     ),
     path(
         "payment/",
@@ -26,7 +26,12 @@ urlpatterns = [
     ),
     path(
         "voucher/",
-        views.SubscriptionVoucherView.as_view(),
-        name="subscription-voucher",
+        views.VoucherView.as_view(),
+        name="voucher",
+    ),
+    path(
+        "user-vouchers/",
+        views.UserVoucherView.as_view(),
+        name="user-vouchers",
     ),
 ]

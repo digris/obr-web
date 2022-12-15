@@ -87,3 +87,34 @@ class VoucherSerializer(
             "until_date",
             "valid_until",
         ]
+
+
+class UserVoucherSerializer(
+    CTUIDModelSerializer,
+    serializers.ModelSerializer,
+):
+    code_display = serializers.CharField(
+        read_only=True,
+    )
+    is_valid = serializers.BooleanField(
+        read_only=True,
+    )
+    valid_until = serializers.DateTimeField(
+        read_only=True,
+    )
+    num_days = serializers.IntegerField(
+        read_only=True,
+    )
+    num_used = serializers.IntegerField(
+        read_only=True,
+    )
+
+    class Meta(CTUIDModelSerializer.Meta):
+        model = Voucher
+        fields = CTUIDModelSerializer.Meta.fields + [
+            "code_display",
+            "is_valid",
+            "valid_until",
+            "num_days",
+            "num_used",
+        ]

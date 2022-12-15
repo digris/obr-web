@@ -6,12 +6,15 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 from subscription.api import serializers
+from subscription.models import Voucher
 from subscription.utils import plan, voucher
 
 logger = logging.getLogger(__name__)
 
 
-class SubscriptionPlanView(APIView):
+class PlanView(
+    APIView,
+):
 
     permission_classes = [
         permissions.IsAuthenticated,
@@ -20,6 +23,8 @@ class SubscriptionPlanView(APIView):
     @staticmethod
     @extend_schema(
         responses=serializers.SubscriptionOptionSerializer,
+        operation_id="plan_options",
+        description="Get available plan options.",
     )
     def get(request):
         options = plan.get_options(user=request.user)
@@ -31,7 +36,9 @@ class SubscriptionPlanView(APIView):
         return Response(data)
 
 
-class PaymentView(APIView):
+class PaymentView(
+    APIView,
+):
 
     permission_classes = [
         permissions.IsAuthenticated,
@@ -40,6 +47,8 @@ class PaymentView(APIView):
     @staticmethod
     @extend_schema(
         responses=serializers.PaymentOptionSerializer,
+        operation_id="payment_options",
+        description="Get available payment options.",
     )
     def get(request):
         serializer = serializers.PaymentOptionSerializer(
@@ -49,13 +58,6 @@ class PaymentView(APIView):
                 "endpoint": reverse("api:subscription:stripe:endpoint"),
             },
         )
-        # data = [
-        #     {
-        #         "name": "Credit Card",
-        #         "key": "stripe",
-        #         "endpoint": reverse("api:subscription:stripe:endpoint"),
-        #     },
-        # ]
 
         return Response(
             serializer.data,
@@ -63,7 +65,9 @@ class PaymentView(APIView):
         )
 
 
-class SubscriptionVoucherView(APIView):
+class VoucherView(
+    APIView,
+):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
@@ -74,6 +78,8 @@ class SubscriptionVoucherView(APIView):
     @staticmethod
     @extend_schema(
         responses=serializers.VoucherSerializer,
+        operation_id="check_voucher",
+        description="Check validity of a voucher for the current user.",
     )
     def get(request):
         code = request.GET.get("code", "")
@@ -102,6 +108,8 @@ class SubscriptionVoucherView(APIView):
         methods={"POST"},
         request=serializers.VoucherSerializer,
         responses=serializers.VoucherSerializer,
+        operation_id="redeem_voucher",
+        description="Redeem a voucher for the current user.",
     )
     def post(request):
         code = request.data.get("code")
@@ -111,7 +119,10 @@ class SubscriptionVoucherView(APIView):
                 user=request.user,
                 code=code,
             )
-            return Response(data, status.HTTP_201_CREATED)
+            return Response(
+                data,
+                status.HTTP_201_CREATED,
+            )
         except voucher.VoucherValidationException as e:
             return Response(
                 {
@@ -119,3 +130,25 @@ class SubscriptionVoucherView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+
+class UserVoucherView(
+    APIView,
+):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    @staticmethod
+    @extend_schema(
+        responses={200: serializers.UserVoucherSerializer(many=True)},
+        operation_id="user_vouchers",
+        description="Vouchers that user can provide to other people.",
+    )
+    def get(request):
+        vouchers = Voucher.objects.filter(user=request.user)
+        serializer = serializers.UserVoucherSerializer(vouchers, many=True)
+        return Response(
+            serializer.data,
+            status.HTTP_200_OK,
+        )

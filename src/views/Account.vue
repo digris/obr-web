@@ -15,7 +15,7 @@ export default defineComponent({
 <template>
   <div class="account">
     <div class="header">
-      <div class="title" v-text="t('ACCOUNT.ACCOUNT')" />
+      <div class="title" v-text="t('account.title')" />
     </div>
     <div class="body">
       <router-view></router-view>

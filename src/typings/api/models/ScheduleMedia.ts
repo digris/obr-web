@@ -26,6 +26,9 @@ export type ScheduleMedia = {
     readonly artistDisplay?: string;
     readonly artists?: Array<MediaArtist>;
     readonly releases?: Array<Release>;
+    /**
+     * in seconds
+     */
     readonly duration?: number;
     readonly image?: MediaImage;
 };

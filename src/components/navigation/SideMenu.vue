@@ -8,6 +8,7 @@ import ToggleThemeButton from "@/components/navigation/ToggleThemeButton.vue";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
+import { useSubscription } from "@/composables/subscription";
 import eventBus from "@/eventBus";
 
 export default defineComponent({
@@ -22,6 +23,7 @@ export default defineComponent({
     const isVisible = ref(false);
     const { user, isStaff, logoutUser } = useAccount();
     const { isApp } = useDevice();
+    const { userVouchers } = useSubscription();
     const close = () => {
       isVisible.value = false;
     };
@@ -86,6 +88,7 @@ export default defineComponent({
       isVisible,
       user,
       isStaff,
+      userVouchers,
       login,
       logout,
       pages,
@@ -106,6 +109,7 @@ export default defineComponent({
           v-text="t('menu.accountSettings')"
         />
         <a v-if="isStaff" href="/admin/" target="_blank" v-text="t('menu.admin')" />
+        <a v-if="userVouchers.length" href="/admin/" v-text="t('menu.userVouchers')" />
       </section>
       <section class="section" v-else>
         <a href="#" @click.prevent="login"> Login </a>

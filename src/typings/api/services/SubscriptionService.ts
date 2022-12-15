@@ -1,10 +1,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Payment } from '../models/Payment';
-import type { PaymentCreateRequest } from '../models/PaymentCreateRequest';
 import type { PaymentOption } from '../models/PaymentOption';
 import type { SubscriptionOption } from '../models/SubscriptionOption';
+import type { UserVoucher } from '../models/UserVoucher';
 import type { Voucher } from '../models/Voucher';
 import type { VoucherRequest } from '../models/VoucherRequest';
 
@@ -15,10 +14,11 @@ import { request as __request } from '../core/request';
 export class SubscriptionService {
 
     /**
+     * Get available payment options.
      * @returns PaymentOption
      * @throws ApiError
      */
-    public static subscriptionPaymentRetrieve(): CancelablePromise<PaymentOption> {
+    public static paymentOptions(): CancelablePromise<PaymentOption> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/payment/',
@@ -26,69 +26,11 @@ export class SubscriptionService {
     }
 
     /**
-     * @returns void
-     * @throws ApiError
-     */
-    public static subscriptionPaymentStripeRetrieve(): CancelablePromise<void> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/subscription/payment/stripe/',
-        });
-    }
-
-    /**
-     * @param requestBody
-     * @returns Payment
-     * @throws ApiError
-     */
-    public static subscriptionPaymentStripeCreate(
-        requestBody: PaymentCreateRequest,
-    ): CancelablePromise<Payment> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/subscription/payment/stripe/',
-            body: requestBody,
-            mediaType: 'application/json',
-        });
-    }
-
-    /**
-     * @param signedPaymentUid
-     * @returns void
-     * @throws ApiError
-     */
-    public static subscriptionPaymentStripeSuccessRetrieve(
-        signedPaymentUid: string,
-    ): CancelablePromise<void> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/subscription/payment/stripe/success/{signedPaymentUid}/',
-            path: {
-                'signedPaymentUid': signedPaymentUid,
-            },
-            errors: {
-                301: `No response body`,
-                302: `No response body`,
-            },
-        });
-    }
-
-    /**
-     * @returns any No response body
-     * @throws ApiError
-     */
-    public static subscriptionPaymentStripeWebhookCreate(): CancelablePromise<any> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/subscription/payment/stripe/webhook/',
-        });
-    }
-
-    /**
+     * Get available plan options.
      * @returns SubscriptionOption
      * @throws ApiError
      */
-    public static subscriptionPlanRetrieve(): CancelablePromise<SubscriptionOption> {
+    public static planOptions(): CancelablePromise<SubscriptionOption> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/plan/',
@@ -96,10 +38,23 @@ export class SubscriptionService {
     }
 
     /**
+     * Vouchers that user can provide to other people.
+     * @returns UserVoucher
+     * @throws ApiError
+     */
+    public static userVouchers(): CancelablePromise<Array<UserVoucher>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/subscription/user-vouchers/',
+        });
+    }
+
+    /**
+     * Check validity of a voucher for the current user.
      * @returns Voucher
      * @throws ApiError
      */
-    public static subscriptionVoucherRetrieve(): CancelablePromise<Voucher> {
+    public static checkVoucher(): CancelablePromise<Voucher> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/subscription/voucher/',
@@ -107,11 +62,12 @@ export class SubscriptionService {
     }
 
     /**
+     * Redeem a voucher for the current user.
      * @param requestBody
      * @returns Voucher
      * @throws ApiError
      */
-    public static subscriptionVoucherCreate(
+    public static redeemVoucher(
         requestBody?: VoucherRequest,
     ): CancelablePromise<Voucher> {
         return __request(OpenAPI, {
