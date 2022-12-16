@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.67 (2022-12-16)
+### Fix
+* Remove additional `global:init` in app-bridge ([`fd0b8de`](https://github.com/digris/obr-web/commit/fd0b8de67618dc41e54a13469ff0998bb8f635aa))
+
 ## v0.0.66 (2022-12-16)
 ### Fix
 * Extend media API schema definition & add docs ([`c7cda6a`](https://github.com/digris/obr-web/commit/c7cda6ad165df89ef3162eb77f0f2677ed143725))
