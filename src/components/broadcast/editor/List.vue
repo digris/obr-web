@@ -63,7 +63,7 @@ export default defineComponent({
 .editor-list {
   @include container.default;
 
-  margin-bottom: 0;
+  margin-bottom: 4rem;
 }
 
 .grid {

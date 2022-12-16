@@ -69,6 +69,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/base/responsive";
 @use "@/style/elements/container";
 @use "@/style/elements/cms";
 
@@ -81,6 +82,10 @@ export default defineComponent({
     > h1 {
       @include typo.x-large;
       @include typo.bold;
+    }
+
+    @include responsive.bp-medium {
+      padding: 0.625rem 0 1rem;
     }
   }
 

@@ -15,6 +15,7 @@ export type UserVoucher = {
     readonly isValid?: boolean;
     readonly validUntil?: string;
     readonly numDays?: number;
+    readonly maxNumUse?: number;
     readonly numUsed?: number;
 };
 

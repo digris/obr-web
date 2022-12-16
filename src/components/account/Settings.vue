@@ -14,10 +14,12 @@ import Stream from "@/components/account/settings/Stream.vue";
 import CurrentSubscription from "@/components/subscription/CurrentSubscription.vue";
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
+import Page from "@/layouts/Page.vue";
 
 export default defineComponent({
   components: {
     Section,
+    Page,
     CurrentSubscription,
     Stream,
     Email,
@@ -50,7 +52,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-if="user">
+  <Page v-if="user" :title="t('account.title')">
     <Section
       :readonly="isApp"
       v-if="user"
@@ -70,5 +72,13 @@ export default defineComponent({
     <Newsletter />
     <Social />
     <QRCodeLogin v-if="isDesktop" :user="user" />
-  </div>
+  </Page>
 </template>
+
+<style lang="scss" scoped>
+section {
+  &:first-child {
+    margin-top: 0;
+  }
+}
+</style>

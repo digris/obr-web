@@ -3,7 +3,7 @@ import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { whenever } from "@vueuse/core";
 
-import TokenInput from "@/components/account/TokenInput.vue";
+import TokenInput from "@/components/account/auth/TokenInput.vue";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
 import { useAccount } from "@/composables/account";

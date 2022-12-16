@@ -105,6 +105,9 @@ class UserVoucherSerializer(
     num_days = serializers.IntegerField(
         read_only=True,
     )
+    max_num_use = serializers.IntegerField(
+        read_only=True,
+    )
     num_used = serializers.IntegerField(
         read_only=True,
     )
@@ -116,5 +119,6 @@ class UserVoucherSerializer(
             "is_valid",
             "valid_until",
             "num_days",
+            "max_num_use",
             "num_used",
         ]

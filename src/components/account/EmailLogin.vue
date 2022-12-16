@@ -4,9 +4,11 @@ import { useRoute, useRouter } from "vue-router";
 
 import IconBuffering from "@/components/ui/icon/IconBuffering.vue";
 import { useAccount } from "@/composables/account";
+import Page from "@/layouts/Page.vue";
 
 export default defineComponent({
   components: {
+    Page,
     IconBuffering,
   },
   setup() {
@@ -38,7 +40,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="email-login">
+  <Page class="email-login" title="Login">
     <div class="loading">
       <IconBuffering />
       <div class="text">loading user data</div>
@@ -46,7 +48,7 @@ export default defineComponent({
     <div class="errors" v-if="errors.length">
       <pre v-text="errors" />
     </div>
-  </div>
+  </Page>
 </template>
 
 <style lang="scss" scoped>

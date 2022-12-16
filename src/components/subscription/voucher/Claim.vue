@@ -119,16 +119,17 @@ export default defineComponent({
         </div>
       </section>
       <section class="actions">
-        <div v-if="user">
-          <AsyncButton class="button" :disabled="!isValid" @click.prevent="redeem">
-            <i18n-t keypath="subscription.voucher.redeem" />
-          </AsyncButton>
-        </div>
-        <div v-else>
-          <AsyncButton class="button" :disabled="!isValid" @click.prevent="authenticateAndRedeem">
-            <i18n-t keypath="subscription.voucher.authenticateAndRedeem" />
-          </AsyncButton>
-        </div>
+        <AsyncButton v-if="user" class="button" :disabled="!isValid" @click.prevent="redeem">
+          <i18n-t keypath="subscription.voucher.redeem" />
+        </AsyncButton>
+        <AsyncButton
+          v-else
+          class="button"
+          :disabled="!isValid"
+          @click.prevent="authenticateAndRedeem"
+        >
+          <i18n-t keypath="subscription.voucher.authenticateAndRedeem" />
+        </AsyncButton>
       </section>
       <pre
         v-if="false"
@@ -145,6 +146,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/base/responsive";
 @use "@/style/elements/button";
 
 .claim-voucher {
@@ -182,6 +184,9 @@ export default defineComponent({
       @include button.default(3rem);
 
       min-width: 33%;
+      @include responsive.bp-medium {
+        width: 100%;
+      }
     }
   }
 }

@@ -130,10 +130,11 @@ class TestAccount:
         )
         time.sleep(2)
 
-        self.driver.find_element(
-            By.XPATH, "//button[normalize-space()='Code senden']"
-        ).click()
-        time.sleep(2)
+        # NOTE: code is auto-submitted
+        # self.driver.find_element(
+        #     By.XPATH, "//button[normalize-space()='Code senden']"
+        # ).click()
+        # time.sleep(2)
 
         assert len(mailoutbox) == 2
 
@@ -146,9 +147,10 @@ class TestAccount:
             login_code
         )
 
-        self.driver.find_element(
-            By.XPATH, "//button[normalize-space()='Anmelden']"
-        ).click()
+        # NOTE: code is auto-submitted
+        # self.driver.find_element(
+        #     By.XPATH, "//button[normalize-space()='Anmelden']"
+        # ).click()
 
         time.sleep(2)
 

@@ -135,18 +135,23 @@ class VoucherView(
 class UserVoucherView(
     APIView,
 ):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
-
     @staticmethod
     @extend_schema(
-        responses={200: serializers.UserVoucherSerializer(many=True)},
+        responses={
+            200: serializers.UserVoucherSerializer(many=True),
+            204: None,
+        },
         operation_id="user_vouchers",
         description="Vouchers that user can provide to other people.",
     )
     def get(request):
-        vouchers = Voucher.objects.filter(user=request.user)
+        if not request.user.is_authenticated:
+            return Response(
+                None,
+                status.HTTP_204_NO_CONTENT,
+            )
+
+        vouchers = Voucher.objects.filter(user=request.user).order_by("-valid_until")
         serializer = serializers.UserVoucherSerializer(vouchers, many=True)
         return Response(
             serializer.data,
