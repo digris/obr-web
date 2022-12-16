@@ -3,7 +3,7 @@ import { computed, defineComponent } from "vue";
 import { useWindowSize } from "@vueuse/core";
 
 import { AppBridge } from "@/app-bridge/appBridge";
-import AuthSidebar from "@/components/account/AuthSidebar.vue";
+import AuthSidebar from "@/components/account/auth/AuthSidebar.vue";
 import DebugPanel from "@/components/dev/DebugPanel.vue";
 import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
 import GlobalSearch from "@/components/navigation/GlobalSearch.vue";

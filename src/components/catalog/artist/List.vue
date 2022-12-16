@@ -169,7 +169,7 @@ export default defineComponent({
 .list-filter-container {
   background: rgb(var(--c-black));
   padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
   margin-bottom: 1rem;
 
   .list-filter {
@@ -178,7 +178,7 @@ export default defineComponent({
 }
 
 .artist-list {
-  margin-bottom: 0;
+  margin-bottom: 4rem;
 
   .list-container {
     @include container.default;

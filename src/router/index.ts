@@ -5,7 +5,8 @@ import { isEqual } from "lodash-es";
 import { getUser } from "@/api/account";
 import AccountEmailLogin from "@/components/account/EmailLogin.vue";
 import AccountLogin from "@/components/account/Login.vue";
-import AccountSettings from "@/components/account/settings/Settings.vue";
+import AccountSettings from "@/components/account/Settings.vue";
+import AccountUserVouchers from "@/components/account/UserVouchers.vue";
 import EditorList from "@/components/broadcast/editor/List.vue";
 import ArtistList from "@/components/catalog/artist/List.vue";
 import MediaList from "@/components/catalog/media/List.vue";
@@ -394,6 +395,19 @@ const routes = [
         path: "settings/",
         name: "accountSettings",
         component: AccountSettings,
+        beforeEnter: async (to: any, from: any, next: any) => {
+          const authenticated = await isAuthenticated();
+          if (!authenticated) {
+            next({ name: "accountLogin" });
+          } else {
+            next();
+          }
+        },
+      },
+      {
+        path: "vouchers/",
+        name: "accountUserVouchers",
+        component: AccountUserVouchers,
         beforeEnter: async (to: any, from: any, next: any) => {
           const authenticated = await isAuthenticated();
           if (!authenticated) {

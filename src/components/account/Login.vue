@@ -1,8 +1,10 @@
 <script lang="ts">
-import AuthPanel from "@/components/account/AuthPanel.vue";
+import AuthPanel from "@/components/account/auth/AuthPanel.vue";
+import Page from "@/layouts/Page.vue";
 
 export default {
   components: {
+    Page,
     AuthPanel,
   },
   setup() {
@@ -11,9 +13,11 @@ export default {
 };
 </script>
 <template>
-  <section class="section">
-    <AuthPanel />
-  </section>
+  <Page title="Login">
+    <section class="section">
+      <AuthPanel />
+    </section>
+  </Page>
 </template>
 
 <style lang="scss" scoped>

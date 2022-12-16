@@ -8,6 +8,9 @@ from django.utils import timezone
 
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
+DEFAULT_DAYS_VALID = 28
+DEFAULT_MAX_NUM_USE = 20
+
 
 def generate_code(num_chars=6):
     chars = string.ascii_uppercase
@@ -31,15 +34,11 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
         max_length=6,
         default=get_default_code,
         unique=True,
-        null=False,
-        blank=False,
         db_index=True,
     )
 
     num_days = models.PositiveIntegerField(
-        default=7,
-        null=False,
-        blank=False,
+        default=DEFAULT_DAYS_VALID,
     )
 
     valid_until = models.DateTimeField(
@@ -48,8 +47,7 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
     )
 
     max_num_use = models.PositiveIntegerField(
-        blank=True,
-        null=True,
+        default=DEFAULT_MAX_NUM_USE,
     )
 
     user = models.ForeignKey(
@@ -92,22 +90,6 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
             return False
 
         return True
-
-    # @property
-    # def is_valid_for_user(self):
-    #     return False
-
-    # is_valid_for_user = False
-
-    # def save(self, *args, **kwargs):
-    #     if not self.code:
-    #         # pylint: disable=unused-variable
-    #         for i in itertools.count(1):
-    #             code = generate_code()
-    #             if not Voucher.objects.filter(code=code).exists():
-    #                 self.code = code
-    #                 break
-    #     return super().save(*args, **kwargs)
 
 
 class Redemption(CTUIDModelMixin, TimestampedModelMixin, models.Model):

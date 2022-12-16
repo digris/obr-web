@@ -88,6 +88,12 @@ export default defineComponent({
     flex-direction: column;
     padding-bottom: 1rem;
     background: rgb(var(--c-white) / 100%);
+
+    @include responsive.bp-medium {
+      height: 100vh;
+      width: 100vw;
+      overflow-y: scroll;
+    }
   }
 
   @include responsive.bp-medium {

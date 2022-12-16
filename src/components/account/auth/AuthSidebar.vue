@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from "vue";
 
-import AuthPanel from "@/components/account/AuthPanel.vue";
+import AuthPanel from "@/components/account/auth/AuthPanel.vue";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
 
-import ServiceInfoAside from "./context/ServiceInfoAside.vue";
-import Availability from "./legal/Availability.vue";
-import Terms from "./legal/Terms.vue";
+import ServiceInfoAside from "../context/ServiceInfoAside.vue";
+import Availability from "../legal/Availability.vue";
+import Terms from "../legal/Terms.vue";
 
 export default defineComponent({
   components: {
