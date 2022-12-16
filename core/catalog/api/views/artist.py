@@ -221,10 +221,6 @@ class ArtistViewSet(
                 expand=[
                     "tags",
                 ],
-                fields=[
-                    "uid",
-                    "tags",
-                ],
             ),
         },
     )

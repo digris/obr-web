@@ -8,6 +8,12 @@ from django.shortcuts import get_object_or_404
 from catalog.api import serializers
 from catalog.models import Media, Playlist
 from django_filters import rest_framework as filters
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiTypes,
+    extend_schema,
+)
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
@@ -195,6 +201,70 @@ class MediaViewSet(
 
         return obj
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="obj_key",
+                location=OpenApiParameter.QUERY,
+                type=OpenApiTypes.STR,
+                description="""Filter media belonging to a related object.  
+                               format: `<ct>:<uid>`""",
+                examples=[
+                    OpenApiExample(
+                        'Get tracks for artist "Johnny Cash"',
+                        value="catalog.artist:B38B2649",
+                    ),
+                    OpenApiExample(
+                        'Get tracks for mood "Good Vibes"',
+                        value="catalog.mood:53017FE1",
+                    ),
+                    OpenApiExample(
+                        'Get tracks for playlist "DEV - FADE / CUE"',
+                        value="catalog.playlist:80FB3498",
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name="expand",
+                location=OpenApiParameter.QUERY,
+                enum=["image", "tags", "identifiers"],
+                many=True,
+                description="""Expand nested resources, multiple values possible.""",
+                examples=[
+                    OpenApiExample(
+                        "Expand primary image & tags",
+                        value="image,tags",
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name="user_rating",
+                type=OpenApiTypes.STR,
+                enum=[-1, 1],
+                description="""Limit results based on current user's rating \u2764""",
+                examples=[
+                    OpenApiExample(
+                        "User's favorites",
+                        value=1,
+                    ),
+                    OpenApiExample(
+                        "User's dislikes",
+                        value=-1,
+                    ),
+                ],
+            ),
+        ],
+        responses={
+            200: serializers.MediaSerializer(
+                many=True,
+                expand=[
+                    "image",
+                    "tags",
+                    "identifiers",
+                ],
+            ),
+        },
+    )
     def list(self, request, *args, **kwargs):
         # TODO: implement "playlist case"
         try:
@@ -210,7 +280,6 @@ class MediaViewSet(
 
         qs = self.filter_queryset(self.get_queryset(include_upcoming=True))
 
-        # print("list_for_playlist", qs.count())
         playlist = Playlist.objects.get(uid=uid)
         qs_media_ids = qs.values_list("id", flat=True)
         media_ids = []
@@ -237,27 +306,17 @@ class MediaViewSet(
             m.cue_out = cue_fade[index]["cue_out"] / 1000.0
             m.fade_in = cue_fade[index]["fade_in"] / 1000.0
             m.fade_out = cue_fade[index]["fade_out"] / 1000.0
-            # m.cue_in = 15
-            # m.cue_out = 15
-            # m.fade_in = 5
-            # m.fade_out = 5
+
+        page = self.paginate_queryset(media)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(media, many=True)
         data = {
             "results": serializer.data,
         }
         return Response(data)
-
-    # def list_for_playlist(self, request, uid, *args, **kwargs):
-    #     playlist = Playlist.objects.get(uid=uid)
-    #     media = []
-    #     for playlist_media in playlist.playlist_media.all():
-    #         media.append(playlist_media.media)
-    #     serializer = self.get_serializer(media, many=True)
-    #     data = {
-    #         "results": serializer.data,
-    #     }
-    #     return Response(data)
 
     @action(url_path="tags", detail=False, methods=["get"])
     # pylint: disable=unused-argument

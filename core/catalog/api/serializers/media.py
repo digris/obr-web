@@ -124,11 +124,17 @@ class MediaSerializer(
             "cue_out",
         ]
         expandable_fields = {
-            "image": (MediaImageSerializer,),
+            "image": (
+                MediaImageSerializer,
+                {
+                    "required": False,
+                },
+            ),
             "tags": (
                 TagSerializer,
                 {
                     "many": True,
+                    "required": False,
                 },
             ),
             "identifiers": (

@@ -7,3 +7,4 @@
 ## Topics
 
 - [Account / Auth](account.md)
+- [Media / Playback](media.md)
