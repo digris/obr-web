@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.66 (2022-12-16)
+### Fix
+* Extend media API schema definition & add docs ([`c7cda6a`](https://github.com/digris/obr-web/commit/c7cda6ad165df89ef3162eb77f0f2677ed143725))
+
 ## v0.0.65 (2022-12-16)
 ### Fix
 * Add user vouchers ui ([`76047d4`](https://github.com/digris/obr-web/commit/76047d4487cd12ad3e741984010929b1b3d36149))
