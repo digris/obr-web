@@ -87,9 +87,6 @@ class AppBridge {
   async init(): Promise<void> {
     log.debug("AppBridge - init");
     await this.send("global:init");
-    setTimeout(async () => {
-      await this.send("global:init");
-    }, 2000);
   }
   async heartbeat(): Promise<void> {
     // log.debug("AppBridge - heartbeat");
