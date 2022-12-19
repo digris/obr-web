@@ -89,7 +89,7 @@ export default defineComponent({
   overscroll-behavior: auto contain;
 
   @include responsive.bp-medium {
-    box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 90%);
+    box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
   }
 
   &::-webkit-scrollbar {
