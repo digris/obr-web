@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.71 (2022-12-19)
+### Fix
+* Use separate serializer for event creation ([`e300761`](https://github.com/digris/obr-web/commit/e300761ca146e4aef59da96fc1abd5c5caf72f4b))
+
 ## v0.0.70 (2022-12-19)
 ### Fix
 * Return empty response on player-event creation ([`addb445`](https://github.com/digris/obr-web/commit/addb44518140c0204319773e4c5db322b494726c))
