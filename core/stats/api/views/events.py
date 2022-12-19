@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class PlayerEventView(
     APIView,
 ):
-    serializer_class = serializers.PlayerEventSerializer
+    serializer_class = serializers.PlayerEventSerializer(many=True)
 
     @extend_schema(
         methods=["PUT"],
