@@ -30,6 +30,7 @@ class PlayerEventView(
             event["user_identity"] = request.user_identity
             event["device_key"] = request.device_key
             event["time"] = datetime.fromtimestamp(float(event["ts"]) / 1000.0)
+            del event["ts"]
             logger.info("player-event", event)
             annotated_events.append(event)
 
@@ -41,7 +42,7 @@ class PlayerEventView(
         if serializer.is_valid():
             serializer.save()
             return Response(
-                serializer.data,
+                None,
                 status=status.HTTP_201_CREATED,
             )
 
