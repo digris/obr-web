@@ -29,11 +29,12 @@ class PlayerEventSerializer(
 
     ts = serializers.IntegerField(
         write_only=True,
+        required=False,
         help_text="Unix timestamp when event was created on the client.",
     )
 
     time = serializers.DateTimeField(
-        read_only=True,
+        # read_only=True,
     )
 
     user_identity = serializers.CharField(
