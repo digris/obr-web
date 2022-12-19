@@ -33,7 +33,7 @@ class PlayerEventView(
             logger.info("player-event", event)
             annotated_events.append(event)
 
-        serializer = self.serializer_class(
+        serializer = serializers.PlayerEventSerializer(
             data=annotated_events,
             many=True,
         )
