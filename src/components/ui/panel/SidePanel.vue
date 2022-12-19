@@ -76,10 +76,18 @@ export default defineComponent({
   z-index: 111;
   background: rgb(0 0 0 / 90%);
   backdrop-filter: grayscale(70%) brightness(80%);
+
+  @include responsive.bp-medium {
+    background: unset;
+    backdrop-filter: unset;
+  }
 }
 
 .side-panel {
-  top: 0;
+  top: var(--sa-t);
+
+  // padding-top: var(--sa-t);
+  padding-bottom: calc(var(--sa-b) + var(--sa-t));
   position: fixed;
   height: 100%;
   width: 100%;
@@ -96,6 +104,7 @@ export default defineComponent({
 
   @include responsive.bp-medium {
     max-width: unset;
+    box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
   }
 
   &__header {
@@ -177,9 +186,15 @@ export default defineComponent({
 
 .slide-enter-from {
   transform: translate(100%, 0);
+  @include responsive.bp-medium {
+    transform: translate(0, 100%);
+  }
 }
 
 .slide-leave-to {
   transform: translate(100%, 0);
+  @include responsive.bp-medium {
+    transform: translate(0, 100%);
+  }
 }
 </style>

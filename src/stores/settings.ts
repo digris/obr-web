@@ -2,7 +2,7 @@ import { useNavigatorLanguage, useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
 interface State {
-  theme: "light" | "dark" | null;
+  darkMode: boolean;
   volume: number;
   shuffleMode: boolean;
   maxBandwidth: number;
@@ -17,7 +17,7 @@ const getDefaultLanguage = () => {
 export const useSettingsStore = defineStore("settings", {
   state: (): State => ({
     // @ts-ignore
-    theme: useStorage("settings/theme", null),
+    darkMode: useStorage("settings/darkMode", false),
     // @ts-ignore
     volume: useStorage("settings/player/volume", 100),
     // @ts-ignore
@@ -33,6 +33,9 @@ export const useSettingsStore = defineStore("settings", {
     },
   },
   actions: {
+    setDarkMode(value: boolean) {
+      this.darkMode = value;
+    },
     setLocale(value: string) {
       this.locale = value;
     },

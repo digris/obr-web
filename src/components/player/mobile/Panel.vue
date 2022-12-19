@@ -108,12 +108,7 @@ export default defineComponent({
 
 <template>
   <transition name="slide" :duration="200">
-    <div
-      v-if="isVisible"
-      :style="{ top: `${top}px` }"
-      class="player-panel"
-      :class="{ 'is-swiping': isSwiping }"
-    >
+    <div v-if="isVisible" class="player-panel" :class="{ 'is-swiping': isSwiping }">
       <nav>
         <CircleButton @click="close" :outlined="true">
           <IconClose />
@@ -149,6 +144,7 @@ export default defineComponent({
 // NOTE: color variables are set in parent Player component
 .player-panel {
   z-index: 20;
+  top: var(--sa-t);
   position: fixed;
   width: 100%;
   min-height: calc(100% + 60px);
@@ -158,6 +154,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   transition: top 200ms, background 500ms;
+  box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
 
   &.is-swiping {
     transition-duration: 1ms;

@@ -41,26 +41,29 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="topbar">
-    <router-link class="brand" to="/">
-      <Logo />
-      <span>open broadcast</span>
-    </router-link>
-    <MainMenu class="menu menu--main" />
-    <div class="subscription-account">
-      <SubscriptionStatus class="menu menu--subscription" />
-      <AccountMenu class="menu menu--account" />
-    </div>
-    <div class="search-toggle" @click.prevent="showGlobalSearch">
-      <ToggleSearchButton />
-    </div>
-    <router-link v-if="isMobile" class="program" :to="{ name: 'programRedirect' }">
-      <CircleButton>
-        <IconProgram color-var="--c-page-fg" />
-      </CircleButton>
-    </router-link>
-    <div class="menu-toggle" @click.prevent="showSideMenu">
-      <ToggleMenuButton />
+  <div class="topbar-container">
+    <div class="ios-bar" />
+    <div class="topbar">
+      <router-link class="brand" to="/">
+        <Logo />
+        <span>open broadcast</span>
+      </router-link>
+      <MainMenu class="menu menu--main" />
+      <div class="subscription-account">
+        <SubscriptionStatus class="menu menu--subscription" />
+        <AccountMenu class="menu menu--account" />
+      </div>
+      <div class="search-toggle" @click.prevent="showGlobalSearch">
+        <ToggleSearchButton />
+      </div>
+      <router-link v-if="isMobile" class="program" :to="{ name: 'programRedirect' }">
+        <CircleButton>
+          <IconProgram color-var="--c-page-fg" />
+        </CircleButton>
+      </router-link>
+      <div class="menu-toggle" @click.prevent="showSideMenu">
+        <ToggleMenuButton />
+      </div>
     </div>
   </div>
 </template>
@@ -69,8 +72,18 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/base/live-color";
 
-.topbar {
+.topbar-container {
   top: 0;
+  position: sticky;
+  padding-top: var(--sa-t);
+  z-index: 20;
+  background: rgb(var(--c-page-bg) / 50%);
+  backdrop-filter: blur(12px);
+  transition: background-color 600ms, color 100ms 1ms;
+}
+
+.topbar {
+  top: var(--sa-t);
   position: sticky;
   height: 78px;
   width: 100%;
@@ -78,10 +91,14 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 242px 1fr 146px 48px 48px;
   padding: 0 1.5rem 0 0;
-  background: rgb(var(--c-page-bg) / 80%);
+
+  //background: rgb(var(--c-page-bg) / 80%);
   border-bottom: 7px solid rgb(var(--c-page-fg));
-  transition: background 10ms;
-  backdrop-filter: blur(12px);
+
+  // transition: background 10ms;
+  transition: background-color 600ms, color 100ms 1ms;
+
+  //backdrop-filter: blur(12px);
   @include responsive.bp-medium {
     height: 66px;
     grid-template-columns: 172px 1fr 40px 40px 40px;

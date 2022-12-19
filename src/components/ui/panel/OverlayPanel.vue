@@ -73,7 +73,7 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .overlay-panel {
-  top: 0;
+  top: var(--sa-t);
   position: fixed;
   height: 100%;
   width: 100%;

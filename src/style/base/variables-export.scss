@@ -108,6 +108,14 @@
   }
 }
 
+/* stylelint-disable-next-line no-duplicate-selectors */
+:root {
+  --sa-t: env(safe-area-inset-top);
+  --sa-r: env(safe-area-inset-right);
+  --sa-b: env(safe-area-inset-bottom);
+  --sa-l: env(safe-area-inset-left);
+}
+
 // NOTE: just for testing modes. logic needs to be reworked.
 [data-client-mode="app"] {
   --font-size: 1rem;

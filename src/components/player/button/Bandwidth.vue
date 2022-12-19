@@ -2,13 +2,12 @@
 import { computed, defineComponent } from "vue";
 
 import { useAccount } from "@/composables/account";
-import { useSettingsStore } from "@/stores/settings";
+import { useSettings } from "@/composables/settings";
 
 export default defineComponent({
   setup() {
-    const settingsStore = useSettingsStore();
     const { user } = useAccount();
-    const maxBandwidth = computed(() => settingsStore.maxBandwidth);
+    const { maxBandwidth } = useSettings();
     const modeDisplay = computed(() => {
       return maxBandwidth.value < 720000 ? "Eco" : "HiFi";
     });
