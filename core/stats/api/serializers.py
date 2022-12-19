@@ -1,15 +1,11 @@
 from rest_framework import serializers
 
-from ..models import PlayerEvent
 
-
-class PlayerEventSerializer(
-    serializers.ModelSerializer,
+class PlayerEventCreateSerializer(
+    serializers.Serializer,
 ):
 
-    obj_key = serializers.CharField(
-        write_only=True,
-    )
+    obj_key = serializers.CharField()
 
     source = serializers.ChoiceField(
         choices=[
@@ -28,34 +24,8 @@ class PlayerEventSerializer(
     )
 
     ts = serializers.IntegerField(
-        write_only=True,
-        required=False,
         help_text="Unix timestamp when event was created on the client.",
     )
-
-    time = serializers.DateTimeField(
-        # read_only=True,
-    )
-
-    user_identity = serializers.CharField(
-        read_only=True,
-    )
-
-    device_key = serializers.CharField(
-        read_only=True,
-    )
-
-    class Meta:
-        model = PlayerEvent
-        fields = [
-            "obj_key",
-            "source",
-            "state",
-            "ts",
-            "time",
-            "user_identity",
-            "device_key",
-        ]
 
 
 class ArchiveSerializer(
