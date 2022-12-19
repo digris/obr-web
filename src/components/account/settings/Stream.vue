@@ -1,9 +1,9 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useDevice } from "@/composables/device";
-import { useSettingsStore } from "@/stores/settings";
+import { useSettings } from "@/composables/settings";
 
 import Section from "./Section.vue";
 
@@ -33,11 +33,7 @@ export default defineComponent({
     const { t } = useI18n();
     const { isDesktop } = useDevice();
     const maxBandwidthChoices = BANDWITH_CHOICES;
-    const settingsStore = useSettingsStore();
-    const maxBandwidth = computed(() => settingsStore.maxBandwidth);
-    const setMaxBandwidth = (value: number) => {
-      settingsStore.setMaxBandwidth(value);
-    };
+    const { maxBandwidth, setMaxBandwidth } = useSettings();
     return {
       t,
       isDesktop,

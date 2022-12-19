@@ -4,6 +4,7 @@ import log from "loglevel";
 import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";
+import { useSettingsStore } from "@/stores/settings";
 
 const HEARTBEAT_INTERVAL = 1000;
 
@@ -31,6 +32,13 @@ type sendChannel =
   | "player:requestUpdate" // initiates "player:update"
   // web
   | "web:setPath"
+  // ui
+  | "ui:setTheme"
+  // rating
+  | "rating:setRatings"
+  // settings
+  | "settings:setMaxBandwidth"
+  | "settings:setDarkMode"
   // account
   | "account:setAccessToken"
   // browser
@@ -43,7 +51,13 @@ type receiveChannel =
   // player
   | "player:update"
   // schedule
-  | "schedule:update";
+  | "schedule:update"
+  // settings
+  | "settings:update"
+  // ui
+  | "ui:update"
+  // rating
+  | "rating:update";
 
 type SendMessage = {
   c: sendChannel;
@@ -140,6 +154,17 @@ class AppBridge {
           bandwidth: 12800,
         };
         await setPlayerState(playerState);
+        break;
+      }
+      case "settings:update": {
+        if (data.maxBandwidth) {
+          const { setMaxBandwidth } = useSettingsStore();
+          setMaxBandwidth(data.maxBandwidth);
+        }
+        if (data.darkMode) {
+          const { setDarkMode } = useSettingsStore();
+          setDarkMode(data.darkMode);
+        }
         break;
       }
       case "schedule:update": {

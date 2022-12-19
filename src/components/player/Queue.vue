@@ -108,6 +108,10 @@ export default defineComponent({
   z-index: 20;
   left: 0;
   background: rgb(var(--c-black) / 80%);
+
+  @include responsive.bp-medium {
+    background: unset;
+  }
 }
 
 .queue {
@@ -134,8 +138,9 @@ export default defineComponent({
   }
   @include responsive.bp-medium {
     /* sizing based on player height & 60px action bar */
-    max-height: calc(100% - calc(var(--player-height) + 60px));
+    max-height: calc(100% - calc(var(--player-height) + 60px + var(--sa-t)));
     bottom: calc(var(--player-height) + 60px);
+    box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
   }
 }
 

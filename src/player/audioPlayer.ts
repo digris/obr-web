@@ -5,17 +5,16 @@ import log from "loglevel";
 import muxjs from "mux.js";
 // @ts-ignore
 import shaka from "shaka-player";
-import { storeToRefs } from "pinia";
 import { isEqual, round } from "lodash-es";
 
 import { useDevice } from "@/composables/device";
 import { usePlayerControls } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
+import { useSettings } from "@/composables/settings";
 import type { AudioAnalyser } from "@/player/analyser";
 import { createAudioAnalyser } from "@/player/analyser";
 import type { PlayerState } from "@/stores/player";
 import { usePlayerStore } from "@/stores/player";
-import { useSettingsStore } from "@/stores/settings";
 
 shaka.dependencies.add("muxjs", muxjs);
 
@@ -158,7 +157,7 @@ class AudioPlayer {
       await playNext();
     };
 
-    const { volume, maxBandwidth } = storeToRefs(useSettingsStore());
+    const { volume, maxBandwidth } = useSettings();
 
     if (maxBandwidth.value > 0) {
       this.updateMaxBandwidth(maxBandwidth.value);

@@ -2,6 +2,8 @@
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { useDevice } from "@/composables/device";
+
 export default defineComponent({
   props: {
     modelValue: {
@@ -12,12 +14,21 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const { t } = useI18n();
+    const { isMobile } = useDevice();
     const q = computed({
       get: () => props.modelValue,
       set: (value: string) => emit("update:modelValue", value),
     });
     const searchInput = ref<HTMLInputElement | null>(null);
-    onMounted(() => searchInput.value?.focus());
+    onMounted(() => {
+      searchInput.value?.focus();
+      if (isMobile.value) {
+        // scroll to top after displaying on-screen keyboard
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 100);
+      }
+    });
     return {
       t,
       q,

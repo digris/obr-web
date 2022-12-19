@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
 import LanguageChooser from "@/components/navigation/LanguageChooser.vue";
-import ToggleThemeButton from "@/components/navigation/ToggleThemeButton.vue";
+import ToggleDarkModeButton from "@/components/navigation/ToggleDarkModeButton.vue";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
 import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
@@ -15,7 +15,7 @@ export default defineComponent({
   components: {
     SidePanel,
     LanguageChooser,
-    ToggleThemeButton,
+    ToggleDarkModeButton,
   },
   setup() {
     const router = useRouter();
@@ -179,7 +179,7 @@ export default defineComponent({
     <template #footer>
       <div class="footer">
         <div class="ui-mode-chooser">
-          <ToggleThemeButton />
+          <ToggleDarkModeButton />
         </div>
         <LanguageChooser class="language-chooser" />
       </div>

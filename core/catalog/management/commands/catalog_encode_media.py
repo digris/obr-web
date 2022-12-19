@@ -23,7 +23,7 @@ class Command(BaseCommand):
             "--token",
             type=str,
             help="CF API token",
-            required=True,
+            required=False,
         )
         parser.add_argument(
             "--database",

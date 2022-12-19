@@ -3,13 +3,19 @@ import { storeToRefs } from "pinia";
 
 import settings from "@/settings";
 import { useUiStore } from "@/stores/ui";
-import { getContrastColor } from "@/utils/color";
+import { getAppTheme, getContrastColor } from "@/utils/color";
 
-const setDocumentThemeColor = (color: Array<number>) => {
+const setDocumentThemeColor = async (color: Array<number>) => {
   const el: HTMLMetaElement | null = document.getElementById("theme-color");
   if (el) {
     el.content = `rgb(${color.join(" ")})`;
   }
+};
+
+const setAppTheme = async (color: Array<number>) => {
+  const theme = getAppTheme(color);
+  console.debug("setAppThemeColor", theme);
+  await window.appBridge.send("ui:setTheme", { theme });
 };
 
 const setDocumentPrimaryColor = (color: Array<number>) => {
@@ -20,8 +26,11 @@ const setDocumentPrimaryColor = (color: Array<number>) => {
   style.setProperty("--c-live-bg", bg.join(" "));
   style.setProperty("--c-live-fg", fg.join(" "));
   style.setProperty("--c-live-fg-inverse", fgInverse.join(" "));
-  setTimeout(() => {
-    setDocumentThemeColor(color);
+  setTimeout(async () => {
+    await setDocumentThemeColor(color);
+  }, 50);
+  setTimeout(async () => {
+    await setAppTheme(color);
   }, 50);
 };
 

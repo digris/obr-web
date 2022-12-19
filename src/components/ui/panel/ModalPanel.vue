@@ -68,7 +68,7 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .modal-panel {
-  top: 0;
+  top: var(--sa-t);
   position: fixed;
   height: 100%;
   width: 100%;

@@ -57,6 +57,17 @@ export default defineComponent({
   <div class="app-bridge">
     <h2>APP Bridge</h2>
     <section>
+      <div
+        :style="{
+          width: '100px',
+          height: 'var(--sa-t)',
+          background: 'red',
+        }"
+      >
+        =
+      </div>
+    </section>
+    <section>
       <h4>Controls</h4>
       <div class="controls">
         <button @click.prevent="playLive">Play Live</button>

@@ -257,7 +257,7 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .list-filter-container {
-  background: rgb(var(--c-black));
+  background: rgb(0 0 0);
   padding-top: 0.75rem;
   padding-bottom: 0.5rem;
 

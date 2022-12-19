@@ -26,6 +26,7 @@ body > #app {
 html {
   color: rgb(var(--c-page-fg) / 100%);
   background: rgb(var(--c-page-bg) / 100%);
+  transition: background-color 600ms, color 100ms 1ms;
 }
 
 body {

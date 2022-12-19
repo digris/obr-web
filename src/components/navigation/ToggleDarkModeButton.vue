@@ -1,23 +1,25 @@
 <script type="ts">
-import { computed, defineComponent, watch } from 'vue';
+import { defineComponent, watch } from 'vue';
 import { storeToRefs } from "pinia";
 
+import { useSettings } from "@/composables/settings";
 import { useSettingsStore } from "@/stores/settings";
 
-const DARK_VALUE = "dark"
-const DATA_ATTRIBUTE = "data-theme"
+const DATA_ATTRIBUTE = "data-th" +
+  "eme"
 
 export default defineComponent({
   components: {},
   setup() {
+    const { darkMode, setDarkMode } = useSettings();
     const { theme } = storeToRefs(useSettingsStore());
-    const isDark = computed(() => theme.value === DARK_VALUE);
-    const toggleMode = () => (isDark.value) ? theme.value = null : theme.value = DARK_VALUE;
+    const toggleMode = () => (darkMode.value) ? setDarkMode(false) : setDarkMode(true);
     watch(
-      () => theme.value,
+      () => darkMode.value,
       (value) => {
+        console.debug("DM", value);
         if (value) {
-          document.body.setAttribute(DATA_ATTRIBUTE, value);
+          document.body.setAttribute(DATA_ATTRIBUTE, "dark");
         } else {
           document.body.removeAttribute(DATA_ATTRIBUTE);
         }
@@ -25,7 +27,7 @@ export default defineComponent({
     );
     return {
       theme,
-      isDark,
+      darkMode,
       toggleMode,
     };
   },
@@ -33,7 +35,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <label class="toggle-mode" :class="{ 'is-dark': isDark }">
+  <label class="toggle-mode" :class="{ 'is-dark': darkMode }">
     <span class="outline"></span>
     <span class="label">Darkmode</span>
     <input class="toggle" type="checkbox" @change="toggleMode" />
