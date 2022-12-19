@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.68 (2022-12-19)
+### Fix
+* Add API schema for player-event ([`c9b3ffa`](https://github.com/digris/obr-web/commit/c9b3ffadd390feaa5fe1b61217a5f03a12de2214))
+
 ## v0.0.67 (2022-12-16)
 ### Fix
 * Remove additional `global:init` in app-bridge ([`fd0b8de`](https://github.com/digris/obr-web/commit/fd0b8de67618dc41e54a13469ff0998bb8f635aa))
