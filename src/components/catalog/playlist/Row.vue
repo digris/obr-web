@@ -12,6 +12,7 @@ import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import { useDevice } from "@/composables/device";
 import { useObjKey } from "@/composables/obj";
+import { useSettings } from "@/composables/settings";
 
 export default defineComponent({
   components: {
@@ -33,6 +34,7 @@ export default defineComponent({
   setup(props) {
     const { objKey } = useObjKey(props.playlist);
     const { isMobile } = useDevice();
+    const { darkMode } = useSettings();
     const isHover = ref(isMobile.value);
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const latestEmission = computed(() => {
@@ -49,6 +51,7 @@ export default defineComponent({
       objKey,
       isHover,
       isMobile,
+      darkMode,
       title,
       link,
       latestEmission,
@@ -65,7 +68,11 @@ export default defineComponent({
   >
     <div class="container">
       <div class="play">
-        <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />
+        <PlayAction
+          :obj-key="objKey"
+          :outlined="true"
+          :color="darkMode ? [255, 255, 255] : [0, 0, 0]"
+        />
       </div>
       <div class="name">
         <router-link

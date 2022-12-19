@@ -34,6 +34,8 @@ type sendChannel =
   | "web:setPath"
   // ui
   | "ui:setTheme"
+  // rating
+  | "rating:setRatings"
   // settings
   | "settings:setMaxBandwidth"
   | "settings:setDarkMode"
@@ -53,7 +55,9 @@ type receiveChannel =
   // settings
   | "settings:update"
   // ui
-  | "ui:update";
+  | "ui:update"
+  // rating
+  | "rating:update";
 
 type SendMessage = {
   c: sendChannel;

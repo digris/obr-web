@@ -2,8 +2,8 @@
 import { defineComponent, watch } from 'vue';
 import { storeToRefs } from "pinia";
 
-import { useSettingsStore } from "@/stores/settings";
 import { useSettings } from "@/composables/settings";
+import { useSettingsStore } from "@/stores/settings";
 
 const DATA_ATTRIBUTE = "data-th" +
   "eme"

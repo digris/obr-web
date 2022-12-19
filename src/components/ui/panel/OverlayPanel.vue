@@ -88,6 +88,10 @@ export default defineComponent({
   overflow-y: auto;
   overscroll-behavior: auto contain;
 
+  @include responsive.bp-medium {
+    box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 90%);
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }
@@ -106,6 +110,7 @@ export default defineComponent({
     z-index: 50;
     @include responsive.bp-medium {
       height: 60px;
+      min-height: 60px;
     }
   }
 
@@ -144,16 +149,27 @@ export default defineComponent({
   }
 }
 
-.fade-enter-active,
+.fade-enter-active {
+  transition: transform 200ms ease-in-out;
+}
+
 .fade-leave-active {
-  transition: opacity 200ms;
+  transition: transform 200ms ease-in-out;
 }
 
 .fade-enter-from {
   opacity: 0;
+  @include responsive.bp-medium {
+    opacity: unset;
+    transform: translate(0, 100%);
+  }
 }
 
 .fade-leave-to {
   opacity: 0;
+  @include responsive.bp-medium {
+    opacity: unset;
+    transform: translate(0, 100%);
+  }
 }
 </style>

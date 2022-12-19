@@ -1,6 +1,8 @@
 import { useNavigatorLanguage, useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
+// import { useDevice } from "@/composables/device";
+
 interface State {
   darkMode: boolean;
   volume: number;
@@ -14,10 +16,16 @@ const getDefaultLanguage = () => {
   return language.value?.substring(0, 2) ?? "de";
 };
 
+const getDefaultDarkMode = () => {
+  return false;
+  // const { isApp } = useDevice();
+  // return isApp;
+};
+
 export const useSettingsStore = defineStore("settings", {
   state: (): State => ({
     // @ts-ignore
-    darkMode: useStorage("settings/darkMode", false),
+    darkMode: useStorage("settings/darkMode", getDefaultDarkMode()),
     // @ts-ignore
     volume: useStorage("settings/player/volume", 100),
     // @ts-ignore

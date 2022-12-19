@@ -17,6 +17,8 @@ export const useSettings = () => {
       await appBridge.send(channel, {
         darkMode: value,
       });
+      // NOTE: remove after dark-mode setting is implemented in app
+      setDarkModeWeb(value);
     }
   };
 

@@ -44,16 +44,16 @@ export default defineComponent({
   align-items: center;
   height: 2rem;
   padding: 0.25rem 1rem;
-  color: rgb(var(--c-white));
-  background: rgb(var(--c-white) / 20%);
+  color: rgb(255 255 255);
+  background: rgb(255 255 255 / 20%);
   border-radius: 1rem;
   cursor: pointer;
   text-transform: capitalize;
   font-weight: 400;
 
   &.is-selected {
-    color: rgb(var(--c-black));
-    background: rgb(var(--c-white) / 100%);
+    color: rgb(0 0 0);
+    background: rgb(255 255 255 / 100%);
   }
 
   &__type {
@@ -79,14 +79,14 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgb(var(--c-white));
-      color: rgb(var(--c-black));
-      border: 1px solid rgb(var(--c-black) / 20%);
+      background: rgb(255 255 255);
+      color: rgb(0 0 0);
+      border: 1px solid rgb(0 0 0 / 20%);
       border-radius: 12px;
     }
   }
   @include responsive.on-hover {
-    background: rgb(var(--c-white) / 30%);
+    background: rgb(255 255 255 / 30%);
 
     .tag {
       &__count {
@@ -95,7 +95,7 @@ export default defineComponent({
     }
 
     &.is-selected {
-      background: rgb(var(--c-white) / 80%);
+      background: rgb(255 255 255 / 80%);
     }
   }
 }

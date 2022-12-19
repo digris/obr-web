@@ -53,7 +53,7 @@ export default defineComponent({
     },
     color: {
       type: Array as PropType<Array<number>>,
-      default: () => [0, 100, 200],
+      default: () => [0, 0, 0],
     },
   },
   setup(props) {
