@@ -87,11 +87,11 @@ export default defineComponent({
   grid-template-columns: 169px 1fr;
   padding: 1rem;
   background: rgb(var(--c-green));
-  color: rgb(var(--c-white));
+  color: rgb(var(--c-light));
 
   &.is-invalid {
-    color: rgb(var(--c-white) / 50%);
-    background: rgb(var(--c-black) / 50%);
+    color: rgb(var(--c-light) / 50%);
+    background: rgb(var(--c-dark) / 50%);
     pointer-events: none;
     position: relative;
 
@@ -109,7 +109,7 @@ export default defineComponent({
       justify-content: center;
 
       > span {
-        color: rgb(var(--c-white));
+        color: rgb(var(--c-light));
         background: rgb(var(--c-red));
         @include typo.bold;
 
@@ -147,13 +147,13 @@ export default defineComponent({
         top: -30px;
         position: absolute;
         width: 100%;
-        color: rgb(var(--c-white));
+        color: rgb(var(--c-light));
         line-height: var(--t-fs-small);
         display: flex;
         justify-content: center;
 
         &__text {
-          background: rgb(var(--c-black));
+          background: rgb(var(--c-dark));
           padding: 0.5rem;
         }
       }

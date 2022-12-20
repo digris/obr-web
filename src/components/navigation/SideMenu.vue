@@ -109,7 +109,7 @@ export default defineComponent({
           v-text="t('menu.accountSettings')"
         />
         <a v-if="isStaff" href="/admin/" target="_blank" v-text="t('menu.admin')" />
-        <!--
+        <!---->
         <router-link
           v-if="userVouchers.length"
           :to="{
@@ -118,7 +118,6 @@ export default defineComponent({
           @click="onNavigate"
           v-text="t('menu.userVouchers')"
         />
-        -->
       </section>
       <section class="section" v-else>
         <a href="#" @click.prevent="login"> Login </a>
@@ -207,7 +206,7 @@ export default defineComponent({
     }
 
     &:not(:last-child) {
-      border-bottom: 1px solid rgb(var(--c-black) / 20%);
+      border-bottom: 1px solid rgb(var(--c-dark) / 20%);
     }
 
     > a {
