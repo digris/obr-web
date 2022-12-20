@@ -109,7 +109,6 @@ export default defineComponent({
           v-text="t('menu.accountSettings')"
         />
         <a v-if="isStaff" href="/admin/" target="_blank" v-text="t('menu.admin')" />
-        <!--
         <router-link
           v-if="userVouchers.length"
           :to="{
@@ -118,7 +117,6 @@ export default defineComponent({
           @click="onNavigate"
           v-text="t('menu.userVouchers')"
         />
-        -->
       </section>
       <section class="section" v-else>
         <a href="#" @click.prevent="login"> Login </a>
