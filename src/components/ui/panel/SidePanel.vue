@@ -97,14 +97,15 @@ export default defineComponent({
   flex-direction: column;
   max-width: 50vw;
   min-width: 50vw;
-  color: rgb(var(--c-black) / 100%);
+  color: rgb(var(--c-dark) / 100%);
   font-weight: 500;
-  background: rgb(var(--c-white) / 100%);
+  background: rgb(var(--c-light) / 100%);
   transition: background 400ms;
 
   @include responsive.bp-medium {
     max-width: unset;
     box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
+    border-radius: 28px;
   }
 
   &__header {
@@ -113,7 +114,7 @@ export default defineComponent({
     justify-content: flex-end;
     height: 75px;
     margin: 0 1.5rem 0.5rem;
-    border-bottom: 1px solid rgb(var(--c-black) / 20%);
+    border-bottom: 1px solid rgb(var(--c-dark) / 20%);
 
     .slot {
       flex-grow: 1;
@@ -131,7 +132,7 @@ export default defineComponent({
   &__body {
     flex-grow: 1;
     padding: 0 1.5rem 1rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     @include responsive.bp-medium {
       padding: 0 0.625rem 0.5rem;
     }
@@ -140,7 +141,7 @@ export default defineComponent({
   &__footer {
     margin: 0 1.5rem;
     padding: 1rem 0;
-    border-top: 1px solid rgb(var(--c-black) / 20%);
+    border-top: 1px solid rgb(var(--c-dark) / 20%);
     @include responsive.bp-medium {
       margin: 0 0.625rem;
       padding: 0.5rem 0;
@@ -160,7 +161,7 @@ export default defineComponent({
   padding-top: calc(75px + 0.5rem);
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  color: rgb(var(--c-white) / 100%);
+  color: rgb(var(--c-light) / 100%);
   @include responsive.bp-medium {
     display: none;
   }

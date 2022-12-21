@@ -39,12 +39,12 @@
 @mixin section {
   &.section {
     &--light {
-      background: rgb(var(--c-white) / 100%);
+      background: rgb(var(--c-light) / 100%);
     }
 
     &--dark {
-      color: rgb(var(--c-white) / 100%);
-      background: rgb(var(--c-black) / 100%);
+      color: rgb(var(--c-light) / 100%);
+      background: rgb(var(--c-dark) / 100%);
     }
   }
 }

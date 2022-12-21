@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ScopeEnum } from './ScopeEnum';
+import type { VoteScopeEnum } from './VoteScopeEnum';
 
 export type VoteRequest = {
     key: string;
     value: number | null;
-    scope?: ScopeEnum | null;
+    scope?: VoteScopeEnum | null;
     comment?: string;
 };
 

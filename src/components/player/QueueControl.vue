@@ -82,11 +82,11 @@ export default defineComponent({
     pointer-events: none;
     display: flex;
     right: -3px;
-    background: rgb(var(--c-white));
+    background: rgb(var(--c-light));
     min-width: 20px;
     min-height: 20px;
     border-radius: 10px;
-    color: rgb(var(--c-black));
+    color: rgb(var(--c-dark));
     padding: 0 6px;
     font-size: 12px;
     box-shadow: 0 0 3px rgb(0 0 0 / 40%);

@@ -2,8 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { Identifier } from './Identifier';
 import type { MediaArtist } from './MediaArtist';
+import type { MediaImage } from './MediaImage';
 import type { Release } from './Release';
+import type { Tag } from './Tag';
 
 /**
  * A ModelSerializer that takes additional arguments for
@@ -36,5 +39,8 @@ export type Media = {
     readonly fadeOut?: number;
     readonly cueIn?: number;
     readonly cueOut?: number;
+    image?: MediaImage;
+    identifiers?: Array<Identifier> | null;
+    tags?: Array<Tag>;
 };
 

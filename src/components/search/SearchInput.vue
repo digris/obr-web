@@ -60,7 +60,7 @@ export default defineComponent({
     }
 
     &::placeholder {
-      color: rgb(var(--c-black) / 20%);
+      color: rgb(var(--c-dark) / 20%);
     }
   }
 }

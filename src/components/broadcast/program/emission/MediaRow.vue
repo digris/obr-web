@@ -9,6 +9,7 @@ import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import { useDevice } from "@/composables/device";
+import { useSettings } from "@/composables/settings";
 
 export default defineComponent({
   components: {
@@ -28,6 +29,7 @@ export default defineComponent({
   setup(props) {
     const isHover = ref(false);
     const { isDesktop } = useDevice();
+    const { darkMode } = useSettings();
     const media = computed(() => {
       return props.emissionMedia?.media;
     });
@@ -45,6 +47,7 @@ export default defineComponent({
       objKey,
       isHover,
       isDesktop,
+      darkMode,
       timeStartDisplay,
     };
   },
@@ -54,7 +57,11 @@ export default defineComponent({
 <template>
   <div class="media-row" @mouseenter="isHover = true" @mouseleave="isHover = false">
     <div class="play">
-      <PlayAction :obj-key="objKey" :outlined="true" :color="[0, 0, 0]" />
+      <PlayAction
+        :obj-key="objKey"
+        :outlined="true"
+        :color="darkMode ? [255, 255, 255] : [0, 0, 0]"
+      />
     </div>
     <div class="name">
       <router-link
@@ -104,7 +111,7 @@ export default defineComponent({
     "play name release    time-start actions";
   grid-template-columns: 48px 9fr 8fr 2fr 96px;
   padding: 0.75rem 1.5rem 0.75rem 1rem;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-dark));
 
   > div {
     display: flex;

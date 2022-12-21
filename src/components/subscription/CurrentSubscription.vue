@@ -73,7 +73,7 @@ export default defineComponent({
   position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-dark));
   cursor: pointer;
 
   &.is-active {

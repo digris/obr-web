@@ -21,7 +21,7 @@
 
   margin: 1rem 0;
   padding: 1rem;
-  border: 3px solid rgb(var(--c-black) / 100%);
+  border: 3px solid rgb(var(--c-dark) / 100%);
 
   @include content;
 
@@ -172,7 +172,7 @@
 
   > hr {
     margin: 2rem 0;
-    border-bottom: 1px solid rgb(var(--c-black) / 20%);
+    border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   }
 
   a {

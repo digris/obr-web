@@ -87,7 +87,7 @@ export default defineComponent({
     }
   }
   @include responsive.on-hover {
-    background: rgb(var(--c-black) 0.075);
+    background: rgb(var(--c-dark) 0.075);
     border-color: transparent;
   }
 }

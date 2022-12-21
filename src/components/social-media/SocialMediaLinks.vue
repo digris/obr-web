@@ -30,13 +30,13 @@ export default defineComponent({
   <div class="social-media-links">
     <div class="links">
       <a class="link link--instagram" target="_blank" :href="links.instagram">
-        <IconInstagram :size="48" color="rgb(var(--c-white))" />
+        <IconInstagram :size="48" color="rgb(var(--c-light))" />
       </a>
       <a class="link link--facebook" target="_blank" :href="links.facebook">
-        <IconFacebook :size="48" color="rgb(var(--c-white))" />
+        <IconFacebook :size="48" color="rgb(var(--c-light))" />
       </a>
       <a class="link link--github" target="_blank" :href="links.github">
-        <IconGithub :size="48" color="rgb(var(--c-white))" />
+        <IconGithub :size="48" color="rgb(var(--c-light))" />
       </a>
     </div>
   </div>
@@ -59,12 +59,12 @@ export default defineComponent({
       align-items: center;
       justify-content: center;
       margin: 0 0.5rem;
-      color: rgb(var(--c-white));
-      background: rgb(var(--c-black));
+      color: rgb(var(--c-light));
+      background: rgb(var(--c-dark));
       border-radius: 28px;
 
       &:hover {
-        background: rgb(var(--c-black) / 75%);
+        background: rgb(var(--c-dark) / 75%);
       }
     }
   }

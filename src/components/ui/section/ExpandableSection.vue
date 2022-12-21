@@ -49,12 +49,12 @@ export default defineComponent({
 @use "@/style/base/responsive";
 
 .expandable-section {
-  border-top: 1px solid rgb(var(--c-black) / 20%);
+  border-top: 1px solid rgb(var(--c-dark) / 20%);
   transition: background 200ms;
 
   /*
   &.is-expanded {
-    background: rgba(var(--c-black), 0.025);
+    background: rgba(var(--c-dark), 0.025);
   }
   */
   .title {

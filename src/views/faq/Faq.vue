@@ -78,7 +78,7 @@ export default defineComponent({
     }
 
     .topics {
-      border-top: 1px solid rgb(var(--c-black) / 20%);
+      border-top: 1px solid rgb(var(--c-dark) / 20%);
     }
   }
 }

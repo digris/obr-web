@@ -79,23 +79,27 @@ export class CatalogService {
 
     /**
      * Media endpoint.
+     * @param expand Expand nested resources, multiple values possible.
      * @param limit Number of results to return per page.
-     * @param objKey
+     * @param objKey Filter media belonging to a related object.
+     * format: `<ct>:<uid>`
      * @param offset The initial index from which to return the results.
-     * @param userRating
+     * @param userRating Limit results based on current user's rating ❤
      * @returns PaginatedMediaList
      * @throws ApiError
      */
     public static catalogMediaList(
+        expand?: Array<'identifiers' | 'image' | 'tags'>,
         limit?: number,
         objKey?: string,
         offset?: number,
-        userRating?: number,
+        userRating?: -1 | 1,
     ): CancelablePromise<PaginatedMediaList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/catalog/media/',
             query: {
+                'expand': expand,
                 'limit': limit,
                 'obj_key': objKey,
                 'offset': offset,

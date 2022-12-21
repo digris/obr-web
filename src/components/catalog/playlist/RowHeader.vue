@@ -27,7 +27,7 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .media-row-header {
-  background: rgb(var(--c-white));
+  background: rgb(var(--c-light));
   height: 41px;
   align-items: center;
   display: flex;

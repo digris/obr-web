@@ -37,8 +37,8 @@ export default defineComponent({
   @include typo.bold;
 
   padding: 1rem;
-  color: rgb(var(--c-white) / 100%);
-  background: rgb(var(--c-black) / 100%);
+  color: rgb(var(--c-light) / 100%);
+  background: rgb(var(--c-dark) / 100%);
 
   &--info {
     background: rgb(var(--c-info) / 100%);

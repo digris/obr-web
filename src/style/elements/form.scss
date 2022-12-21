@@ -5,16 +5,42 @@
 @mixin input {
   @include typo.bold;
 
-  border: 3px solid rgb(var(--c-black) / 100%);
+  border: 3px solid rgb(var(--c-dark) / 100%);
   border-radius: 3px;
   transition: border 200ms, background 200ms;
 
   &:focus,
   &:focus-visible {
-    color: rgb(var(--c-black) / 100%);
-    background: rgb(var(--c-black) / 10%);
-    border-color: rgb(var(--c-black) / 10%);
+    color: rgb(var(--c-dark) / 100%);
+    background: rgb(var(--c-dark) / 10%);
+    border-color: rgb(var(--c-dark) / 10%);
     outline: none;
+  }
+}
+
+@mixin checkbox {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  background-color: rgb(var(--c-light));
+  margin: 0;
+  font: inherit;
+  color: currentcolor;
+  border: 3px solid rgb(var(--c-dark) / 100%);
+  border-radius: 3px;
+
+  &::before {
+    content: "";
+    height: 1rem;
+    width: 1rem;
+    transform: scale(0);
+    transition: 60ms transform ease-in-out;
+    background: rgb(var(--c-dark));
+    border-radius: 1px;
+  }
+
+  &:checked::before {
+    transform: scale(1);
   }
 }
 
@@ -86,7 +112,7 @@
   input:not(:placeholder-shown) + label {
     top: 14px;
     bottom: unset;
-    color: rgb(var(--c-black) / 50%);
+    color: rgb(var(--c-dark) / 50%);
     font-size: 75%;
     opacity: 1;
     transition: opacity 100ms, transform 100ms;
@@ -130,6 +156,10 @@
     align-content: center;
     width: 100%;
     padding: 0.5rem;
+
+    &[type=checkbox] {
+      @include checkbox;
+    }
   }
 
   .form-messages,

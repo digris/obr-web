@@ -14,6 +14,6 @@ export default defineComponent({
 
 <template>
   <CircleButton>
-    <IconBack color-var="--c-black" />
+    <IconBack color-var="--c-dark" />
   </CircleButton>
 </template>

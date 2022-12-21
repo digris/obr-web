@@ -46,7 +46,7 @@ export default defineComponent({
 
 .errors {
   padding: 0.75rem;
-  color: rgb(var(--c-black) / 100%);
+  color: rgb(var(--c-dark) / 100%);
   background: rgb(var(--c-red) / 60%);
   border-radius: 3px;
 }

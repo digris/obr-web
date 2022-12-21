@@ -127,12 +127,12 @@ export default defineComponent({
       return props.emission.dtStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     const cssVars = computed(() => {
-      let fg = "var(--c-black)";
-      let bg = "var(--c-white)";
-      let bgHover = "var(--c-black) / 5%";
+      let fg = "var(--c-dark)";
+      let bg = "var(--c-light)";
+      let bgHover = "var(--c-dark) / 5%";
 
       if (isExpanded.value) {
-        fg = "var(--c-black)";
+        fg = "var(--c-dark)";
         bg = "var(--c-gray-500)";
         bgHover = "var(--c-gray-500)";
       }
@@ -144,9 +144,9 @@ export default defineComponent({
       }
 
       if (isUpcoming.value) {
-        bg = "var(--c-white)";
+        bg = "var(--c-light)";
         fg = "var(--c-gray-500)";
-        bgHover = "var(--c-black) / 0%";
+        bgHover = "var(--c-dark) / 0%";
       }
       return {
         "--c-fg": fg,
@@ -231,7 +231,7 @@ export default defineComponent({
 
 .emission {
   color: rgb(var(--c-fg));
-  border-bottom: 1px solid rgb(var(--c-black) / 20%);
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   transition: background 200ms;
 
   &.is-expanded {
@@ -248,7 +248,7 @@ export default defineComponent({
       min-height: 72px;
       overflow: hidden;
       border-left: solid 0.5rem rgb(var(--c-bg));
-      background: rgb(var(--c-white));
+      background: rgb(var(--c-light));
     }
   }
 }

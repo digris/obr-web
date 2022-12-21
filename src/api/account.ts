@@ -86,10 +86,13 @@ async function updateUser(payload: any) {
   return response.data;
 }
 
-async function updateAddress(payload: any) {
-  const url = `${ACCOUNT_ENDPOINT}address/`;
-  const response = await APIClient.patch(url, payload);
-  return response.data;
+async function updateEmail(email: string) {
+  const url = `${ACCOUNT_ENDPOINT}email/`;
+  const payload = {
+    email,
+  };
+  const response = await APIClient.post(url, payload);
+  return response.data?.subscription;
 }
 
 async function updatePassword(password: string) {
@@ -99,6 +102,12 @@ async function updatePassword(password: string) {
   };
   const response = await APIClient.post(url, payload);
   return response.data?.subscription;
+}
+
+async function updateAddress(payload: any) {
+  const url = `${ACCOUNT_ENDPOINT}address/`;
+  const response = await APIClient.patch(url, payload);
+  return response.data;
 }
 
 async function getSocialBackends() {
@@ -134,6 +143,7 @@ export {
   logout,
   sendLoginEmail,
   updateAddress,
+  updateEmail,
   updatePassword,
   // refreshCredentials,
   updateUser,

@@ -27,7 +27,7 @@ export default defineComponent({
 <template>
   <div class="play-icon">
     <PlayAction :obj-key="objKey" :filter="filter">
-      <IconPlay color="rgb(var(--c-white))" />
+      <IconPlay color="rgb(var(--c-light))" />
     </PlayAction>
   </div>
 </template>
@@ -51,13 +51,13 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(var(--c-black) / 60%);
-    border: 1px solid rgb(var(--c-white) / 50%);
+    background: rgb(var(--c-dark) / 60%);
+    border: 1px solid rgb(var(--c-light) / 50%);
     border-radius: 24px;
     cursor: pointer;
     transition: background 100ms;
     @include responsive.on-hover {
-      background: rgb(var(--c-black) / 90%);
+      background: rgb(var(--c-dark) / 90%);
     }
 
     &.is-loading {

@@ -182,13 +182,13 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  background: rgb(var(--c-white));
-  box-shadow: 0 0 3px rgb(var(--c-black) / 33%);
+  background: rgb(var(--c-light));
+  box-shadow: 0 0 3px rgb(var(--c-dark) / 33%);
   cursor: pointer;
   transition: background 100ms;
 
   @include responsive.on-hover {
-    background: rgb(var(--c-black) / 10%);
+    background: rgb(var(--c-dark) / 10%);
   }
 
   .price {
@@ -199,7 +199,7 @@ export default defineComponent({
     height: 1px;
     width: 100%;
     margin: 1rem 0;
-    background: rgb(var(--c-black) / 20%);
+    background: rgb(var(--c-dark) / 20%);
   }
 
   .title {
@@ -211,11 +211,11 @@ export default defineComponent({
   }
 
   &.is-selected {
-    color: rgb(var(--c-white));
+    color: rgb(var(--c-light));
     background: rgb(var(--c-green));
 
     .separator {
-      background: rgb(var(--c-white) / 20%);
+      background: rgb(var(--c-light) / 20%);
     }
   }
 

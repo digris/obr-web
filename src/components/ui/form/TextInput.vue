@@ -94,7 +94,7 @@ export default defineComponent({
   grid-template-rows: 1rem auto;
   column-gap: 1rem;
   row-gap: 1rem;
-  color: rgb(var(--c-black) / 100%);
+  color: rgb(var(--c-dark) / 100%);
 
   .top {
     display: grid;
@@ -124,14 +124,15 @@ export default defineComponent({
 
     display: grid;
     width: 100%;
-    padding: 0.25em 0.5em;
+    padding: 0.125em 0.5em;
     color: currentcolor;
-    border: 3px solid currentcolor;
+    background: transparent;
+    border: 1px solid rgb(var(--c-dark) / 20%);
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
 
     &:focus {
-      background: rgb(var(--c-black) / 10%);
+      background: rgb(var(--c-dark) / 10%);
       border-color: transparent;
       outline: none;
     }

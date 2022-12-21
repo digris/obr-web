@@ -69,13 +69,15 @@ export default defineComponent({
   <div class="select-input">
     <label v-if="label" :for="id" v-text="label" />
     <select :id="id" :value="modelValue" @input="update($event.target.value)">
-      <option
-        v-for="option in annotatedOptions"
-        :key="`${id}-${option.value}`"
-        :value="option.value"
-        :selected="modelValue === option.value"
-        v-text="option.name"
-      />
+      <optgroup>
+        <option
+          v-for="option in annotatedOptions"
+          :key="`${id}-${option.value}`"
+          :value="option.value"
+          :selected="modelValue === option.value"
+          v-text="option.name"
+        />
+      </optgroup>
     </select>
   </div>
 </template>
@@ -88,7 +90,7 @@ export default defineComponent({
   display: grid;
   grid-template-rows: 1rem auto;
   gap: 1rem;
-  color: rgb(var(--c-black) / 100%);
+  color: rgb(var(--c-dark) / 100%);
 
   label {
     cursor: unset;
@@ -100,17 +102,22 @@ export default defineComponent({
 
     display: grid;
     width: 100%;
-    padding: 0.25em 0.5em;
+    padding: 0.125em 0.5em;
     color: currentcolor;
     background: transparent;
-    border: 3px solid currentcolor;
+    border: 1px solid rgb(var(--c-dark) / 20%);
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
+    appearance: none; // NOTE: do we need a custom input here?
 
     &:focus {
-      background: rgb(var(--c-black) / 10%);
+      background: rgb(var(--c-dark) / 10%);
       border-color: transparent;
       outline: none;
+    }
+
+    > optgroup {
+      @include typo.default;
     }
   }
 }

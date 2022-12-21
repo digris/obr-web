@@ -98,7 +98,7 @@ export default defineComponent({
 
   .body {
     padding-top: 2rem;
-    border-top: 1px solid rgb(var(--c-black) / 20%);
+    border-top: 1px solid rgb(var(--c-dark) / 20%);
   }
 
   .appendix {

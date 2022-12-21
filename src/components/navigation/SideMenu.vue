@@ -192,7 +192,7 @@ export default defineComponent({
 @use "@/style/base/typo";
 
 .side-menu {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 100%;
   overscroll-behavior: contain;
 

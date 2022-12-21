@@ -21,7 +21,7 @@ const getAppTheme = (rgb: Array<number>) => {
 
 const setBodyColorTheme = (theme: string) => {
   const { body } = document;
-  body.setAttribute("data-page-color", theme);
+  body.setAttribute("data-page-theme", theme);
 };
 
 export { getAppTheme, getContrastColor, getMediaColor, setBodyColorTheme };

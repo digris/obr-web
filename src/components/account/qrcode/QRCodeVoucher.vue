@@ -19,7 +19,7 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n();
     const voucherUrl = computed(() => {
-      return `http://mbp14.local:5000/#${props.voucher.codeDisplay}`;
+      return `https://next.openbroadcast.ch/#${props.voucher.codeDisplay}`;
     });
     const size = 200;
     const fg = "#ffffff";

@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export enum ScopeEnum {
+export enum VoteScopeEnum {
     NONE = 'None',
     TRACK = 'track',
     EMISSION = 'emission',

@@ -115,7 +115,7 @@ export default defineComponent({
     background: rgb(var(--c-black));
 
     .panel {
-      color: rgb(var(--c-gb));
+      color: rgb(var(--c-bg));
     }
   }
 

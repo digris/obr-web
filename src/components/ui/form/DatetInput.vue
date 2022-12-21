@@ -77,15 +77,16 @@ export default defineComponent({
     border: 3px solid currentcolor;
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
+    background: rgb(var(--c-light));
 
     &:focus {
-      background: rgb(var(--c-black) / 10%);
+      background: rgb(var(--c-dark) / 10%);
       border-color: transparent;
       outline: none;
     }
 
     &:hover {
-      background: rgb(var(--c-black) / 10%);
+      background: rgb(var(--c-dark) / 10%);
       outline: none;
       cursor: pointer;
     }

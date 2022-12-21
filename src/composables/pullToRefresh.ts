@@ -13,7 +13,7 @@ const STYLE = `
   }
   .ptr--box {
     padding: 20px 10px 11px;
-    background: rgba(var(--c-black), 0.05);
+    background: rgba(var(--c-dark), 0.05);
     margin-bottom: 0.625rem;
   }
   .ptr--icon {

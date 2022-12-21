@@ -136,9 +136,9 @@ export default defineComponent({
     display: inline-flex;
     align-items: center;
     padding: 0.5rem 1rem;
-    color: rgb(var(--c-black));
-    background: rgb(var(--c-white));
-    border: 3px solid rgb(var(--c-black));
+    color: rgb(var(--c-dark));
+    background: rgb(var(--c-light));
+    border: 3px solid rgb(var(--c-dark));
     border-radius: 2rem;
     cursor: pointer;
     transition: border-radius 100ms;
@@ -152,13 +152,13 @@ export default defineComponent({
       flex-grow: 1;
 
       .uid {
-        color: rgb(var(--c-black) / 50%);
+        color: rgb(var(--c-dark) / 50%);
         text-transform: lowercase;
       }
     }
 
     &--facebook {
-      color: rgb(var(--c-white));
+      color: rgb(var(--c-light));
       background: #1877f2;
       border-color: #1877f2;
     }

@@ -103,12 +103,12 @@ export default defineComponent({
         </div>
         <div>
           <CircleButton :filled="true" hover-background-opacity="10%">
-            <IconPType color-var="--c-white" />
+            <IconPType color-var="--c-light" />
           </CircleButton>
         </div>
         <div>
           <CircleButton :filled="true" fill-color-var="--c-active" hover-background-opacity="90%">
-            <IconPType color-var="--c-white" />
+            <IconPType color-var="--c-light" />
           </CircleButton>
         </div>
         <div>
@@ -143,12 +143,12 @@ export default defineComponent({
         </div>
         <div>
           <CircleButton :filled="true" hover-background-opacity="60%">
-            <IconPType color-var="--c-black" />
+            <IconPType color-var="--c-dark" />
           </CircleButton>
         </div>
         <div>
           <CircleButton :filled="true" fill-color-var="--c-active" hover-background-opacity="60%">
-            <IconPType color-var="--c-black" />
+            <IconPType color-var="--c-dark" />
           </CircleButton>
         </div>
       </div>

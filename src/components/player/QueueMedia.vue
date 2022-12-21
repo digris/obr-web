@@ -127,7 +127,7 @@ export default defineComponent({
       <MediaReleases :link="false" :releases="media.releases" />
     </div>
     <div class="actions">
-      <CircleButton color-var="--c-white">
+      <CircleButton color-var="--c-light">
         <UserRating color-var="--c-fg" :obj-key="objKey" />
       </CircleButton>
       <CircleButton color-var="--c-fg" @click="remove" :disabled="!canRemove">

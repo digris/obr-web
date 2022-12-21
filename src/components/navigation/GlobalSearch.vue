@@ -89,13 +89,13 @@ export default defineComponent({
     }
 
     &::placeholder {
-      color: rgb(var(--c-black) / 20%);
+      color: rgb(var(--c-dark) / 20%);
     }
   }
 }
 
 .search-results {
-  border-top: 3px solid rgb(var(--c-black));
+  border-top: 3px solid rgb(var(--c-dark));
   margin-top: -12px;
   @include responsive.bp-medium {
     margin-top: unset;

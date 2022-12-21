@@ -115,6 +115,8 @@ export default defineComponent({
         height: 36px;
         width: 36px;
         grid-area: checkbox;
+        align-self: start;
+        margin-top: 4px;
       }
 
       > .title {

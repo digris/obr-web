@@ -49,7 +49,7 @@ export default defineComponent({
   display: grid;
   grid-template-rows: 1rem auto;
   gap: 1rem;
-  color: rgb(var(--c-black) / 100%);
+  color: rgb(var(--c-dark) / 100%);
 
   label {
     cursor: unset;
@@ -68,7 +68,7 @@ export default defineComponent({
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
 
     &:focus {
-      background: rgb(var(--c-black) / 10%);
+      background: rgb(var(--c-dark) / 10%);
       border-color: transparent;
       outline: none;
     }

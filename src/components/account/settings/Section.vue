@@ -86,23 +86,38 @@ export default defineComponent({
     .panel {
       min-height: 46px;
       padding: 0.75rem;
-      border: 1px solid rgb(var(--c-black) / 20%);
+      border: 1px solid rgb(var(--c-dark) / 20%);
+
+      [data-theme="dark"] & {
+        border-color: rgb(var(--c-dark) / 5%);
+        background: rgb(var(--c-dark) / 5%);
+      }
     }
   }
 
   &.is-editable {
+    /* stylelint-disable-next-line no-descending-specificity */
     .panel {
       cursor: pointer;
       position: relative;
+      transition: background 200ms, border 200ms;
 
-      &:hover {
-        background: rgb(var(--c-black) / 10%);
+      @include responsive.on-hover {
+        background: rgb(var(--c-dark) / 10%);
       }
 
       .panel-icon {
         top: 0;
         position: absolute;
         right: 0;
+      }
+    }
+
+    &.is-outlined {
+      .panel {
+        @include responsive.on-hover {
+          border-color: rgb(var(--c-dark) / 1%);
+        }
       }
     }
   }

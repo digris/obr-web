@@ -142,7 +142,7 @@ export default defineComponent({
 
     :deep(input) {
       &::placeholder {
-        color: rgb(var(--c-black) / 20%);
+        color: rgb(var(--c-dark) / 20%);
       }
     }
 

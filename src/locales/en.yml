@@ -1,41 +1,181 @@
-ACCOUNT:
-  ACCOUNT: Account
-subscription:
-  numDaysRemaining: 1 day | {count} days
 broadcast:
   ct:
-    editor: editor | editors
+    editor: Editor | Editors
 catalog:
   ct:
-    mood: mood | moods
-    media: track | tracks
-    artist: artist | artists
-    release: album
-    playlist: show | shows
-    numMedia: 1 track | {count} tracks
+    mood: Mood | Moods
+    media: Track | Tracks
+    artist: Artist | Artists
+    release: Album | Albums
+    playlist: Show | Shows
+    numMedia: 1 Track | {count} Tracks
   list:
-    playAllTracks: Play track | Play all {count} tracks
+#    playAllTracks: Track spielen | Alle {count} Tracks spielen
+    playAllTracks: Play all tracks | Play all {count} tracks
 menu:
-  accountSettings: Account & Settings
+  accountSettings: Account Settings
+  admin: Admin
+  userVouchers: Coupon Codes
   home: Radio
   discover: Discover
   collection: Favourites
   program: Program
   reception: Reception
-  developers: Developers
+  faq: FAQ
   about: About
-  terms: Terms & Conditions
+  contact: Contact
+  donate: Donate
+  developers: Developers
+  imprint: Imprint
+  terms: Conditions
+  logout: Logout
+navigation:
+  search:
+    title: Seek
+    noResults: Sorry! No entries found.
+    cta: Search the open broadcast archive.
+    info: You can search by track, release or artist name.
 search:
-  search: search
+  search: Seek
 text:
   duration: duration
   airtime: airtime
 datetime:
   today: today
 player:
-  enqueueNext: queue as next
-  enqueueEnd: queue at end
+  enqueueNext: Play next
+  enqueueEnd: At the end of the queue
+  favoritesAdd: To my favourites
+  favoritesRemove: Remove from favorites
+  bannedAdd: I do not like it
+  bannedRemove: I like it
+rating:
+  downvoteTitle: What bothers you?
+  downvoteLead: In order to constantly improve the radio program, we need your feedback!
+  downvoteScope:
+    track: I don't like this title
+    genre: I don't like this kind of music
+    emission: I don't like this show
+    daytime: The track or show does not match the time of day
+    repetition: I've heard this track too many times
+  downvoteComment: comment
+  downvoteThankYou: Thank you for your feedback!
 pullToRefresh:
-  pull: pull down to refresh
-  release: release to refresh
+  pull: Pull down to refresh
+  release: Release to refresh
   refreshing: refreshing
+formActions:
+  save: Save on computer
+  send: Send
+account:
+  title: Account
+  auth:
+    login: Register
+    register: create Account
+    password: password
+    sendToken: send code
+    socialAccount: With an existing account
+    usingEmail: With your email address
+    forgotPassword: Forgot Password?
+    resetPassword: Login with email confirmation
+    accountExists: Account already exists. Click on "Send code"
+    loginToken: login code
+    loginEmailSent:
+      title: An email with a login code was sent to {0}.
+      note: If you haven't received a message, check your spam folder.
+    loginEmailSendAgain: Resend email
+    social:
+      continueWith: Go to {0}
+  legal:
+    terms:
+      term: By signing up you agree to the {0} and {1}.
+      tos: Terms of Service
+      pp: Privacy Policy
+    availability:
+      note: "Currently we can only provide access to our on-demand service for people living in Switzerland. More about in the {0} section."
+      faq: FAQ
+  qrcode:
+    title: Mobile login
+    info: Scan the QR code with your mobile phone
+  settings:
+    subscription:
+      title: Credit for Paid Content
+    stream:
+      title: Streaming quality / environmental impact
+      infoLong: "By \"default\" we deliver our content in the best possible quality.\n The transfer rate is continuously adjusted to the quality of your internet connection."
+      infoShort: "To minimize your data volume / environmental impact, you can set a maximum transfer rate:"
+    email:
+      title: e-mail
+      labelEmail: e-mail address
+    password:
+      title: password
+      labelPassword: New Password
+      placeholderPassword: password
+      labelPasswordConfirm: Confirm Password
+      placeholderPasswordConfirm: password
+    address:
+      title: address
+      labelLine1: address
+      labelLine2: additive
+      labelPostalCode: Postcode
+      labelCity: location
+      labelCountry: country
+    personal:
+      title: Personal Information
+      labelName: Surname
+      labelSurname: Surname
+      labelYearOfBirth: vintage
+      labelFavoriteVenue: favorite club
+      gender:
+        label: pronoun
+        options:
+          female: she/her
+          male: he/his
+          other: they/them
+    newsletter:
+      title: Newsletter
+    social:
+      title: Connected Accounts
+      info: "TODO: Text needed..."
+      connect: associate
+      disconnect: separate
+      loginAccounts:
+        title: Login accounts
+      streamingAccounts:
+        title: streaming accounts
+        info: "TODO: Text needed..."
+subscription:
+  credits: credit
+  creditsExpired: Credit expired
+  numDaysRemaining: 1 day | {count} days
+  creditsUntilDate: Balance until {0}
+  validNumDays: 1 day | {count} days
+  validUntilDate: Valid until {0}
+  numUsedAndTotal: "{0} redeemed from {1}"
+  voucher:
+    code: free code
+    invalidCode: Invalid Coupon Code
+    redeem: Redeem now
+    authenticateAndRedeem: Sign up and redeem
+  subscribe:
+    title: credit
+    lead: "No subscriptions - but prepaid credit!\n Listen to the content we play anytime for {0} per month."
+    ctaVoucher:
+      text: Do you have a {0}?
+      button: free code
+    ctaBuy:
+      text: Don't have a code? {0}
+      button: buy credit.
+    # SubscribePlan.vue
+    total:
+      legal: Total including all taxes and fees
+    payNow: Pay now
+    # SubscribeVoucher.vue
+    redeemNow: Redeem Now
+geolocation:
+  availability:
+    note: Currently we can only provide access to our on-demand service for people living in Switzerland.
+    faqNote: More about in the {0} section.
+    faqLabel: FAQ
+pages:
+  pageNotFound: Page not found

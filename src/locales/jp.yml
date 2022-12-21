@@ -1,0 +1,170 @@
+broadcast:
+  ct: 零
+catalog: 配列
+menu:
+  accountSettings: アカウント設定
+  admin: 管理者
+  userVouchers: クーポンコード
+  home: 無線
+  discover: 発見
+  collection: お気に入り
+  program: プログラム
+  reception: 受信
+  faq: よくある質問
+  about: だいたい
+  contact: コンタクト
+  donate: 寄付
+  developers: 開発者
+  imprint: インプリント
+  terms: 条件
+  logout: サインアウト
+navigation:
+  search:
+    title: 求める
+    noResults: ごめん！エントリが見つかりません。
+    cta: 開いている放送アーカイブを検索します。
+    info: トラック、リリース、またはアーティスト名で検索できます。
+search:
+  search: 求める
+text:
+  duration: 間隔
+  airtime: 放送時間
+datetime:
+  today: 今日
+player:
+  enqueueNext: 次に再生
+  enqueueEnd: キューの最後に
+  favoritesAdd: お気に入りへ
+  favoritesRemove: お気に入りから削除
+  bannedAdd: 私はそれが好きではありません
+  bannedRemove: それはいいですね
+rating:
+  downvoteTitle: 何が気になりますか？
+  downvoteLead: ラジオ番組を常に改善するために、フィードバックが必要です!
+  downvoteScope:
+    track: このタイトルは好きじゃない
+    genre: こういう音楽は好きじゃない
+    emission: この番組は好きじゃない
+    daytime: トラックまたはショーが時刻と一致しません
+    repetition: このトラックは何度も聞いた
+  downvoteComment: コメント
+  downvoteThankYou: ご意見ありがとうございます！
+pullToRefresh:
+  pull: プルダウンして更新
+  release: リリースしてリフレッシュ
+  refreshing: さわやか
+formActions:
+  save: パソコンに保存
+  send: 送信
+account:
+  title: アカウント
+  auth:
+    login: 登録
+    register: アカウントを作成する
+    password: パスワード
+    sendToken: コードを送信
+    socialAccount: 既存のアカウントで
+    usingEmail: あなたのメールアドレスで
+    forgotPassword: パスワードをお忘れですか？
+    resetPassword: メール確認でログイン
+    accountExists: アカウントはすでに存在しています。 「コードを送信」をクリック
+    loginToken: ログインコード
+    loginEmailSent:
+      title: ログイン コードが記載された電子メールが {0} に送信されました。
+      note: メッセージを受信していない場合は、スパム フォルダを確認してください。
+    loginEmailSendAgain: メールを再送
+    social:
+      continueWith: "{0} に移動"
+  legal:
+    terms:
+      term: サインアップすると、{0} と {1} に同意したことになります。
+      tos: 利用規約
+      pp: プライバシーポリシー
+    availability:
+      note: "現在、オンデマンド サービスへのアクセスを提供できるのは、スイス在住の方のみです。詳しくは {0} セクションをご覧ください。"
+      faq: よくある質問
+  qrcode:
+    title: モバイルログイン
+    info: 携帯電話で QR コードをスキャンする
+  settings:
+    subscription:
+      title: 有料コンテンツのクレジット
+    stream:
+      title: ストリーミングの品質 / 環境への影響
+      infoLong: "「デフォルト」では、可能な限り最高の品質でコンテンツを配信します。\n 転送速度は、インターネット接続の品質に合わせて継続的に調整されます。"
+      infoShort: "データ量/環境への影響を最小限に抑えるために、最大転送速度を設定できます。"
+    email:
+      title: Eメール
+      labelEmail: 電子メールアドレス
+    password:
+      title: パスワード
+      labelPassword: 新しいパスワード
+      placeholderPassword: パスワード
+      labelPasswordConfirm: パスワードを認証する
+      placeholderPasswordConfirm: パスワード
+    address:
+      title: 住所
+      labelLine1: 住所
+      labelLine2: 添加剤
+      labelPostalCode: 郵便番号
+      labelCity: 位置
+      labelCountry: 国
+    personal:
+      title: 個人情報
+      labelName: 姓
+      labelSurname: 姓
+      labelYearOfBirth: ビンテージ
+      labelFavoriteVenue: 好きなクラブ
+      gender:
+        label: 代名詞
+        options:
+          female: 彼女
+          male: 彼彼
+          other: 彼ら/彼ら
+    newsletter:
+      title: ニュースレター
+    social:
+      title: 接続されたアカウント
+      info: "TODO: テキストが必要です..."
+      connect: 仲間
+      disconnect: 分ける
+      loginAccounts:
+        title: ログインアカウント
+      streamingAccounts:
+        title: ストリーミング アカウント
+        info: "TODO: テキストが必要です..."
+subscription:
+  credits: クレジット
+  creditsExpired: クレジットの有効期限が切れました
+  numDaysRemaining: 1 日 | {count} 日
+  creditsUntilDate: "{0}までの残高"
+  validNumDays: 1 日 | {count} 日
+  validUntilDate: "{0}まで有効"
+  numUsedAndTotal: "{1} から {0} を引き換えました"
+  voucher:
+    code: 無料コード
+    invalidCode: 無効なクーポンコード
+    redeem: 今すぐ交換
+    authenticateAndRedeem: サインアップして引き換える
+  subscribe:
+    title: クレジット
+    lead: "サブスクリプションはありませんが、プリペイド クレジットです。\n 月額 {0} でいつでも再生できるコンテンツをお楽しみください。"
+    ctaVoucher:
+      text: "{0}はありますか？"
+      button: 無料コード
+    ctaBuy:
+      text: コードをお持ちでない場合{0}
+      button: クレジットを購入します。
+    # SubscribePlan.vue
+    total:
+      legal: すべての税金と手数料を含む合計
+    payNow: 今払う
+    # SubscribeVoucher.vue
+    redeemNow: 今すぐ交換
+geolocation:
+  availability:
+    note: 現在、オンデマンド サービスへのアクセスを提供できるのは、スイス在住の方のみです。
+    faqNote: 詳しくは {0} セクションをご覧ください。
+    faqLabel: よくある質問
+pages:
+  pageNotFound: ページが見つかりません

@@ -45,8 +45,8 @@ export default defineComponent({
     height: inherit;
     padding: 0.5rem;
     display: inline-flex;
-    color: rgb(var(--c-white));
-    background: rgb(var(--c-black));
+    color: rgb(var(--c-light));
+    background: rgb(var(--c-dark));
     align-items: center;
     justify-content: center;
   }

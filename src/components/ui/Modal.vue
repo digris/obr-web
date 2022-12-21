@@ -89,7 +89,7 @@ $z-feedback: 9;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(var(--c-black) / 70%);
+  background: rgb(var(--c-dark) / 70%);
   backdrop-filter: grayscale(70%) brightness(80%);
 }
 
@@ -101,8 +101,8 @@ $z-feedback: 9;
   width: 100%;
   max-width: var(--container-width);
   min-height: calc(var(--container-width) / 1.75);
-  color: rgb(var(--c-black) / 100%);
-  background: rgb(var(--c-white) / 100%);
+  color: rgb(var(--c-dark) / 100%);
+  background: rgb(var(--c-light) / 100%);
 
   @include responsive.bp-medium {
     height: 100%;
@@ -147,7 +147,7 @@ $z-feedback: 9;
     left: 0;
     z-index: $z-feedback;
     padding: 4rem 1rem 1rem;
-    color: rgb(var(--c-black) / 100%);
+    color: rgb(var(--c-dark) / 100%);
   }
 }
 

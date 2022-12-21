@@ -5,8 +5,7 @@ import { storeToRefs } from "pinia";
 import { useSettings } from "@/composables/settings";
 import { useSettingsStore } from "@/stores/settings";
 
-const DATA_ATTRIBUTE = "data-th" +
-  "eme"
+const DATA_ATTRIBUTE = "data-theme"
 
 export default defineComponent({
   components: {},
@@ -17,12 +16,7 @@ export default defineComponent({
     watch(
       () => darkMode.value,
       (value) => {
-        console.debug("DM", value);
-        if (value) {
-          document.body.setAttribute(DATA_ATTRIBUTE, "dark");
-        } else {
-          document.body.removeAttribute(DATA_ATTRIBUTE);
-        }
+        document.body.setAttribute(DATA_ATTRIBUTE, value ? "dark" : "light");
       }
     );
     return {

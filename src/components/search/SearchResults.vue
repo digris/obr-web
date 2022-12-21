@@ -39,7 +39,7 @@ export default defineComponent({
   background: transparent;
 
   > .search-result {
-    border-bottom: 1px solid rgb(var(--c-black) / 20%);
+    border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   }
 }
 </style>

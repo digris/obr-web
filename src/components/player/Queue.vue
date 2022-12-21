@@ -50,8 +50,8 @@ export default defineComponent({
       v-if="isVisible"
       class="queue"
       :style="{
-        '--c-bg': 'var(--c-black)',
-        '--c-fg': 'var(--c-white)',
+        '--c-bg': 'var(--c-dark)',
+        '--c-fg': 'var(--c-light)',
       }"
     >
       <div class="container">
@@ -70,8 +70,8 @@ export default defineComponent({
       v-if="isVisible"
       class="actions"
       :style="{
-        '--c-bg': 'var(--c-black)',
-        '--c-fg': 'var(--c-white)',
+        '--c-bg': 'var(--c-dark)',
+        '--c-fg': 'var(--c-light)',
       }"
     >
       <div class="container">
@@ -81,10 +81,10 @@ export default defineComponent({
         </div>
         <Circle
           @click="close"
-          background-color="rgb(var(--c-black))"
-          hover-background-color="rgb(var(--c-white) / 10%)"
+          background-color="rgb(var(--c-dark))"
+          hover-background-color="rgb(var(--c-light) / 10%)"
         >
-          <IconCaret direction="down" color-var="--c-white" />
+          <IconCaret direction="down" color-var="--c-light" />
         </Circle>
       </div>
     </div>
@@ -107,7 +107,7 @@ export default defineComponent({
   width: 100%;
   z-index: 20;
   left: 0;
-  background: rgb(var(--c-black) / 80%);
+  background: rgb(var(--c-dark) / 80%);
 
   @include responsive.bp-medium {
     background: unset;
@@ -122,8 +122,8 @@ export default defineComponent({
   bottom: 72px; // player height (desktop)
   max-height: calc(100% - 80px);
   overflow-y: auto;
-  color: rgb(var(--c-white));
-  background: rgb(var(--c-black));
+  color: rgb(var(--c-light));
+  background: rgb(var(--c-dark));
   overscroll-behavior: contain;
 
   &::-webkit-scrollbar {
@@ -149,11 +149,11 @@ export default defineComponent({
   height: 76px;
   width: 100%;
   z-index: 21;
-  border-top: 1px solid rgb(var(--c-white) / 25%);
+  border-top: 1px solid rgb(var(--c-light) / 25%);
   bottom: 72px; // player height
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background: rgb(var(--c-black));
+  background: rgb(var(--c-dark));
 
   .container {
     @include container.default;
@@ -196,12 +196,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 0 1.5rem;
-  color: rgb(var(--c-white));
-  border: 1px solid rgb(var(--c-white) / 20%);
+  color: rgb(var(--c-light));
+  border: 1px solid rgb(var(--c-light) / 20%);
   transition: background-color 200ms;
   @include responsive.on-hover {
     border-color: transparent;
-    background: rgb(var(--c-white) / 10%);
+    background: rgb(var(--c-light) / 10%);
   }
   @include responsive.bp-medium {
     height: 40px;

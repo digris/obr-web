@@ -87,17 +87,22 @@ export default defineComponent({
   .option {
     cursor: pointer;
     padding: 0.5rem;
-    background: rgb(var(--c-white));
-    border: 1px solid rgb(var(--c-black) / 20%);
+    background: rgb(var(--c-light));
+    border: 1px solid rgb(var(--c-dark) / 20%);
     border-radius: 3px;
     transition: background 200ms;
 
+    [data-theme="dark"] & {
+      border-color: rgb(var(--c-dark) / 5%);
+      background: rgb(var(--c-dark) / 5%);
+    }
+
     &:hover {
-      background: rgb(var(--c-black) / 10%);
+      background: rgb(var(--c-dark) / 10%);
     }
 
     &.is-current {
-      color: rgb(var(--c-white));
+      color: rgb(var(--c-light));
       background: rgb(var(--c-green));
       border-color: rgb(var(--c-green));
     }

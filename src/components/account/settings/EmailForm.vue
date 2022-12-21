@@ -3,7 +3,7 @@ import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import * as EmailValidator from "email-validator";
 
-import { updateUser } from "@/api/account";
+import { updateEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import APIErrors from "@/components/ui/error/APIErrors.vue";
 import TextInput from "@/components/ui/form/TextInput.vue";
@@ -33,9 +33,7 @@ export default defineComponent({
     const submitForm = async () => {
       errors.value = [];
       try {
-        await updateUser({
-          email: email.value,
-        });
+        await updateEmail(email.value);
         emit("updated");
       } catch (err: any) {
         console.warn(err);

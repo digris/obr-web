@@ -11,7 +11,7 @@ export default defineComponent({
     },
     colorVar: {
       type: String,
-      default: "--c-black",
+      default: "--c-dark",
     },
   },
   setup(props) {

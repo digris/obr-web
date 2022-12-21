@@ -181,12 +181,17 @@ export default defineComponent({
   align-items: center;
   margin-bottom: 0.5rem;
   padding: 0.25rem 0.25rem 0.25rem 1rem;
-  color: rgb(var(--c-black));
-  border: 1px solid rgb(var(--c-black) / 20%);
+  color: rgb(var(--c-dark));
+  border: 1px solid rgb(var(--c-dark) / 20%);
   border-radius: 3px;
 
+  [data-theme="dark"] & {
+    border-color: rgb(var(--c-dark) / 5%);
+    background: rgb(var(--c-dark) / 5%);
+  }
+
   &:hover {
-    background: rgb(var(--c-black) / 10%);
+    background: rgb(var(--c-dark) / 10%);
   }
 
   .logo {
@@ -212,10 +217,14 @@ export default defineComponent({
   .button {
     min-width: 120px;
     padding: 0.75rem 1.5rem;
-    background: rgb(var(--c-black) / 10%);
+    background: rgb(var(--c-dark) / 10%);
     border: 0;
     cursor: pointer;
-    color: rgb(0 0 0);
+    color: rgb(var(--c-dark));
+
+    [data-theme="dark"] & {
+      background: rgb(var(--c-dark) / 10%);
+    }
 
     &:disabled {
       cursor: not-allowed;
@@ -224,7 +233,7 @@ export default defineComponent({
 
   /*
   &--spotify {
-    color: rgb(var(--c-white));
+    color: rgb(var(--c-light));
     background: #1877f2;
     border-color: #1877f2;
   }

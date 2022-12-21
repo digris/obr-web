@@ -521,6 +521,15 @@ class EmailUpdateView(
             )
 
         email = serializer.validated_data.get("email")
+
+        if User.objects.filter(email=email).exclude(id=request.user.id).exists():
+            return Response(
+                {
+                    "message": _("E-mail address already registered"),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         request.user.email = email
         request.user.save()
 

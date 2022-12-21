@@ -104,7 +104,7 @@ export default defineComponent({
 }
 
 .header {
-  border-bottom: 1px solid rgb(var(--c-black) / 20%);
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
 
   .title {
     @include title.default;

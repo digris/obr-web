@@ -11,22 +11,22 @@
   min-height: $height;
   padding-right: math.div($height, 1.5);
   padding-left: math.div($height, 1.5);
-  color: rgb(var(--c-white) / 100%);
+  color: rgb(var(--c-light) / 100%);
   font-size: math.div($height, 3);
-  background: rgb(var(--c-black) / 100%);
+  background: rgb(var(--c-dark) / 100%);
   border: none;
   border-radius: math.div($height, 12);
   cursor: pointer;
   transition: background 250ms, border-radius 100ms;
 
   &:focus {
-    outline: 1px solid rgb(var(--c-black) / 50%);
+    outline: 1px solid rgb(var(--c-dark) / 50%);
     outline-offset: 2px;
   }
 
   &:not(:disabled) {
     @include responsive.on-hover {
-      background: rgb(var(--c-black) / 90%);
+      background: rgb(var(--c-dark) / 90%);
       border-radius: $height * 0.5;
       transition: background 100ms, border-radius 100ms;
     }

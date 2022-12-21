@@ -165,7 +165,7 @@ export default defineComponent({
       box-shadow: 0 0 10px rgb(0 0 0 / 30%);
 
       .actions {
-        background: rgb(var(--c-white) / 100%);
+        background: rgb(var(--c-light) / 100%);
       }
     }
 

@@ -1,8 +1,12 @@
 @charset "UTF-8";
 
 $color-palette: (
-  black: 0 0 0,
+
+  // white / black: not depending on user theme
+  // used e.g. for shadows, masks etc.
   white: 255 255 255,
+  black: 0 0 0,
+
   gray-500: 120 120 120,
   red: 255 0 0,
   green: 0 144 80,
@@ -22,17 +26,27 @@ $color-palette: (
   page-bg: 255 255 255,
   page-fg-inverse: 255 255 255,
 );
+
+// color themes (changeable by user)
+$color-palette-light: (
+  dark: 0 0 0,
+  light: 255 255 255,
+  page-fg-inverse: 255 255 255,
+);
 $color-palette-dark: (
-  black: 255 255 255,
-  white: 20 20 20,
+  dark: 255 255 255,
+  light: 20 20 20,
   page-fg-inverse: 20 20 20,
 );
-$page-color-light: (
+
+// page themes (e.g. listings: light - detail: dark)
+// TODO: change to `page-theme-light|dark`
+$page-theme-light: (
   page-fg: 0 0 0,
   page-bg: 255 255 255,
   page-fg-inverse: 255 255 255,
 );
-$page-color-dark: (
+$page-theme-dark: (
   page-fg: 0 0 0,
   page-bg: 102 102 102,
   page-fg-inverse: 255 255 255,

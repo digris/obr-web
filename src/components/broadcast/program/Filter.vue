@@ -82,11 +82,6 @@ export default defineComponent({
   display: flex;
   min-width: 240px;
 
-  > select {
-    background: white;
-    padding: 0 0.5rem;
-  }
-
   > .date-input {
     width: 100%;
 
@@ -96,7 +91,7 @@ export default defineComponent({
       font-size: 1rem;
       text-align: center;
       font-family: var(--font-family);
-      border: 1px solid rgb(var(--c-black) / 20%);
+      border: 1px solid rgb(var(--c-dark) / 20%);
     }
   }
 }

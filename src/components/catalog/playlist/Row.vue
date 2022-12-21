@@ -123,15 +123,15 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .playlist-row {
-  border-bottom: 1px solid rgb(var(--c-black) / 20%);
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   transition: background 200ms;
 
   &:first-child {
-    border-top: 1px solid rgb(var(--c-black) / 20%);
+    border-top: 1px solid rgb(var(--c-dark) / 20%);
   }
 
   @include responsive.on-hover {
-    background: rgb(var(--c-black) / 10%);
+    background: rgb(var(--c-dark) / 10%);
   }
 }
 
@@ -147,7 +147,7 @@ export default defineComponent({
   grid-template-columns: 96px 16fr 10fr 6fr 96px;
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-dark));
 
   > div {
     display: flex;

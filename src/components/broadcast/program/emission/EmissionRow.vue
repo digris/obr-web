@@ -14,6 +14,7 @@ import IconCaret from "@/components/ui/icon/IconCaret.vue";
 import { useDevice } from "@/composables/device";
 import { useObjKey } from "@/composables/obj";
 import { usePlayerControls } from "@/composables/player";
+import { useSettings } from "@/composables/settings";
 
 export default defineComponent({
   components: {
@@ -54,11 +55,11 @@ export default defineComponent({
   },
   emits: ["navigate", "toggleExpanded"],
   setup(props, { emit }) {
-    // const root = ref(null);
     const root = ref<HTMLElement | null>(null);
     const { objKey } = useObjKey(props.emission.playlist);
     const isHover = ref(false);
     const { isDesktop } = useDevice();
+    const { darkMode } = useSettings();
     const now = ref(DateTime.now());
     const timer = ref(null);
 
@@ -180,6 +181,7 @@ export default defineComponent({
       objKey,
       isHover,
       isDesktop,
+      darkMode,
       routeTo,
       play,
       pause,
@@ -201,7 +203,7 @@ export default defineComponent({
         v-if="isPast"
         :obj-key="`${emission.playlist.ct}:${emission.playlist.uid}`"
         :outlined="true"
-        :color="[0, 0, 0]"
+        :color="darkMode ? [255, 255, 255] : [0, 0, 0]"
       />
       <ButtonPlay
         v-if="isCurrent"

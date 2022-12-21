@@ -283,7 +283,7 @@ export default defineComponent({
     grid-row-gap: 0;
     grid-column-gap: 1rem;
     grid-template-columns: auto 48px;
-    color: rgb(var(--c-black));
+    color: rgb(var(--c-dark));
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     @include responsive.bp-medium {
@@ -295,6 +295,6 @@ export default defineComponent({
 }
 
 .media-list {
-  background: rgb(var(--c-white));
+  background: rgb(var(--c-light));
 }
 </style>

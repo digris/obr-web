@@ -17,6 +17,18 @@ class PlaylistMediaInline(
     model = Playlist.media.through
     raw_id_fields = ["media"]
     extra = 0
+    readonly_fields = [
+        "duration",
+    ]
+
+    @admin.display(
+        empty_value="-",
+        description="Duration",
+    )
+    def duration(self, obj):  # pragma: no cover
+        if obj.media and obj.media.duration:
+            return obj.media.duration.seconds
+        return None
 
 
 class PlaylistImageInline(

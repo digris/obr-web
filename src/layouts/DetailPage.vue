@@ -67,18 +67,18 @@ export default defineComponent({
   }
 
   &__body {
-    background: rgb(var(--c-white) / 100%);
+    background: rgb(var(--c-light) / 100%);
   }
 
   &__space {
     flex-grow: 1;
     min-height: 4rem;
-    background: rgb(var(--c-white) / 100%);
+    background: rgb(var(--c-light) / 100%);
   }
 
   &__appendix {
     padding: 2rem 0 6rem;
-    background: rgb(var(--c-white) / 100%);
+    background: rgb(var(--c-light) / 100%);
   }
 }
 

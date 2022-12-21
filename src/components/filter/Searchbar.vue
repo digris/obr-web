@@ -109,7 +109,7 @@ export default defineComponent({
       @click="toggleFilter"
     >
       <IconFilter
-        :color-var="filterExpanded ? `--c-white` : `--c-fg`"
+        :color-var="filterExpanded ? `--c-light` : `--c-fg`"
         :rotate="filterExpanded ? 180 : 0"
       />
     </CircleButton>
@@ -142,7 +142,7 @@ export default defineComponent({
       transition: background 100ms, border 100ms, color 100ms, border-radius 100ms;
 
       &:focus {
-        background: rgb(var(--c-black) / 10%);
+        background: rgb(var(--c-dark) / 10%);
         border-bottom: 3px solid rgb(var(--c-page-fg) / 0%);
         outline: none;
       }
@@ -150,8 +150,8 @@ export default defineComponent({
 
     &.has-query {
       > input {
-        color: rgb(var(--c-white));
-        background: rgb(var(--c-black));
+        color: rgb(var(--c-light));
+        background: rgb(var(--c-dark));
         border-radius: 22px;
       }
     }
@@ -165,7 +165,7 @@ export default defineComponent({
       flex-grow: 1;
 
       > input {
-        border: 1px solid rgb(var(--c-black) / 20%);
+        border: 1px solid rgb(var(--c-dark) / 20%);
         width: 100%;
       }
     }

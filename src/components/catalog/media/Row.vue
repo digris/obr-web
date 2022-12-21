@@ -112,15 +112,15 @@ export default defineComponent({
 @use "@/style/elements/container";
 
 .media-row {
-  border-bottom: 1px solid rgb(var(--c-black) / 20%);
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   transition: background 200ms;
 
   &:first-child {
-    border-top: 1px solid rgb(var(--c-black) / 20%);
+    border-top: 1px solid rgb(var(--c-dark) / 20%);
   }
 
   @include responsive.on-hover {
-    background: rgb(var(--c-black) / 10%);
+    background: rgb(var(--c-dark) / 10%);
   }
 }
 
@@ -135,7 +135,7 @@ export default defineComponent({
     "play name release airplays actions";
   grid-template-columns: 96px 16fr 10fr 6fr 96px;
   height: 71px;
-  color: rgb(var(--c-black));
+  color: rgb(var(--c-dark));
   transition: border-bottom 200ms 1400ms, color 200ms, background 200ms;
 
   > div {

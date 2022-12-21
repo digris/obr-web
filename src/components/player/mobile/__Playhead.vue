@@ -6,6 +6,14 @@ import { round } from "lodash-es";
 import Duration from "@/components/ui/time/Duration.vue";
 import { usePlayerState } from "@/composables/player";
 
+const mapRange = (
+  input: number,
+  from: readonly [number, number],
+  to: readonly [number, number]
+) => {
+  return ((input - from[0]) / (from[1] - from[0])) * (to[1] - to[0]) + to[0];
+};
+
 export default defineComponent({
   components: {
     Duration,
@@ -18,9 +26,12 @@ export default defineComponent({
   },
   emits: ["seek"],
   setup(props, { emit }) {
-    const { media, isOndemand, relPosition, absPosition, duration } = usePlayerState();
+    const { media, isOndemand, relPosition: progress, absPosition, duration } = usePlayerState();
     const rootEl = ref<HTMLElement | null>(null);
+    const inputEl = ref<HTMLElement | null>(null);
+    const hasFocus = ref(false);
     const { width: rootWidth } = useElementSize(rootEl);
+    const { width: inputWidth } = useElementSize(inputEl);
 
     const cueIn = computed(() => {
       if (media.value?.cueIn && duration.value) {
@@ -36,21 +47,6 @@ export default defineComponent({
       return 0;
     });
 
-    const seekPosition = ref(0);
-    const isSeeking = refAutoReset(false, 500);
-
-    const progress = computed(() => {
-      const pos = isSeeking.value ? seekPosition.value / 100 : relPosition?.value ?? 0;
-      return round(rootWidth.value * pos - rangeStart.value, 1);
-    });
-
-    const timeLeft = computed(() => {
-      if (!absPosition.value) {
-        return duration.value;
-      }
-      return duration.value - absPosition.value - media.value?.cueOut;
-    });
-
     const rangeMin = computed(() => {
       return cueIn.value * 100;
     });
@@ -59,16 +55,46 @@ export default defineComponent({
       return (1 - cueOut.value) * 100;
     });
 
-    const rangeStart = computed(() => {
-      return round(cueIn.value * rootWidth.value, 0);
-    });
-
-    const rangeEnd = computed(() => {
-      return round((1 - cueOut.value) * rootWidth.value, 0);
-    });
-
     const rangeWidth = computed(() => {
-      return round(rangeEnd.value - rangeStart.value, 0);
+      return (1 - cueIn.value - cueOut.value) * 100;
+    });
+
+    const seekPosition = ref(0);
+    const isSeeking = refAutoReset(false, 500);
+
+    const inputValue = computed(() => {
+      if (isSeeking.value) {
+        return seekPosition.value;
+      } else {
+        return progress.value ? progress.value * 100 : 0;
+      }
+    });
+
+    const paddedInputValue = computed(() => {
+      const width = inputWidth.value;
+      return round(mapRange(inputValue.value, [rangeMin.value, rangeMax.value], [0, width]), 2);
+    });
+
+    const progressRange = computed(() => {
+      const start = 10;
+      const end = 200;
+      return {
+        start,
+        end,
+      };
+    });
+
+    const range = computed(() => {
+      const start = cueIn.value * rootWidth.value;
+      const end = (1 - cueOut.value) * rootWidth.value;
+      const size = end - start;
+      const position = rootWidth.value * (progress?.value ?? 0) - start;
+      return {
+        start: round(start, 1),
+        end: round(end, 1),
+        size,
+        position: round(position, 1),
+      };
     });
 
     const onInput = (e: Event) => {
@@ -80,44 +106,28 @@ export default defineComponent({
       const value = Number((e.target as HTMLInputElement).value);
       emit("seek", value * 0.01);
     };
-
-    // NOTE: just for debugging: visualize the fades
-    const fadeInWidth = computed(() => {
-      if (media.value?.fadeIn && duration.value) {
-        return round((media.value?.fadeIn / duration.value) * rootWidth.value, 0);
-      }
-      return 0;
-    });
-
-    const fadeOutWidth = computed(() => {
-      if (media.value?.fadeOut && duration.value) {
-        return round((media.value?.fadeOut / duration.value) * rootWidth.value, 0);
-      }
-      return 0;
-    });
-
     return {
       rootEl,
       isOndemand,
+      inputEl,
+      hasFocus,
       isSeeking,
+      inputValue,
+      paddedInputValue,
+      inputWidth,
       onInput,
       onChange,
       absPosition,
-      timeLeft,
       duration,
       cueIn,
       cueOut,
-      relPosition,
-      seekPosition,
-      progress,
       rangeMin,
       rangeMax,
-      rangeStart,
-      rangeEnd,
       rangeWidth,
-      // debug
-      fadeInWidth,
-      fadeOutWidth,
+      //
+      rootWidth,
+      progressRange,
+      range,
     };
   },
 });
@@ -126,40 +136,31 @@ export default defineComponent({
 <template>
   <div v-if="isOndemand" ref="rootEl" class="playhead">
     <div class="track" />
-    <div v-if="cueIn" class="cue cue--in" :style="{ left: `${rangeStart}px` }" />
-    <div v-if="cueOut" class="cue cue--out" :style="{ left: `${rangeEnd}px` }" />
-    <!-- NOTE: debug output -->
-    <div
-      v-if="fadeInWidth"
-      class="fade fade--in"
-      :style="{ left: `${rangeStart}px`, width: `${fadeInWidth}px` }"
-    />
-    <div
-      v-if="fadeOutWidth"
-      class="fade fade--out"
-      :style="{ left: `${rangeEnd - fadeOutWidth}px`, width: `${fadeOutWidth}px` }"
-    />
+    <div v-if="cueIn" class="cue cue--in" :style="{ left: `${cueIn * 100}%` }" />
+    <div v-if="cueOut" class="cue cue--out" :style="{ right: `${cueOut * 100}%` }" />
     <div
       v-if="duration"
-      class="range"
+      class="seek-container"
       :style="{
-        width: `${rangeWidth}px`,
-        left: `${rangeStart}px`,
+        width: `${rangeWidth}%`,
+        marginLeft: `${cueIn * 100}%`,
       }"
     >
       <input
+        ref="inputEl"
         @change="onChange"
         @input.self="onInput"
         type="range"
         :min="rangeMin"
         :max="rangeMax"
         step="0.1"
+        :value="inputValue"
         :class="{ 'is-seeking': isSeeking }"
       />
       <div
         class="progress"
         :style="{
-          width: `${progress}px`,
+          width: `${paddedInputValue}px`,
         }"
         :class="{ 'is-seeking': isSeeking }"
       />
@@ -168,19 +169,27 @@ export default defineComponent({
           v-if="isSeeking"
           class="thumb"
           :style="{
-            left: `${progress - 10}px`,
+            left: `${paddedInputValue - 10}px`,
           }"
           :class="{ 'is-seeking': isSeeking }"
         />
       </transition>
     </div>
     <Duration v-if="absPosition" class="time time--current" :seconds="absPosition" />
-    <div class="time time--total">-<Duration v-if="timeLeft" :seconds="timeLeft" /></div>
+    <Duration v-if="duration" class="time time--total" :seconds="duration" />
   </div>
   <div v-else class="playhead-placeholder" />
-  <!--
-  <pre class="debug" v-text="{ fadeInWidth, fadeOutWidth }" />
-  -->
+  <!---->
+  <pre
+    class="debug"
+    v-text="{
+      rootWidth,
+      inputWidth,
+      rangeMin,
+      rangeMax,
+      range,
+    }"
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -204,18 +213,11 @@ export default defineComponent({
     top: 12px;
     position: absolute;
     height: 9px;
-    width: 1px;
+    width: 2px;
     background: rgb(var(--c-fg));
   }
 
-  .fade {
-    top: 22px;
-    position: absolute;
-    height: 2px;
-    background: rgb(var(--c-fg));
-  }
-
-  .range {
+  .seek-container {
     position: relative;
     width: 100%;
 
