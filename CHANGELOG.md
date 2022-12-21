@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.75 (2022-12-21)
+### Fix
+* Voucher qr-code dark-mode color ([`f49d621`](https://github.com/digris/obr-web/commit/f49d621ce8b170732f5d8d5cf77e593af838ded8))
+
 ## v0.0.74 (2022-12-21)
 ### Fix
 * Move oauth login flow to webview ([`b773100`](https://github.com/digris/obr-web/commit/b773100fdec0c7b645122f79fe26a5b2a33fd8dc))
