@@ -78,7 +78,7 @@ class TestAccount:
         )
 
         self.driver.find_element(
-            By.XPATH, "//button[normalize-space()='Konto erstellen']"
+            By.XPATH, "//button[normalize-space()='Create account']"
         ).click()
 
         for entry in self.driver.get_log("browser"):
@@ -99,9 +99,10 @@ class TestAccount:
             login_code
         )
 
-        self.driver.find_element(
-            By.XPATH, "//button[normalize-space()='Anmelden']"
-        ).click()
+        # NOTE: code is auto-submitted
+        # self.driver.find_element(
+        #     By.XPATH, "//button[normalize-space()='Login']"
+        # ).click()
 
         time.sleep(2)
 
@@ -111,7 +112,7 @@ class TestAccount:
 
         self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle").click()
         time.sleep(1)
-        self.driver.find_element(By.XPATH, "//a[normalize-space()='Abmelden']").click()
+        self.driver.find_element(By.XPATH, "//a[normalize-space()='Logout']").click()
 
         time.sleep(2)
 

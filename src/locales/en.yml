@@ -38,10 +38,10 @@ navigation:
 search:
   search: Seek
 text:
-  duration: duration
-  airtime: airtime
+  duration: Duration
+  airtime: Airtime
 datetime:
-  today: today
+  today: Today
 player:
   enqueueNext: Play next
   enqueueEnd: At the end of the queue
@@ -58,7 +58,7 @@ rating:
     emission: I don't like this show
     daytime: The track or show does not match the time of day
     repetition: I've heard this track too many times
-  downvoteComment: comment
+  downvoteComment: Comment
   downvoteThankYou: Thank you for your feedback!
 pullToRefresh:
   pull: Pull down to refresh
@@ -70,16 +70,16 @@ formActions:
 account:
   title: Account
   auth:
-    login: Register
-    register: create Account
-    password: password
-    sendToken: send code
+    login: Login
+    register: Create account
+    password: Password
+    sendToken: Send code
     socialAccount: With an existing account
     usingEmail: With your email address
     forgotPassword: Forgot Password?
     resetPassword: Login with email confirmation
     accountExists: Account already exists. Click on "Send code"
-    loginToken: login code
+    loginToken: Login code
     loginEmailSent:
       title: An email with a login code was sent to {0}.
       note: If you haven't received a message, check your spam folder.
@@ -105,14 +105,14 @@ account:
       infoLong: "By \"default\" we deliver our content in the best possible quality.\n The transfer rate is continuously adjusted to the quality of your internet connection."
       infoShort: "To minimize your data volume / environmental impact, you can set a maximum transfer rate:"
     email:
-      title: e-mail
-      labelEmail: e-mail address
+      title: E-mail
+      labelEmail: E-mail address
     password:
-      title: password
+      title: Password
       labelPassword: New Password
-      placeholderPassword: password
+      placeholderPassword: Password
       labelPasswordConfirm: Confirm Password
-      placeholderPasswordConfirm: password
+      placeholderPasswordConfirm: Password
     address:
       title: address
       labelLine1: address
@@ -124,10 +124,10 @@ account:
       title: Personal Information
       labelName: Surname
       labelSurname: Surname
-      labelYearOfBirth: vintage
-      labelFavoriteVenue: favorite club
+      labelYearOfBirth: Year of birth
+      labelFavoriteVenue: Favorite club or venue
       gender:
-        label: pronoun
+        label: Pronoun
         options:
           female: she/her
           male: he/his
@@ -137,15 +137,15 @@ account:
     social:
       title: Connected Accounts
       info: "TODO: Text needed..."
-      connect: associate
-      disconnect: separate
+      connect: Connect
+      disconnect: Disconnect
       loginAccounts:
         title: Login accounts
       streamingAccounts:
-        title: streaming accounts
+        title: Streaming accounts
         info: "TODO: Text needed..."
 subscription:
-  credits: credit
+  credits: Credits
   creditsExpired: Credit expired
   numDaysRemaining: 1 day | {count} days
   creditsUntilDate: Balance until {0}
@@ -153,19 +153,19 @@ subscription:
   validUntilDate: Valid until {0}
   numUsedAndTotal: "{0} redeemed from {1}"
   voucher:
-    code: free code
+    code: Voucher code
     invalidCode: Invalid Coupon Code
     redeem: Redeem now
     authenticateAndRedeem: Sign up and redeem
   subscribe:
-    title: credit
+    title: Credits
     lead: "No subscriptions - but prepaid credit!\n Listen to the content we play anytime for {0} per month."
     ctaVoucher:
       text: Do you have a {0}?
-      button: free code
+      button: Voucher code
     ctaBuy:
       text: Don't have a code? {0}
-      button: buy credit.
+      button: Buy credits.
     # SubscribePlan.vue
     total:
       legal: Total including all taxes and fees
