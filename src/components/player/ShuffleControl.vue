@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { storeToRefs } from "pinia";
 
 import IconShuffle from "@/components/ui/icon/IconShuffle.vue";
+import { useDevice } from "@/composables/device";
 import { useQueueControls } from "@/composables/queue";
-import { useSettingsStore } from "@/stores/settings";
+import { useSettings } from "@/composables/settings";
 
 import Circle from "./button/Circle.vue";
 
@@ -14,11 +14,16 @@ export default defineComponent({
     Circle,
   },
   setup() {
-    const { shuffleMode } = storeToRefs(useSettingsStore());
+    const { shuffleMode } = useSettings();
     const { shuffleQueue } = useQueueControls();
+    const { isWeb } = useDevice();
     const onClick = () => {
-      shuffleMode.value = !shuffleMode.value;
-      if (shuffleMode.value) {
+      if (isWeb) {
+        shuffleMode.value = !shuffleMode.value;
+        if (shuffleMode.value) {
+          shuffleQueue();
+        }
+      } else {
         shuffleQueue();
       }
     };

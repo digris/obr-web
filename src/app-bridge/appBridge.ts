@@ -157,14 +157,13 @@ class AppBridge {
         break;
       }
       case "settings:update": {
-        if (data.maxBandwidth) {
-          const { setMaxBandwidth } = useSettingsStore();
-          setMaxBandwidth(data.maxBandwidth);
-        }
-        if (data.darkMode) {
-          const { setDarkMode } = useSettingsStore();
-          setDarkMode(data.darkMode);
-        }
+        const { setMaxBandwidth, setShuffleMode } = useSettingsStore();
+        setMaxBandwidth(data.maxBandwidth);
+        setShuffleMode(data.shuffleMode);
+        // if (data.darkMode) {
+        //   const { setDarkMode } = useSettingsStore();
+        //   setDarkMode(data.darkMode);
+        // }
         break;
       }
       case "schedule:update": {

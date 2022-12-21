@@ -4,6 +4,7 @@ import { useEventListener } from "@vueuse/core";
 
 import QueueMedia from "@/components/player/QueueMedia.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";
+import { useDevice } from "@/composables/device";
 import { useQueueControls, useQueueState } from "@/composables/queue";
 
 import Circle from "./button/Circle.vue";
@@ -24,6 +25,7 @@ export default defineComponent({
   },
   emits: ["close"],
   setup(props, { emit }) {
+    const { isMobile } = useDevice();
     const { currentMedia, queuedMedia } = useQueueState();
     const { clearQueue } = useQueueControls();
     const close = () => emit("close");
@@ -33,6 +35,7 @@ export default defineComponent({
       }
     });
     return {
+      isMobile,
       close,
       queuedMedia,
       currentMedia,
@@ -50,10 +53,11 @@ export default defineComponent({
       v-if="isVisible"
       class="queue"
       :style="{
-        '--c-bg': 'var(--c-dark)',
-        '--c-fg': 'var(--c-light)',
+        '--c-bg': 'var(--c-black)',
+        '--c-fg': 'var(--c-white)',
       }"
     >
+      <div v-if="isMobile" @click.prevent="close" class="header" />
       <div class="container">
         <QueueMedia
           v-for="(media, index) in queuedMedia"
@@ -70,8 +74,8 @@ export default defineComponent({
       v-if="isVisible"
       class="actions"
       :style="{
-        '--c-bg': 'var(--c-dark)',
-        '--c-fg': 'var(--c-light)',
+        '--c-bg': 'var(--c-black)',
+        '--c-fg': 'var(--c-white)',
       }"
     >
       <div class="container">
@@ -81,10 +85,10 @@ export default defineComponent({
         </div>
         <Circle
           @click="close"
-          background-color="rgb(var(--c-dark))"
-          hover-background-color="rgb(var(--c-light) / 10%)"
+          background-color="rgb(var(--c-black))"
+          hover-background-color="rgb(var(--c-white) / 10%)"
         >
-          <IconCaret direction="down" color-var="--c-light" />
+          <IconCaret direction="down" color-var="--c-white" />
         </Circle>
       </div>
     </div>
@@ -107,7 +111,7 @@ export default defineComponent({
   width: 100%;
   z-index: 20;
   left: 0;
-  background: rgb(var(--c-dark) / 80%);
+  background: rgb(var(--c-black) / 80%);
 
   @include responsive.bp-medium {
     background: unset;
@@ -122,12 +126,27 @@ export default defineComponent({
   bottom: 72px; // player height (desktop)
   max-height: calc(100% - 80px);
   overflow-y: auto;
-  color: rgb(var(--c-light));
-  background: rgb(var(--c-dark));
+  color: rgb(var(--c-white));
+  background: rgb(var(--c-black));
   overscroll-behavior: contain;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @include responsive.bp-medium {
+    max-width: unset;
+    box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+
+    .header {
+      top: 0;
+      position: sticky;
+      height: 28px;
+      background: rgb(var(--c-black));
+      z-index: 2;
+    }
   }
 
   .container {
@@ -149,11 +168,11 @@ export default defineComponent({
   height: 76px;
   width: 100%;
   z-index: 21;
-  border-top: 1px solid rgb(var(--c-light) / 25%);
+  border-top: 1px solid rgb(var(--c-white) / 25%);
   bottom: 72px; // player height
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background: rgb(var(--c-dark));
+  background: rgb(var(--c-black));
 
   .container {
     @include container.default;
@@ -196,12 +215,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   padding: 0 1.5rem;
-  color: rgb(var(--c-light));
-  border: 1px solid rgb(var(--c-light) / 20%);
+  color: rgb(var(--c-white));
+  border: 1px solid rgb(var(--c-white) / 20%);
   transition: background-color 200ms;
   @include responsive.on-hover {
     border-color: transparent;
-    background: rgb(var(--c-light) / 10%);
+    background: rgb(var(--c-white) / 10%);
   }
   @include responsive.bp-medium {
     height: 40px;

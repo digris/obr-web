@@ -6,8 +6,12 @@ import { useSettingsStore } from "@/stores/settings";
 export const useSettings = () => {
   const appBridge = window.appBridge;
   const { isWeb } = useDevice();
-  const { darkMode, maxBandwidth, volume } = storeToRefs(useSettingsStore());
-  const { setMaxBandwidth: setMaxBandwidthWeb, setDarkMode: setDarkModeWeb } = useSettingsStore();
+  const { darkMode, maxBandwidth, shuffleMode, volume } = storeToRefs(useSettingsStore());
+  const {
+    setMaxBandwidth: setMaxBandwidthWeb,
+    setDarkMode: setDarkModeWeb,
+    toggleShuffleMode,
+  } = useSettingsStore();
 
   const setDarkMode = async (value: boolean) => {
     if (isWeb) {
@@ -36,8 +40,10 @@ export const useSettings = () => {
   return {
     darkMode,
     maxBandwidth,
+    shuffleMode,
     volume,
     setDarkMode,
     setMaxBandwidth,
+    toggleShuffleMode,
   };
 };

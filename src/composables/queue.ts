@@ -166,6 +166,7 @@ const useQueueControls = () => {
     }
   };
   const shuffleQueue = async (): Promise<void> => {
+    console.debug("queueControls - shuffleQueue");
     if (isWeb) {
       await shuffleQueueWeb();
     } else {

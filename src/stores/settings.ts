@@ -50,6 +50,12 @@ export const useSettingsStore = defineStore("settings", {
     setVolume(value: number) {
       this.volume = value;
     },
+    setShuffleMode(value: boolean) {
+      this.shuffleMode = value;
+    },
+    toggleShuffleMode() {
+      this.shuffleMode = !this.shuffleMode;
+    },
     setMaxBandwidth(value: number) {
       this.maxBandwidth = value;
     },

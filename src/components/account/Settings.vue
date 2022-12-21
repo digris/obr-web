@@ -83,6 +83,7 @@ section {
   &:first-child {
     margin-top: 0;
   }
+
   &.subscription {
     @include typo.large;
   }
