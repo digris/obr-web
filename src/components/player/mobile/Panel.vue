@@ -155,7 +155,8 @@ export default defineComponent({
   flex-direction: column;
   transition: top 200ms, background 500ms;
   box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
-  border-radius: 28px;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
 
   &.is-swiping {
     transition-duration: 1ms;

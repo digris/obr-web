@@ -56,6 +56,7 @@ export default defineComponent({
     <Section
       :readonly="isApp"
       v-if="user"
+      class="subscription"
       :title="t('account.settings.subscription.title')"
       @edit="
         {
@@ -76,9 +77,14 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/typo";
+
 section {
   &:first-child {
     margin-top: 0;
+  }
+  &.subscription {
+    @include typo.large;
   }
 }
 </style>

@@ -65,7 +65,7 @@ pullToRefresh:
   release: Release to refresh
   refreshing: refreshing
 formActions:
-  save: Save on computer
+  save: Save
   send: Send
 account:
   title: Account
