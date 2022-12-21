@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.74 (2022-12-21)
+### Fix
+* Move oauth login flow to webview ([`b773100`](https://github.com/digris/obr-web/commit/b773100fdec0c7b645122f79fe26a5b2a33fd8dc))
+
 ## v0.0.73 (2022-12-20)
 ### Fix
 * Enable user vouchers ([`763d4dc`](https://github.com/digris/obr-web/commit/763d4dc6e60ca84bf8cf63308606d3f2a43da86d))
