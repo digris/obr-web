@@ -269,6 +269,10 @@ export default defineComponent({
 .list-actions {
   background: rgb(var(--c-gray-500));
 
+  [data-theme="dark"] & {
+    background: rgb(var(--c-black));
+  }
+
   // NOTE: for sticky we need a solid background
   @include responsive.bp-medium-up {
     top: 75px;

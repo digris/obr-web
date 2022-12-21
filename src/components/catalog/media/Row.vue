@@ -110,18 +110,10 @@ export default defineComponent({
 @use "@/style/base/typo";
 @use "@/style/base/responsive";
 @use "@/style/elements/container";
+@use "@/style/elements/list-row";
 
 .media-row {
-  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
-  transition: background 200ms;
-
-  &:first-child {
-    border-top: 1px solid rgb(var(--c-dark) / 20%);
-  }
-
-  @include responsive.on-hover {
-    background: rgb(var(--c-dark) / 10%);
-  }
+  @include list-row.default;
 }
 
 .container {

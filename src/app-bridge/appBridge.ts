@@ -5,6 +5,7 @@ import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";
 import { useSettingsStore } from "@/stores/settings";
+// import { useScheduleStore } from "@/stores/schedule";
 
 const HEARTBEAT_INTERVAL = 1000;
 
@@ -14,6 +15,7 @@ const HEARTBEAT_INTERVAL = 1000;
 // channels SENDING data TO swift-app
 type sendChannel =
   | "heartbeat"
+  | "heartbeat:shutdown"
   | "global:init"
   // queue
   | "queue:deleteAtIndex"
@@ -167,6 +169,8 @@ class AppBridge {
         break;
       }
       case "schedule:update": {
+        // const { setSchedule } = useScheduleStore();
+        // await setSchedule(data.schedule);
         break;
       }
     }

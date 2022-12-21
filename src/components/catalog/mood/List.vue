@@ -1,7 +1,7 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 
-import { getMoods } from "@/api/catalog";
+import { useCatalog } from "@/composables/catalog";
 import { usePullToRefresh } from "@/composables/pullToRefresh";
 import { useRatingStore } from "@/stores/rating";
 
@@ -12,20 +12,20 @@ export default defineComponent({
     MoodCard,
   },
   setup() {
+    const { moods, loadMoods } = useCatalog();
     const { injectRatings } = useRatingStore();
-    const moods = ref([]);
-    const fetchMoods = async (limit = 16, offset = 0) => {
-      const { results } = await getMoods(limit, offset);
-      // @ts-ignore
-      // moods.value.push(...results);
-      moods.value = [...results];
-      await injectRatings(results);
-    };
-    onMounted(() => {
-      fetchMoods();
+    onMounted(async () => {
+      await loadMoods();
     });
+    // watch(
+    //   () => moods.value,
+    //   async (value) => {
+    //     await injectRatings(value);
+    //   }
+    // );
+    watch(() => moods.value, injectRatings);
     const listEl = ref();
-    usePullToRefresh(listEl, fetchMoods);
+    usePullToRefresh(listEl, loadMoods);
     return {
       listEl,
       moods,

@@ -3,6 +3,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useElementSize } from "@vueuse/core";
 
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
+import { useDevice } from "@/composables/device";
 
 export default defineComponent({
   components: {
@@ -15,11 +16,18 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
+    const { isApp } = useDevice();
     const hasHeader = computed(() => !!slots.header);
     const hasBody = computed(() => !!slots.default);
     const hasBackground = computed(() => !!slots.background);
     const headerEl = ref(null);
-    const { height: headerHeight, width: headerWidth } = useElementSize(headerEl);
+    const { height: headerElHeight, width: headerWidth } = useElementSize(headerEl);
+    const headerHeight = computed(() => {
+      if (isApp) {
+        return headerElHeight.value + 140;
+      }
+      return headerElHeight.value + 68;
+    });
     return {
       hasHeader,
       hasBody,
@@ -48,7 +56,7 @@ export default defineComponent({
     </section>
   </div>
   <div class="background" v-if="hasBackground">
-    <slot name="background" :width="headerWidth" :height="headerHeight + 78" />
+    <slot name="background" :width="headerWidth" :height="headerHeight" />
   </div>
 </template>
 

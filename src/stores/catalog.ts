@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { without } from "lodash-es";
 
-import { getArtist, getMediaDetail, getMood, getPlaylist } from "@/api/catalog";
+import { getArtist, getMediaDetail, getMood, getMoods, getPlaylist } from "@/api/catalog";
 import type { Artist, Media, Mood } from "@/typings/api";
 
 interface State {
@@ -56,15 +56,19 @@ export const useCatalogStore = defineStore("catalog", {
         this.media.push(await getMediaDetail(uid));
       }
     },
+    async loadPlaylist(uid: string): Promise<void> {
+      if (!this.playlistByUid(uid)) {
+        this.playlists.push(await getPlaylist(uid));
+      }
+    },
     async loadMood(uid: string): Promise<void> {
       if (!this.moodByUid(uid)) {
         this.moods.push(await getMood(uid));
       }
     },
-    async loadPlaylist(uid: string): Promise<void> {
-      if (!this.playlistByUid(uid)) {
-        this.playlists.push(await getPlaylist(uid));
-      }
+    async loadMoods(): Promise<void> {
+      const { results } = await getMoods(100, 0);
+      this.moods = results;
     },
   },
 });

@@ -212,6 +212,10 @@ export default defineComponent({
         }
       }
     }
+
+    .bottom {
+      min-height: 175px;
+    }
   }
 }
 </style>

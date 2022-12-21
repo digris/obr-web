@@ -1,0 +1,23 @@
+@use "@/style/base/responsive";
+
+@mixin default {
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
+  transition: background 200ms;
+
+  &:first-child {
+    border-top: 1px solid rgb(var(--c-dark) / 20%);
+  }
+
+  @include responsive.on-hover {
+    background: rgb(var(--c-dark) / 10%);
+  }
+
+  [data-theme="dark"] & {
+    border-bottom: 1px solid rgb(var(--c-dark) / 10%);
+
+    @include responsive.on-hover {
+      border-color: rgb(var(--c-black));
+      background: rgb(var(--c-black));
+    }
+  }
+}

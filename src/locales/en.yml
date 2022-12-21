@@ -85,7 +85,7 @@ account:
       note: If you haven't received a message, check your spam folder.
     loginEmailSendAgain: Resend email
     social:
-      continueWith: Go to {0}
+      continueWith: Continue with {0}
   legal:
     terms:
       term: By signing up you agree to the {0} and {1}.

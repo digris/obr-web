@@ -1,7 +1,7 @@
 import { useNavigatorLanguage, useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
-// import { useDevice } from "@/composables/device";
+import { useDevice } from "@/composables/device";
 
 interface State {
   darkMode: boolean;
@@ -17,9 +17,8 @@ const getDefaultLanguage = () => {
 };
 
 const getDefaultDarkMode = () => {
-  return false;
-  // const { isApp } = useDevice();
-  // return isApp;
+  const { isApp } = useDevice();
+  return isApp;
 };
 
 export const useSettingsStore = defineStore("settings", {

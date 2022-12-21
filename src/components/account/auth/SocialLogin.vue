@@ -50,7 +50,7 @@ export default defineComponent({
       const key = provider.split("-")[0];
       return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
     };
-    const beginLogin = (backend: Backend) => {
+    const beginLogin = async (backend: Backend) => {
       const connectUrl = backend.connectUrl;
       const params: { [x: string]: string } = {};
       if (props.next) {
@@ -63,10 +63,11 @@ export default defineComponent({
       const location = q ? `${connectUrl}?${q}` : connectUrl;
 
       if (isApp) {
-        window.appBridge?.send("browser:navigate", {
-          url: `${document.location.origin}${location}`,
-        });
-        return;
+        // window.appBridge?.send("browser:navigate", {
+        //   url: `${document.location.origin}${location}`,
+        // });
+        await window.appBridge?.send("heartbeat:shutdown");
+        // return;
       }
 
       window.location.href = location;
@@ -136,9 +137,9 @@ export default defineComponent({
     display: inline-flex;
     align-items: center;
     padding: 0.5rem 1rem;
-    color: rgb(var(--c-dark));
-    background: rgb(var(--c-light));
-    border: 3px solid rgb(var(--c-dark));
+    color: rgb(var(--c-black));
+    background: rgb(var(--c-white));
+    border: 3px solid rgb(var(--c-black));
     border-radius: 2rem;
     cursor: pointer;
     transition: border-radius 100ms;

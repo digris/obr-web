@@ -80,5 +80,17 @@ export const useScheduleStore = defineStore("schedule", {
         };
       });
     },
+    async setSchedule(data: Array<Schedule>): Promise<void> {
+      // used by app-bridge in app-mode
+      this.schedule = data.map((el: Schedule): AnnotatedSchedule => {
+        return {
+          ...el,
+          // @ts-ignore
+          dtStart: DateTime.fromSeconds(el.timeStart),
+          // @ts-ignore
+          dtEnd: DateTime.fromSeconds(el.timeEnd),
+        };
+      });
+    },
   },
 });

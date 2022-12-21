@@ -27,6 +27,7 @@ export const useRatingStore = defineStore("rating", () => {
   const injectRatings = async (list: Array<any>) => {
     list.forEach((item) => {
       const { ct, uid, userRating } = item;
+      console.debug("inject rating", ct, uid, userRating);
       if (ct && uid) {
         const key = `${ct}:${uid}`;
         ratings.value.set(key, userRating);

@@ -37,7 +37,7 @@ export default defineComponent({
 </script>
 <template>
   <transition name="fade">
-    <div v-if="isVisible" class="mask" />
+    <div v-if="isVisible" @click.prevent="close" class="mask" />
   </transition>
   <transition name="fade">
     <div v-if="isVisible && hasAside" class="aside">

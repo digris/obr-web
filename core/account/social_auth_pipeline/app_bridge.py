@@ -5,5 +5,6 @@ from django.urls import reverse
 def app_redirect(backend, strategy, user, *args, **kwargs):
 
     if user and user.email and strategy.session_get("source") == "app":
-        url = reverse("app_bridge:social-auth-redirect")
-        strategy.session_set("next", url)
+        pass
+        # url = reverse("app_bridge:social-auth-redirect")
+        # strategy.session_set("next", url)
