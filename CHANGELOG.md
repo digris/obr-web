@@ -6,6 +6,14 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.73 (2022-12-20)
+### Fix
+* Enable user vouchers ([`763d4dc`](https://github.com/digris/obr-web/commit/763d4dc6e60ca84bf8cf63308606d3f2a43da86d))
+
+## v0.0.72 (2022-12-19)
+### Fix
+* Mobile overlay panel box shadow ([`1280e1f`](https://github.com/digris/obr-web/commit/1280e1f61fd78f6df3204f0b408cd848ab59ac3d))
+
 ## v0.0.71 (2022-12-19)
 ### Fix
 * Use separate serializer for event creation ([`e300761`](https://github.com/digris/obr-web/commit/e300761ca146e4aef59da96fc1abd5c5caf72f4b))
