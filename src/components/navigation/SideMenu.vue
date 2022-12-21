@@ -22,7 +22,7 @@ export default defineComponent({
     const { t } = useI18n();
     const isVisible = ref(false);
     const { user, isStaff, logoutUser } = useAccount();
-    const { isApp } = useDevice();
+    const { isApp, isWeb } = useDevice();
     const { userVouchers } = useSubscription();
     const close = () => {
       isVisible.value = false;
@@ -93,6 +93,7 @@ export default defineComponent({
       logout,
       pages,
       isApp,
+      isWeb,
     };
   },
 });
@@ -108,7 +109,7 @@ export default defineComponent({
           @click="onNavigate"
           v-text="t('menu.accountSettings')"
         />
-        <a v-if="isStaff" href="/admin/" target="_blank" v-text="t('menu.admin')" />
+        <a v-if="isStaff && isWeb" href="/admin/" target="_blank" v-text="t('menu.admin')" />
         <router-link
           v-if="userVouchers.length"
           :to="{

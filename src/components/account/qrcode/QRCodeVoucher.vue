@@ -4,6 +4,7 @@ import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 import QrcodeVue from "qrcode.vue";
 
+import { useSettings } from "@/composables/settings";
 import type { UserVoucher } from "@/typings/api";
 
 export default defineComponent({
@@ -18,12 +19,15 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
+    const { darkMode } = useSettings();
     const voucherUrl = computed(() => {
       return `https://next.openbroadcast.ch/#${props.voucher.codeDisplay}`;
     });
     const size = 200;
-    const fg = "#ffffff";
     const bg = "#ffffff00";
+    const fg = computed(() => {
+      return darkMode.value ? "#000000" : "#ffffff";
+    });
     return {
       t,
       voucherUrl,

@@ -67,7 +67,10 @@ export default defineComponent({
         //   url: `${document.location.origin}${location}`,
         // });
         await window.appBridge?.send("heartbeat:shutdown");
-        // return;
+        setTimeout(() => {
+          window.location.href = location;
+        }, 200);
+        return;
       }
 
       window.location.href = location;

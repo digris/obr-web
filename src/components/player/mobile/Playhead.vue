@@ -211,7 +211,7 @@ export default defineComponent({
   .fade {
     top: 22px;
     position: absolute;
-    height: 2px;
+    height: 1px;
     background: rgb(var(--c-fg));
   }
 
