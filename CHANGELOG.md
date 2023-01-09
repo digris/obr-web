@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.77 (2023-01-09)
+### Fix
+* Delegate external links to swift-app / safari in app-mode ([`3044d3b`](https://github.com/digris/obr-web/commit/3044d3b8381b708cd5cd6f3b6f94344de1e4eca5))
+
 ## v0.0.76 (2023-01-09)
 ### Fix
 * Disable flip animation on radio down-vote (flicker) ([`40517c3`](https://github.com/digris/obr-web/commit/40517c32a76c873c3c7569a75e535679333a4cf9))
