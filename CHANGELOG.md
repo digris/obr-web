@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.78 (2023-01-09)
+### Fix
+* Add rating events as slack messages ([`332699a`](https://github.com/digris/obr-web/commit/332699a8da541f1c6e05307114a022803df4bf8d))
+
 ## v0.0.77 (2023-01-09)
 ### Fix
 * Delegate external links to swift-app / safari in app-mode ([`3044d3b`](https://github.com/digris/obr-web/commit/3044d3b8381b708cd5cd6f3b6f94344de1e4eca5))
