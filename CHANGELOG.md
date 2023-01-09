@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.76 (2023-01-09)
+### Fix
+* Disable flip animation on radio down-vote (flicker) ([`40517c3`](https://github.com/digris/obr-web/commit/40517c32a76c873c3c7569a75e535679333a4cf9))
+
 ## v0.0.75 (2022-12-21)
 ### Fix
 * Voucher qr-code dark-mode color ([`f49d621`](https://github.com/digris/obr-web/commit/f49d621ce8b170732f5d8d5cf77e593af838ded8))
