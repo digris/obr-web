@@ -90,11 +90,11 @@ export default defineComponent({
       ];
     });
     const downvote = async () => {
-      hidePrompt();
       await setRating(objKey.value, -1, {
         scope: scope.value,
         comment: comment.value,
       });
+      hidePrompt();
       /*
       await notify({
         level: "success",
