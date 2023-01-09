@@ -113,6 +113,11 @@ class AppBridge {
       await this.send("heartbeat:shutdown");
     };
     window.addEventListener("appBridge", this.onReceive.bind(this));
+
+    // in app-mode we have to handle link-clicks separately
+    // NOTE: mailto: etc. links should be implemented in swift / webview. example:
+    // https://gist.github.com/dakeshi/d8e69e4ba50b31211d94
+    window.addEventListener("click", this.onExternalLink.bind(this));
   }
   async init(): Promise<void> {
     log.debug("AppBridge - init");
@@ -194,6 +199,17 @@ class AppBridge {
         // await setSchedule(data.schedule);
         break;
       }
+    }
+  }
+  async onExternalLink(e: Event) {
+    // links with `target="_blank"` must open in native safari
+    const origin = (e.target as Element).closest("a");
+    console.debug("origin", origin);
+    if (origin && (origin.target === "_blank" || origin.href.startsWith("mailto:"))) {
+      e.preventDefault();
+      await this.send("browser:navigate", {
+        url: origin.href,
+      });
     }
   }
 }
