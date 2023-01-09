@@ -90,6 +90,8 @@ export default defineComponent({
 
   @include responsive.bp-medium {
     box-shadow: 0 -4px 8px 4px rgb(0 0 0 / 10%);
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
   }
 
   &::-webkit-scrollbar {

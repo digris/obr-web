@@ -45,5 +45,6 @@ gcloud functions deploy \
   --source ./functions/http-image-resizer/ \
   --set-env-vars SOURCE=gs://ch-openbroadcast-media \
   --allow-unauthenticated \
+  --memory 1024MB \
   --trigger-http
 ```

@@ -209,6 +209,7 @@ export default defineComponent({
 
       margin-left: 0.5rem;
       @include responsive.bp-medium {
+        display: none;
         margin-left: 0;
       }
     }

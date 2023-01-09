@@ -66,7 +66,7 @@ export default defineComponent({
         // window.appBridge?.send("browser:navigate", {
         //   url: `${document.location.origin}${location}`,
         // });
-        await window.appBridge?.send("heartbeat:shutdown");
+        window.appBridge.pauseHeartbeat();
         setTimeout(() => {
           window.location.href = location;
         }, 200);
@@ -167,7 +167,7 @@ export default defineComponent({
       border-color: #1877f2;
     }
 
-    &:hover {
+    @include responsive.on-hover {
       border-radius: 4px;
     }
   }

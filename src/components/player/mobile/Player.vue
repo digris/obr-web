@@ -43,11 +43,15 @@ export default defineComponent({
     const panelVisible = ref(false);
     const hidePanel = () => (panelVisible.value = false);
     const togglePanel = () => {
-      // when both panel & queue are visible: close the queue
+      // when both panel & queue are visible: close the queue (but keep the panel)
       if (queueVisible.value && panelVisible.value) {
         hideQueue();
       } else {
         panelVisible.value = !panelVisible.value;
+        // hide queue in case panel becomes visible
+        if (panelVisible.value) {
+          hideQueue();
+        }
       }
     };
     const fgColor = computed(() => {

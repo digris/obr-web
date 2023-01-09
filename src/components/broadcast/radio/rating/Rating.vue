@@ -58,6 +58,7 @@ export default defineComponent({
           showPrompt();
           await flipIcon(value);
         } else {
+          await flipIcon(value);
           await setRating(objKey.value, value);
         }
       },
@@ -143,14 +144,7 @@ export default defineComponent({
     </div>
     <div>
       <CircleButton @click="rate(rating === -1 ? null : -1)" :outlined="true">
-        <div
-          class="flip-container"
-          :class="{
-            'is-flipped': isFlipped === -1,
-          }"
-        >
-          <IconFlash :outlined="rating !== -1" color-var="--c-page-fg" />
-        </div>
+        <IconFlash :outlined="rating !== -1" color-var="--c-page-fg" />
       </CircleButton>
     </div>
     <div class="total">?</div>

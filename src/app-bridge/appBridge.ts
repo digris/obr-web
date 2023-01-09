@@ -7,7 +7,13 @@ import { useQueueStore } from "@/stores/queue";
 import { useSettingsStore } from "@/stores/settings";
 // import { useScheduleStore } from "@/stores/schedule";
 
+// how often the web-app sends a heartbeat to swift-app
 const HEARTBEAT_INTERVAL = 1000;
+
+// configuration for swift-app
+const HEARTBEAT_APP_ACTIVE_DELAY = 1.0;
+const HEARTBEAT_APP_FOREGROUND_DELAY = 1.0;
+const HEARTBEAT_HEARTBEAT_DELAY = 1.0;
 
 // for channel options see:
 // obr-app/obrapp/modules/OBRWebView.swift
@@ -15,6 +21,7 @@ const HEARTBEAT_INTERVAL = 1000;
 // channels SENDING data TO swift-app
 type sendChannel =
   | "heartbeat"
+  | "heartbeat:setDelays"
   | "heartbeat:shutdown"
   | "global:init"
   // queue
@@ -81,6 +88,8 @@ type ReceivedEvent = Event & {
 };
 
 class AppBridge {
+  pauseHeartbeat = (): void => {};
+
   constructor() {
     const { isWeb } = useDevice();
     if (isWeb) {
@@ -91,18 +100,29 @@ class AppBridge {
     this.init().then(() => {
       log.debug("AppBridge - initialized");
     });
-    useIntervalFn(
+    const { pause: pauseHeartbeat } = useIntervalFn(
       async () => {
         await this.heartbeat();
       },
       HEARTBEAT_INTERVAL,
       { immediateCallback: true }
     );
+    this.pauseHeartbeat = async () => {
+      log.debug("AppBridge - pauseHeartbeat");
+      pauseHeartbeat();
+      await this.send("heartbeat:shutdown");
+    };
     window.addEventListener("appBridge", this.onReceive.bind(this));
   }
   async init(): Promise<void> {
     log.debug("AppBridge - init");
     await this.send("global:init");
+    const delays = {
+      appActiveDelay: HEARTBEAT_APP_ACTIVE_DELAY,
+      appForegroundDelay: HEARTBEAT_APP_FOREGROUND_DELAY,
+      heartbeatDelay: HEARTBEAT_HEARTBEAT_DELAY,
+    };
+    await this.send("heartbeat:setDelays", delays);
   }
   async heartbeat(): Promise<void> {
     // log.debug("AppBridge - heartbeat");
@@ -169,6 +189,7 @@ class AppBridge {
         break;
       }
       case "schedule:update": {
+        console.debug("schedule", data.schedule);
         // const { setSchedule } = useScheduleStore();
         // await setSchedule(data.schedule);
         break;
