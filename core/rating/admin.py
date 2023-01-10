@@ -10,6 +10,7 @@ class VoteAdmin(admin.ModelAdmin):
         "__str__",
         "user",
         "value",
+        "source",
         "scope",
         "content_type",
         "content_object",
@@ -18,6 +19,7 @@ class VoteAdmin(admin.ModelAdmin):
     ]
     list_filter = [
         "value",
+        "source",
         "scope",
         "updated",
     ]

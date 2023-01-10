@@ -8,12 +8,12 @@ import { useSettingsStore } from "@/stores/settings";
 // import { useScheduleStore } from "@/stores/schedule";
 
 // how often the web-app sends a heartbeat to swift-app
-const HEARTBEAT_INTERVAL = 1000;
+const HEARTBEAT_INTERVAL = 2000 * 0.9;
 
 // configuration for swift-app
-const HEARTBEAT_APP_ACTIVE_DELAY = 1.0;
-const HEARTBEAT_APP_FOREGROUND_DELAY = 1.0;
-const HEARTBEAT_HEARTBEAT_DELAY = 1.0;
+const HEARTBEAT_APP_ACTIVE_DELAY = 2.0;
+const HEARTBEAT_APP_FOREGROUND_DELAY = 2.0;
+const HEARTBEAT_HEARTBEAT_DELAY = 2.0;
 
 // for channel options see:
 // obr-app/obrapp/modules/OBRWebView.swift

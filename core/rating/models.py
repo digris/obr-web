@@ -6,12 +6,16 @@ from django.db import models
 from base.models.mixins import TimestampedModelMixin
 
 
-class VoteValue(models.IntegerChoices):
+class VoteValue(
+    models.IntegerChoices,
+):
     DOWN = -1, "-"
     UP = 1, "+"
 
 
-class VoteScope(models.TextChoices):
+class VoteScope(
+    models.TextChoices,
+):
     UNDEFINED = None, "not specified"
     TRACK = "track", "track"
     EMISSION = "emission", "emission"
@@ -20,14 +24,22 @@ class VoteScope(models.TextChoices):
     GENRE = "genre", "genre"
 
 
-class Vote(TimestampedModelMixin, models.Model):
+class VoteSource(
+    models.TextChoices,
+):
+    LIVE = "live", "live"
+    ON_DEMAND = "on-demand", "on-demand"
 
+
+class Vote(
+    TimestampedModelMixin,
+    models.Model,
+):
     value = models.SmallIntegerField(
         blank=False,
         choices=VoteValue.choices,
         db_index=True,
     )
-
     scope = models.CharField(
         max_length=16,
         null=True,
@@ -35,13 +47,18 @@ class Vote(TimestampedModelMixin, models.Model):
         default=VoteScope.UNDEFINED,
         db_index=True,
     )
-
+    source = models.CharField(
+        max_length=32,
+        blank=True,
+        choices=VoteSource.choices,
+        default="",
+        db_index=True,
+    )
     comment = models.TextField(
         max_length=256,
         blank=True,
         default="",
     )
-
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -49,14 +66,12 @@ class Vote(TimestampedModelMixin, models.Model):
         on_delete=models.CASCADE,
         related_name="rated_items",
     )
-
     user_identity = models.CharField(
         max_length=64,
         null=True,
         blank=True,
         db_index=True,
     )
-
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
