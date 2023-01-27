@@ -81,11 +81,11 @@ COPY ["pyproject.toml","poetry.lock", "./"]
 
 # https://stackoverflow.com/questions/53835198/integrating-python-poetry-with-docker
 # NOTE: --without-hashes is temporary here to allow install pacvkages from git (only pypi supports hashes)
-RUN poetry export \
-    --without-hashes \
-    -f requirements.txt \
-    | /venv/bin/pip install \
-    -r /dev/stdin
+#RUN poetry export \
+#    --without-hashes \
+#    -f requirements.txt \
+#    | /venv/bin/pip install \
+#    -r /dev/stdin
 
 ADD ./core/ ./core/
 

@@ -23,6 +23,12 @@ INSTALLED_APPS += [
 
 MIDDLEWARE += []
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://local.obr-next:3000",
+    "http://local.obr-next:5000",
+    "http://local.obr-next:8080",
+]
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

@@ -1,3 +1,4 @@
+import hashlib
 import io
 
 from colorthief import ColorThief
@@ -51,3 +52,18 @@ def extract_colors(file, num_colors=2):
     palette = ct.get_palette(color_count=num_colors, quality=1)
 
     return color, palette
+
+
+def extract_md5(file):
+
+    img = read_as_image(file=file.file)
+
+    try:
+        fp = image_as_fp(img=img)
+    except ValueError:
+        return ""
+
+    if not fp:
+        return ""
+
+    return hashlib.md5(fp.getvalue()).hexdigest()

@@ -25,3 +25,7 @@ MIDDLEWARE += [
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     # "querycount.middleware.QueryCountMiddleware",
 ]
+
+DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+GS_BUCKET_NAME = "ch-openbroadcast-media"
+GS_DEFAULT_ACL = "publicRead"

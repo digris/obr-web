@@ -9,7 +9,7 @@ from django.utils.functional import cached_property
 
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
-from .colors import extract_colors
+from .extract import extract_colors, extract_md5
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +39,11 @@ class BaseImage(
         upload_to=get_image_upload_path,
         null=True,
         blank=False,
+    )
+
+    md5_hash = models.CharField(
+        max_length=32,
+        default="",
     )
 
     filename = models.CharField(
@@ -115,6 +120,9 @@ def image_pre_save(sender, instance=None, **kwargs):
             "primary": color,
             "palette": palette,
         }
+
+    if instance.file:
+        instance.md5_hash = extract_md5(file=instance.file)
 
 
 @receiver(pre_delete)

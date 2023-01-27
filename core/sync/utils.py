@@ -12,11 +12,15 @@ from django.db.utils import IntegrityError
 import filetype
 from identifier.models import Identifier, IdentifierScope
 from tagging.models import Tag, TaggedItem, TagType
+from image.extract import extract_md5
 
 logger = logging.getLogger(__name__)
 
 
-def update_relations(obj, relations):
+def update_relations(
+    obj,
+    relations,
+):
     # TODO: implement removal of vanished relations
     content_type = ContentType.objects.get_for_model(obj)
     object_id = obj.id
@@ -52,7 +56,10 @@ def update_relations(obj, relations):
                 logger.warning(f"unable to add identifier: {identifier} - {e}")
 
 
-def update_tags(obj, tags):
+def update_tags(
+    obj,
+    tags,
+):
     # TODO: implement removal of vanished tags
     content_type = ContentType.objects.get_for_model(obj)
     object_id = obj.id
@@ -92,7 +99,12 @@ def update_tags(obj, tags):
         )
 
 
-def update_image(obj, image_url, image_class, clear=True):
+def update_image(
+    obj,
+    image_url,
+    image_class,
+    clear=True,
+):
     if not image_url:
         return
 
@@ -115,6 +127,19 @@ def update_image(obj, image_url, image_class, clear=True):
         img_temp.write(urlopen(image_url).read())
         img_temp.flush()
 
+        if local_image := obj.images.first():
+            remote_md5_hash = extract_md5(img_temp)
+            img_temp.seek(0)
+
+            print("local  md5:", local_image.md5_hash)
+            print("remote md5:", remote_md5_hash)
+
+            if local_image.md5_hash and local_image.md5_hash == remote_md5_hash:
+                logger.debug(
+                    f"image {local_image.ct}:{local_image.uid} with same md5 hash exists. skipping sync."
+                )
+                return
+
         kwargs = {
             f"{obj.ct_model}": obj,
         }
@@ -126,7 +151,11 @@ def update_image(obj, image_url, image_class, clear=True):
     logger.debug(f"updated image for {obj.ct}:{obj.uid}")
 
 
-def update_identifier(obj, scope, value):
+def update_identifier(
+    obj,
+    scope,
+    value,
+):
     content_type = ContentType.objects.get_for_model(obj)
     object_id = obj.id
     identifier = obj.identifiers.filter(scope=scope).first()
