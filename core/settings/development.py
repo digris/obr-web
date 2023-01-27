@@ -63,8 +63,13 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "sync": {
+        "account": {
             "level": "INFO",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "sync": {
+            "level": "DEBUG",
             "handlers": ["console"],
             "propagate": False,
         },

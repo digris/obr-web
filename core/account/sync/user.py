@@ -5,6 +5,7 @@ from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
+from base.models.context_managers import suppress_auto_now
 from rating.models import Vote
 from sync import api_client
 
@@ -34,7 +35,7 @@ def sync_user_account(user):
         return None
 
     # pylint: disable=import-outside-toplevel
-    from account.models import Address, Gender, User
+    from account.models import Address, GenderStr, User
 
     update = {}
 
@@ -66,13 +67,13 @@ def sync_user_account(user):
 
     if gender := data.get("gender"):
         values = {
-            "female": Gender.FEMALE,
-            "male": Gender.MALE,
-            "other": Gender.OTHER,
+            "female": GenderStr.FEMALE,
+            "male": GenderStr.MALE,
+            "other": GenderStr.OTHER,
         }
         update.update(
             {
-                "gender": values.get(gender, Gender.UNDEFINED),
+                "gender": values.get(gender, GenderStr.UNDEFINED),
             }
         )
 
@@ -80,7 +81,7 @@ def sync_user_account(user):
         if not user.country:
             update.update(
                 {
-                    "country": country,
+                    "country": country[:2].upper(),
                 }
             )
 
@@ -120,9 +121,12 @@ def sync_user_votes(user):
         logger.error(f"unable to get user: {user} - {e}")
         return None
 
+    votes_to_create = []
     for vote in data.get("results", []):
         try:
             value = vote.get("value")
+            created = vote.get("created")
+            updated = vote.get("updated")
             co = vote.get("co")
             co_uuid = co.get("uuid")
             co_ct = co.get("ct")
@@ -139,7 +143,20 @@ def sync_user_votes(user):
         except model_class.DoesNotExist:
             continue
 
+        try:
+            created = datetime.fromisoformat(created)
+            created = timezone.make_aware(created)
+        except ValueError:
+            created = timezone.now()
+
+        try:
+            updated = datetime.fromisoformat(updated)
+            updated = timezone.make_aware(updated)
+        except ValueError:
+            updated = timezone.now()
+
         content_type = ContentType.objects.get_for_model(obj)
+
         try:
             vote = Vote.objects.get(
                 user=user,
@@ -150,15 +167,23 @@ def sync_user_votes(user):
                 Vote.objects.filter(id=vote.id).update(
                     value=value,
                 )
+
         except Vote.DoesNotExist:
             vote = Vote(
                 user=user,
                 value=value,
+                created=created,
+                updated=updated,
                 content_type=content_type,
                 object_id=obj.id,
             )
-            vote.save()
+            votes_to_create.append(vote)
+
         logger.debug(f"synced vote on {obj} for {user}")
+
+    if votes_to_create:
+        with suppress_auto_now(Vote, ["created", "updated"]):
+            Vote.objects.bulk_create(votes_to_create)
 
     return None
 

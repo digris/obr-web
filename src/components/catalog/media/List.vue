@@ -267,7 +267,9 @@ export default defineComponent({
 }
 
 .list-actions {
-  background: rgb(var(--c-gray-500));
+  // background: rgb(var(--c-gray-500));
+
+  background: rgb(var(--c-black));
 
   [data-theme="dark"] & {
     background: rgb(var(--c-black));
@@ -287,7 +289,7 @@ export default defineComponent({
     grid-row-gap: 0;
     grid-column-gap: 1rem;
     grid-template-columns: auto 48px;
-    color: rgb(var(--c-dark));
+    color: rgb(var(--c-white));
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     @include responsive.bp-medium {

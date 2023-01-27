@@ -46,10 +46,10 @@ export default defineComponent({
       <CircleButton
         :outlined="true"
         :filled="false"
-        fill-color-var="--c-light"
+        fill-color-var="--c-white"
         hover-background-opacity="10%"
       >
-        <IconPlay color-var="--c-dark" />
+        <IconPlay color-var="--c-white" />
       </CircleButton>
       <slot name="default" />
     </div>

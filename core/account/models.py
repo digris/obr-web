@@ -4,7 +4,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 
@@ -232,6 +232,31 @@ class Address(
     @property
     def country(self):
         return self.user.country
+
+
+class LegacyUser(
+    models.Model,
+):
+    email = models.EmailField(
+        "Email address",
+        unique=True,
+        db_index=True,
+    )
+    obp_id = models.PositiveIntegerField(
+        verbose_name="open broadcast - platform ID",
+        db_index=True,
+    )
+
+    def __str__(self):
+        return self.email
+
+
+@receiver(pre_save, sender=User)
+# pylint: disable=unused-argument
+def user_pre_save(sender, instance, **kwargs):
+    if legacy_user := LegacyUser.objects.filter(email=instance.email).first():
+        instance.migration_source = MigrationSource.OBP
+        instance.obp_id = legacy_user.obp_id
 
 
 @receiver(post_save, sender=User)

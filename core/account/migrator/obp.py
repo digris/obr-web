@@ -1,6 +1,6 @@
 import logging
-
-from account.models import MigrationSource, User
+from django.db.utils import IntegrityError
+from account.models import MigrationSource, User, LegacyUser
 from sync import api_client
 
 logger = logging.getLogger(__name__)
@@ -59,6 +59,33 @@ class OBPMigrator:
 
         print(f"total: {len(user_accounts)} - created: {len(migrated_accounts)}")
 
+    def update_legacy_users(self):
+        user_accounts = self.get_user_accounts()
+        created_users = []
+        for user_account in user_accounts:
+            email = user_account.get("email")
+            obp_id = user_account.get("id")
+            date_joined = user_account.get("date_joined")
+            last_login = user_account.get("last_login")
+
+            if not (email and obp_id):
+                continue
+
+            try:
+                user, created = LegacyUser.objects.get_or_create(
+                    email=email, obp_id=obp_id
+                )
+            except IntegrityError as e:
+                logger.info(f"error creating user: {e}")
+                continue
+
+            if created:
+                created_users.append(user)
+
+            print(f"{obp_id} : {date_joined} : {last_login or '-' * 19} : {email}")
+
+        print(f"total: {len(user_accounts)} - created: {len(created_users)}")
+
 
 # pylint: disable=unused-argument
 def migrate_accounts(
@@ -68,3 +95,11 @@ def migrate_accounts(
 ):
     migrator = OBPMigrator(database=database)
     return migrator.migrate()
+
+
+# pylint: disable=unused-argument
+def update_legacy_users(
+    database="default",
+):
+    migrator = OBPMigrator(database=database)
+    return migrator.update_legacy_users()

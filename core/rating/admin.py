@@ -4,7 +4,9 @@ from .models import Vote
 
 
 @admin.register(Vote)
-class VoteAdmin(admin.ModelAdmin):
+class VoteAdmin(
+    admin.ModelAdmin,
+):
     date_hierarchy = "updated"
     list_display = [
         "__str__",
@@ -29,4 +31,8 @@ class VoteAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = [
         "user",
+    ]
+    readonly_fields = [
+        "created",
+        "updated",
     ]

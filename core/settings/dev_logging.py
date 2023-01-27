@@ -40,7 +40,7 @@ LOGGING = {
             "propagate": False,
         },
         "account": {
-            "level": "DEBUG",
+            "level": "INFO",
             "handlers": [
                 "console",
             ],

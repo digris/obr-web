@@ -12,8 +12,9 @@ env.read_env(env.str("ENV_PATH", ".env"))
 from .base import *  # NOQA
 
 # from .gcp_logging import LOGGING  # NOQA
-from .dev_logging import LOGGING  # NOQA
 from .development import *  # NOQA
+
+# from .dev_logging import LOGGING  # NOQA
 
 ##################################################################
 # make sure to add further setting overrides *after*

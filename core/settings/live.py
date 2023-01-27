@@ -5,6 +5,7 @@ import google.auth
 import sentry_sdk
 from google.cloud import secretmanager
 from sentry_sdk.integrations.django import DjangoIntegration
+
 SETTINGS_NAME = "ch-openbroadcast-settings"
 
 _, project = google.auth.default()

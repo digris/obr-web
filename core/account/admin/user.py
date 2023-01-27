@@ -219,6 +219,19 @@ class UserAdmin(AuthUserAdmin):
         "-date_joined",
     ]
 
+    def delete_model(self, request, obj):
+        # NOTE: to prevent signals from running we perform `_raw_delete` on
+        #       ratings / votes
+
+        if obj.rated_items.count():
+            # pylint: disable=protected-access
+            obj.rated_items.all()._raw_delete(obj.rated_items.db)
+
+        return super().delete_model(request, obj)
+
+    def delete_queryset(self, request, queryset):
+        raise Exception("Bulk delete is disabled")
+
     def migrate_user_view(self, request):
         context = dict(
             self.admin_site.each_context(request),

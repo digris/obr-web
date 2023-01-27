@@ -19,7 +19,7 @@ def rating_post_save(sender, instance, **kwargs):
 
     values = {-1: "-", 1: "+"}
 
-    tpl = """*{value}* \tfor <{url}|{name}> / {ct}
+    tpl = """*{value}* \tfor <{url}|{name}>
     \tby {user}
     """
 
@@ -29,7 +29,6 @@ def rating_post_save(sender, instance, **kwargs):
         value=values.get(instance.value, instance.value),
         url=url,
         name=str(instance.content_object),
-        ct=str(instance.content_object.ct),
         user=str(instance.user) if instance.user else "anonymous",
     )
 
@@ -76,7 +75,7 @@ def rating_post_save(sender, instance, **kwargs):
 # pylint: disable=unused-argument
 def rating_pre_delete(sender, instance, **kwargs):
 
-    tpl = """*x* \tfor <{url}|{name}> / {ct}
+    tpl = """*x* \tfor <{url}|{name}>
     \tby {user}
     """
 
@@ -85,7 +84,6 @@ def rating_pre_delete(sender, instance, **kwargs):
     md = tpl.format(
         url=url,
         name=str(instance.content_object),
-        ct=str(instance.content_object.ct),
         user=str(instance.user) if instance.user else "anonymous",
     )
 
