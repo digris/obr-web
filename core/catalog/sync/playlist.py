@@ -53,7 +53,7 @@ def sync_playlist(playlist, skip_images=False, **kwargs):
     update_tags(playlist, data.get("tags", []))
 
     if not skip_images:
-        update_image(playlist, data.get("image"), PlaylistImage)
+        update_image(playlist, data.get("image"), PlaylistImage, clear=False)
 
     media_list = get_playlist_media(data.get("items", []))
 

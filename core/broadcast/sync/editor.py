@@ -31,7 +31,7 @@ def sync_editor(editor, skip_images=False, **kwargs):
     update_tags(editor, data.get("tags", []))
 
     if not skip_images:
-        update_image(editor, data.get("image"), EditorImage)
+        update_image(editor, data.get("image"), EditorImage, clear=False)
 
     logger.info(f"sync completed for {editor.ct}{editor.uid}")
 
