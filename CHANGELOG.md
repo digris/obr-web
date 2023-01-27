@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.79 (2023-01-27)
+### Fix
+* Add image md5 content has ([`0533c90`](https://github.com/digris/obr-web/commit/0533c90b0688e19ddb0ae10ca40268f9954055cc))
+
 ## v0.0.78 (2023-01-09)
 ### Fix
 * Add rating events as slack messages ([`332699a`](https://github.com/digris/obr-web/commit/332699a8da541f1c6e05307114a022803df4bf8d))
