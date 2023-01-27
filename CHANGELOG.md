@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.80 (2023-01-27)
+### Fix
+* Disable sync image clear ([`0c94cac`](https://github.com/digris/obr-web/commit/0c94cacf12ca9132ad96b9162782047b1734d9a7))
+
 ## v0.0.79 (2023-01-27)
 ### Fix
 * Add image md5 content has ([`0533c90`](https://github.com/digris/obr-web/commit/0533c90b0688e19ddb0ae10ca40268f9954055cc))
