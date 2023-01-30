@@ -1,4 +1,6 @@
 import json
+import time
+import multiprocessing
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -42,14 +44,31 @@ class Command(BaseCommand):
         body = json.dumps(payload).encode("utf-8")
         http = urllib3.PoolManager(ca_certs=certifi.where())
         r = http.request("POST", url=url, body=body, headers=headers)
-        return json.loads(r.data.decode("utf-8"))
+        try:
+            data = json.loads(r.data.decode("utf-8"))
+            print(data)
+            return data
+        except json.decoder.JSONDecodeError:
+            print(f"status: {r.status_code}")
+            print(r.text)
 
     def encode_master(self, master):
         self.stdout.write(f"encode uid: {master.path}\n")
-        dash = self.encode_format(master.path, "dash")
-        self.stdout.write(f"dash: {dash}\n")
-        hls = self.encode_format(master.path, "hls")
-        self.stdout.write(f"hls: {hls}\n")
+
+        p_dash = multiprocessing.Process(target=self.encode_format, args=[master.path, "dash"])
+        p_hls = multiprocessing.Process(target=self.encode_format, args=[master.path, "hls"])
+
+        p_dash.start()
+        p_hls.start()
+
+        p_dash.join()
+        p_hls.join()
+
+        # self.stdout.write(f"encode uid: {master.path}\n")
+        # dash = self.encode_format(master.path, "dash")
+        # self.stdout.write(f"dash: {dash}\n")
+        # hls = self.encode_format(master.path, "hls")
+        # self.stdout.write(f"hls: {hls}\n")
 
     def handle(self, *args, **options):
 
@@ -71,4 +90,7 @@ class Command(BaseCommand):
         self.stdout.write(f"num. media to encode: {qs.count()}")
 
         for master in qs:
+            start = time.perf_counter()
             self.encode_master(master)
+            end = time.perf_counter()
+            self.stdout.write(f'finished in {round(end - start, 2)} second(s)')

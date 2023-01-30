@@ -74,6 +74,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
+          provenance: false
           context: .
           file: docker/Dockerfile
           push: true

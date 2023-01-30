@@ -1,12 +1,13 @@
 import urllib3
 import certifi
 import json
+import multiprocessing
 
 ENCODER_ENDPOINT = "https://media-encoder-kcek2ea7xq-oa.a.run.app"
 API_TOKEN = "N1ZOBHLZ9JL141VHAC7H"
 
 
-def encode(path, encoding_format):
+def encode_format(path, encoding_format):
     print(f"encode: {path}")
     payload = {"path": path}
     url = f"{ENCODER_ENDPOINT}/encode-{encoding_format}"
@@ -17,7 +18,8 @@ def encode(path, encoding_format):
     body = json.dumps(payload).encode("utf-8")
     http = urllib3.PoolManager(ca_certs=certifi.where())
     r = http.request("POST", url=url, body=body, headers=headers)
-    return json.loads(r.data.decode("utf-8"))
+    data = json.loads(r.data.decode("utf-8"))
+    return data
 
 
 def created(event, context):
@@ -38,8 +40,17 @@ def created(event, context):
 
     path = event["name"]
 
-    result = encode(path, "dash")
-    print(result)
+    p_dash = multiprocessing.Process(target=encode_format, args=[path, "dash"])
+    p_hls = multiprocessing.Process(target=encode_format, args=[path, "hls"])
 
-    result = encode(path, "hls")
-    print(result)
+    p_dash.start()
+    p_hls.start()
+
+    p_dash.join()
+    p_hls.join()
+
+    # result = encode_format(path, "dash")
+    # print(result)
+    #
+    # result = encode_format(path, "hls")
+    # print(result)
