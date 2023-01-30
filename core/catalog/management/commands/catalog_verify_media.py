@@ -11,8 +11,10 @@ from google.cloud import storage
 MASTER_BUCKET = "obr-master"
 MEDIA_BUCKET = "obr-media"
 
+
 class ValidationException(Exception):
     pass
+
 
 def write_csv(outfile, data):
     assert len(data) > 0
@@ -54,6 +56,9 @@ class Command(BaseCommand):
         )
 
     def check_file_exists(self, bucket, path):
+        if not path:
+            print("PATH EMPTY!")
+            return False
         try:
             return storage.Blob(bucket=bucket, name=path).exists(self.client)
         except ValueError as e:
@@ -98,19 +103,25 @@ class Command(BaseCommand):
 
         for master in Bar(suffix="%(percent).1f%% - %(eta)ds").iter(qs):
             has_master, has_dash, has_hls = self.verify_master(master)
-            tested.append({
-                "uid": master.media.uid,
-                "has_master": "OK" if has_master else "MISS",
-                "has_dash": "OK" if has_dash else "MISS",
-                "has_hls": "OK" if has_hls else "MISS",
-            })
+            tested.append(
+                {
+                    "uid": master.media.uid,
+                    "has_master": "OK" if has_master else "MISS",
+                    "has_dash": "OK" if has_dash else "MISS",
+                    "has_hls": "OK" if has_hls else "MISS",
+                }
+            )
 
         # for master in qs:
         #     self.verify_master(master)
 
         # print(tested)
 
-        problems = [t for t in tested if not (t["has_master"] and t["has_dash"] and t["has_hls"])]
+        problems = [
+            t
+            for t in tested
+            if not (t["has_master"] and t["has_dash"] and t["has_hls"])
+        ]
 
         if not problems:
             self.stdout.write(f"all {len(tested)} masters ok")
@@ -118,4 +129,3 @@ class Command(BaseCommand):
 
         if outfile := options["outfile"]:
             write_csv(outfile=outfile, data=problems)
-
