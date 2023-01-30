@@ -55,8 +55,12 @@ class Command(BaseCommand):
     def encode_master(self, master):
         self.stdout.write(f"encode uid: {master.path}\n")
 
-        p_dash = multiprocessing.Process(target=self.encode_format, args=[master.path, "dash"])
-        p_hls = multiprocessing.Process(target=self.encode_format, args=[master.path, "hls"])
+        p_dash = multiprocessing.Process(
+            target=self.encode_format, args=[master.path, "dash"]
+        )
+        p_hls = multiprocessing.Process(
+            target=self.encode_format, args=[master.path, "hls"]
+        )
 
         p_dash.start()
         p_hls.start()
@@ -93,4 +97,4 @@ class Command(BaseCommand):
             start = time.perf_counter()
             self.encode_master(master)
             end = time.perf_counter()
-            self.stdout.write(f'finished in {round(end - start, 2)} second(s)')
+            self.stdout.write(f"finished in {round(end - start, 2)} second(s)")
