@@ -30,8 +30,8 @@ jobs:
       - run: black --version
       - run: black ./core/ --check
       - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
-#      - run: prospector -p ./core/
+      - run: poetry install
+#      - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
 
   test-be:
     runs-on: ubuntu-latest
@@ -46,7 +46,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: 'x64'
       - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
+#      - run: poetry export --without-hashes --dev -f requirements.txt | pip install -r /dev/stdin
+      - run: poetry install
       - run: make test-be
 
   test-fe:
