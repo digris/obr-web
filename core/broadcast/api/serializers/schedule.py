@@ -53,9 +53,9 @@ class SchedulePlaylistSerializer(CatalogPlaylistSerializer):
         source="series_dict",
         read_only=True,
     )
-    duration = serializers.DurationField(
-        read_only=True,
-    )
+    # duration = serializers.DurationField(
+    #     read_only=True,
+    # )
 
     class Meta:
         model = Playlist
@@ -64,7 +64,7 @@ class SchedulePlaylistSerializer(CatalogPlaylistSerializer):
             "ct",
             "uid",
             "name",
-            "duration",
+            # "duration",
             "editor",
             "series",
         ]

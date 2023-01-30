@@ -77,6 +77,8 @@ class BaseImage(
 
     @cached_property
     def ratio(self):
+        # NOTE: reading width / height results in file access.
+        #       value should be extracted on save and stored in db.
         if self.file and self.file.width and self.file.height:
             return round(self.file.width / self.file.height, 5)
         return 1
