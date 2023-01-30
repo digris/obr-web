@@ -1447,6 +1447,14 @@ optional = false
 python-versions = ">=3.6.1"
 
 [[package]]
+name = "progress"
+version = "1.6"
+description = "Easy to use progress bars"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "prospector"
 version = "1.8.2"
 description = ""
@@ -2507,7 +2515,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10, <3.12"
-content-hash = "40fe3bb994e7145b793bd52ae3dbaa8288faabb4684b82462e04e614ce80c0c8"
+content-hash = "9e814a4e314254c591cc5625a53b278d8a35a2bed9787fdc4e1c754cc23f1da3"
 
 [metadata.files]
 asgiref = [
@@ -3385,6 +3393,9 @@ pre-commit = [
 priority = [
     {file = "priority-2.0.0-py3-none-any.whl", hash = "sha256:6f8eefce5f3ad59baf2c080a664037bb4725cd0a790d53d59ab4059288faf6aa"},
     {file = "priority-2.0.0.tar.gz", hash = "sha256:c965d54f1b8d0d0b19479db3924c7c36cf672dbf2aec92d43fbdaf4492ba18c0"},
+]
+progress = [
+    {file = "progress-1.6.tar.gz", hash = "sha256:c9c86e98b5c03fa1fe11e3b67c1feda4788b8d0fe7336c2ff7d5644ccfba34cd"},
 ]
 prospector = [
     {file = "prospector-1.8.2-py3-none-any.whl", hash = "sha256:3afabfce9b013796dc83edba86e83d84f6069c43da9ec5bf18b88e10e0facf05"},

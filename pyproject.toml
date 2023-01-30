@@ -53,6 +53,7 @@ djangorestframework-simplejwt = "^5.2.0"
 sendgrid = "^6.9.7"
 django-admin-interface = "^0.24.0"
 django-admin-sortable2 = "^2.1.4"
+progress = "^1.6"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
