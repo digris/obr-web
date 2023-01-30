@@ -29,6 +29,10 @@ CSRF_TRUSTED_ORIGINS = [
     "http://local.obr-next:8080",
 ]
 
+MIDDLEWARE += [
+    "querycount.middleware.QueryCountMiddleware",
+]
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

@@ -32,6 +32,11 @@ def rating_post_save(sender, instance, **kwargs):
         user=str(instance.user) if instance.user else "anonymous",
     )
 
+    if instance.source:
+        md += "\tsource: {source}".format(
+            source=instance.get_source_display(),
+        )
+
     if instance.value < 0:
         md += "\treason: {scope}".format(
             scope=instance.get_scope_display(),

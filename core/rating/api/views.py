@@ -57,7 +57,8 @@ class ObjectRatingView(APIView):
         obj_ct,
         obj_uid,
         value,
-        scope=None,
+        source="",
+        scope="",
         comment="",
     ):
 
@@ -66,6 +67,7 @@ class ObjectRatingView(APIView):
         kwargs = {
             "content_object": content_object,
             "value": value,
+            "source": source,
             "scope": scope,
             "comment": comment,
         }
@@ -125,13 +127,16 @@ class ObjectRatingView(APIView):
         serializer.is_valid(raise_exception=True)
 
         value = request.data.get("value")
-        scope = request.data.get("scope")
+        source = request.data.get("source", "")
+        scope = request.data.get("scope", "")
         comment = bleach.clean(request.data.get("comment", ""))
 
         vote = self.get_vote(request, obj_ct, obj_uid)
 
         if vote and value:
             vote.value = value
+            if source:
+                vote.source = source
             if scope:
                 vote.scope = scope
             if comment:
@@ -146,6 +151,7 @@ class ObjectRatingView(APIView):
                 obj_ct,
                 obj_uid,
                 value,
+                source,
                 scope,
                 comment,
             )

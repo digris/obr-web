@@ -9,7 +9,7 @@ import TextareaInput from "@/components/ui/form/TextareaInput.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
-import { useRatingStore } from "@/stores/rating";
+import { useRating } from "@/composables/rating";
 
 export default defineComponent({
   props: {
@@ -29,8 +29,7 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n();
     const objKey = computed(() => `${props.media.ct}:${props.media.uid}`);
-    const { ratingByKey, loadRating, setRating } = useRatingStore();
-    // const { notify } = useNotification();
+    const { ratingByKey, loadRating, setRatingWithSource } = useRating();
     const rating = computed(() => ratingByKey(objKey.value));
     const promptVisible = ref(false);
     const scope = ref("track");
@@ -59,7 +58,7 @@ export default defineComponent({
           await flipIcon(value);
         } else {
           await flipIcon(value);
-          await setRating(objKey.value, value);
+          await setRatingWithSource(objKey.value, value);
         }
       },
       200,
@@ -90,7 +89,7 @@ export default defineComponent({
       ];
     });
     const downvote = async () => {
-      await setRating(objKey.value, -1, {
+      await setRatingWithSource(objKey.value, -1, {
         scope: scope.value,
         comment: comment.value,
       });

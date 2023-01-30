@@ -8,7 +8,7 @@ import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import { useObjKey } from "@/composables/obj";
 import { useQueueControls } from "@/composables/queue";
-import { useRatingStore } from "@/stores/rating";
+import { useRating } from "@/composables/rating";
 import { requireSubscription } from "@/utils/account";
 
 import Action from "./actions/Action.vue";
@@ -32,13 +32,13 @@ export default defineComponent({
     const { t } = useI18n();
     const { objKey } = useObjKey(props.obj);
     const iconScale = 0.875;
-    const { ratingByKey, setRating } = useRatingStore();
+    const { ratingByKey, setRatingWithSource } = useRating();
     const rating = computed(() => ratingByKey(objKey.value));
     const isFavorite = computed(() => rating.value === 1);
     const isBanned = computed(() => rating.value === -1);
     const rate = debounce(
       async (value: number) => {
-        await setRating(objKey.value, value);
+        await setRatingWithSource(objKey.value, value);
       },
       200,
       { leading: true, trailing: false }

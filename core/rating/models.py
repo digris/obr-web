@@ -13,22 +13,22 @@ class VoteValue(
     UP = 1, "+"
 
 
+class VoteSource(
+    models.TextChoices,
+):
+    LIVE = "live", "live"
+    ON_DEMAND = "ondemand", "on demand"
+
+
 class VoteScope(
     models.TextChoices,
 ):
-    UNDEFINED = None, "not specified"
+    UNDEFINED = "", "not specified"
     TRACK = "track", "track"
     EMISSION = "emission", "emission"
     DAYTIME = "daytime", "daytime"
     REPETITION = "repetition", "repetition"
     GENRE = "genre", "genre"
-
-
-class VoteSource(
-    models.TextChoices,
-):
-    LIVE = "live", "live"
-    ON_DEMAND = "on-demand", "on-demand"
 
 
 class Vote(
@@ -40,18 +40,18 @@ class Vote(
         choices=VoteValue.choices,
         db_index=True,
     )
-    scope = models.CharField(
-        max_length=16,
-        null=True,
-        choices=VoteScope.choices,
-        default=VoteScope.UNDEFINED,
-        db_index=True,
-    )
     source = models.CharField(
         max_length=32,
         blank=True,
         choices=VoteSource.choices,
         default="",
+        db_index=True,
+    )
+    scope = models.CharField(
+        max_length=16,
+        null=True,
+        choices=VoteScope.choices,
+        default=VoteScope.UNDEFINED,
         db_index=True,
     )
     comment = models.TextField(

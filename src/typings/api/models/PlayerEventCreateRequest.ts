@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { SourceEnum } from './SourceEnum';
+import type { PlayerEventCreateSourceEnum } from './PlayerEventCreateSourceEnum';
 import type { StateEnum } from './StateEnum';
 
 export type PlayerEventCreateRequest = {
     objKey: string;
-    source: SourceEnum;
+    source: PlayerEventCreateSourceEnum;
     state: StateEnum;
     /**
      * Unix timestamp when event was created on the client.

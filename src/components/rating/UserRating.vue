@@ -5,7 +5,7 @@ import { debounce } from "lodash-es";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import { useIconSize } from "@/composables/icon";
-import { useRatingStore } from "@/stores/rating";
+import { useRating } from "@/composables/rating";
 
 export default defineComponent({
   props: {
@@ -41,7 +41,7 @@ export default defineComponent({
   },
   setup(props) {
     const { iconSize } = useIconSize(props.iconScale);
-    const { ratingByKey, loadRating, setRating } = useRatingStore();
+    const { ratingByKey, loadRating, setRatingWithSource } = useRating();
     const rating = computed(() => ratingByKey(props.objKey));
     const isFlipped = ref(false);
     const flipIcon = async () => {
@@ -59,7 +59,7 @@ export default defineComponent({
           return;
         }
         await flipIcon();
-        await setRating(props.objKey, value);
+        await setRatingWithSource(props.objKey, value);
       },
       200,
       { leading: true, trailing: false }

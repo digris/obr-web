@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export enum SourceEnum {
+export enum PlayerEventCreateSourceEnum {
     LIVE = 'live',
     ON_DEMAND = 'on-demand',
 }

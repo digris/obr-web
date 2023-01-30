@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Vote, VoteScope
+from ..models import Vote, VoteScope, VoteSource
 
 # SITE_URL = getattr(settings, 'SITE_URL')
 
@@ -12,6 +12,12 @@ class VoteSerializer(serializers.ModelSerializer):
         max_value=1,
         allow_null=True,
     )
+    source = serializers.ChoiceField(
+        choices=VoteSource.choices,
+        write_only=True,
+        required=False,
+        allow_null=True,
+    )
     scope = serializers.ChoiceField(
         choices=VoteScope.choices,
         write_only=True,
@@ -21,7 +27,6 @@ class VoteSerializer(serializers.ModelSerializer):
     comment = serializers.CharField(
         write_only=True,
         required=False,
-        # allow_null=True,
         allow_blank=True,
     )
 
@@ -31,6 +36,7 @@ class VoteSerializer(serializers.ModelSerializer):
         fields = [
             "key",
             "value",
+            "source",
             "scope",
             "comment",
             "updated",

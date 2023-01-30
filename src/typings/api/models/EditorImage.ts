@@ -19,10 +19,6 @@ export type EditorImage = {
      * "Internal" storage backend URL
      */
     readonly url?: string;
-    /**
-     * Aspect ratio - e.g. `1.78` (16/9)
-     */
-    readonly ratio?: number;
     readonly rgb?: Array<number>;
 };
 
