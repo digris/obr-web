@@ -19,7 +19,7 @@ def rating_post_save(sender, instance, **kwargs):
 
     values = {-1: "-", 1: "+"}
 
-    tpl = """*{value}* \tfor <{url}|{name}>
+    tpl = """{value} \tfor <{url}|{name}>
     \tby {user}
     """
 
@@ -75,7 +75,7 @@ def rating_post_save(sender, instance, **kwargs):
 # pylint: disable=unused-argument
 def rating_pre_delete(sender, instance, **kwargs):
 
-    tpl = """*x* \tfor <{url}|{name}>
+    tpl = """x \tfor <{url}|{name}>
     \tby {user}
     """
 
