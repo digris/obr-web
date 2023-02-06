@@ -9,6 +9,18 @@ from sync.admin import sync_qs_action
 from .models import Editor, EditorImage, Emission
 
 
+@admin.action(description="Set active")
+# pylint: disable=unused-argument
+def set_active_action(modeladmin, request, queryset):
+    queryset.all().update(is_active=True)
+
+
+@admin.action(description="Set inactive")
+# pylint: disable=unused-argument
+def set_inactive_action(modeladmin, request, queryset):
+    queryset.all().update(is_active=False)
+
+
 class EditorImageInline(SortableImageInlineMixin, admin.TabularInline):
     model = EditorImage
 
@@ -74,6 +86,8 @@ class EditorAdmin(TranslationAdmin):
     ]
     actions = [
         sync_qs_action,
+        set_active_action,
+        set_inactive_action,
     ]
     raw_id_fields = [
         "user",

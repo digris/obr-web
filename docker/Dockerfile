@@ -47,6 +47,7 @@ WORKDIR /root/
 
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
+    PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     GIT_SHORT_SHA=$GIT_SHORT_SHA
 
@@ -95,7 +96,7 @@ RUN set -ex \
 
 
 #######################################################################
-# pfinal container containing compiled front end & back end
+# final container containing compiled front end & back end
 #######################################################################
 FROM python-base as final
 

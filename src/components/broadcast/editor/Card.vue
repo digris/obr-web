@@ -69,6 +69,10 @@ export default defineComponent({
 
   .visual {
     .lazy-image {
+      filter: grayscale(100%) brightness(90%);
+
+      // mix-blend-mode: multiply;
+
       &.is-grayscale {
         filter: grayscale(1);
       }

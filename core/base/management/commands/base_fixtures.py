@@ -32,14 +32,15 @@ FIXTURE_SCOPES = [
     {
         "key": "apps",
         "include": [
-            "broadcast",
-            "catalog",
+            "catalog.mood",
+            "cms",
+            "faq",
         ],
         "exclude": [
-            "broadcast.editorimage",
-            "catalog.artistimage",
-            "catalog.releaseimage",
-            "catalog.playlistimage",
+            # "broadcast.editorimage",
+            # "catalog.artistimage",
+            # "catalog.releaseimage",
+            # "catalog.playlistimage",
         ],
     },
 ]

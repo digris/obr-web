@@ -40,7 +40,7 @@ RUN pip3 install -U pip "poetry==$POETRY_VERSION" \
 
 COPY ["pyproject.toml","poetry.lock", "./"]
 
-RUN poetry export --without-hashes -f requirements.txt | /venv/bin/pip install -q -r /dev/stdin
+# RUN poetry export --without-hashes -f requirements.txt | /venv/bin/pip install -q -r /dev/stdin
 
 ADD ./core/ ./core/
 
@@ -50,7 +50,7 @@ RUN set -ex \
 
 
 #######################################################################
-# pfinal container containing compiled front end & back end
+# final container containing compiled front end & back end
 #######################################################################
 FROM python-base as final
 

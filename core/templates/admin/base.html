@@ -3,9 +3,19 @@
 {% block extrahead %}{{ block.super }}
 <style>
 :root {
+  /**/
+  /**/
   --primary: #1a73e8;
   --secondary: #1869d5;
-  --accent: #bdf1ff;
+  /*
+  --primary: #333333;
+  --secondary: #111111;
+  */
+  /*
+  --primary: #aa06fa;
+  --secondary: #9c05e7;
+  */
+  --accent: #ffffff;
   --primary-fg: #fff;
 
   --body-fg: #333;
@@ -23,13 +33,13 @@
   --breadcrumbs-bg: var(--primary);
 
   --link-fg: var(--primary);
-  --link-hover-color: #425a9f;
-  --link-selected-fg: #5b80b2;
+  --link-hover-color: var(--secondary);
+  --link-selected-fg: var(--secondary);
 
   --hairline-color: #e8e8e8;
   --border-color: #ccc;
 
-  --error-fg: #ef1616;
+  --error-fg: #d5026c;
 
   --message-success-bg: #dfd;
   --message-warning-bg: #ffc;
@@ -41,13 +51,13 @@
 
   --button-fg: #fff;
   --button-bg: var(--primary);
-  --button-hover-bg: #609ab6;
+  --button-hover-bg: var(--secondary);
   --default-button-bg: var(--secondary);
-  --default-button-hover-bg: #205067;
+  --default-button-hover-bg: #555555;
   --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
   --close-button-hover-bg: #747474;
-  --delete-button-bg: #ba2121;
-  --delete-button-hover-bg: #a41515;
+  --delete-button-bg: #d5026c;
+  --delete-button-hover-bg: #f00078;
 
   --object-tools-fg: var(--button-fg);
   --object-tools-bg: var(--close-button-bg);

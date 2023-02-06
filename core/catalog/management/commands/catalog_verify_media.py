@@ -106,9 +106,9 @@ class Command(BaseCommand):
             tested.append(
                 {
                     "uid": master.media.uid,
-                    "has_master": "OK" if has_master else "MISS",
-                    "has_dash": "OK" if has_dash else "MISS",
-                    "has_hls": "OK" if has_hls else "MISS",
+                    "has_master": has_master,
+                    "has_dash": has_dash,
+                    "has_hls": has_hls,
                 }
             )
 
