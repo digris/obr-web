@@ -17,7 +17,7 @@ class VoteAdmin(
         "content_type",
         "content_object",
         # "created",
-        "updated",
+        "comment",
     ]
     list_filter = [
         "value",
