@@ -9,14 +9,15 @@ class VoteAdmin(
 ):
     date_hierarchy = "updated"
     list_display = [
-        "__str__",
+        # "__str__",
+        "content_object",
         "user",
         "value",
         "source",
         "scope",
         "content_type",
-        "content_object",
-        # "created",
+        # "content_object",
+        "created",
         "comment",
     ]
     list_filter = [
