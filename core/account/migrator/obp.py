@@ -1,6 +1,8 @@
 import logging
+
 from django.db.utils import IntegrityError
-from account.models import MigrationSource, User, LegacyUser
+
+from account.models import LegacyUser, MigrationSource, User
 from sync import api_client
 
 logger = logging.getLogger(__name__)

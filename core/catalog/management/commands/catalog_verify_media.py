@@ -1,11 +1,12 @@
 import argparse
 import csv
 import sys
+
 from django.core.management.base import BaseCommand, CommandError
-from progress.bar import Bar
 
 from catalog.models import Master
 from google.cloud import storage
+from progress.bar import Bar
 
 # https://console.cloud.google.com/storage/browser?project=open-broadcast&prefix=
 MASTER_BUCKET = "obr-master"

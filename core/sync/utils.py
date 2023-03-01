@@ -11,8 +11,8 @@ from django.db.utils import IntegrityError
 
 import filetype
 from identifier.models import Identifier, IdentifierScope
-from tagging.models import Tag, TaggedItem, TagType
 from image.extract import extract_md5
+from tagging.models import Tag, TaggedItem, TagType
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,6 @@
 import json
-import time
 import multiprocessing
+import time
 
 from django.core.management.base import BaseCommand, CommandError
 
