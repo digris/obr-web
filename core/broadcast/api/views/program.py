@@ -62,7 +62,6 @@ class ProgramView(GenericAPIView):
         ],
     )
     def get(self, request):
-        now = timezone.now()  # UTC
         if date := request.query_params.get("date"):
             now = datetime.strptime(date, "%Y-%m-%d")
         else:
@@ -77,6 +76,9 @@ class ProgramView(GenericAPIView):
         naive_time_from = naive.replace(hour=6, minute=0, second=0, microsecond=0)
         time_from = timezone.make_aware(naive_time_from)  # now with timezone - CE(S)T)
         time_until = time_from + timedelta(seconds=60 * 60 * 24 - 1)  # 24h - 1s
+
+        if date_range := request.query_params.get("date_range"):
+            raise Exception("foo")
 
         qs = (
             self.get_emission_queryset()

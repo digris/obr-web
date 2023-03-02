@@ -8,6 +8,7 @@ from django.views.decorators.cache import cache_page
 
 from broadcast.api import serializers
 from broadcast.models import Emission
+from drf_spectacular.utils import extend_schema
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
@@ -32,6 +33,13 @@ class ScheduleView(
         )
         return qs
 
+    @extend_schema(
+        responses={
+            200: serializers.ScheduleSerializer(
+                many=True,
+            ),
+        },
+    )
     @method_decorator(cache_page(5 * 60))
     def get(self, request):
         seconds_ahead = int(request.GET.get("secondsAhead", 0))

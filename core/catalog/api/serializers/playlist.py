@@ -2,11 +2,16 @@ from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSeriali
 from broadcast.models.editor import Editor
 from broadcast.models.emission import Emission
 from catalog.api.serializers import MediaSerializer
-from catalog.models import Playlist, PlaylistMedia, Series
-from image.api.serializers import ImageSerializer
+from catalog.models import Playlist, PlaylistMedia, PlaylistImage, Series
+from image.api.serializers import BaseImageSerializer, ImageSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
+
+
+class PlaylistImageSerializer(BaseImageSerializer):
+    class Meta(BaseImageSerializer.Meta):
+        model = PlaylistImage
 
 
 class PlaylistMediaSerializer(
@@ -44,12 +49,10 @@ class PlaylistEditorSerializer(
         source="display_name",
     )
 
-    class Meta:
+    class Meta(CTUIDModelSerializer.Meta):
         model = Editor
-        fields = [
+        fields = CTUIDModelSerializer.Meta.fields + [
             "url",
-            "ct",
-            "uid",
             "name",
         ]
         expandable_fields = {
@@ -61,11 +64,14 @@ class PlaylistEmissionSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
-    class Meta:
+    url = serializers.HyperlinkedIdentityField(
+        view_name="api:broadcast:emission-detail",
+        lookup_field="uid",
+    )
+    class Meta(CTUIDModelSerializer.Meta):
         model = Emission
-        fields = [
-            "ct",
-            "uid",
+        fields = CTUIDModelSerializer.Meta.fields + [
+            "url",
             "time_start",
             "time_end",
         ]
@@ -103,8 +109,9 @@ class PlaylistSerializer(
         view_name="api:catalog:playlist-detail",
         lookup_field="uid",
     )
-    image = ImageSerializer(
+    image = PlaylistImageSerializer(
         read_only=True,
+        allow_null=True,
     )
     latest_emission_time_start = serializers.DateTimeField(
         read_only=True,
@@ -116,33 +123,20 @@ class PlaylistSerializer(
     num_media = serializers.IntegerField(
         read_only=True,
     )
-    num_emissions = serializers.IntegerField(
-        read_only=True,
-    )
+    # num_emissions = serializers.IntegerField(
+    #     read_only=True,
+    # )
     user_rating = serializers.IntegerField(
         read_only=True,
         allow_null=True,
     )
-
-    # series = serializers.SerializerMethodField()
-    # def get_series(self, obj):
-    #     if not obj.series:
-    #         return None
-    #
-    #     return {
-    #         "ct": obj.series.ct,
-    #         "uid": str(obj.series.uid),
-    #         "name": obj.series.name if obj.series else None,
-    #         "episode": obj.series_episode,
-    #     }
-
     series = PlaylistSeriesSerializer(
         read_only=True,
     )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
-        ref_name = "CatalogPlaylistSerializer"
+        # ref_name = "CatalogPlaylistSerializer"
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "name",
@@ -150,7 +144,7 @@ class PlaylistSerializer(
             "latest_emission_time_start",
             "user_rating_time_rated",
             "num_media",
-            "num_emissions",
+            # "num_emissions",
             "image",
             "user_rating",
         ]
@@ -161,23 +155,41 @@ class PlaylistSerializer(
                     # "source": "airplayed_playlist_media",
                     "source": "playlist_media",
                     "many": True,
+                    "read_only": True,
                 },
             ),
             "tags": (
                 TagSerializer,
                 {
                     "many": True,
+                    "read_only": True,
                 },
             ),
             "duration": (
                 DurationInSecondsSerializer,
-                {},
+                {
+                    "read_only": True,
+                },
             ),
             "editor": (
                 PlaylistEditorSerializer,
                 {
+                    "read_only": True,
                     "expand": ["image"],
                 },
             ),
-            "latest_emission": (PlaylistEmissionSerializer,),
+            "latest_emission": (
+                PlaylistEmissionSerializer,
+                {
+                    "read_only": True,
+                },
+            ),
+            "emissions": (
+                PlaylistEmissionSerializer,
+                {
+                    "source": "get_emissions",
+                    "read_only": True,
+                    "many": True,
+                },
+            ),
         }
