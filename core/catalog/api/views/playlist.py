@@ -6,10 +6,13 @@ from django.shortcuts import get_object_or_404
 from catalog.api import serializers
 from catalog.models import Playlist
 from django_filters import rest_framework as filters
+from drf_spectacular.utils import OpenApiParameter, extend_schema
+from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
+from tagging.api.serializers import TagSerializer
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
@@ -105,6 +108,34 @@ def get_search_qs(qs, q):
     return qs
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="expand",
+            location=OpenApiParameter.QUERY,
+            enum=[
+                "media_set",
+                "tags",
+                "duration",
+                "editor",
+                "latest_emission",
+            ],
+            many=True,
+        ),
+    ],
+    responses={
+        200: serializers.PlaylistSerializer(
+            expand=[
+                "media_set",
+                "tags",
+                "duration",
+                "editor",
+                "latest_emission",
+                "emissions",
+            ],
+        ),
+    },
+)
 class PlaylistViewSet(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
@@ -195,6 +226,11 @@ class PlaylistViewSet(
 
         return obj
 
+    @extend_schema(
+        responses={
+            200: TagSerializer(many=True,),
+        },
+    )
     @action(url_path="tags", detail=False, methods=["get"])
     # pylint: disable=unused-argument
     def get_tags(self, request, **kwargs):

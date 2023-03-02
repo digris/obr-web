@@ -6,6 +6,12 @@ from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
 
 
+class ProgramEmissionPlaylistSerializer(PlaylistSerializer):
+    class Meta(PlaylistSerializer.Meta):
+        ref_name = "ProgramEmissionPlaylistSerializer"
+        pass
+
+
 class ProgramEmissionSerializer(
     CTUIDModelSerializer,
     serializers.HyperlinkedModelSerializer,
@@ -14,7 +20,7 @@ class ProgramEmissionSerializer(
         view_name="api:broadcast:emission-detail",
         lookup_field="uid",
     )
-    playlist = PlaylistSerializer(
+    playlist = ProgramEmissionPlaylistSerializer(
         fields=[
             "ct",
             "uid",
@@ -62,7 +68,9 @@ class ProgramEmissionSerializer(
         ]
 
 
-class ProgramSerializer(serializers.Serializer):
+class ProgramSerializer(
+    serializers.Serializer
+):
     time_from = serializers.DateTimeField(
         read_only=True,
     )

@@ -142,6 +142,9 @@ class Playlist(
     def sync_data(self, *args, **kwargs):
         return sync_playlist(self, *args, **kwargs)
 
+    def get_emissions(self):
+        return list(self.emissions.all()) + list(self.archived_emissions.all())
+
 
 class Series(
     TimestampedModelMixin,
