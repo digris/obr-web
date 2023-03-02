@@ -190,7 +190,6 @@ def sync_user_votes(user):
 
 # pylint: disable=unused-argument
 def sync_user(user, **kwargs):
-
     update = {}
 
     type(user).objects.filter(id=user.id).update(**update)

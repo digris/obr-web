@@ -6,7 +6,6 @@ import account.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0028_alter_user_gender"),
     ]

@@ -9,7 +9,6 @@ import taggit.managers
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("tagging", "0001_initial"),
         ("catalog", "0017_auto_20210622_1403"),

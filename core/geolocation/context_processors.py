@@ -1,5 +1,4 @@
 def geolocation(request):
-
     ctx = {}
 
     if hasattr(request, "geolocation_country"):

@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 class PlanView(
     APIView,
 ):
-
     permission_classes = [
         permissions.IsAuthenticated,
     ]
@@ -39,7 +38,6 @@ class PlanView(
 class PaymentView(
     APIView,
 ):
-
     permission_classes = [
         permissions.IsAuthenticated,
     ]
@@ -68,7 +66,6 @@ class PaymentView(
 class VoucherView(
     APIView,
 ):
-
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
     ]

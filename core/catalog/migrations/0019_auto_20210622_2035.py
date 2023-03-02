@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("broadcast", "0005_editor_editorimage"),
         ("catalog", "0018_auto_20210622_1713"),

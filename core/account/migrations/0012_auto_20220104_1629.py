@@ -6,7 +6,6 @@ import django_countries.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0011_address"),
     ]

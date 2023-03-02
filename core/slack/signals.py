@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 @receiver(post_save, sender=Vote)
 # pylint: disable=unused-argument
 def rating_post_save(sender, instance, **kwargs):
-
     values = {-1: "-", 1: "+"}
 
     tpl = """{value} \tfor <{url}|{name}>
@@ -79,7 +78,6 @@ def rating_post_save(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Vote)
 # pylint: disable=unused-argument
 def rating_pre_delete(sender, instance, **kwargs):
-
     tpl = """x \tfor <{url}|{name}>
     \tby {user}
     """

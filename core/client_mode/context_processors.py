@@ -1,5 +1,4 @@
 def client_mode(request):
-
     ctx = {}
 
     if hasattr(request, "client_mode"):

@@ -6,7 +6,6 @@ class BaseImageSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
-
     path = serializers.CharField(
         read_only=True,
         help_text="To be used with `IMAGE_RESIZER_ENDPOINT`",

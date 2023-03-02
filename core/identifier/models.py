@@ -21,7 +21,6 @@ class Identifier(
     CTUIDModelMixin,
     models.Model,
 ):
-
     scope = models.CharField(
         max_length=32,
         choices=IdentifierScope.choices,

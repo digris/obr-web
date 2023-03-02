@@ -35,7 +35,6 @@ def image_as_fp(img):
 
 
 def extract_colors(file, num_colors=2):
-
     img = read_as_image(file=file.file)
     img = resize_image(img=img)
 
@@ -55,7 +54,6 @@ def extract_colors(file, num_colors=2):
 
 
 def extract_md5(file):
-
     img = read_as_image(file=file.file)
 
     try:

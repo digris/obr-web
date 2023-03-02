@@ -6,7 +6,6 @@ import tagging.managers
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("tagging", "0001_initial"),
         ("catalog", "0022_auto_20210625_1356"),

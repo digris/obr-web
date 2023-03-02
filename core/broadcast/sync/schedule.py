@@ -122,7 +122,6 @@ def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False)
     processed_emissions = []
 
     for emission in create_emission_objects(emission_list):
-
         playlist_uuid = emission.obj_key.split(":")[1]
 
         try:

@@ -15,7 +15,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-
         migrator.obp.update_legacy_users(
             database=options["database"],
         )

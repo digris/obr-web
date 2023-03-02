@@ -27,7 +27,6 @@ class PlayerEventView(
         },
     )
     def put(self, request):
-
         events = request.data.get("events", [])
 
         serializer = serializers.PlayerEventCreateSerializer(
@@ -36,7 +35,6 @@ class PlayerEventView(
         )
 
         if serializer.is_valid():
-
             for event_data in serializer.data:
                 event = PlayerEvent(
                     source=event_data["source"],

@@ -10,7 +10,6 @@ KEY_BASE64 = "uH2LcPhs5zzOLQsu65rtZw=="
 
 
 def get_signed_cookie(url_prefix, key_name, base64_key, expiration_time):
-
     encoded_url_prefix = base64.urlsafe_b64encode(
         url_prefix.strip().encode("utf-8")
     ).decode("utf-8")
@@ -35,7 +34,6 @@ def get_signed_cookie(url_prefix, key_name, base64_key, expiration_time):
 
 
 def get_cdn_policy(seconds_valid=60 * 60):
-
     signed_policy = get_signed_cookie(
         url_prefix=URL_PREFIX,
         key_name=KEY_NAME,

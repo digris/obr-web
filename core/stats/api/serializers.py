@@ -4,7 +4,6 @@ from rest_framework import serializers
 class PlayerEventCreateSerializer(
     serializers.Serializer,
 ):
-
     obj_key = serializers.CharField()
 
     source = serializers.ChoiceField(

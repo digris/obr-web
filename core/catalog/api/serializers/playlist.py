@@ -68,6 +68,7 @@ class PlaylistEmissionSerializer(
         view_name="api:broadcast:emission-detail",
         lookup_field="uid",
     )
+
     class Meta(CTUIDModelSerializer.Meta):
         model = Emission
         fields = CTUIDModelSerializer.Meta.fields + [

@@ -148,7 +148,6 @@ class SubscriptionSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
-
     countries = serializers.ListSerializer(
         read_only=True, child=serializers.CharField(min_length=2, max_length=2)
     )

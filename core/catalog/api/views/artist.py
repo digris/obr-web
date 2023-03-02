@@ -24,7 +24,6 @@ ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
 
 
 class ArtistFilter(filters.FilterSet):
-
     user_rating = filters.NumberFilter(
         method="user_rating_filter",
     )

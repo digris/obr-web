@@ -18,7 +18,6 @@ def copy_country_from_address_to_user(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0025_remove_user_date_of_birth"),
     ]

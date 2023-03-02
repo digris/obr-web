@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 @receiver(post_save)
 # pylint: disable=unused-argument
 def sync_model_post_save(sender, instance, **kwargs):
-
     if SKIP_ALL:
         return
 
@@ -30,7 +29,6 @@ def sync_model_post_save(sender, instance, **kwargs):
         return
 
     if instance.sync_state == SyncState.PENDING:
-
         qs = type(instance).objects.filter(id=instance.id)
         qs.update(sync_state=SyncState.RUNNING)
         logger.debug(f'sync pending for {instance.ct}:{instance.uid} "{instance}"')

@@ -29,7 +29,6 @@ def get_default_valid_until():
 
 
 class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
-
     code = models.CharField(
         max_length=6,
         default=get_default_code,
@@ -82,7 +81,6 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
 
     @property
     def is_valid(self):
-
         if self.valid_until < timezone.now():
             return False
 
@@ -93,7 +91,6 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
 
 
 class Redemption(CTUIDModelMixin, TimestampedModelMixin, models.Model):
-
     voucher = models.ForeignKey(
         Voucher,
         related_name="redemtions",

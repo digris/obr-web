@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 def create_settings(apps, schema_editor):
-
     User = apps.get_model("account", "User")
     Settings = apps.get_model("account", "Settings")
     db_alias = schema_editor.connection.alias
@@ -16,7 +15,6 @@ def create_settings(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0004_auto_20210511_1811"),
     ]

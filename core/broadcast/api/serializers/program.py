@@ -68,9 +68,7 @@ class ProgramEmissionSerializer(
         ]
 
 
-class ProgramSerializer(
-    serializers.Serializer
-):
+class ProgramSerializer(serializers.Serializer):
     time_from = serializers.DateTimeField(
         read_only=True,
     )

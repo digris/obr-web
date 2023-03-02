@@ -10,7 +10,6 @@ import subscription.models.voucher
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("subscription", "0005_alter_payment_extra_data"),

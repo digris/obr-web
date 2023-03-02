@@ -114,7 +114,6 @@ class MediaViewSet(
     filterset_class = MediaFilter
 
     def get_queryset(self, **kwargs):
-
         include_upcoming = kwargs.get("include_upcoming", False)
 
         qs = self.queryset
@@ -190,7 +189,6 @@ class MediaViewSet(
         return qs
 
     def get_object(self):
-
         try:
             obj_uid = self.kwargs["uid"]
             assert len(obj_uid) == 8
@@ -277,7 +275,6 @@ class MediaViewSet(
 
     # pylint: disable=too-many-locals
     def list_for_playlist(self, request, uid, *args, **kwargs):
-
         qs = self.filter_queryset(self.get_queryset(include_upcoming=True))
 
         playlist = Playlist.objects.get(uid=uid)

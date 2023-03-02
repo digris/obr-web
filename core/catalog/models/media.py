@@ -19,7 +19,6 @@ class Media(
     SyncModelMixin,
     models.Model,
 ):
-
     name = models.CharField(max_length=256)
 
     duration = models.DurationField(
@@ -102,7 +101,6 @@ class Master(
     SyncModelMixin,
     models.Model,
 ):
-
     encoding = models.CharField(
         max_length=4,
         null=True,
@@ -162,7 +160,6 @@ class Master(
 
 
 class MediaArtists(models.Model):
-
     artist = models.ForeignKey(
         "catalog.Artist",
         on_delete=models.CASCADE,
@@ -205,7 +202,6 @@ class AirplayQuerySet(models.QuerySet):
 
 
 class Airplay(TimestampedModelMixin, CTUIDModelMixin, models.Model):
-
     time_start = models.DateTimeField(
         # editable=False,
         db_index=True,

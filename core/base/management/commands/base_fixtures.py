@@ -78,12 +78,10 @@ class Command(BaseCommand):
             self.export_fixtures(*args, **options)
 
     def export_fixtures(self, *args, **options):
-
         verbosity = options["verbosity"]
         database = options["database"]
 
         for scope in FIXTURE_SCOPES:
-
             path = os.path.join(options["directory"], f"{scope['key']}.json")
 
             excludes = []
@@ -116,7 +114,6 @@ class Command(BaseCommand):
             )
 
     def import_fixtures(self, *args, **options):
-
         call_command("migrate")
 
         database = options["database"]
@@ -125,7 +122,6 @@ class Command(BaseCommand):
             raise CommandError("import into live database not allowed!")
 
         for scope in FIXTURE_SCOPES:
-
             path = os.path.join(options["directory"], f"{scope['key']}.json")
 
             call_command(

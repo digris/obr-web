@@ -22,7 +22,6 @@ class StatsArchiveView(
         Invoking requires `account.api_stats_webhooks` permissions.""",
     )
     def post(self, request):
-
         serializer = self.serializer_class(
             {
                 "num_airplays_archived": archive_airplays(),

@@ -61,7 +61,6 @@ def sync_playlist(playlist, skip_images=False, **kwargs):
     PlaylistMedia.objects.filter(playlist=playlist).delete()
 
     for media_dict in media_list:
-
         uuid = media_dict.pop("uuid")
         name = media_dict.pop("name")
         media_dict.pop("duration")

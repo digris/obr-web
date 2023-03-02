@@ -6,7 +6,6 @@ import subscription.models.voucher
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("subscription", "0010_subscription_countries_str"),
     ]

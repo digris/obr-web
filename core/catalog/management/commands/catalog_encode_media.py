@@ -75,7 +75,6 @@ class Command(BaseCommand):
         # self.stdout.write(f"hls: {hls}\n")
 
     def handle(self, *args, **options):
-
         self.api_token = options["token"]
 
         qs = (

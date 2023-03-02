@@ -25,7 +25,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-
         updated = update_by_app(**options)
 
         for ct in updated:

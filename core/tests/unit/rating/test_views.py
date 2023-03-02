@@ -14,7 +14,6 @@ User = get_user_model()
 
 @pytest.mark.django_db
 class TestObjectRatingViewAuthenticated:
-
     # @pytest.fixture(scope="class")
     # def user(self, django_db_setup, django_db_blocker):
     #     with django_db_blocker.unblock():

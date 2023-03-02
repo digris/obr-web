@@ -33,7 +33,6 @@ def reverse_func(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0012_auto_20220104_1629"),
     ]

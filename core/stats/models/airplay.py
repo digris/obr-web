@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class Airplay(CTUIDModelMixin, models.Model):
-
     time_start = models.DateTimeField(
         editable=False,
         db_index=True,

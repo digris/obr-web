@@ -18,7 +18,6 @@ SYNC_BACKENDS = [
 
 
 def get_backends_for_user(user):
-
     backends_data = user_backends_data(user, BACKENDS, Storage)
 
     auth_backends = [b for b in backends_data.get("backends", []) if b in AUTH_BACKENDS]
