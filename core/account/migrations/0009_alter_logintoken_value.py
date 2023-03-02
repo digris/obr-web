@@ -6,7 +6,6 @@ import account.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0008_user_sync_last_update"),
     ]

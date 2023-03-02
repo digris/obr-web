@@ -28,7 +28,6 @@ class SyncScheduleView(
         This resource is periodically requested by GCP Cloud Scheduler""",
     )
     def post(self, request):
-
         serializer = self.serializer_class(
             data=request.data,
         )
@@ -77,7 +76,6 @@ class SyncAppView(
         Invoking requires `account.api_sync_webhooks` permissions.""",
     )
     def post(self, request):
-
         serializer = self.serializer_class(
             data=request.data,
         )

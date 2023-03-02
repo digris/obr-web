@@ -38,7 +38,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-
         self.stdout.write(str(options))
 
         emails = [options["email"]] if options["email"] else []

@@ -245,7 +245,6 @@ class UserAdmin(AuthUserAdmin):
 
 @admin.register(LoginToken)
 class LoginTokenAdmin(admin.ModelAdmin):
-
     save_on_top = True
     list_display = [
         "uid",

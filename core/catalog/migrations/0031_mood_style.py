@@ -10,7 +10,6 @@ def get_default_style():
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("catalog", "0030_remove_mood_animation_url"),
     ]

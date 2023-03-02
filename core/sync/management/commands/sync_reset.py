@@ -8,7 +8,6 @@ class Command(BaseCommand):
     help = "Reset (= delete) synced data"
 
     def handle(self, *args, **options):
-
         models = [
             Emission,
             Playlist,

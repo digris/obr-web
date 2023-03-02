@@ -228,7 +228,9 @@ class PlaylistViewSet(
 
     @extend_schema(
         responses={
-            200: TagSerializer(many=True,),
+            200: TagSerializer(
+                many=True,
+            ),
         },
     )
     @action(url_path="tags", detail=False, methods=["get"])

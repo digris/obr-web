@@ -33,7 +33,6 @@ class BaseImage(
     CTUIDModelMixin,
     models.Model,
 ):
-
     file = models.ImageField(
         "File",
         upload_to=get_image_upload_path,
@@ -91,7 +90,6 @@ class BaseImage(
 
 
 class BaseSortableImage(BaseImage):
-
     position = models.PositiveSmallIntegerField(
         "Position",
         default=1,

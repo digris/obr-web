@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("catalog", "0028_alter_media_duration"),
         ("stats", "0002_auto_20220208_1331"),

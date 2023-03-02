@@ -15,7 +15,6 @@ class GeolocationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-
         request.geolocation_country = request.headers.get(COUNTRY_HEADER)
         request.geolocation_city = request.headers.get(CITY_HEADER)
         request.geolocation_coordinates = request.headers.get(COORDINATES_HEADER)

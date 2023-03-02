@@ -33,7 +33,6 @@ class SubscriptionManager(models.Manager):
 
 
 class Subscription(CTUIDModelMixin, TimestampedModelMixin, models.Model):
-
     type = models.CharField(
         max_length=16,
         db_index=True,

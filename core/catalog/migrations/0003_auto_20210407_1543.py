@@ -9,7 +9,6 @@ import image.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("catalog", "0002_artistimage"),
     ]

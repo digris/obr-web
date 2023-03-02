@@ -19,7 +19,6 @@ class Playlist(
     SyncModelMixin,
     models.Model,
 ):
-
     name = models.CharField(
         max_length=256,
         null=True,
@@ -152,7 +151,6 @@ class Series(
     SyncModelMixin,
     models.Model,
 ):
-
     name = models.CharField(
         max_length=256,
         null=True,
@@ -181,7 +179,6 @@ class PlaylistMedia(
     CTUIDModelMixin,
     models.Model,
 ):
-
     playlist = models.ForeignKey(
         Playlist,
         on_delete=models.CASCADE,
@@ -228,7 +225,6 @@ class PlaylistMedia(
 class PlaylistImage(
     BaseSortableImage,
 ):
-
     playlist = models.ForeignKey(
         Playlist,
         null=True,

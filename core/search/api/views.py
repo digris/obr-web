@@ -10,7 +10,6 @@ class GlobalMediaSearchView(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
-
     serializer_class = SearchMediaResultSerializer
 
     def get_queryset(self, **kwargs):

@@ -48,7 +48,6 @@ class PaymentSerializer(
 class PaymentView(
     APIView,
 ):
-
     permission_classes = [
         permissions.IsAuthenticated,
     ]
@@ -77,7 +76,6 @@ class PaymentView(
         tags=["subscription-payment"],
     )
     def post(request):
-
         serializer = PaymentCreateSerializer(
             data=request.data,
         )

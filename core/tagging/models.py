@@ -26,7 +26,6 @@ class Tag(
     SyncTimeModelMixin,
     TagBase,
 ):
-
     type = models.CharField(
         max_length=16,
         db_index=True,
@@ -52,7 +51,6 @@ class Tag(
 
 
 class TaggedItem(GenericTaggedItemBase):
-
     tag = models.ForeignKey(
         Tag,
         on_delete=models.CASCADE,

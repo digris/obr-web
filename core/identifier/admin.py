@@ -11,7 +11,6 @@ class IdentifierInline(GenericTabularInline):
 
 @admin.register(Identifier)
 class IdentifierAdmin(admin.ModelAdmin):
-
     list_display = [
         "__str__",
         "value",

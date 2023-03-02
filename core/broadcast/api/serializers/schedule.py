@@ -12,7 +12,6 @@ from .emission import EmissionSerializer
 
 
 class ScheduleMediaSerializer(CatalogMediaSerializer):
-
     image = CatalogMediaImageSerializer(
         read_only=True,
     )

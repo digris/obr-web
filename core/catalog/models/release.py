@@ -17,7 +17,6 @@ class Release(
     SyncModelMixin,
     models.Model,
 ):
-
     name = models.CharField(
         max_length=256,
     )
@@ -87,7 +86,6 @@ class Release(
 
 
 class ReleaseMedia(models.Model):
-
     release = models.ForeignKey(
         Release,
         on_delete=models.CASCADE,
@@ -117,7 +115,6 @@ class ReleaseMedia(models.Model):
 
 
 class ReleaseImage(BaseSortableImage):
-
     release = models.ForeignKey(
         Release,
         null=True,

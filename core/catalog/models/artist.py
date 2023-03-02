@@ -15,7 +15,6 @@ class Artist(
     SyncModelMixin,
     models.Model,
 ):
-
     name = models.CharField(
         max_length=256,
     )
@@ -70,7 +69,6 @@ class Artist(
 
 
 class ArtistImage(BaseSortableImage):
-
     artist = models.ForeignKey(
         Artist,
         null=True,

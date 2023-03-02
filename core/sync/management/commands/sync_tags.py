@@ -27,7 +27,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-
         qs = Tag.objects.using(options["database"]).all()
 
         if tag_uids := options["tag_uids"]:

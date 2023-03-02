@@ -4,7 +4,6 @@ from user_identity.apps import UserIdentConfig
 
 
 def test_apps():
-
     app_config = UserIdentConfig
 
     assert app_config.name == "user_identity"

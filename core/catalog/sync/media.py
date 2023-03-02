@@ -123,7 +123,6 @@ def download_master(media_uuid):
 
 
 def sync_master(master, force=False, skip_media=False, **kwargs):
-
     if skip_media:
         logger.info(f"sync skipping master download {master.ct}:{master.uid}")
         return master

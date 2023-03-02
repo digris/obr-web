@@ -14,7 +14,6 @@ logger = logging.getLogger(__name__)
 
 
 class NewsletterView(APIView):
-
     permission_classes = [
         permissions.IsAuthenticated,
     ]
@@ -51,7 +50,6 @@ class NewsletterView(APIView):
         operation_id="subscribe",
     )
     def post(self, request):
-
         serializer = serializers.SubscriptionSerializer(
             data=request.data,
         )

@@ -31,7 +31,6 @@ def add_role_permissions(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("contenttypes", "__latest__"),
         ("account", "0017_alter_user_migration_source"),

@@ -40,7 +40,6 @@ def get_anonymous_user_key(request):
 
 
 def get_user_identity(request):
-
     if request.user and request.user.is_authenticated:
         return f"account.user:{request.user.uid}"
 

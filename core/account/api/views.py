@@ -54,7 +54,6 @@ class UserView(
     )
     def get(request):
         if request.user.is_authenticated:
-
             # NOTE: when desired behaviour is clear move to appropriate place
             # if hasattr(request.user, "address") and not request.user.address.country:
             #     logger.info(f'set user address country to {request.geolocation_country}')
@@ -179,7 +178,6 @@ class LoginView(
 class SendEmailLoginView(
     APIView,
 ):
-
     throttle_scope = "account.login_email"
 
     @staticmethod
@@ -595,7 +593,6 @@ class PasswordUpdateView(
 class AddressUpdateView(
     APIView,
 ):
-
     serializer_class = serializers.AddressSerializer
 
     @staticmethod

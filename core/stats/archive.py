@@ -17,7 +17,6 @@ logger = logging.getLogger(__name__)
 
 @transaction.atomic
 def archive_emissions(database="default"):
-
     time_end = timezone.now() - timedelta(days=ARCHIVE_AFTER_DAYS)
 
     logger.info(f"archiving emissions before: {time_end:%Y-%m-%d %H:%M}")
@@ -51,7 +50,9 @@ def archive_emissions(database="default"):
 
     logger.info(f"archiving {len(emission_archive_ids)} emissions")
 
-    broadcast_emission_qs = BroadcastEmission.objects.using(alias=database,).filter(
+    broadcast_emission_qs = BroadcastEmission.objects.using(
+        alias=database,
+    ).filter(
         id__in=emission_archive_ids,
     )
 
@@ -85,7 +86,6 @@ def archive_emissions(database="default"):
 
 @transaction.atomic
 def archive_airplays(database="default"):
-
     time_end = timezone.now() - timedelta(days=ARCHIVE_AFTER_DAYS)
 
     logger.info(f"archiving airplays before: {time_end:%Y-%m-%d %H:%M}")
@@ -119,7 +119,9 @@ def archive_airplays(database="default"):
 
     logger.info(f"archiving {len(airplay_archive_ids)} airplays")
 
-    catalog_airplay_qs = CatalogAirplay.objects.using(alias=database,).filter(
+    catalog_airplay_qs = CatalogAirplay.objects.using(
+        alias=database,
+    ).filter(
         id__in=airplay_archive_ids,
     )
 

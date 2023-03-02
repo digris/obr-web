@@ -15,7 +15,6 @@ class ClientModeMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-
         request.client_mode = get_client_mode(request=request)
 
         return self.get_response(request)

@@ -4,7 +4,6 @@ from user_identity.utils import get_anonymous_user_key
 
 # pylint: disable=unused-argument,keyword-arg-before-vararg
 def adopt_votes(strategy, user=None, request=None, *args, **kwargs):
-
     user_identity = get_anonymous_user_key(request=request)
     qs = Vote.objects.filter(user_identity=user_identity)
 

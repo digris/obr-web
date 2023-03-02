@@ -1,6 +1,5 @@
 # pylint: disable=unused-argument,keyword-arg-before-vararg
 def get_user_details(backend, strategy, details, response, user=None, *args, **kwargs):
-
     if not user:
         return
 
@@ -12,7 +11,6 @@ def get_user_details(backend, strategy, details, response, user=None, *args, **k
     #     strategy.session_set("next", "/proto/app-bridge/")
 
     if backend.name == "google-oauth2":
-
         if not user.first_name and "given_name" in response:
             user.first_name = response["given_name"]
             changed = True

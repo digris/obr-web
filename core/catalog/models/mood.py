@@ -7,7 +7,6 @@ from tagging.models import TaggableManager, TaggedItem
 
 
 class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
-
     name = models.CharField(
         max_length=36,
         null=False,

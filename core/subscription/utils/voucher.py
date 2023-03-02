@@ -18,7 +18,6 @@ def validate_code(code):
 
 
 def get_until_date(subscription, num_days):
-
     if subscription and subscription.is_active:
         from_date = subscription.active_until.date()
     else:
@@ -28,7 +27,6 @@ def get_until_date(subscription, num_days):
 
 
 def get_voucher(user, code):
-
     if not validate_code(code):
         raise VoucherValidationException(_("Malformed voucher-code"))
 

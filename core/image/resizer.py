@@ -13,7 +13,6 @@ def get_resized_url(
     height,
     kind,
 ):
-
     if not URL:
         return file.url
 

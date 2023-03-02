@@ -7,7 +7,6 @@ import tagging.managers
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("tagging", "0002_alter_tag_type"),
         ("broadcast", "0007_auto_20210908_1212"),

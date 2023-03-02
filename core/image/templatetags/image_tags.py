@@ -18,7 +18,6 @@ def parse_ratio(ratio_str):
 
 @register.simple_tag
 def src_set_as_json(image, kind=None, ratio=None):
-
     if not (image and image.file):
         return []
 

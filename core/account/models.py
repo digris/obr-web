@@ -188,7 +188,6 @@ class Settings(
     CTUIDModelMixin,
     models.Model,
 ):
-
     user = models.OneToOneField(
         to=User,
         on_delete=models.CASCADE,
@@ -225,6 +224,7 @@ class Address(
         blank=True,
         default="",
     )
+
     # country = CountryField(
     #     blank=True,
     #     null=True,
@@ -262,7 +262,6 @@ def user_pre_save(sender, instance, **kwargs):
 @receiver(post_save, sender=User)
 # pylint: disable=unused-argument
 def user_post_save(sender, instance, created, **kwargs):
-
     if not hasattr(instance, "settings"):
         Settings.objects.create(user=instance)
 
@@ -298,7 +297,6 @@ class LoginTokenQuerySet(models.QuerySet):
 class LoginToken(
     CTUIDModelMixin,
 ):
-
     email = models.EmailField(
         "Email",
         db_index=True,

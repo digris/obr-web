@@ -35,7 +35,6 @@ def get_plan_by_sku(sku):
 
 
 def get_options(user):
-
     subscription = get_subscription(user=user)
 
     if subscription and subscription.is_active:

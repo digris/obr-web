@@ -12,7 +12,6 @@ class SyncState(models.TextChoices):
 
 
 class SyncTimeModelMixin(models.Model):
-
     sync_last_update = models.DateTimeField(
         default=timezone.make_aware(datetime.fromtimestamp(0)),
         db_index=True,
@@ -27,7 +26,6 @@ class SyncModelMixin(
     SyncTimeModelMixin,
     models.Model,
 ):
-
     sync_state = models.CharField(
         max_length=16,
         db_index=True,

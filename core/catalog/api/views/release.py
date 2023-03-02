@@ -20,7 +20,6 @@ class ReleaseViewSet(
         return qs
 
     def get_object(self):
-
         try:
             obj_uid = self.kwargs["uid"]
             assert len(obj_uid) == 8

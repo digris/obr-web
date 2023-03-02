@@ -16,7 +16,6 @@ class PaymentState(models.TextChoices):
 
 
 class Payment(CTUIDModelMixin, TimestampedModelMixin, models.Model):
-
     state = models.CharField(
         verbose_name="State",
         max_length=32,

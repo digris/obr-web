@@ -100,7 +100,6 @@ def get_checkout_session(request):
 
 
 def complete_checkout_session(session, payment):
-
     transaction_id = session.get("id")
     amount = session.get("amount_total", 0) * 0.01
     currency = session.get("currency")

@@ -84,7 +84,6 @@ class Command(BaseCommand):
         #     )
 
     def handle(self, *args, **options):
-
         qs = (
             Master.objects.using(options["database"])
             .select_related(

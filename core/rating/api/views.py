@@ -19,7 +19,6 @@ log = logging.getLogger(__name__)
 class ObjectRatingView(APIView):
     @transaction.atomic
     def get_vote(self, request, obj_ct, obj_uid):
-
         app_label, model = obj_ct.split(".")
 
         kwargs = {
@@ -61,7 +60,6 @@ class ObjectRatingView(APIView):
         scope="",
         comment="",
     ):
-
         content_object = apps.get_model(*obj_ct.split(".")).objects.get(uid=obj_uid)
 
         kwargs = {
@@ -94,7 +92,6 @@ class ObjectRatingView(APIView):
         },
     )
     def get(self, request, obj_ct, obj_uid):
-
         vote = self.get_vote(request, obj_ct, obj_uid)
 
         if not vote:
@@ -120,7 +117,6 @@ class ObjectRatingView(APIView):
     )
     @transaction.atomic
     def post(self, request, obj_ct, obj_uid):
-
         data = request.data.copy()
         data.update({"key": f"{obj_ct}.{obj_uid}"})
         serializer = serializers.VoteSerializer(data=data)

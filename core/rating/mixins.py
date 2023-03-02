@@ -4,12 +4,10 @@ from django.utils.functional import cached_property
 
 
 class RatingModelMixin(models.Model):
-
     votes = GenericRelation("rating.Vote", related_name="voted")
 
     @cached_property
     def rating_summary(self):
-
         qs = self.votes.all()
         _r = qs.aggregate(rating=models.Avg("value"))
         _rating = round(_r["rating"]) if _r["rating"] else None

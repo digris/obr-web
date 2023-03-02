@@ -12,7 +12,6 @@ SKIP_IMAGES = getattr(settings, "OBP_SYNC_SKIP_IMAGES", False)
 @admin.action(description="Re-sync selected")
 # pylint: disable=unused-argument
 def sync_qs_action(modeladmin, request, queryset):
-
     for instance in queryset:
         if SKIP_ALL:
             continue

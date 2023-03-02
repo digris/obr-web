@@ -19,12 +19,10 @@ class SendMessageException(Exception):
 
 
 class BaseMessage:
-
     static_url = settings.STATIC_URL
     site_url = settings.SITE_URL
 
     def __init__(self, from_email, to_email, template_dir, context):
-
         self.template_plain = os.path.join(template_dir, "message.txt")
         self.template_html = os.path.join(template_dir, "message.html")
 

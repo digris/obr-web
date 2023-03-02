@@ -6,7 +6,6 @@ import tagging.managers
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("tagging", "0002_alter_tag_type"),
         ("broadcast", "0006_editor_sync_last_update"),
