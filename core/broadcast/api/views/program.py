@@ -108,8 +108,6 @@ class ProgramView(GenericAPIView):
 
         union_qs = sorted(union_qs, key=lambda x: x.time_start)
 
-        print(union_qs)
-
         serializer = self.serializer_class(
             {
                 "time_from": time_from,

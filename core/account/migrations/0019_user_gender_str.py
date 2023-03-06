@@ -7,24 +7,16 @@ def gender_int_to_str(apps, schema_editor):
     User = apps.get_model("account", "User")
     db_alias = schema_editor.connection.alias
     base_qs = User.objects.using(db_alias)
-    base_qs.filter(
-        gender=0,
-    ).update(
+    base_qs.filter(gender=0,).update(
         gender_str="",
     )
-    base_qs.filter(
-        gender=1,
-    ).update(
+    base_qs.filter(gender=1,).update(
         gender_str="female",
     )
-    base_qs.filter(
-        gender=2,
-    ).update(
+    base_qs.filter(gender=2,).update(
         gender_str="male",
     )
-    base_qs.filter(
-        gender=3,
-    ).update(
+    base_qs.filter(gender=3,).update(
         gender_str="other",
     )
 
