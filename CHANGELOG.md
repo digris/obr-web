@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.81 (2023-03-06)
+### Fix
+* Add dateutil dependency ([`885c16f`](https://github.com/digris/obr-web/commit/885c16f97d7643b9c1f7faebbd4c238d9f321916))
+
 ## v0.0.80 (2023-01-27)
 ### Fix
 * Disable sync image clear ([`0c94cac`](https://github.com/digris/obr-web/commit/0c94cacf12ca9132ad96b9162782047b1734d9a7))
