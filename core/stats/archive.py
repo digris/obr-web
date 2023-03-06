@@ -50,9 +50,7 @@ def archive_emissions(database="default"):
 
     logger.info(f"archiving {len(emission_archive_ids)} emissions")
 
-    broadcast_emission_qs = BroadcastEmission.objects.using(
-        alias=database,
-    ).filter(
+    broadcast_emission_qs = BroadcastEmission.objects.using(alias=database,).filter(
         id__in=emission_archive_ids,
     )
 
@@ -119,9 +117,7 @@ def archive_airplays(database="default"):
 
     logger.info(f"archiving {len(airplay_archive_ids)} airplays")
 
-    catalog_airplay_qs = CatalogAirplay.objects.using(
-        alias=database,
-    ).filter(
+    catalog_airplay_qs = CatalogAirplay.objects.using(alias=database,).filter(
         id__in=airplay_archive_ids,
     )
 

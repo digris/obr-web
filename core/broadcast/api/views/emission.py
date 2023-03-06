@@ -1,4 +1,5 @@
 import logging
+from itertools import chain
 
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -6,6 +7,12 @@ from django.utils import timezone
 import dateutil.parser
 from broadcast.api import serializers
 from broadcast.models import Emission
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiTypes,
+    extend_schema,
+)
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ParseError
 from stats.models import Emission as ArchivedEmission
@@ -48,7 +55,7 @@ class EmissionViewSet(
         qs = self.queryset.select_related(
             "playlist",
         )
-        archive_qs = ArchivedEmission.objects.all().select_related(
+        archived_qs = ArchivedEmission.objects.all().select_related(
             "playlist",
         )
 
@@ -61,7 +68,7 @@ class EmissionViewSet(
             qs = qs.filter(
                 time_start__gte=time_from,
             )
-            archive_qs = archive_qs.filter(
+            archived_qs = archived_qs.filter(
                 time_start__gte=time_from,
             )
 
@@ -69,15 +76,15 @@ class EmissionViewSet(
             qs = qs.filter(
                 time_end__lte=time_until,
             )
-            archive_qs = archive_qs.filter(
+            archived_qs = archived_qs.filter(
                 time_end__lte=time_until,
             )
 
-        combined_qs = list(qs) + list(archive_qs)
+        union_qs = list(chain(qs, archived_qs))
 
-        combined_qs = sorted(combined_qs, key=lambda d: d.time_start)
+        union_qs = sorted(union_qs, key=lambda x: x.time_start)
 
-        return combined_qs
+        return union_qs
 
     def get_object(self):
         try:
@@ -90,3 +97,52 @@ class EmissionViewSet(
             return obj
 
         return get_object_or_404(ArchivedEmission, uid=obj_uid)
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="expand",
+                location=OpenApiParameter.QUERY,
+                enum=["media_set", "live_ratings"],
+                many=True,
+            ),
+            OpenApiParameter(
+                name="time_from",
+                location=OpenApiParameter.QUERY,
+                type=OpenApiTypes.DATETIME,
+                pattern="YYYY-MM-DDTHH:MM:SS",
+                examples=[
+                    OpenApiExample(
+                        "Date",
+                        value="2023-03-07",
+                    ),
+                    OpenApiExample(
+                        "Date & time",
+                        value="2023-03-07T08:00:00",
+                    ),
+                    OpenApiExample(
+                        "Date & time with Timezone",
+                        value="2023-03-07T08:00:00+01:00",
+                    ),
+                ],
+            ),
+            OpenApiParameter(
+                name="time_until",
+                location=OpenApiParameter.QUERY,
+                type=OpenApiTypes.DATETIME,
+                pattern="YYYY-MM-DDTHH:MM:SS",
+                description="See `time_from` for examples.",
+            ),
+        ],
+        responses={
+            200: serializers.EmissionSerializer(
+                many=True,
+                expand=[
+                    "live_ratings",
+                    "media_set",
+                ],
+            ),
+        },
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
