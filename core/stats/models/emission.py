@@ -5,6 +5,7 @@ from django.db import models
 from django.utils import timezone
 
 from base.models.mixins import CTUIDModelMixin
+from rating.queries import get_live_ratings_for_time_range
 
 logger = logging.getLogger(__name__)
 
@@ -115,3 +116,9 @@ class Emission(CTUIDModelMixin, models.Model):
             time_offset += playlist_media.effective_duration
 
         return media_set
+
+    def get_live_ratings(self):
+        return get_live_ratings_for_time_range(
+            time_from=self.time_start,
+            time_until=self.time_end,
+        )

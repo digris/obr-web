@@ -3,7 +3,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from base.models.mixins import TimestampedModelMixin
+from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 
 class VoteValue(
@@ -33,6 +33,7 @@ class VoteScope(
 
 class Vote(
     TimestampedModelMixin,
+    CTUIDModelMixin,
     models.Model,
 ):
     value = models.SmallIntegerField(

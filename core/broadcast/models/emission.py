@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from rating.queries import get_live_ratings_for_time_range
 
 MEDIA_MIN_DURATION = 12
 
@@ -128,7 +129,6 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 {
                     "media": playlist_media.media,
                     "uid": playlist_media.uid,
-                    # "media_uid": playlist_media.media.uid,
                     "key": f"{self.uid}-{playlist_media.uid}",
                     "cue_in": playlist_media.cue_in,
                     "cue_out": playlist_media.cue_out,
@@ -144,3 +144,9 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
             time_offset += playlist_media.effective_duration
 
         return media_set
+
+    def get_live_ratings(self):
+        return get_live_ratings_for_time_range(
+            time_from=self.time_start,
+            time_until=self.time_end,
+        )
