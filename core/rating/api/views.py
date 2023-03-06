@@ -87,7 +87,7 @@ class ObjectRatingView(APIView):
 
     @extend_schema(
         responses={
-            200: serializers.VoteSerializer,
+            200: serializers.VoteWriteSerializer,
             204: None,
         },
     )
@@ -100,7 +100,7 @@ class ObjectRatingView(APIView):
                 status=status.HTTP_204_NO_CONTENT,
             )
 
-        serializer = serializers.VoteSerializer(vote)
+        serializer = serializers.VoteWriteSerializer(vote)
 
         return Response(
             serializer.data,
@@ -109,9 +109,9 @@ class ObjectRatingView(APIView):
 
     @extend_schema(
         methods=["POST"],
-        request=serializers.VoteSerializer,
+        request=serializers.VoteWriteSerializer,
         responses={
-            200: serializers.VoteSerializer,
+            200: serializers.VoteWriteSerializer,
             204: None,
         },
     )
@@ -119,7 +119,7 @@ class ObjectRatingView(APIView):
     def post(self, request, obj_ct, obj_uid):
         data = request.data.copy()
         data.update({"key": f"{obj_ct}.{obj_uid}"})
-        serializer = serializers.VoteSerializer(data=data)
+        serializer = serializers.VoteWriteSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
         value = request.data.get("value")
@@ -158,7 +158,7 @@ class ObjectRatingView(APIView):
                 status=status.HTTP_204_NO_CONTENT,
             )
 
-        serializer = serializers.VoteSerializer(vote)
+        serializer = serializers.VoteWriteSerializer(vote)
 
         return Response(
             serializer.data,
@@ -166,7 +166,7 @@ class ObjectRatingView(APIView):
 
     @extend_schema(
         methods=["DELETE"],
-        request=serializers.VoteSerializer,
+        request=serializers.VoteWriteSerializer,
         responses={
             204: None,
         },

@@ -24,7 +24,9 @@ MEDIA_MIN_DURATION = 12
 DEFAULT_ORDERING = "-latest_airplay"
 
 
-class MediaFilter(filters.FilterSet):
+class MediaFilter(
+    filters.FilterSet,
+):
     obj_key = filters.CharFilter(method="obj_key_filter")
     user_rating = filters.NumberFilter(method="user_rating_filter")
 

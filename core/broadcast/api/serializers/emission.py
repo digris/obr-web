@@ -2,13 +2,14 @@ from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models import Emission
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
 from catalog.models import Media, Playlist
-from image.api.serializers import ImageSerializer
+from rating.api.serializers import VoteSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 
 
 class EmissionPlaylistSerializer(
     CTUIDModelSerializer,
+    FlexFieldsSerializerMixin,
     serializers.HyperlinkedModelSerializer,
 ):
     url = serializers.HyperlinkedIdentityField(
@@ -16,14 +17,14 @@ class EmissionPlaylistSerializer(
         lookup_field="uid",
     )
 
-    image = ImageSerializer(read_only=True)
+    # image = ImageSerializer(read_only=True)
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "name",
-            "image",
+            # "image",
         ]
 
 
@@ -76,6 +77,13 @@ class EmissionMediaSetSerializer(
     )
 
 
+class EmissionLiveRatingSerializer(
+    VoteSerializer,
+):
+    class Meta(VoteSerializer.Meta):
+        ref_name = "EmissionVoteSerializer"
+
+
 class EmissionSerializer(
     CTUIDModelSerializer,
     FlexFieldsSerializerMixin,
@@ -92,11 +100,6 @@ class EmissionSerializer(
     playlist = EmissionPlaylistSerializer(
         read_only=True,
     )
-    media_set = EmissionMediaSetSerializer(
-        source="get_media_set",
-        many=True,
-        read_only=True,
-    )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Emission
@@ -106,5 +109,22 @@ class EmissionSerializer(
             "time_start",
             "time_end",
             "duration",
-            "media_set",
         ]
+        expandable_fields = {
+            "media_set": (
+                EmissionMediaSetSerializer,
+                {
+                    "source": "get_media_set",
+                    "many": True,
+                    "read_only": True,
+                },
+            ),
+            "live_ratings": (
+                EmissionLiveRatingSerializer,
+                {
+                    "source": "get_live_ratings",
+                    "many": True,
+                    "read_only": True,
+                },
+            ),
+        }
