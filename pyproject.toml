@@ -54,6 +54,7 @@ sendgrid = "^6.9.7"
 django-admin-interface = "^0.24.0"
 django-admin-sortable2 = "^2.1.4"
 progress = "^1.6"
+python-dateutil = "^2.8.2"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
