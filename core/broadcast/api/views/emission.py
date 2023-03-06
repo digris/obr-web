@@ -32,7 +32,6 @@ class EmissionViewSet(
     lookup_field = "uid"
 
     def get_time_filter(self):
-
         if time_from_str := self.request.query_params.get("time_from"):
             time_from = dateutil.parser.parse(time_from_str.replace(" ", "+"))
             if timezone.is_naive(time_from):

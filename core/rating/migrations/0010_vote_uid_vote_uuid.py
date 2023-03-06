@@ -20,7 +20,6 @@ def reverse_func(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("rating", "0009_alter_vote_source"),
     ]
