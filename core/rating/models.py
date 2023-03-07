@@ -97,3 +97,7 @@ class Vote(
     @property
     def key(self):
         return f"{self.content_object.ct}:{self.content_object.uid}"
+
+    @property
+    def is_anonymous(self):
+        return not self.user

@@ -25,6 +25,9 @@ class VoteSerializer(
     comment = serializers.CharField(
         read_only=True,
     )
+    is_anonymous = serializers.BooleanField(
+        read_only=True,
+    )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Vote
@@ -36,6 +39,7 @@ class VoteSerializer(
             "scope",
             "comment",
             "updated",
+            "is_anonymous",
         ]
 
 
