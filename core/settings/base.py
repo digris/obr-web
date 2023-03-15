@@ -448,7 +448,13 @@ SPECTACULAR_SETTINGS = {
         "defaultModelExpandDepth": 100,
         # "docExpansion": "full",
     },
-    "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.35.1",
+    "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@4.17.1",
+    # https://drf-spectacular.readthedocs.io/en/latest/faq.html
+    # look for "Enum names"
+    "ENUM_NAME_OVERRIDES": {
+        "VoteSourceEnum": "rating.models.VoteSource.choices",
+        "VoteScopeEnum": "rating.models.VoteScope.choices",
+    },
 }
 
 

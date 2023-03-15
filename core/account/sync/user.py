@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
 from base.models.context_managers import suppress_auto_now
-from rating.models import Vote
+from rating.models import Vote, VoteScope, VoteSource
 from sync import api_client
 
 logger = logging.getLogger(__name__)
@@ -171,6 +171,8 @@ def sync_user_votes(user):
         except Vote.DoesNotExist:
             vote = Vote(
                 user=user,
+                source=VoteSource.ON_DEMAND,
+                scope=VoteScope.UNDEFINED,
                 value=value,
                 created=created,
                 updated=updated,

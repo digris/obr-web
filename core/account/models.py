@@ -345,6 +345,9 @@ class GlobalPermissions(models.Model):
         default_permissions = ()
 
         permissions = (
+            # sync
             ("api_sync_webhooks", "API - Sync webhooks"),
+            # stats
+            ("api_stats_view", "API - Stats view"),
             ("api_stats_webhooks", "API - Stats webhooks"),
         )

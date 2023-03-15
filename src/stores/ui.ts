@@ -16,6 +16,7 @@ export const useUiStore = defineStore("ui", {
   }),
   actions: {
     setPrimaryColor(value: Array<number>) {
+      // this.primaryColor = [205, 0, 0];
       this.primaryColor = value;
     },
   },

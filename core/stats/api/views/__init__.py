@@ -1,2 +1,3 @@
 from .archive import StatsArchiveView  # NOQA
-from .events import PlayerEventView  # NOQA
+from .event import PlayerEventView  # NOQA
+from .rating import RatingViewSet  # NOQA

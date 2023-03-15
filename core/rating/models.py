@@ -84,6 +84,9 @@ class Vote(
         app_label = "rating"
         verbose_name = "Vote"
         verbose_name_plural = "Votes"
+        ordering = [
+            "-updated",
+        ]
         unique_together = [
             "user",
             "user_identity",

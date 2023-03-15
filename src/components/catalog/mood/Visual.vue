@@ -73,9 +73,13 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    offsetY: {
+      type: Number,
+      default: 92,
+    },
     color: {
       type: Array,
-      default: () => [255, 0, 255],
+      default: () => [20, 20, 20],
     },
     rayConfig: {
       type: Array as PropType<Array<RayConfig>>,
@@ -125,7 +129,7 @@ export default defineComponent({
       const ctx = canvas.value?.getContext("2d");
       if (ctx) {
         // TODO: implement offset calculation
-        await drawCanvas(ctx, props.width, props.height, 92, rays.value);
+        await drawCanvas(ctx, props.width, props.height, props.offsetY, rays.value);
       }
     };
     onMounted(async () => {

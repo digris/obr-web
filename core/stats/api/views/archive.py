@@ -10,7 +10,7 @@ class StatsArchiveView(
     APIView,
 ):
     permission_classes = [
-        permissions.StatsAPIPermission,
+        permissions.WebhookPermission,
     ]
     serializer_class = serializers.ArchiveSerializer
 

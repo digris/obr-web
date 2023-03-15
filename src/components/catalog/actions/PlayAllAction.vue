@@ -26,6 +26,10 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    colorVar: {
+      type: String,
+      default: "--c-fg",
+    },
   },
   setup() {
     return {};
@@ -46,10 +50,12 @@ export default defineComponent({
       <CircleButton
         :outlined="true"
         :filled="false"
+        :color-var="colorVar"
         fill-color-var="--c-white"
+        outline-opacity="20%"
         hover-background-opacity="10%"
       >
-        <IconPlay color-var="--c-white" />
+        <IconPlay :color-var="colorVar" />
       </CircleButton>
       <slot name="default" />
     </div>

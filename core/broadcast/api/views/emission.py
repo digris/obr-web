@@ -1,6 +1,7 @@
 import logging
 from itertools import chain
 
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 
@@ -51,10 +52,14 @@ class EmissionViewSet(
     def get_queryset(self):
         # as we have data from different models we have to query them separately and
         # return as combined list
-        qs = self.queryset.select_related(
+        qs = self.queryset.exclude(
+            Q(time_start__isnull=True) | Q(time_end__isnull=True),
+        ).select_related(
             "playlist",
         )
-        archived_qs = ArchivedEmission.objects.all().select_related(
+        archived_qs = ArchivedEmission.objects.exclude(
+            Q(time_start__isnull=True) | Q(time_end__isnull=True),
+        ).select_related(
             "playlist",
         )
 
@@ -81,7 +86,7 @@ class EmissionViewSet(
 
         union_qs = list(chain(qs, archived_qs))
 
-        union_qs = sorted(union_qs, key=lambda x: x.time_start)
+        union_qs = sorted(union_qs, key=lambda x: x.time_start, reverse=True)
 
         return union_qs
 

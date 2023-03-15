@@ -55,7 +55,7 @@ export default defineComponent({
     watch(
       () => scrollX.value,
       (value) => {
-        if (value > -0.5) {
+        if (value > -10) {
           follow.value = true;
         } else {
           follow.value = false;
@@ -95,6 +95,17 @@ export default defineComponent({
       if (event === "itemAdded") {
         nextTick(() => {
           scrollPanelTo(scrollX.value - props.itemSize, false);
+          if (follow.value) {
+            setTimeout(() => {
+              scrollPanelTo(0);
+            }, 20);
+          }
+        });
+      }
+      //
+      if (event === "reset") {
+        // NOTE: check browser differences
+        nextTick(() => {
           if (follow.value) {
             setTimeout(() => {
               scrollPanelTo(0);

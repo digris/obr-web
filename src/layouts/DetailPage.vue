@@ -26,7 +26,7 @@ export default defineComponent({
       if (isApp) {
         return headerElHeight.value + 140;
       }
-      return headerElHeight.value + 68;
+      return headerElHeight.value + 78;
     });
     return {
       hasHeader,

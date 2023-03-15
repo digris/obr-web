@@ -4,11 +4,10 @@ from django.apps import apps
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
-from django.utils import timezone
 
 import requests
 from base.models.context_managers import suppress_auto_now
-from rating.models import Vote
+from rating.models import Vote, VoteScope, VoteSource
 
 OBR_SYNC_ENDPOINT = getattr(settings, "OBR_SYNC_ENDPOINT", None)
 OBR_SYNC_TOKEN = getattr(settings, "OBR_SYNC_TOKEN", None)
@@ -39,6 +38,7 @@ def create_votes(votes_data):
         created = vote["created"]
         updated = vote["updated"]
         co_uuid = vote["obj_uuid"]
+        session_key = vote["session_key"]
         co_ct = vote["obj_ct"]
 
         ct = CT_MAP.get(co_ct)
@@ -57,23 +57,27 @@ def create_votes(votes_data):
         try:
             obj = model_class.objects.get(uuid=co_uuid)
         except model_class.DoesNotExist as e:
-            print(e, co_uuid)
+            # print(e, co_uuid)
             continue
 
         content_type = ContentType.objects.get_for_model(obj)
 
         try:
-            # for "uniqueness" we just use timestamps. there are just a couple of votes per week ;)
+            # for "uniqueness" we just use timestamps & key. there are just a couple of votes per week ;)
             # so this can be considered safe...
             vote = Vote.objects.get(
+                user_identity=f"anonymous:{session_key}",
                 updated=updated,
                 content_type=content_type,
                 object_id=obj.id,
             )
-            print("got vote", vote.__dict__)
+            print("got vote", vote)
 
         except Vote.DoesNotExist:
             vote = Vote(
+                user_identity=f"anonymous:{session_key}",
+                source=VoteSource.LIVE,
+                scope=VoteScope.UNDEFINED,
                 value=value,
                 created=created,
                 updated=updated,

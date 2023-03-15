@@ -226,7 +226,7 @@ export default defineComponent({
   </div>
   <div v-if="showListActions && numResults > 0" class="list-actions">
     <div class="container">
-      <PlayAllAction :filter="combinedFilter" :ordering="ordering">
+      <PlayAllAction color-var="--c-white" :filter="combinedFilter" :ordering="ordering">
         <span v-text="t('catalog.list.playAllTracks', numResults)" />
       </PlayAllAction>
       <ContextMenu

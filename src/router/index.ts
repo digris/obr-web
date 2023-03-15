@@ -37,6 +37,7 @@ import ProtoPlayer from "@/views/proto/Player.vue";
 //
 import ProtoBase from "@/views/proto/Proto.vue";
 import ProtoRating from "@/views/proto/Rating.vue";
+import ProtoVisual from "@/views/proto/Visual.vue";
 // import OnAir from '@/views/OnAir.vue';
 import Radio from "@/views/Radio.vue";
 
@@ -463,6 +464,11 @@ const routes = [
         path: "player/",
         name: "protoPlayer",
         component: ProtoPlayer,
+      },
+      {
+        path: "visual/",
+        name: "protoVisual",
+        component: ProtoVisual,
       },
     ],
   },
