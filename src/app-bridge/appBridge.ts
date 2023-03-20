@@ -202,14 +202,34 @@ class AppBridge {
     }
   }
   async onExternalLink(e: Event) {
-    // links with `target="_blank"` must open in native safari
     const origin = (e.target as Element).closest("a");
-    console.debug("origin", origin);
-    if (origin && (origin.target === "_blank" || origin.href.startsWith("mailto:"))) {
+    if (!origin) {
+      return;
+    }
+    // links with `target="_blank"` should open in native safari
+    if (origin.target === "_blank") {
       e.preventDefault();
       await this.send("browser:navigate", {
         url: origin.href,
       });
+      return;
+    }
+    // "mailto" links should open in native safari
+    if (origin.href.startsWith("mailto:")) {
+      e.preventDefault();
+      await this.send("browser:navigate", {
+        url: origin.href,
+      });
+      return;
+    }
+    // "external" links should open in native safari
+    // (assuming we dont have any http:// links...)
+    if (origin.href.startsWith("https://")) {
+      e.preventDefault();
+      await this.send("browser:navigate", {
+        url: origin.href,
+      });
+      return;
     }
   }
 }
