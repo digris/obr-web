@@ -224,13 +224,13 @@ class AppBridge {
     }
     // "external" links should open in native safari
     // (assuming we dont have any http:// links...)
-    if (origin.href.startsWith("https://")) {
-      e.preventDefault();
-      await this.send("browser:navigate", {
-        url: origin.href,
-      });
-      return;
-    }
+    // if (origin.href.startsWith("https://")) {
+    //   e.preventDefault();
+    //   await this.send("browser:navigate", {
+    //     url: origin.href,
+    //   });
+    //   return;
+    // }
   }
 }
 

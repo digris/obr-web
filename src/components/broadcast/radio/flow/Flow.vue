@@ -158,7 +158,7 @@ export default defineComponent({
         :container-x="scrollX"
         @on-focused="onItemFocused(item)"
       />
-      <!---->
+      <!--
       <div class="cta">
         <p>
           Looking for music played earlier?
@@ -166,6 +166,7 @@ export default defineComponent({
           See <a href="#">Program</a>!
         </p>
       </div>
+      -->
     </div>
     <transition name="fade">
       <div v-if="items.length < 1" class="placeholder">
