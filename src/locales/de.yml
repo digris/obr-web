@@ -138,15 +138,15 @@ account:
     newsletter:
       title: Newsletter
     social:
-      title: Verbundene Accounts
-      info: "TODO: Text needed..."
+      title: Verbundene Konten
+      info: Verbundene Logins  # TODO: Text needed
       connect: verbinden
       disconnect: trennen
       loginAccounts:
         title: Login Konten
       streamingAccounts:
         title: Streaming Konten
-        info: "TODO: Text needed..."
+        info: Verbundene streaming Konten  # TODO: Text needed
 subscription:
   credits: Guthaben
   creditsExpired: Guthaben abgelaufen

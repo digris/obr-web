@@ -135,15 +135,15 @@ account:
     newsletter:
       title: Newsletter
     social:
-      title: Connected Accounts
-      info: "TODO: Text needed..."
+      title: Connected accounts
+      info: Connected login accounts  # TODO: Text needed
       connect: Connect
       disconnect: Disconnect
       loginAccounts:
         title: Login accounts
       streamingAccounts:
         title: Streaming accounts
-        info: "TODO: Text needed..."
+        info: Connected streaming accounts  # TODO: Text needed
 subscription:
   credits: Credits
   creditsExpired: Credit expired
