@@ -22,7 +22,7 @@ export default defineComponent({
     const { t } = useI18n();
     const isVisible = ref(false);
     const { user, isStaff, logoutUser } = useAccount();
-    const { isApp, isWeb } = useDevice();
+    const { isWeb } = useDevice();
     const { userVouchers } = useSubscription();
     const close = () => {
       isVisible.value = false;
@@ -92,7 +92,6 @@ export default defineComponent({
       login,
       logout,
       pages,
-      isApp,
       isWeb,
     };
   },
@@ -162,7 +161,6 @@ export default defineComponent({
         />
       </section>
       <section class="section">
-        <router-link v-if="isApp" :to="{ name: 'protoAppBridge' }">APP</router-link>
         <router-link
           v-for="(page, index) in pages"
           :key="`page-${index}-${page.path}`"
