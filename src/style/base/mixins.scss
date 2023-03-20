@@ -1,1 +1,13 @@
 @charset "UTF-8";
+
+@mixin hide-scrollbar {
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* stylelint-disable-next-line function-url-quotes */
+  @-moz-document url-prefix() {
+    scrollbar-width: none;
+  }
+}

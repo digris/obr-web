@@ -71,9 +71,9 @@ export default defineComponent({
         <a @click.prevent="false" :href="link.href" v-text="link.display" />
       </div>
     </div>
-    <dif class="invalid-notice" v-if="!voucher.isValid">
+    <div class="invalid-notice" v-if="!voucher.isValid">
       <span>EXPIRED / USED</span>
-    </dif>
+    </div>
   </div>
 </template>
 

@@ -62,11 +62,18 @@ export default defineComponent({
       };
     });
     const scrollIntoView = () => {
-      // @ts-ignore
-      root.value?.scrollIntoViewIfNeeded({
-        block: "end",
-        behavior: "smooth",
-      });
+      const el = root.value;
+      if (!el) {
+        return;
+      }
+      try {
+        el.scrollIntoViewIfNeeded({
+          block: "end",
+          behavior: "smooth",
+        });
+      } catch (e) {
+        console.debug(e);
+      }
     };
     onMounted(() => {
       if (props.isCurrent) {

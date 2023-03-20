@@ -28,7 +28,7 @@ class PlanView(
     def get(request):
         options = plan.get_options(user=request.user)
         data = {
-            "message": "Wähle ein Angebot:",
+            "message": "Choose your plan",
             "options": options,
         }
 

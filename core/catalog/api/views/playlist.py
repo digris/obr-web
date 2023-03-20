@@ -16,7 +16,7 @@ from tagging import utils as tagging_utils
 from tagging.api.serializers import TagSerializer
 
 MEDIA_MIN_DURATION = 12
-DEFAULT_ORDERING = "-latest_emission_time_start"
+DEFAULT_ORDER_BY = "-latest_emission_time_start"
 
 
 class PlaylistFilter(filters.FilterSet):
@@ -80,7 +80,7 @@ class PlaylistFilter(filters.FilterSet):
         qs = super().filter_queryset(queryset)
 
         try:
-            ordering = self.request.GET.get("ordering", DEFAULT_ORDERING)
+            ordering = self.request.GET.get("ordering", DEFAULT_ORDER_BY)
             if ordering == "time_rated" and self.request.user.is_authenticated:
                 qs = qs.annotate(
                     user_rating_time_rated=Max(
@@ -96,7 +96,7 @@ class PlaylistFilter(filters.FilterSet):
         except AttributeError:
             pass
 
-        qs = qs.order_by(DEFAULT_ORDERING)
+        qs = qs.order_by(DEFAULT_ORDER_BY)
 
         return qs
 

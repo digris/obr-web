@@ -97,52 +97,67 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="subscribe-plan">
-    <section class="section info">
-      <div>
-        <p class="message" v-text="message" />
-        <div class="options">
-          <div
-            v-for="(option, index) in options"
-            @click="selectOption(option)"
-            :key="`options-${index}-${option.sku}`"
-            class="option"
-            :class="{ 'is-selected': option.sku === selectedOption.sku }"
-          >
-            <div class="price">
-              <Money :value="option.price" :include-currency="true" />
+  <div>
+    <div class="preview-mode-info">
+      <p>
+        We're sorry to say that you can't subscribe to our on-demand service at the moment.
+        <br />
+        We're waiting for some legal clarification before we can offer full access.
+      </p>
+      <p style="padding-top: 1rem">
+        We know this is disappointing, but don't worry, we've got you covered.
+        <br />
+        If you'd like to try the on-demand service, just shoot us an email at
+        <a href="mailto:info@openbroadcast.ch" style="text-decoration: underline">info@openbroadcast.ch</a>, and we'll send you a voucher code.
+      </p>
+    </div>
+    <div class="subscribe-plan">
+      <section class="section info">
+        <div>
+          <p class="message" v-text="message" />
+          <div class="options">
+            <div
+              v-for="(option, index) in options"
+              @click="selectOption(option)"
+              :key="`options-${index}-${option.sku}`"
+              class="option"
+              :class="{ 'is-selected': option.sku === selectedOption.sku }"
+            >
+              <div class="price">
+                <Money :value="option.price" :include-currency="true" />
+              </div>
+              <div class="separator" />
+              <div class="title" v-text="option.title" />
+              <i18n-t keypath="subscription.creditsUntilDate" tag="div" class="until-date">
+                <Datetime :value="option.untilDate" :display-time="false" />
+              </i18n-t>
             </div>
-            <div class="separator" />
-            <div class="title" v-text="option.title" />
-            <i18n-t keypath="subscription.creditsUntilDate" tag="div" class="until-date">
-              <Datetime :value="option.untilDate" :display-time="false" />
-            </i18n-t>
           </div>
         </div>
-      </div>
-    </section>
-    <section v-if="selectedOption" class="section total">
-      <i18n-t keypath="subscription.subscribe.total.legal" tag="div" class="title" />
-      <div class="price">
-        <Money :value="selectedOption.price" />
-      </div>
-    </section>
-    <section v-if="errors" class="section errors">
-      <APIErrors :errors="errors" />
-    </section>
-    <section class="section actions">
-      <AsyncButton class="button" @click.prevent="startPayment('stripe')">
-        <i18n-t keypath="subscription.subscribe.payNow" />
-      </AsyncButton>
-      <!--
-      <AsyncButton
-        class="button"
-        @click.prevent="startPayment('paypal')"
-      >
-        (PP) Complete Order
-      </AsyncButton>
-      -->
-    </section>
+      </section>
+      <section v-if="selectedOption" class="section total">
+        <i18n-t keypath="subscription.subscribe.total.legal" tag="div" class="title" />
+        <div class="price">
+          <Money :value="selectedOption.price" />
+        </div>
+      </section>
+      <section v-if="errors" class="section errors">
+        <APIErrors :errors="errors" />
+      </section>
+      <section class="section actions">
+        <AsyncButton class="button" @click.prevent="startPayment('stripe')">
+          <i18n-t keypath="subscription.subscribe.payNow" />
+        </AsyncButton>
+        <!--
+        <AsyncButton
+          class="button"
+          @click.prevent="startPayment('paypal')"
+        >
+          (PP) Complete Order
+        </AsyncButton>
+        -->
+      </section>
+    </div>
   </div>
 </template>
 
@@ -152,8 +167,20 @@ export default defineComponent({
 @use "@/style/elements/section";
 @use "@/style/elements/button";
 
+/* NOTE: temporary note for preview */
+.preview-mode-info {
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  color: rgb(var(--c-red));
+}
+
 .subscribe-plan {
   margin-bottom: 4rem;
+
+  // pointer-events: none;
+
+  filter: grayscale(1);
+  opacity: 0.5;
 }
 
 .section {

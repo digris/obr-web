@@ -135,7 +135,11 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchTags = async () => {
       tagListLoading.value = true;
-      tagList.value = await getMediaTags(combinedFilter.value);
+      try {
+        tagList.value = await getMediaTags(combinedFilter.value);
+      } catch (e) {
+        console.warn("unable to load tag list", e);
+      }
       tagListLoading.value = false;
     };
     const showSearchBar = computed(() => {

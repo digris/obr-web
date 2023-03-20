@@ -16,8 +16,8 @@
     "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./src/typings/api/",
     "postinstall": "patch-package"
   },
-  "engines" : {
-    "node" : ">=16.0.0 <20.0.0"
+  "engines": {
+    "node": ">=16.0.0 <20.0.0"
   },
   "dependencies": {
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
@@ -31,6 +31,7 @@
     "@vueuse/math": "^9.4.0",
     "@vueuse/router": "^9.4.0",
     "axios": "^0.26.1",
+    "axios-retry": "^3.4.0",
     "bowser": "^2.11.0",
     "color": "^4.2.3",
     "email-validator": "^2.0.4",

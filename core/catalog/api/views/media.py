@@ -21,7 +21,7 @@ from rest_framework.response import Response
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
-DEFAULT_ORDERING = "-latest_airplay"
+DEFAULT_ORDER_BY = "-latest_airplay"
 
 
 class MediaFilter(
@@ -69,8 +69,13 @@ class MediaFilter(
         qs = super().filter_queryset(queryset)
 
         try:
-            ordering = self.request.GET.get("ordering", DEFAULT_ORDERING)
-            if ordering == "time_rated" and self.request.user.is_authenticated:
+            order_by = self.request.GET.get("ordering", DEFAULT_ORDER_BY)
+            order_by = order_by or DEFAULT_ORDER_BY
+        except AttributeError:
+            order_by = DEFAULT_ORDER_BY
+
+        try:
+            if order_by == "time_rated" and self.request.user.is_authenticated:
                 qs = qs.annotate(
                     user_rating_time_rated=Max(
                         "votes__created",
@@ -85,7 +90,7 @@ class MediaFilter(
         except AttributeError:
             pass
 
-        qs = qs.order_by(DEFAULT_ORDERING)
+        qs = qs.order_by(order_by)
 
         return qs
 

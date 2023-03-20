@@ -3,6 +3,7 @@ import type { PropType } from "vue";
 import { computed, defineComponent, nextTick, onActivated, onDeactivated, ref, watch } from "vue";
 import { useDocumentVisibility, useScroll, useThrottleFn, useWindowSize } from "@vueuse/core";
 
+import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 import type { AnnotatedSchedule } from "@/stores/schedule";
 
@@ -30,6 +31,7 @@ export default defineComponent({
     const follow = ref(true);
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const isDocumentVisible = useDocumentVisibility();
+    const { isSafari } = useDevice();
     const panelStyle = computed(() => {
       const padding = (vpWidth.value - props.itemSize) / 2;
       return {
@@ -46,7 +48,8 @@ export default defineComponent({
         panelEl.value.scrollTo({
           top: 0,
           left: pos,
-          behavior: "smooth", // NOTE: likely we have to use "auto" on safari
+          // behavior: "smooth", // NOTE: likely we have to use "auto" on safari
+          behavior: isSafari ? "auto" : "smooth",
         });
       } else {
         panelEl.value.scrollLeft = pos;
@@ -173,12 +176,16 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/mixins";
+
 .flow {
   position: relative;
   height: calc(var(--item-size) + 120px);
   width: 100%;
 
   > .panel {
+    @include mixins.hide-scrollbar;
+
     height: 100%;
     width: 100%;
     overflow-x: scroll;
@@ -186,10 +193,6 @@ export default defineComponent({
     display: flex;
     scroll-snap-type: x mandatory;
     direction: rtl;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
 
     .flow-item {
       direction: ltr;

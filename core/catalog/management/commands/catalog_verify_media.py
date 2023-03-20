@@ -1,5 +1,6 @@
 import argparse
 import csv
+import json
 import sys
 
 from django.core.management.base import BaseCommand, CommandError
@@ -15,19 +16,6 @@ MEDIA_BUCKET = "obr-media"
 
 class ValidationException(Exception):
     pass
-
-
-def write_csv(outfile, data):
-    assert len(data) > 0
-
-    fieldnames = data[0].keys()
-    writer = csv.DictWriter(
-        outfile,
-        fieldnames=fieldnames,
-    )
-    writer.writeheader()
-    for row in data:
-        writer.writerow(row)
 
 
 class Command(BaseCommand):
@@ -92,6 +80,11 @@ class Command(BaseCommand):
             .all()
         )
 
+        # path = "/Users/ohrstrom/code/obr-web/playground/media-verify-tmp.json"
+        # with open(path, "r") as f:
+        #     uids = json.load(f)
+        qs = qs.filter(media__uid__in=["E0F4D7C2"])
+
         if media_uids := options["media_uids"]:
             qs = qs.filter(media__uid__in=media_uids)
             if qs.count() < 1:
@@ -109,6 +102,7 @@ class Command(BaseCommand):
                     "has_master": has_master,
                     "has_dash": has_dash,
                     "has_hls": has_hls,
+                    "path": master.path,
                 }
             )
 
@@ -128,4 +122,4 @@ class Command(BaseCommand):
             sys.exit(0)
 
         if outfile := options["outfile"]:
-            write_csv(outfile=outfile, data=problems)
+            json.dump(problems, outfile, indent=2)

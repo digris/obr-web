@@ -18,8 +18,8 @@ from rest_framework.response import Response
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
-# DEFAULT_ORDERING = "-created"
-DEFAULT_ORDERING = "-latest_airplay"
+# DEFAULT_ORDER_BY = "-created"
+DEFAULT_ORDER_BY = "-latest_airplay"
 ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
 
 
@@ -42,7 +42,7 @@ class ArtistFilter(filters.FilterSet):
     def filter_queryset(self, queryset, *args, **kwargs):
         qs = super().filter_queryset(queryset)
         try:
-            ordering = self.request.GET.get("ordering", DEFAULT_ORDERING)
+            ordering = self.request.GET.get("ordering", DEFAULT_ORDER_BY)
             if ordering == "time_rated" and self.request.user.is_authenticated:
                 qs = qs.annotate(
                     user_rating_time_rated=Max(
@@ -58,7 +58,7 @@ class ArtistFilter(filters.FilterSet):
         except AttributeError:
             pass
 
-        qs = qs.order_by(DEFAULT_ORDERING)
+        qs = qs.order_by(DEFAULT_ORDER_BY)
 
         return qs
 

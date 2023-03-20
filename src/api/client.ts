@@ -1,5 +1,5 @@
-// import applyConverters from 'axios-case-converter';
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import qs from "qs";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -37,5 +37,13 @@ APIClient.interceptors.response.use(
     throw error;
   }
 );
+
+// NOTE: check for possible implications
+axiosRetry(APIClient, {
+  retries: 5,
+  onRetry: (count, error) => {
+    console.debug("retry", count, error);
+  },
+});
 
 export { APIClient, paramsSerializer };
