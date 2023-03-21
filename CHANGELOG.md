@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.83 (2023-03-21)
+### Fix
+* Add support for static (md) cms pages ([`6530870`](https://github.com/digris/obr-web/commit/6530870d10dc1cc38d0b11ac925be8c3b17185a8))
+
 ## v0.0.82 (2023-03-21)
 ### Fix
 * Add temporary hls encoder for iOS app ([`4ae5432`](https://github.com/digris/obr-web/commit/4ae54321edd227afda94f896a2bcbd26dd7b96ab))
