@@ -52,6 +52,8 @@ export default defineComponent({
     @include typo.large;
     @include typo.bold;
 
+    color: rgba(var(--c-dark) / 100%);
+    background: rgba(var(--c-light) / 100%);
     border: none;
     width: 100%;
 

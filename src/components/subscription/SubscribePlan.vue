@@ -175,7 +175,7 @@ export default defineComponent({
 }
 
 .subscribe-plan {
-  margin-bottom: 4rem;
+  margin-bottom: 8rem;
 
   // pointer-events: none;
 

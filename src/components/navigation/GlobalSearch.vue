@@ -70,7 +70,7 @@ export default defineComponent({
 @use "@/style/base/typo";
 
 .global-search {
-  background: white;
+  background: rgba(var(--c-light) / 100%);
 
   .feedback {
     padding: 0.5rem 0;
