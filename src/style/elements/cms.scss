@@ -38,6 +38,28 @@
   }
 }
 
+/*
+footnote extension (markdown):
+https://python-markdown.github.io/extensions/footnotes/
+*/
+@mixin footnote {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgb(var(--c-page-fg) / 20%);
+  font-weight: 300;
+
+  /* hide automatically inserted hr */
+  > hr {
+    &:first-child {
+      display: none;
+    }
+  }
+
+  > ol {
+    list-style-position: outside;
+    margin-left: 1rem;
+  }
+}
+
 @mixin table {
   @include typo.light;
   @include block-spacing;
@@ -153,6 +175,14 @@
       color: rgb(var(--c-page-bg) / 100%);
       background: rgb(var(--c-page-fg) / 100%);
       font-style: normal;
+    }
+
+    > sup {
+      > .footnote-ref {
+        text-decoration: none;
+        padding: 0 1px;
+        font-size: 80%;
+      }
     }
   }
 

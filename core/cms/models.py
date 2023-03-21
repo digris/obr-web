@@ -6,6 +6,9 @@ import markdown
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 MARKDOWN_EXTENSIONS = [
+    "markdown.extensions.attr_list",
+    "markdown.extensions.abbr",
+    "markdown.extensions.footnotes",
     "markdown.extensions.tables",
     "markdown.extensions.toc",
 ]

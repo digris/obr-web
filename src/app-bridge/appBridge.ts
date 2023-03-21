@@ -222,15 +222,19 @@ class AppBridge {
       });
       return;
     }
+    // stop evaluation for "internal" links
+    if (origin.host && origin.host === window.location.host) {
+      return;
+    }
     // "external" links should open in native safari
     // (assuming we dont have any http:// links...)
-    // if (origin.href.startsWith("https://")) {
-    //   e.preventDefault();
-    //   await this.send("browser:navigate", {
-    //     url: origin.href,
-    //   });
-    //   return;
-    // }
+    if (origin.href.startsWith("https://")) {
+      e.preventDefault();
+      await this.send("browser:navigate", {
+        url: origin.href,
+      });
+      return;
+    }
   }
 }
 

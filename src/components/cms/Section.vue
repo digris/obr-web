@@ -75,6 +75,10 @@ export default defineComponent({
     > table {
       @include cms.table;
     }
+
+    > .footnote {
+      @include cms.footnote;
+    }
   }
 }
 
