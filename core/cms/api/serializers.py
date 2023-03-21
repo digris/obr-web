@@ -38,6 +38,7 @@ class PageSerializer(
         read_only=True,
     )
     lead = serializers.CharField(
+        source="render_lead",
         read_only=True,
     )
     sections = SectionSerializer(
@@ -54,3 +55,18 @@ class PageSerializer(
             "lead",
             "sections",
         ]
+
+
+class StaticPageSerializer(
+    serializers.Serializer,
+):
+    title = serializers.CharField(
+        read_only=True,
+    )
+    lead = serializers.CharField(
+        read_only=True,
+    )
+    sections = serializers.JSONField(
+        # many=True,
+        read_only=True,
+    )

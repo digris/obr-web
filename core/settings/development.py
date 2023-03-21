@@ -30,7 +30,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 MIDDLEWARE += [
-    "querycount.middleware.QueryCountMiddleware",
+    # "querycount.middleware.QueryCountMiddleware",
 ]
 
 LOGGING = {

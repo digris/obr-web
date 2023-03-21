@@ -58,6 +58,10 @@ https://python-markdown.github.io/extensions/footnotes/
     list-style-position: outside;
     margin-left: 1rem;
   }
+
+  .footnote-backref {
+    text-decoration: none;
+  }
 }
 
 @mixin table {

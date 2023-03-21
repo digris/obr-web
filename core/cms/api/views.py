@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ..models import Page
+from ..static_page import StaticPage, StaticPageDoesNotExist
 from . import serializers
 
 
@@ -25,4 +26,15 @@ class PageView(APIView):
                 serializer.data,
             )
         except Page.DoesNotExist as e:
-            raise Http404(e) from e
+            pass
+
+        try:
+            page = StaticPage(path)
+            serializer = serializers.StaticPageSerializer(page)
+            return Response(
+                serializer.data,
+            )
+        except StaticPageDoesNotExist as e:
+            pass
+
+        raise Http404("Page does not exist")
