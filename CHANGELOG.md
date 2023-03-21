@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.82 (2023-03-21)
+### Fix
+* Add temporary hls encoder for iOS app ([`4ae5432`](https://github.com/digris/obr-web/commit/4ae54321edd227afda94f896a2bcbd26dd7b96ab))
+
 ## v0.0.81 (2023-03-06)
 ### Fix
 * Add dateutil dependency ([`885c16f`](https://github.com/digris/obr-web/commit/885c16f97d7643b9c1f7faebbd4c238d9f321916))
