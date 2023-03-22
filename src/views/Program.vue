@@ -6,6 +6,7 @@
  */
 
 import { defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import { DateTime } from "luxon";
 
@@ -22,6 +23,7 @@ export default defineComponent({
     Program,
   },
   setup() {
+    const { t } = useI18n();
     const router = useRouter();
     const onDateUpdate = (date: DateTime) => {
       router.push({
@@ -32,6 +34,7 @@ export default defineComponent({
       });
     };
     return {
+      t,
       onDateUpdate,
     };
   },
@@ -40,7 +43,7 @@ export default defineComponent({
 
 <template>
   <div class="program-view">
-    <Program :title="`Programm`" :date="date" @date-update="onDateUpdate" />
+    <Program :title="t('menu.program')" :date="date" @date-update="onDateUpdate" />
   </div>
 </template>
 
