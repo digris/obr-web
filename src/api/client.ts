@@ -14,7 +14,7 @@ axios.defaults.withCredentials = true;
 // }));
 
 const APIClient = axios.create({
-  timeout: 12000,
+  timeout: 20000,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
   },
@@ -40,9 +40,21 @@ APIClient.interceptors.response.use(
 
 // NOTE: check for possible implications
 axiosRetry(APIClient, {
-  retries: 5,
-  onRetry: (count, error) => {
-    console.debug("retry", count, error);
+  retries: 10,
+  retryCondition: (e) => {
+    // extend default behavior to include 429
+    return e.response?.status === 429 || axiosRetry.isNetworkOrIdempotentRequestError(e);
+  },
+  retryDelay: (count, e) => {
+    // handle rate limit
+    if (e.response?.status === 429) {
+      const retryAfter = e.response.headers["retry-after"];
+      if (Number.isInteger(parseInt(retryAfter))) {
+        return parseInt(retryAfter) * 1000 + 1000;
+      }
+    }
+    // built-in back-off delay
+    return axiosRetry.exponentialDelay(count);
   },
 });
 
