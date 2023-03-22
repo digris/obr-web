@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.84 (2023-03-22)
+### Fix
+* Add "no results" component ([`bc6d85d`](https://github.com/digris/obr-web/commit/bc6d85d8f4eb50da4e4fa19230a6d1420ab0ddc9))
+
 ## v0.0.83 (2023-03-21)
 ### Fix
 * Add support for static (md) cms pages ([`6530870`](https://github.com/digris/obr-web/commit/6530870d10dc1cc38d0b11ac925be8c3b17185a8))
