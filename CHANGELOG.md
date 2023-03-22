@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.85 (2023-03-22)
+### Fix
+* Add "no results" component translations ([`112c980`](https://github.com/digris/obr-web/commit/112c980d97b5ce00274ecce4c94da0bb35f04f16))
+
 ## v0.0.84 (2023-03-22)
 ### Fix
 * Add "no results" component ([`bc6d85d`](https://github.com/digris/obr-web/commit/bc6d85d8f4eb50da4e4fa19230a6d1420ab0ddc9))
