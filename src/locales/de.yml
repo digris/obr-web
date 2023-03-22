@@ -64,6 +64,15 @@ pullToRefresh:
   pull: Pull down to refresh
   release: Release to refresh
   refreshing: Refreshing
+loading:
+  noResults:
+    lead: Keine Resultate.
+    cta: Please refine or {0} your search.
+    ctaText: clear
+  noFavorites:
+    lead: Du hast noch keine Favoriten.
+    cta: Go ahead and {0} some!
+    ctaText: discover
 formActions:
   save: Speichern
   send: Senden

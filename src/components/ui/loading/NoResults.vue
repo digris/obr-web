@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   props: {
@@ -9,6 +10,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const hasFilter = computed(() => {
       if (props.filter.q) {
         return true;
@@ -16,6 +18,7 @@ export default defineComponent({
       return !!props.filter.tags.length;
     });
     return {
+      t,
       hasFilter,
     };
   },
@@ -25,13 +28,16 @@ export default defineComponent({
   <div class="no-results">
     <slot name="default">
       <div v-if="hasFilter" class="body body--no-results">
-        <!-- TODO: add translations -->
-        <p>No results.</p>
-        <p>Please refine or <router-link to="">clear</router-link> your search.</p>
+        <i18n-t keypath="loading.noResults.lead" tag="p" />
+        <i18n-t keypath="loading.noResults.cta" tag="p">
+          <router-link to="" v-text="t('loading.noResults.ctaText')" />
+        </i18n-t>
       </div>
       <div v-else class="body body--no-favorites">
-        <p>You don't have any favorites yet.</p>
-        <p>Go ahead and <router-link to="/discover/">discover</router-link> some!</p>
+        <i18n-t keypath="loading.noFavorites.lead" tag="p" />
+        <i18n-t keypath="loading.noFavorites.cta" tag="p">
+          <router-link to="/discover/" v-text="t('loading.noFavorites.ctaText')" />
+        </i18n-t>
       </div>
     </slot>
   </div>
