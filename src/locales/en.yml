@@ -31,12 +31,17 @@ menu:
   logout: Logout
 navigation:
   search:
-    title: Seek
+    title: Search
     noResults: Sorry! No entries found.
     cta: Search the open broadcast archive.
     info: You can search by track, release or artist name.
 search:
-  search: Seek
+  search: Search
+program:
+  timeInFuture:
+    lead: Delorean error.
+    cta: Back to {0}!
+    ctaText: now
 text:
   duration: Duration
   airtime: Airtime

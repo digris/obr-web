@@ -37,6 +37,11 @@ navigation:
     info: Du kannst nach Tracks, Releases oder Künsternamem suchen.
 search:
   search: Suche
+program:
+  timeInFuture:
+    lead: Delorean error.
+    cta: Back to {0}!
+    ctaText: now
 text:
   duration: Dauer
   airtime: Airtime

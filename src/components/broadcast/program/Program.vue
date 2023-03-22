@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, onActivated, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { DateTime } from "luxon";
 import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
@@ -30,6 +31,7 @@ export default defineComponent({
   },
   emits: ["navigate", "dateUpdate"],
   setup(props, { emit }) {
+    const { t } = useI18n();
     const { emissions } = storeToRefs(useProgramStore());
     const { loadEmissions } = useProgramStore();
     const navigate = () => {
@@ -60,6 +62,7 @@ export default defineComponent({
       }
     );
     return {
+      t,
       timeInFuture,
       filter,
       emissions,
@@ -77,8 +80,11 @@ export default defineComponent({
       </div>
     </div>
     <div class="body">
-      <div v-if="timeInFuture">
-        <p>TIME IS IN FUTURE...</p>
+      <div v-if="timeInFuture" class="invalid-date">
+        <i18n-t keypath="program.timeInFuture.lead" tag="p" />
+        <i18n-t keypath="program.timeInFuture.cta" tag="p">
+          <router-link to="/program/" v-text="t('program.timeInFuture.ctaText')" />
+        </i18n-t>
       </div>
       <div class="emissions">
         <Emission
@@ -122,5 +128,20 @@ export default defineComponent({
   flex-grow: 1;
   min-height: 0; /* without min-height/height:0 flex:1 doesn't work */
   overflow: auto;
+
+  > .invalid-date {
+    min-height: 4rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--t-fs-large);
+
+    a {
+      text-decoration: underline;
+    }
+  }
 }
 </style>
