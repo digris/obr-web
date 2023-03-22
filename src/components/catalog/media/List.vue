@@ -23,6 +23,7 @@ import MediaRowHeader from "@/components/catalog/media/RowHeader.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
+import NoResults from "@/components/ui/loading/NoResults.vue";
 import { useDevice } from "@/composables/device";
 import { useRatingStore } from "@/stores/rating";
 import { useUiStore } from "@/stores/ui";
@@ -35,6 +36,7 @@ export default defineComponent({
     MediaRowHeader,
     MediaRow,
     LoadingMore,
+    NoResults,
   },
   props: {
     scope: {
@@ -72,7 +74,7 @@ export default defineComponent({
     const { injectRatings } = useRatingStore();
     const now = ref(DateTime.now());
     const timer = ref(null);
-    const numResults = ref(0);
+    const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
     const mediaList = ref([]);
@@ -242,9 +244,10 @@ export default defineComponent({
     </div>
   </div>
   <div ref="listEl" class="media-list">
-    <div v-if="isDesktop" class="table-header">
+    <div v-if="isDesktop && numResults !== 0" class="table-header">
       <MediaRowHeader />
     </div>
+    <NoResults v-if="numResults === 0" :filter="combinedFilter" />
     <div class="table">
       <MediaRow
         v-for="(media, index) in visibleMediaList"

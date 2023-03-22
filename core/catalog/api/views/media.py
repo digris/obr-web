@@ -75,17 +75,20 @@ class MediaFilter(
             order_by = DEFAULT_ORDER_BY
 
         try:
-            if order_by == "time_rated" and self.request.user.is_authenticated:
-                qs = qs.annotate(
-                    user_rating_time_rated=Max(
-                        "votes__created",
-                        filter=Q(
-                            votes__user=self.request.user,
+            if order_by == "time_rated":
+                if self.request.user.is_authenticated:
+                    qs = qs.annotate(
+                        user_rating_time_rated=Max(
+                            "votes__created",
+                            filter=Q(
+                                votes__user=self.request.user,
+                            ),
                         ),
-                    ),
-                )
-                qs = qs.order_by("-user_rating_time_rated")
-                return qs
+                    )
+                    return qs.order_by("-user_rating_time_rated")
+                else:
+                    # NOTE: not implemented for anonymous users
+                    return qs.order_by(DEFAULT_ORDER_BY)
 
         except AttributeError:
             pass

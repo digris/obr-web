@@ -62,6 +62,6 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   min-height: 4rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 </style>

@@ -154,7 +154,7 @@ export default defineComponent({
   </div>
   <div class="artist-list">
     <LoadingMore v-if="numResults === -1" />
-    <NoResults v-if="numResults === 0" />
+    <NoResults v-if="numResults === 0" :filter="combinedFilter" />
     <div class="list-container">
       <ArtistCard v-for="artist in artists" :key="artist.uid" :artist="artist" />
     </div>

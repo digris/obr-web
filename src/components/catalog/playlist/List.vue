@@ -10,6 +10,7 @@ import PlaylistRow from "@/components/catalog/playlist/Row.vue";
 import PlaylistRowHeader from "@/components/catalog/playlist/RowHeader.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
+import NoResults from "@/components/ui/loading/NoResults.vue";
 import { useDevice } from "@/composables/device";
 import { useRatingStore } from "@/stores/rating";
 import { useUiStore } from "@/stores/ui";
@@ -18,6 +19,7 @@ export default defineComponent({
   components: {
     ListFilter,
     LoadingMore,
+    NoResults,
     PlaylistRowHeader,
     PlaylistCard,
   },
@@ -178,6 +180,7 @@ export default defineComponent({
       <PlaylistRowHeader />
     </div>
     <LoadingMore v-if="numResults === -1" :layout="layout" :class="`layout--${layout}`" />
+    <NoResults v-if="numResults === 0" :filter="combinedFilter" />
     <div class="list-container" :class="`layout--${layout}`">
       <component
         v-for="playlist in playlists"

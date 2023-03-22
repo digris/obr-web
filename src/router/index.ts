@@ -315,6 +315,7 @@ const routes = [
     */
     redirect: {
       name: "collectionMedia",
+      // name: "collectionPlaylists",
     },
     children: [
       {

@@ -37,8 +37,8 @@ export default defineComponent({
   display: flex;
   align-items: center;
   height: 3rem;
-  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   cursor: pointer;
+  border-bottom: 1px solid rgb(var(--c-dark) / 10%);
 
   &:hover {
     background: rgb(var(--c-dark) / 10%);
