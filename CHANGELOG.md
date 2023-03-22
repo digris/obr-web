@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.86 (2023-03-22)
+### Fix
+* Add axios error / retry handling ([`e4ff6da`](https://github.com/digris/obr-web/commit/e4ff6da76f3324df8c81fff0b12ddf6407bc1e91))
+
 ## v0.0.85 (2023-03-22)
 ### Fix
 * Add "no results" component translations ([`112c980`](https://github.com/digris/obr-web/commit/112c980d97b5ce00274ecce4c94da0bb35f04f16))
