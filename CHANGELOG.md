@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.87 (2023-03-22)
+### Fix
+* Add program translated title ([`50026a1`](https://github.com/digris/obr-web/commit/50026a1e375d9a7189acd978133f59bd18f1f727))
+
 ## v0.0.86 (2023-03-22)
 ### Fix
 * Add axios error / retry handling ([`e4ff6da`](https://github.com/digris/obr-web/commit/e4ff6da76f3324df8c81fff0b12ddf6407bc1e91))
