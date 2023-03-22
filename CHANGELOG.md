@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.88 (2023-03-22)
+### Fix
+* Add "date in future" feedback for program ([`6705f12`](https://github.com/digris/obr-web/commit/6705f128696683ad2a2d3c599efbfa5e21a10abe))
+
 ## v0.0.87 (2023-03-22)
 ### Fix
 * Add program translated title ([`50026a1`](https://github.com/digris/obr-web/commit/50026a1e375d9a7189acd978133f59bd18f1f727))
