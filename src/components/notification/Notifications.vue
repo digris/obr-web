@@ -86,10 +86,12 @@ export default defineComponent({
   }
 
   &.is-success {
+    color: rgb(var(--c-success-fg));
     background: rgb(var(--c-success));
   }
 
   &.is-error {
+    color: rgb(var(--c-error-fg));
     background: rgb(var(--c-error));
   }
 }

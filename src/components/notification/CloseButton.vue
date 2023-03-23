@@ -14,6 +14,6 @@ export default defineComponent({
 
 <template>
   <CircleButton :scale="0.75">
-    <IconClose color-var="--c-live-fg" />
+    <IconClose color-var="--c-white" />
   </CircleButton>
 </template>
