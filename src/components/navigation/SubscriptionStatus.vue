@@ -50,7 +50,7 @@ export default defineComponent({
       >
         <div v-if="!isActive || isBlocked" class="icon-alert">
           <CircleButton>
-            <IconAlert :scale="0.8" />
+            <IconAlert :scale="0.8" color-var="--c-red" />
           </CircleButton>
         </div>
         <div v-else>
