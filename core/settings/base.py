@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
     "storages",
     # "taggit",
     "rest_framework",
@@ -208,6 +209,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
     "account.social_auth_pipeline.app_bridge.app_redirect",
+    "account.social_auth_pipeline.user_redirect.registration_redirect",
 )
 
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL

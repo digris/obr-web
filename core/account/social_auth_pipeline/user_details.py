@@ -19,6 +19,15 @@ def get_user_details(backend, strategy, details, response, user=None, *args, **k
             user.last_name = response["family_name"]
             changed = True
 
+    if backend.name == "deezer":
+        if not user.first_name and "firstname" in response:
+            user.first_name = response["firstname"]
+            changed = True
+
+        if not user.last_name and "lastname" in response:
+            user.last_name = response["lastname"]
+            changed = True
+
     if not user.country and request.geolocation_country:
         user.country = request.geolocation_country
         changed = True
