@@ -45,7 +45,12 @@ export const useAccountStore = defineStore("account", {
     async loginUserByToken(credentials: TokenCredentials) {
       const { email, token } = credentials;
       try {
-        this.user = await loginByToken(email, token);
+        const { user, created } = await loginByToken(email, token);
+        this.user = user;
+        return {
+          user,
+          created,
+        };
       } catch (err) {
         console.warn(err);
         this.user = null;

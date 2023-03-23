@@ -47,9 +47,13 @@ export default defineComponent({
         token: token.value,
       };
       try {
-        await loginUserByToken(credentials);
+        const { created } = await loginUserByToken(credentials);
         await loadUser();
-        document.location.reload();
+        if (created) {
+          document.location = "/account/";
+        } else {
+          document.location.reload();
+        }
       } catch (err) {
         console.warn(err);
         errors.value = [err.response];

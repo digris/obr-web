@@ -44,7 +44,12 @@ async function loginByToken(email: string, token: string) {
     token,
   };
   const response = await APIClient.post(url, payload);
-  return response.data;
+  // NOTE: maybe we should return the same data for
+  //       all login requests.
+  return {
+    created: response.status === 201,
+    user: response.data,
+  };
 }
 
 async function getSignedLoginCredentials() {
