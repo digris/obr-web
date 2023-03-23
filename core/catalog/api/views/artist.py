@@ -64,7 +64,7 @@ class ArtistFilter(filters.FilterSet):
 
 
 def get_search_qs(qs, q):
-    qs = qs.filter(Q(name__icontains=q))
+    qs = qs.filter(name__unaccent__icontains=q)
     return qs
 
 
@@ -151,6 +151,7 @@ class ArtistViewSet(
 
         if q := self.request.GET.get("q", None):
             qs = get_search_qs(qs, q)
+            # qs = qs.filter(name__unaccent__icontains="castelle")
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(

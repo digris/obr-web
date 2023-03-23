@@ -21,9 +21,9 @@ class GlobalMediaSearchView(
         )
 
         qs = qs.filter(
-            Q(name__icontains=q)
-            | Q(artists__name__icontains=q)
-            | Q(releases__name__icontains=q)
+            Q(name__unaccent__icontains=q)
+            | Q(artists__name__unaccent__icontains=q)
+            | Q(releases__name__unaccent__icontains=q)
         ).distinct()
 
         return qs
