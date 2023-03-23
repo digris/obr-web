@@ -4,6 +4,10 @@ import { getStreamMediaFormat } from "@/utils/browser";
 const { STREAM_ENDPOINTS } = settings;
 
 const getUrl = (format: string) => {
+  // TODO: this is just temporary!
+  if (format === "hls") {
+    return "https://stream-abr.next.openbroadcast.ch/hls/manifest.m3u8";
+  }
   // @ts-ignore
   return STREAM_ENDPOINTS[format];
 };
