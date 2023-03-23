@@ -42,7 +42,8 @@ export default defineComponent({
       close();
       notify({
         level: "success",
-        body: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+        body: "Subscription updated",
+        ttl: 5,
       });
       if (next.value) {
         // @ts-ignore
