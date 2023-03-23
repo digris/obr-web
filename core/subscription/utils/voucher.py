@@ -48,7 +48,9 @@ def get_voucher(user, code):
         user.is_authenticated
         and voucher.ancestors(include_self=True).filter(user=user).count()
     ):
-        raise VoucherValidationException(_("You cannot use your own vouchers, or vouchers from people you invited."))
+        raise VoucherValidationException(
+            _("You cannot use your own vouchers, or vouchers from people you invited.")
+        )
 
     subscription = get_subscription(user=user)
 

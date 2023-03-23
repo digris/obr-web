@@ -108,7 +108,8 @@ export default defineComponent({
         We know this is disappointing, but don't worry, we've got you covered.
         <br />
         If you'd like to try the on-demand service, just shoot us an email at
-        <a href="mailto:info@openbroadcast.ch" style="text-decoration: underline">info@openbroadcast.ch</a>, and we'll send you a voucher code.
+        <a href="mailto:info@openbroadcast.ch">info@openbroadcast.ch</a>, and we'll send you a
+        voucher code.
       </p>
     </div>
     <div class="subscribe-plan">
@@ -172,6 +173,10 @@ export default defineComponent({
   margin-top: 4rem;
   margin-bottom: 2rem;
   color: rgb(var(--c-red));
+
+  a {
+    text-decoration: underline;
+  }
 }
 
 .subscribe-plan {
