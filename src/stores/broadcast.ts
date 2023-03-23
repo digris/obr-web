@@ -19,7 +19,6 @@ export const useBroadcastStore = defineStore("broadcast", {
   actions: {
     async loadEditor(uid: string): Promise<void> {
       const editor = await getEditor(uid);
-      console.debug("stores/broadcast: loadEditor", editor);
       const index = this.editors.findIndex((obj) => obj.uid === uid);
       if (index > -1) {
         this.editors[index] = editor;
