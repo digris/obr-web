@@ -43,6 +43,13 @@ def get_voucher(user, code):
     ):
         raise VoucherValidationException(_("You did already use this voucher-code"))
 
+    # check if voucher is in inheritance tree
+    if (
+        user.is_authenticated
+        and voucher.ancestors(include_self=True).filter(user=user).count()
+    ):
+        raise VoucherValidationException(_("You cannot use your own vouchers, or vouchers from people you invited."))
+
     subscription = get_subscription(user=user)
 
     voucher.is_valid_for_user = True
@@ -60,4 +67,15 @@ def redeem_voucher(user, code):
     redemption = Redemption(voucher=voucher, user=user)
     redemption.save()
     extend_subscription(user=user, num_days=voucher.num_days)
+
+    if voucher.inherit:
+        Voucher.objects.create(
+            parent=voucher,
+            user=user,
+            num_days=voucher.num_days,
+            valid_until=voucher.valid_until,
+            max_num_use=voucher.max_num_use,
+            inherit=voucher.inherit,
+        )
+
     return True

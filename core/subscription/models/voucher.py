@@ -6,6 +6,8 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+from tree_queries.models import TreeNode
+
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 DEFAULT_DAYS_VALID = 28
@@ -28,7 +30,7 @@ def get_default_valid_until():
     return timezone.now() + timedelta(days=365)
 
 
-class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
+class Voucher(CTUIDModelMixin, TimestampedModelMixin, TreeNode,):
     code = models.CharField(
         max_length=6,
         default=get_default_code,
@@ -56,6 +58,10 @@ class Voucher(CTUIDModelMixin, TimestampedModelMixin, models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="vouchers",
+    )
+
+    inherit = models.BooleanField(
+        default=False,
     )
 
     class Meta:

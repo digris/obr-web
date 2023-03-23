@@ -79,6 +79,8 @@ class VoucherAdmin(admin.ModelAdmin):
         "num_days",
         "num_used",
         "is_valid_display",
+        "inherit",
+        "parent",
     ]
     search_fields = [
         "uid",
@@ -87,6 +89,7 @@ class VoucherAdmin(admin.ModelAdmin):
         "user__email",
     ]
     raw_id_fields = [
+        "parent",
         "user",
     ]
     date_hierarchy = "created"
