@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.89 (2023-03-23)
+### Fix
+* Format code to pass linting ([`e4e8380`](https://github.com/digris/obr-web/commit/e4e8380b2a4e9a3df1bc4dca4ce019c4eace9023))
+
 ## v0.0.88 (2023-03-22)
 ### Fix
 * Add "date in future" feedback for program ([`6705f12`](https://github.com/digris/obr-web/commit/6705f128696683ad2a2d3c599efbfa5e21a10abe))
