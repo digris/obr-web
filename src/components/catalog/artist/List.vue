@@ -9,6 +9,7 @@ import ArtistCard from "@/components/catalog/artist/Card.vue";
 import ListFilter from "@/components/filter/ListFilter.vue";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import NoResults from "@/components/ui/loading/NoResults.vue";
+import { useCatalogStore } from "@/stores/catalog";
 import { useRatingStore } from "@/stores/rating";
 import { useUiStore } from "@/stores/ui";
 
@@ -45,11 +46,13 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const { filterExpanded } = storeToRefs(useUiStore());
+    const { loadArtists } = useCatalogStore();
+    const { artists } = storeToRefs(useCatalogStore());
     const { injectRatings } = useRatingStore();
     const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
-    const artists = ref([]);
+    // const artists = ref([]);
     const tagList = ref([]);
     const tagListLoading = ref(false);
     const hasNext = ref(false);
@@ -72,7 +75,7 @@ export default defineComponent({
       return props.scope === "collection" ? ["time_rated"] : [];
     });
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const fetchArtists = async (limit = 16, offset = 0) => {
+    const __fetchArtists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
       const { count, next, results } = await getArtists(
         limit,
@@ -84,6 +87,21 @@ export default defineComponent({
       numResults.value = count;
       // @ts-ignore
       artists.value.push(...results);
+      await injectRatings(results);
+    };
+    const fetchArtists = async (limit = 16, offset = 0, reset = false) => {
+      // NOTE: depending on the layout we need different data / expands
+      const { count, next, results } = await loadArtists(
+        limit,
+        offset,
+        combinedFilter.value,
+        ordering.value,
+        reset
+      );
+      hasNext.value = !!next;
+      numResults.value = count;
+      // @ts-ignore
+      // artists.value.push(...results);
       await injectRatings(results);
     };
     const fetchNextPage = async () => {
@@ -111,7 +129,8 @@ export default defineComponent({
       router.push({ name: routeName, query });
     };
     onMounted(() => {
-      fetchArtists();
+      fetchArtists(limit, 0, true);
+      // loadArtists();
       fetchTags().then(() => {});
     });
     watch(
@@ -124,6 +143,7 @@ export default defineComponent({
         artists.value = [];
         numResults.value = -1;
         fetchArtists(limit, 0).then(() => {});
+        // loadArtists(limit, 0).then(() => {});
         fetchTags().then(() => {});
       }
     );

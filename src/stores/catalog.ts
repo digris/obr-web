@@ -1,16 +1,28 @@
 import { defineStore } from "pinia";
-import { without } from "lodash-es";
 
-import { getArtist, getMediaDetail, getMood, getMoods, getPlaylist } from "@/api/catalog";
+// import { without } from "lodash-es";
+import {
+  getArtist,
+  getArtists,
+  getMediaDetail,
+  getMood,
+  getMoods,
+  getPlaylist,
+} from "@/api/catalog";
 import type { Artist, Media, Mood } from "@/typings/api";
 
 interface State {
   artists: Array<Artist>;
   media: Array<Media>;
   moods: Array<Mood>;
+  // NOTE: add type for playlist
   playlists: Array<any>;
-  //
-  loading: Array<string>;
+}
+
+interface ListLoadResult {
+  count: number;
+  next: string | null;
+  results: Array<Artist | Media>;
 }
 
 export const useCatalogStore = defineStore("catalog", {
@@ -19,8 +31,6 @@ export const useCatalogStore = defineStore("catalog", {
     media: [],
     moods: [],
     playlists: [],
-    //
-    loading: [],
   }),
   getters: {
     artistByUid: (state: State) => (uid: string) => {
@@ -37,19 +47,55 @@ export const useCatalogStore = defineStore("catalog", {
     },
   },
   actions: {
+    // async loadArtist(uid: string): Promise<void> {
+    //   if (this.artistByUid(uid)) {
+    //     console.debug(`already loaded: ${uid}`);
+    //     return;
+    //   }
+    //   const objKey = `artist-${uid}`;
+    //   if (this.loading.includes(objKey)) {
+    //     console.debug(`already loading: ${objKey}`);
+    //     return;
+    //   }
+    //   this.loading.push(objKey);
+    //   this.artists.push(await getArtist(uid));
+    //   this.loading = without(this.loading, objKey);
+    // },
+    async loadArtists(
+      limit = 16,
+      offset = 0,
+      filter = {},
+      ordering = [],
+      reset = false
+    ): Promise<ListLoadResult> {
+      if (reset) {
+        this.artists = [];
+      }
+
+      const { count, next, results } = await getArtists(limit, offset, filter, ordering);
+
+      this.artists.push(...results);
+
+      // const hasNext = !!next;
+      // const numResults = count;
+
+      return {
+        count,
+        next,
+        results,
+      };
+    },
     async loadArtist(uid: string): Promise<void> {
-      if (this.artistByUid(uid)) {
-        console.debug(`already loaded: ${uid}`);
-        return;
+      const artist = await getArtist(uid);
+      const index = this.artists.findIndex((obj) => obj.uid === uid);
+      if (index > -1) {
+        this.artists[index] = artist;
+      } else {
+        this.artists.push(artist);
       }
-      const objKey = `artist-${uid}`;
-      if (this.loading.includes(objKey)) {
-        console.debug(`already loading: ${objKey}`);
-        return;
-      }
-      this.loading.push(objKey);
-      this.artists.push(await getArtist(uid));
-      this.loading = without(this.loading, objKey);
+      // if (!this.artistByUid(uid)) {
+      //   this.artists.push(await getArtist(uid));
+      // }
     },
     async loadMedia(uid: string): Promise<void> {
       if (!this.mediaByUid(uid)) {
