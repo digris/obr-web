@@ -83,7 +83,7 @@ class Command(BaseCommand):
         # path = "/Users/ohrstrom/code/obr-web/playground/media-verify-tmp.json"
         # with open(path, "r") as f:
         #     uids = json.load(f)
-        qs = qs.filter(media__uid__in=["E0F4D7C2"])
+        # qs = qs.filter(media__uid__in=uids)
 
         if media_uids := options["media_uids"]:
             qs = qs.filter(media__uid__in=media_uids)

@@ -143,6 +143,7 @@ export default defineComponent({
         }
         lastOffset.value = 0;
         playlists.value = [];
+        numResults.value = -1;
         fetchPlaylists(limit, 0).then(() => {});
         fetchTags().then(() => {});
       }
