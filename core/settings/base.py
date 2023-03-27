@@ -244,6 +244,17 @@ SOCIAL_AUTH_SPOTIFY_SCOPE = [
     "user-top-read",
 ]
 
+# spotify oauth2
+SOCIAL_AUTH_SPOTIFY_KEY = env(
+    "SOCIAL_AUTH_SPOTIFY_KEY",
+    default="",
+)
+
+SOCIAL_AUTH_SPOTIFY_SECRET = env(
+    "SOCIAL_AUTH_SPOTIFY_SECRET",
+    default="",
+)
+
 # deezer oauth2
 SOCIAL_AUTH_DEEZER_KEY = env(
     "SOCIAL_AUTH_DEEZER_KEY",
