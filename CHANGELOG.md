@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.90 (2023-03-27)
+### Fix
+* Use watch on auth input elements ([`193a901`](https://github.com/digris/obr-web/commit/193a901da230b4cce918e2559271f357a42c3544))
+
 ## v0.0.89 (2023-03-23)
 ### Fix
 * Format code to pass linting ([`e4e8380`](https://github.com/digris/obr-web/commit/e4e8380b2a4e9a3df1bc4dca4ce019c4eace9023))
