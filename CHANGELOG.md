@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.92 (2023-03-27)
+### Fix
+* Add debounce to program date input ([#118](https://github.com/digris/obr-web/issues/118)) ([`8e10084`](https://github.com/digris/obr-web/commit/8e100846a95700159cbd1c6e8221f7db688dcd17))
+
 ## v0.0.91 (2023-03-27)
 ### Fix
 * Reset playlist-list result count on filter change ([`4ae0476`](https://github.com/digris/obr-web/commit/4ae04768c57b260dc0ffe116f7fe6f9d45dd6ab2))
