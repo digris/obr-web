@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { whenever } from "@vueuse/core";
 import * as EmailValidator from "email-validator";
@@ -64,8 +64,7 @@ export default defineComponent({
         buttonText.value = t("account.auth.register");
       }
     };
-    const handleEmailInput = debounce(async (e: any) => {
-      const { value } = e.target;
+    const handleEmailChanged = debounce(async (value: string) => {
       errors.value = [];
       emailExists.value = false;
       promptPassword.value = false;
@@ -84,6 +83,11 @@ export default defineComponent({
         buttonText.value = t("account.auth.login");
       }
     }, 200);
+    /*
+    NOTE: `keyup` does not fire on webView input autocomplete.
+          so we have to use watch to detect input.
+    */
+    watch(() => email.value, handleEmailChanged);
     const submitEmailLogin = async () => {
       message.value = {};
       errors.value = [];
@@ -142,7 +146,6 @@ export default defineComponent({
       buttonText,
       message,
       errors,
-      handleEmailInput,
       submitForm,
       resetPassword,
     };
@@ -155,7 +158,6 @@ export default defineComponent({
     <div class="input-container">
       <i18n-t keypath="account.auth.usingEmail" tag="label" for="email-1625" />
       <input
-        @keyup="handleEmailInput"
         class="input"
         v-model="email"
         required

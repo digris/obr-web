@@ -5,6 +5,7 @@
 @mixin input {
   @include typo.bold;
 
+  color: rgb(var(--c-dark));
   background-color: rgb(var(--c-light));
   border: 3px solid rgb(var(--c-dark) / 100%);
   border-radius: 3px;

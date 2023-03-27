@@ -1,4 +1,5 @@
 import logging
+import urllib.parse
 
 from django.conf import settings
 from django.core.signing import BadSignature, SignatureExpired
@@ -22,11 +23,12 @@ class SignedEmailValidationException(Exception):
 def send_login_email(email):
     logger.info(f"send email login to {email}")
     signed_email = timestamp_signer.sign(str(email))
+    quoted_signed_email = urllib.parse.quote(signed_email)
 
     # NOTE: improve token handling...
     login_token = token_login.create_token_for_email(email=email)
 
-    url = settings.SITE_URL + f"/account/email-login/{signed_email}/"
+    login_url = settings.SITE_URL + f"/account/email-login/{quoted_signed_email}/"
 
     from_email = "open broadcast radio <no-reply@openbroadcast.ch>"
     # from_email = "open broadcast radio <jonas.ohrstrom@digris.ch>"
@@ -36,7 +38,7 @@ def send_login_email(email):
     context = {
         "subject": f"Login Code: {login_token}",
         "title": "Code",
-        "login_url": url,
+        "login_url": login_url,
         "login_token": login_token,
     }
     template_dir = "account/email/login_email/"

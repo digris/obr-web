@@ -2,4 +2,6 @@
 
 {% block body %}Your code: {{ login_token }}
 
-Enter the login-code displayed above on the website or in your APP.{% endblock %}
+Enter the login-code displayed above on the website or in your APP.
+
+Or login by link: {{ login_url }}{% endblock %}

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 
 export default defineComponent({
   props: {
@@ -12,26 +12,32 @@ export default defineComponent({
   emits: ["input"],
   setup(props, { emit }) {
     const inputEl = ref(null);
-    const inputValue = ref("");
+    const token = ref("");
     const parseInput = (value: string) => {
       if (value.length >= 4 && value[3] !== "-") {
         value = [value.slice(0, 3), "-", value.slice(3)].join("");
       }
       return value.toUpperCase();
     };
-    const handleInput = (e: any) => {
-      const value = parseInput(e.target.value);
-      inputValue.value = value;
-      emit("input", value);
+    const handleTokenChanged = (value: string) => {
+      const parsedValue = parseInput(value);
+      token.value = parsedValue;
+      emit("input", parsedValue);
     };
+    /*
+    NOTE: `keyup` does not fire on webView input autocomplete.
+          so we have to use watch to detect input.
+    */
+    watch(() => token.value, handleTokenChanged);
     onMounted(() => {
-      // @ts-ignore
-      inputEl.value.focus();
+      setTimeout(() => {
+        // @ts-ignore
+        inputEl.value.focus();
+      }, 500);
     });
     return {
       inputEl,
-      inputValue,
-      handleInput,
+      token,
     };
   },
 });
@@ -45,9 +51,7 @@ export default defineComponent({
         ref="inputEl"
         id="ti-1298"
         class="input"
-        @keyup="handleInput"
-        @change="handleInput"
-        :value="inputValue"
+        v-model="token"
         maxlength="7"
         placeholder="Login-Code"
         autocomplete="one-time-code"

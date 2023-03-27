@@ -21,6 +21,13 @@
           {% endblocktrans %}</span>
         </td>
       </tr>
+      <tr>
+        <td style="padding:4px 0 4px 0;">
+          <span>{% blocktrans trimmed %}
+            Or login directly by <a href="{{ login_url }}">clicking here</a>.
+          {% endblocktrans %}</span>
+        </td>
+      </tr>
     </tbody>
   </table>
   <table style="width: 100%; padding: 22px 0 0 0;">
@@ -34,7 +41,7 @@
   </table>
   {% comment %}
   <p>
-    To login <a {% style '.button' %} href="{{ login_url }}">click here</a>.
+    Or login by <a {% style '.button' %} href="{{ login_url }}">clicking here</a>.
   </p>
   {% endcomment %}{% endspaceless %}
 {% endblock %}

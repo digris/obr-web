@@ -32,6 +32,7 @@ import NotFound from "@/views/NotFound.vue";
 import Donate from "@/views/pages/Donate.vue";
 import Program from "@/views/Program.vue";
 import ProtoAppBridge from "@/views/proto/AppBridge.vue";
+import ProtoAutocomplete from "@/views/proto/Autocomplete.vue";
 import ProtoIcons from "@/views/proto/Icons.vue";
 import ProtoPlayer from "@/views/proto/Player.vue";
 //
@@ -470,6 +471,11 @@ const routes = [
         path: "visual/",
         name: "protoVisual",
         component: ProtoVisual,
+      },
+      {
+        path: "autocomplete/",
+        name: "protoAutocomplete",
+        component: ProtoAutocomplete,
       },
     ],
   },
