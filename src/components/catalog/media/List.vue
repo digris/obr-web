@@ -299,6 +299,7 @@ export default defineComponent({
     color: rgb(var(--c-white));
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
+
     @include responsive.bp-medium {
       height: 60px;
       grid-template-columns: auto 40px;

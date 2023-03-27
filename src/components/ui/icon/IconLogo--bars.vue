@@ -172,6 +172,7 @@ export default defineComponent({
     opacity: 0;
   }
 }
+
 @keyframes eq-bars-6 {
   0%,
   100% {
@@ -183,6 +184,7 @@ export default defineComponent({
     opacity: 0;
   }
 }
+
 @keyframes eq-bars-5 {
   0%,
   100% {
@@ -194,6 +196,7 @@ export default defineComponent({
     opacity: 0;
   }
 }
+
 @keyframes eq-bars-4 {
   0%,
   100% {
@@ -205,6 +208,7 @@ export default defineComponent({
     opacity: 0;
   }
 }
+
 @keyframes eq-bars-3 {
   0%,
   100% {

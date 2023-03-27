@@ -66,6 +66,7 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/container";
+
 @mixin visual-image {
   height: 50vh;
   min-height: 280px;
@@ -187,6 +188,7 @@ export default defineComponent({
       }
     }
   }
+
   @include responsive.bp-medium {
     .top {
       grid-template-columns: 80px auto 80px;

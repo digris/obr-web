@@ -155,12 +155,9 @@ export default defineComponent({
   transition-delay: 1ms;
 
   .player-bg {
-    top: 0;
+    inset: 0;
     position: absolute;
     pointer-events: none;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
 
   &.has-panel {

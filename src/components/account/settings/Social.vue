@@ -170,6 +170,7 @@ export default defineComponent({
 .info {
   padding: 0.5rem 2rem 1rem 0;
   opacity: 0.5;
+
   @include responsive.bp-medium {
     @include typo.small;
   }
@@ -208,6 +209,7 @@ export default defineComponent({
       @include typo.dim;
 
       margin-left: 0.5rem;
+
       @include responsive.bp-medium {
         display: none;
         margin-left: 0;

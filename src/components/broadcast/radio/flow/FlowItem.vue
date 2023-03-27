@@ -274,6 +274,7 @@ variables defined in parent component(s):
     position: absolute;
     width: 100%;
     left: 0;
+
     @include responsive.bp-medium {
       top: 10px;
     }

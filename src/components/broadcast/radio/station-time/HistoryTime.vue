@@ -61,6 +61,7 @@ export default defineComponent({
 
   .bubble {
     border-radius: 24px;
+
     @include live-color.bg-inverse;
     @include live-color.fg-inverse;
 

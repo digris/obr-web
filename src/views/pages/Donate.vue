@@ -82,6 +82,7 @@ en:
       }
     }
   }
+
   @include responsive.bp-medium {
     grid-template-columns: unset;
 

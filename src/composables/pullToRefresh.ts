@@ -30,7 +30,6 @@ export function usePullToRefresh(rootEl: Ref<HTMLElement | null>, handler: () =>
   const { t } = useI18n();
   const { load: loadStyle, unload: unloadStyle } = useStyleTag(STYLE);
   onActivated(() => {
-    console.debug("style loaded");
     if (!rootEl.value) {
       return;
     }

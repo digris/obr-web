@@ -85,6 +85,7 @@ export default defineComponent({
   padding-bottom: 1rem;
   align-items: center;
   display: flex;
+
   @include responsive.bp-medium {
     @include typo.small;
   }

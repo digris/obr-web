@@ -113,6 +113,7 @@ export default defineComponent({
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
 @use "@/style/elements/container";
+
 @mixin visual-circle {
   height: 50vh;
   min-height: 280px;
@@ -125,10 +126,12 @@ export default defineComponent({
   img {
     border-radius: 50%;
   }
+
   @include responsive.bp-medium {
     height: unset;
   }
 }
+
 @mixin visual-square {
   height: 50vh;
   min-height: 280px;
@@ -143,6 +146,7 @@ export default defineComponent({
     filter: grayscale(100%) brightness(125%);
     mix-blend-mode: multiply;
   }
+
   @include responsive.bp-medium {
     height: unset;
   }
@@ -259,6 +263,7 @@ export default defineComponent({
       }
     }
   }
+
   @include responsive.bp-medium {
     .top {
       grid-template-columns: 80px auto 80px;

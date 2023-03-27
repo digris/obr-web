@@ -56,6 +56,7 @@ export default defineComponent({
   @include grid.default;
 
   grid-row-gap: 0.5rem;
+
   @include responsive.bp-medium {
     grid-row-gap: 0.625rem;
   }

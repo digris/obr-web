@@ -59,6 +59,7 @@ export default defineComponent({
   &__type {
     display: none;
     padding-left: 0.5rem;
+
     @include typo.tiny;
     @include typo.dim;
   }
@@ -85,6 +86,7 @@ export default defineComponent({
       border-radius: 12px;
     }
   }
+
   @include responsive.on-hover {
     background: rgb(255 255 255 / 30%);
 

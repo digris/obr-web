@@ -204,6 +204,7 @@ export default defineComponent({
       transform: rotateY(89deg);
     }
   }
+
   @include responsive.bp-medium {
     grid-template-columns: auto 52px 52px auto;
   }
@@ -212,6 +213,7 @@ export default defineComponent({
 .prompt {
   &__lead {
     padding: 0 0 1rem;
+
     @include typo.large;
   }
 

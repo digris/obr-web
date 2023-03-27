@@ -197,6 +197,7 @@ export default defineComponent({
   &.is-filled {
     background: rgb(var(--c-bg));
   }
+
   @include responsive.on-hover {
     transition: background-color 200ms;
     background: rgb(var(--c-bg) / var(--hover-bg-opacity));

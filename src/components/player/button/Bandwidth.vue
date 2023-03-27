@@ -46,6 +46,7 @@ export default defineComponent({
 
     color: rgb(var(--c-fg));
   }
+
   @include responsive.on-hover {
     background: rgb(var(--c-fg) / 12.5%);
     border-color: transparent;

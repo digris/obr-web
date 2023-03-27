@@ -1,8 +1,8 @@
-import vueI18n from "@intlify/vite-plugin-vue-i18n";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import { fileURLToPath, URL } from "url";
-import { defineConfig } from "vite";
+import { defineConfig, splitVendorChunkPlugin } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,8 +12,9 @@ export default defineConfig({
     __INTLIFY_PROD_DEVTOOLS__: false,
   },
   plugins: [
+    splitVendorChunkPlugin(),
     vue(),
-    vueI18n({
+    VueI18nPlugin({
       runtimeOnly: true,
       compositionOnly: true,
       include: resolve(__dirname, "src/locales/**"),
@@ -51,7 +52,8 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
       // "vue": "vue/dist/vue.esm-bundler.js",
-      "vue-i18n": "vue-i18n/dist/vue-i18n.runtime.esm-bundler.js",
+      // "vue-i18n": "vue-i18n/dist/vue-i18n.runtime.esm-bundler.js",
+      "vue-i18n": "vue-i18n/dist/vue-i18n.cjs.js",
     },
   },
   server: {

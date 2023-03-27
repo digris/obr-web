@@ -178,6 +178,7 @@ export default defineComponent({
 
   .name {
     grid-area: name;
+
     @include typo.large;
 
     min-width: 0;
@@ -210,6 +211,7 @@ export default defineComponent({
     grid-area: actions;
     justify-self: flex-end;
   }
+
   @include responsive.bp-medium {
     grid-template-areas:
       "play name   actions"

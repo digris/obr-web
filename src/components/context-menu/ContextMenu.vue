@@ -184,6 +184,7 @@ export default defineComponent({
         top: 0;
       }
     }
+
     @include responsive.bp-medium {
       top: 0;
       position: fixed;

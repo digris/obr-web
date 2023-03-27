@@ -201,14 +201,17 @@ export default defineComponent({
     }
   }
 }
+
 @mixin options {
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: 1fr 1fr 1fr;
+
   @include responsive.bp-medium {
     grid-template-columns: unset;
   }
 }
+
 @mixin option {
   display: flex;
   flex-direction: column;
@@ -275,6 +278,7 @@ export default defineComponent({
 
     .until-date {
       grid-area: date;
+
       @include typo.small;
     }
   }
@@ -298,6 +302,7 @@ export default defineComponent({
   .price {
     @include typo.large;
     @include typo.bold;
+
     @include responsive.bp-medium {
       color: rgb(var(--c-green));
       font-size: 150%;
@@ -316,6 +321,7 @@ export default defineComponent({
     min-width: 33%;
     margin-right: 0.5rem;
     margin-left: 0.5rem;
+
     @include responsive.bp-medium {
       width: 100%;
     }

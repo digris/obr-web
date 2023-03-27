@@ -2,8 +2,8 @@
 
 $color-palette: (
 
-  // white / black: not depending on user theme
-  // used e.g. for shadows, masks etc.
+  /* white / black: not depending on user theme*/
+  /* used e.g. for shadows, masks etc.*/
   white: 255 255 255,
   black: 0 0 0,
 
@@ -17,15 +17,15 @@ $color-palette: (
   selected: 0 240 160,
 
   info: 0 160 240,
-  // success: 0 200 160,
-  success: 0 144 80, // == green
+  /* success: 0 200 160,*/
+  success: 0 144 80, /* == green*/
   success-fg: 255 255 255,
   warning: 240 80 80,
-  // error: 240 20 20,
-  error: 255 0 0, // == red
+  /* error: 240 20 20,*/
+  error: 255 0 0, /* == red*/
   error-fg: 255 255 255,
 
-  // initial values - controlled via js later on
+  /* initial values - controlled via js later on*/
   page-fg: 0 0 0,
   page-bg: 255 255 255,
   page-fg-inverse: 255 255 255,

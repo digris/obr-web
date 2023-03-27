@@ -121,11 +121,13 @@ export default defineComponent({
 
       > .title {
         grid-area: title;
+
         @include typo.large;
       }
 
       > .description {
         grid-area: description;
+
         @include typo.dim;
       }
     }

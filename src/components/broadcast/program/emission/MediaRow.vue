@@ -127,6 +127,7 @@ export default defineComponent({
 
   .name {
     grid-area: name;
+
     @include typo.large;
 
     min-width: 0;
@@ -163,6 +164,7 @@ export default defineComponent({
 
   .time-start {
     grid-area: time-start;
+
     @include typo.large;
 
     justify-content: flex-end;

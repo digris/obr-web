@@ -184,6 +184,7 @@ export default defineComponent({
       @include button.default(3rem);
 
       min-width: 33%;
+
       @include responsive.bp-medium {
         width: 100%;
       }

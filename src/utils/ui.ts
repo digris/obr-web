@@ -14,7 +14,6 @@ const setDocumentThemeColor = async (color: Array<number>) => {
 
 const setAppTheme = async (color: Array<number>) => {
   const theme = getAppTheme(color);
-  console.debug("setAppThemeColor", theme);
   await window.appBridge.send("ui:setTheme", { theme });
 };
 

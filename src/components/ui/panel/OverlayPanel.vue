@@ -110,6 +110,7 @@ export default defineComponent({
     padding-bottom: 1rem;
     background: rgb(var(--c-light) / 100%);
     z-index: 50;
+
     @include responsive.bp-medium {
       height: 60px;
       min-height: 60px;
@@ -161,6 +162,7 @@ export default defineComponent({
 
 .fade-enter-from {
   opacity: 0;
+
   @include responsive.bp-medium {
     opacity: unset;
     transform: translate(0, 100%);
@@ -169,6 +171,7 @@ export default defineComponent({
 
 .fade-leave-to {
   opacity: 0;
+
   @include responsive.bp-medium {
     opacity: unset;
     transform: translate(0, 100%);

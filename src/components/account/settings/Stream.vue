@@ -74,6 +74,7 @@ export default defineComponent({
   padding: 0 2rem 1rem 0;
   opacity: 0.5;
   white-space: pre-line;
+
   @include responsive.bp-medium {
     @include typo.small;
   }
@@ -107,6 +108,7 @@ export default defineComponent({
       border-color: rgb(var(--c-green));
     }
   }
+
   @include responsive.bp-medium {
     grid-template-columns: unset;
     grid-gap: 0.5rem;

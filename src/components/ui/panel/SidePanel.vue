@@ -68,11 +68,8 @@ export default defineComponent({
 @use "@/style/base/responsive";
 
 .mask {
-  top: 0;
+  inset: 0;
   position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
   z-index: 111;
   background: rgb(0 0 0 / 90%);
   backdrop-filter: grayscale(70%) brightness(80%);
@@ -120,6 +117,7 @@ export default defineComponent({
     .slot {
       flex-grow: 1;
     }
+
     @include responsive.bp-medium {
       height: 60px;
       margin: 0 0.5rem;
@@ -134,6 +132,7 @@ export default defineComponent({
     flex-grow: 1;
     padding: 0 1.5rem 1rem;
     overflow-y: auto;
+
     @include responsive.bp-medium {
       padding: 0 0.625rem 0.5rem;
     }
@@ -143,6 +142,7 @@ export default defineComponent({
     margin: 0 1.5rem;
     padding: 1rem 0;
     border-top: 1px solid rgb(var(--c-dark) / 20%);
+
     @include responsive.bp-medium {
       margin: 0 0.625rem;
       padding: 0.5rem 0;
@@ -163,6 +163,7 @@ export default defineComponent({
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   color: rgb(var(--c-light) / 100%);
+
   @include responsive.bp-medium {
     display: none;
   }
@@ -188,6 +189,7 @@ export default defineComponent({
 
 .slide-enter-from {
   transform: translate(100%, 0);
+
   @include responsive.bp-medium {
     transform: translate(0, 100%);
   }
@@ -195,6 +197,7 @@ export default defineComponent({
 
 .slide-leave-to {
   transform: translate(100%, 0);
+
   @include responsive.bp-medium {
     transform: translate(0, 100%);
   }

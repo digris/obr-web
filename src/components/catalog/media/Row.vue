@@ -142,6 +142,7 @@ export default defineComponent({
 
   .name {
     grid-area: name;
+
     @include typo.large;
 
     min-width: 0;
@@ -211,6 +212,7 @@ export default defineComponent({
     .artist {
       align-self: start;
       margin-left: -40px;
+
       @include typo.light;
       @include typo.dim;
     }

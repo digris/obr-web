@@ -80,9 +80,11 @@ export default defineComponent({
       width: 2.5rem;
     }
   }
+
   @include responsive.on-hover {
     @include live-color.bg-inverse(10%);
   }
+
   @include responsive.bp-medium {
     height: unset;
     margin-top: unset;

@@ -82,6 +82,7 @@ export default defineComponent({
 
     > p {
       margin-bottom: 1rem;
+
       @include responsive.bp-medium {
         @include typo.small;
       }

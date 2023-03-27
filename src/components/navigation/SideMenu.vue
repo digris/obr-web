@@ -225,6 +225,7 @@ export default defineComponent({
       }
     }
   }
+
   @include responsive.bp-medium {
     .section {
       padding: 10px 0;

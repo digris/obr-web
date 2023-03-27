@@ -9,7 +9,6 @@ module.exports = {
         'stylelint-config-standard-scss',
         'stylelint-config-recommended-vue',
         'stylelint-config-recommended-vue/scss',
-        'stylelint-config-prettier',
     ],
     rules: {
         'declaration-block-no-redundant-longhand-properties': [

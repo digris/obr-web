@@ -12,7 +12,7 @@ export default defineComponent({
       locale.value = value;
       settingsStore.setLocale(value);
       // NOTE: refresh is only needed to also update resources loaded via API
-      document.location.reload();
+      // document.location.reload();
     };
     return {
       currentLocale: locale,
@@ -25,16 +25,15 @@ export default defineComponent({
 
 <template>
   <div class="language-chooser">
-    <a
+    <div
       v-for="(locale, index) in availableLocales"
       :key="`locale-${index}-${locale}`"
       @click.prevent="setLocale(locale)"
-      href="#"
       class="language"
       :class="{ 'is-current': locale === currentLocale }"
     >
       <span v-text="locale" />
-    </a>
+    </div>
   </div>
 </template>
 
@@ -54,6 +53,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 
     span {
       border-bottom: 2px solid transparent;

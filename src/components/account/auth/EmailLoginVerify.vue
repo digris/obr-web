@@ -130,6 +130,7 @@ export default defineComponent({
 
       .button {
         max-width: 33%;
+
         @include responsive.bp-medium {
           max-width: unset;
         }

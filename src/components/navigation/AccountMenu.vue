@@ -32,6 +32,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
+
 @mixin menu-button {
   display: flex;
   align-items: center;

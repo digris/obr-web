@@ -156,6 +156,7 @@ export default defineComponent({
       }
     }
   }
+
   @include responsive.bp-medium {
     .search-button {
       order: -1;

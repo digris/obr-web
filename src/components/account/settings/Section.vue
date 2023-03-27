@@ -71,6 +71,7 @@ export default defineComponent({
 
   .title {
     padding-bottom: 0.4rem;
+
     @include responsive.bp-medium {
       @include typo.small;
 

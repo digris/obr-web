@@ -46,7 +46,7 @@ export default defineComponent({
   <div class="voucher" :class="{ 'is-invalid': !voucher.isValid }">
     <QRCodeVoucher class="qr-code" :voucher="voucher" />
     <div class="details">
-      <div @click.prevent="copyCode()" class="code-display">
+      <div @click.prevent="copyCode" class="code-display">
         {{ voucher.codeDisplay }}
         <transition name="copied">
           <div v-if="copiedCode" class="copied">
@@ -54,7 +54,7 @@ export default defineComponent({
           </div>
         </transition>
       </div>
-      <div class="num-days" @click="copiedCodeDebug = !copiedCodeDebug">
+      <div class="num-days" @click="copyCode">
         <i18n-t keypath="subscription.validNumDays" :plural="voucher.numDays" />
       </div>
       <div class="usage">
@@ -111,6 +111,7 @@ export default defineComponent({
       > span {
         color: rgb(var(--c-light));
         background: rgb(var(--c-red));
+
         @include typo.bold;
 
         padding: 1rem;

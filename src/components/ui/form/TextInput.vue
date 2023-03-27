@@ -112,6 +112,7 @@ export default defineComponent({
 
       color: rgb(var(--c-red) / 100%);
       text-align: right;
+
       @include responsive.bp-medium {
         display: none;
       }

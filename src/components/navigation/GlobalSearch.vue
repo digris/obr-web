@@ -97,6 +97,7 @@ export default defineComponent({
 .search-results {
   border-top: 3px solid rgb(var(--c-dark));
   margin-top: -12px;
+
   @include responsive.bp-medium {
     margin-top: unset;
   }

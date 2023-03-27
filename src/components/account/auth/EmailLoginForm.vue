@@ -231,6 +231,7 @@ export default defineComponent({
 
       .button {
         max-width: 33%;
+
         @include responsive.bp-medium {
           max-width: unset;
         }
@@ -241,6 +242,7 @@ export default defineComponent({
       > span {
         padding-right: 0.5rem;
       }
+
       @include responsive.bp-medium {
         @include typo.small;
 

@@ -86,6 +86,7 @@ export default defineComponent({
       @include typo.dim;
     }
   }
+
   @include responsive.on-hover {
     background: rgb(var(--c-dark) 0.075);
     border-color: transparent;

@@ -73,6 +73,7 @@ export default defineComponent({
   .content {
     margin-bottom: 2rem;
   }
+
   @include responsive.bp-medium {
     .title {
       min-height: calc(60px - 1rem);

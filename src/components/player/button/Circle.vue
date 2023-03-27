@@ -134,6 +134,7 @@ export default defineComponent({
       opacity: 0.4;
     }
   }
+
   @include responsive.on-hover {
     background: rgb(var(--c-fg) / 15%);
     border-color: transparent;

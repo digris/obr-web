@@ -155,6 +155,7 @@ export default defineComponent({
     padding-top: 2rem;
     padding-bottom: 92px;
   }
+
   @include responsive.bp-medium {
     /* sizing based on player height & 60px action bar */
     max-height: calc(100% - calc(var(--player-height) + 60px + var(--sa-t)));
@@ -218,13 +219,16 @@ export default defineComponent({
   color: rgb(var(--c-white));
   border: 1px solid rgb(var(--c-white) / 20%);
   transition: background-color 200ms;
+
   @include responsive.on-hover {
     border-color: transparent;
     background: rgb(var(--c-white) / 10%);
   }
+
   @include responsive.bp-medium {
     height: 40px;
     font-size: 16px;
+
     @include typo.light;
   }
 }

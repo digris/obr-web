@@ -80,11 +80,8 @@ $z-header: 10;
 $z-feedback: 9;
 
 .mask {
-  top: 0;
+  inset: 0;
   position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
   z-index: $z-mask;
   display: flex;
   align-items: center;
@@ -140,11 +137,8 @@ $z-feedback: 9;
   }
 
   &__feedback {
-    top: 0;
+    inset: 0;
     position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
     z-index: $z-feedback;
     padding: 4rem 1rem 1rem;
     color: rgb(var(--c-dark) / 100%);

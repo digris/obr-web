@@ -286,6 +286,7 @@ export default defineComponent({
 
   .name {
     grid-area: name;
+
     @include typo.large;
 
     min-width: 0;
@@ -310,6 +311,7 @@ export default defineComponent({
 
   .time-start {
     grid-area: time-start;
+
     @include typo.large;
 
     justify-content: flex-end;
@@ -318,6 +320,7 @@ export default defineComponent({
   .actions {
     grid-area: actions;
   }
+
   @include responsive.bp-medium {
     grid-row-gap: 0;
     grid-column-gap: 1rem;

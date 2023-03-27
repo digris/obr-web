@@ -126,6 +126,7 @@ export default defineComponent({
 
       transition: color, background-color 200ms;
     }
+
     @include responsive.bp-medium {
       line-height: 1.25rem;
       padding-left: 0;
@@ -155,6 +156,7 @@ export default defineComponent({
     &--account {
       justify-content: flex-end;
     }
+
     @include responsive.bp-medium {
       display: none;
     }
