@@ -4,10 +4,6 @@
   border-bottom: 1px solid rgb(var(--c-dark) / 20%);
   transition: background 200ms;
 
-  &:first-child {
-    border-top: 1px solid rgb(var(--c-dark) / 20%);
-  }
-
   @include responsive.on-hover {
     background: rgb(var(--c-dark) / 10%);
   }

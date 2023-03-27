@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
+import { refAutoReset } from "@vueuse/core";
 
 import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
 import imgApple from "@/assets/brand-icons/apple.svg";
@@ -37,6 +38,7 @@ export default defineComponent({
   setup(props) {
     const { isApp } = useDevice();
     const authBackends = ref<Array<Backend>>([]);
+    const iOSMaskVisible = refAutoReset(false, 5000);
     const fetchBackends = async () => {
       authBackends.value = [];
       const backends = await getSocialBackends();
@@ -63,10 +65,8 @@ export default defineComponent({
       const location = q ? `${connectUrl}?${q}` : connectUrl;
 
       if (isApp) {
-        // window.appBridge?.send("browser:navigate", {
-        //   url: `${document.location.origin}${location}`,
-        // });
         window.appBridge.pauseHeartbeat();
+        iOSMaskVisible.value = true;
         setTimeout(() => {
           window.location.href = location;
         }, 200);
@@ -87,6 +87,7 @@ export default defineComponent({
       disconnect,
       getProviderLogo,
       getProviderText,
+      iOSMaskVisible,
     };
   },
 });
@@ -111,6 +112,12 @@ export default defineComponent({
     <section v-else class="backends backends--loading">
       <IconLoading />
     </section>
+    <transition name="fade">
+      <!-- NOTE: mask is displayed to give visual feedback on iOS with apple login.
+                 after initiating apple login there is a delay of 1-5s so without feedback
+                 it feels like "hanging". -->
+      <div v-if="iOSMaskVisible" class="ios-mask" />
+    </transition>
   </div>
 </template>
 
@@ -172,5 +179,29 @@ export default defineComponent({
       border-radius: 4px;
     }
   }
+
+  .ios-mask {
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(var(--c-light) / 70%);
+    height: 100%;
+    width: 100%;
+    z-index: 99;
+  }
+}
+
+// mask transitions
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 500ms;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

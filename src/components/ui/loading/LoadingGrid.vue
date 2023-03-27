@@ -16,10 +16,10 @@ export default defineComponent({
       <div class="card__visual" />
       <div class="card__meta">
         <div class="line line--primary">
-          <div class="bar" />
+          <div class="bar loading-placeholder" />
         </div>
         <div class="line line--secondary">
-          <div class="bar" />
+          <div class="bar loading-placeholder" />
         </div>
       </div>
     </div>
@@ -29,13 +29,32 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 
-@keyframes load {
+@keyframes loading {
   from {
-    left: -150px;
+    left: -100%;
   }
 
   to {
     left: 100%;
+  }
+}
+
+/* animated background */
+.loading-placeholder {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    display: block;
+    background: rgb(128 128 128 / 5%);
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    transform: translateX(0);
+    animation: 1.5s loading ease-in-out infinite;
   }
 }
 
@@ -46,7 +65,8 @@ export default defineComponent({
   width: 100%;
 
   @include responsive.bp-medium {
-    grid-gap: 0.5rem;
+    grid-row-gap: 2rem;
+    grid-column-gap: 0.625rem;
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -82,7 +102,7 @@ export default defineComponent({
 
       &--secondary {
         .bar {
-          width: 24%;
+          width: 40%;
         }
       }
     }

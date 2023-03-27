@@ -33,6 +33,11 @@ export default defineComponent({
   height: 41px;
   align-items: center;
   display: flex;
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
+
+  [data-theme="dark"] & {
+    border-bottom: 1px solid rgb(var(--c-dark) / 10%);
+  }
 }
 
 .container {

@@ -13,7 +13,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="media-row-header">
+  <div class="playlist-row-header">
     <div class="container">
       <div class="label" />
       <div class="label label--playlist" v-text="`${t('catalog.ct.playlist')}:`" />
@@ -26,11 +26,16 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/elements/container";
 
-.media-row-header {
+.playlist-row-header {
   background: rgb(var(--c-light));
   height: 41px;
   align-items: center;
   display: flex;
+  border-bottom: 1px solid rgb(var(--c-dark) / 20%);
+
+  [data-theme="dark"] & {
+    border-bottom: 1px solid rgb(var(--c-dark) / 10%);
+  }
 }
 
 .container {

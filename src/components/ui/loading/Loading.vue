@@ -50,18 +50,27 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div ref="root" @enter="onEnter" class="loading-more">
+  <div ref="root" @enter="onEnter" class="loading-more" :class="layout">
     <slot name="default">
       <component :is="placeholder" />
     </slot>
   </div>
 </template>
 <style lang="scss" scoped>
+@use "@/style/base/responsive";
+
 .loading-more {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 4rem;
-  margin-top: 1rem;
+
+  &.grid {
+    margin-top: 1rem;
+
+    @include responsive.bp-medium {
+      margin-top: 0.5rem;
+    }
+  }
 }
 </style>

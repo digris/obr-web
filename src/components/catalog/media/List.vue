@@ -230,8 +230,8 @@ export default defineComponent({
       @change="updateUserFilter"
     />
   </div>
-  <div v-if="showListActions && numResults > 0" class="list-actions">
-    <div class="container">
+  <div v-if="showListActions" class="list-actions" :class="{ 'is-loading': numResults === -1 }">
+    <div v-if="numResults > 0" class="container">
       <PlayAllAction color-var="--c-white" :filter="combinedFilter" :ordering="ordering">
         <span v-text="t('catalog.list.playAllTracks', numResults)" />
       </PlayAllAction>
@@ -247,6 +247,7 @@ export default defineComponent({
     <div v-if="isDesktop && numResults !== 0" class="table-header">
       <MediaRowHeader />
     </div>
+    <LoadingMore v-if="numResults === -1" layout="table" />
     <NoResults v-if="numResults === 0" :filter="combinedFilter" />
     <div class="table">
       <MediaRow
@@ -274,12 +275,15 @@ export default defineComponent({
 }
 
 .list-actions {
-  // background: rgb(var(--c-gray-500));
-
   background: rgb(var(--c-black));
+  transition: opacity 250ms;
 
   [data-theme="dark"] & {
     background: rgb(var(--c-black));
+  }
+
+  &.is-loading {
+    opacity: 0;
   }
 
   // NOTE: for sticky we need a solid background
