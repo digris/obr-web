@@ -2,8 +2,8 @@
 
 --
 open broadcast radio
-Renggerstrasse 31
-CH-8038 Zürich
+Lessingstrasse 33
+CH-8002 Zürich
 
 info@openbroadcast.ch
 {{ SITE_URL }}
