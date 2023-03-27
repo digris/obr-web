@@ -11,6 +11,7 @@ import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
 import DetailHeader from "@/layouts/DetailHeader.vue";
+import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
 import { useCatalogStore } from "@/stores/catalog";
 
@@ -18,6 +19,7 @@ export default defineComponent({
   components: {
     DetailPage,
     DetailHeader,
+    DetailHeaderLoading,
     LazyImage,
     PlayAllAction,
     Duration,
@@ -85,7 +87,7 @@ export default defineComponent({
           <ObjectTags class="tags" :obj="artist" :limit="4" />
           <div v-if="artist.countryCode">
             <span v-text="artist.countryCode" />
-            <span v-if="artist.dateStart"> ({{ artist.dateStart.substr(0, 4) }}) </span>
+            <span v-if="artist.dateStart"> ({{ artist.dateStart.substring(0, 4) }}) </span>
           </div>
           <ObjectIdentifiers class="identifiers" :obj="artist" :limit="4" />
         </template>
@@ -96,8 +98,9 @@ export default defineComponent({
           </PlayAllAction>
         </template>
       </DetailHeader>
-      <MediaList v-if="artist" :initial-filter="query.filter" :disable-user-filter="true" />
+      <DetailHeaderLoading v-else title-scope="Künstler*in" />
     </template>
+    <MediaList v-if="artist" :initial-filter="query.filter" :disable-user-filter="true" />
   </DetailPage>
 </template>
 
