@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.94 (2023-03-27)
+### Fix
+* Align media list API results with count ([`7d540c6`](https://github.com/digris/obr-web/commit/7d540c6204aeaf7e98ca9a25c4b15e8f30617348))
+
 ## v0.0.93 (2023-03-27)
 ### Fix
 * Force empty queue in live mode ([#119](https://github.com/digris/obr-web/issues/119)) ([`9e8c6b6`](https://github.com/digris/obr-web/commit/9e8c6b6fadb984aa6df9d760c3aa96a2f9caee3a))
