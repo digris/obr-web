@@ -151,7 +151,9 @@ class MediaViewSet(
             qs = qs.annotate(
                 latest_airplay=Max(
                     "airplays__time_start",
-                    # filter=Q(airplays__time_start__lte=Now()),
+                    filter=Q(
+                        airplays__time_start__lte=Now()
+                    ),  # NOTE: check for implications
                 ),
                 num_airplays=Count(
                     "airplays",
