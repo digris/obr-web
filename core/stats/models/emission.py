@@ -7,6 +7,8 @@ from django.utils import timezone
 from base.models.mixins import CTUIDModelMixin
 from rating.queries import get_live_ratings_for_time_range
 
+MEDIA_MIN_DURATION = 12
+
 logger = logging.getLogger(__name__)
 
 
@@ -92,6 +94,9 @@ class Emission(CTUIDModelMixin, models.Model):
                 "media__releases",
                 "media__releases__images",
             )
+        )
+        qs = qs.filter(
+            media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
         )
         for playlist_media in qs:
             time_start = time_base + time_offset
