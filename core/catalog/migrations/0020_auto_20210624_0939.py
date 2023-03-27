@@ -3,7 +3,6 @@
 import datetime
 
 from django.db import migrations, models
-from django.utils.timezone import utc
 
 import taggit.managers
 
@@ -19,21 +18,30 @@ class Migration(migrations.Migration):
             model_name="artist",
             name="sync_last_update",
             field=models.DateTimeField(
-                db_index=True, default=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=utc)
+                db_index=True,
+                default=datetime.datetime(
+                    1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc
+                ),
             ),
         ),
         migrations.AddField(
             model_name="media",
             name="sync_last_update",
             field=models.DateTimeField(
-                db_index=True, default=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=utc)
+                db_index=True,
+                default=datetime.datetime(
+                    1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc
+                ),
             ),
         ),
         migrations.AddField(
             model_name="playlist",
             name="sync_last_update",
             field=models.DateTimeField(
-                db_index=True, default=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=utc)
+                db_index=True,
+                default=datetime.datetime(
+                    1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc
+                ),
             ),
         ),
         migrations.AddField(
@@ -51,14 +59,20 @@ class Migration(migrations.Migration):
             model_name="release",
             name="sync_last_update",
             field=models.DateTimeField(
-                db_index=True, default=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=utc)
+                db_index=True,
+                default=datetime.datetime(
+                    1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc
+                ),
             ),
         ),
         migrations.AddField(
             model_name="series",
             name="sync_last_update",
             field=models.DateTimeField(
-                db_index=True, default=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=utc)
+                db_index=True,
+                default=datetime.datetime(
+                    1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc
+                ),
             ),
         ),
     ]

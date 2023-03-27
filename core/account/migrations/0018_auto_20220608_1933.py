@@ -5,7 +5,6 @@ import logging
 from django.contrib.auth.models import Group, Permission
 from django.core.management.sql import emit_post_migrate_signal
 from django.db import migrations, models
-from django.utils.timezone import utc
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +60,9 @@ class Migration(migrations.Migration):
             name="sync_last_update",
             field=models.DateTimeField(
                 db_index=True,
-                default=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=utc),
+                default=datetime.datetime(
+                    1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc
+                ),
                 editable=False,
             ),
         ),
