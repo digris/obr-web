@@ -8,6 +8,7 @@ import bleach
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
 from ..models import Vote
@@ -16,7 +17,12 @@ from . import serializers
 log = logging.getLogger(__name__)
 
 
-class ObjectRatingView(APIView):
+class ObjectRatingView(
+    APIView,
+):
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "rating.vote"
+
     @transaction.atomic
     def get_vote(self, request, obj_ct, obj_uid):
         app_label, model = obj_ct.split(".")

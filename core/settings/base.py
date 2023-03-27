@@ -414,6 +414,7 @@ REST_FRAMEWORK = {
         "user": "240/minute",
         "subscription.voucher": "10/hour",
         "account.login_email": "20/hour",
+        "rating.vote": "1200/minute",  # NOTE: implement separate limit for POST
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # 'DEFAULT_METADATA_CLASS': 'rest_framework.metadata.SimpleMetadata',

@@ -91,10 +91,15 @@ export const useQueueStore = defineStore("queue", {
       const tail = this.media.slice(splitAt);
       this.media = [...head, ...shuffle(tail)];
     },
-    async clearQueue(): Promise<void> {
-      log.debug("queueStore - clearQueue");
-      this.media = this.media.slice(this.currentIndex, this.currentIndex + 1);
-      this.currentIndex = 0;
+    async clearQueue(force = false): Promise<void> {
+      log.debug("queueStore - clearQueue", { force });
+      if (force) {
+        this.media = [];
+        this.currentIndex = -1;
+      } else {
+        this.media = this.media.slice(this.currentIndex, this.currentIndex + 1);
+        this.currentIndex = 0;
+      }
     },
     // replace complete queue state
     // this method is used when running in "App-mode" and queue data is handled by native app

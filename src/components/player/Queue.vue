@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, watch } from "vue";
 import { useEventListener } from "@vueuse/core";
 
 import QueueMedia from "@/components/player/QueueMedia.vue";
@@ -26,9 +26,17 @@ export default defineComponent({
   emits: ["close"],
   setup(props, { emit }) {
     const { isMobile } = useDevice();
-    const { currentMedia, queuedMedia } = useQueueState();
+    const { currentMedia, queuedMedia, queueLength } = useQueueState();
     const { clearQueue } = useQueueControls();
     const close = () => emit("close");
+    watch(
+      () => queueLength.value,
+      (newValue) => {
+        if (newValue < 1) {
+          close();
+        }
+      }
+    );
     useEventListener(document, "keydown", (e) => {
       if (e.code === "KeyX") {
         close();

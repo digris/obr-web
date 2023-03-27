@@ -159,7 +159,7 @@ const useQueueControls = () => {
   // mapping actions depending on mode
   const clearQueue = async (): Promise<void> => {
     if (isWeb) {
-      await clearQueueWeb();
+      await clearQueueWeb(isLive.value);
     } else {
       const channel = "queue:clear";
       await appBridge.send(channel);
