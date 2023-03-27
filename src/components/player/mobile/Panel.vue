@@ -107,33 +107,31 @@ export default defineComponent({
 </script>
 
 <template>
-  <transition name="slide" :duration="200">
-    <div v-if="isVisible" class="player-panel" :class="{ 'is-swiping': isSwiping }">
-      <nav>
-        <CircleButton @click="close" :outlined="true">
-          <IconClose />
-        </CircleButton>
-      </nav>
-      <main>
-        <div class="visual">
-          <!--
-          <LazyImage class="next" v-if="nextImage" :image="nextImage" />
-          -->
-          <LazyImage :image="image" />
-        </div>
-        <div class="meta">
-          <CurrentMedia :media="media" />
-        </div>
-        <div class="playhead-container">
-          <Playhead @seek="seek" />
-        </div>
-        <div class="controls">
-          <PlayerControl :fg-color="fgColor" />
-          <UserRating color-var="--c-fg" :obj-key="objKey" />
-        </div>
-      </main>
-    </div>
-  </transition>
+  <div v-if="isVisible" class="player-panel" :class="{ 'is-swiping': isSwiping }">
+    <nav>
+      <CircleButton @click="close" :outlined="true">
+        <IconClose />
+      </CircleButton>
+    </nav>
+    <main>
+      <div class="visual">
+        <!--
+        <LazyImage class="next" v-if="nextImage" :image="nextImage" />
+        -->
+        <LazyImage :image="image" />
+      </div>
+      <div class="meta">
+        <CurrentMedia :media="media" />
+      </div>
+      <div class="playhead-container">
+        <Playhead @seek="seek" />
+      </div>
+      <div class="controls">
+        <PlayerControl :fg-color="fgColor" />
+        <UserRating color-var="--c-fg" :obj-key="objKey" />
+      </div>
+    </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>
