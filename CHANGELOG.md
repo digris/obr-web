@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.91 (2023-03-27)
+### Fix
+* Reset playlist-list result count on filter change ([`4ae0476`](https://github.com/digris/obr-web/commit/4ae04768c57b260dc0ffe116f7fe6f9d45dd6ab2))
+
 ## v0.0.90 (2023-03-27)
 ### Fix
 * Use watch on auth input elements ([`193a901`](https://github.com/digris/obr-web/commit/193a901da230b4cce918e2559271f357a42c3544))
