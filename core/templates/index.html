@@ -47,6 +47,9 @@
   {% else %}
   <script type="module" src="{{ vite_server_url }}/src/main.ts?t={% now 'U' %}"></script>
   {% endif %}
+  {% if user.is_authenticated and user.theme and user.theme.css %}<style>
+    {{ user.theme.css|safe }}
+  </style>{% endif %}
   {% usersnap %}{% endspaceless %}
 </body>
 <!--

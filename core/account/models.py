@@ -339,6 +339,22 @@ class LoginToken(
         return self.created > timezone.now() - timedelta(hours=LOGIN_TOKEN_MAX_AGE)
 
 
+class Theme(
+    CTUIDModelMixin,
+    models.Model,
+):
+    user = models.OneToOneField(
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="theme",
+    )
+    css = models.TextField(
+        "CSS",
+        blank=True,
+        default="",
+    )
+
+
 class GlobalPermissions(models.Model):
     class Meta:
         managed = False

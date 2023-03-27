@@ -8,7 +8,7 @@ from subscription.models import Subscription
 from sync.admin import sync_qs_action
 
 from ..forms import UserChangeForm, UserCreationForm
-from ..models import Address, LoginToken, Settings, User
+from ..models import Address, LoginToken, Settings, Theme, User
 
 
 class UserSocialAuthInline(admin.TabularInline):
@@ -81,6 +81,21 @@ class AddressAdmin(admin.ModelAdmin):
     #     "country",
     # ]
     readonly_fields = [
+        "user",
+    ]
+
+
+@admin.register(Theme)
+class ThemeAdmin(admin.ModelAdmin):
+    model = Theme
+    list_display = [
+        "user",
+    ]
+    search_fields = [
+        "user__uid",
+        "user__email",
+    ]
+    raw_id_fields = [
         "user",
     ]
 
