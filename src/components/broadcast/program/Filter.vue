@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import { computed, defineComponent, ref, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
+import { watchDebounced } from "@vueuse/core";
 import { DateTime } from "luxon";
 
 import DatetInput from "@/components/ui/form/DatetInput.vue";
@@ -55,7 +56,7 @@ export default defineComponent({
     const update = (value: Filter) => {
       emit("update:modelValue", value);
     };
-    watch(() => userFilter.value, update);
+    watchDebounced(() => userFilter.value, update, { debounce: 200 });
     return {
       dateInput,
       dateInputMin,
