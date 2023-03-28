@@ -18,7 +18,7 @@ export default defineComponent({
       <div class="label" />
       <div class="label label--playlist" v-text="`${t('catalog.ct.playlist')}:`" />
       <div class="label" v-text="`${t('broadcast.ct.editor')}:`" />
-      <div class="label" v-text="`${t('text.airtime')}/${t('text.duration')}:`" />
+      <div class="label" v-text="`${t('text.duration')}/${t('text.airtime')}:`" />
     </div>
   </div>
 </template>

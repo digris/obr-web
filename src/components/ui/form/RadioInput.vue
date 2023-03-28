@@ -96,7 +96,7 @@ export default defineComponent({
     font: inherit;
 
     /* For iOS < 15 to remove gradient background */
-    background-color: #fff;
+    background-color: rgb(var(--c-light));
     border: 3px solid currentcolor;
     border-radius: 50%;
     cursor: pointer;
@@ -107,7 +107,7 @@ export default defineComponent({
       height: var(--size);
       width: var(--size);
       border-radius: 50%;
-      box-shadow: inset var(--size) var(--size) currentcolor;
+      box-shadow: inset var(--size) var(--size) rgb(var(--c-dark));
       transform: scale(0);
       transition: 50ms transform ease-in-out;
       content: "";

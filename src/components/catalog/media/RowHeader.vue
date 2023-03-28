@@ -20,7 +20,7 @@ export default defineComponent({
         <span v-text="t('catalog.ct.media')" />
       </div>
       <div class="label" v-text="`${t('catalog.ct.artist')}/${t('catalog.ct.release')}`" />
-      <div class="label label--airtime" v-text="`${t('text.airtime')}/${t('text.duration')}:`" />
+      <div class="label label--airtime" v-text="`${t('text.duration')}/${t('text.airtime')}:`" />
     </div>
   </div>
 </template>

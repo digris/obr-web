@@ -98,15 +98,8 @@ export default defineComponent({
         />
       </div>
       <ObjectTags class="tags" :obj="playlist" :limit="4" />
-      <RelativeDateTime class="airplays" v-if="latestEmission" :date-time="latestEmission" />
       <Duration class="duration" :seconds="playlist.duration" :round-seconds="60 * 5" />
-      <!--
-      <div
-        class="emissions"
-      >
-        {{ playlist.numEmissions }} Emissions
-      </div>
-      -->
+      <RelativeDateTime class="airplays" v-if="latestEmission" :date-time="latestEmission" />
       <div class="actions">
         <CircleButton>
           <UserRating :obj-key="objKey" :hide-if-unset="!isHover" />
@@ -134,8 +127,8 @@ export default defineComponent({
   grid-row-gap: 0;
   grid-column-gap: 1rem;
   grid-template-areas:
-    "play name editor airplays actions"
-    "play name tags   duration actions";
+    "play name editor duration actions"
+    "play name tags   airplays actions";
   grid-template-columns: 96px 16fr 10fr 6fr 96px;
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
@@ -191,11 +184,6 @@ export default defineComponent({
     overflow: hidden;
   }
 
-  .emissions {
-    grid-area: emissions;
-    align-self: start;
-  }
-
   .duration {
     grid-area: duration;
   }
@@ -214,7 +202,6 @@ export default defineComponent({
 
     .editor,
     .airplays,
-    .emissions,
     .duration {
       display: none;
     }

@@ -21,7 +21,7 @@ const drawCanvas = async (
     const value = bins[i] * heightFactor;
     const x = i * (barWidth * 1.5) + barWidth / 3;
     const h = value;
-    ctx.fillStyle = "rgb(0 0 0 / 100%)";
+    ctx.fillStyle = "rgb(255 255 255 / 100%)";
     ctx.fillRect(x, y, w, h);
   }
 };
