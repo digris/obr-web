@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.95 (2023-03-28)
+### Fix
+* Selected option colo radio "dislike" (dark mode) ([`64c0d90`](https://github.com/digris/obr-web/commit/64c0d90687890e3ec7ffc78d2187056ea52d72dd))
+
 ## v0.0.94 (2023-03-27)
 ### Fix
 * Align media list API results with count ([`7d540c6`](https://github.com/digris/obr-web/commit/7d540c6204aeaf7e98ca9a25c4b15e8f30617348))
