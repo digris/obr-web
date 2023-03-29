@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.97 (2023-03-29)
+### Fix
+* Handle player event creation ([`db3cd2a`](https://github.com/digris/obr-web/commit/db3cd2aa5db29b58afab2a0cc9844c981d967609))
+
 ## v0.0.96 (2023-03-29)
 ### Fix
 * Adjust stream latency ([`1b2422b`](https://github.com/digris/obr-web/commit/1b2422bda6dd01c4b59aca7143511712deda31b6))
