@@ -116,12 +116,11 @@ jobs:
           node-version: '16'
       - run: |
           npm install -g yarn
-#          yarn install
-#          yarn build
+          yarn install
+          yarn build
       - name: Set variables
         run: |
           git fetch --prune --all
-#          git fetch --prune --tags
           git tag -l
           git describe
           git describe --tags
