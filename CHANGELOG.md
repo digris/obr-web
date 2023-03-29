@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.98 (2023-03-29)
+### Fix
+* Add "clear" button to search input ([#123](https://github.com/digris/obr-web/issues/123)) ([`16c0436`](https://github.com/digris/obr-web/commit/16c0436c025b3ee9c95dff3472399ddd280f08ad))
+
 ## v0.0.97 (2023-03-29)
 ### Fix
 * Handle player event creation ([`db3cd2a`](https://github.com/digris/obr-web/commit/db3cd2aa5db29b58afab2a0cc9844c981d967609))
