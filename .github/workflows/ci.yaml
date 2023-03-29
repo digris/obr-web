@@ -120,7 +120,8 @@ jobs:
 #          yarn build
       - name: Set variables
         run: |
-          git fetch --prune --tags
+          git fetch --prune --all
+#          git fetch --prune --tags
           git tag -l
           git describe
           git describe --tags
