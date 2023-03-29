@@ -121,8 +121,10 @@ jobs:
 #      - run: git describe
 #      - run: git describe --tags
       - name: Set variables
+        id: vars
         run: echo "app_version=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
       - run: echo ${{ steps.vars.outputs.app_version }}
+      - run: echo "app version ${{ steps.vars.outputs.app_version }}"
       - run: |
           npm install -g yarn
           yarn install
