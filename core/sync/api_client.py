@@ -39,7 +39,7 @@ def get(path, params=None, raw=False):
     url = get_url(path=path)
     logger.debug(f"{url} - {params}")
     try:
-        r = requests.get(url, params=params, headers=HEADERS, timeout=10)
+        r = requests.get(url, params=params, headers=HEADERS, timeout=30)
     except requests.exceptions.RequestException as e:
         raise APIClientException(f"error connecting: {e}") from e
 
