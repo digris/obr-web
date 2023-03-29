@@ -114,17 +114,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
+      - run: git fetch --prune --all
+      - run: git tag -l
+      - run: git describe
+      - run: git describe --tags
       - run: |
           npm install -g yarn
           yarn install
           yarn build
       - name: Set variables
-        run: |
-          git fetch --prune --all
-          git tag -l
-          git describe
-          git describe --tags
-          echo "app_version=$(git describe --tags --abbrev=0)" >> $APP_VERSION
+        run: echo "app_version=$(git describe --tags --abbrev=0)" >> $APP_VERSION
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
