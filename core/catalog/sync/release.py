@@ -16,7 +16,7 @@ def sync_release(release, skip_images=False, **kwargs):
     try:
         data = api_client.get(f"releases/{release.uuid}/")
     except api_client.APIClientException as e:
-        logger.error(f"unable to get release: {release} - {e}")
+        logger.warning(f"unable to get release: {release} - {e}")
         return None
 
     update = {

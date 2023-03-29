@@ -40,7 +40,7 @@ def sync_playlist(playlist, skip_images=False, **kwargs):
     try:
         data = api_client.get(f"playlists/{playlist.uuid}/")
     except api_client.APIClientException as e:
-        logger.error(f"unable to get playlist: {playlist} - {e}")
+        logger.warning(f"unable to get playlist: {playlist} - {e}")
         return None
 
     update = {

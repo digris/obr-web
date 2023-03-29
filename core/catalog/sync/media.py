@@ -30,7 +30,7 @@ def sync_media(media, skip_media=False, **kwargs):
     try:
         data = api_client.get(f"media/{media.uuid}/")
     except api_client.APIClientException as e:
-        logger.error(f"unable to get media: {media} - {e}")
+        logger.warning(f"unable to get media: {media} - {e}")
         return None
 
     update = {

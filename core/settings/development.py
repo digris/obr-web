@@ -33,22 +33,6 @@ MIDDLEWARE += [
     # "querycount.middleware.QueryCountMiddleware",
 ]
 
-SENTRY_DSN = "https://59f51513d6e749b385eb59576dc19f2c@o995176.ingest.sentry.io/5953969"
-
-if SENTRY_DSN:
-    import sentry_sdk
-    from sentry_sdk.integrations.django import DjangoIntegration
-
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
-        send_default_pii=True,
-        _experiments={
-            "profiles_sample_rate": 1.0,
-        },
-    )
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
