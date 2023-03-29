@@ -125,7 +125,7 @@ jobs:
           yarn install
           yarn build
       - name: Set variables
-        run: echo "app_version=$(git describe --tags --abbrev=0)" >> $APP_VERSION
+        run: echo "app_version=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
