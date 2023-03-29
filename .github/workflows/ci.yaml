@@ -122,7 +122,9 @@ jobs:
         run: |
           git fetch --prune --tags
           git tag -l
-          echo "version=$(git describe --tags --abbrev=0)" >> $VERSION
+          git describe
+          git describe --tags
+          echo "app_version=$(git describe --tags --abbrev=0)" >> $APP_VERSION
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -131,5 +133,5 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          version: ${{ steps.vars.outputs.version }}
+          version: ${{ steps.vars.outputs.app_version }}
           sourcemaps: './build'
