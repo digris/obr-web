@@ -1,14 +1,14 @@
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
-import OpenReplay from "@openreplay/tracker";
-import trackerAssist from "@openreplay/tracker-assist";
-import trackerAxios from "@openreplay/tracker-axios";
+// import OpenReplay from "@openreplay/tracker";
+// import trackerAssist from "@openreplay/tracker-assist";
+// import trackerAxios from "@openreplay/tracker-axios";
 import { Integrations } from "@sentry/tracing";
 import * as Sentry from "@sentry/vue";
 import log from "loglevel";
 import { createPinia } from "pinia";
 
-import { APIClient } from "@/api/client";
+// import { APIClient } from "@/api/client";
 // @ts-ignore
 import de from "@/locales/de.yml";
 // @ts-ignore
@@ -64,11 +64,11 @@ app.use(router);
 app.use(i18n);
 app.directive("tooltip", TooltipDirective);
 
-declare global {
-  interface Window {
-    tracker: OpenReplay;
-  }
-}
+// declare global {
+//   interface Window {
+//     tracker: OpenReplay;
+//   }
+// }
 
 if (settings.SENTRY_DSN) {
   Sentry.init({
@@ -96,6 +96,7 @@ if (settings.SENTRY_DSN) {
   });
 }
 
+/*
 let tracker = null;
 if (settings.OPENREPLAY_PROJECT_KEY) {
   tracker = new OpenReplay({
@@ -113,6 +114,7 @@ if (settings.OPENREPLAY_PROJECT_KEY) {
   tracker.use(trackerAssist());
   tracker.start().then(() => {});
 }
+*/
 
 app.mount("#app");
 
@@ -126,4 +128,4 @@ window.app = app;
 window.router = router;
 
 // @ts-ignore
-window.tracker = tracker;
+// window.tracker = tracker;

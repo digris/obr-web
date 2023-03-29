@@ -28,11 +28,11 @@ const updateSentryScope = (user: User) => {
   });
 };
 
-const updateOpenRelayScope = (user: User) => {
-  if (window.tracker && user.email) {
-    window.tracker.setUserID(user.email);
-  }
-};
+// const updateOpenReplayScope = (user: User) => {
+//   if (window.tracker && user.email) {
+//     window.tracker.setUserID(user.email);
+//   }
+// };
 
 class AccountHandler {
   constructor() {
@@ -47,7 +47,7 @@ class AccountHandler {
             updateAppBridgeAccount(newUser);
           }
           updateSentryScope(newUser);
-          updateOpenRelayScope(newUser);
+          // updateOpenReplayScope(newUser);
         }
       }
     );
