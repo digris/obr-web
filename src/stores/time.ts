@@ -3,8 +3,10 @@ import { useIntervalFn } from "@vueuse/core";
 import { DateTime } from "luxon";
 import { defineStore } from "pinia";
 
+import settings from "@/settings";
+
 const INTERVAL = 200;
-const FIXED_LATENCY = 27;
+const FIXED_LATENCY = settings.STREAM_LATENCY;
 
 export const useTimeStore = defineStore("time", () => {
   const now = ref(DateTime.now());

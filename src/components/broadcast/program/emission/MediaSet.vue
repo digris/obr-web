@@ -1,9 +1,11 @@
 <script lang="ts">
 import type { PropType } from "vue";
-import { computed, defineComponent, onMounted, onUnmounted, ref } from "vue";
+import { computed, defineComponent } from "vue";
 import { DateTime } from "luxon";
+import { storeToRefs } from "pinia";
 
 import Duration from "@/components/ui/time/Duration.vue";
+import { useTimeStore } from "@/stores/time";
 import type { Media } from "@/typings/api";
 
 import MediaRow from "./MediaRow.vue";
@@ -21,35 +23,24 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const now = ref(DateTime.now());
-    // const timer = ref(null);
-    const timer = ref<ReturnType<typeof setInterval> | null>(null);
+    const { time } = storeToRefs(useTimeStore());
     const visibleMediaSet = computed(() => {
-      return props.mediaSet.filter((m: any) => DateTime.fromISO(m.timeStart) < now.value);
+      return props.mediaSet.filter((m: any) => DateTime.fromISO(m.timeStart) < time.value);
     });
     const numHidden = computed(() => {
       return props.mediaSet.length - visibleMediaSet.value.length;
     });
     const nextMedia = computed(() => {
-      return props.mediaSet.find((m: any) => DateTime.fromISO(m.timeStart) > now.value);
+      return props.mediaSet.find((m: any) => DateTime.fromISO(m.timeStart) > time.value);
     });
     const nextStartInSeconds = computed(() => {
       if (!nextMedia.value) {
         return 0;
       }
-      return now.value.diff(DateTime.fromISO(nextMedia.value.timeStart), "seconds").seconds;
-    });
-    onMounted(() => {
-      timer.value = setInterval(() => {
-        now.value = DateTime.now();
-      }, 1000);
-    });
-    onUnmounted(() => {
-      if (timer.value) {
-        clearInterval(timer.value);
-      }
+      return time.value.diff(DateTime.fromISO(nextMedia.value.timeStart), "seconds").seconds;
     });
     return {
+      time,
       visibleMediaSet,
       numHidden,
       nextStartInSeconds,
@@ -60,9 +51,6 @@ export default defineComponent({
 
 <template>
   <div class="media-set">
-    <!--
-    <pre v-text="mediaSet" />
-    -->
     <TransitionGroup name="list">
       <MediaRow
         v-for="(media, index) in visibleMediaSet"
@@ -71,9 +59,6 @@ export default defineComponent({
       />
     </TransitionGroup>
     <div class="feature-media" v-if="numHidden > 0">
-      <!--
-      <div v-text="numHidden" />
-      -->
       <Duration class="next-start" :seconds="nextStartInSeconds * -1" />
     </div>
   </div>
