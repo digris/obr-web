@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.99 (2023-03-29)
+### Fix
+* Use station-time in program ([#122](https://github.com/digris/obr-web/issues/122)) ([`158807b`](https://github.com/digris/obr-web/commit/158807bb61167990e44da43ecbd76c4fa78683b7))
+
 ## v0.0.98 (2023-03-29)
 ### Fix
 * Add "clear" button to search input ([#123](https://github.com/digris/obr-web/issues/123)) ([`16c0436`](https://github.com/digris/obr-web/commit/16c0436c025b3ee9c95dff3472399ddd280f08ad))
