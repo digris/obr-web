@@ -104,6 +104,19 @@ jobs:
           git fetch --prune --tags
           git tag -l
           semantic-release publish -v DEBUG
+
+  sentry-release:
+    needs: [release]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn build
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -112,3 +125,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
+          sourcemaps: './build'
