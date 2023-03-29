@@ -2,6 +2,7 @@
 import { defineComponent } from "vue";
 
 import { usePlayerControls, usePlayerState } from "@/composables/player";
+import eventBus from "@/eventBus";
 
 export default defineComponent({
   setup() {
@@ -9,6 +10,8 @@ export default defineComponent({
     const { playLive } = usePlayerControls();
     const click = () => {
       if (isLive.value) {
+        // NOTE: this should be implemented in a nicer way
+        eventBus.emit("radio:flow", "releaseFocus");
         return;
       }
       playLive();
