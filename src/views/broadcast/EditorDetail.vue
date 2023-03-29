@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, onActivated } from "vue";
+import { useI18n } from "vue-i18n";
 
 import PlaylistList from "@/components/catalog/playlist/List.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
@@ -31,6 +32,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n();
     const { loadEditor, editorByUid } = useBroadcastStore();
     const editor = computed(() => editorByUid(props.uid));
     const objKey = computed(() => `${editor.value?.ct}:${editor.value?.uid}`);
@@ -57,6 +59,7 @@ export default defineComponent({
       }
     });
     return {
+      t,
       objKey,
       editor,
       initialFilter,
@@ -76,7 +79,7 @@ export default defineComponent({
         :show-context-menu="false"
         :show-obj-rating="true"
         :title="editor.name"
-        title-scope="Editor*in"
+        :title-scope="t('broadcast.ct.editor', 1)"
       >
         <template #visual>
           <LazyImage class="image" :image="editor.image" />

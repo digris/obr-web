@@ -71,7 +71,12 @@ export default defineComponent({
 <template>
   <DetailPage>
     <template #header>
-      <DetailHeader v-if="artist" :obj="artist" title-scope="Künstler*in" :title="artist.name">
+      <DetailHeader
+        v-if="artist"
+        :obj="artist"
+        :title-scope="t('catalog.ct.artist', 1)"
+        :title="artist.name"
+      >
         <template #visual>
           <LazyImage class="image" :image="artist.image">
             <PlayAction

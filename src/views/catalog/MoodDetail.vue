@@ -90,7 +90,7 @@ export default defineComponent({
         v-if="mood"
         :obj="mood"
         :show-context-menu="false"
-        title-scope="Stimmung"
+        :title-scope="t('catalog.ct.mood', 1)"
         :title="mood.name"
         mobile-body-position="top"
       >
@@ -123,7 +123,7 @@ export default defineComponent({
           </PlayAllAction>
         </template>
         <template #searchbar>
-          <Searchbar :filter="combinedFilter" :hide-form-for-mobile="true" />
+          <Searchbar :filter="userFilter" :hide-form-for-mobile="true" />
         </template>
       </DetailHeader>
       <DetailHeaderLoading v-else title-scope="Mood" />
