@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.96 (2023-03-29)
+### Fix
+* Adjust stream latency ([`1b2422b`](https://github.com/digris/obr-web/commit/1b2422bda6dd01c4b59aca7143511712deda31b6))
+
 ## v0.0.95 (2023-03-28)
 ### Fix
 * Selected option colo radio "dislike" (dark mode) ([`64c0d90`](https://github.com/digris/obr-web/commit/64c0d90687890e3ec7ffc78d2187056ea52d72dd))
