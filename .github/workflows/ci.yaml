@@ -106,15 +106,17 @@ jobs:
           semantic-release publish -v DEBUG
 
   sentry-release:
-    needs: [release]
+#    needs: [release]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - run: git fetch --prune --all
+#      - run: git fetch --prune --all
       - run: git tag -l
       - run: git describe
       - run: git describe --tags
