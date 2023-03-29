@@ -116,15 +116,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-#      - run: git fetch --prune --all
-#      - run: git tag -l
-#      - run: git describe
-#      - run: git describe --tags
       - name: Set variables
         id: vars
-        run: echo "app_version=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.vars.outputs.app_version }}
-      - run: echo "app version ${{ steps.vars.outputs.app_version }}"
+#        run: echo "app_version=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+        run: echo "version=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.vars.outputs.version }}
       - run: |
           npm install -g yarn
           yarn install
@@ -137,5 +133,5 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          version: ${{ steps.vars.outputs.app_version }}
+          version: ${{ steps.vars.outputs.version }}
           sourcemaps: './build'
