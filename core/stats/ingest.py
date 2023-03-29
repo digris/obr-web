@@ -14,13 +14,15 @@ def player_event_to_row(evt):
     }
 
 
-def ingest_player_events():
+def ingest_player_events(database="default"):
     client = bigquery.Client()
     table_id = "open-broadcast.stats.player_event"
 
     # PlayerEvent.objects.using('sync').update(ingested=False)
 
-    qs = PlayerEvent.objects.using("sync").all()
+    qs = PlayerEvent.objects.using(database).all()
+
+    print(qs.count())
 
     # Window is disallowed in the filter clause
     # so filtering has to be done in python

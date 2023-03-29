@@ -1,5 +1,4 @@
-import { computed } from "vue";
-import { watchThrottled } from "@vueuse/core";
+import { computed, watch } from "vue";
 import log from "loglevel";
 import { debounce, isEqual } from "lodash-es";
 
@@ -27,10 +26,7 @@ const createGA4Event = (event: Event) => {
 };
 
 class EventHandler {
-  queue: Array<Event>;
-
   constructor() {
-    this.queue = [];
     const { media, isLive, state } = usePlayerState();
     const combinedState = computed(() => {
       const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
@@ -45,36 +41,20 @@ class EventHandler {
       if (!event.objKey) {
         return;
       }
-      // log.debug("events - addEvent", event);
+      log.info("events - addEvent", event);
       createGA4Event(event);
       await createPlayerEvents([event]);
     }, 200);
-    /*
-    watch(combinedState, (newState, oldState) => {
-      if (isEqual(newState, oldState)) {
+    watch(combinedState, (newValue, oldValue) => {
+      if (isEqual(newValue, oldValue)) {
         return;
       }
       const event = {
-        ...newState,
+        ...newValue,
         ts: new Date().getTime(),
       };
       addEvent(event);
     });
-    */
-    watchThrottled(
-      combinedState,
-      (newValue, oldValue) => {
-        if (isEqual(newValue, oldValue)) {
-          return;
-        }
-        const event = {
-          ...newValue,
-          ts: new Date().getTime(),
-        };
-        addEvent(event);
-      },
-      { throttle: 200 }
-    );
   }
 }
 

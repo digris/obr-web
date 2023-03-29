@@ -41,7 +41,6 @@ setoptconf = "^0.3.0"
 whitenoise = "^6.2.0"
 bleach = "^5.0.0"
 django-countries = "^7.2.1"
-#google-cloud-bigquery = "^3.3.0"  # NOTE: currently no support for python 3.11
 #grpcio = "<1.52.0"
 django-qsstats-magic = "^1.1.0"
 pyembed-markdown = "^1.1.0"
@@ -55,6 +54,7 @@ django-admin-sortable2 = "^2.1.4"
 progress = "^1.6"
 python-dateutil = "^2.8.2"
 django-tree-queries = "^0.14.0"
+google-cloud-bigquery = "^3.9.0"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"

@@ -14,5 +14,5 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        num_ingested = ingest.ingest_player_events()
+        num_ingested = ingest.ingest_player_events(database=options["database"])
         self.stdout.write(f"ingested {num_ingested} events")

@@ -790,6 +790,38 @@ googleapis-common-protos = ">=1.56.2,<2.0dev"
 protobuf = ">=3.6.0,<5.0.0dev"
 
 [[package]]
+name = "google-cloud-bigquery"
+version = "3.9.0"
+description = "Google BigQuery API client library"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+google-api-core = {version = ">=1.31.5,<2.0.0 || >2.3.0,<3.0.0dev", extras = ["grpc"]}
+google-cloud-core = ">=1.6.0,<3.0.0dev"
+google-resumable-media = ">=0.6.0,<3.0dev"
+grpcio = [
+    {version = ">=1.47.0,<2.0dev", markers = "python_version < \"3.11\""},
+    {version = ">=1.49.1,<2.0dev", markers = "python_version >= \"3.11\""},
+]
+packaging = ">=20.0.0"
+proto-plus = ">=1.15.0,<2.0.0dev"
+protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<5.0.0dev"
+python-dateutil = ">=2.7.2,<3.0dev"
+requests = ">=2.21.0,<3.0.0dev"
+
+[package.extras]
+all = ["Shapely (>=1.8.4,<2.0dev)", "db-dtypes (>=0.3.0,<2.0.0dev)", "geopandas (>=0.9.0,<1.0dev)", "google-cloud-bigquery-storage (>=2.0.0,<3.0.0dev)", "grpcio (>=1.47.0,<2.0dev)", "grpcio (>=1.49.1,<2.0dev)", "ipykernel (>=6.0.0)", "ipython (>=7.23.1,!=8.1.0)", "ipywidgets (>=7.7.0)", "opentelemetry-api (>=1.1.0)", "opentelemetry-instrumentation (>=0.20b0)", "opentelemetry-sdk (>=1.1.0)", "pandas (>=1.1.0)", "pyarrow (>=3.0.0)", "tqdm (>=4.7.4,<5.0.0dev)"]
+bqstorage = ["google-cloud-bigquery-storage (>=2.0.0,<3.0.0dev)", "grpcio (>=1.47.0,<2.0dev)", "grpcio (>=1.49.1,<2.0dev)", "pyarrow (>=3.0.0)"]
+geopandas = ["Shapely (>=1.8.4,<2.0dev)", "geopandas (>=0.9.0,<1.0dev)"]
+ipython = ["ipykernel (>=6.0.0)", "ipython (>=7.23.1,!=8.1.0)"]
+ipywidgets = ["ipykernel (>=6.0.0)", "ipywidgets (>=7.7.0)"]
+opentelemetry = ["opentelemetry-api (>=1.1.0)", "opentelemetry-instrumentation (>=0.20b0)", "opentelemetry-sdk (>=1.1.0)"]
+pandas = ["db-dtypes (>=0.3.0,<2.0.0dev)", "pandas (>=1.1.0)", "pyarrow (>=3.0.0)"]
+tqdm = ["tqdm (>=4.7.4,<5.0.0dev)"]
+
+[[package]]
 name = "google-cloud-core"
 version = "2.3.2"
 description = "Google Cloud API client core library"
@@ -1290,7 +1322,7 @@ attrs = ">=19.2.0"
 name = "packaging"
 version = "23.0"
 description = "Core utilities for Python packages"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -2471,7 +2503,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10, <3.12"
-content-hash = "30d07ec80d153af60f4a7f91630d20610a1512909fc6b287ad50db396e65158b"
+content-hash = "bef5bab817ab78d35dd9d21208a2c622af2a81a2f316e060ed88c1275a3e43cb"
 
 [metadata.files]
 asgiref = [
@@ -2881,6 +2913,10 @@ google-cloud-appengine-logging = [
 google-cloud-audit-log = [
     {file = "google-cloud-audit-log-0.2.4.tar.gz", hash = "sha256:aabe5543671e4f8a9c7a4c0e3ea9a87ba2ba2b96f9ffad6faa02209900e1f308"},
     {file = "google_cloud_audit_log-0.2.4-py2.py3-none-any.whl", hash = "sha256:29ed77fe0b21eb2d5dfb998edb59ee2adc65fea5d5ac9fcf17828d60d25b58b3"},
+]
+google-cloud-bigquery = [
+    {file = "google-cloud-bigquery-3.9.0.tar.gz", hash = "sha256:39b055087a8471b0ebab7a4bf54decda845b6087b104ef0be078ced1e1dccb26"},
+    {file = "google_cloud_bigquery-3.9.0-py2.py3-none-any.whl", hash = "sha256:c7b539c6a020cd662fef950b3367ab1c33a4ba07e008bccf2e9cb09a516d0de9"},
 ]
 google-cloud-core = [
     {file = "google-cloud-core-2.3.2.tar.gz", hash = "sha256:b9529ee7047fd8d4bf4a2182de619154240df17fbe60ead399078c1ae152af9a"},
