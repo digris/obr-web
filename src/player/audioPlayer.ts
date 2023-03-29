@@ -331,11 +331,12 @@ class AudioPlayer {
     try {
       await this.player.load(url, startTime);
       this.audio.play();
-    } catch (e) {
+    } catch (e: any) {
       log.error(e, url);
       await delay(50);
       this.removeEventHandlers();
-      throw Error("playback error");
+      const message = e?.message ?? "playback error";
+      throw Error(message);
     }
     if (!this.analyser) {
       try {

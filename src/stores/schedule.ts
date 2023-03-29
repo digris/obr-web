@@ -86,9 +86,9 @@ export const useScheduleStore = defineStore("schedule", {
         return {
           ...el,
           // @ts-ignore
-          dtStart: DateTime.fromSeconds(el.timeStart),
+          dtStart: DateTime.fromISO(el.timeStart),
           // @ts-ignore
-          dtEnd: DateTime.fromSeconds(el.timeEnd),
+          dtEnd: DateTime.fromISO(el.timeEnd),
         };
       });
     },

@@ -4,8 +4,8 @@ import log from "loglevel";
 import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";
+import { useScheduleStore } from "@/stores/schedule";
 import { useSettingsStore } from "@/stores/settings";
-// import { useScheduleStore } from "@/stores/schedule";
 
 // how often the web-app sends a heartbeat to swift-app
 const HEARTBEAT_INTERVAL = 2000 * 0.9;
@@ -195,8 +195,8 @@ class AppBridge {
       }
       case "schedule:update": {
         console.debug("schedule", data.schedule);
-        // const { setSchedule } = useScheduleStore();
-        // await setSchedule(data.schedule);
+        const { setSchedule } = useScheduleStore();
+        await setSchedule(data.schedule);
         break;
       }
     }
