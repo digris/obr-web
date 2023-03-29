@@ -32,7 +32,7 @@ export const usePlayerStore = defineStore("player", {
     absPosition: null,
     bandwidth: 0,
     // effective playback latency, in seconds
-    liveLatency: 0, // TODO: evaluate default latency
+    liveLatency: 24, // TODO: evaluate default latency
   }),
   getters: {
     // mode
