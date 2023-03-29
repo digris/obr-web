@@ -85,8 +85,8 @@ if (settings.SENTRY_DSN) {
         ],
       }),
       new Sentry.Replay({
-        maskAllText: true,
-        blockAllMedia: true,
+        maskAllText: false,
+        blockAllMedia: false,
       }),
     ],
     trackComponents: true,
