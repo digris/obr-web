@@ -7,21 +7,22 @@ const drawCanvas = async (
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
-  bins: Uint8Array,
-  color: string
+  color: string,
+  bins: Uint8Array
 ) => {
   ctx.canvas.width = width;
   ctx.canvas.height = height;
   // bar width: 6px for canvas of 48px
-  const barWidth = width / 8;
+  const barWidth = 6;
   const heightFactor = 1 / (240 / height);
   const numBins = bins.length;
   const y = 0;
   const w = barWidth;
   for (let i = 0; i < numBins; i++) {
     const value = bins[i] * heightFactor;
-    const x = i * (barWidth * 2) + barWidth / 3;
+    const x = i * (barWidth * 1.5) + barWidth / 3;
     const h = value;
+    // ctx.fillStyle = "rgb(255 255 255 / 100%)";
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
   }
@@ -39,7 +40,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "rgb(255 0 255 / 100%)",
+      default: "rgb(0 0 0 / 100%)",
     },
   },
   setup(props) {
@@ -51,35 +52,29 @@ export default defineComponent({
         transform: "scaleY(-1)",
       };
     });
+    const numBins = computed(() => {
+      return Math.floor(props.width / 9); // 6px bar, 3px space;
+    });
     onMounted(() => {
       if (!canvas.value) {
         return;
       }
       const ctx = canvas.value?.getContext("2d");
+
       const getDrawData = (analyser: AudioAnalyser) => {
         // we just need one channel here
-        const a = analyser.a64;
-        const spectrumData = new Uint8Array(a.frequencyBinCount);
+        const a = analyser.a1024;
+        const spectrumData = new Uint8Array(300);
         if (a && ctx) {
           a.getByteFrequencyData(spectrumData);
         }
-        // spectrum fft is 64 - so buffer length is 32
-        // we discard the highest 1/2 of frequencise
-        const avg = (arr) => arr.reduce((p, c) => p + c, 0) / arr.length;
-        const s = spectrumData.slice(0, 16);
-        const bins = [
-          avg(s.slice(0, 4)) * 0.8,
-          avg(s.slice(4, 8)),
-          avg(s.slice(8, 12)),
-          avg(s.slice(12, 16)) * 1.1,
-        ];
-        return bins;
+        return spectrumData.slice(0, numBins.value);
       };
 
       const drawLoop = () => {
         if (window.audioPlayer.analyser && ctx) {
           const spectrumData = getDrawData(window.audioPlayer.analyser);
-          drawCanvas(ctx, props.width, props.height, spectrumData, props.color);
+          drawCanvas(ctx, props.width, props.height, props.color, spectrumData);
         }
         requestAnimationFrame(drawLoop);
       };
@@ -88,13 +83,14 @@ export default defineComponent({
     return {
       canvas,
       style,
+      numBins,
     };
   },
 });
 </script>
 
 <template>
-  <div class="level" :style="style">
+  <div class="spectrum" :style="style">
     <canvas ref="canvas" />
   </div>
 </template>

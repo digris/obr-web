@@ -1,11 +1,11 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-import AudioSpectrum from "@/components/ui/audio/AudioSpectrumB.vue";
+import AudioVisualisation from "./AudioVisualisation.vue";
 
 export default defineComponent({
   components: {
-    AudioSpectrum,
+    AudioVisualisation,
   },
   props: {
     width: {
@@ -16,12 +16,16 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    color: {
+      type: String,
+      default: "rgb(255 0 0 / 100%)",
+    },
   },
   setup(props) {
     const containerStyle = computed(() => {
       return {};
     });
-    const visualStyle = computed(() => {
+    const spectrogramStyle = computed(() => {
       return {
         height: `${props.height}px`,
         width: `${props.width}px`,
@@ -29,26 +33,26 @@ export default defineComponent({
     });
     return {
       containerStyle,
-      visualStyle,
+      spectrogramStyle,
     };
   },
 });
 </script>
 
 <template>
-  <div class="visual-container" :style="containerStyle">
-    <div class="visual" :style="visualStyle">
-      <AudioSpectrum :width="width" :height="320" />
+  <div class="spectrogram-container" :style="containerStyle">
+    <div class="spectrogram" :style="spectrogramStyle">
+      <AudioVisualisation :width="width" :height="260" :color="color" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.visual-container {
-  padding-top: 42px;
+.spectrogram-container {
+  padding-top: 0;
 }
 
-.visual {
+.spectrogram {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -4,12 +4,14 @@ import { useWindowSize, whenever } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { round } from "lodash-es";
 
+import Spectrogram from "@/components/audio/Spectrogram.vue";
 import { usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import { useScheduleStore } from "@/stores/schedule";
 import { useTimeStore } from "@/stores/time";
 import { useUiStore } from "@/stores/ui";
+import { getContrastColor } from "@/utils/color";
 
 import Flow from "./flow/Flow.vue";
 import PaginateButton from "./flow/PaginateButton.vue";
@@ -26,6 +28,7 @@ export default defineComponent({
     FocusedMedia,
     PaginateButton,
     Rating,
+    Spectrogram,
   },
   setup() {
     const { time } = storeToRefs(useTimeStore());
@@ -92,6 +95,13 @@ export default defineComponent({
     const focusPrevious = () => eventBus.emit("radio:flow", "focusPrevious");
     const releaseFocus = () => eventBus.emit("radio:flow", "releaseFocus");
     whenever(isLive, () => eventBus.emit("radio:flow", "releaseFocus"));
+
+    // visualisation
+    const { primaryColor } = storeToRefs(useUiStore());
+    const spectrogramColor = computed(() => {
+      const fg = getContrastColor(primaryColor.value);
+      return `rgb(${fg.join(" ")} / 10%)`;
+    });
     return {
       time,
       itemSize,
@@ -106,6 +116,10 @@ export default defineComponent({
       focusNext,
       focusPrevious,
       releaseFocus,
+      // visualisation
+      primaryColor,
+      spectrogramColor,
+      vpWidth,
     };
   },
 });
@@ -146,6 +160,7 @@ export default defineComponent({
       <Rating v-if="focusedItem?.media" :media="focusedItem.media" />
     </div>
   </div>
+  <Spectrogram v-if="false" :height="200" :width="vpWidth" :color="spectrogramColor" />
 </template>
 
 <style lang="scss" scoped>
@@ -220,5 +235,10 @@ export default defineComponent({
     justify-content: center;
     height: 124px;
   }
+}
+
+.spectrogram-container {
+  position: fixed;
+  bottom: 72px;
 }
 </style>

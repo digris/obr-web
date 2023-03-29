@@ -2,11 +2,11 @@
 import { computed, defineComponent, onActivated } from "vue";
 import { useI18n } from "vue-i18n";
 
+import Spectrogram from "@/components/audio/Spectrogram.vue";
 import EditorInline from "@/components/broadcast/editor/Inline.vue";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import MediaList from "@/components/catalog/media/List.vue";
-import Visual from "@/components/catalog/playlist/Visual.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
@@ -28,7 +28,7 @@ export default defineComponent({
     ObjectTags,
     MediaList,
     EditorInline,
-    Visual,
+    Spectrogram,
   },
   props: {
     uid: {
@@ -68,7 +68,7 @@ export default defineComponent({
 <template>
   <DetailPage>
     <template #background="slotProps">
-      <Visual :height="slotProps.height" :width="slotProps.width" />
+      <Spectrogram :height="slotProps.height" :width="slotProps.width" color="rgb(0 0 0 / 20%)" />
     </template>
     <template #header>
       <DetailHeader v-if="playlist" :obj="playlist" :title="title" title-scope="Show">
