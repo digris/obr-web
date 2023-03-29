@@ -54,8 +54,10 @@ def rating_post_save(sender, instance, **kwargs):
         },
     }
 
-    if image := instance.content_object.image:
-        image_url = f"{SITE_URL}/images/crop/200x200/{image.path}"
+    if hasattr(instance.content_object, "image") and instance.content_object.image:
+        image_url = (
+            f"{SITE_URL}/images/crop/200x200/{instance.content_object.image.path}"
+        )
         body.update(
             {
                 "accessory": {

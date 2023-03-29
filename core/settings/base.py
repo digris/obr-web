@@ -631,7 +631,7 @@ OPENREPLAY_PROJECT_KEY = env(
 ##################################################################
 # logging
 ##################################################################
-LOGGING_ = {
+LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "root": {"level": "WARNING", "handlers": ["console"]},
@@ -650,31 +650,6 @@ LOGGING_ = {
     },
     "loggers": {
         "django.db.backends": {
-            "level": "WARNING",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        # "django.request": {
-        #     "level": "DEBUG",
-        #     "handlers": ["console"],
-        #     "propagate": False,
-        # },
-        "geoip": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "catalog": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "raven": {
-            "level": "INFO",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "sentry.errors": {
             "level": "WARNING",
             "handlers": ["console"],
             "propagate": False,

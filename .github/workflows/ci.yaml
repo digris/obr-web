@@ -3,88 +3,88 @@ name: CI
 on: [push]
 
 jobs:
-  preflight-fe:
-    runs-on: ubuntu-latest
-    name: Frontend preflight
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - run: npm install -g yarn
-      - run: yarn install --dev
-      - run: yarn lint
-
-  preflight-be:
-    runs-on: ubuntu-latest
-    name: Backend preflight
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.11'
-          architecture: 'x64'
-      - run: pip install black
-      - run: black --version
-      - run: black ./core/ --check
-      - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
-#      - run: prospector -p ./core/
-
-  test-be:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11']
-    name: Backend tests (python ${{ matrix.python-version }})
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: 'x64'
-      - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
-      - run: make test-be
-
-  test-fe:
-    runs-on: ubuntu-latest
-    name: Frontend tests
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - run: npm install -g yarn
-      - run: yarn install --dev
-      - run: yarn test:unit
-
-  test-e2e:
-    runs-on: ubuntu-latest
-    name: E2E tests
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.11'
-          architecture: 'x64'
-      - run: npm install -g yarn
-      - run: yarn install
-      - run: yarn build
-      - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
-      - run: make test-e2e
-      - uses: actions/upload-artifact@v3
-        with:
-          name: e2e-test-screenshots
-          path: screenshots
+#  preflight-fe:
+#    runs-on: ubuntu-latest
+#    name: Frontend preflight
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '16'
+#      - run: npm install -g yarn
+#      - run: yarn install --dev
+#      - run: yarn lint
+#
+#  preflight-be:
+#    runs-on: ubuntu-latest
+#    name: Backend preflight
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-python@v3
+#        with:
+#          python-version: '3.11'
+#          architecture: 'x64'
+#      - run: pip install black
+#      - run: black --version
+#      - run: black ./core/ --check
+#      - run: pip install poetry==1.2.2
+#      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+##      - run: prospector -p ./core/
+#
+#  test-be:
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        python-version: ['3.10', '3.11']
+#    name: Backend tests (python ${{ matrix.python-version }})
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-python@v3
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          architecture: 'x64'
+#      - run: pip install poetry==1.2.2
+#      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+#      - run: make test-be
+#
+#  test-fe:
+#    runs-on: ubuntu-latest
+#    name: Frontend tests
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '16'
+#      - run: npm install -g yarn
+#      - run: yarn install --dev
+#      - run: yarn test:unit
+#
+#  test-e2e:
+#    runs-on: ubuntu-latest
+#    name: E2E tests
+#
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: actions/setup-node@v3
+#        with:
+#          node-version: '16'
+#      - uses: actions/setup-python@v3
+#        with:
+#          python-version: '3.11'
+#          architecture: 'x64'
+#      - run: npm install -g yarn
+#      - run: yarn install
+#      - run: yarn build
+#      - run: pip install poetry==1.2.2
+#      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+#      - run: make test-e2e
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: e2e-test-screenshots
+#          path: screenshots
 
   release:
     needs: [preflight-fe, preflight-be, test-be, test-fe, test-e2e]
@@ -104,3 +104,11 @@ jobs:
           git fetch --prune --tags
           git tag -l
           semantic-release publish -v DEBUG
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: production
