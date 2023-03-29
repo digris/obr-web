@@ -7,6 +7,7 @@ from broadcast import signals as broadcast_signals
 from broadcast.models import Emission
 from catalog.models.playlist import Playlist
 from pytz.exceptions import AmbiguousTimeError, NonExistentTimeError
+from sentry_sdk.crons import monitor
 from sync import api_client
 
 logger = logging.getLogger(__name__)
@@ -81,6 +82,7 @@ def create_emission_objects(emission_list):
 
 
 # pylint: disable=unused-argument
+@monitor(monitor_slug="d0ff03b3-a710-45c1-9d50-3b404708b8fa")
 def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):
     if force:
         if not (date_start and date_end):

@@ -77,10 +77,22 @@ if (settings.SENTRY_DSN) {
     integrations: [
       new Integrations.BrowserTracing({
         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ["local.obr-next", "next.openbroadcast.ch", "openbroadcast.ch", /^\//],
+        tracePropagationTargets: [
+          "local.obr-next",
+          "next.openbroadcast.ch",
+          "openbroadcast.ch",
+          /^\//,
+        ],
+      }),
+      new Sentry.Replay({
+        maskAllText: true,
+        blockAllMedia: true,
       }),
     ],
+    trackComponents: true,
     tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
   });
 }
 
