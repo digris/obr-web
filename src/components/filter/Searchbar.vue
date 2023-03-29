@@ -9,6 +9,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from "pinia";
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
+import IconClose from '@/components/ui/icon/IconClose.vue';
 import IconFilter from '@/components/ui/icon/IconFilter.vue';
 import IconSearch from '@/components/ui/icon/IconSearch.vue';
 import { useDevice } from "@/composables/device";
@@ -17,6 +18,7 @@ import { useUiStore } from "@/stores/ui";
 export default defineComponent({
   components: {
     CircleButton,
+    IconClose,
     IconSearch,
     IconFilter,
   },
@@ -48,22 +50,27 @@ export default defineComponent({
     const q = ref('');
     const submitSearch = () => {
       const newQuery = { ...props.filter };
-      newQuery.q = q.value;
+      if (q.value) {
+        newQuery.q = q.value;
+      } else {
+        delete newQuery.q;
+      }
       const routeName = route.name || 'discoverPlaylists';
       router.push({ name: routeName, query: newQuery });
     };
     const searchInput = (e) => {
       if (e.code === 'Escape') {
-        e.target.value = '';
         q.value = '';
         submitSearch();
         return;
       }
-      q.value = e.target.value;
+    };
+    const clearSearch = () => {
+      q.value = '';
+      submitSearch();
     };
     const hasSearchQuery = computed(() => {
       return (props.filter && props.filter.q);
-      // return true;
     });
     onMounted(() => {
       q.value = props.filter.q || '';
@@ -82,6 +89,7 @@ export default defineComponent({
       q,
       searchInput,
       submitSearch,
+      clearSearch,
       hasSearchQuery,
     };
   },
@@ -97,7 +105,10 @@ export default defineComponent({
       }"
       @submit.prevent="submitSearch"
     >
-      <input :value="q" @keyup="searchInput" />
+      <input v-model="q" @keyup="searchInput" />
+      <div v-if="hasSearchQuery" @click="clearSearch" class="clear-search">
+        <IconClose color-var="--c-light" :scale="0.75" />
+      </div>
     </form>
     <CircleButton v-if="isFormVisible" class="search-button" @click="submitSearch">
       <IconSearch />
@@ -126,7 +137,13 @@ export default defineComponent({
   align-items: center;
   justify-content: flex-end;
 
+  .debug {
+    position: fixed;
+    left: 2rem;
+  }
+
   .search-input {
+    position: relative;
     height: 40px;
 
     > input {
@@ -154,6 +171,15 @@ export default defineComponent({
         background: rgb(var(--c-dark));
         border-radius: 22px;
       }
+    }
+
+    .clear-search {
+      top: 2px;
+      position: absolute;
+      height: 36px;
+      width: 40px;
+      right: 0;
+      cursor: pointer;
     }
   }
 
