@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.100 (2023-03-29)
+### Fix
+* Add player initial live-latency ([`3d879e2`](https://github.com/digris/obr-web/commit/3d879e2b12b18699d52fc443aa749e57c583968d))
+
 ## v0.0.99 (2023-03-29)
 ### Fix
 * Use station-time in program ([#122](https://github.com/digris/obr-web/issues/122)) ([`158807b`](https://github.com/digris/obr-web/commit/158807bb61167990e44da43ecbd76c4fa78683b7))
