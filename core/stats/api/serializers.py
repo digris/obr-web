@@ -1,4 +1,6 @@
+from api_extra.serializers import CTUIDModelSerializer
 from rest_framework import serializers
+from stats.models import StreamEvent
 
 
 class PlayerEventCreateSerializer(
@@ -25,6 +27,29 @@ class PlayerEventCreateSerializer(
     ts = serializers.IntegerField(
         help_text="Unix timestamp when event was created on the client.",
     )
+
+
+class StreamEventSerializer(
+    serializers.ModelSerializer,
+):
+    referer = serializers.CharField(
+        allow_blank=True,
+    )
+
+    class Meta(CTUIDModelSerializer.Meta):
+        model = StreamEvent
+        fields = CTUIDModelSerializer.Meta.fields + [
+            "ip",
+            "path",
+            "method",
+            "status",
+            "bytes_sent",
+            "referer",
+            "user_agent",
+            "seconds_connected",
+            "time_start",
+            "time_end",
+        ]
 
 
 class ArchiveSerializer(

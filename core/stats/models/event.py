@@ -2,8 +2,12 @@ from django.db import models
 from django.db.models import F, Window
 from django.db.models.functions import Lead
 
+from base.models.mixins import CTModelMixin, CTUIDModelMixin
 
-class PlayerEventQuerySet(models.QuerySet):
+
+class PlayerEventQuerySet(
+    models.QuerySet,
+):
     def annotate_times_and_durations(self):
         return self.annotate(
             time_end=Window(
@@ -15,14 +19,19 @@ class PlayerEventQuerySet(models.QuerySet):
         )
 
 
-class PlayerEventManager(models.Manager):
+class PlayerEventManager(
+    models.Manager,
+):
     def get_queryset(self):
         return PlayerEventQuerySet(
             self.model, using=self._db
         ).annotate_times_and_durations()
 
 
-class PlayerEvent(models.Model):
+class PlayerEvent(
+    CTModelMixin,
+    models.Model,
+):
     time = models.DateTimeField(
         db_index=True,
     )
@@ -58,4 +67,63 @@ class PlayerEvent(models.Model):
         verbose_name = "Player event"
         ordering = ["time"]
         db_table = "stats_player_event"
-        # managed = False
+
+
+class StreamEvent(
+    CTUIDModelMixin,
+    models.Model,
+):
+    ip = models.GenericIPAddressField(
+        null=True,
+        blank=True,
+        db_index=True,
+    )
+    path = models.CharField(
+        verbose_name="mountpoint",
+        max_length=250,
+        blank=True,
+        default="",
+        db_index=True,
+    )
+    method = models.CharField(
+        verbose_name="request method",
+        max_length=6,
+        blank=True,
+        default="",
+        db_index=True,
+    )
+    status = models.PositiveIntegerField(
+        blank=True,
+        default="",
+        db_index=True,
+    )
+    bytes_sent = models.PositiveIntegerField(
+        default=0,
+    )
+    referer = models.CharField(
+        max_length=500,
+        blank=True,
+        default="",
+    )
+    user_agent = models.CharField(
+        max_length=500,
+        blank=True,
+        default="",
+    )
+    seconds_connected = models.PositiveIntegerField(
+        "duration",
+        default=0,
+        db_index=True,
+    )
+    time_start = models.DateTimeField(
+        db_index=True,
+    )
+    time_end = models.DateTimeField(
+        db_index=True,
+    )
+
+    class Meta:
+        app_label = "stats"
+        verbose_name = "Stream event"
+        ordering = ["time_start"]
+        db_table = "stats_stream_event"

@@ -15,6 +15,9 @@ class CustomTokenAdmin(TokenAdmin):
         "user",
         "key",
     ]
+    readonly_fields = [
+        "key",
+    ]
     search_fields = [
         "key",
         "user__uid",

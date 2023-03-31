@@ -366,4 +366,5 @@ class GlobalPermissions(models.Model):
             # stats
             ("api_stats_view", "API - Stats view"),
             ("api_stats_webhooks", "API - Stats webhooks"),
+            ("api_stats_event_create", "API - Stats create events"),
         )
