@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.utils.html import mark_safe
 
 from stats.models import PlayerEvent, StreamEvent
+from ua_parser import user_agent_parser
 
 
 @admin.register(PlayerEvent)
@@ -14,7 +16,7 @@ class PlayerEventAdmin(
         "obj_key",
         "source",
         "user_identity",
-        # "device_key",
+        "device_key",
     ]
     list_filter = [
         "time",
@@ -46,7 +48,7 @@ class StreamEventAdmin(
         "path",
         "bytes_sent",
         "referer",
-        "user_agent",
+        "user_agent_display",
     ]
     list_filter = [
         "time_start",
@@ -61,6 +63,19 @@ class StreamEventAdmin(
         "user_agent",
     ]
 
-    # @admin.display(description="Time")
-    # def time_display(self, obj):
-    #     return obj.time_start.strftime("%d-%m-%y %H:%M:%S")
+    @admin.display(description="UA")
+    def user_agent_display(self, obj):
+        parsed = user_agent_parser.Parse(obj.user_agent)
+        if parsed.get("user_agent", {}).get("family") == "Other":
+            return obj.user_agent[:40]
+        html = """
+        <div>{browser} {browser_version}<div>
+        <dim>{brand} {os} {os_version}<dim>
+        """.format(
+            browser=parsed.get("user_agent", {}).get("family", "-") or "-",
+            browser_version=parsed.get("user_agent", {}).get("major", "-") or "-",
+            os=parsed.get("os", {}).get("family", "-") or "-",
+            os_version=parsed.get("os", {}).get("major", "-") or "",
+            brand=parsed.get("device", {}).get("family", "-") or "-",
+        )
+        return mark_safe(html)

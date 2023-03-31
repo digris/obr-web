@@ -55,6 +55,7 @@ progress = "^1.6"
 python-dateutil = "^2.8.2"
 django-tree-queries = "^0.14.0"
 google-cloud-bigquery = "^3.9.0"
+ua-parser = "^0.16.1"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "*"
