@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "obr-web"
-version = "0.0.101"
+version = "0.0.102"
 description = "openbroadcast.ch - next"
 authors = ["Jonas Ohrstrom <jonas.ohrstrom@digris.ch>"]
 license = "MIT"

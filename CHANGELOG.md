@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.102 (2023-03-31)
+### Fix
+* Improve stream-event admin ([`554a524`](https://github.com/digris/obr-web/commit/554a524abd73408a78140ba2952e4283e1caf458))
+
 ## v0.0.101 (2023-03-31)
 ### Fix
 * Ported "stream-events" integration from legacy app ([`f2d7659`](https://github.com/digris/obr-web/commit/f2d76593b53e60963805f80a1450ce3de4469054))
