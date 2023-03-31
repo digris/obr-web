@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.101 (2023-03-31)
+### Fix
+* Ported "stream-events" integration from legacy app ([`f2d7659`](https://github.com/digris/obr-web/commit/f2d76593b53e60963805f80a1450ce3de4469054))
+
 ## v0.0.100 (2023-03-29)
 ### Fix
 * Add player initial live-latency ([`3d879e2`](https://github.com/digris/obr-web/commit/3d879e2b12b18699d52fc443aa749e57c583968d))
