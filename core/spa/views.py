@@ -42,4 +42,4 @@ class SPAIndexView(TemplateView):
 
 class SPA404View(View):
     def dispatch(self, request, *args, **kwargs):
-        raise Http404()
+        raise Http404
