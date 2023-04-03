@@ -21,7 +21,7 @@ def suppress_auto_now(model, field_names):
     fields_state = {}
     for field_name in field_names:
         # pylint: disable=protected-access
-        field = model._meta.get_field(field_name)
+        field = model._meta.get_field(field_name)  # NOQA: SLF001
         fields_state[field] = {
             "auto_now": field.auto_now,
             "auto_now_add": field.auto_now_add,

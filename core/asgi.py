@@ -31,7 +31,7 @@ class PatchedASGIHandler(ASGIHandler):
             await self.send_response(error_response, send)
             return
         response = await self.get_response_async(request)
-        response._handler_class = self.__class__
+        response._handler_class = self.__class__  # NOQA: SLF001
         if isinstance(response, FileResponse):
             response.block_size = self.chunk_size
         await self.send_response(response, send)

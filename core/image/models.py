@@ -111,7 +111,7 @@ def image_pre_save(sender, instance=None, **kwargs):
         return
 
     # pylint: disable=protected-access
-    if instance.file and instance.file.name and instance.file._file:
+    if instance.file and instance.file.name and instance.file._file:  # NOQA: SLF001
         instance.filename = instance.file.name
 
     if instance.file:

@@ -240,7 +240,7 @@ class UserAdmin(AuthUserAdmin):
 
         if obj.rated_items.count():
             # pylint: disable=protected-access
-            obj.rated_items.all()._raw_delete(obj.rated_items.db)
+            obj.rated_items.all()._raw_delete(obj.rated_items.db)  # NOQA: SLF001
 
         return super().delete_model(request, obj)
 
