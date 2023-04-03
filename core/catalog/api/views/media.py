@@ -86,9 +86,8 @@ class MediaFilter(
                         ),
                     )
                     return qs.order_by("-user_rating_time_rated")
-                else:
-                    # NOTE: not implemented for anonymous users
-                    return qs.order_by(DEFAULT_ORDER_BY)
+
+                return qs.order_by(DEFAULT_ORDER_BY)
 
         except AttributeError:
             pass

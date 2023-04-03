@@ -15,14 +15,14 @@ def add_user_to_team(strategy, user=None, *args, **kwargs):
     """
 
     if not (user and user.email):
-        return None
+        return
 
     if (
         WHITELISTED_DOMAINS
         and user.email.split("@")[-1].strip() not in WHITELISTED_DOMAINS
     ):
         log.warning(f"authentication denied. {user.email} not in allowed domains")
-        return None
+        return
 
     changed = False
 
@@ -34,4 +34,4 @@ def add_user_to_team(strategy, user=None, *args, **kwargs):
     if changed:
         strategy.storage.user.changed(user)
 
-    return None
+    return

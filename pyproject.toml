@@ -179,6 +179,7 @@ extend-ignore = [
     "FBT002", # NOTE: check possible implications
     "A002",
     "A003",
+    "RET504",
 ]
 
 # Same as Black.

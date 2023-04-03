@@ -119,7 +119,7 @@ def sync_user_votes(user):  # NOQA: C901
         data = api_client.get("votes/", params=params)
     except api_client.APIClientError as e:
         logger.error(f"unable to get user: {user} - {e}")
-        return None
+        return
 
     votes_to_create = []
     for vote in data.get("results", []):
@@ -187,7 +187,7 @@ def sync_user_votes(user):  # NOQA: C901
         with suppress_auto_now(Vote, ["created", "updated"]):
             Vote.objects.bulk_create(votes_to_create)
 
-    return None
+    return
 
 
 # pylint: disable=unused-argument
