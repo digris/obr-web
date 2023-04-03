@@ -7,7 +7,7 @@ from slack_sdk.webhook import WebhookClient
 
 logger = logging.getLogger(__name__)
 
-RATING_WEBHOOK = getattr(settings, "SLACK_RATING_WEBHOOK")
+RATING_WEBHOOK = settings.SLACK_RATING_WEBHOOK
 
 
 CHANNELS = {

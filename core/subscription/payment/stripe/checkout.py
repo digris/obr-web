@@ -10,8 +10,8 @@ from base.utils.urls import get_absolute_url
 
 logger = logging.getLogger(__name__)
 
-PUBLISHABLE_KEY = getattr(settings, "STRIPE_PUBLISHABLE_KEY")
-SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY")
+PUBLISHABLE_KEY = settings.STRIPE_PUBLISHABLE_KEY
+SECRET_KEY = settings.STRIPE_SECRET_KEY
 
 
 def create_checkout_session(request, user, items, payment):

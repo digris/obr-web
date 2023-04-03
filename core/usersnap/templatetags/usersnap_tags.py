@@ -1,7 +1,7 @@
 from django import template
 from django.conf import settings
 
-API_KEY = getattr(settings, "USERSNAP_API_KEY")
+API_KEY = settings.USERSNAP_API_KEY
 
 
 register = template.Library()

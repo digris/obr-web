@@ -5,8 +5,8 @@ from django.conf import settings
 
 import requests
 
-SYNC_ENDPOINT = getattr(settings, "OBP_SYNC_ENDPOINT")
-SYNC_TOKEN = getattr(settings, "OBP_SYNC_TOKEN")
+SYNC_ENDPOINT = settings.OBP_SYNC_ENDPOINT
+SYNC_TOKEN = settings.OBP_SYNC_TOKEN
 SYNC_DEBUG_REQUESTS = getattr(settings, "OBP_SYNC_DEBUG_REQUESTS", False)
 
 HEADERS = {

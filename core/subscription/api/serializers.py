@@ -6,7 +6,7 @@ from api_extra.serializers import CTUIDModelSerializer
 from rest_framework import serializers
 from subscription.models import Subscription, Voucher
 
-SITE_URL = getattr(settings, "SITE_URL")
+SITE_URL = settings.SITE_URL
 
 logger = logging.getLogger(__name__)
 

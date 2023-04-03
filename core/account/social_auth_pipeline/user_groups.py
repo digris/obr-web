@@ -28,7 +28,7 @@ def add_user_to_team(strategy, user=None, *args, **kwargs):
 
     if WHITELISTED_DOMAINS and not user.is_staff:
         log.info(f"adding {user} to staff")
-        setattr(user, "is_staff", True)
+        user.is_staff = True
         changed = True
 
     if changed:
