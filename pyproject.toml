@@ -154,10 +154,10 @@ select = [
     "TID", # flake8-tidy-imports
     "ARG", # flake8-unused-arguments
 #    "PTH", # flake8-use-pathlib
-#    "ERA",
+    "ERA",
 #    "PLR",
-#    "PLW",
-#    "TRY", # tryceratops
+    "PLW",
+    "TRY", # tryceratops
 ]
 
 ignore = []
@@ -182,6 +182,8 @@ extend-ignore = [
     "RET504",
     "TID252", # NOTE: check possible implications
     "ARG", # NOTE: migrate # pylint: disable=unused-argument
+    "PLW2901", # NOTE: check possible implications
+    "TRY", # NOTE: check possible implications
 ]
 
 # Same as Black.

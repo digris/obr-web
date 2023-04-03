@@ -31,7 +31,7 @@ jobs:
       - run: black ./core/ --check
       - run: pip install poetry==1.2.2
       - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
-      - run: poetry run ruff check core/
+      - run: poetry run ruff check --ignore DJ core/
 
   test-be:
     runs-on: ubuntu-latest
