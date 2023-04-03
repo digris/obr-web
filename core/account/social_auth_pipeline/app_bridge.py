@@ -1,4 +1,3 @@
-from django.urls import reverse
 
 
 # pylint: disable=unused-argument,keyword-arg-before-vararg

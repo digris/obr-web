@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from adminsortable2.admin import (
     SortableAdminBase,
-    SortableAdminMixin,
     SortableInlineAdminMixin,
 )
 from catalog.models.playlist import Playlist, PlaylistImage, Series

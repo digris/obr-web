@@ -7,7 +7,6 @@ from catalog.api import serializers
 from catalog.models import Playlist
 from django_filters import rest_framework as filters
 from drf_spectacular.utils import OpenApiParameter, extend_schema
-from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError

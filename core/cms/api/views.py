@@ -25,7 +25,7 @@ class PageView(APIView):
             return Response(
                 serializer.data,
             )
-        except Page.DoesNotExist as e:
+        except Page.DoesNotExist:
             pass
 
         try:
@@ -34,7 +34,7 @@ class PageView(APIView):
             return Response(
                 serializer.data,
             )
-        except StaticPageDoesNotExist as e:
+        except StaticPageDoesNotExist:
             pass
 
         raise Http404("Page does not exist")
