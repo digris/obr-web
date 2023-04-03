@@ -58,11 +58,6 @@ def api_root(request, format=None):
                 "api:base:settings",
                 request=request,
             ),
-            # Core API
-            # "account/": reverse(
-            #     "api:account:api-root",
-            #     request=request,
-            # ),
             "broadcast/": reverse(
                 "api:broadcast:api-root",
                 request=request,

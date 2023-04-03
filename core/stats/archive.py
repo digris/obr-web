@@ -75,12 +75,6 @@ def archive_emissions(database="default"):
 
     broadcast_emission_qs.delete()
 
-    # emission_qs = Emission.objects.using(
-    #     alias=database,
-    # ).filter(id__in=emission_archive_ids,)
-    # for emission in emission_qs:
-    #     emission.delete()
-
     return len(emission_archive_ids)
 
 
@@ -156,9 +150,5 @@ def archive_airplays(database="default"):
             continue
 
     # for airplay in airplay_qs:
-    #     try:
-    #         airplay.delete()
-    #     except transaction.TransactionManagementError as e:
-    #         logger.warning(f"unable to delete {airplay}: {e}")
 
     return len(airplay_archive_ids)

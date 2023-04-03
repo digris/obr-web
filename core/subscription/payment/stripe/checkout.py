@@ -52,18 +52,12 @@ def create_checkout_session(request, user, items, payment):
                         "metadata": {
                             "sku": item["title"],
                         },
-                        # "images": [],
                     },
                     "unit_amount": int(item["price"] * Decimal(100)),
-                    # "recurring": {
-                    #     "interval": "month",
-                    # },
                 },
                 "quantity": 1,
             },
         )
-
-    # sc = stripe.Charge.create()
 
     metadata = {
         "user_uid": user_uid,

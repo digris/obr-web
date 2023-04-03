@@ -24,9 +24,6 @@ class ReleaseSerializer(
         read_only=True,
         allow_null=True,
     )
-    # num_media = serializers.IntegerField(
-    #     read_only=True,
-    # )
     is_new = serializers.BooleanField(
         read_only=True,
     )

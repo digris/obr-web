@@ -36,14 +36,12 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     )
 
     time_start = models.DateTimeField(
-        # editable=False,
         db_index=True,
         null=True,
         blank=False,
     )
 
     time_end = models.DateTimeField(
-        # editable=False,
         db_index=True,
         null=True,
         blank=False,
@@ -68,7 +66,6 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
 
     def __str__(self):
         # if self.playlist and self.playlist.name:
-        #     return str(self.playlist.name)
         if self.playlist:
             return str(self.playlist)
         return f"<Emission> {self.uid}"

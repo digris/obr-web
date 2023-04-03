@@ -3,27 +3,12 @@ from catalog.models import Mood
 from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
 
-# class RayColorsSerializer(serializers.Serializer):
-#     inner = serializers.ListField(
-#         child=RGBValueField(),
-#         min_length=3,
-#         max_length=3,
-#         read_only=True,
-#     )
-#     outer = serializers.ListField(
-#         child=RGBValueField(),
-#         min_length=3,
-#         max_length=3,
-#         read_only=True,
-#     )
-
 
 class RaySerializer(serializers.Serializer):
     count = serializers.IntegerField()
     spread = serializers.FloatField()
     width = serializers.FloatField()
     length = serializers.IntegerField()
-    # colors = RayColorsSerializer()
     colors = serializers.JSONField()
 
 

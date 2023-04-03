@@ -16,11 +16,6 @@ class BaseImageSerializer(
         help_text='"Internal" storage backend URL',
     )
 
-    # ratio = serializers.IntegerField(
-    #     read_only=True,
-    #     help_text="Aspect ratio - e.g. `1.78` (16/9)",
-    # )
-
     rgb = serializers.ListField(
         child=RGBValueField(),
         min_length=3,

@@ -5,11 +5,6 @@ from .stripe import urls as stripe_urls
 
 app_name = "subscription"
 urlpatterns = [
-    # path(
-    #     "",
-    #     views.SubscriptionView.as_view(),
-    #     name="subscription",
-    # ),
     path(
         "plan/",
         views.PlanView.as_view(),

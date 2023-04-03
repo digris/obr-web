@@ -31,8 +31,6 @@ def send_login_email(email):
     login_url = settings.SITE_URL + f"/account/email-login/{quoted_signed_email}/"
 
     from_email = "open broadcast radio <no-reply@openbroadcast.ch>"
-    # from_email = "open broadcast radio <jonas.ohrstrom@digris.ch>"
-    # to_email = "Peter Muster <ohrstrom@gmail.com>"
     to_email = email
 
     context = {

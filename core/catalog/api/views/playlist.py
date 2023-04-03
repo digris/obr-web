@@ -56,18 +56,6 @@ class PlaylistFilter(filters.FilterSet):
         qs = queryset.filter(**query)
         return qs
 
-    # # pylint: disable=unused-argument
-    # def obj_key_filter(self, queryset, name, value):
-    #     obj_ct, obj_uid = value.split(":")
-    #     # TODO: implement in a better / real way
-    #     ct = obj_ct[8:]
-    #     if ct != "media":
-    #         ct = ct + "s"
-    #     query = {
-    #         f"{ct}__uid": obj_uid,
-    #     }
-    #     return queryset.filter(**query)
-
     # pylint: disable=unused-argument
     def user_rating_filter(self, queryset, name, value):
         query = {
@@ -167,12 +155,8 @@ class PlaylistViewSet(
                     emissions__time_start__lte=Now(),
                 ),
             ),
-            # num_emissions=Count(
             #     "emissions",
-            #     filter=Q(
-            #         emissions__time_start__lte=Now(),
             #     ),
-            #     distinct=True,
             # ),
         )
 

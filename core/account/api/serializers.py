@@ -266,7 +266,6 @@ class ConnectedSocialBackendSerializer(
                 "backend": str(obj.provider),
                 "association_id": obj.id,
             },
-            # args=[str(obj.provider)],
         )
 
 

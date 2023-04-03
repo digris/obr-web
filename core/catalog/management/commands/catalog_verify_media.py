@@ -65,11 +65,6 @@ class Command(BaseCommand):
 
         return has_master, has_dash, has_hls
 
-        # if not (has_master and has_dash and has_hls):
-        #     self.stdout.write(
-        #         f"{uid} - master: {has_master} - dash: {has_dash} - hls: {has_hls}"
-        #     )
-
     def handle(self, *args, **options):
         qs = (
             Master.objects.using(options["database"])
@@ -78,11 +73,6 @@ class Command(BaseCommand):
             )
             .all()
         )
-
-        # path = "/Users/ohrstrom/code/obr-web/playground/media-verify-tmp.json"
-        # with open(path, "r") as f:
-        #     uids = json.load(f)
-        # qs = qs.filter(media__uid__in=uids)
 
         if media_uids := options["media_uids"]:
             qs = qs.filter(media__uid__in=media_uids)
@@ -106,9 +96,6 @@ class Command(BaseCommand):
             )
 
         # for master in qs:
-        #     self.verify_master(master)
-
-        # print(tested)
 
         problems = [
             t

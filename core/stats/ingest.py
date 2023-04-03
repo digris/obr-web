@@ -18,8 +18,6 @@ def ingest_player_events(database="default"):
     client = bigquery.Client()
     table_id = "open-broadcast.stats.player_event"
 
-    # PlayerEvent.objects.using('sync').update(ingested=False)
-
     qs = PlayerEvent.objects.using(database).all()
 
     print(qs.count())

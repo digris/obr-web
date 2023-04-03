@@ -59,7 +59,6 @@ def fetch_emissions(start=None, end=None):
             next_page = None
 
     return sorted(emissions, key=lambda emission: emission["time_start"])
-    # return emissions
 
 
 def create_emission_objects(emission_list):
@@ -121,8 +120,6 @@ def sync_schedule(  # NOQA: C901
         end = datetime.now() + timedelta(seconds=schedule_ahead)
 
     logger.debug(f"fetch emissions from {start:%Y-%m-%d %H:%M} to {end:%Y-%m-%d %H:%M}")
-
-    # return []
 
     emission_list = fetch_emissions(start=start, end=end)
 

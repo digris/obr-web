@@ -70,12 +70,6 @@ class Command(BaseCommand):
         p_dash.join()
         p_hls.join()
 
-        # self.stdout.write(f"encode uid: {master.path}\n")
-        # dash = self.encode_format(master.path, "dash")
-        # self.stdout.write(f"dash: {dash}\n")
-        # hls = self.encode_format(master.path, "hls")
-        # self.stdout.write(f"hls: {hls}\n")
-
     def handle(self, *args, **options):
         self.api_token = options["token"]
 

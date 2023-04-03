@@ -66,7 +66,6 @@ class BaseImage(
     @cached_property
     def path(self):
         return str(self.file) if self.file else None
-        # return urlparse(self.url).path[1:]
 
     @cached_property
     def url(self):
@@ -101,7 +100,6 @@ class BaseSortableImage(BaseImage):
         abstract = True
 
     # def __str__(self):
-    #     return str(self.pk)
 
 
 @receiver(pre_save)

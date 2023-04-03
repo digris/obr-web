@@ -22,12 +22,10 @@ def sync_editor(editor, skip_images=False, **kwargs):
     update = {
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
         "display_name": data.get("name").strip(),
-        # "description": data.get("description"),
     }
 
     type(editor).objects.filter(id=editor.id).update(**update)
 
-    # update_relations(editor, data.get("relations", []))
     update_tags(editor, data.get("tags", []))
 
     if not skip_images:

@@ -119,14 +119,10 @@ class PlaylistSerializer(
     )
     user_rating_time_rated = serializers.DateTimeField(
         read_only=True,
-        # allow_null=True,
     )
     num_media = serializers.IntegerField(
         read_only=True,
     )
-    # num_emissions = serializers.IntegerField(
-    #     read_only=True,
-    # )
     user_rating = serializers.IntegerField(
         read_only=True,
         allow_null=True,
@@ -137,7 +133,6 @@ class PlaylistSerializer(
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
-        # ref_name = "CatalogPlaylistSerializer"
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "name",
@@ -153,7 +148,6 @@ class PlaylistSerializer(
             "media_set": (
                 PlaylistMediaSerializer,
                 {
-                    # "source": "airplayed_playlist_media",
                     "source": "playlist_media",
                     "many": True,
                     "read_only": True,

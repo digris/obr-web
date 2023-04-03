@@ -12,7 +12,6 @@ class TokenValidationError(Exception):
 
 
 def generate_token(num_chars=6):
-    # chars = string.ascii_uppercase + string.digits
     chars = string.ascii_uppercase
     return "".join(random.SystemRandom().choice(chars) for _ in range(num_chars))
 

@@ -225,10 +225,6 @@ class Address(
         default="",
     )
 
-    # country = CountryField(
-    #     blank=True,
-    #     null=True,
-    # )
     @property
     def country(self):
         return self.user.country

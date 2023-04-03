@@ -94,12 +94,6 @@ class CTUIDModelMixin(UIDModelMixin, CTModelMixin, models.Model):
     An abstract base class model that provides content-type & ID related methods / attributes.
     """
 
-    # @property
-    # def uid(self):
-    #     if not self.uuid:
-    #         return None
-    #     return str(self.uuid)[:8].upper()
-
     def __repr__(self):
         return f"{self.ct}:{self.uuid}"
 

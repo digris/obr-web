@@ -18,7 +18,6 @@ from rest_framework.response import Response
 from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
-# DEFAULT_ORDER_BY = "-created"
 DEFAULT_ORDER_BY = "-latest_airplay"
 ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
 
@@ -151,7 +150,6 @@ class ArtistViewSet(
 
         if q := self.request.GET.get("q", None):
             qs = get_search_qs(qs, q)
-            # qs = qs.filter(name__unaccent__icontains="castelle")
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(
@@ -195,7 +193,6 @@ class ArtistViewSet(
         except FieldError:
             pass
 
-        # mood_tags = sorted(tags.filter(type="mood")[:6], key=lambda x: x.name)
         mood_tags = []
         other_tags = sorted(tags.exclude(type="mood")[:12], key=lambda x: x.name)
 

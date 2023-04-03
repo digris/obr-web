@@ -12,7 +12,6 @@ class Command(BaseCommand):
             "--email",
             dest="email",
             type=str,
-            # action=validate_email,
             required=True,
         )
 

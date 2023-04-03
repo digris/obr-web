@@ -60,9 +60,6 @@ class MediaAdmin(admin.ModelAdmin):
         qs = qs.annotate(latest_airplay=Max("airplays__time_start"))
         return qs
 
-    # def get_ordering(self, request):
-    #     return ["-latest_airplay"]
-
     def latest_airplay(self, obj):  # pragma: no cover
         return obj.latest_airplay
 

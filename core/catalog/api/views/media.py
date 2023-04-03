@@ -177,7 +177,6 @@ class MediaViewSet(
                 ),
             )
 
-        # qs = qs.filter(latest_airplay__lte=Now())
         if not include_upcoming:
             qs = qs.filter(latest_airplay__lte=Now())
 
@@ -196,8 +195,6 @@ class MediaViewSet(
         qs = qs.filter(
             duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
         )
-
-        # qs = qs.order_by("-latest_airplay")
 
         return qs
 

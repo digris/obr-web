@@ -16,7 +16,5 @@ def social_auth_redirect(request):
         base_url = f"{request.scheme}://{request.get_host()}"
         url = f"{REDIRECTOR_URL}?signed_email={quoted_signed_email}&base_url={base_url}"
         return HttpResponseRedirect(url)
-        # login_url = f"{base_url}/account/email-login/{quoted_signed_email}/"
-        # return HttpResponseRedirect(login_url)
 
     return HttpResponseForbidden()

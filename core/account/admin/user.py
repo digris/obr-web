@@ -77,9 +77,6 @@ class AddressAdmin(admin.ModelAdmin):
         "postal_code",
         "city",
     ]
-    # list_filter = [
-    #     "country",
-    # ]
     readonly_fields = [
         "user",
     ]

@@ -11,7 +11,6 @@ from catalog.models import Artist, Media, Playlist
 # https://ogp.me/
 # https://developers.facebook.com/docs/opengraph/music/
 
-# from broadcast.models import Editor
 BASE_META = [
     ["fb:app_id", "746436298732388"],
     ["og:site_name", "open broadcast - radio"],
@@ -87,9 +86,6 @@ def get_playlist_meta(request, uid):
         ]
 
         # for artist in media.artists.all():
-        #     meta = meta + [
-        #         ["music:creator", request.build_absolute_uri(artist.get_absolute_url())],
-        #     ]
 
     return BASE_META + meta
 
@@ -222,8 +218,6 @@ def get_meta_for_request(request):
         return get_editor_meta(request, uid=uid)
 
     # if media_uid := get_media_uid(request.path):
-    #     return get_media_meta(request, uid=media_uid)
     # if playlist_uid := get_playlist_uid(request.path):
-    #     return get_playlist_meta(request, uid=playlist_uid)
 
     return get_default_meta(request)

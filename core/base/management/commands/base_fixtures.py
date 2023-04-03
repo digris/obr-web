@@ -20,15 +20,6 @@ FIXTURE_SCOPES = [
             "--natural-primary",
         ],
     },
-    # {
-    #     "key": "accounts",
-    #     "include": [
-    #         "account",
-    #         "social_django",
-    #     ],
-    #     "exclude": [],
-    #     "options": [],
-    # },
     {
         "key": "apps",
         "include": [

@@ -12,7 +12,4 @@ class CategoryViewSet(
     serializer_class = serializers.CategorySerializer
 
     def get_queryset(self):
-        # qs = self.queryset.prefetch_related(
-        #     'translations',
-        # )
         return self.queryset

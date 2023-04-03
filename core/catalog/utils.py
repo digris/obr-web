@@ -15,8 +15,6 @@ def get_surounding_media(media):  # pragma: no cover
         "playlist__playlist_media__media",
     )
     for playlist_media in qs_pm:
-        # print(f"# playlist: {playlist_media.playlist.name}")
-
         qs = playlist_media.playlist.playlist_media
         # TODO: implement media type
         qs = qs.exclude(

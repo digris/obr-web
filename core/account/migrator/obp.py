@@ -39,7 +39,6 @@ class OBPMigrator:
                 continue
 
             try:
-                # user = User.objects.get(Q(email=email) | Q(obp_id=obp_id))
                 user = User.objects.get(email=email)
                 logger.info(
                     f"existing account: {obp_id} - {user.obp_id} / {email} - {user.email}",
@@ -57,7 +56,6 @@ class OBPMigrator:
                 user.set_unusable_password()
                 user.save()
                 migrated_accounts.append(email)
-                # logger.info(f"new account: {email} - {obp_id}")
 
         print(f"total: {len(user_accounts)} - created: {len(migrated_accounts)}")
 

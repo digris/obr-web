@@ -168,7 +168,6 @@ class Series(
 
     def sync_data(self, *args, **kwargs):
         pass
-        # return sync_series(self, *args, **kwargs)
 
     @property
     def num_playlists(self):
@@ -240,4 +239,3 @@ class PlaylistImage(
         ordering = ["position"]
 
     # def __str__(self):
-    #     return "{}".format(self.pk)

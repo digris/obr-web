@@ -203,14 +203,12 @@ class AirplayQuerySet(models.QuerySet):
 
 class Airplay(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     time_start = models.DateTimeField(
-        # editable=False,
         db_index=True,
         null=False,
         blank=False,
     )
 
     time_end = models.DateTimeField(
-        # editable=False,
         db_index=True,
         null=False,
         blank=False,

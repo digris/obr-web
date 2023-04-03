@@ -55,10 +55,6 @@ class UserView(
     def get(request):
         if request.user.is_authenticated:
             # NOTE: when desired behaviour is clear move to appropriate place
-            # if hasattr(request.user, "address") and not request.user.address.country:
-            #     logger.info(f'set user address country to {request.geolocation_country}')
-            #     request.user.address.country = request.geolocation_country
-            #     request.user.address.save()
 
             serializer = serializers.UserSerializer(
                 request.user,
@@ -374,7 +370,6 @@ class SignedEmailLoginView(
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # user, user_created = User.objects.get_or_create(email=email)
         user_created = False
         try:
             user = User.objects.get(email=email)
@@ -424,7 +419,6 @@ class SignedLoginCredentialsView(
             200: serializers.SignedLoginCredentialsSerializer,
         },
         operation_id="signed_login_credentials",
-        # auth=[],
         description="Provides credentials for password-less authentication",
         tags=["authentication"],
     )
@@ -620,7 +614,6 @@ class AddressUpdateView(
             # TODO: implement actual geoip based country
             address = Address(
                 user=request.user,
-                # country="CH",
             )
             address.save()
 
@@ -673,7 +666,6 @@ class SocialBackendListView(
     )
     # pylint: disable=unused-argument
     def get(request, *args, **kwargs):
-        # logger.debug("headers", request.headers)
         backends = social_backends.get_backends_for_user(request.user)
 
         serializer = serializers.SocialBackendsSerializer(

@@ -4,7 +4,6 @@ from django.utils.safestring import mark_safe
 from .utils import get_admin_inline_image
 
 # sortable disabled for the moment. (wait for django 4 support)
-# from adminsortable2.admin import SortableInlineAdminMixin
 
 
 class SortableImageInlineMixin(
@@ -25,10 +24,6 @@ class SortableImageInlineMixin(
         "color_display",
         "position",
     ]
-
-    # formfield_overrides = {
-    #     models.ImageField: {"widget": ReadOnlyImageInput},
-    # }
 
     @admin.display(
         description="Image",

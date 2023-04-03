@@ -22,7 +22,6 @@ def src_set_as_json(image, kind=None, ratio=None):
         return []
 
     # ratio is in format "16:9" as it is not (easily) possible to pass fractions from templates
-    # templates, e.g. ratio=16/9
 
     # ugly...
     if not ratio and kind and ":" in kind:

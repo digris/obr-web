@@ -14,10 +14,6 @@ def get_user_details(  # NOQA: C901
     request = strategy.request
     changed = False
 
-    # # TODO: move to separate pipeline
-    # if strategy.session_get('source') == "app":
-    #     strategy.session_set("next", "/proto/app-bridge/")
-
     if backend.name == "google-oauth2":
         if not user.first_name and "given_name" in response:
             user.first_name = response["given_name"]

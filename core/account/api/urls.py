@@ -2,8 +2,6 @@ from django.urls import path
 
 from . import views
 
-# router = routers.DefaultRouter()
-# router.register(r"users", views.UserViewSet)
 
 app_name = "account"
 urlpatterns = [

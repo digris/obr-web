@@ -55,6 +55,3 @@ class Command(BaseCommand):
                 emails=emails,
                 overwrite=options["overwrite"],
             )
-
-        # num_migrated = archive.archive_airplays(database=options["database"],)
-        # self.stdout.write(f"migrated {num_migrated} accounts")

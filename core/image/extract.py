@@ -13,7 +13,6 @@ PngImagePlugin.MAX_TEXT_CHUNK = 4 * (1024**2)
 
 def read_as_image(file):
     image = Image.open(file)
-    # fp.close()
     return image
 
 

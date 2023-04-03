@@ -31,7 +31,6 @@ class SubscriptionOptionSerializer(
     message = serializers.CharField(
         read_only=True,
     )
-    # options = serializers.ListSerializer(read_only=True,)  # NOTE: add options schema
 
 
 class SubscriptionSerializer(

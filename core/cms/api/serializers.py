@@ -67,6 +67,5 @@ class StaticPageSerializer(
         read_only=True,
     )
     sections = serializers.JSONField(
-        # many=True,
         read_only=True,
     )

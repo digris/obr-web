@@ -17,8 +17,6 @@ class EmissionPlaylistSerializer(
         lookup_field="uid",
     )
 
-    # image = ImageSerializer(read_only=True)
-
     class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
         fields = CTUIDModelSerializer.Meta.fields + [
