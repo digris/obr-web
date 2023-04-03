@@ -46,5 +46,5 @@ class SortableImageInlineMixin(
         if primary := obj.colors.get("primary"):
             c0 = " ".join([str(b) for b in primary])
             style = f"background: rgb({c0}); width:80px; height:80px;"
-            return mark_safe(f'<div style="{style}"></div>')
+            return mark_safe(f'<div style="{style}"></div>')  # NOQA: S308
         return None

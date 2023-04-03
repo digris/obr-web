@@ -3,7 +3,7 @@ import hashlib
 
 
 def get_sha1(value):
-    hashed_value = hashlib.sha1()
+    hashed_value = hashlib.sha1()  # NOQA: S324
     hashed_value.update(value.encode("ascii"))
     return hashed_value.hexdigest()
 

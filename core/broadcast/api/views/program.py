@@ -77,9 +77,6 @@ class ProgramView(GenericAPIView):
         time_from = timezone.make_aware(naive_time_from)  # now with timezone - CE(S)T)
         time_until = time_from + timedelta(seconds=60 * 60 * 24 - 1)  # 24h - 1s
 
-        if date_range := request.query_params.get("date_range"):
-            raise Exception("foo")
-
         qs = (
             self.get_emission_queryset()
             .filter(Q(time_start__gte=time_from) & Q(time_start__lte=time_until))

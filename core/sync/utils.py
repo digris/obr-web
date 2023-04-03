@@ -115,7 +115,7 @@ def update_image(
     image_path = pathlib.Path(urlparse(image_url).path)
     ext = image_path.suffix
     if not ext:
-        with urlopen(image_url) as r:
+        with urlopen(image_url) as r:  # NOQA: S310
             f_type = filetype.guess(r.read())
             ext = f".{f_type.extension}"
         logger.debug(f"detected extension: {ext} - {f_type.mime}")
@@ -124,7 +124,7 @@ def update_image(
 
     with NamedTemporaryFile(delete=True) as img_temp:
         # pylint: disable=consider-using-with
-        img_temp.write(urlopen(image_url).read())
+        img_temp.write(urlopen(image_url).read())  # NOQA: S310
         img_temp.flush()
 
         if local_image := obj.images.first():

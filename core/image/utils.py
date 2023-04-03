@@ -10,4 +10,4 @@ def get_admin_inline_image(image, width=80, height=80):
     else:
         html = f'<div style="width: {width}px; height: {height}px; background: rgba(128,128,128,0.2)"></div>'
 
-    return mark_safe(html)
+    return mark_safe(html)  # NOQA: S308

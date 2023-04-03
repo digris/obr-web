@@ -172,7 +172,7 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
             update = {
                 "encoding": encoding,
                 "size": os.path.getsize(f.name),
-                "md5_hash": hashlib.md5(f.read()).hexdigest(),
+                "md5_hash": hashlib.md5(f.read()).hexdigest(),  # NOQA: S324
             }
 
             try:

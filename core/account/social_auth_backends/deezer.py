@@ -7,10 +7,10 @@ class DeezerOAuth2(BaseOAuth2):
     name = "deezer"
     REDIRECT_STATE = False
     AUTHORIZATION_URL = "https://connect.deezer.com/oauth/auth.php"
-    ACCESS_TOKEN_URL = "https://connect.deezer.com/oauth/access_token.php"
-    ACCESS_TOKEN_METHOD = "GET"
-    REVOKE_TOKEN_URL = "https://connect.deezer.com/oauth/revoke.php"
-    REVOKE_TOKEN_METHOD = "GET"
+    ACCESS_TOKEN_URL = "https://connect.deezer.com/oauth/access_token.php"  # NOQA: S105
+    ACCESS_TOKEN_METHOD = "GET"  # NOQA: S105
+    REVOKE_TOKEN_URL = "https://connect.deezer.com/oauth/revoke.php"  # NOQA: S105
+    REVOKE_TOKEN_METHOD = "GET"  # NOQA: S105
     SCOPE_PARAMETER_NAME = "perms"
     SCOPE_SEPARATOR = ","
     DEFAULT_SCOPE = [

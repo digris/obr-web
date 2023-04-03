@@ -64,4 +64,4 @@ def extract_md5(file):
     if not fp:
         return ""
 
-    return hashlib.md5(fp.getvalue()).hexdigest()
+    return hashlib.md5(fp.getvalue()).hexdigest()  # NOQA: S324

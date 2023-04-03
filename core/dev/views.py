@@ -6,7 +6,7 @@ from electronic_mail.message import BaseMessage
 def email_login_code(request):
     from_email = "open broadcast radio <no-reply@openbroadcast.ch>"
     to_email = "Jonas Ohrstrom <ohrstrom@gmail.com>"
-    login_token = "AAA-XXX"
+    login_token = "***-***"  # NOQA: S105
     login_url = "http://example.com"
 
     context = {
