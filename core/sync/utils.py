@@ -136,7 +136,7 @@ def update_image(
 
             if local_image.md5_hash and local_image.md5_hash == remote_md5_hash:
                 logger.debug(
-                    f"image {local_image.ct}:{local_image.uid} with same md5 hash exists. skipping sync."
+                    f"image {local_image.ct}:{local_image.uid} with same md5 hash exists. skipping sync.",
                 )
                 return
 

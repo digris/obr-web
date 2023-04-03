@@ -31,7 +31,10 @@ class Page(
     models.Model,
 ):
     path = models.CharField(
-        max_length=256, db_index=True, unique=True, help_text="e.g. legal/terms"
+        max_length=256,
+        db_index=True,
+        unique=True,
+        help_text="e.g. legal/terms",
     )
     title = models.CharField(
         max_length=64,

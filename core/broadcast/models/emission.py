@@ -138,7 +138,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                     "time_start": time_start,
                     "time_end": time_end,
                     "emission": self,
-                }
+                },
             )
 
             time_offset += playlist_media.effective_duration

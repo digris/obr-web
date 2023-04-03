@@ -66,7 +66,7 @@ def get(path, params=None, raw=False):
                     "data": result,
                 },
                 indent=2,
-            )
+            ),
         )
 
     return result

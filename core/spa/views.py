@@ -34,7 +34,7 @@ class SPAIndexView(TemplateView):
         context.update(
             {
                 "color": color,
-            }
+            },
         )
 
         return context

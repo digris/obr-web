@@ -42,7 +42,7 @@ class OBPMigrator:
                 # user = User.objects.get(Q(email=email) | Q(obp_id=obp_id))
                 user = User.objects.get(email=email)
                 logger.info(
-                    f"existing account: {obp_id} - {user.obp_id} / {email} - {user.email}"
+                    f"existing account: {obp_id} - {user.obp_id} / {email} - {user.email}",
                 )
             except User.DoesNotExist:
                 user = User(
@@ -75,7 +75,8 @@ class OBPMigrator:
 
             try:
                 user, created = LegacyUser.objects.get_or_create(
-                    email=email, obp_id=obp_id
+                    email=email,
+                    obp_id=obp_id,
                 )
             except IntegrityError as e:
                 logger.info(f"error creating user: {e}")

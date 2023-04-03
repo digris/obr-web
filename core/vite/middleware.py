@@ -3,7 +3,9 @@ import logging
 from django.conf import settings
 
 PROXIED_HEADER = "HTTP_" + getattr(
-    settings, "VITE_PROXIED_HEADER", "X-VITE-PROXIED"
+    settings,
+    "VITE_PROXIED_HEADER",
+    "X-VITE-PROXIED",
 ).replace("-", "_")
 
 log = logging.getLogger(__name__)

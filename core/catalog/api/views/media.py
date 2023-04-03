@@ -102,7 +102,7 @@ def get_search_qs(qs, q):
     qs = qs.filter(
         Q(name__icontains=q)
         | Q(artists__name__icontains=q)
-        | Q(releases__name__icontains=q)
+        | Q(releases__name__icontains=q),
     )
     return qs
 
@@ -152,7 +152,7 @@ class MediaViewSet(
                 latest_airplay=Max(
                     "airplays__time_start",
                     filter=Q(
-                        airplays__time_start__lte=Now()
+                        airplays__time_start__lte=Now(),
                     ),  # NOTE: check for implications
                 ),
                 num_airplays=Count(
@@ -165,7 +165,8 @@ class MediaViewSet(
         if self.request.user.is_authenticated:
             qs = qs.annotate(
                 user_rating=Max(
-                    "votes__value", filter=Q(votes__user=self.request.user)
+                    "votes__value",
+                    filter=Q(votes__user=self.request.user),
                 ),
             )
         # annotate with anonymous user 'identity'
@@ -183,7 +184,8 @@ class MediaViewSet(
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(
-            "tags[]", self.request.GET.getlist("tags", [])
+            "tags[]",
+            self.request.GET.getlist("tags", []),
         )
 
         if q := self.request.GET.get("q", None):
@@ -303,7 +305,7 @@ class MediaViewSet(
                     "cue_out": playlist_media.cue_out,
                     "fade_in": playlist_media.fade_in,
                     "fade_out": playlist_media.fade_out,
-                }
+                },
             )
 
         # pylint: disable=consider-using-dict-comprehension
@@ -355,7 +357,7 @@ class MediaViewSet(
                     "type": t.type,
                     "name": t.name,
                     "count": t.num_times,
-                }
+                },
             )
 
         return Response(data)

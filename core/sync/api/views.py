@@ -42,7 +42,7 @@ class SyncScheduleView(
                     date_start=date_start,
                     date_end=date_end,
                     force=True,
-                )
+                ),
             )
 
             response = {

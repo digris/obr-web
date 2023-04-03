@@ -23,7 +23,8 @@ class PatchedASGIHandler(ASGIHandler):
             return
         set_script_prefix(self.get_script_prefix(scope))
         await sync_to_async(signals.request_started.send, thread_sensitive=True)(
-            sender=self.__class__, scope=scope
+            sender=self.__class__,
+            scope=scope,
         )
         request, error_response = self.create_request(scope, body_file)
         if request is None:

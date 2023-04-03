@@ -46,7 +46,8 @@ class SettingsView(APIView):
         serializer = serializers.SettingsSerializer(
             {
                 "IMAGE_RESIZER_ENDPOINT": get_absolute_url(
-                    request, settings.IMAGE_RESIZER_ENDPOINT
+                    request,
+                    settings.IMAGE_RESIZER_ENDPOINT,
                 ),
                 # "STREAM_ENDPOINTS": settings.STREAM_ENDPOINTS,
                 "STREAM_ENDPOINTS": stream_endpoints,

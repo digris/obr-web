@@ -47,7 +47,7 @@ def get_options(user):
         option.update(
             {
                 "until_date": from_date + timedelta(days=option["num_days"]),
-            }
+            },
         )
         yield option
 

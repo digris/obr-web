@@ -35,7 +35,7 @@ class DeezerOAuth2(BaseOAuth2):
         kwargs["params"].update(
             {
                 "output": "json",
-            }
+            },
         )
         return self.get_json(*args, **kwargs)
 

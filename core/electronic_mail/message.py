@@ -30,7 +30,7 @@ class BaseMessage:
             {
                 "STATIC_URL": self.static_url,
                 "SITE_URL": self.site_url,
-            }
+            },
         )
         self.from_email = from_email
         self.to_email = [to_email]
@@ -52,7 +52,7 @@ class BaseMessage:
             try:
                 response = sg.send(message)
                 logger.debug(
-                    f"sent message to {self.to_email} - status code: {response.status_code}"
+                    f"sent message to {self.to_email} - status code: {response.status_code}",
                 )
                 return response
             except SendGridException as e:

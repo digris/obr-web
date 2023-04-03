@@ -36,5 +36,5 @@ class StaticPage:
         return [
             {
                 "body": self.body,
-            }
+            },
         ]

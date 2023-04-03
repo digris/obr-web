@@ -23,7 +23,7 @@ class OBRMigrator:
             assert self.token
         except AssertionError as e:
             raise ImproperlyConfigured(
-                "missing OBR_SYNC_ENDPOINT and / or OBR_SYNC_TOKEN"
+                "missing OBR_SYNC_ENDPOINT and / or OBR_SYNC_TOKEN",
             ) from e
 
         self.headers = {
@@ -59,7 +59,7 @@ class OBRMigrator:
             try:
                 user = User.objects.get(email=user_account["email"])
                 logger.info(
-                    f"existing account: {email} - overwrite: {'yes' if overwrite else 'no'}"
+                    f"existing account: {email} - overwrite: {'yes' if overwrite else 'no'}",
                 )
                 update = {
                     "date_joined": date_joined,
@@ -71,7 +71,7 @@ class OBRMigrator:
                             "last_name": last_name,
                             "obp_id": obp_id,
                             "migration_source": MigrationSource.OBR,
-                        }
+                        },
                     )
 
                 User.objects.filter(id=user.id).update(**update)

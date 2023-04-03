@@ -132,6 +132,6 @@ def image_pre_delete(sender, instance, **kwargs):
         return
 
     try:
-        instance.file.delete(False)
-    except Exception:  # NOQA: S110
+        instance.file.delete(False)  # NOQA: FBT003
+    except Exception:  # NOQA
         pass

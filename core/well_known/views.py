@@ -21,24 +21,8 @@ def apple_app_site_association(request):
                             "NOT /app-bridge/social-auth-redirect/*",
                             "*",
                         ],
-                        # "components": [
-                        #     {
-                        #         "/": "/social/*",
-                        #         "exclude": True,
-                        #         "comment": "OAuth login flow must be started in the os browser",
-                        #     },
-                        #     {
-                        #         "/": "/app-bridge/social-auth-redirect/*",
-                        #         "exclude": True,
-                        #         "comment": "Auth redirect to be completed in the os browser",
-                        #     },
-                        #     {
-                        #         "/": "/*",
-                        #         "comment": "Matches any URL with a path that starts with /.",
-                        #     },
-                        # ],
-                    }
+                    },
                 ],
-            }
-        }
+            },
+        },
     )

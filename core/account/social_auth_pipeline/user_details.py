@@ -1,5 +1,13 @@
 # pylint: disable=unused-argument,keyword-arg-before-vararg
-def get_user_details(backend, strategy, details, response, user=None, *args, **kwargs):  # NOQA: C901
+def get_user_details(
+    backend,
+    strategy,
+    details,
+    response,
+    user=None,
+    *args,
+    **kwargs,
+):  # NOQA: C901
     if not user:
         return
 

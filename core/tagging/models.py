@@ -46,7 +46,7 @@ class Tag(
         return cls.objects.filter(
             pk__in=TaggedItem.objects.filter(content_type=ct, object_id__in=queryset)
             .values_list("tag", flat=True)
-            .distinct()
+            .distinct(),
         )
 
 

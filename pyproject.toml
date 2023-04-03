@@ -176,6 +176,9 @@ extend-exclude = [
 extend-ignore = [
     "E501",
     "S101", # Use of `assert` detected
+    "FBT002", # NOTE: check possible implications
+    "A002",
+    "A003",
 ]
 
 # Same as Black.

@@ -155,7 +155,8 @@ class ArtistViewSet(
 
         # tag handling (filter seems to not support `tags[]=***`)
         tag_uids = self.request.GET.getlist(
-            "tags[]", self.request.GET.getlist("tags", [])
+            "tags[]",
+            self.request.GET.getlist("tags", []),
         )
 
         for uid in tag_uids:
@@ -207,7 +208,7 @@ class ArtistViewSet(
                     "type": t.type,
                     "name": t.name,
                     "count": t.num_times,
-                }
+                },
             )
 
         return Response(data)

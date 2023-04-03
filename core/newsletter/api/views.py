@@ -63,7 +63,8 @@ class NewsletterView(APIView):
         for uid in newsletter_uids:
             if newsletter := Newsletter.objects.get(uid=uid):
                 Subscription.objects.get_or_create(
-                    newsletter=newsletter, user=request.user
+                    newsletter=newsletter,
+                    user=request.user,
                 )
 
         Subscription.objects.exclude(newsletter__uid__in=newsletter_uids).delete()

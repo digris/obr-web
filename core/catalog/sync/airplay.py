@@ -42,7 +42,7 @@ def sync_airplays(time_start=None, time_end=None):
     )
 
     logger.info(
-        f"sync {emission_qs.count()} emissions - delete {airplay_qs.count()} airplays"
+        f"sync {emission_qs.count()} emissions - delete {airplay_qs.count()} airplays",
     )
 
     airplay_qs.delete()
@@ -57,7 +57,7 @@ def sync_airplays(time_start=None, time_end=None):
                 time_start=media["time_start"],
                 time_end=media["time_end"],
                 media=media["media"],
-            )
+            ),
         )
 
     logger.debug(f"create {len(airplay_objects)} airplays")

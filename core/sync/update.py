@@ -41,7 +41,7 @@ def update_for_qs(
     num_outdated = qs_outdated.count()
     num_updated = 0
     logger.info(
-        f"{qs.model}: limit: {limit} -  total: {qs.count()} - outdated: {num_outdated}"
+        f"{qs.model}: limit: {limit} -  total: {qs.count()} - outdated: {num_outdated}",
     )
 
     for instance in qs_outdated[0:limit]:

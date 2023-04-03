@@ -64,8 +64,8 @@ def rating_post_save(sender, instance, **kwargs):
                     "type": "image",
                     "image_url": image_url,
                     "alt_text": "Image",
-                }
-            }
+                },
+            },
         )
 
     payload = {

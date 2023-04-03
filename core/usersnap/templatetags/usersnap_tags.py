@@ -23,7 +23,7 @@ def usersnap(context):
     context.update(
         {
             "api_key": API_KEY,
-        }
+        },
     )
 
     if request.user and request.user.is_authenticated:
@@ -31,7 +31,7 @@ def usersnap(context):
             {
                 "email": request.user.email,
                 "uid": request.user.uid,
-            }
+            },
         )
 
     return context

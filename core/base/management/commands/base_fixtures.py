@@ -110,7 +110,7 @@ class Command(BaseCommand):
             call_command(*cmd)
 
             self.stdout.write(
-                self.style.SUCCESS(f'exported [{database}]: {scope["key"]}')
+                self.style.SUCCESS(f'exported [{database}]: {scope["key"]}'),
             )
 
     def import_fixtures(self, *args, **options):
@@ -132,5 +132,5 @@ class Command(BaseCommand):
             )
 
             self.stdout.write(
-                self.style.SUCCESS(f'imported [{database}]: {scope["key"]}')
+                self.style.SUCCESS(f'imported [{database}]: {scope["key"]}'),
             )

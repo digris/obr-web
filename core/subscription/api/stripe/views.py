@@ -94,7 +94,8 @@ class PaymentView(
 
         if not plan:
             return Response(
-                {"sku": ["Invalid SKU"]}, status=status.HTTP_400_BAD_REQUEST
+                {"sku": ["Invalid SKU"]},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         items = [
@@ -102,7 +103,7 @@ class PaymentView(
                 "sku": plan["sku"],
                 "title": plan["title"],
                 "price": plan["price"],
-            }
+            },
         ]
 
         if donation:
@@ -111,7 +112,7 @@ class PaymentView(
                     "sku": "OBR-D",
                     "title": "Donation",
                     "price": Decimal(abs(donation)),
-                }
+                },
             )
 
         total_amount = sum(i["price"] for i in items)
@@ -146,7 +147,7 @@ class PaymentView(
             {
                 "id": checkout_session.id,
                 "uid": payment.uid,
-            }
+            },
         )
 
 

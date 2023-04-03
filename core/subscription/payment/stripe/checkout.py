@@ -60,7 +60,7 @@ def create_checkout_session(request, user, items, payment):
                     # },
                 },
                 "quantity": 1,
-            }
+            },
         )
 
     # sc = stripe.Charge.create()

@@ -39,5 +39,5 @@ def manifest_view(request):
                     "url": "/program/",
                 },
             ],
-        }
+        },
     )

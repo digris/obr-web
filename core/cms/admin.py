@@ -19,7 +19,7 @@ class SectionAdminInline(
                     "rows": 22,
                     "cols": 80,
                 },
-            )
+            ),
         },
     }
 
@@ -52,6 +52,6 @@ class PageAdmin(
                     "rows": 6,
                     "cols": 80,
                 },
-            )
+            ),
         },
     }

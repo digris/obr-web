@@ -46,7 +46,7 @@ def sync_user_account(user):  # NOQA: C901
                 update.update(
                     {
                         "date_joined": date_joined,
-                    }
+                    },
                 )
         except TypeError:
             pass
@@ -55,14 +55,14 @@ def sync_user_account(user):  # NOQA: C901
         update.update(
             {
                 "year_of_birth": int(date_of_birth[:4]),
-            }
+            },
         )
 
     if phone := data.get("phone_mobile"):
         update.update(
             {
                 "phone": phone,
-            }
+            },
         )
 
     if gender := data.get("gender"):
@@ -74,7 +74,7 @@ def sync_user_account(user):  # NOQA: C901
         update.update(
             {
                 "gender": values.get(gender, GenderStr.UNDEFINED),
-            }
+            },
         )
 
     if country := data.get("address", {}).get("country"):
@@ -82,7 +82,7 @@ def sync_user_account(user):  # NOQA: C901
             update.update(
                 {
                     "country": country[:2].upper(),
-                }
+                },
             )
 
     User.objects.filter(id=user.id).update(**update)

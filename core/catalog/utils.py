@@ -20,7 +20,7 @@ def get_surounding_media(media):  # pragma: no cover
         qs = playlist_media.playlist.playlist_media
         # TODO: implement media type
         qs = qs.exclude(
-            Q(media__name__icontains="jingle") | Q(media__name__icontains="station")
+            Q(media__name__icontains="jingle") | Q(media__name__icontains="station"),
         )
 
         pm = qs.get(position=playlist_media.position)

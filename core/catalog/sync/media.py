@@ -114,7 +114,7 @@ def download_master(media_uuid):
         r = api_client.get(f"media/{media_uuid}/download-master/", raw=True)
     except api_client.APIClientError as e:
         raise MasterDownloadError(
-            f"unable to download master: {media_uuid} - {e}"
+            f"unable to download master: {media_uuid} - {e}",
         ) from e
 
     filename = re.findall('filename="(.+)"', r.headers["content-disposition"])[0]

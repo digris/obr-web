@@ -75,7 +75,7 @@ def api_root(request, format=None):
                 "api:faq:api-root",
                 request=request,
             ),
-        }
+        },
     )
 
 

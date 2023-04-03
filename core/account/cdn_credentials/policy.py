@@ -11,7 +11,7 @@ KEY_BASE64 = "uH2LcPhs5zzOLQsu65rtZw=="
 
 def get_signed_cookie(url_prefix, key_name, base64_key, expiration_time):
     encoded_url_prefix = base64.urlsafe_b64encode(
-        url_prefix.strip().encode("utf-8")
+        url_prefix.strip().encode("utf-8"),
     ).decode("utf-8")
     epoch = datetime.datetime.utcfromtimestamp(0)
     expiration_timestamp = int((expiration_time - epoch).total_seconds())

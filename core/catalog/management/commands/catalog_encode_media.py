@@ -56,10 +56,12 @@ class Command(BaseCommand):
         self.stdout.write(f"encode uid: {master.path}\n")
 
         p_dash = multiprocessing.Process(
-            target=self.encode_format, args=[master.path, "dash"]
+            target=self.encode_format,
+            args=[master.path, "dash"],
         )
         p_hls = multiprocessing.Process(
-            target=self.encode_format, args=[master.path, "hls"]
+            target=self.encode_format,
+            args=[master.path, "hls"],
         )
 
         p_dash.start()

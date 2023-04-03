@@ -5,7 +5,7 @@ def client_mode(request):
         ctx.update(
             {
                 "client_mode": request.client_mode,
-            }
+            },
         )
 
     return ctx

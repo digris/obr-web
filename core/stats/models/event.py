@@ -24,7 +24,8 @@ class PlayerEventManager(
 ):
     def get_queryset(self):
         return PlayerEventQuerySet(
-            self.model, using=self._db
+            self.model,
+            using=self._db,
         ).annotate_times_and_durations()
 
 

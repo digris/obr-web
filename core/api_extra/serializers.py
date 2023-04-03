@@ -7,7 +7,7 @@ from rest_framework import serializers
 @extend_schema_field(
     {
         "type": "integer",
-    }
+    },
 )
 class RGBValueField(
     serializers.IntegerField,

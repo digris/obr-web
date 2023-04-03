@@ -102,7 +102,7 @@ class Command(BaseCommand):
                     "has_dash": has_dash,
                     "has_hls": has_hls,
                     "path": master.path,
-                }
+                },
             )
 
         # for master in qs:

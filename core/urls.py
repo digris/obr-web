@@ -26,7 +26,8 @@ urlpatterns += [
     path("social/", include("social_django.urls", namespace="social")),
     path("app-bridge/", include("app_bridge.urls", namespace="app-bridge")),
     path(
-        "code/", include("subscription.urls_voucher", namespace="subscription-voucher")
+        "code/",
+        include("subscription.urls_voucher", namespace="subscription-voucher"),
     ),
     # avoid serving SPA view for admin & API
     re_path(r"^api/v1/", SPA404View.as_view()),

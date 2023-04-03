@@ -35,13 +35,13 @@ class ObjectRatingView(
             kwargs.update(
                 {
                     "user": self.request.user,
-                }
+                },
             )
         else:
             kwargs.update(
                 {
                     "user_identity": self.request.user_identity,
-                }
+                },
             )
 
         try:
@@ -80,13 +80,13 @@ class ObjectRatingView(
             kwargs.update(
                 {
                     "user": self.request.user,
-                }
+                },
             )
         else:
             kwargs.update(
                 {
                     "user_identity": self.request.user_identity,
-                }
+                },
             )
 
         return Vote.objects.create(**kwargs)

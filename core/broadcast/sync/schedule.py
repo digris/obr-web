@@ -75,7 +75,7 @@ def create_emission_objects(emission_list):
 
         verb = "created" if obj_created else "updated"
         logger.info(
-            f"{verb} emission {obj.uid}: {time_start:%Y-%m-%d %H:%M} - {time_end:%Y-%m-%d %H:%M} "
+            f"{verb} emission {obj.uid}: {time_start:%Y-%m-%d %H:%M} - {time_end:%Y-%m-%d %H:%M} ",
         )
 
         yield obj
@@ -83,7 +83,12 @@ def create_emission_objects(emission_list):
 
 # pylint: disable=unused-argument
 @monitor(monitor_slug="d0ff03b3-a710-45c1-9d50-3b404708b8fa")
-def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):  # NOQA: C901
+def sync_schedule(
+    date_start=None,
+    date_end=None,
+    force=False,
+    skip_media=False,
+):  # NOQA: C901
     if force:
         if not (date_start and date_end):
             raise Exception("required 'date_start' and 'date_end' when using 'force'")
@@ -91,7 +96,7 @@ def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False)
     else:
         try:
             latest_emission = Emission.objects.filter(
-                time_start__lte=timezone.now()
+                time_start__lte=timezone.now(),
             ).latest()
         except Emission.DoesNotExist:
             latest_emission = None
