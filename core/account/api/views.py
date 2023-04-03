@@ -33,7 +33,7 @@ class UserView(
                 location=OpenApiParameter.QUERY,
                 enum=["settings", "subscription", "address"],
                 many=True,
-                description="""Expand nested resources, multiple values separated by comma.  
+                description="""Expand nested resources, multiple values separated by comma.
                 Available options: `settings`, `address`, `subscription`""",
                 examples=[
                     OpenApiExample(
@@ -275,7 +275,7 @@ class TokenLoginView(
         },
         operation_id="token_login",
         auth=[],
-        description="""Login user by email & login token.  
+        description="""Login user by email & login token.
         Responds `200` for existing and `201` for created user.""",
         tags=["authentication"],
     )
@@ -354,7 +354,7 @@ class SignedEmailLoginView(
         },
         operation_id="signed_email_login",
         auth=[],
-        description="""Login user by signed email.  
+        description="""Login user by signed email.
         Responds `200` for existing and `201` for created user.""",
         tags=["authentication"],
     )

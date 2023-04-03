@@ -56,7 +56,7 @@ class ProgramView(GenericAPIView):
                 location=OpenApiParameter.QUERY,
                 type=OpenApiTypes.DATE,
                 pattern="YYYY-MM-DD",
-                description="""Defaults to the current date.  
+                description="""Defaults to the current date.
                 A day is considered to start at `06:00 CET`""",
             ),
         ],

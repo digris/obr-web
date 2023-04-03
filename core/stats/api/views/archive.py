@@ -17,8 +17,8 @@ class StatsArchiveView(
     @extend_schema(
         methods=["POST"],
         operation_id="stats_archive",
-        description="""Archives `Emissions` & `Air-plays`.  
-        This resource is periodically requested by GCP Cloud Scheduler.  
+        description="""Archives `Emissions` & `Air-plays`.
+        This resource is periodically requested by GCP Cloud Scheduler.
         Invoking requires `account.api_stats_webhooks` permissions.""",
     )
     def post(self, request):

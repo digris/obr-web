@@ -24,7 +24,7 @@ class SyncScheduleView(
     @extend_schema(
         methods=["POST"],
         operation_id="sync_schedule",
-        description="""Synchronize schedule with scheduler planning data.  
+        description="""Synchronize schedule with scheduler planning data.
         This resource is periodically requested by GCP Cloud Scheduler""",
     )
     def post(self, request):
@@ -71,8 +71,8 @@ class SyncAppView(
     @extend_schema(
         methods=["POST"],
         operation_id="sync_app",
-        description="""Synchronize sync-enabled models with remote data.  
-        This resource is periodically requested by GCP Cloud Scheduler.  
+        description="""Synchronize sync-enabled models with remote data.
+        This resource is periodically requested by GCP Cloud Scheduler.
         Invoking requires `account.api_sync_webhooks` permissions.""",
     )
     def post(self, request):

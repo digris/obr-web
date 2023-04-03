@@ -191,7 +191,7 @@ class UserSerializer(
     )
     cdn_policy = serializers.CharField(
         read_only=True,
-        help_text="""CDN policy to be included when requesting protected media files from the CDN.  
+        help_text="""CDN policy to be included when requesting protected media files from the CDN.
         Expected cookie value: `Cloud-CDN-Cookie=<policy>; Path=/; Domain=<domain>; HttpOnly: SameSite=Lax`""",
     )
 

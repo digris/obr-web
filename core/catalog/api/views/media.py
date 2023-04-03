@@ -217,7 +217,7 @@ class MediaViewSet(
                 name="obj_key",
                 location=OpenApiParameter.QUERY,
                 type=OpenApiTypes.STR,
-                description="""Filter media belonging to a related object.  
+                description="""Filter media belonging to a related object.
                                format: `<ct>:<uid>`""",
                 examples=[
                     OpenApiExample(
