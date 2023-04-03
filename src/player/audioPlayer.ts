@@ -331,6 +331,7 @@ class AudioPlayer {
     try {
       await this.player.load(url, startTime);
       this.audio.play();
+      log.debug("player started");
     } catch (e: any) {
       log.error(e, url);
       await delay(50);
