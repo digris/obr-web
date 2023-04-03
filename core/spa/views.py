@@ -26,9 +26,9 @@ class SPAIndexView(TemplateView):
         color = [220, 220, 220]
 
         if current_media:
-            try:
+            try:  # NOQA: SIM105
                 color = current_media.releases.first().image.rgb
-            except:  # noqa: E722,S110
+            except:  # NOQA: E722,S110
                 pass
 
         context.update(

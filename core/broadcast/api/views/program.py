@@ -68,10 +68,7 @@ class ProgramView(GenericAPIView):
             now = timezone.now()  # UTC
 
         # we want to set start / end in naive / local time for offset calculations
-        if timezone.is_naive(now):
-            naive = now
-        else:
-            naive = timezone.make_naive(now)
+        naive = now if timezone.is_naive(now) else timezone.make_naive(now)
 
         naive_time_from = naive.replace(hour=6, minute=0, second=0, microsecond=0)
         time_from = timezone.make_aware(naive_time_from)  # now with timezone - CE(S)T)

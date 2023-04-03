@@ -131,7 +131,7 @@ def image_pre_delete(sender, instance, **kwargs):
     if not issubclass(sender, BaseImage):
         return
 
-    try:
+    try:  # NOQA: SIM105
         instance.file.delete(False)  # NOQA: FBT003
     except Exception:  # NOQA
         pass

@@ -244,7 +244,7 @@ class PlaylistViewSet(
             type="descriptive",
         )
 
-        try:
+        try:  # NOQA: SIM105
             tags = tags.order_by("-num_times")
         except FieldError:
             pass

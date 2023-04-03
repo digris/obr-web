@@ -77,13 +77,12 @@ def sync_user_account(user):  # NOQA: C901
             },
         )
 
-    if country := data.get("address", {}).get("country"):
-        if not user.country:
-            update.update(
-                {
-                    "country": country[:2].upper(),
-                },
-            )
+    if (country := data.get("address", {}).get("country")) and not user.country:
+        update.update(
+            {
+                "country": country[:2].upper(),
+            },
+        )
 
     User.objects.filter(id=user.id).update(**update)
 
