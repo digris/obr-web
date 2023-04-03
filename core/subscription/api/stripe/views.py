@@ -196,22 +196,3 @@ class PaymentWebhookView(
     # pylint: disable=unused-argument
     def post(request, *args, **kwargs):
         return Response()
-        # payload = request.body
-        # event = None
-        #
-        # try:
-        #     event = stripe.Event.construct_from(json.loads(payload), stripe.api_key)
-        # except ValueError as e:
-        #     return HttpResponse(status=400)
-        #
-        # if event.type == "checkout.session.completed":
-        #     session = event.data.object
-        #     uuid = session.get("client_reference_id")
-        #     order = Order.objects.get(uuid=uuid)
-        #
-        #     complete_checkout_session(session=session, order=order)
-        #
-        # else:
-        #     print("Unhandled event type {}".format(event.type))
-        #
-        # return HttpResponse(status=200)
