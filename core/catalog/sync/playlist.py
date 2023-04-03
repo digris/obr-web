@@ -27,8 +27,7 @@ def get_playlist_media(items):
         }
 
 
-# pylint: disable=too-many-locals
-def sync_playlist(playlist, skip_images=False, **kwargs):
+def sync_playlist(playlist, skip_images=False, **kwargs):  # NOQA: C901
     # pylint: disable=import-outside-toplevel
     # pylint: disable=import-outside-toplevel
     from broadcast.models import Editor

@@ -21,7 +21,7 @@ CT_MAP = {
 }
 
 
-def sync_user_account(user):
+def sync_user_account(user):  # NOQA: C901
     logger.info(f"{user.ct_uid} sync account")
 
     if not user.obp_id:
@@ -107,7 +107,7 @@ def sync_user_account(user):
     return user
 
 
-def sync_user_votes(user):
+def sync_user_votes(user):  # NOQA: C901
     # NOTE: not sure where this should go. could also be implemented in rating module.
     logger.info(f"{user.ct_uid} sync votes")
 

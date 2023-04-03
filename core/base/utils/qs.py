@@ -13,7 +13,7 @@ def get_model_attr(instance, attr):
     return instance
 
 
-def next_or_prev_in_order(instance, qs=None, prev=False, loop=False):
+def next_or_prev_in_order(instance, qs=None, prev=False, loop=False):  # NOQA: C901
     """Get the next (or previous with prev=True) item for instance, from the
     given queryset (which is assumed to contain instance) respecting
     queryset ordering. If loop is True, return the first/last item when the

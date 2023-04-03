@@ -83,7 +83,7 @@ def create_emission_objects(emission_list):
 
 # pylint: disable=unused-argument
 @monitor(monitor_slug="d0ff03b3-a710-45c1-9d50-3b404708b8fa")
-def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):
+def sync_schedule(date_start=None, date_end=None, force=False, skip_media=False):  # NOQA: C901
     if force:
         if not (date_start and date_end):
             raise Exception("required 'date_start' and 'date_end' when using 'force'")
