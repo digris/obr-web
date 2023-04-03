@@ -28,9 +28,7 @@ class SPAIndexView(TemplateView):
         if current_media:
             try:
                 color = current_media.releases.first().image.rgb
-
-            # pylint: disable=bare-except
-            except:
+            except:  # noqa: E722
                 pass
 
         context.update(
