@@ -5,7 +5,9 @@ import markdown
 PAGES_DIR = settings.PROJECT_ROOT / "content" / "pages"
 
 
-class StaticPageDoesNotExist(Exception):
+class StaticPageDoesNotExist(  # NOQA: N818
+    Exception,
+):
     pass
 
 

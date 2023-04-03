@@ -17,11 +17,11 @@ HEADERS = {
 logger = logging.getLogger(__name__)
 
 
-class APIClientException(Exception):
+class APIClientError(Exception):
     pass
 
 
-class APIClient404Exception(APIClientException):
+class APIClient404Error(APIClientError):
     pass
 
 
@@ -41,13 +41,13 @@ def get(path, params=None, raw=False):
     try:
         r = requests.get(url, params=params, headers=HEADERS, timeout=30)
     except requests.exceptions.RequestException as e:
-        raise APIClientException(f"error connecting: {e}") from e
+        raise APIClientError(f"error connecting: {e}") from e
 
     if r.status_code == 404:
-        raise APIClient404Exception(f"resource does not exist: {r.status_code}")
+        raise APIClient404Error(f"resource does not exist: {r.status_code}")
 
     if not r.status_code == 200:
-        raise APIClientException(f"invalid status-code returned: {r.status_code}")
+        raise APIClientError(f"invalid status-code returned: {r.status_code}")
 
     if raw:
         logger.debug("returning raw response")
@@ -56,7 +56,7 @@ def get(path, params=None, raw=False):
     try:
         result = r.json()
     except json.JSONDecodeError as e:
-        raise APIClientException(f"error decoding JSON response: {e}") from e
+        raise APIClientError(f"error decoding JSON response: {e}") from e
 
     if SYNC_DEBUG_REQUESTS:
         print(

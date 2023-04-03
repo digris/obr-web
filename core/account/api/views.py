@@ -238,7 +238,7 @@ class SendEmailLoginView(
         email = request.data.get("email")
         try:
             email_login.send_login_email(email=email)
-        except email_login.SendLoginEmailException as e:
+        except email_login.SendLoginEmailError as e:
             return Response(
                 {
                     "message": f"{e}",
@@ -288,7 +288,7 @@ class TokenLoginView(
                 email=email,
                 token=token,
             )
-        except token_login.TokenValidationException as e:
+        except token_login.TokenValidationError as e:
             return Response(
                 {
                     "message": f"{e}",
@@ -366,7 +366,7 @@ class SignedEmailLoginView(
                 signed_email=signed_email,
                 max_age=5 * 60,
             )
-        except email_login.SignedEmailValidationException as e:
+        except email_login.SignedEmailValidationError as e:
             return Response(
                 {
                     "message": f"{e}",

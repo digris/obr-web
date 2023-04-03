@@ -20,7 +20,7 @@ class OBPMigrator:
             }
             data = api_client.get("accounts/", params=params)
             return data.get("results", [])
-        except api_client.APIClientException as e:
+        except api_client.APIClientError as e:
             logger.error(f"unable to get user: {e}")
             return []
 

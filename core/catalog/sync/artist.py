@@ -15,7 +15,7 @@ def sync_artist(artist, skip_images=False, **kwargs):
 
     try:
         data = api_client.get(f"artists/{artist.uuid}/")
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.warning(f"unable to get artist: {artist} - {e}")
         return None
 

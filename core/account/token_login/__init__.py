@@ -7,7 +7,7 @@ from django.db.models.functions import Now
 logger = logging.getLogger(__name__)
 
 
-class TokenValidationException(Exception):
+class TokenValidationError(Exception):
     pass
 
 
@@ -35,10 +35,10 @@ def claim_token(email, token):
     try:
         token = LoginToken.objects.get(email=email, value=value)
     except LoginToken.DoesNotExist as e:
-        raise TokenValidationException("Invalid Token") from e
+        raise TokenValidationError("Invalid Token") from e
 
     if not token.is_valid:
-        raise TokenValidationException("Expired Token")
+        raise TokenValidationError("Expired Token")
 
     LoginToken.objects.filter(id=token.id).update(
         claimed=Now(),

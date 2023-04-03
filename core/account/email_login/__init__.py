@@ -7,16 +7,16 @@ from django.utils.translation import gettext_lazy as _
 
 from account import token_login
 from base.utils.signer import timestamp_signer
-from electronic_mail.message import BaseMessage, SendMessageException
+from electronic_mail.message import BaseMessage, SendMessageError
 
 logger = logging.getLogger(__name__)
 
 
-class SendLoginEmailException(Exception):
+class SendLoginEmailError(Exception):
     pass
 
 
-class SignedEmailValidationException(Exception):
+class SignedEmailValidationError(Exception):
     pass
 
 
@@ -52,8 +52,8 @@ def send_login_email(email):
 
     try:
         message.send()
-    except SendMessageException as e:
-        raise SendLoginEmailException(e) from e
+    except SendMessageError as e:
+        raise SendLoginEmailError(e) from e
 
 
 def validate_signed_email(signed_email, max_age=None):
@@ -61,6 +61,6 @@ def validate_signed_email(signed_email, max_age=None):
         email = timestamp_signer.unsign(signed_email, max_age=max_age)
         return email
     except SignatureExpired as e:
-        raise SignedEmailValidationException(_("Signature expired")) from e
+        raise SignedEmailValidationError(_("Signature expired")) from e
     except BadSignature as e:
-        raise SignedEmailValidationException(_("Invalid signature")) from e
+        raise SignedEmailValidationError(_("Invalid signature")) from e

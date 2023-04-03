@@ -18,7 +18,7 @@ from sync.utils import update_identifier, update_relations, update_tags
 logger = logging.getLogger(__name__)
 
 
-class MasterDownloadException(Exception):
+class MasterDownloadError(Exception):
     pass
 
 
@@ -29,7 +29,7 @@ def sync_media(media, skip_media=False, **kwargs):
 
     try:
         data = api_client.get(f"media/{media.uuid}/")
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.warning(f"unable to get media: {media} - {e}")
         return None
 
@@ -112,8 +112,8 @@ def sync_media(media, skip_media=False, **kwargs):
 def download_master(media_uuid):
     try:
         r = api_client.get(f"media/{media_uuid}/download-master/", raw=True)
-    except api_client.APIClientException as e:
-        raise MasterDownloadException(
+    except api_client.APIClientError as e:
+        raise MasterDownloadError(
             f"unable to download master: {media_uuid} - {e}"
         ) from e
 
@@ -134,7 +134,7 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
 
     try:
         content, filename = download_master(media_uuid=master.uuid)
-    except MasterDownloadException as e:
+    except MasterDownloadError as e:
         logger.error(f"unable to download master: {master} - {e}")
         return None
 

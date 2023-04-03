@@ -19,7 +19,7 @@ SYNC_APP_LABELS = [
 DEFAULT_LIMIT_PER_RUN = 100
 
 
-class UpdateException(
+class UpdateError(
     Exception,
 ):
     pass
@@ -97,7 +97,7 @@ def update_by_app(
     """
 
     if app_label not in SYNC_APP_LABELS:
-        raise UpdateException(f"not a valid app label: {app_label}")
+        raise UpdateError(f"not a valid app label: {app_label}")
 
     app_models = get_app_models(app_label)
     sync_content_types = get_sync_content_types(app_models)

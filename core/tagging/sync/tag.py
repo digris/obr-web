@@ -9,13 +9,13 @@ logger = logging.getLogger(__name__)
 def sync_tag(tag, delete=False):
     try:
         data = api_client.get(f"tags/{tag.uuid}/")
-    except api_client.APIClient404Exception:
+    except api_client.APIClient404Error:
         logger.info(f"tag does not exist on API: {tag}")
         if delete:
             logger.info(f"delete tag: {tag}")
             tag.delete()
         return None
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.error(f"unable to get tag: {tag} - {e}")
         return None
 

@@ -15,7 +15,7 @@ def sync_editor(editor, skip_images=False, **kwargs):
 
     try:
         data = api_client.get(f"profiles/{editor.uuid}/")
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.error(f"unable to get editor: {editor} - {e}")
         return None
 

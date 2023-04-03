@@ -13,7 +13,7 @@ MASTER_BUCKET = "obr-master"
 MEDIA_BUCKET = "obr-media"
 
 
-class ValidationException(Exception):
+class ValidationError(Exception):
     pass
 
 
@@ -50,7 +50,7 @@ class Command(BaseCommand):
         try:
             return storage.Blob(bucket=bucket, name=path).exists(self.client)
         except ValueError as e:
-            raise ValidationException(f"unable to verify {path}") from e
+            raise ValidationError(f"unable to verify {path}") from e
 
     def verify_master(self, master):
         uid = master.uid

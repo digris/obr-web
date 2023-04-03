@@ -38,7 +38,7 @@ def sync_playlist(playlist, skip_images=False, **kwargs):  # NOQA: C901
 
     try:
         data = api_client.get(f"playlists/{playlist.uuid}/")
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.warning(f"unable to get playlist: {playlist} - {e}")
         return None
 

@@ -54,7 +54,7 @@ def fetch_emissions(start=None, end=None):
             next_page = data.get("next", None)
             results = data.get("results", [])
             emissions += results
-        except api_client.APIClientException as e:
+        except api_client.APIClientError as e:
             logger.error(f"unable to get data: {e}")
             next_page = None
 

@@ -9,7 +9,7 @@ from subscription.models import Redemption, Voucher
 from subscription.utils import extend_subscription, get_subscription
 
 
-class VoucherValidationException(Exception):
+class VoucherValidationError(Exception):
     pass
 
 
@@ -28,12 +28,12 @@ def get_until_date(subscription, num_days):
 
 def get_voucher(user, code):
     if not validate_code(code):
-        raise VoucherValidationException(_("Malformed voucher-code"))
+        raise VoucherValidationError(_("Malformed voucher-code"))
 
     qs = Voucher.objects.filter(code=code)
 
     if not qs.exists():
-        raise VoucherValidationException(_("Voucher-code does not exist"))
+        raise VoucherValidationError(_("Voucher-code does not exist"))
 
     voucher = qs.first()
 
@@ -41,14 +41,14 @@ def get_voucher(user, code):
         user.is_authenticated
         and Redemption.objects.filter(voucher=voucher, user=user).exists()
     ):
-        raise VoucherValidationException(_("You did already use this voucher-code"))
+        raise VoucherValidationError(_("You did already use this voucher-code"))
 
     # check if voucher is in inheritance tree
     if (
         user.is_authenticated
         and voucher.ancestors(include_self=True).filter(user=user).count()
     ):
-        raise VoucherValidationException(
+        raise VoucherValidationError(
             _("You cannot use your own vouchers, or vouchers from people you invited.")
         )
 

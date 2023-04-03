@@ -14,7 +14,7 @@ SENDGRID_API_KEY = getattr(settings, "SENDGRID_API_KEY", None)
 logger = logging.getLogger(__name__)
 
 
-class SendMessageException(Exception):
+class SendMessageError(Exception):
     pass
 
 
@@ -56,7 +56,7 @@ class BaseMessage:
                 )
                 return response
             except SendGridException as e:
-                raise SendMessageException(e) from e
+                raise SendMessageError(e) from e
         else:
             # for e2e tests we need "local" delivery
             logger.info("SENDGRID_API_KEY not configured")
@@ -69,4 +69,4 @@ class BaseMessage:
             try:
                 return mail.send()
             except (SMTPException, ConnectionError) as e:
-                raise SendMessageException(e) from e
+                raise SendMessageError(e) from e

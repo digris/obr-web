@@ -30,7 +30,7 @@ def sync_user_account(user):  # NOQA: C901
 
     try:
         data = api_client.get(f"accounts/{user.obp_id}/")
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.error(f"unable to get user: {user} - {e}")
         return None
 
@@ -117,7 +117,7 @@ def sync_user_votes(user):  # NOQA: C901
             "email": user.email,
         }
         data = api_client.get("votes/", params=params)
-    except api_client.APIClientException as e:
+    except api_client.APIClientError as e:
         logger.error(f"unable to get user: {user} - {e}")
         return None
 

@@ -92,7 +92,7 @@ class VoucherView(
                 },
             )
             return Response(serializer.data)
-        except voucher.VoucherValidationException as e:
+        except voucher.VoucherValidationError as e:
             return Response(
                 {
                     "message": str(e),
@@ -120,7 +120,7 @@ class VoucherView(
                 data,
                 status.HTTP_201_CREATED,
             )
-        except voucher.VoucherValidationException as e:
+        except voucher.VoucherValidationError as e:
             return Response(
                 {
                     "message": str(e),
