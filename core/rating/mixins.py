@@ -3,8 +3,13 @@ from django.db import models
 from django.utils.functional import cached_property
 
 
-class RatingModelMixin(models.Model):
+class RatingModelMixin(
+    models.Model,
+):
     votes = GenericRelation("rating.Vote", related_name="voted")
+
+    class Meta:
+        abstract = True
 
     @cached_property
     def rating_summary(self):
@@ -21,6 +26,3 @@ class RatingModelMixin(models.Model):
     @property
     def num_ratings(self):
         return self.rating_summary.get("num_ratings")
-
-    class Meta:
-        abstract = True

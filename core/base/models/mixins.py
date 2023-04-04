@@ -3,7 +3,9 @@ import uuid
 from django.db import models
 
 
-class TimestampedModelMixin(models.Model):
+class TimestampedModelMixin(
+    models.Model,
+):
     """TimestampedModelMixin
     An abstract base class model that provides self-managed "created" and
     "updated" fields.
@@ -24,7 +26,9 @@ class TimestampedModelMixin(models.Model):
         abstract = True
 
 
-class UUIDModelMixin(models.Model):
+class UUIDModelMixin(
+    models.Model,
+):
     """UUIDModelMixin
     An abstract base class model that provides a self-managed "uuid" field.
     """
@@ -39,7 +43,9 @@ class UUIDModelMixin(models.Model):
         abstract = True
 
 
-class UIDModelMixin(UUIDModelMixin):
+class UIDModelMixin(
+    UUIDModelMixin,
+):
     """UIDModelMixin
     An abstract base class model that provides a self-managed "uid" field.
     Requires UUIDModelMixin.
@@ -65,10 +71,15 @@ class UIDModelMixin(UUIDModelMixin):
         super().save(*args, **kwargs)
 
 
-class CTModelMixin(models.Model):
+class CTModelMixin(
+    models.Model,
+):
     """CTModelMixin
     An abstract base class model that provides content-type related methods / attributes.
     """
+
+    class Meta:
+        abstract = True
 
     def get_ct(self):
         return f"{self._meta.app_label}.{self.__class__.__name__}".lower()
@@ -85,24 +96,25 @@ class CTModelMixin(models.Model):
     def ct_model(self):
         return self.get_ct().split(".")[1]
 
-    class Meta:
-        abstract = True
 
-
-class CTUIDModelMixin(UIDModelMixin, CTModelMixin, models.Model):
+class CTUIDModelMixin(
+    UIDModelMixin,
+    CTModelMixin,
+    models.Model,
+):
     """CTModelMixin
     An abstract base class model that provides content-type & ID related methods / attributes.
     """
 
-    def __repr__(self):
-        return f"{self.ct}:{self.uuid}"
+    class Meta:
+        abstract = True
 
     def __str__(self):
         return f"{self.ct}:{self.uid}"
 
+    def __repr__(self):
+        return f"{self.ct}:{self.uuid}"
+
     @property
     def ct_uid(self):
         return f"{self.ct}:{self.uid}"
-
-    class Meta:
-        abstract = True
