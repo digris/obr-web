@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.103 (2023-04-04)
+### Fix
+* Temporary fix `API_BASE_URL` ([`0eb9b65`](https://github.com/digris/obr-web/commit/0eb9b65364d1badee9e04c04228b45f685f64608))
+
 ## v0.0.102 (2023-03-31)
 ### Fix
 * Improve stream-event admin ([`554a524`](https://github.com/digris/obr-web/commit/554a524abd73408a78140ba2952e4283e1caf458))
