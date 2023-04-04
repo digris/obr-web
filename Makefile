@@ -19,8 +19,9 @@ lint:
 
 fix:
 	yarn fix
-	find core/ -type f -name "*.py" -exec pyupgrade --py310-plus "{}" \;
+	# find core/ -type f -name "*.py" -exec pyupgrade --py310-plus "{}" \;
 	poetry run isort core/
+	poetry run ruff check --fix core/
 	black core/
 
 test-be:
