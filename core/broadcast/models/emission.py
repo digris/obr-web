@@ -31,7 +31,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     obj_key = models.CharField(
         max_length=128,
         editable=False,
-        null=True,
+        default="",
         blank=False,
     )
 

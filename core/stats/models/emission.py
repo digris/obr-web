@@ -21,7 +21,7 @@ class Emission(CTUIDModelMixin, models.Model):
         max_length=128,
         editable=False,
         db_index=True,
-        null=True,
+        default="",
         blank=False,
     )
     time_start = models.DateTimeField(

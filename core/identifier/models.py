@@ -21,7 +21,7 @@ class Identifier(
     CTUIDModelMixin,
     models.Model,
 ):
-    scope = models.CharField(
+    scope = models.CharField(  # NOQA: DJ001
         max_length=32,
         choices=IdentifierScope.choices,
         db_index=True,
@@ -29,7 +29,7 @@ class Identifier(
         blank=False,
     )
 
-    value = models.CharField(
+    value = models.CharField(  # NOQA: DJ001
         verbose_name="Identifier",
         max_length=512,
         db_index=True,

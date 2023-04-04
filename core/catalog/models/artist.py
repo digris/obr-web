@@ -21,7 +21,7 @@ class Artist(
     country_code = models.CharField(
         verbose_name="Country",
         max_length=2,
-        null=True,
+        default="",
         blank=True,
         db_index=True,
     )

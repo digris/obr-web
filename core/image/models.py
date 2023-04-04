@@ -48,7 +48,7 @@ class BaseImage(
     filename = models.CharField(
         verbose_name="Filename",
         max_length=512,
-        null=True,
+        default="",
         editable=False,
     )
 

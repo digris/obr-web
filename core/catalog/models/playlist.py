@@ -21,7 +21,7 @@ class Playlist(
 ):
     name = models.CharField(
         max_length=256,
-        null=True,
+        default="",
         blank=False,
     )
 
@@ -153,7 +153,7 @@ class Series(
 ):
     name = models.CharField(
         max_length=256,
-        null=True,
+        default="",
         blank=False,
     )
 

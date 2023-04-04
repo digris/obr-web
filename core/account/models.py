@@ -100,12 +100,12 @@ class User(
     )
     first_name = models.CharField(
         max_length=64,
-        null=True,
+        default="",
         blank=True,
     )
     last_name = models.CharField(
         max_length=64,
-        null=True,
+        default="",
         blank=True,
     )
     country = CountryField(

@@ -50,7 +50,6 @@ class Vote(
     )
     scope = models.CharField(
         max_length=16,
-        null=True,
         choices=VoteScope.choices,
         default=VoteScope.UNDEFINED,
         db_index=True,
@@ -69,7 +68,7 @@ class Vote(
     )
     user_identity = models.CharField(
         max_length=64,
-        null=True,
+        default="",
         blank=True,
         db_index=True,
     )

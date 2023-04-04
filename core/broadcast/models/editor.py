@@ -22,7 +22,7 @@ class Editor(
     display_name = models.CharField(
         verbose_name="Display name",
         max_length=256,
-        null=True,
+        default="",
         blank=True,
     )
 

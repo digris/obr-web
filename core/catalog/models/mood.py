@@ -15,7 +15,7 @@ class Mood(TimestampedModelMixin, CTUIDModelMixin, models.Model):
 
     teaser = models.CharField(
         max_length=256,
-        null=True,
+        default="",
         blank=True,
     )
 

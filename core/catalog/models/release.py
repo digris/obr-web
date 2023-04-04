@@ -29,7 +29,7 @@ class Release(
 
     release_type = models.CharField(
         max_length=32,
-        null=True,
+        default="",
         blank=True,
     )
 

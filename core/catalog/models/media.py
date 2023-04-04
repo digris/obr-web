@@ -103,7 +103,7 @@ class Master(
 ):
     encoding = models.CharField(
         max_length=4,
-        null=True,
+        default="",
         db_index=True,
     )
 
@@ -175,7 +175,7 @@ class MediaArtists(models.Model):
     )
     join_phrase = models.CharField(
         max_length=36,
-        null=True,
+        default="",
         blank=True,
     )
 

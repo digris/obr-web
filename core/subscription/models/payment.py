@@ -35,7 +35,7 @@ class Payment(CTUIDModelMixin, TimestampedModelMixin, models.Model):
     transaction_id = models.CharField(
         verbose_name="Transaction ID",
         max_length=256,
-        null=True,
+        default="",
         blank=True,
         db_index=True,
     )

@@ -45,7 +45,7 @@ class UIDModelMixin(UUIDModelMixin):
     Requires UUIDModelMixin.
     """
 
-    uid = models.CharField(
+    uid = models.CharField(  # NOQA: DJ001
         max_length=8,
         editable=False,
         unique=True,
