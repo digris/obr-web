@@ -49,7 +49,7 @@ jobs:
       - run: pip install poetry==1.2.2
 #      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
       - run: poetry install
-      - run: make test-be
+      - run: poetry run make test-be
 
   test-fe:
     runs-on: ubuntu-latest
@@ -83,7 +83,7 @@ jobs:
       - run: pip install poetry==1.2.2
 #      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
       - run: poetry install
-      - run: make test-e2e
+      - run: poetry run make test-e2e
       - uses: actions/upload-artifact@v3
         with:
           name: e2e-test-screenshots
