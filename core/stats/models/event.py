@@ -69,6 +69,9 @@ class PlayerEvent(
         ordering = ["time"]
         db_table = "stats_player_event"
 
+    def __str__(self):
+        return f"{self.ct}:{self.id}"
+
 
 class StreamEvent(
     CTUIDModelMixin,
@@ -128,3 +131,6 @@ class StreamEvent(
         verbose_name = "Stream event"
         ordering = ["time_start"]
         db_table = "stats_stream_event"
+
+    def __str__(self):
+        return f"{self.ct}:{self.uid}"

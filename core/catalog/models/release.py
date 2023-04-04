@@ -113,6 +113,9 @@ class ReleaseMedia(models.Model):
             "position",
         ]
 
+    def __str__(self):
+        return f"{self.release} <> {self.media}"
+
 
 class ReleaseImage(BaseSortableImage):
     release = models.ForeignKey(

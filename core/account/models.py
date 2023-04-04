@@ -194,6 +194,9 @@ class Settings(
         related_name="settings",
     )
 
+    def __str__(self):
+        return f"{self.ct}:{self.uid}"
+
 
 class Address(
     CTUIDModelMixin,
@@ -224,6 +227,9 @@ class Address(
         blank=True,
         default="",
     )
+
+    def __str__(self):
+        return f"{self.ct}:{self.uid}"
 
     @property
     def country(self):
@@ -350,8 +356,13 @@ class Theme(
         default="",
     )
 
+    def __str__(self):
+        return f"{self.ct}:{self.uid}"
 
-class GlobalPermissions(models.Model):
+
+class GlobalPermissions(  # NOQA: DJ008
+    models.Model,
+):
     class Meta:
         managed = False
         default_permissions = ()

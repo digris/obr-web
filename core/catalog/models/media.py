@@ -186,6 +186,9 @@ class MediaArtists(models.Model):
         db_table = "catalog_media_artists"
         ordering = ["position"]
 
+    def __str__(self):
+        return f"{self.artist} <> {self.media}"
+
 
 class AirplayQuerySet(models.QuerySet):
     def upcoming(self):

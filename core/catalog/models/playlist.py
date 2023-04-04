@@ -214,6 +214,9 @@ class PlaylistMedia(
         db_table = "catalog_playlist_media"
         ordering = ["position"]
 
+    def __str__(self):
+        return f"{self.playlist} <> {self.media}"
+
     @property
     def effective_duration(self):
         # calculate effective duration, taking into account cues + fade-out
