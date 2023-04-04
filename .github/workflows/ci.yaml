@@ -30,7 +30,8 @@ jobs:
       - run: black --version
       - run: black ./core/ --check
       - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+#      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+      - run: poetry install
       - run: poetry run ruff check core/
 
   test-be:
@@ -46,7 +47,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: 'x64'
       - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+#      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+      - run: poetry install
       - run: make test-be
 
   test-fe:
@@ -79,7 +81,8 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: pip install poetry==1.2.2
-      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+#      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
+      - run: poetry install
       - run: make test-e2e
       - uses: actions/upload-artifact@v3
         with:
