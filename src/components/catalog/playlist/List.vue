@@ -12,6 +12,7 @@ import ListFilter from "@/components/filter/ListFilter.vue";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import NoResults from "@/components/ui/loading/NoResults.vue";
 import { useDevice } from "@/composables/device";
+import { usePullToRefresh } from "@/composables/pullToRefresh";
 import { useRatingStore } from "@/stores/rating";
 import { useUiStore } from "@/stores/ui";
 
@@ -135,6 +136,12 @@ export default defineComponent({
       fetchPlaylists();
       fetchTags().then(() => {});
     });
+    const listEl = ref(null);
+    usePullToRefresh(listEl, () => {
+      // playlists.value = [];
+      fetchPlaylists();
+      fetchTags().then(() => {});
+    });
     watch(
       () => combinedFilter.value,
       async (oldFilter, newFilter) => {
@@ -162,6 +169,7 @@ export default defineComponent({
       showUserFilter,
       userFilter,
       updateUserFilter,
+      listEl,
     };
   },
 });
@@ -176,7 +184,7 @@ export default defineComponent({
       @change="updateUserFilter"
     />
   </div>
-  <div class="playlist-list">
+  <div ref="listEl" class="playlist-list">
     <div v-if="layout === 'table' && isDesktop" class="table-header">
       <PlaylistRowHeader />
     </div>

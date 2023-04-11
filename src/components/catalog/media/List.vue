@@ -1,18 +1,8 @@
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  onActivated,
-  onDeactivated,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from "vue";
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRoute, useRouter } from "vue-router";
 import { DateTime } from "luxon";
-import PullToRefresh from "pulltorefreshjs";
 import { storeToRefs } from "pinia";
 import { isEqual } from "lodash-es";
 
@@ -25,6 +15,7 @@ import ListFilter from "@/components/filter/ListFilter.vue";
 import LoadingMore from "@/components/ui/loading/Loading.vue";
 import NoResults from "@/components/ui/loading/NoResults.vue";
 import { useDevice } from "@/composables/device";
+import { usePullToRefresh } from "@/composables/pullToRefresh";
 import { useRatingStore } from "@/stores/rating";
 import { useUiStore } from "@/stores/ui";
 
@@ -173,18 +164,10 @@ export default defineComponent({
       clearInterval(timer.value);
     });
     const listEl = ref(null);
-    onActivated(() => {
-      PullToRefresh.init({
-        mainElement: listEl.value,
-        onRefresh() {
-          mediaList.value = [];
-          fetchMedia(limit, 0).then(() => {});
-          fetchTags().then(() => {});
-        },
-      });
-    });
-    onDeactivated(() => {
-      PullToRefresh.destroyAll();
+    usePullToRefresh(listEl, () => {
+      mediaList.value = [];
+      fetchMedia(limit, 0).then(() => {});
+      fetchTags().then(() => {});
     });
     watch(
       () => combinedFilter.value,

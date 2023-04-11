@@ -1,0 +1,78 @@
+/*
+  https://github.com/BoxFactura/pulltorefresh.js
+  # template
+  <div class="__PREFIX__box">
+    <div class="__PREFIX__content">
+      <div class="__PREFIX__icon"></div>
+      <div class="__PREFIX__text"></div>
+    </div>
+  </div>
+ */
+.ptr {
+  /* root node */
+  &--ptr {
+    color: rgb(var(--c-dark) / 100%);
+    pointer-events: none;
+    font-size: var(--t-fs-default);
+    top: 0;
+    height: 0;
+    transition: height 200ms, min-height 200ms;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    align-content: stretch;
+  }
+
+  &--box {
+    padding: 0;
+    flex-basis: 100%;
+  }
+
+  &--text {
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transition: opacity 100ms;
+  }
+
+  &--pull {
+    transition: none;
+
+    .ptr {
+      &--text {
+        opacity: 1;
+      }
+    }
+  }
+
+  &--icon {
+    transition: transform 200ms;
+    font-size: var(--t-fs-default);
+  }
+
+  /* rotate icon */
+  &--release {
+    .ptr {
+      &--icon {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &--refresh {
+    .ptr {
+      &--text {
+        opacity: 1;
+      }
+    }
+  }
+
+  /*
+    When at the top of the page, disable vertical overscroll so passive touch
+    listeners can take over.
+  */
+  &--top {
+    touch-action: pan-x pan-down pinch-zoom;
+  }
+}
