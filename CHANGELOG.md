@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.104 (2023-04-11)
+### Fix
+* Implement listings "pull to refresh" (mobile) ([`02d4fb0`](https://github.com/digris/obr-web/commit/02d4fb0e52e620a326c80ce12fe86c290d24600d))
+
 ## v0.0.103 (2023-04-04)
 ### Fix
 * Temporary fix `API_BASE_URL` ([`0eb9b65`](https://github.com/digris/obr-web/commit/0eb9b65364d1badee9e04c04228b45f685f64608))
