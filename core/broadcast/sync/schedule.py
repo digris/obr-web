@@ -81,7 +81,7 @@ def create_emission_objects(emission_list):
 
 
 # pylint: disable=unused-argument
-@monitor(monitor_slug="d0ff03b3-a710-45c1-9d50-3b404708b8fa")
+# @monitor(monitor_slug="d0ff03b3-a710-45c1-9d50-3b404708b8fa")
 def sync_schedule(  # NOQA: C901
     date_start=None,
     date_end=None,

@@ -56,7 +56,7 @@ class ScheduleView(
 
         flatten = itertools.chain.from_iterable
 
-        all_media = flatten([e.get_media_set() for e in qs])
+        all_media = flatten([e.get_media_set(include_all=True) for e in qs])
         media_in_range = [
             m
             for m in all_media
@@ -64,6 +64,11 @@ class ScheduleView(
         ]
 
         media_in_range.sort(key=lambda i: i["time_start"], reverse=True)
+
+        # for m in media_in_range:
+        #     print(m["media"].duration.seconds)
+
+        media_in_range = [m for m in media_in_range if m["media"].duration.seconds > 12]
 
         serializer = self.serializer_class(
             media_in_range,

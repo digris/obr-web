@@ -44,7 +44,13 @@ class UserView(
             ),
         ],
         responses={
-            200: serializers.UserSerializer,
+            200: serializers.UserSerializer(
+                expand=[
+                    "subscription",
+                    "address",
+                    "settings",
+                ],
+            ),
             204: None,
         },
         operation_id="user",

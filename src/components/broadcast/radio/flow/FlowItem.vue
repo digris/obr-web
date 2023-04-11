@@ -5,6 +5,7 @@ import { useElementBounding, useThrottleFn, useWindowSize } from "@vueuse/core";
 import { DateTime } from "luxon";
 import { round } from "lodash-es";
 
+import Debug from "@/components/dev/Debug.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import eventBus from "@/eventBus";
 import type { AnnotatedSchedule } from "@/stores/schedule";
@@ -20,6 +21,7 @@ export default defineComponent({
     LazyImage,
     FlowItemPlay,
     Ticker,
+    Debug,
   },
   props: {
     item: {
@@ -210,6 +212,7 @@ export default defineComponent({
         <Ticker v-if="release?.isNew" text="New Release" />
       </div>
     </div>
+    <Debug :value="{ timeStart }" position="absolute" />
   </div>
 </template>
 

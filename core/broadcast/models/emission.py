@@ -89,7 +89,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     def series(self):
         return self.playlist.series if self.playlist else None
 
-    def get_media_set(self):
+    def get_media_set(self, include_all=False):
         if not self.playlist:
             return []
 
@@ -115,9 +115,12 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 "playlist__editor__images",
             )
         )
-        qs = qs.filter(
-            media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
-        )
+
+        if not include_all:
+            qs = qs.filter(
+                media__duration__gt=timedelta(seconds=MEDIA_MIN_DURATION),
+            )
+
         for playlist_media in qs:
             time_start = time_base + time_offset
             time_end = time_start + playlist_media.effective_duration

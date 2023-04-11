@@ -1,99 +1,57 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 
-const formatJSON = (value: any) => {
-  let json = JSON.stringify(value, null, 4);
-  json = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  return json.replace(
-    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
-    (match) => {
-      let cls = "number";
-      if (/^"/.test(match)) {
-        if (/:$/.test(match)) {
-          cls = "key";
-        } else {
-          cls = "string";
-        }
-      } else if (/true|false/.test(match)) {
-        cls = "boolean";
-      } else if (/null/.test(match)) {
-        cls = "null";
-      }
-      return `<span class="${cls}">${match}</span>`;
-    }
-  );
-};
+import { useSettings } from "@/composables/settings";
 
 export default defineComponent({
   props: {
-    title: {
-      type: String,
-      default: null,
-      required: false,
-    },
     value: {
       type: Object,
       default: () => {},
     },
-    visible: {
+    position: {
+      type: String,
+      default: "absolute",
+    },
+    alwaysVisible: {
       type: Boolean,
-      default: true,
+      default: false,
     },
   },
   setup(props) {
-    const formatted = computed(() => {
-      const html = formatJSON(props.value);
-      if (props.title) {
-        return `<span class="comment"># ${props.title}</span><br>${html}`;
+    const { userSettings } = useSettings();
+    const isVisible = computed(() => {
+      if (props.alwaysVisible) {
+        return true;
       }
-      return html;
+      return userSettings.value?.debugEnabled;
     });
     return {
-      formatted,
+      isVisible,
+      userSettings,
     };
   },
 });
 </script>
 
 <template>
-  <div v-if="visible" class="debug-panel">
-    <pre v-html="formatted" />
+  <div
+    v-if="isVisible"
+    class="debug-panel"
+    :style="{
+      position,
+    }"
+  >
+    <pre v-text="value" />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .debug-panel {
-  padding: 1rem;
+  padding: 6px;
   font-weight: 300;
-  font-size: 0.8rem;
-  background: #222;
-
-  :deep(pre) {
-    color: white;
-
-    .comment {
-      color: #a09f9f;
-    }
-
-    .string {
-      color: #6def6d;
-    }
-
-    .number {
-      color: darkorange;
-    }
-
-    .boolean {
-      color: #f8ff1a;
-    }
-
-    .null {
-      color: #d26fd2;
-    }
-
-    .key {
-      color: #00e6ff;
-    }
-  }
+  font-size: 12px;
+  color: rgb(var(--c-white));
+  background: rgb(var(--c-black));
 }
 </style>

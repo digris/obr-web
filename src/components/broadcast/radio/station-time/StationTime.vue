@@ -14,9 +14,13 @@ export default defineComponent({
     const minute = computed(() => {
       return zeroPad(time.value.minute);
     });
+    const second = computed(() => {
+      return zeroPad(time.value.second);
+    });
     return {
       hour,
       minute,
+      second,
     };
   },
 });
@@ -27,6 +31,10 @@ export default defineComponent({
     <span class="hour" v-text="hour" />
     <span class="separator separator--minute" v-text="`:`" />
     <span class="minute" v-text="minute" />
+    <!--
+    <span class="separator separator--minute" v-text="`:`" />
+    <span class="second" v-text="second" />
+    -->
   </div>
 </template>
 <style lang="scss">

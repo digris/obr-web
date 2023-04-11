@@ -109,7 +109,12 @@ class SettingsSerializer(
 ):
     class Meta(CTUIDModelSerializer.Meta):
         model = Settings
-        fields = CTUIDModelSerializer.Meta.fields
+        fields = CTUIDModelSerializer.Meta.fields + [
+            "debug_enabled",
+        ]
+        read_only_fields = [
+            "debug_enabled",
+        ]
 
 
 class AddressCountriesSerializer(

@@ -1,12 +1,14 @@
 import { storeToRefs } from "pinia";
 
 import { useDevice } from "@/composables/device";
+import { useAccountStore } from "@/stores/account";
 import { useSettingsStore } from "@/stores/settings";
 
 export const useSettings = () => {
   const appBridge = window.appBridge;
   const { isWeb } = useDevice();
   const { darkMode, maxBandwidth, shuffleMode, volume } = storeToRefs(useSettingsStore());
+  const { settings: userSettings } = storeToRefs(useAccountStore());
   const {
     setMaxBandwidth: setMaxBandwidthWeb,
     setDarkMode: setDarkModeWeb,
@@ -42,6 +44,7 @@ export const useSettings = () => {
     maxBandwidth,
     shuffleMode,
     volume,
+    userSettings,
     setDarkMode,
     setMaxBandwidth,
     toggleShuffleMode,

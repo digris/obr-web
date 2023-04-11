@@ -22,7 +22,7 @@ def sync_artist(artist, skip_images=False, **kwargs):
     update = {
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
         "name": data.get("name").strip(),
-        "country_code": data.get("country_code"),
+        "country_code": data.get("country_code") or "",
         "date_start": data.get("date_start"),
         "date_end": data.get("date_end"),
     }

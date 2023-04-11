@@ -58,7 +58,7 @@ def sync_media(media, skip_media=False, **kwargs):
         uuid = artist.get("uuid")
         name = artist.get("name")
         position = artist.get("position")
-        join_phrase = artist.get("join_phrase")
+        join_phrase = artist.get("join_phrase", "")
         logger.debug(f"sync media artist: {uuid} - {name}")
 
         try:
@@ -76,7 +76,7 @@ def sync_media(media, skip_media=False, **kwargs):
 
         MediaArtists.objects.filter(id=media_artist_obj.id).update(
             position=position,
-            join_phrase=join_phrase or None,
+            join_phrase=join_phrase or "",
         )
 
     if data.get("release"):

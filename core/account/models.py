@@ -194,6 +194,12 @@ class Settings(
         related_name="settings",
     )
 
+    debug_enabled = models.BooleanField(
+        "enable debug",
+        default=False,
+        db_index=True,
+    )
+
     def __str__(self):
         return f"{self.ct}:{self.uid}"
 
