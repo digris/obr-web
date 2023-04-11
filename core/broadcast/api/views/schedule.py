@@ -65,9 +65,6 @@ class ScheduleView(
 
         media_in_range.sort(key=lambda i: i["time_start"], reverse=True)
 
-        # for m in media_in_range:
-        #     print(m["media"].duration.seconds)
-
         media_in_range = [m for m in media_in_range if m["media"].duration.seconds > 12]
 
         serializer = self.serializer_class(
