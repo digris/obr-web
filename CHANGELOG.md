@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.105 (2023-04-12)
+### Fix
+* Increase GS timeout (sync) ([`2aeef81`](https://github.com/digris/obr-web/commit/2aeef81f5ff1ee0a84a0839806c140263af579c3))
+
 ## v0.0.104 (2023-04-11)
 ### Fix
 * Implement listings "pull to refresh" (mobile) ([`02d4fb0`](https://github.com/digris/obr-web/commit/02d4fb0e52e620a326c80ce12fe86c290d24600d))
