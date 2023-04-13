@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.107 (2023-04-13)
+### Fix
+* Update app manifest ([`d6ee487`](https://github.com/digris/obr-web/commit/d6ee487ab672cd71e09c20dca0577b42c8b4ac17))
+
 ## v0.0.106 (2023-04-13)
 ### Fix
 * Add legal links & cookie consent ([`d2a2ace`](https://github.com/digris/obr-web/commit/d2a2ace3be5ac93a9d7ade27234b3e3d12be411b))
