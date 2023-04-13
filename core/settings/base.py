@@ -112,6 +112,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "vite.context_processors.vite_proxied",
                 "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.i18n",
                 "django.contrib.messages.context_processors.messages",
                 "django_settings_export.settings_export",
                 "social_django.context_processors.backends",
@@ -475,6 +476,8 @@ SPECTACULAR_SETTINGS = {
 ##################################################################
 # services
 ##################################################################
+API_BASE_URL = "/api/v1/"
+
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.next.openbroadcast.ch/dash/stream.mpd",
     "hls": "https://stream-abr.next.openbroadcast.ch/hls/manifest.m3u8",
@@ -532,6 +535,7 @@ SETTINGS_EXPORT = [
     "DEBUG",
     "SITE_URL",
     "STATIC_URL",
+    "API_BASE_URL",
     "IMAGE_RESIZER_ENDPOINT",
     "STREAM_ENDPOINTS",
     "STREAM_LATENCY",

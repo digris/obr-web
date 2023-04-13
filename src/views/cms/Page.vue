@@ -1,10 +1,11 @@
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref, watch } from "vue";
+import { defineComponent, nextTick, onBeforeMount, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { getPage } from "@/api/cms";
 import Section from "@/components/cms/Section.vue";
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
+import { useSettings } from "@/composables/settings";
 import type { Page } from "@/typings/api";
 
 export default defineComponent({
@@ -20,8 +21,10 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
+    const { locale } = useSettings();
     const page = ref<Page | null>({});
     const loadPage = async (path: string) => {
+      console.debug("path", path);
       page.value = {};
       try {
         page.value = await getPage(path);
@@ -39,6 +42,14 @@ export default defineComponent({
       () => props.path,
       async (path) => {
         await loadPage(path);
+      }
+    );
+    watch(
+      () => locale.value,
+      () => {
+        nextTick(() => {
+          loadPage(props.path);
+        });
       }
     );
     return {

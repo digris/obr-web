@@ -73,6 +73,10 @@ export default defineComponent({
           title: t("menu.imprint"),
         },
         {
+          path: "/legal/dpp/",
+          title: t("menu.dpp"),
+        },
+        {
           path: "/legal/terms/",
           title: t("menu.terms"),
         },

@@ -5,6 +5,8 @@ import { useWindowSize } from "@vueuse/core";
 import { AppBridge } from "@/app-bridge/appBridge";
 import AuthSidebar from "@/components/account/auth/AuthSidebar.vue";
 import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
+import CookieConsent from "@/components/legal/CookieConsent.vue";
+import LegalLinks from "@/components/legal/LegalLinks.vue";
 import GlobalSearch from "@/components/navigation/GlobalSearch.vue";
 import Navigation from "@/components/navigation/Navigation.vue";
 import SideMenu from "@/components/navigation/SideMenu.vue";
@@ -35,6 +37,8 @@ export default defineComponent({
     GeoblockNotice,
     Player,
     ClaimVoucher,
+    CookieConsent,
+    LegalLinks,
   },
   setup() {
     const { loadUser } = useAccount();
@@ -69,4 +73,6 @@ export default defineComponent({
   <GeoblockNotice />
   <ClaimVoucher />
   <component :is="playerComponent" />
+  <LegalLinks />
+  <CookieConsent />
 </template>

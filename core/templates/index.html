@@ -1,5 +1,5 @@
 {% load i18n static settings_export_tags share_tags usersnap_tags %}<!doctype html>
-<html lang="{{ LANGUAGE }}">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <title>open broadcast radio</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,9 +18,11 @@
   </style>
   <script>
     document.settings = {% json_settings settings %};
-    document.settings.API_BASE_URL = "{% url 'api:base' %}";
     {% if color %}document.settings.COLOR = {{ color }}{% endif %}
     {% if client_mode %}document.settings.CLIENT_MODE = "{{ client_mode }}"{% endif %}
+  </script>
+  <script>
+    window.dataLayer = [];
   </script>
   {% if settings.GOOGLE_GTM_ID %}<script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -28,9 +30,14 @@
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','{{ settings.GOOGLE_GTM_ID }}');
-  </script>{% else %}<script>
-    window.dataLayer = [];
   </script>{% endif %}
+  {% comment %}{% if settings.GOOGLE_GTM_ID %}<script type="text/plain" data-cookiecategory="analytics">
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','{{ settings.GOOGLE_GTM_ID }}');
+  </script>{% endif %}{% endcomment %}
 </head>
 <body
   id="body"

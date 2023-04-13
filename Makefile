@@ -44,9 +44,21 @@ openapi-schema:
 	npx openapi -i schema.json -o src/typings/api/
 	rm -f schema.json
 
+.PHONY: setup
 setup:
 	poetry install
 	yarn install
+
+.PHONY: clean
+clean:
+	rm -Rf dist/*
+	rm -Rf build/*
+
+.PHONY: build
+build:
+	yarn build
+	cp -R src/assets/ build/assets/
+	./manage.py collectstatic --no-input
 
 docker-image:
 	docker build --build-arg GIT_SHORT_SHA=$(GIT_SHORT_SHA) -f ./docker/Dockerfile -t $(DOCKER_TAG):latest .

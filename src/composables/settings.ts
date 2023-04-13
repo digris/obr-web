@@ -7,7 +7,7 @@ import { useSettingsStore } from "@/stores/settings";
 export const useSettings = () => {
   const appBridge = window.appBridge;
   const { isWeb } = useDevice();
-  const { darkMode, maxBandwidth, shuffleMode, volume } = storeToRefs(useSettingsStore());
+  const { locale, darkMode, maxBandwidth, shuffleMode, volume } = storeToRefs(useSettingsStore());
   const { settings: userSettings } = storeToRefs(useAccountStore());
   const {
     setMaxBandwidth: setMaxBandwidthWeb,
@@ -40,6 +40,7 @@ export const useSettings = () => {
   };
 
   return {
+    locale,
     darkMode,
     maxBandwidth,
     shuffleMode,
