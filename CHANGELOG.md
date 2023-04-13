@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.106 (2023-04-13)
+### Fix
+* Add legal links & cookie consent ([`d2a2ace`](https://github.com/digris/obr-web/commit/d2a2ace3be5ac93a9d7ade27234b3e3d12be411b))
+
 ## v0.0.105 (2023-04-12)
 ### Fix
 * Increase GS timeout (sync) ([`2aeef81`](https://github.com/digris/obr-web/commit/2aeef81f5ff1ee0a84a0839806c140263af579c3))
