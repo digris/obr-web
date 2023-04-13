@@ -2,18 +2,22 @@
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 
+import { useDevice } from "@/composables/device";
+
 export default defineComponent({
   setup() {
     const { t } = useI18n();
+    const { isWeb } = useDevice();
     return {
       t,
+      isWeb,
     };
   },
 });
 </script>
 
 <template>
-  <nav class="legal-links">
+  <nav v-if="isWeb" class="legal-links">
     <div class="link-group">
       <router-link to="/legal/dpp/" v-text="t('menu.dpp')" />
       <router-link to="/legal/terms/" v-text="t('menu.terms')" />

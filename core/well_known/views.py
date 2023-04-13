@@ -17,6 +17,7 @@ def apple_app_site_association(request):
                         "appID": IOS_APP_ID,
                         "paths": [
                             "NOT /social/*",
+                            "NOT /admin/*",
                             "NOT /app-bridge/social-auth-redirect/",
                             "NOT /app-bridge/social-auth-redirect/*",
                             "*",

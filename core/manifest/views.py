@@ -9,10 +9,12 @@ def manifest_view(request):
             "short_name": "open broadcast",
             "start_url": "/",
             "scope": "/",
-            "display": "standalone",
-            "theme_color": "#FFF",
-            "background_color": "#FFF",
+            "display": "fullscreen",
+            "theme_color": "#000",
+            "background_color": "#000",
             "description": "open broadcast hybrid radio",
+            "categories": ["music", "radio"],
+            "orientation": "portrait",
             "icons": [
                 {
                     "src": static("assets/manifest/icon-192x192.png"),
@@ -37,6 +39,13 @@ def manifest_view(request):
                     "short_name": "Program",
                     "description": "Program",
                     "url": "/program/",
+                },
+            ],
+            "prefer_related_applications": True,
+            "related_applications": [
+                {
+                    "platform": "itunes",
+                    "url": "https://itunes.apple.com/app/ch-digris-obrapp/id1643695398",
                 },
             ],
         },

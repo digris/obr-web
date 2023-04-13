@@ -17,6 +17,7 @@ const APIClient = axios.create({
   timeout: 20000,
   headers: {
     "X-Requested-With": "XMLHttpRequest",
+    "Accept-Language": "",
   },
 });
 
