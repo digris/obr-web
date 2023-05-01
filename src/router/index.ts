@@ -12,6 +12,7 @@ import ArtistList from "@/components/catalog/artist/List.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import MoodList from "@/components/catalog/mood/List.vue";
 import PlaylistList from "@/components/catalog/playlist/List.vue";
+import DiscoverHome from "@/components/discover/Home.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
 import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
 import { setBodyColorTheme } from "@/utils/color";
@@ -93,6 +94,17 @@ const routes = [
       title: "Discover",
     },
     children: [
+      {
+        path: "home/",
+        name: "discoverHome",
+        components: {
+          default: DiscoverHome,
+          header: DiscoverHeader,
+        },
+        meta: {
+          title: "Moods",
+        },
+      },
       {
         path: "moods/",
         name: "discoverMoods",

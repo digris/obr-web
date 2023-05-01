@@ -19,7 +19,9 @@ export default defineComponent({
     const menuRef = ref(null);
     const setMenuFocus = () => {
       const el = menuRef.value.querySelector('.router-link-exact-active');
-      el.scrollIntoView();
+      if (el) {
+        el.scrollIntoView();
+      }
     };
     onActivated(() => {
       setMenuFocus();
@@ -40,6 +42,9 @@ export default defineComponent({
     <div class="title">Discover</div>
     <div class="list-menu">
       <div ref="menuRef" class="menu menu--primary">
+        <!--
+        <router-link :to="{ name: 'discoverHome' }" v-text="t('menu.discover')" />
+        -->
         <router-link :to="{ name: 'discoverMoods' }" v-text="t('catalog.ct.mood')" />
         <router-link :to="{ name: 'discoverMedia' }" v-text="t('catalog.ct.media', 2)" />
         <router-link :to="{ name: 'discoverPlaylists' }" v-text="t('catalog.ct.playlist', 2)" />

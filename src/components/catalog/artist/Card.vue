@@ -59,7 +59,10 @@ export default defineComponent({
       />
     </router-link>
     <div class="meta">
-      <router-link class="title" :to="link" v-text="artist.name" />
+      <router-link class="title" :to="link">
+        {{ artist.name }}
+        <span v-if="artist.countryCode">({{ artist.countryCode }})</span>
+      </router-link>
       <div class="subtitle" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
       <div v-if="isDesktop" class="actions">
         <CircleButton :scale="0.75">

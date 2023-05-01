@@ -54,6 +54,10 @@ export default defineComponent({
       return props.item.dtStart.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
     });
 
+    const timeEnd = computed(() => {
+      return props.item.dtEnd.toLocaleString(DateTime.TIME_24_WITH_SECONDS);
+    });
+
     const relativePosition = computed(() => {
       return round(offset.value / width.value, 3);
     });
@@ -173,6 +177,7 @@ export default defineComponent({
       image,
       release,
       timeStart,
+      timeEnd,
       translateX,
       scale,
     };
@@ -212,7 +217,7 @@ export default defineComponent({
         <Ticker v-if="release?.isNew" text="New Release" />
       </div>
     </div>
-    <Debug :value="{ timeStart }" position="absolute" />
+    <Debug :value="{ timeStart, timeEnd }" position="absolute" />
   </div>
 </template>
 
