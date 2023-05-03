@@ -380,4 +380,6 @@ class GlobalPermissions(  # NOQA: DJ008
             ("api_stats_view", "API - Stats view"),
             ("api_stats_webhooks", "API - Stats webhooks"),
             ("api_stats_event_create", "API - Stats create events"),
+            # media / master download
+            ("api_master_download", "API - Download media master files"),
         )

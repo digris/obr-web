@@ -149,7 +149,7 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
 
         if mode == "gs":
             client = storage.Client()
-            bucket = client.get_bucket("obr-master", timeout=300.0)
+            bucket = client.get_bucket(settings.GS_MASTER_BUCKET, timeout=300.0)
             blob = bucket.blob(path)
             # NOTE: we upload via name instead of file object to 'detect' content type
             blob.upload_from_filename(f.name)

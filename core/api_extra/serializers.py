@@ -66,6 +66,19 @@ class DurationInSecondsSerializer(
         return instance.seconds
 
 
+@extend_schema_field(
+    OpenApiTypes.NUMBER,
+)
+class DurationInMillisecondsSerializer(
+    serializers.Serializer,
+):
+    def to_representation(self, instance):
+        if not isinstance(instance, timedelta):
+            return 0
+
+        return round(instance.total_seconds() * 1000)
+
+
 class ReadOnlyModelSerializer(
     serializers.ModelSerializer,
 ):

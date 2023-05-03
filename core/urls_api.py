@@ -145,6 +145,10 @@ urlpatterns = [
         include("redirect.api.urls", "redirect"),
     ),
     path(
+        "playout/",
+        include("playout.api.urls", "playout"),
+    ),
+    path(
         "broadcast/",
         include("broadcast.api.urls", "broadcast"),
     ),

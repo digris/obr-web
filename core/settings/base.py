@@ -351,6 +351,16 @@ GS_BUCKET_NAME = env(
     default="",
 )
 
+GS_MEDIA_BUCKET = env(
+    "GS_MEDIA_BUCKET",
+    default="obr-media",
+)
+
+GS_MASTER_BUCKET = env(
+    "GS_MASTER_BUCKET",
+    default="obr-master",
+)
+
 
 ##################################################################
 # security & co

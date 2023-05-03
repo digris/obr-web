@@ -14,4 +14,9 @@ router.register(r"playlists", views.PlaylistViewSet)
 app_name = "catalog"
 urlpatterns = [
     path("", include(router.urls)),
+    path(
+        "masters/download/<str:uid>/",
+        views.MasterDownloadView.as_view(),
+        name="master-download",
+    ),
 ]

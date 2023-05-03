@@ -1,8 +1,10 @@
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Now
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
@@ -154,6 +156,11 @@ class Master(
         if not self.encoding:
             return None
         return f"{self.uid}/master.{self.encoding}"
+
+    @property
+    def download_url(self):
+        url = reverse("api:catalog:master-download", kwargs={"uid": self.uid})
+        return f"{settings.SITE_URL.rstrip('/')}{url}"
 
     def sync_data(self, *args, **kwargs):
         return sync_master(self, *args, **kwargs)

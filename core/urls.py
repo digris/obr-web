@@ -38,12 +38,23 @@ urlpatterns += [
 ]
 
 if settings.DEBUG:
+    # NOTE: media serving only works with local storage
     urlpatterns = [
+        # media - encoded
         re_path(
             r"^encoded/(?P<path>.*)$",
             serve,
             {
                 "document_root": "data/encoded/",
+                "show_indexes": True,
+            },
+        ),
+        # media - masters
+        re_path(
+            r"^master/(?P<path>.*)$",
+            serve,
+            {
+                "document_root": "data/master/",
                 "show_indexes": True,
             },
         ),

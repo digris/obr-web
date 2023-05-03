@@ -128,6 +128,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
             media_set.append(
                 {
                     "media": playlist_media.media,
+                    "ct": playlist_media.ct,
                     "uid": playlist_media.uid,
                     "key": f"{self.uid}-{playlist_media.uid}",
                     "cue_in": playlist_media.cue_in,
@@ -137,6 +138,7 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                     "fade_cross": playlist_media.fade_cross,
                     "time_start": time_start,
                     "time_end": time_end,
+                    "duration": time_end - time_start,
                     "emission": self,
                 },
             )
