@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.109 (2023-05-22)
+### Fix
+* Disable debug logging ([`74c6d21`](https://github.com/digris/obr-web/commit/74c6d215bf000a40c9f119afcebb12bd57c1c1ed))
+
 ## v0.0.108 (2023-05-22)
 ### Fix
 * Force HLS for all iOS browsers ([`6362abd`](https://github.com/digris/obr-web/commit/6362abd0231c92d16c65e4a3873a2aaf75d3c513))
