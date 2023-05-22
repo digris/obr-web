@@ -22,7 +22,7 @@ const setDocumentPrimaryColor = (color: Array<number>) => {
   const fg = getContrastColor(bg);
   const fgInverse = getContrastColor(fg);
   const { style } = document.body;
-  console.debug("colors", { bg, fg, fgInverse });
+  // console.debug("colors", { bg, fg, fgInverse });
   style.setProperty("--c-live-bg", bg.join(" "));
   style.setProperty("--c-live-fg", fg.join(" "));
   style.setProperty("--c-live-fg-inverse", fgInverse.join(" "));
