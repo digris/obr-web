@@ -23,7 +23,7 @@ def sync_release(release, skip_images=False, **kwargs):
         "name": data.get("name").strip(),
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
         "release_date": data.get("releasedate"),
-        "release_type": data.get("type", ""),
+        "release_type": data.get("type") or "",
     }
 
     type(release).objects.filter(id=release.id).update(**update)

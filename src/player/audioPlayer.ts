@@ -289,20 +289,24 @@ class AudioPlayer {
   // un-block safari playback.
   // this has to be invoked by a user-interaction (click / tap)
   async unblockPlay() {
-    const { isSafari } = useDevice();
-    if (!isSafari) {
-      log.debug("AudioPlayer - no unblock needed for non-safari browser");
-      return;
-    }
+    const { isMobile, isSafari } = useDevice();
     if (this.isUnblocked) {
       log.debug("AudioPlayer - already unblocked - nothing to do");
       return;
+    }
+    if (!isMobile.value) {
+      if (!isSafari) {
+        log.debug("AudioPlayer - no unblock needed for non-mobile and/or non safari browser");
+        return;
+      }
     }
     log.debug("AudioPlayer - load & play silence");
     // set source to base64 encode 0.001s audio
     this.audio.src =
       "data:audio/wav;base64,UklGRsgAAABXQVZFZm10ICgAAAD+/wIAgD4AAAD0AQAIACAAFgAgAAMAAAABAAAAAAAQAIAAAKoAOJtxZmFjdAQAAAAQAAAAZGF0YYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
     await this.audio.play();
+    this.audio.pause();
+    this.audio.currentTime = 0;
     this.isUnblocked = true;
     log.debug("AudioPlayer - un-blocked");
   }

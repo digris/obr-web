@@ -56,6 +56,7 @@ python-dateutil = "^2.8.2"
 django-tree-queries = "^0.14.0"
 google-cloud-bigquery = "^3.9.0"
 ua-parser = "^0.16.1"
+grpcio = "1.51.3"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"
