@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.108 (2023-05-22)
+### Fix
+* Force HLS for all iOS browsers ([`6362abd`](https://github.com/digris/obr-web/commit/6362abd0231c92d16c65e4a3873a2aaf75d3c513))
+
 ## v0.0.107 (2023-04-13)
 ### Fix
 * Update app manifest ([`d6ee487`](https://github.com/digris/obr-web/commit/d6ee487ab672cd71e09c20dca0577b42c8b4ac17))
