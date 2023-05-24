@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.110 (2023-05-24)
+### Fix
+* Do not update store on `liveLatency` change. ([`ced3ae1`](https://github.com/digris/obr-web/commit/ced3ae1fffbce840971dc5bd9452a62db4ec645f))
+
 ## v0.0.109 (2023-05-22)
 ### Fix
 * Disable debug logging ([`74c6d21`](https://github.com/digris/obr-web/commit/74c6d215bf000a40c9f119afcebb12bd57c1c1ed))
