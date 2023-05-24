@@ -5,7 +5,7 @@ import log from "loglevel";
 import muxjs from "mux.js";
 // @ts-ignore
 import shaka from "shaka-player";
-import { isEqual, round } from "lodash-es";
+import { isEqual } from "lodash-es";
 
 import { useDevice } from "@/composables/device";
 import { usePlayerControls } from "@/composables/player";
