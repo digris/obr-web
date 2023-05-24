@@ -226,9 +226,9 @@ class AudioPlayer {
       bandwidth,
     };
 
-    if (!Number.isNaN(stats.liveLatency)) {
-      await this.setLiveLatency(round(stats.liveLatency, 2));
-    }
+    // if (!Number.isNaN(stats.liveLatency)) {
+    //   await this.setLiveLatency(round(stats.liveLatency, 2));
+    // }
 
     // stop here if no change in the state
     if (isEqual(playerState, this.playerState)) {
