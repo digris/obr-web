@@ -40,12 +40,12 @@ const SHAKA_CONFIG = {
   },
   streaming: {
     bufferingGoal: 30,
-    rebufferingGoal: 0.1,
-    bufferBehind: 0.1,
+    rebufferingGoal: 1.0,
+    bufferBehind: 1.0,
     retryParameters: {
       maxAttempts: 100,
     },
-    useNativeHlsOnSafari: false,
+    useNativeHlsOnSafari: true,
   },
 };
 
