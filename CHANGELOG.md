@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.111 (2023-05-25)
+### Fix
+* Use native HLS on safari. ([`4974ef6`](https://github.com/digris/obr-web/commit/4974ef66a775dc790b1af9e3439268577f39c59f))
+
 ## v0.0.110 (2023-05-24)
 ### Fix
 * Do not update store on `liveLatency` change. ([`ced3ae1`](https://github.com/digris/obr-web/commit/ced3ae1fffbce840971dc5bd9452a62db4ec645f))
