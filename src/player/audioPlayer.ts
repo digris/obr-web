@@ -45,7 +45,7 @@ const SHAKA_CONFIG = {
     retryParameters: {
       maxAttempts: 100,
     },
-    useNativeHlsOnSafari: true,
+    useNativeHlsOnSafari: false,
   },
 };
 

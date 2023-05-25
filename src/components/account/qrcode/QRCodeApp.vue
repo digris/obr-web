@@ -4,7 +4,7 @@ import QrcodeVue from "qrcode.vue";
 
 import { useSettings } from "@/composables/settings";
 
-const URL = "https://itunes.apple.com/app/urbanspoon/id1643695398";
+const URL = "https://itunes.apple.com/app/obr/id1643695398";
 
 export default defineComponent({
   components: {

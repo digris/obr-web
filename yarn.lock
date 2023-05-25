@@ -3986,10 +3986,10 @@ semver@^7.3.4, semver@^7.3.5, semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-shaka-player@4.3.6:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.3.6.tgz#9cc99f7918bb8da4b4eadb9215e781de89220f3a"
-  integrity sha512-IX0rJY9NZyENcFH3MDf50cpOLOBsWWdaX8D3Fy0kSl7j1D1I+sXrzOQ2LxFgwmlqbIX3XrHzY9bxiWapV3ZjEg==
+shaka-player@4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-4.3.1.tgz#f53e78ee5d9852a55d9f4c20438ed8ca890c1168"
+  integrity sha512-TeZh80k1o2zba/bC8H+ypmosTA9dgfNK5UZM8taK2j1vQgICrqiOEK0HuzFoZ3hOTLvGo6IhIIUSXfaGelO66g==
   dependencies:
     eme-encryption-scheme-polyfill "^2.1.1"
 
