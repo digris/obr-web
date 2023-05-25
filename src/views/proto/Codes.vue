@@ -26,9 +26,7 @@ export default defineComponent({
         level="H"
         render-as="svg"
       />
-      <div
-        class="badge"
-      >
+      <div class="badge">
         <img :src="srcBadge" alt="" />
       </div>
       <div class="step">1</div>
@@ -42,9 +40,7 @@ export default defineComponent({
         level="H"
         render-as="svg"
       />
-      <div
-        class="text"
-      >
+      <div class="text">
         <p class="code">KS-HM-ZH</p>
         <p class="url">next.openbroadcast.ch</p>
       </div>
@@ -118,9 +114,7 @@ export default defineComponent({
       .url {
         color: rgb(var(--c-black) / 50%);
       }
-
     }
   }
 }
-
 </style>
