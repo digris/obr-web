@@ -107,33 +107,3 @@ jobs:
           git fetch --prune --tags
           git tag -l
           semantic-release publish -v DEBUG
-
-  sentry-release:
-    needs: [release]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - name: Set variables
-        id: vars
-#        run: echo "app_version=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
-        run: echo "version=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-      - run: echo ${{ steps.vars.outputs.version }}
-      - run: |
-          npm install -g yarn
-          yarn install
-          yarn build
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          environment: production
-          version: ${{ steps.vars.outputs.version }}
-          sourcemaps: './build'
