@@ -10,7 +10,7 @@ import de from "@/locales/de.yml";
 // @ts-ignore
 import en from "@/locales/en.yml";
 import createMediaSessionHandler from "@/player/mediaSession";
-import settings from "@/settings";
+// import settings from "@/settings";
 import createEventHandler from "@/stats/event";
 import { useSettingsStore } from "@/stores/settings";
 import createAccountHandler from "@/utils/account";
