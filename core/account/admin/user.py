@@ -147,6 +147,7 @@ class UserAdmin(AuthUserAdmin):
     actions = [
         sync_qs_action,
     ]
+
     fieldsets = (
         (
             None,
