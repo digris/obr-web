@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 // import { Integrations } from "@sentry/tracing";
-import * as Sentry from "@sentry/vue";
+// import * as Sentry from "@sentry/vue";
 import log from "loglevel";
 import { createPinia } from "pinia";
 
@@ -86,12 +86,12 @@ app.directive("tooltip", TooltipDirective);
 //   });
 // }
 
-if (settings.SENTRY_DSN) {
-  Sentry.init({
-    app,
-    dsn: settings.SENTRY_DSN,
-  });
-}
+// if (settings.SENTRY_DSN) {
+//   Sentry.init({
+//     app,
+//     dsn: settings.SENTRY_DSN,
+//   });
+// }
 
 app.mount("#app");
 
