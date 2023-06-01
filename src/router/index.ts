@@ -36,7 +36,7 @@ import ProtoAppBridge from "@/views/proto/AppBridge.vue";
 import ProtoAutocomplete from "@/views/proto/Autocomplete.vue";
 import ProtoCodes from "@/views/proto/Codes.vue";
 import ProtoIcons from "@/views/proto/Icons.vue";
-import ProtoPlayer from "@/views/proto/Player.vue";
+import ProtoPlayer from "@/views/proto/PlayerHLS.vue";
 import ProtoBase from "@/views/proto/Proto.vue";
 import ProtoRating from "@/views/proto/Rating.vue";
 import ProtoVisual from "@/views/proto/Visual.vue";
