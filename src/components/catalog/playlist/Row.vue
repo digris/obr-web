@@ -35,7 +35,7 @@ export default defineComponent({
     const { objKey } = useObjKey(props.playlist);
     const { isMobile } = useDevice();
     const { darkMode } = useSettings();
-    const isHover = ref(isMobile.value);
+    const isHover = ref(isMobile);
     const link = `/discover/playlists/${props.playlist.uid}/`;
     const latestEmission = computed(() => {
       return DateTime.fromISO(props.playlist.latestEmissionTimeStart);

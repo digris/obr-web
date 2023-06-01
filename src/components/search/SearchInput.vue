@@ -22,7 +22,7 @@ export default defineComponent({
     const searchInput = ref<HTMLInputElement | null>(null);
     onMounted(() => {
       searchInput.value?.focus();
-      if (isMobile.value) {
+      if (isMobile) {
         // scroll to top after displaying on-screen keyboard
         setTimeout(() => {
           window.scrollTo(0, 0);

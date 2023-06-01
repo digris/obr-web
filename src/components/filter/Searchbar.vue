@@ -40,7 +40,7 @@ export default defineComponent({
     const { isDesktop } = useDevice();
     const isFormVisible = computed(() => {
       if (props.hideFormForMobile) {
-        return isDesktop.value;
+        return isDesktop;
       }
       return true;
     })

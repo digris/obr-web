@@ -67,7 +67,7 @@ export default defineComponent({
       isVisible.value = false;
     };
     const transitionName = computed(() => {
-      return isDesktop.value ? 'fade' : 'slide';
+      return isDesktop ? 'fade' : 'slide';
     });
     eventBus.on('contextMenu:show', () => {
       hide();

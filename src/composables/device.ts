@@ -1,5 +1,5 @@
-import { computed } from "vue";
-import { useWindowSize } from "@vueuse/core";
+// import { computed } from "vue";
+// import { useWindowSize } from "@vueuse/core";
 import Bowser from "bowser";
 
 import settings from "@/settings";
@@ -7,11 +7,14 @@ import settings from "@/settings";
 const parser = Bowser.getParser(window.navigator.userAgent);
 const osName = parser.getOSName(true);
 const browserName = parser.getBrowserName(true);
+const browserPlatform = parser.getPlatformType(true);
+
+// console.debug("browserPlatform", browserPlatform);
 
 const useDevice = () => {
-  const { width, height } = useWindowSize();
-  const isMobile = computed(() => width.value && width.value < 721);
-  const isDesktop = computed(() => !isMobile.value);
+  // const { width, height } = useWindowSize();
+  const isMobile = browserPlatform === "mobile";
+  const isDesktop = browserPlatform !== "mobile";
   const isIos = osName === "ios";
   const isSafari = browserName === "safari";
   const isApp = settings.CLIENT_MODE === "app";
@@ -25,7 +28,7 @@ const useDevice = () => {
     isWeb,
     osName,
     browserName,
-    windowSize: { width, height },
+    // windowSize: { width, height },
   };
 };
 

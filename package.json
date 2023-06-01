@@ -39,7 +39,7 @@
     "loglevel": "^1.8.0",
     "luxon": "^2.4",
     "mitt": "^3.0.0",
-    "mux.js": "^6.0.1",
+    "mux.js": "^6.3.0",
     "patch-package": "^6.4.7",
     "pinia": "^2.0.0-rc.10",
     "postinstall-postinstall": "^2.1.0",

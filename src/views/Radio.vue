@@ -9,7 +9,7 @@ export default defineComponent({
   setup() {
     const { isDesktop } = useDevice();
     const component = computed(() => {
-      return isDesktop.value ? Radio : RadioMobile;
+      return isDesktop ? Radio : RadioMobile;
     });
     return {
       component,

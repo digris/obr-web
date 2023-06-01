@@ -39,7 +39,10 @@ export default defineComponent({
         paddingRight: `${padding}px`,
       };
     });
-    const { x: scrollX, y, isScrolling, arrivedState, directions } = useScroll(panelEl);
+    const { x: scrollX, y } = useScroll(panelEl, {
+      throttle: 20,
+      // onScroll: (e: Event) => { console.debug(e.timeStamp) },
+    });
     const scrollPanelTo = (pos: number, smooth = true) => {
       if (!panelEl.value) {
         return;
@@ -133,9 +136,6 @@ export default defineComponent({
       scrollX,
       follow,
       y,
-      isScrolling,
-      arrivedState,
-      directions,
       //
       onItemFocused,
     };

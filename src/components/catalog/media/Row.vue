@@ -35,7 +35,7 @@ export default defineComponent({
     const { objKey } = useObjKey(props.media);
     const { isMobile } = useDevice();
     const { darkMode } = useSettings();
-    const isHover = ref(isMobile.value);
+    const isHover = ref(isMobile);
     const release = computed(() => {
       return props.media.releases && props.media.releases.length ? props.media.releases[0] : null;
     });

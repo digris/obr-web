@@ -294,7 +294,7 @@ class AudioPlayer {
       log.debug("AudioPlayer - already unblocked - nothing to do");
       return;
     }
-    if (!isMobile.value) {
+    if (!isMobile) {
       if (!isSafari) {
         log.debug("AudioPlayer - no unblock needed for non-mobile and/or non safari browser");
         return;
