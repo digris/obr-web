@@ -13,8 +13,8 @@ const browserPlatform = parser.getPlatformType(true);
 
 const useDevice = () => {
   // const { width, height } = useWindowSize();
-  const isMobile = browserPlatform === "mobile";
-  const isDesktop = browserPlatform !== "mobile";
+  const isMobile = browserPlatform !== "desktop";
+  const isDesktop = browserPlatform === "desktop";
   const isIos = osName === "ios";
   const isSafari = browserName === "safari";
   const isApp = settings.CLIENT_MODE === "app";
