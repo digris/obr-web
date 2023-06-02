@@ -236,6 +236,7 @@ variables defined in parent component(s):
   display: none;
   flex-direction: column;
   font-size: 12px;
+  will-change: auto;
 
   .translate-x {
     top: 0;
@@ -243,6 +244,7 @@ variables defined in parent component(s):
     height: var(--item-size);
     width: var(--item-size);
     left: 0;
+    will-change: auto;
   }
 
   .scale {
