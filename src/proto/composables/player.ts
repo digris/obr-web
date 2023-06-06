@@ -1,3 +1,4 @@
+import { computed } from "vue";
 import { storeToRefs } from "pinia";
 
 import { useDevice } from "@/composables/device";
@@ -5,8 +6,8 @@ import type { CueFade } from "@/proto/player/hlsPlayer";
 import { HlsPlayer } from "@/proto/player/hlsPlayer";
 import { useHlsPlayerStore } from "@/proto/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
-// import { useQueueStore } from "@/stores/queue";
-// import { useScheduleStore } from "@/stores/schedule";
+import { useQueueStore } from "@/stores/queue";
+import { useScheduleStore } from "@/stores/schedule";
 
 export const usePlayerState = () => {
   const {
@@ -24,19 +25,33 @@ export const usePlayerState = () => {
     debugData,
   } = storeToRefs(useHlsPlayerStore());
 
-  // const { currentMedia: scheduleMedia, next: scheduleNextMedia } = storeToRefs(useScheduleStore());
-  // const { currentMedia: queueMedia, nextMedia: queueNextMedia } = storeToRefs(useQueueStore());
-  //
-  // const media = computed(() => {
-  //   return isLive.value ? scheduleMedia.value : queueMedia.value;
-  // });
-  //
-  // const nextMedia = computed(() => {
-  //   if (isLive.value) {
-  //     return scheduleNextMedia.value;
-  //   }
-  //   return queueNextMedia.value ? queueNextMedia.value : scheduleMedia.value;
-  // });
+  const { currentMedia: scheduleMedia, next: scheduleNextMedia } = storeToRefs(useScheduleStore());
+  const { currentMedia: queueMedia, nextMedia: queueNextMedia } = storeToRefs(useQueueStore());
+
+  const media = computed(() => {
+    return isLive.value ? scheduleMedia.value : queueMedia.value;
+  });
+
+  const nextMedia = computed(() => {
+    if (isLive.value) {
+      return scheduleNextMedia.value;
+    }
+    return queueNextMedia.value ? queueNextMedia.value : scheduleMedia.value;
+  });
+
+  const scope = computed(() => {
+    if (!media.value) {
+      return [];
+    }
+    // @ts-ignore
+    return [...(media.value?.scope ?? []), `${media.value.ct}:${media.value.uid}`];
+  });
+
+  const color = computed(() => {
+    const release = media.value?.releases?.length ? media.value.releases[0] : null;
+    const image = release ? release.image : null;
+    return image?.rgb ?? [0, 0, 0];
+  });
 
   return {
     mode,
@@ -49,6 +64,11 @@ export const usePlayerState = () => {
     duration,
     currentTime,
     relPosition,
+    //
+    media,
+    nextMedia,
+    scope,
+    color,
     //
     debugData,
   };
