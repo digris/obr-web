@@ -28,7 +28,7 @@ export default defineComponent({
         return;
       }
       const event = {
-        intent: "plan",
+        intent: "voucher",
       };
       eventBus.emit("subscription:subscribe", event);
     };

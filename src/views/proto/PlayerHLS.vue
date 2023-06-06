@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRafFn } from "@vueuse/core";
 
 import { getMedia } from "@/api/catalog";
+import { useQueueControls } from "@/composables/queue";
 import { useAnalyser, usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 const {
@@ -21,6 +22,8 @@ const {
 
 const { playLive, playMedia, pause, resume, seek } = usePlayerControls();
 
+const { enqueueMedia, startPlayCurrent } = useQueueControls();
+
 const queue = ref([]);
 const loadPlaylist = async (uid: string) => {
   const { results } = await getMedia(
@@ -33,6 +36,9 @@ const loadPlaylist = async (uid: string) => {
   );
   console.debug(results);
   queue.value = results;
+
+  await enqueueMedia(results, "replace");
+  await startPlayCurrent(true);
 };
 
 const { analyser } = useAnalyser();
