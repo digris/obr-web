@@ -146,6 +146,7 @@ class HlsPlayer {
     audio.addEventListener("waiting", () => this.setPlayState("buffering"));
     audio.addEventListener("playing", () => this.setPlayState("playing"));
     audio.addEventListener("pause", () => this.setPlayState("paused"));
+    audio.addEventListener("emptied", () => this.setPlayState("paused"));
     audio.addEventListener("ended", () => this.setPlayState("stopped"));
 
     audio.onended = async (): Promise<void> => {
@@ -238,8 +239,6 @@ class HlsPlayer {
     const fadeInEndTime = this.fadeIn ? startTime + this.fadeIn : 0;
     const fadeOutStartTime = this.fadeOut ? endTime - this.fadeOut : 0;
 
-    console.debug("onTimeupdate", time);
-
     // check if time is after cue-out point
     // if no cue-out is set this is handled by the audio `ended` event
     if (this.cueOut && time > endTime) {
@@ -312,10 +311,14 @@ class HlsPlayer {
 
   public async pause(): Promise<void> {
     log.debug("pause");
-    if (this.hls && this.mode === "live") {
-      this.hls.stopLoad();
-    }
     await this.audio.pause();
+    if (this.mode === "live") {
+      if(this.hls) {
+        this.hls.stopLoad();
+      } else {
+        this.audio.src = "";
+      }
+    }
     // this.setPlayState("paused");
   }
 
