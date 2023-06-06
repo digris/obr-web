@@ -21,6 +21,8 @@ export const usePlayerState = () => {
     duration,
     currentTime,
     relPosition,
+    liveLatency,
+    bandwidth,
     //
     debugData,
   } = storeToRefs(useHlsPlayerStore());
@@ -64,6 +66,8 @@ export const usePlayerState = () => {
     duration,
     currentTime,
     relPosition,
+    liveLatency,
+    bandwidth,
     //
     media,
     nextMedia,
@@ -121,5 +125,13 @@ export const usePlayerControls = () => {
     pause: isWeb ? pause : appPause,
     resume: isWeb ? resume : appResume,
     seek: isWeb ? seek : appSeek,
+  };
+};
+
+export const useAnalyser = () => {
+  const player = HlsPlayer.getInstance();
+
+  return {
+    analyser: player.analyser,
   };
 };

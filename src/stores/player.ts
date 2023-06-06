@@ -71,8 +71,5 @@ export const usePlayerStore = defineStore("player", {
     async setLiveLatency(latency: number): Promise<void> {
       this.liveLatency = latency;
     },
-    async setAppPlayerData(data: any) {
-      this.appPlayerData = data;
-    },
   },
 });

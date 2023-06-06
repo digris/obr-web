@@ -1,11 +1,23 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useRafFn } from "@vueuse/core";
 
 import { getMedia } from "@/api/catalog";
-import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
+import { useAnalyser, usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
-const { mode, playState, duration, currentTime, relPosition, media, scope, color, debugData } =
-  usePlayerState();
+const {
+  mode,
+  playState,
+  duration,
+  currentTime,
+  relPosition,
+  liveLatency,
+  bandwidth,
+  media,
+  scope,
+  color,
+  debugData,
+} = usePlayerState();
 
 const { playLive, playMedia, pause, resume, seek } = usePlayerControls();
 
@@ -22,6 +34,27 @@ const loadPlaylist = async (uid: string) => {
   console.debug(results);
   queue.value = results;
 };
+
+const { analyser } = useAnalyser();
+
+const spectrum = ref(new Uint8Array(10));
+
+// analyser
+useRafFn(() => {
+  const a = analyser?.a1024;
+  const sd = new Uint8Array(300);
+  if (a) {
+    a.getByteFrequencyData(sd);
+  }
+  spectrum.value = sd.slice(0, 10);
+});
+
+// analyser
+// const drawLoop = () => {
+//   // console.debug("draw loop");
+//   requestAnimationFrame(drawLoop);
+// };
+// requestAnimationFrame(drawLoop);
 </script>
 
 <template>
@@ -34,6 +67,8 @@ const loadPlaylist = async (uid: string) => {
           duration,
           currentTime,
           relPosition,
+          liveLatency,
+          bandwidth,
         }"
       />
       <div>
@@ -94,6 +129,7 @@ const loadPlaylist = async (uid: string) => {
         v-text="{
           scope,
           color,
+          spectrum,
         }"
       />
       <pre v-text="debugData" />

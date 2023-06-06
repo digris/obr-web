@@ -9,6 +9,8 @@ export interface State {
   playState: PlayState;
   duration: number;
   currentTime: number;
+  bandwidth: number;
+  liveLatency: number;
   //
   debugData?: object;
 }
@@ -19,6 +21,8 @@ export const useHlsPlayerStore = defineStore("hlsPlayer", {
     playState: "stopped",
     duration: 0,
     currentTime: 0,
+    bandwidth: 0,
+    liveLatency: 24, // TODO: evaluate default latency
     //
     debugData: {},
   }),
@@ -27,8 +31,8 @@ export const useHlsPlayerStore = defineStore("hlsPlayer", {
     isLive(state: State): boolean {
       return state.mode === "live";
     },
-    isOndemand(): boolean {
-      return !this.isLive;
+    isOndemand(state: State): boolean {
+      return state.mode === "ondemand";
     },
     // state mappers
     isPlaying(state: State): boolean {
@@ -41,7 +45,7 @@ export const useHlsPlayerStore = defineStore("hlsPlayer", {
       return state.playState === "paused";
     },
     // derived state
-    relPosition(state: State): number | null {
+    relPosition(state: State): number {
       if (state.mode === "live") {
         return 0;
       }
@@ -69,6 +73,12 @@ export const useHlsPlayerStore = defineStore("hlsPlayer", {
           // log.debug("hlsPlayerStore - update currentTime", state.currentTime);
           this.currentTime = state.currentTime;
         }
+      }
+      if (state.mode === "live" && state.liveLatency && state.liveLatency !== this.liveLatency) {
+        this.liveLatency = state.liveLatency;
+      }
+      if (state.bandwidth !== this.bandwidth) {
+        this.bandwidth = state.bandwidth;
       }
     },
     async setPlayerDebugData(data: object): Promise<void> {
