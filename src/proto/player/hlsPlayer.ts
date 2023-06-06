@@ -11,7 +11,7 @@ console.debug("settings", settings);
 
 const hlsConfig = {
   ...hlsBaseConfig,
-  debug: true,
+  debug: false,
   // xhrSetup: (xhr: XMLHttpRequest, url: string) => {
   //   // log.debug(url, xhr);
   //   // xhr.withCredentials = true;

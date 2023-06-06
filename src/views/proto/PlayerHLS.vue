@@ -4,7 +4,8 @@ import { ref } from "vue";
 import { getMedia } from "@/api/catalog";
 import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
-const { mode, playState, duration, currentTime, relPosition, debugData } = usePlayerState();
+const { mode, playState, duration, currentTime, relPosition, media, scope, color, debugData } =
+  usePlayerState();
 
 const { playLive, playMedia, pause, resume, seek } = usePlayerControls();
 
@@ -76,6 +77,25 @@ const loadPlaylist = async (uid: string) => {
       </div>
     </div>
     <div>
+      <div
+        :style="{
+          height: '50px',
+          background: `rgb(${color.join(',')})`,
+        }"
+      />
+      <pre
+        v-if="media"
+        v-text="{
+          uid: media.uid,
+          duration: media.duration,
+        }"
+      />
+      <pre
+        v-text="{
+          scope,
+          color,
+        }"
+      />
       <pre v-text="debugData" />
     </div>
   </div>
