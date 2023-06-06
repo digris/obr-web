@@ -32,7 +32,8 @@ type CueFade = {
 };
 
 const getLiveUrl = (): string => {
-  return `${settings.STREAM_ENDPOINTS.hls}?${Date.now()}`;
+  return "https://obr-stream-hls.hazelfire.com/live.m3u8";
+  // return `${settings.STREAM_ENDPOINTS.hls}?${Date.now()}`;
 };
 
 const getOnDemandUrl = (uid: string): string => {
@@ -313,7 +314,7 @@ class HlsPlayer {
     log.debug("pause");
     await this.audio.pause();
     if (this.mode === "live") {
-      if(this.hls) {
+      if (this.hls) {
         this.hls.stopLoad();
       } else {
         this.audio.src = "";
