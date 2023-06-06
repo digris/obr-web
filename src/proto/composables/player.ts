@@ -5,9 +5,8 @@ import type { CueFade } from "@/proto/player/hlsPlayer";
 import { HlsPlayer } from "@/proto/player/hlsPlayer";
 import { useHlsPlayerStore } from "@/proto/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
-import {useScheduleStore} from "@/stores/schedule";
-import {useQueueStore} from "@/stores/queue";
-
+// import { useQueueStore } from "@/stores/queue";
+// import { useScheduleStore } from "@/stores/schedule";
 
 export const usePlayerState = () => {
   const {

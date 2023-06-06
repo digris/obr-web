@@ -1,6 +1,6 @@
 import Hls from "hls.js";
 import log from "loglevel";
-import {isEqual, round} from "lodash-es";
+import { isEqual, round } from "lodash-es";
 
 import { hlsBaseConfig } from "@/proto/player/hlsConfig";
 import type { State as StorePlayerState } from "@/proto/stores/player";
@@ -77,11 +77,9 @@ class HlsPlayer {
   private debugData = {};
 
   private constructor() {
-
     const audio = document.createElement("audio");
 
-
-    const nativeHlsSupported = !! audio.canPlayType('application/vnd.apple.mpegurl');
+    const nativeHlsSupported = !!audio.canPlayType("application/vnd.apple.mpegurl");
     const hlsSupported = Hls.isSupported();
 
     log.debug("nativeHlsSupported", nativeHlsSupported);
@@ -351,23 +349,16 @@ class HlsPlayer {
   }
 
   private async syncDebugDataToStore(): Promise<void> {
-
     if (!this.hls) {
       return;
     }
 
     const { hls, mode } = this;
 
-    const {
-      currentLevel,
-      maxAutoLevel,
-      bandwidthEstimate,
-      latency,
-      drift,
-      mainForwardBufferInfo,
-    } = hls;
+    const { currentLevel, maxAutoLevel, bandwidthEstimate, latency, drift, mainForwardBufferInfo } =
+      hls;
 
-    let data = {
+    const data = {
       mode,
       currentLevel,
       maxAutoLevel,
@@ -375,7 +366,7 @@ class HlsPlayer {
       latency,
       drift,
       mainForwardBufferInfo,
-    }
+    };
 
     if (!isEqual(data, this.debugData)) {
       const { setPlayerDebugData } = useHlsPlayerStore();

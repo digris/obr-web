@@ -13,11 +13,9 @@ import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
 import { useCatalogStore } from "@/stores/catalog";
-import Spectrogram from "@/components/audio/Spectrogram.vue";
 
 export default defineComponent({
   components: {
-    Spectrogram,
     DetailPage,
     DetailHeader,
     DetailHeaderLoading,
