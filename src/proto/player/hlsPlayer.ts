@@ -7,6 +7,9 @@ import type { State as StorePlayerState } from "@/proto/stores/player";
 import { useHlsPlayerStore } from "@/proto/stores/player";
 import settings from "@/settings";
 
+import type { AudioAnalyser } from "./analyser";
+import { createAudioAnalyser } from "./analyser";
+
 console.debug("settings", settings);
 
 const hlsConfig = {
@@ -74,6 +77,8 @@ class HlsPlayer {
     log.warn("playNext: not implemented");
   };
 
+  analyser: AudioAnalyser;
+
   private debugData = {};
 
   private constructor() {
@@ -99,6 +104,8 @@ class HlsPlayer {
 
     this.setupStore();
     this.setupQueue();
+
+    this.analyser = createAudioAnalyser(audio);
 
     setInterval(async () => {
       await this.syncStateToStore();
@@ -336,15 +343,17 @@ class HlsPlayer {
   }
 
   private async syncStateToStore(): Promise<void> {
-    const { mode, playState, duration, currentTime } = this;
+    const { mode, playState, duration, currentTime, hls } = this;
 
     const state = {
       mode,
       playState,
       duration: duration === Infinity ? 0 : duration,
       currentTime,
+      //
+      liveLatency: round(hls?.latency ?? -1, 0),
+      bandwidth: round(hls?.bandwidthEstimate ?? -1, 0),
     };
-    // log.debug("syncStateToStore", state);
     await this.setPlayerState(state);
   }
 
