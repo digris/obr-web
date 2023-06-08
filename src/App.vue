@@ -16,12 +16,10 @@ import Player from "@/components/player/Player.vue";
 import Subscribe from "@/components/subscription/Subscribe.vue";
 import ClaimVoucher from "@/components/subscription/voucher/Claim.vue";
 import { useAccount } from "@/composables/account";
-import { AudioPlayer } from "@/player/audioPlayer";
 import { HlsPlayer } from "@/proto/player/hlsPlayer";
 
 declare global {
   interface Window {
-    audioPlayer: AudioPlayer;
     appBridge: AppBridge;
     hlsPlayer: HlsPlayer;
   }
@@ -46,7 +44,6 @@ export default defineComponent({
     const { loadUser } = useAccount();
     loadUser();
 
-    window.audioPlayer = new AudioPlayer();
     window.appBridge = new AppBridge();
     window.hlsPlayer = HlsPlayer.getInstance();
 

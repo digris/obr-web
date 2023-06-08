@@ -4,7 +4,6 @@ import { storeToRefs } from "pinia";
 
 import { useQueueState } from "@/composables/queue";
 import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
-import { usePlayerStore } from "@/stores/player";
 
 export default defineComponent({
   components: {},
@@ -15,7 +14,6 @@ export default defineComponent({
       return media.value.map((m: any) => m?.uid);
     });
     const { playState, mode: playerMode, currentTime: playerAbsPosition } = usePlayerState();
-    const { appPlayerData } = storeToRefs(usePlayerStore());
     const { playLive, pause, resume } = usePlayerControls();
     const channel = ref("");
     const data = ref("");
@@ -32,7 +30,6 @@ export default defineComponent({
     return {
       media,
       mediaUids,
-      appPlayerData,
       //
       playerMode,
       playState,

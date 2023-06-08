@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import { useDevice } from "@/composables/device";
 import type { CueFade } from "@/proto/player/hlsPlayer";
 import { HlsPlayer } from "@/proto/player/hlsPlayer";
-import { useHlsPlayerStore } from "@/proto/stores/player";
+import { usePlayerStore } from "@/proto/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
 import { useScheduleStore } from "@/stores/schedule";
@@ -25,7 +25,7 @@ export const usePlayerState = () => {
     bandwidth,
     //
     debugData,
-  } = storeToRefs(useHlsPlayerStore());
+  } = storeToRefs(usePlayerStore());
 
   const { currentMedia: scheduleMedia, next: scheduleNextMedia } = storeToRefs(useScheduleStore());
   const { currentMedia: queueMedia, nextMedia: queueNextMedia } = storeToRefs(useQueueStore());
