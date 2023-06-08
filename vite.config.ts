@@ -45,15 +45,15 @@ export default defineConfig({
     },
     outDir: resolve(__dirname, "build"),
     sourcemap: true,
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 1000,
     assetsInlineLimit: 8092,
   },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
       // "vue": "vue/dist/vue.esm-bundler.js",
-      // "vue-i18n": "vue-i18n/dist/vue-i18n.runtime.esm-bundler.js",
       "vue-i18n": "vue-i18n/dist/vue-i18n.cjs.js",
+      "hls.js": "hls.js/dist/hls.light.js",
     },
   },
   server: {
