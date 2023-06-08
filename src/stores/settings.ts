@@ -5,7 +5,7 @@ import { useDevice } from "@/composables/device";
 
 interface State {
   darkMode: boolean;
-  volume: number;
+  baseVolume: number;
   shuffleMode: boolean;
   maxBandwidth: number;
   locale: string;
@@ -26,7 +26,7 @@ export const useSettingsStore = defineStore("settings", {
     // @ts-ignore
     darkMode: useStorage("settings/darkMode", getDefaultDarkMode()),
     // @ts-ignore
-    volume: useStorage("settings/player/volume", 100),
+    baseVolume: useStorage("settings/player/baseVolume", 1),
     // @ts-ignore
     shuffleMode: useStorage("settings/player/shuffleMode", false),
     // @ts-ignore
@@ -46,8 +46,8 @@ export const useSettingsStore = defineStore("settings", {
     setLocale(value: string) {
       this.locale = value;
     },
-    setVolume(value: number) {
-      this.volume = value;
+    setBaseVolume(value: number) {
+      this.baseVolume = value;
     },
     setShuffleMode(value: boolean) {
       this.shuffleMode = value;

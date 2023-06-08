@@ -5,8 +5,8 @@ import { storeToRefs } from "pinia";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import { useDevice } from "@/composables/device";
+import { usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
-import { usePlayerState } from "@/proto/composables/player";
 import { useUiStore } from "@/stores/ui";
 import { getContrastColor } from "@/utils/color";
 

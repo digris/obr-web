@@ -16,7 +16,7 @@ import Player from "@/components/player/Player.vue";
 import Subscribe from "@/components/subscription/Subscribe.vue";
 import ClaimVoucher from "@/components/subscription/voucher/Claim.vue";
 import { useAccount } from "@/composables/account";
-import { HlsPlayer } from "@/proto/player/hlsPlayer";
+import { HlsPlayer } from "@/player/hlsPlayer";
 
 declare global {
   interface Window {

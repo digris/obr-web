@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";
-import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 export default defineComponent({
   setup() {

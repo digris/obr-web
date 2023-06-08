@@ -5,7 +5,7 @@ import { round } from "lodash-es";
 
 import PlayheadHandle from "@/components/player/PlayheadHandle.vue";
 import PlayheadTime from "@/components/player/PlayheadTime.vue";
-import { usePlayerState } from "@/proto/composables/player";
+import { usePlayerState } from "@/composables/player";
 
 export default defineComponent({
   components: {

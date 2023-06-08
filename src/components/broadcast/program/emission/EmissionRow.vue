@@ -13,8 +13,8 @@ import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";
 import { useDevice } from "@/composables/device";
 import { useObjKey } from "@/composables/obj";
+import { usePlayerControls } from "@/composables/player";
 import { useSettings } from "@/composables/settings";
-import { usePlayerControls } from "@/proto/composables/player";
 
 export default defineComponent({
   components: {

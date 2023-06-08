@@ -2,9 +2,9 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 
 import { useDevice } from "@/composables/device";
-import type { CueFade } from "@/proto/player/hlsPlayer";
-import { HlsPlayer } from "@/proto/player/hlsPlayer";
-import { usePlayerStore } from "@/proto/stores/player";
+import type { CueFade } from "@/player/hlsPlayer";
+import { HlsPlayer } from "@/player/hlsPlayer";
+import { usePlayerStore } from "@/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
 import { useScheduleStore } from "@/stores/schedule";

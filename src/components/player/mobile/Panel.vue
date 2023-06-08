@@ -7,7 +7,7 @@ import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconClose from "@/components/ui/icon/IconClose.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
-import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { getContrastColor } from "@/utils/color";
 import { preloadImage } from "@/utils/image";
 

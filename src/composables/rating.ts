@@ -1,4 +1,4 @@
-import { usePlayerState } from "@/proto/composables/player";
+import { usePlayerState } from "@/composables/player";
 import { useRatingStore } from "@/stores/rating";
 import { useScheduleStore } from "@/stores/schedule";
 

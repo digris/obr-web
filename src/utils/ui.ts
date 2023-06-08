@@ -6,8 +6,8 @@ import { useUiStore } from "@/stores/ui";
 import { getAppTheme, getContrastColor } from "@/utils/color";
 
 const setDocumentThemeColor = async (color: Array<number>) => {
-  const el: HTMLMetaElement | null = document.getElementById("theme-color");
-  if (el) {
+  const el: HTMLElement | null = document.getElementById("theme-color");
+  if (el instanceof HTMLMetaElement) {
     el.content = `rgb(${color.join(" ")})`;
   }
 };

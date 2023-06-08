@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { round } from "lodash-es";
 
-import type { Mode, PlayState } from "@/proto/player/hlsPlayer";
+import type { Mode, PlayState } from "@/player/hlsPlayer";
 
 export interface State {
   mode: Mode;

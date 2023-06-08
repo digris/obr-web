@@ -1,12 +1,14 @@
+import { watch } from "vue";
 import Hls from "hls.js";
 import log from "loglevel";
 import { isEqual, round } from "lodash-es";
 
 import { useQueueControls } from "@/composables/queue";
-import { hlsBaseConfig } from "@/proto/player/hlsConfig";
-import type { State as StorePlayerState } from "@/proto/stores/player";
-import { usePlayerStore } from "@/proto/stores/player";
+import { useSettings } from "@/composables/settings";
+import { hlsBaseConfig } from "@/player/hlsConfig";
 import settings from "@/settings";
+import type { State as StorePlayerState } from "@/stores/player";
+import { usePlayerStore } from "@/stores/player";
 
 import type { AudioAnalyser } from "./analyser";
 import { createAudioAnalyser } from "./analyser";
@@ -69,6 +71,7 @@ class HlsPlayer {
 
   private volume = 1;
   public baseVolume = 1; // user-controllable volume
+  public maxBandwidth = 200000; // user-controllable bandwidth
 
   // actions from pinia store / composables need to be mapped in the constructor
   // as they are not ready earlier
@@ -100,7 +103,8 @@ class HlsPlayer {
     this.audio = audio;
     this.hls = hls;
 
-    this.setupStore();
+    this.connectStore();
+    this.connectSettings();
 
     this.analyser = createAudioAnalyser(audio);
 
@@ -181,13 +185,6 @@ class HlsPlayer {
     });
   }
 
-  private setupStore(): void {
-    // connections to pinia store actions
-    log.debug("setupStore");
-    const { setPlayerState } = usePlayerStore();
-    this.setPlayerState = setPlayerState;
-  }
-
   private setPlayState(playState: PlayState): void {
     // log.debug("player setPlayState:", playState);
     this.playState = playState;
@@ -214,9 +211,8 @@ class HlsPlayer {
   set combined volume by given value and configured `baseVolume`
   note: to control the volume from "outside" use `setBaseVolume`
   */
-  private setVolume(value = 1): void {
-    this.volume = value;
-    log.debug("setVolume", value);
+  private setVolume(value?: number): void {
+    this.volume = value || this.volume;
     this.audio.volume = this.volume * this.baseVolume;
   }
 
@@ -361,12 +357,41 @@ class HlsPlayer {
 
   public setBaseVolume(value: number): void {
     this.baseVolume = value;
+    this.setVolume();
+  }
+
+  public setMaxBandwidth(value: number): void {
+    log.debug("setMaxBandwidth", value);
+    this.maxBandwidth = value;
+    // hlsPlayer.hls.autoLevelCapping = 2
   }
 
   private async playNext(): Promise<void> {
     console.debug("play next");
     const { playNext } = useQueueControls();
     await playNext();
+  }
+
+  private connectStore(): void {
+    // connections to pinia store actions
+    log.debug("connectStore");
+    const { setPlayerState } = usePlayerStore();
+    this.setPlayerState = setPlayerState;
+  }
+
+  private connectSettings(): void {
+    // connections to (reactive) user settings
+    const { baseVolume, maxBandwidth } = useSettings();
+    this.setBaseVolume(baseVolume.value);
+    this.setMaxBandwidth(maxBandwidth.value);
+    watch(
+      () => baseVolume.value,
+      (value) => this.setBaseVolume(value)
+    );
+    watch(
+      () => maxBandwidth.value,
+      (value) => this.setMaxBandwidth(value)
+    );
   }
 
   private async syncStateToStore(): Promise<void> {

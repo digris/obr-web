@@ -3,7 +3,7 @@ import { computed, defineComponent, onActivated, onMounted, onUnmounted, ref, wa
 import { DateTime } from "luxon";
 
 import { getEmission } from "@/api/broadcast";
-import { usePlayerControls } from "@/proto/composables/player";
+import { usePlayerControls } from "@/composables/player";
 
 import EmissionRow from "./EmissionRow.vue";
 import MediaSet from "./MediaSet.vue";
