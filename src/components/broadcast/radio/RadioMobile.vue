@@ -4,8 +4,8 @@ import { useWindowSize, whenever } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 import { round } from "lodash-es";
 
-import { usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";
+import { usePlayerState } from "@/proto/composables/player";
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import { useScheduleStore } from "@/stores/schedule";
 import { useUiStore } from "@/stores/ui";

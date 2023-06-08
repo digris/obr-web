@@ -4,7 +4,7 @@ import { computed, defineComponent } from "vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconDAB from "@/components/ui/icon/brand/IconDAB.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 export default defineComponent({
   components: {

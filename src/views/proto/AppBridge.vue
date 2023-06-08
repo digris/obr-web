@@ -2,8 +2,8 @@
 import { computed, defineComponent, ref } from "vue";
 import { storeToRefs } from "pinia";
 
-import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
+import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 import { usePlayerStore } from "@/stores/player";
 
 export default defineComponent({
@@ -14,11 +14,7 @@ export default defineComponent({
     const mediaUids = computed(() => {
       return media.value.map((m: any) => m?.uid);
     });
-    const {
-      state: playerState,
-      mode: playerMode,
-      absPosition: playerAbsPosition,
-    } = usePlayerState();
+    const { playState, mode: playerMode, currentTime: playerAbsPosition } = usePlayerState();
     const { appPlayerData } = storeToRefs(usePlayerStore());
     const { playLive, pause, resume } = usePlayerControls();
     const channel = ref("");
@@ -39,7 +35,7 @@ export default defineComponent({
       appPlayerData,
       //
       playerMode,
-      playerState,
+      playState,
       playerAbsPosition,
       //
       playLive,
@@ -96,7 +92,7 @@ export default defineComponent({
       <pre
         v-text="{
           mode: playerMode,
-          state: playerState,
+          state: playState,
           absPosition: playerAbsPosition,
         }"
       />

@@ -2,8 +2,8 @@
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 
-import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
+import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 import ButtonPlay from "../button/ButtonPlay.vue";
 import ButtonSkip from "../button/ButtonSkip.vue";

@@ -5,8 +5,8 @@ import { storeToRefs } from "pinia";
 import { round } from "lodash-es";
 
 import Spectrogram from "@/components/audio/Spectrogram.vue";
-import { usePlayerState } from "@/composables/player";
 import eventBus from "@/eventBus";
+import { usePlayerState } from "@/proto/composables/player";
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import { useScheduleStore } from "@/stores/schedule";
 import { useTimeStore } from "@/stores/time";

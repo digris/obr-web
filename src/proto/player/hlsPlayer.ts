@@ -2,6 +2,7 @@ import Hls from "hls.js";
 import log from "loglevel";
 import { isEqual, round } from "lodash-es";
 
+import { useQueueControls } from "@/composables/queue";
 import { hlsBaseConfig } from "@/proto/player/hlsConfig";
 import type { State as StorePlayerState } from "@/proto/stores/player";
 import { useHlsPlayerStore } from "@/proto/stores/player";
@@ -10,15 +11,14 @@ import settings from "@/settings";
 import type { AudioAnalyser } from "./analyser";
 import { createAudioAnalyser } from "./analyser";
 
-console.debug("settings", settings);
+const PROTECTED_MEDIA = "https://media.next.openbroadcast.ch/";
 
 const hlsConfig = {
   ...hlsBaseConfig,
   debug: false,
-  // xhrSetup: (xhr: XMLHttpRequest, url: string) => {
-  //   // log.debug(url, xhr);
-  //   // xhr.withCredentials = true;
-  // },
+  xhrSetup: (xhr: XMLHttpRequest, url: string) => {
+    xhr.withCredentials = url.startsWith(PROTECTED_MEDIA);
+  },
 };
 
 type Mode = "live" | "ondemand";
@@ -74,9 +74,6 @@ class HlsPlayer {
   // as they are not ready earlier
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setPlayerState = async (state: StorePlayerState): Promise<void> => {};
-  playNext = async (): Promise<void> => {
-    log.warn("playNext: not implemented");
-  };
 
   analyser: AudioAnalyser;
 
@@ -104,7 +101,6 @@ class HlsPlayer {
     this.hls = hls;
 
     this.setupStore();
-    this.setupQueue();
 
     this.analyser = createAudioAnalyser(audio);
 
@@ -155,8 +151,7 @@ class HlsPlayer {
       await this.playNext();
     };
 
-    audio.addEventListener("durationchange", (e: Event) => {
-      log.debug("durationchange", e);
+    audio.addEventListener("durationchange", () => {
       this.duration = audio.duration;
     });
 
@@ -177,9 +172,9 @@ class HlsPlayer {
       log.debug("audio attached to hls");
     });
 
-    hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-      log.debug(event, data.levels);
-    });
+    // hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+    //   log.debug(event, data.levels);
+    // });
 
     hls.on(Hls.Events.ERROR, (event, data) => {
       log.debug(event, data);
@@ -189,24 +184,18 @@ class HlsPlayer {
   private setupStore(): void {
     // connections to pinia store actions
     log.debug("setupStore");
-    const { setPlayerState: setPlayerStateFn } = useHlsPlayerStore();
-    this.setPlayerState = setPlayerStateFn;
-  }
-
-  private setupQueue(): void {
-    // connections to queue
-    log.debug("setupQueue");
-    // playNext must be debounced
+    const { setPlayerState } = useHlsPlayerStore();
+    this.setPlayerState = setPlayerState;
   }
 
   private setPlayState(playState: PlayState): void {
-    log.debug("player setPlayState:", playState);
+    // log.debug("player setPlayState:", playState);
     this.playState = playState;
     this.syncStateToStore().then(() => {});
   }
 
   private setCueFade(cueFade: CueFade): void {
-    log.debug("setCueFade", cueFade);
+    // log.debug("setCueFade", cueFade);
     this.cueIn = cueFade.cueIn;
     this.cueOut = cueFade.cueOut;
     this.fadeIn = cueFade.fadeIn;
@@ -214,7 +203,7 @@ class HlsPlayer {
   }
 
   private resetCueFade(): void {
-    log.debug("resetCueFade");
+    // log.debug("resetCueFade");
     this.cueIn = 0;
     this.cueOut = 0;
     this.fadeIn = 0;
@@ -227,6 +216,7 @@ class HlsPlayer {
   */
   private setVolume(value = 1): void {
     this.volume = value;
+    log.debug("setVolume", value);
     this.audio.volume = this.volume * this.baseVolume;
   }
 
@@ -234,17 +224,24 @@ class HlsPlayer {
   handle cue-points and fade volumes
   */
   private async onTimeupdate(): Promise<void> {
+    if (this.mode === "live") {
+      if (this.volume < 1) {
+        this.setVolume(1);
+      }
+      return;
+    }
+
     const time = this.currentTime;
     const startTime = this.cueIn;
     const endTime = this.duration - this.cueOut;
     const fadeInEndTime = this.fadeIn ? startTime + this.fadeIn : 0;
-    const fadeOutStartTime = this.fadeOut ? endTime - this.fadeOut : 0;
+    const fadeOutStartTime = this.fadeOut ? endTime - this.fadeOut : endTime;
 
     // check if time is after cue-out point
     // if no cue-out is set this is handled by the audio `ended` event
     if (this.cueOut && time > endTime) {
       log.debug("endTime reached");
-      this.pause();
+      await this.pause();
       await this.playNext();
     }
 
@@ -258,8 +255,13 @@ class HlsPlayer {
       const stepVolume = getStepVolume(fadeOutStartTime, endTime, time, true);
       log.debug("fade-out in progress", stepVolume);
       this.setVolume(stepVolume);
-    } else if (this.volume < 1) {
+    } else if (time <= startTime) {
+      // ensure 0 volume in case play position is before cue-in
+      log.info("time before start time");
+      this.setVolume(0);
+    } else if (this.volume < 1 && time > fadeInEndTime && time < fadeOutStartTime) {
       // ensure volume is set to max
+      log.info("reset volume");
       this.setVolume(1);
     }
   }
@@ -284,7 +286,7 @@ class HlsPlayer {
   }
 
   public async playUid(uid: string, estimatedDuration?: number, cueFade?: CueFade): Promise<void> {
-    log.debug("playUid:", uid, cueFade);
+    // log.debug("playUid:", uid, cueFade);
     if (estimatedDuration !== undefined) {
       this.duration = estimatedDuration;
     }
@@ -297,17 +299,31 @@ class HlsPlayer {
     const url = getOnDemandUrl(uid);
     this.mode = "ondemand";
     if (uid !== this.mediaUid || this.playState === "buffering") {
-      this.currentTime = 0;
       this.setPlayState("buffering");
+      if (this.fadeIn) {
+        log.debug("fade in: set volume to 0");
+        // this.audio.volume = 0;
+        this.setVolume(0);
+      }
       if (this.hls) {
         await this.hls.loadSource(url);
       } else {
         console.debug("load source: native mode", url);
         this.audio.src = url;
       }
+      this.currentTime = this.cueIn;
+      this.audio.currentTime = this.currentTime;
+      log.debug("seek to:", this.currentTime);
     }
     this.mediaUid = uid;
-    await this.audio.play();
+    try {
+      await this.audio.play();
+    } catch (e) {
+      log.warn("unable to play. try again in 1s", e);
+      setTimeout(async () => {
+        await this.audio.play();
+      }, 1000);
+    }
   }
 
   public async pause(): Promise<void> {
@@ -338,12 +354,19 @@ class HlsPlayer {
       return;
     }
     log.debug("seek", p);
-    this.audio.currentTime = this.duration * p;
+    const time = this.duration * p;
+    this.audio.currentTime = Math.max(time, this.cueIn);
     await this.audio.play();
   }
 
   public setBaseVolume(value: number): void {
     this.baseVolume = value;
+  }
+
+  private async playNext(): Promise<void> {
+    console.debug("play next");
+    const { playNext } = useQueueControls();
+    await playNext();
   }
 
   private async syncStateToStore(): Promise<void> {

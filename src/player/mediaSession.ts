@@ -1,8 +1,8 @@
 import { watch } from "vue";
 
 import { useDevice } from "@/composables/device";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
+import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 import { getImageSrc } from "@/utils/image";
 
 class MediaSessionHandler {
@@ -52,8 +52,8 @@ class MediaSessionHandler {
     } else {
       this.session.setActionHandler("pause", this.pause);
       this.session.setActionHandler("play", this.resume);
-      this.session.setActionHandler("nexttrack", this.playNext);
       this.session.setActionHandler("previoustrack", this.playPrevious);
+      this.session.setActionHandler("nexttrack", this.playNext);
     }
   }
 

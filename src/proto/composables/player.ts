@@ -49,10 +49,13 @@ export const usePlayerState = () => {
     return [...(media.value?.scope ?? []), `${media.value.ct}:${media.value.uid}`];
   });
 
-  const color = computed(() => {
+  const image = computed(() => {
     const release = media.value?.releases?.length ? media.value.releases[0] : null;
-    const image = release ? release.image : null;
-    return image?.rgb ?? [0, 0, 0];
+    return release ? release.image : null;
+  });
+
+  const color = computed(() => {
+    return image.value?.rgb ?? [0, 0, 0];
   });
 
   return {
@@ -72,6 +75,7 @@ export const usePlayerState = () => {
     media,
     nextMedia,
     scope,
+    image,
     color,
     //
     debugData,
@@ -98,7 +102,7 @@ export const usePlayerControls = () => {
       fadeIn: media?.fadeIn ?? 0,
       fadeOut: media?.fadeOut ?? 0,
     };
-    console.debug("playMedia", uid, cueFade, media);
+    console.debug("playMedia", uid, cueFade);
     await playUid(uid, estimatedDuration, cueFade);
   };
   const pause = () => player.pause();

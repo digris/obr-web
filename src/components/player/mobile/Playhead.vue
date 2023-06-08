@@ -4,7 +4,7 @@ import { refAutoReset, useElementSize } from "@vueuse/core";
 import { round } from "lodash-es";
 
 import Duration from "@/components/ui/time/Duration.vue";
-import { usePlayerState } from "@/composables/player";
+import { usePlayerState } from "@/proto/composables/player";
 
 export default defineComponent({
   components: {
@@ -18,7 +18,7 @@ export default defineComponent({
   },
   emits: ["seek"],
   setup(props, { emit }) {
-    const { media, isOndemand, relPosition, absPosition, duration } = usePlayerState();
+    const { media, isOndemand, relPosition, currentTime, duration } = usePlayerState();
     const rootEl = ref<HTMLElement | null>(null);
     const { width: rootWidth } = useElementSize(rootEl);
 
@@ -45,10 +45,10 @@ export default defineComponent({
     });
 
     const timeLeft = computed(() => {
-      if (!absPosition.value) {
+      if (!currentTime.value) {
         return duration.value;
       }
-      return duration.value - absPosition.value - media.value?.cueOut;
+      return duration.value - currentTime.value - media.value?.cueOut;
     });
 
     const rangeMin = computed(() => {
@@ -102,7 +102,7 @@ export default defineComponent({
       isSeeking,
       onInput,
       onChange,
-      absPosition,
+      currentTime,
       timeLeft,
       duration,
       cueIn,
@@ -174,7 +174,7 @@ export default defineComponent({
         />
       </transition>
     </div>
-    <Duration v-if="absPosition" class="time time--current" :seconds="absPosition" />
+    <Duration v-if="currentTime" class="time time--current" :seconds="currentTime" />
     <div class="time time--total">-<Duration v-if="timeLeft" :seconds="timeLeft" /></div>
   </div>
   <div v-else class="playhead-placeholder" />
