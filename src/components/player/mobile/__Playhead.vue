@@ -4,7 +4,7 @@ import { refAutoReset, useElementSize } from "@vueuse/core";
 import { round } from "lodash-es";
 
 import Duration from "@/components/ui/time/Duration.vue";
-import { usePlayerState } from "@/composables/player";
+import { usePlayerState } from "@/proto/composables/player";
 
 const mapRange = (
   input: number,
@@ -26,7 +26,7 @@ export default defineComponent({
   },
   emits: ["seek"],
   setup(props, { emit }) {
-    const { media, isOndemand, relPosition: progress, absPosition, duration } = usePlayerState();
+    const { media, isOndemand, relPosition: progress, currentTime, duration } = usePlayerState();
     const rootEl = ref<HTMLElement | null>(null);
     const inputEl = ref<HTMLElement | null>(null);
     const hasFocus = ref(false);
@@ -117,7 +117,7 @@ export default defineComponent({
       inputWidth,
       onInput,
       onChange,
-      absPosition,
+      currentTime,
       duration,
       cueIn,
       cueOut,
@@ -175,7 +175,7 @@ export default defineComponent({
         />
       </transition>
     </div>
-    <Duration v-if="absPosition" class="time time--current" :seconds="absPosition" />
+    <Duration v-if="currentTime" class="time time--current" :seconds="currentTime" />
     <Duration v-if="duration" class="time time--total" :seconds="duration" />
   </div>
   <div v-else class="playhead-placeholder" />

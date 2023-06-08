@@ -70,8 +70,11 @@ export default defineComponent({
         <QueueMedia
           v-for="(media, index) in queuedMedia"
           :key="`media-row-${media.uid}`"
+          :obj-key="`${media.ct}:${media.uid}`"
+          :title="media.name"
+          :artist-display="media.artistDisplay"
+          :releases="media.releases"
           :index="index"
-          :media="media"
           :is-current="media === currentMedia"
         />
       </div>

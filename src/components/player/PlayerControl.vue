@@ -2,8 +2,8 @@
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 
-import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
+import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 import { s2hhmmss } from "@/utils/time";
 
 import ButtonPlay from "./button/ButtonPlay.vue";
@@ -22,12 +22,12 @@ export default defineComponent({
   },
   setup() {
     const { pause, resume: play } = usePlayerControls();
-    const { isLive, isPlaying, isBuffering, absPosition, duration } = usePlayerState();
+    const { isLive, isPlaying, isBuffering, currentTime, duration } = usePlayerState();
     const currentTimeDisplay = computed(() => {
-      if (absPosition.value === null) {
+      if (currentTime.value === null) {
         return "00:00:00";
       }
-      return s2hhmmss(absPosition.value);
+      return s2hhmmss(currentTime.value);
     });
     const totalTimeDisplay = computed(() => (duration.value ? s2hhmmss(duration.value) : ""));
     const { previousIndex, nextIndex } = useQueueState();

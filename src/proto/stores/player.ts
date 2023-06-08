@@ -1,4 +1,3 @@
-import log from "loglevel";
 import { defineStore } from "pinia";
 import { round } from "lodash-es";
 
@@ -55,22 +54,18 @@ export const useHlsPlayerStore = defineStore("hlsPlayer", {
   actions: {
     async setPlayerState(state: State): Promise<void> {
       if (state.mode !== this.mode) {
-        log.debug("hlsPlayerStore - update mode", state.mode);
         this.mode = state.mode;
       }
       if (state.playState !== this.playState) {
-        log.debug("hlsPlayerStore - update playState", state.playState);
         this.playState = state.playState;
       }
       if (state.duration !== this.duration) {
-        log.debug("hlsPlayerStore - update duration", state.duration);
         this.duration = state.duration;
       }
       if (state.currentTime !== this.currentTime) {
         if (state.mode === "live" && state.currentTime !== 0) {
           this.currentTime = 0;
         } else {
-          // log.debug("hlsPlayerStore - update currentTime", state.currentTime);
           this.currentTime = state.currentTime;
         }
       }

@@ -5,7 +5,7 @@ import { round } from "lodash-es";
 
 import PlayheadHandle from "@/components/player/PlayheadHandle.vue";
 import PlayheadTime from "@/components/player/PlayheadTime.vue";
-import { usePlayerState } from "@/composables/player";
+import { usePlayerState } from "@/proto/composables/player";
 
 export default defineComponent({
   components: {
@@ -113,7 +113,7 @@ export default defineComponent({
       <rect x="0" y="14" width="100%" height="4" class="progress-total" />
       <g v-if="isOndemand">
         <rect
-          v-if="position"
+          v-if="position && position >= cueIn"
           :x="`${cueIn * 100}%`"
           y="14"
           :width="`${(position - cueIn) * 100}%`"

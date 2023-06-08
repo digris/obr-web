@@ -1,116 +1,78 @@
-<script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+<script lang="ts" setup>
+import { computed, onMounted, ref, watch } from "vue";
 
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
-import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
+// import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import MediaReleases from "@/components/catalog/media/MediaReleases.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconRemove from "@/components/ui/icon/IconRemove.vue";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
-import { getContrastColor, getMediaColor } from "@/utils/color";
 
-export default defineComponent({
-  components: {
-    CircleButton,
-    PlayAction,
-    MediaArtists,
-    MediaReleases,
-    UserRating,
-    IconRemove,
+const props = defineProps({
+  objKey: {
+    type: String,
+    required: true,
   },
-  props: {
-    media: {
-      type: Object,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-    isCurrent: {
-      type: Boolean,
-      default: false,
-    },
+  title: {
+    type: String,
+    default: "",
   },
-  setup(props) {
-    const root = ref(null);
-    const { isLive, isPlaying, isBuffering } = usePlayerState();
-    const { pause } = usePlayerControls();
-    const { playFromIndex, deleteAtIndex } = useQueueControls();
-    const objKey = computed(() => {
-      return `${props.media?.ct}:${props.media?.uid}`;
-    });
-    const color = computed(() => {
-      // @ts-ignore
-      return getMediaColor(props.media);
-    });
-    const buttonColor = computed(() => {
-      if (color.value && props.isCurrent && !isLive.value) {
-        return getContrastColor(color.value);
-      }
-      return [255, 255, 255];
-    });
-    const buttonCssVars = computed(() => {
-      if (color.value && props.isCurrent) {
-        return {
-          "--c-fg": color.value.join(" "),
-        };
-      }
-      return {
-        "--c-fg": "0,0,0",
-      };
-    });
-    const scrollIntoView = () => {
-      const el = root.value;
-      if (!el) {
-        return;
-      }
-      try {
-        el.scrollIntoViewIfNeeded({
-          block: "end",
-          behavior: "smooth",
-        });
-      } catch (e) {
-        console.debug(e);
-      }
-    };
-    onMounted(() => {
-      if (props.isCurrent) {
-        scrollIntoView();
-      }
-    });
-    watch(
-      () => props.isCurrent,
-      async () => {
-        if (props.isCurrent) {
-          scrollIntoView();
-        }
-      }
-    );
-    const play = async () => {
-      await playFromIndex(props.index);
-    };
-    const canRemove = computed(() => {
-      return !props.isCurrent;
-    });
-    const remove = async () => {
-      await deleteAtIndex(props.index);
-    };
-    return {
-      root,
-      objKey,
-      isPlaying,
-      isBuffering,
-      buttonCssVars,
-      buttonColor,
-      play,
-      pause,
-      canRemove,
-      remove,
-    };
+  artistDisplay: {
+    type: String,
+    default: "",
+  },
+  artists: {
+    type: Array,
+    default: () => [],
+  },
+  releases: {
+    type: Array,
+    default: () => [],
+  },
+  index: {
+    type: Number,
+    required: true,
+  },
+  isCurrent: {
+    type: Boolean,
+    default: false,
   },
 });
+
+const root = ref(null);
+const { deleteAtIndex } = useQueueControls();
+
+const canRemove = computed(() => {
+  return !props.isCurrent;
+});
+const remove = async () => {
+  await deleteAtIndex(props.index);
+};
+const scrollIntoView = () => {
+  const el = root.value;
+  if (!el) {
+    return;
+  }
+  try {
+    el.scrollIntoViewIfNeeded({ block: "end", behavior: "smooth" });
+  } catch (e) {
+    console.debug(e);
+  }
+};
+onMounted(() => {
+  if (props.isCurrent) {
+    scrollIntoView();
+  }
+});
+watch(
+  () => props.isCurrent,
+  async () => {
+    if (props.isCurrent) {
+      scrollIntoView();
+    }
+  }
+);
 </script>
 
 <template>
@@ -125,13 +87,16 @@ export default defineComponent({
       <PlayAction :obj-key="objKey" :color="[255, 255, 255]" />
     </div>
     <div class="name">
-      <span v-text="media.name" />
+      <span v-text="title" />
     </div>
     <div class="artist">
-      <MediaArtists :link="false" :artists="media.artists" />
+      <span v-text="artistDisplay" />
+      <!--
+      <MediaArtists :link="false" :artists="artists" />
+      -->
     </div>
     <div class="release">
-      <MediaReleases :link="false" :releases="media.releases" />
+      <MediaReleases :link="false" :releases="releases" />
     </div>
     <div class="actions">
       <CircleButton color-var="--c-light">
@@ -166,14 +131,6 @@ export default defineComponent({
   .play {
     grid-area: play;
     padding-left: 0.5rem;
-
-    .state {
-      display: grid;
-      grid-template-columns: 12px 12px;
-      margin-left: 0.5rem;
-      font-size: 90%;
-      opacity: 0.5;
-    }
   }
 
   .name {
@@ -192,7 +149,13 @@ export default defineComponent({
 
   .artist {
     grid-area: artist;
-    overflow: hidden;
+    min-width: 0;
+
+    > span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   .release {

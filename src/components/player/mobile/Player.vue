@@ -5,8 +5,8 @@ import { storeToRefs } from "pinia";
 
 import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import { useDevice } from "@/composables/device";
-import { usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
+import { usePlayerState } from "@/proto/composables/player";
 import { useUiStore } from "@/stores/ui";
 import { getContrastColor } from "@/utils/color";
 
@@ -30,10 +30,10 @@ export default defineComponent({
   setup() {
     const { isApp } = useDevice();
     const { playerVisible } = storeToRefs(useUiStore());
-    const { mode, state, media, color } = usePlayerState();
+    const { mode, playState, media, color } = usePlayerState();
     invoke(async () => {
       // permanently show player as soon as playing or buffering starts
-      await until(state).toMatch((s) => ["buffering", "playing"].includes(s));
+      await until(playState).toMatch((s) => ["buffering", "playing"].includes(s));
       playerVisible.value = true;
     });
     const { queueLength } = useQueueState();
@@ -83,7 +83,6 @@ export default defineComponent({
       isApp,
       playerVisible,
       mode,
-      state,
       media,
       fgColor,
       cssVars,

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRafFn } from "@vueuse/core";
+import { round } from "lodash-es";
 
 import { getMedia } from "@/api/catalog";
 import { useQueueControls } from "@/composables/queue";
@@ -43,24 +44,57 @@ const loadPlaylist = async (uid: string) => {
 
 const { analyser } = useAnalyser();
 
-const spectrum = ref(new Uint8Array(10));
+const spectrum = ref(new Uint8Array(16));
 
 // analyser
-useRafFn(() => {
-  const a = analyser?.a1024;
-  const sd = new Uint8Array(300);
-  if (a) {
-    a.getByteFrequencyData(sd);
-  }
-  spectrum.value = sd.slice(0, 10);
+// useRafFn(() => {
+//   const a = analyser?.a32;
+//   const sd = new Uint8Array(16);
+//   if (a) {
+//     a.getByteFrequencyData(sd);
+//   }
+//   // spectrum.value = sd.slice(12, 72);
+//   spectrum.value = sd;
+// });
+
+const spectrum4 = computed(() => {
+  const sd = spectrum.value;
+  const sd4 = [sd[4] * 0.8, sd[6], sd[8], sd[10]];
+  return sd4.map((d) => Math.min(round((d / 255) * 150, 1), 100));
 });
 
-// analyser
-// const drawLoop = () => {
-//   // console.debug("draw loop");
-//   requestAnimationFrame(drawLoop);
-// };
-// requestAnimationFrame(drawLoop);
+const canvas = ref();
+const ctx = ref<CanvasRenderingContext2D>();
+onMounted(() => {
+  ctx.value = canvas.value.getContext("2d");
+});
+
+const draw = (drawData: Array<number>) => {
+  const c = ctx.value;
+  if (!c) {
+    return;
+  }
+  c.clearRect(0, 0, canvas.value.width, canvas.value.height);
+  for (let i = 0; i < drawData.length; i++) {
+    const x = i * 6;
+    const h = (drawData[i] / 100) * 21;
+    const y = 21 - h;
+    c.beginPath();
+    c.fillStyle = "blue";
+    c.fillRect(x, y, 3, h);
+    c.fill();
+  }
+};
+
+const a = analyser.a32;
+
+const { pause: pauseDraw, resume: resumeDraw } = useRafFn(() => {
+  const sd = new Uint8Array(16);
+  a.getByteFrequencyData(sd);
+  const sd4 = [sd[4] * 0.8, sd[6], sd[8], sd[10] * 1.2];
+  const drawData = sd4.map((d) => Math.min(round((d / 255) * 170, 1), 100));
+  draw(drawData);
+});
 </script>
 
 <template>
@@ -95,6 +129,13 @@ useRafFn(() => {
       </div>
     </div>
     <div class="queue">
+      <div class="spectrum-canvas">
+        <canvas ref="canvas" width="21" height="21" />
+      </div>
+      <div>
+        <button @click="pauseDraw">pause</button>
+        <button @click="resumeDraw">resume</button>
+      </div>
       <pre
         v-text="{
           numQueued: queue.length,
@@ -124,6 +165,24 @@ useRafFn(() => {
           background: `rgb(${color.join(',')})`,
         }"
       />
+      <div class="spectrum" v-if="false">
+        <div
+          v-for="(b, index) in spectrum"
+          :key="`s-${index}`"
+          :style="{
+            height: `${b / 2.55}px`,
+          }"
+        />
+      </div>
+      <div class="spectrum">
+        <div
+          v-for="(b, index) in spectrum4"
+          :key="`s8-${index}`"
+          :style="{
+            height: `${b}%`,
+          }"
+        />
+      </div>
       <pre
         v-if="media"
         v-text="{
@@ -135,10 +194,10 @@ useRafFn(() => {
         v-text="{
           scope,
           color,
-          spectrum,
+          // spectrum,
         }"
       />
-      <pre v-text="debugData" />
+      <pre v-if="false" v-text="debugData" />
     </div>
   </div>
 </template>
@@ -158,5 +217,29 @@ useRafFn(() => {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   font-size: 80%;
+}
+.spectrum {
+  height: 100px;
+  background: whitesmoke;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  > div {
+    width: 20px;
+    background: black;
+    height: 1px;
+    transition: height 50ms;
+  }
+}
+
+.spectrum-canvas {
+  background: white;
+  display: inline-flex;
+  padding: 10px;
+  border: 3px solid black;
+  border-radius: 50%;
+  > canvas {
+    background: white;
+  }
 }
 </style>

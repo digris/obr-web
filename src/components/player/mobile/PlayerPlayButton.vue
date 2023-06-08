@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import { defineComponent } from "vue";
 
-import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 import ButtonPlay from "../button/ButtonPlay.vue";
 

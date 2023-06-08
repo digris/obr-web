@@ -5,7 +5,7 @@ import { defineStore } from "pinia";
 
 import settings from "@/settings";
 
-const INTERVAL = 200;
+const INTERVAL = 1000;
 const FIXED_LATENCY = settings.STREAM_LATENCY;
 
 export const useTimeStore = defineStore("time", () => {

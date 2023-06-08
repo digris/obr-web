@@ -1,9 +1,8 @@
 import { computed, watch } from "vue";
-import log from "loglevel";
 import { debounce, isEqual } from "lodash-es";
 
 import { createPlayerEvents } from "@/api/stats";
-import { usePlayerState } from "@/composables/player";
+import { usePlayerState } from "@/proto/composables/player";
 
 export interface Event {
   state: string;
@@ -22,16 +21,15 @@ const createGA4Event = (event: Event) => {
   };
   // @ts-ignore
   window.dataLayer.push(GA4event);
-  log.debug("GA4event", GA4event);
 };
 
 class EventHandler {
   constructor() {
-    const { media, isLive, state } = usePlayerState();
+    const { media, isLive, playState } = usePlayerState();
     const combinedState = computed(() => {
       const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
       return {
-        state: state.value,
+        state: playState.value,
         objKey,
         objName: media.value?.name,
         source: isLive.value ? "live" : "on-demand",
@@ -41,7 +39,6 @@ class EventHandler {
       if (!event.objKey) {
         return;
       }
-      log.info("events - addEvent", event);
       createGA4Event(event);
       await createPlayerEvents([event]);
     }, 200);
