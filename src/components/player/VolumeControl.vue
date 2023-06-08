@@ -13,13 +13,13 @@ export default defineComponent({
     Circle,
   },
   setup() {
-    const { volume } = storeToRefs(useSettingsStore());
+    const { baseVolume } = storeToRefs(useSettingsStore());
     const isExpanded = ref(false);
     const onClick = () => {
       isExpanded.value = !isExpanded.value;
     };
     return {
-      volume,
+      baseVolume,
       onClick,
       isExpanded,
     };
@@ -29,11 +29,11 @@ export default defineComponent({
 
 <template>
   <Circle class="volume-control" @click.prevent="onClick">
-    <IconSpeaker :volume="volume * 100" />
+    <IconSpeaker :volume="baseVolume" />
   </Circle>
   <transition name="slide">
     <div v-if="isExpanded">
-      <input class="slider" type="range" min="0" max="100" v-model="volume" />
+      <input class="slider" type="range" min="0" max="1" step="0.05" v-model="baseVolume" />
     </div>
   </transition>
 </template>

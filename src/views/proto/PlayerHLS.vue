@@ -4,8 +4,8 @@ import { useRafFn } from "@vueuse/core";
 import { round } from "lodash-es";
 
 import { getMedia } from "@/api/catalog";
+import { useAnalyser, usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
-import { useAnalyser, usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 const {
   mode,
@@ -197,7 +197,7 @@ const { pause: pauseDraw, resume: resumeDraw } = useRafFn(() => {
           // spectrum,
         }"
       />
-      <pre v-if="false" v-text="debugData" />
+      <pre v-if="true" v-text="debugData" />
     </div>
   </div>
 </template>

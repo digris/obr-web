@@ -5,7 +5,7 @@ import { shuffle } from "lodash-es";
 
 import { getMedia } from "@/api/catalog";
 import { useDevice } from "@/composables/device";
-import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
 import { useSettingsStore } from "@/stores/settings";

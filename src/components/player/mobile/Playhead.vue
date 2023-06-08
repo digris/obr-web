@@ -4,7 +4,7 @@ import { refAutoReset, useElementSize } from "@vueuse/core";
 import { round } from "lodash-es";
 
 import Duration from "@/components/ui/time/Duration.vue";
-import { usePlayerState } from "@/proto/composables/player";
+import { usePlayerState } from "@/composables/player";
 
 export default defineComponent({
   components: {

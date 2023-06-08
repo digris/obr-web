@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 
-import { HlsPlayer } from "@/proto/player/hlsPlayer";
+import { HlsPlayer } from "@/player/hlsPlayer";
 
 const drawCanvas = async (
   ctx: CanvasRenderingContext2D,

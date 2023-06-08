@@ -2,8 +2,8 @@
 import { computed, defineComponent, ref } from "vue";
 
 import UserRating from "@/components/rating/UserRating.vue";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
-import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 import { getContrastColor } from "@/utils/color";
 
 import Bandwidth from "./button/Bandwidth.vue";

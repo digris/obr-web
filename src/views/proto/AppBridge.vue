@@ -1,9 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import { storeToRefs } from "pinia";
 
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
-import { usePlayerControls, usePlayerState } from "@/proto/composables/player";
 
 export default defineComponent({
   components: {},

@@ -2,7 +2,7 @@ import { computed, watch } from "vue";
 import { debounce, isEqual } from "lodash-es";
 
 import { createPlayerEvents } from "@/api/stats";
-import { usePlayerState } from "@/proto/composables/player";
+import { usePlayerState } from "@/composables/player";
 
 export interface Event {
   state: string;

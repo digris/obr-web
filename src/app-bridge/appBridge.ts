@@ -2,7 +2,7 @@ import { useIntervalFn } from "@vueuse/core";
 import log from "loglevel";
 
 import { useDevice } from "@/composables/device";
-import { usePlayerStore } from "@/proto/stores/player";
+import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";
 import { useScheduleStore } from "@/stores/schedule";
 import { useSettingsStore } from "@/stores/settings";
