@@ -5,7 +5,7 @@ import { isEqual, round } from "lodash-es";
 import { useQueueControls } from "@/composables/queue";
 import { hlsBaseConfig } from "@/proto/player/hlsConfig";
 import type { State as StorePlayerState } from "@/proto/stores/player";
-import { useHlsPlayerStore } from "@/proto/stores/player";
+import { usePlayerStore } from "@/proto/stores/player";
 import settings from "@/settings";
 
 import type { AudioAnalyser } from "./analyser";
@@ -184,7 +184,7 @@ class HlsPlayer {
   private setupStore(): void {
     // connections to pinia store actions
     log.debug("setupStore");
-    const { setPlayerState } = useHlsPlayerStore();
+    const { setPlayerState } = usePlayerStore();
     this.setPlayerState = setPlayerState;
   }
 
@@ -405,7 +405,7 @@ class HlsPlayer {
     };
 
     if (!isEqual(data, this.debugData)) {
-      const { setPlayerDebugData } = useHlsPlayerStore();
+      const { setPlayerDebugData } = usePlayerStore();
       await setPlayerDebugData(data);
     }
     this.debugData = data;

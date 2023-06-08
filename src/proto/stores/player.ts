@@ -14,7 +14,7 @@ export interface State {
   debugData?: object;
 }
 
-export const useHlsPlayerStore = defineStore("hlsPlayer", {
+export const usePlayerStore = defineStore("hlsPlayer", {
   state: (): State => ({
     mode: "live",
     playState: "stopped",
