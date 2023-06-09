@@ -545,7 +545,7 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach(async (to) => {
   // TODO: this likely should be implemented outside of router logic
   if (window.appBridge) {
-    window.appBridge?.send("web:setPath", { path: to.path });
+    await window.appBridge.send("web:setPath", { path: to.path });
   }
 });
 

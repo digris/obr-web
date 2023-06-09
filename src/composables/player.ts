@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia";
 
 import { useDevice } from "@/composables/device";
 import type { CueFade } from "@/player/hlsPlayer";
-import { HlsPlayer } from "@/player/hlsPlayer";
 import { usePlayerStore } from "@/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
@@ -11,6 +10,7 @@ import { useScheduleStore } from "@/stores/schedule";
 
 export const usePlayerState = () => {
   const {
+    isVisible,
     mode,
     isLive,
     isOndemand,
@@ -59,6 +59,7 @@ export const usePlayerState = () => {
   });
 
   return {
+    isVisible,
     mode,
     isLive,
     isOndemand,
@@ -83,15 +84,21 @@ export const usePlayerState = () => {
 };
 
 export const usePlayerControls = () => {
-  const player = HlsPlayer.getInstance();
+  const player = window.hlsPlayer;
   const appBridge = window.appBridge;
+
+  const { setVisibility } = usePlayerStore();
 
   const { isWeb } = useDevice();
 
   // web-mode controls
-  const playLive = async () => player.playLive();
+  const playLive = async () => {
+    setVisibility(true);
+    await player.playLive();
+  };
   const playUid = async (uid: string, estimatedDuration?: number, cueFade?: CueFade) => {
-    return await player.playUid(uid, estimatedDuration, cueFade);
+    setVisibility(true);
+    await player.playUid(uid, estimatedDuration, cueFade);
   };
   const playMedia = async (media: AnnotatedMedia) => {
     const uid = media?.uid ?? "";
@@ -111,16 +118,16 @@ export const usePlayerControls = () => {
 
   // app-mode controls
   const appPlayLive = async () => {
-    return await appBridge.send("player:playLive");
+    await appBridge.send("player:playLive");
   };
   const appPause = async () => {
-    return await appBridge.send("player:pause");
+    await appBridge.send("player:pause");
   };
   const appResume = async () => {
-    return await appBridge.send("player:resume");
+    await appBridge.send("player:resume");
   };
   const appSeek = async (pos: number) => {
-    return await appBridge.send("player:seek", { to: pos });
+    await appBridge.send("player:seek", { to: pos });
   };
 
   return {
@@ -133,7 +140,7 @@ export const usePlayerControls = () => {
 };
 
 export const useAnalyser = () => {
-  const player = HlsPlayer.getInstance();
+  const player = window.hlsPlayer;
 
   return {
     analyser: player.analyser,

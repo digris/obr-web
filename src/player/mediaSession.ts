@@ -1,6 +1,5 @@
 import { watch } from "vue";
 
-import { useDevice } from "@/composables/device";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
 import { getImageSrc } from "@/utils/image";
@@ -14,7 +13,6 @@ class MediaSessionHandler {
   playPrevious = async (): Promise<void> => {};
 
   constructor() {
-    const { isWeb } = useDevice();
     const { media, isLive } = usePlayerState();
     const { pause: pauseFn, resume: resumeFn } = usePlayerControls();
     const { playNext: playNextFn, playPrevious: playPreviousFn } = useQueueControls();
@@ -23,8 +21,7 @@ class MediaSessionHandler {
     this.playNext = playNextFn;
     this.playPrevious = playPreviousFn;
 
-    if ("mediaSession" in navigator && isWeb) {
-      // @ts-ignore
+    if ("mediaSession" in navigator) {
       this.session = navigator.mediaSession;
       this.setupBindings(isLive.value);
       watch(

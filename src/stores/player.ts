@@ -10,12 +10,15 @@ export interface State {
   currentTime: number;
   bandwidth: number;
   liveLatency: number;
-  //
-  debugData?: object;
+}
+
+interface PlayerState extends State {
+  isVisible: boolean;
+  debugData: object;
 }
 
 export const usePlayerStore = defineStore("hlsPlayer", {
-  state: (): State => ({
+  state: (): PlayerState => ({
     mode: "live",
     playState: "stopped",
     duration: 0,
@@ -23,28 +26,29 @@ export const usePlayerStore = defineStore("hlsPlayer", {
     bandwidth: 0,
     liveLatency: 24, // TODO: evaluate default latency
     //
+    isVisible: false,
     debugData: {},
   }),
   getters: {
     // mode mappers
-    isLive(state: State): boolean {
+    isLive(state: PlayerState): boolean {
       return state.mode === "live";
     },
-    isOndemand(state: State): boolean {
+    isOndemand(state: PlayerState): boolean {
       return state.mode === "ondemand";
     },
     // state mappers
-    isPlaying(state: State): boolean {
+    isPlaying(state: PlayerState): boolean {
       return state.playState === "playing";
     },
-    isBuffering(state: State): boolean {
+    isBuffering(state: PlayerState): boolean {
       return state.playState === "buffering";
     },
-    isPaused(state: State): boolean {
+    isPaused(state: PlayerState): boolean {
       return state.playState === "paused";
     },
     // derived state
-    relPosition(state: State): number {
+    relPosition(state: PlayerState): number {
       if (state.mode === "live") {
         return 0;
       }
@@ -52,6 +56,9 @@ export const usePlayerStore = defineStore("hlsPlayer", {
     },
   },
   actions: {
+    setVisibility(visible: boolean): void {
+      this.isVisible = visible;
+    },
     async setPlayerState(state: State): Promise<void> {
       if (state.mode !== this.mode) {
         this.mode = state.mode;
