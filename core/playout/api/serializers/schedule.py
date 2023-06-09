@@ -12,6 +12,7 @@ class ScheduleMediaSerializer(CatalogMediaSerializer):
 
     class Meta:
         model = Media
+        ref_name = "PlayoutScheduleMediaSerializer"
         fields = [
             "url",
             "ct",
@@ -23,6 +24,10 @@ class ScheduleMediaSerializer(CatalogMediaSerializer):
 
 class ScheduleMasterSerializer(serializers.ModelSerializer):
     url = serializers.URLField(source="download_url", read_only=True)
+
+    ct = serializers.CharField(read_only=True)
+    uid = serializers.CharField(read_only=True)
+    path = serializers.CharField(read_only=True)
 
     class Meta:
         model = Master
@@ -54,3 +59,6 @@ class ScheduleSerializer(serializers.Serializer):
 
     media = ScheduleMediaSerializer()
     master = ScheduleMasterSerializer(source="media.master")
+
+    class Meta:
+        ref_name = "PlayoutScheduleSerializer"

@@ -30,7 +30,7 @@ class PlayerEventCreateSerializer(
 
 
 class StreamEventSerializer(
-    serializers.ModelSerializer,
+    CTUIDModelSerializer,
 ):
     referer = serializers.CharField(
         allow_blank=True,

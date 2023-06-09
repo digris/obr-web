@@ -14,6 +14,10 @@ class TopicSerializer(
             "question",
             "answer",
         ]
+        read_only_fields = [
+            "question",
+            "answer",
+        ]
 
 
 class CategorySerializer(
@@ -30,4 +34,7 @@ class CategorySerializer(
         fields = CTUIDModelSerializer.Meta.fields + [
             "name",
             "topics",
+        ]
+        read_only_fields = [
+            "name",
         ]
