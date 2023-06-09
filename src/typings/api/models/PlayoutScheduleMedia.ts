@@ -9,19 +9,19 @@
  * values with complex, nested serializations
  */
 export type PlayoutScheduleMedia = {
-    readonly url: string;
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly name: string;
-    /**
-     * in milliseconds
-     */
-    readonly duration: number;
+  readonly url: string;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly name: string;
+  /**
+   * in milliseconds
+   */
+  readonly duration: number;
 };
 

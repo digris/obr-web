@@ -39,7 +39,7 @@ export default defineComponent({
       :id="id"
       :value="modelValue"
       :maxlength="maxlength"
-      @input="update($event.target.value)"
+      @input="update(($event.target as HTMLInputElement).value)"
     />
   </div>
 </template>

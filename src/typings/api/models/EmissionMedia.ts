@@ -12,22 +12,22 @@ import type { Release } from './Release';
  * values with complex, nested serializations
  */
 export type EmissionMedia = {
-    readonly url: string;
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly name: string;
-    readonly artistDisplay: string;
-    readonly artists: Array<MediaArtist>;
-    readonly releases: Array<Release>;
-    /**
-     * in seconds
-     */
-    readonly duration: number;
+  readonly url: string;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly name: string;
+  readonly artistDisplay: string;
+  readonly artists: Array<MediaArtist>;
+  readonly releases: Array<Release>;
+  /**
+   * in seconds
+   */
+  readonly duration: number;
 };
 

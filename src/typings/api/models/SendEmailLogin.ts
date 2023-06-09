@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type SendEmailLogin = {
-    email: string;
-    readonly message: string;
+  email: string;
+  readonly message: string;
 };
 

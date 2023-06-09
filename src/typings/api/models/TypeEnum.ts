@@ -12,11 +12,11 @@
  * * `language` - Language
  */
 export enum TypeEnum {
-    GENRE = 'genre',
-    MOOD = 'mood',
-    DESCRIPTIVE = 'descriptive',
-    INSTRUMENT = 'instrument',
-    PROFESSION = 'profession',
-    EVENT = 'event',
-    LANGUAGE = 'language',
+  GENRE = 'genre',
+  MOOD = 'mood',
+  DESCRIPTIVE = 'descriptive',
+  INSTRUMENT = 'instrument',
+  PROFESSION = 'profession',
+  EVENT = 'event',
+  LANGUAGE = 'language',
 }

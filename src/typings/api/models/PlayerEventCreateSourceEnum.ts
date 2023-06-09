@@ -7,6 +7,6 @@
  * * `on-demand` - on-demand
  */
 export enum PlayerEventCreateSourceEnum {
-    LIVE = 'live',
-    ON_DEMAND = 'on-demand',
+  LIVE = 'live',
+  ON_DEMAND = 'on-demand',
 }

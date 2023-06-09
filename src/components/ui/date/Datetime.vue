@@ -36,9 +36,9 @@ const timeDisplay = computed(() => {
 
 <template>
   <span class="datetime">
-    <span v-if="dateDisplay" class="datetime__date">{{ dateDisplay }}</span>
-    <span v-if="dateDisplay && timeDisplay" class="datetime__separator"></span>
-    <span v-if="timeDisplay" class="datetime__time">{{ timeDisplay }}</span>
+    <span v-if="dateDisplay" class="date">{{ dateDisplay }}</span>
+    <span v-if="dateDisplay && timeDisplay" class="separator"></span>
+    <span v-if="timeDisplay" class="time">{{ timeDisplay }}</span>
   </span>
 </template>
 
@@ -46,12 +46,12 @@ const timeDisplay = computed(() => {
 .datetime {
   display: inline-flex;
 
-  &__date,
-  &__time {
+  .date,
+  .time {
     white-space: nowrap;
   }
 
-  &__separator {
+  .separator {
     padding-left: 0.5rem;
   }
 }

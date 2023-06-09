@@ -5,9 +5,9 @@
 import type { StatsVote } from './StatsVote';
 
 export type PaginatedStatsVoteList = {
-    count?: number;
-    next?: string | null;
-    previous?: string | null;
-    results?: Array<StatsVote>;
+  count?: number;
+  next?: string | null;
+  previous?: string | null;
+  results?: Array<StatsVote>;
 };
 

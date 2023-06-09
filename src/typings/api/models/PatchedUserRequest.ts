@@ -12,11 +12,11 @@ import type { GenderEnum } from './GenderEnum';
  * values with complex, nested serializations
  */
 export type PatchedUserRequest = {
-    gender?: GenderEnum;
-    firstName?: string;
-    lastName?: string;
-    country?: CountryEnum;
-    yearOfBirth?: number | null;
-    favoriteVenue?: string;
+  gender?: GenderEnum;
+  firstName?: string;
+  lastName?: string;
+  country?: CountryEnum;
+  yearOfBirth?: number | null;
+  favoriteVenue?: string;
 };
 

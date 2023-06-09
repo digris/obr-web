@@ -3,13 +3,13 @@
 /* eslint-disable */
 
 export type Version = {
-    /**
-     * SemVer
-     */
-    readonly version: string;
-    /**
-     * Git short SHA
-     */
-    readonly sha: string;
+  /**
+   * SemVer
+   */
+  readonly version: string;
+  /**
+   * Git short SHA
+   */
+  readonly sha: string;
 };
 

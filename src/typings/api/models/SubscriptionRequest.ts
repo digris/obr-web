@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type SubscriptionRequest = {
-    newsletterUids: Array<string>;
+  newsletterUids: Array<string>;
 };
 

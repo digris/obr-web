@@ -1,5 +1,5 @@
-<script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+<script lang="ts" setup>
+import { computed, onMounted, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { debounce } from "lodash-es";
 
@@ -10,119 +10,119 @@ import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 import { useRating } from "@/composables/rating";
+import type { Media } from "@/typings/api";
 
-export default defineComponent({
-  props: {
-    media: {
-      type: Object,
-      required: true,
+const props = defineProps<{
+  media: Media;
+}>();
+
+const downvoteScopes = computed(() => {
+  return [
+    {
+      value: "track",
+      label: t("rating.downvoteScope.track"),
     },
+    {
+      value: "genre",
+      label: t("rating.downvoteScope.genre"),
+    },
+    {
+      value: "emission",
+      label: t("rating.downvoteScope.emission"),
+    },
+    {
+      value: "daytime",
+      label: t("rating.downvoteScope.daytime"),
+    },
+    {
+      value: "repetition",
+      label: t("rating.downvoteScope.repetition"),
+    },
+  ];
+});
+
+const { t } = useI18n();
+const objKey = computed(() => `${props.media.ct}:${props.media.uid}`);
+const { ratingByKey, loadRating, setRatingWithSource } = useRating();
+const rating = computed(() => ratingByKey(objKey.value));
+const promptVisible = ref(false);
+const scope = ref("track");
+const comment = ref("");
+
+const showPrompt = () => {
+  promptVisible.value = true;
+};
+const hidePrompt = () => {
+  comment.value = "";
+  promptVisible.value = false;
+};
+
+const upvoteIconFlipped = ref(false);
+const flipUpvoteIcon = async () => {
+  upvoteIconFlipped.value = true;
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      upvoteIconFlipped.value = false;
+      resolve();
+    }, 200);
+  });
+};
+
+const upvote = async () => {
+  await setRatingWithSource(objKey.value, 1);
+};
+
+const downvote = async () => {
+  await setRatingWithSource(objKey.value, -1, {
+    scope: scope.value,
+    comment: comment.value,
+  });
+  hidePrompt();
+  /*
+  await notify({
+    level: "success",
+    ttl: 5,
+    body: t("rating.downvoteThankYou"),
+  });
+  */
+};
+
+const clearVote = async () => {
+  await setRatingWithSource(objKey.value, null);
+};
+
+const onUpvote = debounce(
+  async () => {
+    await flipUpvoteIcon();
+    if (rating.value === 1) {
+      await clearVote();
+    } else {
+      await upvote();
+    }
   },
-  components: {
-    OverlayPanel,
-    CircleButton,
-    IconHeart,
-    IconFlash,
-    RadioInput,
-    TextareaInput,
+  200,
+  { leading: true, trailing: false }
+);
+
+const onDownvote = debounce(
+  async () => {
+    if (rating.value === -1) {
+      await clearVote();
+    } else {
+      showPrompt();
+    }
   },
-  setup(props) {
-    const { t } = useI18n();
-    const objKey = computed(() => `${props.media.ct}:${props.media.uid}`);
-    const { ratingByKey, loadRating, setRatingWithSource } = useRating();
-    const rating = computed(() => ratingByKey(objKey.value));
-    const promptVisible = ref(false);
-    const scope = ref("track");
-    const comment = ref("");
-    const showPrompt = () => {
-      promptVisible.value = true;
-    };
-    const hidePrompt = () => {
-      comment.value = "";
-      promptVisible.value = false;
-    };
-    const isFlipped = ref(0);
-    const flipIcon = async (value: number) => {
-      isFlipped.value = value;
-      return new Promise<void>((resolve) => {
-        setTimeout(() => {
-          isFlipped.value = 0;
-          resolve();
-        }, 200);
-      });
-    };
-    const rate = debounce(
-      async (value: number) => {
-        if (value === -1) {
-          showPrompt();
-          await flipIcon(value);
-        } else {
-          await flipIcon(value);
-          await setRatingWithSource(objKey.value, value);
-        }
-      },
-      200,
-      { leading: true, trailing: false }
-    );
-    const downvoteScopes = computed(() => {
-      return [
-        {
-          value: "track",
-          label: t("rating.downvoteScope.track"),
-        },
-        {
-          value: "genre",
-          label: t("rating.downvoteScope.genre"),
-        },
-        {
-          value: "emission",
-          label: t("rating.downvoteScope.emission"),
-        },
-        {
-          value: "daytime",
-          label: t("rating.downvoteScope.daytime"),
-        },
-        {
-          value: "repetition",
-          label: t("rating.downvoteScope.repetition"),
-        },
-      ];
-    });
-    const downvote = async () => {
-      await setRatingWithSource(objKey.value, -1, {
-        scope: scope.value,
-        comment: comment.value,
-      });
-      hidePrompt();
-      /*
-      await notify({
-        level: "success",
-        ttl: 5,
-        body: t("rating.downvoteThankYou"),
-      });
-      */
-    };
-    onMounted(async () => {
-      if (rating.value === undefined) {
-        await loadRating(objKey.value);
-      }
-    });
-    watch(objKey, async (key) => {
-      await loadRating(key);
-    });
-    return {
-      t,
-      rating,
-      rate,
-      isFlipped,
-      promptVisible,
-      downvoteScopes,
-      scope,
-      comment,
-      hidePrompt,
-      downvote,
-    };
-  },
+  200,
+  { leading: true, trailing: false }
+);
+
+onMounted(async () => {
+  if (rating.value === undefined) {
+    await loadRating(objKey.value);
+  }
+});
+watch(objKey, async (key) => {
+  await loadRating(key);
 });
 </script>
 
@@ -130,11 +130,11 @@ export default defineComponent({
   <div class="rating">
     <div class="total">?</div>
     <div>
-      <CircleButton @click="rate(rating === 1 ? null : 1)" :outlined="true">
+      <CircleButton @click="onUpvote" :outlined="true">
         <div
           class="flip-container"
           :class="{
-            'is-flipped': isFlipped === 1,
+            'is-flipped': upvoteIconFlipped,
           }"
         >
           <IconHeart :outlined="rating !== 1" color-var="--c-page-fg" />
@@ -142,7 +142,7 @@ export default defineComponent({
       </CircleButton>
     </div>
     <div>
-      <CircleButton @click="rate(rating === -1 ? null : -1)" :outlined="true">
+      <CircleButton @click="onDownvote" :outlined="true">
         <IconFlash :outlined="rating !== -1" color-var="--c-page-fg" />
       </CircleButton>
     </div>

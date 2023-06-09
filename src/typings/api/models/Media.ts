@@ -15,32 +15,32 @@ import type { Tag } from './Tag';
  * values with complex, nested serializations
  */
 export type Media = {
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly url: string;
-    readonly name: string;
-    readonly artistDisplay: string;
-    readonly artists: Array<MediaArtist>;
-    readonly releases: Array<Release>;
-    /**
-     * in seconds
-     */
-    readonly duration: number;
-    readonly latestAirplay: string | null;
-    readonly numAirplays: number | null;
-    readonly userRating: number | null;
-    readonly fadeIn: number;
-    readonly fadeOut: number;
-    readonly cueIn: number;
-    readonly cueOut: number;
-    tags?: Array<Tag>;
-    image?: MediaImage;
-    identifiers?: Array<Identifier> | null;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly url: string;
+  readonly name: string;
+  readonly artistDisplay: string;
+  readonly artists: Array<MediaArtist>;
+  readonly releases: Array<Release>;
+  /**
+   * in seconds
+   */
+  readonly duration: number;
+  readonly latestAirplay: string | null;
+  readonly numAirplays: number | null;
+  readonly userRating: number | null;
+  readonly fadeIn: number;
+  readonly fadeOut: number;
+  readonly cueIn: number;
+  readonly cueOut: number;
+  identifiers?: Array<Identifier> | null;
+  tags?: Array<Tag>;
+  image?: MediaImage;
 };
 

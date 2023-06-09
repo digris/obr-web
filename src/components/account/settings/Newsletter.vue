@@ -5,6 +5,7 @@ import { useI18n } from "vue-i18n";
 import { getNewsletters, updateSubscriptions } from "@/api/newsletter";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import type { Newsletter } from "@/typings/api";
 
 import Section from "./Section.vue";
 
@@ -16,8 +17,9 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const newsletters = ref([]);
-    const subscriptions = ref([]);
+    // const newsletters = ref([]);
+    const newsletters = ref<Array<Newsletter>>([]);
+    const subscriptions = ref<Array<string>>([]);
     const formVisible = ref(false);
     const showForm = () => (formVisible.value = true);
     const hideForm = async () => (formVisible.value = false);

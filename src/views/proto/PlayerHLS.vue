@@ -118,16 +118,12 @@ const { pause: pauseDraw, resume: resumeDraw } = useRafFn(() => {
       />
       <div>
         <button @click.prevent="playLive">play live</button>
-        <!--
-        <button @click.prevent="playUid('EA0E6C02')">play (EA0E6C02)</button>
-        <button @click.prevent="playUid('B6DEB689')">play (B6DEB689)</button>
-        -->
         <button @click.prevent="pause">pause</button>
         <button @click.prevent="resume">resume</button>
       </div>
       <div>
         <progress
-          @click="seek($event.offsetX / $event.currentTarget?.offsetWidth)"
+          @click="seek($event.offsetX / ($event.currentTarget as HTMLInputElement).offsetWidth)"
           :max="100"
           :value="relPosition * 100"
         />

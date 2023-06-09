@@ -5,9 +5,9 @@
 import type { Release } from './Release';
 
 export type PaginatedReleaseList = {
-    count?: number;
-    next?: string | null;
-    previous?: string | null;
-    results?: Array<Release>;
+  count?: number;
+  next?: string | null;
+  previous?: string | null;
+  results?: Array<Release>;
 };
 

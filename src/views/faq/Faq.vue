@@ -5,6 +5,7 @@ import { useI18n } from "vue-i18n";
 import { getFaqCategories } from "@/api/faq";
 import Topic from "@/components/faq/Topic.vue";
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
+import type { Category } from "@/typings/api";
 
 export default defineComponent({
   components: {
@@ -13,10 +14,9 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const categories = ref<Array<any>>([]);
+    const categories = ref<Array<Category>>([]);
     onActivated(async () => {
-      const data = await getFaqCategories();
-      categories.value = data.results;
+      categories.value = await getFaqCategories();
     });
     return {
       t,

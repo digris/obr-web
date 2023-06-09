@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type PasswordUpdateRequest = {
-    password: string;
+  password: string;
 };
 

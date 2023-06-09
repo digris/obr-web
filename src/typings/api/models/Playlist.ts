@@ -16,27 +16,27 @@ import type { Tag } from './Tag';
  * values with complex, nested serializations
  */
 export type Playlist = {
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly url: string;
-    name?: string;
-    readonly series: PlaylistSeries;
-    readonly latestEmissionTimeStart: string;
-    readonly userRatingTimeRated: string;
-    readonly numMedia: number;
-    readonly image: PlaylistImage | null;
-    readonly userRating: number | null;
-    readonly tags: Array<Tag>;
-    readonly latestEmission: PlaylistEmission;
-    readonly duration: number;
-    readonly emissions: Array<PlaylistEmission>;
-    readonly editor: PlaylistEditor;
-    readonly mediaSet: Array<PlaylistMedia>;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly url: string;
+  name?: string;
+  readonly series: PlaylistSeries;
+  readonly latestEmissionTimeStart: string;
+  readonly userRatingTimeRated: string;
+  readonly numMedia: number;
+  readonly image: PlaylistImage | null;
+  readonly userRating: number | null;
+  readonly mediaSet: Array<PlaylistMedia>;
+  readonly emissions: Array<PlaylistEmission>;
+  readonly latestEmission: PlaylistEmission;
+  readonly duration: number;
+  readonly tags: Array<Tag>;
+  readonly editor: PlaylistEditor;
 };
 

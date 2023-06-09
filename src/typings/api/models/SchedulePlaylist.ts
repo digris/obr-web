@@ -11,17 +11,17 @@ import type { Editor } from './Editor';
  * values with complex, nested serializations
  */
 export type SchedulePlaylist = {
-    readonly url: string;
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    name?: string;
-    readonly editor: Editor;
-    readonly series: Record<string, any>;
+  readonly url: string;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  name?: string;
+  readonly editor: Editor;
+  readonly series: Record<string, any>;
 };
 

@@ -7,6 +7,6 @@
  * * `ondemand` - on demand
  */
 export enum VoteSourceEnum {
-    LIVE = 'live',
-    ONDEMAND = 'ondemand',
+  LIVE = 'live',
+  ONDEMAND = 'ondemand',
 }

@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type SignedLoginCredentials = {
-    readonly signedEmail: string;
-    readonly signedLoginUrl: string;
+  readonly signedEmail: string;
+  readonly signedLoginUrl: string;
 };
 

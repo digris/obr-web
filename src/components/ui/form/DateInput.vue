@@ -52,7 +52,7 @@ export default defineComponent({
       required
       @keyup="$emit('keyup')"
       @change="$emit('change')"
-      @input="update($event.target.value)"
+      @input="update(($event.target as HTMLInputElement).value)"
     />
     <div class="icon">
       <IconProgram :scale="0.825" />

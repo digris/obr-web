@@ -1,10 +1,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export { ApiError } from './core/ApiError';
-export { CancelablePromise, CancelError } from './core/CancelablePromise';
-export { OpenAPI } from './core/OpenAPI';
-export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Address } from './models/Address';
 export type { AddressCountries } from './models/AddressCountries';
@@ -109,24 +105,3 @@ export type { VoteWrite } from './models/VoteWrite';
 export type { VoteWriteRequest } from './models/VoteWriteRequest';
 export type { Voucher } from './models/Voucher';
 export type { VoucherRequest } from './models/VoucherRequest';
-
-export { AccountService } from './services/AccountService';
-export { AuthenticationService } from './services/AuthenticationService';
-export { BaseService } from './services/BaseService';
-export { BroadcastService } from './services/BroadcastService';
-export { CatalogService } from './services/CatalogService';
-export { CmsService } from './services/CmsService';
-export { DefaultService } from './services/DefaultService';
-export { FaqService } from './services/FaqService';
-export { JwtService } from './services/JwtService';
-export { NewsletterService } from './services/NewsletterService';
-export { PlayoutService } from './services/PlayoutService';
-export { RatingService } from './services/RatingService';
-export { RedirectService } from './services/RedirectService';
-export { SchemaService } from './services/SchemaService';
-export { SchemaJsonService } from './services/SchemaJsonService';
-export { SearchService } from './services/SearchService';
-export { StatsService } from './services/StatsService';
-export { SubscriptionService } from './services/SubscriptionService';
-export { SubscriptionPaymentService } from './services/SubscriptionPaymentService';
-export { SyncService } from './services/SyncService';
