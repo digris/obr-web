@@ -47,7 +47,6 @@ type sendChannel =
   | "rating:setRatings"
   // settings
   | "settings:setMaxBandwidth"
-  | "settings:setDarkMode"
   // account
   | "account:setAccessToken"
   // browser
@@ -88,14 +87,18 @@ type ReceivedEvent = Event & {
 };
 
 class AppBridge {
+  static instance: AppBridge;
+
   pauseHeartbeat = (): void => {};
 
-  constructor() {
-    const { isWeb } = useDevice();
-    if (isWeb) {
-      // log.debug("AppBridge - web mod detected: disable bridge");
+  private constructor() {
+    const { isApp } = useDevice();
+
+    if (!isApp) {
+      log.info("AppBridge only available in app-mode");
       return;
     }
+
     log.debug("AppBridge - constructor");
     this.init().then(() => {
       log.debug("AppBridge - initialized");
@@ -119,6 +122,14 @@ class AppBridge {
     // https://gist.github.com/dakeshi/d8e69e4ba50b31211d94
     window.addEventListener("click", this.onExternalLink.bind(this));
   }
+
+  public static getInstance(): AppBridge {
+    if (!AppBridge.instance) {
+      AppBridge.instance = new AppBridge();
+    }
+    return AppBridge.instance;
+  }
+
   async init(): Promise<void> {
     log.debug("AppBridge - init");
     await this.send("global:init");
@@ -174,6 +185,7 @@ class AppBridge {
       case "player:update": {
         const { setPlayerState } = usePlayerStore();
         const playerState = {
+          playState: data.state, // NOTE: should be adjusted in obr-app
           ...data,
           // set missing dummy values
           bandwidth: 12800,

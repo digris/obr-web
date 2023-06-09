@@ -9,15 +9,14 @@ import { createPinia } from "pinia";
 import de from "@/locales/de.yml";
 // @ts-ignore
 import en from "@/locales/en.yml";
-import createMediaSessionHandler from "@/player/mediaSession";
 // import settings from "@/settings";
-import createEventHandler from "@/stats/event";
+// import createEventHandler from "@/stats/event";
 import { useSettingsStore } from "@/stores/settings";
-import createAccountHandler from "@/utils/account";
-import createScheduleHandler from "@/utils/schedule";
+// import createAccountHandler from "@/utils/account";
+// import createScheduleHandler from "@/utils/schedule";
 import setDocumentTheme from "@/utils/theme";
-import createUIStateHandler from "@/utils/ui";
 
+// import createUIStateHandler from "@/utils/ui";
 import App from "./App.vue";
 // directives
 import { TooltipDirective } from "./directives/tooltip";
@@ -36,11 +35,11 @@ const settingsStore = useSettingsStore();
 
 setDocumentTheme();
 
-createEventHandler();
-createScheduleHandler();
-createAccountHandler();
-createUIStateHandler();
-createMediaSessionHandler();
+// createEventHandler();
+// createScheduleHandler();
+// createAccountHandler();
+// createUIStateHandler();
+// createMediaSessionHandler();
 
 // import { numberFormats } from "@/locales/formats";
 

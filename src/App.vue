@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useWindowSize } from "@vueuse/core";
+import type { Emitter } from "mitt";
 
 import { AppBridge } from "@/app-bridge/appBridge";
 import AuthSidebar from "@/components/account/auth/AuthSidebar.vue";
@@ -16,10 +17,18 @@ import Player from "@/components/player/Player.vue";
 import Subscribe from "@/components/subscription/Subscribe.vue";
 import ClaimVoucher from "@/components/subscription/voucher/Claim.vue";
 import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
+import type { EventBusEvents } from "@/eventBus";
 import { HlsPlayer } from "@/player/hlsPlayer";
+import createMediaSessionHandler from "@/player/mediaSession";
+import createEventHandler from "@/stats/event";
+import createAccountHandler from "@/utils/account";
+import createScheduleHandler from "@/utils/schedule";
+import createUIStateHandler from "@/utils/ui";
 
 declare global {
   interface Window {
+    eventBus: Emitter<EventBusEvents>;
     appBridge: AppBridge;
     hlsPlayer: HlsPlayer;
   }
@@ -41,11 +50,27 @@ export default defineComponent({
     LegalLinks,
   },
   setup() {
+    const { isApp, isWeb } = useDevice();
+
+    window.hlsPlayer = HlsPlayer.getInstance();
+    window.appBridge = AppBridge.getInstance();
+
+    if (isApp) {
+      console.debug("initialize: app-mode");
+    }
+
+    if (isWeb) {
+      console.debug("initialize: web-mode");
+      createEventHandler();
+      createMediaSessionHandler();
+      createScheduleHandler();
+    }
+
+    createAccountHandler();
+    createUIStateHandler();
+
     const { loadUser } = useAccount();
     loadUser();
-
-    window.appBridge = new AppBridge();
-    window.hlsPlayer = HlsPlayer.getInstance();
 
     const { width: vpWidth } = useWindowSize();
     const playerComponent = computed(() => {
