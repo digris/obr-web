@@ -60,6 +60,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
+      - uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "Europe/Zurich"
       - run: npm install -g yarn
       - run: yarn install --dev
       - run: yarn test:unit
