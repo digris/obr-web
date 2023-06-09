@@ -18,7 +18,10 @@ def get_signed_master_url(master):
         return url
 
     # in case of GCP storage: get signed url
-    if settings.STORAGES["default"]["BACKEND"] == "storages.backends.gcloud.GoogleCloudStorage":
+    if (
+        settings.STORAGES["default"]["BACKEND"]
+        == "storages.backends.gcloud.GoogleCloudStorage"
+    ):
         # https://stackoverflow.com/questions/64234214
         credentials, _ = google.auth.default(
             scopes=["https://www.googleapis.com/auth/iam"],

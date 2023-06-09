@@ -127,7 +127,10 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
         logger.info(f"sync skipping master download {master.ct}:{master.uid}")
         return master
 
-    if settings.STORAGES["default"]["BACKEND"] == "storages.backends.gcloud.GoogleCloudStorage":
+    if (
+        settings.STORAGES["default"]["BACKEND"]
+        == "storages.backends.gcloud.GoogleCloudStorage"
+    ):
         mode = "gs"
     else:
         mode = "fs"
