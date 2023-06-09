@@ -13,22 +13,9 @@ export const useSettings = () => {
   const { settings: userSettings } = storeToRefs(useAccountStore());
   const {
     setMaxBandwidth: setMaxBandwidthWeb,
-    setDarkMode: setDarkModeWeb,
+    setDarkMode,
     toggleShuffleMode,
   } = useSettingsStore();
-
-  const setDarkMode = async (value: boolean) => {
-    if (isWeb) {
-      setDarkModeWeb(value);
-    } else {
-      const channel = "settings:setDarkMode";
-      await appBridge.send(channel, {
-        darkMode: value,
-      });
-      // NOTE: remove after dark-mode setting is implemented in app
-      setDarkModeWeb(value);
-    }
-  };
 
   const setMaxBandwidth = async (bandwidth: number) => {
     if (isWeb) {
