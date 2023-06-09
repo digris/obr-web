@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 
 import { getSchedule } from "@/api/broadcast";
 import { useTimeStore } from "@/stores/time";
-import type { Media, Schedule } from "@/typings/api";
+import type { Media, Schedule, ScheduleMedia } from "@/typings/api";
 
 export type AnnotatedSchedule = Schedule & {
   dtStart: DateTime;
@@ -31,7 +31,7 @@ export const useScheduleStore = defineStore("schedule", {
       );
       return item ? item : null;
     },
-    currentMedia(): Media | null {
+    currentMedia(): ScheduleMedia | null {
       return this.current?.media ?? null;
     },
     items(state: State): Array<AnnotatedSchedule> {
@@ -85,9 +85,7 @@ export const useScheduleStore = defineStore("schedule", {
       this.schedule = data.map((el: Schedule): AnnotatedSchedule => {
         return {
           ...el,
-          // @ts-ignore
           dtStart: DateTime.fromISO(el.timeStart),
-          // @ts-ignore
           dtEnd: DateTime.fromISO(el.timeEnd),
         };
       });

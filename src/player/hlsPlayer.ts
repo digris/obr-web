@@ -3,6 +3,7 @@ import Hls from "hls.js";
 import log from "loglevel";
 import { isEqual, round } from "lodash-es";
 
+import { useDevice } from "@/composables/device";
 import { useQueueControls } from "@/composables/queue";
 import { useSettings } from "@/composables/settings";
 import { hlsBaseConfig } from "@/player/hlsConfig";
@@ -78,12 +79,22 @@ class HlsPlayer {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setPlayerState = async (state: StorePlayerState): Promise<void> => {};
 
-  analyser: AudioAnalyser;
+  analyser: null | AudioAnalyser;
 
   private debugData = {};
 
   private constructor() {
     const audio = document.createElement("audio");
+
+    const { isWeb } = useDevice();
+
+    if (!isWeb) {
+      log.info("HlsPlayer only available in web-mode");
+      this.audio = audio;
+      this.hls = null;
+      this.analyser = null;
+      return;
+    }
 
     const nativeHlsSupported = !!audio.canPlayType("application/vnd.apple.mpegurl");
     const hlsSupported = Hls.isSupported();
