@@ -9,8 +9,8 @@
  * * `buffering` - buffering
  */
 export enum StateEnum {
-    PLAYING = 'playing',
-    STOPPED = 'stopped',
-    PAUSED = 'paused',
-    BUFFERING = 'buffering',
+  PLAYING = 'playing',
+  STOPPED = 'stopped',
+  PAUSED = 'paused',
+  BUFFERING = 'buffering',
 }

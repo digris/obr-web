@@ -3,8 +3,8 @@
 /* eslint-disable */
 
 export type PaymentCreateRequest = {
-    sku: string;
-    donation?: number;
-    next?: string | null;
+  sku: string;
+  donation?: number;
+  next?: string | null;
 };
 

@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type SubscriptionOption = {
-    readonly message: string;
+  readonly message: string;
 };
 

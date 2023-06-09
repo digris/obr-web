@@ -59,7 +59,7 @@ export default defineComponent({
       :name="name"
       :value="value"
       :checked="isSelected"
-      @input="update($event.target.value)"
+      @input="update(($event.target as HTMLInputElement).value)"
     />
     <label :for="id" v-text="label" />
     <!--

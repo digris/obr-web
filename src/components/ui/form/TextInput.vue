@@ -63,7 +63,7 @@ export default defineComponent({
   <div class="text-input" :class="{ 'has-error': hasError }">
     <div class="top">
       <label v-if="label" :for="id" v-text="label" />
-      <div v-if="errors.length" class="errors">
+      <div v-if="errors?.length" class="errors">
         <span v-for="(error, index) in errors" :key="`input-error-${id}-${index}`" v-text="error" />
       </div>
     </div>
@@ -79,7 +79,7 @@ export default defineComponent({
       :max="maxValue"
       @keyup="$emit('keyup')"
       @change="$emit('change')"
-      @input="update($event.target.value)"
+      @input="update(($event.target as HTMLInputElement).value)"
     />
   </div>
 </template>

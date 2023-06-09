@@ -3,8 +3,8 @@
 /* eslint-disable */
 
 export type VoteWrite = {
-    key: string;
-    value: number | null;
-    readonly updated: string;
+  key: string;
+  value: number | null;
+  readonly updated: string;
 };
 

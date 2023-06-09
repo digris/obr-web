@@ -8,7 +8,7 @@
  * * `catalog` - catalog
  */
 export enum AppLabelsEnum {
-    ACCOUNT = 'account',
-    BROADCAST = 'broadcast',
-    CATALOG = 'catalog',
+  ACCOUNT = 'account',
+  BROADCAST = 'broadcast',
+  CATALOG = 'catalog',
 }

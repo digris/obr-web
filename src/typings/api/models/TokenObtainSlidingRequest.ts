@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type TokenObtainSlidingRequest = {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 };
 

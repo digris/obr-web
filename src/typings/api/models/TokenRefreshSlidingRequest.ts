@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type TokenRefreshSlidingRequest = {
-    token: string;
+  token: string;
 };
 

@@ -3,19 +3,19 @@
 /* eslint-disable */
 
 export type UserVoucher = {
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly codeDisplay: string;
-    readonly isValid: boolean;
-    readonly validUntil: string;
-    readonly numDays: number;
-    readonly maxNumUse: number;
-    readonly numUsed: number;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly codeDisplay: string;
+  readonly isValid: boolean;
+  readonly validUntil: string;
+  readonly numDays: number;
+  readonly maxNumUse: number;
+  readonly numUsed: number;
 };
 

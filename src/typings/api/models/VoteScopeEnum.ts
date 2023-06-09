@@ -11,9 +11,9 @@
  * * `genre` - genre
  */
 export enum VoteScopeEnum {
-    TRACK = 'track',
-    EMISSION = 'emission',
-    DAYTIME = 'daytime',
-    REPETITION = 'repetition',
-    GENRE = 'genre',
+  TRACK = 'track',
+  EMISSION = 'emission',
+  DAYTIME = 'daytime',
+  REPETITION = 'repetition',
+  GENRE = 'genre',
 }

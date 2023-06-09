@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type Archive = {
-    readonly numAirplaysArchived: number;
-    readonly numEmissionsArchived: number;
+  readonly numAirplaysArchived: number;
+  readonly numEmissionsArchived: number;
 };
 

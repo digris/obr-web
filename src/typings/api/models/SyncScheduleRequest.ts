@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 export type SyncScheduleRequest = {
-    /**
-     * how many hours ahead should the schedule be fetched
-     */
-    numHours?: number | null;
+  /**
+   * how many hours ahead should the schedule be fetched
+   */
+  numHours?: number | null;
 };
 

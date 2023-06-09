@@ -41,7 +41,7 @@ test:
 openapi-schema:
 	mkdir -p schema
 	./manage.py spectacular --validate --fail-on-warn --format openapi-json --file schema.json
-	npx openapi -i schema.json -o src/typings/api/
+	npx openapi -i schema.json -o src/typings/api/ --exportCore false --exportServices false --indent 2
 	rm -f schema.json
 
 .PHONY: setup

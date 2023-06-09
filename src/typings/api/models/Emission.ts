@@ -13,20 +13,20 @@ import type { EmissionVote } from './EmissionVote';
  * values with complex, nested serializations
  */
 export type Emission = {
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly url: string;
-    readonly playlist: EmissionPlaylist;
-    timeStart?: string | null;
-    timeEnd?: string | null;
-    readonly duration: string;
-    readonly liveRatings: Array<EmissionVote>;
-    readonly mediaSet: Array<EmissionMediaSet>;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly url: string;
+  readonly playlist: EmissionPlaylist;
+  timeStart?: string | null;
+  timeEnd?: string | null;
+  readonly duration: string;
+  readonly liveRatings: Array<EmissionVote>;
+  readonly mediaSet: Array<EmissionMediaSet>;
 };
 

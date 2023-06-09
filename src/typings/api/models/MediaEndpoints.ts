@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type MediaEndpoints = {
-    readonly dash: string;
-    readonly hls: string;
+  readonly dash: string;
+  readonly hls: string;
 };
 

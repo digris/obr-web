@@ -5,9 +5,9 @@
 import type { SearchMediaResult } from './SearchMediaResult';
 
 export type PaginatedSearchMediaResultList = {
-    count?: number;
-    next?: string | null;
-    previous?: string | null;
-    results?: Array<SearchMediaResult>;
+  count?: number;
+  next?: string | null;
+  previous?: string | null;
+  results?: Array<SearchMediaResult>;
 };
 

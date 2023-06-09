@@ -9,7 +9,7 @@
  * * `other` - other
  */
 export enum GenderEnum {
-    FEMALE = 'female',
-    MALE = 'male',
-    OTHER = 'other',
+  FEMALE = 'female',
+  MALE = 'male',
+  OTHER = 'other',
 }

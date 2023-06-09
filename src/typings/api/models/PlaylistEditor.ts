@@ -9,15 +9,15 @@
  * values with complex, nested serializations
  */
 export type PlaylistEditor = {
-    /**
-     * Content type
-     */
-    readonly ct: string;
-    /**
-     * UID
-     */
-    readonly uid: string;
-    readonly url: string;
-    name: string;
+  /**
+   * Content type
+   */
+  readonly ct: string;
+  /**
+   * UID
+   */
+  readonly uid: string;
+  readonly url: string;
+  name: string;
 };
 
