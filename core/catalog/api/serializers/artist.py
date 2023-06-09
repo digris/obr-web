@@ -1,10 +1,15 @@
 from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSerializer
-from catalog.models import Artist
+from catalog.models import Artist, ArtistImage
 from identifier.api.serializers import IdentifierSerializer
-from image.api.serializers import ImageSerializer
+from image.api.serializers import BaseImageSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
+
+
+class ArtistImageSerializer(BaseImageSerializer):
+    class Meta(BaseImageSerializer.Meta):
+        model = ArtistImage
 
 
 class ArtistSerializer(
@@ -19,8 +24,9 @@ class ArtistSerializer(
     name = serializers.CharField(
         read_only=True,
     )
-    image = ImageSerializer(
+    image = ArtistImageSerializer(
         read_only=True,
+        allow_null=True,
     )
     num_media = serializers.IntegerField(
         read_only=True,

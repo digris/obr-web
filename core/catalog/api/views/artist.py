@@ -218,6 +218,7 @@ class ArtistViewSet(
             200: serializers.ArtistSerializer(
                 expand=[
                     "tags",
+                    "identifiers",
                 ],
             ),
         },

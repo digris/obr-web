@@ -81,3 +81,5 @@ class ScheduleSerializer(serializers.Serializer):
     playlist = SchedulePlaylistSerializer(
         source="emission.playlist",
     )
+
+    # class Meta:

@@ -443,18 +443,19 @@ SIMPLE_JWT = {
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "OBR API",
-    "DESCRIPTION": "open broadcast radio",
+    "DESCRIPTION": "open broadcast - radio",
     "VERSION": str(__version__),
     "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
     "CAMELIZE_NAMES": True,
     "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
     "COMPONENT_SPLIT_REQUEST": True,
-    "COMPONENT_NO_READ_ONLY_REQUIRED": True,
+    "COMPONENT_NO_READ_ONLY_REQUIRED": False,
     "ENUM_ADD_EXPLICIT_BLANK_NULL_CHOICE": False,
     # 'PREPROCESSING_HOOKS': [],
     "SORT_OPERATIONS": True,
     "POSTPROCESSING_HOOKS": [
         "drf_spectacular.hooks.postprocess_schema_enums",
+        # "api_extra.drf_spectacular_postprocessors.read_only_response_fields_not_optional",
         "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
     ],
     "SERVERS": [
@@ -465,6 +466,10 @@ SPECTACULAR_SETTINGS = {
             "url": "http://local.obr-next:8080",
         },
     ],
+    "EXTERNAL_DOCS": {
+        "url": "https://github.com/digris/obr-web",
+    },
+    # "REDOC_UI_SETTINGS": {},  # see template: drf_spectacular/redoc.html
     "SWAGGER_UI_SETTINGS": {
         "deepLinking": False,
         "persistAuthorization": True,
@@ -477,8 +482,8 @@ SPECTACULAR_SETTINGS = {
     # https://drf-spectacular.readthedocs.io/en/latest/faq.html
     # look for "Enum names"
     "ENUM_NAME_OVERRIDES": {
-        "VoteSourceEnum": "rating.models.VoteSource.choices",
         "VoteScopeEnum": "rating.models.VoteScope.choices",
+        "VoteSourceEnum": "rating.models.VoteSource.choices",
     },
 }
 

@@ -6,10 +6,9 @@ from django.utils import timezone
 
 from broadcast.models import Emission
 from drf_spectacular.utils import extend_schema
+from playout.api import serializers
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-
-from .. import serializers
 
 logger = logging.getLogger(__name__)
 
