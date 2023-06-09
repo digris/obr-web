@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 
 import { getSchedule } from "@/api/broadcast";
 import { useTimeStore } from "@/stores/time";
-import type { Media, Schedule, ScheduleMedia } from "@/typings/api";
+import type { Schedule, ScheduleMedia } from "@/typings/api";
 
 export type AnnotatedSchedule = Schedule & {
   dtStart: DateTime;
