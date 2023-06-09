@@ -14,6 +14,6 @@ export type SyncApp = {
      * max age / last time updated before n seconds
      */
     maxAge?: number | null;
-    readonly updated?: Record<string, any>;
+    readonly updated: Record<string, any>;
 };
 

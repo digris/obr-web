@@ -8,11 +8,11 @@ export type Identifier = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
+    readonly uid: string;
     scope?: IdentifierScopeEnum | null;
     value?: string | null;
 };

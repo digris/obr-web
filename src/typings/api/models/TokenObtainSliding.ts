@@ -3,6 +3,6 @@
 /* eslint-disable */
 
 export type TokenObtainSliding = {
-    readonly token?: string;
+    readonly token: string;
 };
 

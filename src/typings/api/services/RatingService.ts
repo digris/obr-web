@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Vote } from '../models/Vote';
-import type { VoteRequest } from '../models/VoteRequest';
+import type { VoteWrite } from '../models/VoteWrite';
+import type { VoteWriteRequest } from '../models/VoteWriteRequest';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -13,13 +13,13 @@ export class RatingService {
     /**
      * @param objCt
      * @param objUid
-     * @returns Vote
+     * @returns VoteWrite
      * @throws ApiError
      */
     public static ratingRetrieve(
         objCt: string,
         objUid: string,
-    ): CancelablePromise<Vote> {
+    ): CancelablePromise<VoteWrite> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/rating/{objCt}:{objUid}/',
@@ -34,14 +34,14 @@ export class RatingService {
      * @param objCt
      * @param objUid
      * @param requestBody
-     * @returns Vote
+     * @returns VoteWrite
      * @throws ApiError
      */
     public static ratingCreate(
         objCt: string,
         objUid: string,
-        requestBody: VoteRequest,
-    ): CancelablePromise<Vote> {
+        requestBody: VoteWriteRequest,
+    ): CancelablePromise<VoteWrite> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/rating/{objCt}:{objUid}/',

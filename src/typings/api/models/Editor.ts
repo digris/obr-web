@@ -14,19 +14,19 @@ export type Editor = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly url?: string;
-    readonly name?: string;
+    readonly uid: string;
+    readonly url: string;
+    readonly name: string;
     location?: string;
     description?: string;
-    readonly role?: string;
-    readonly numPlaylists?: number;
-    readonly userRating?: number | null;
-    readonly image?: EditorImage | null;
+    readonly role: string;
+    readonly numPlaylists: number;
+    readonly userRating: number | null;
+    readonly image: EditorImage | null;
     isActive?: boolean;
 };
 

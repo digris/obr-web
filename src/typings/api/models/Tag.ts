@@ -8,12 +8,12 @@ export type Tag = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
+    readonly uid: string;
     type?: TypeEnum;
-    readonly name?: string;
+    readonly name: string;
 };
 

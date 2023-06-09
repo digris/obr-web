@@ -1,48 +1,36 @@
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 import { DateTime } from "luxon";
+import { isString } from "lodash-es";
 
-export default defineComponent({
-  props: {
-    value: {
-      type: [String, DateTime],
-      required: true,
-    },
-    displayDate: {
-      type: Boolean,
-      default: true,
-    },
-    displayTime: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup(props) {
-    const parsedValue = computed(() => {
-      if (typeof props.value === "string") {
-        return DateTime.fromISO(props.value);
-      }
-      return props.value;
-    });
-    const dateDisplay = computed(() => {
-      if (!props.displayDate) {
-        return null;
-      }
-      // @ts-ignore
-      return parsedValue.value.setLocale("de-ch").toLocaleString(DateTime.DATE_SHORT);
-    });
-    const timeDisplay = computed(() => {
-      if (!props.displayTime) {
-        return null;
-      }
-      // @ts-ignore
-      return parsedValue.value.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
-    });
-    return {
-      dateDisplay,
-      timeDisplay,
-    };
-  },
+interface Props {
+  value: string | DateTime;
+  displayDate?: boolean;
+  displayTime?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  displayDate: true,
+  displayTime: true,
+});
+
+const parsedValue = computed(() => {
+  if (isString(props.value)) {
+    return DateTime.fromISO(props.value);
+  }
+  return props.value;
+});
+const dateDisplay = computed(() => {
+  if (!props.displayDate) {
+    return null;
+  }
+  return parsedValue.value.setLocale("de-ch").toLocaleString(DateTime.DATE_SHORT);
+});
+const timeDisplay = computed(() => {
+  if (!props.displayTime) {
+    return null;
+  }
+  return parsedValue.value.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
 });
 </script>
 

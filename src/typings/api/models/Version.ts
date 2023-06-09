@@ -6,10 +6,10 @@ export type Version = {
     /**
      * SemVer
      */
-    readonly version?: string;
+    readonly version: string;
     /**
      * Git short SHA
      */
-    readonly sha?: string;
+    readonly sha: string;
 };
 

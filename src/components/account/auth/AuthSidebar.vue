@@ -21,11 +21,11 @@ export default defineComponent({
   setup() {
     const { user } = useAccount();
     const isVisible = ref(false);
-    const next = ref(null);
+    const next = ref("");
     const close = () => (isVisible.value = false);
     eventBus.on("account:authenticate", (event) => {
       isVisible.value = true;
-      next.value = event.next || null;
+      next.value = event.next;
     });
     watch(
       () => user.value,

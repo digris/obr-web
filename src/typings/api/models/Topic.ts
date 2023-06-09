@@ -6,12 +6,12 @@ export type Topic = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    question: string;
-    answer: string;
+    readonly uid: string;
+    readonly question: string;
+    readonly answer: string;
 };
 

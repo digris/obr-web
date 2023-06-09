@@ -22,7 +22,7 @@ export default defineComponent({
       await appBridge.send(channel.value, data.value ? JSON.parse(data.value) : null);
     };
     const socialBegin = () => {
-      window.appBridge?.send("browser:navigate", {
+      window.appBridge.send("browser:navigate", {
         url: "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector",
       });
     };

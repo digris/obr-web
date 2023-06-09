@@ -20,7 +20,7 @@ export default defineComponent({
     <div class="qr qr--store">
       <qrcode-vue
         value="https://itunes.apple.com/app/obr/id1643695398"
-        size="512"
+        :size="512"
         background="#000000"
         foreground="#ffffff"
         level="H"
@@ -34,7 +34,7 @@ export default defineComponent({
     <div class="qr qr--voucher">
       <qrcode-vue
         value="https://next.openbroadcast.ch/#KS-HM-ZH"
-        size="512"
+        :size="512"
         background="#ffffff"
         foreground="#000000"
         level="H"

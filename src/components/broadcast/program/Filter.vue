@@ -4,21 +4,15 @@ import { computed, defineComponent, ref } from "vue";
 import { watchDebounced } from "@vueuse/core";
 import { DateTime } from "luxon";
 
-import DatetInput from "@/components/ui/form/DatetInput.vue";
-
-export type Time = {
-  hour: number;
-  minute: number;
-};
+import DateInput from "@/components/ui/form/DateInput.vue";
 
 export type Filter = {
   date: DateTime;
-  time: Time;
 };
 
 export default defineComponent({
   components: {
-    DatetInput,
+    DateInput,
   },
   props: {
     modelValue: {
@@ -28,15 +22,10 @@ export default defineComponent({
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const minute = ref(0);
     const date = computed(() => {
       return props.modelValue.date;
     });
-    const time = computed(() => {
-      return props.modelValue.time;
-    });
     const today = DateTime.now();
-    const hour = ref(time.value?.hour ?? 7);
     const dateInput = ref(date.value.toISODate());
     const dateInputMin = "2019-01-01";
     const dateInputMax = computed(() => {
@@ -44,13 +33,8 @@ export default defineComponent({
     });
     const userFilter = computed(() => {
       const filterDate = DateTime.fromISO(dateInput.value);
-      const filterTime = {
-        hour: hour.value,
-        minute: minute.value,
-      };
       return {
         date: filterDate,
-        time: filterTime,
       };
     });
     const update = (value: Filter) => {
@@ -69,7 +53,7 @@ export default defineComponent({
 <template>
   <div>
     <div class="filter">
-      <DatetInput v-model="dateInput" :min="dateInputMin" :max="dateInputMax" />
+      <DateInput v-model="dateInput" :min="dateInputMin" :max="dateInputMax" />
     </div>
   </div>
 </template>

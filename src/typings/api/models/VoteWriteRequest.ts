@@ -5,7 +5,7 @@
 import type { VoteScopeEnum } from './VoteScopeEnum';
 import type { VoteSourceEnum } from './VoteSourceEnum';
 
-export type VoteRequest = {
+export type VoteWriteRequest = {
     key: string;
     value: number | null;
     source?: VoteSourceEnum | null;

@@ -13,7 +13,7 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const categories = ref([]);
+    const categories = ref<Array<any>>([]);
     onActivated(async () => {
       const data = await getFaqCategories();
       categories.value = data.results;

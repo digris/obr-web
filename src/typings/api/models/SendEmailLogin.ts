@@ -4,6 +4,6 @@
 
 export type SendEmailLogin = {
     email: string;
-    readonly message?: string;
+    readonly message: string;
 };
 

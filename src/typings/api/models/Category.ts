@@ -8,12 +8,12 @@ export type Category = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    name: string;
-    readonly topics?: Array<Topic>;
+    readonly uid: string;
+    readonly name: string;
+    readonly topics: Array<Topic>;
 };
 

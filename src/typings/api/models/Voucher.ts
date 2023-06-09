@@ -6,17 +6,17 @@ export type Voucher = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
+    readonly uid: string;
     code?: string;
-    readonly codeDisplay?: string;
+    readonly codeDisplay: string;
     numDays?: number;
-    readonly isValid?: boolean;
-    readonly isValidForUser?: boolean;
-    readonly untilDate?: string | null;
+    readonly isValid: boolean;
+    readonly isValidForUser: boolean;
+    readonly untilDate: string | null;
     validUntil?: string;
 };
 

@@ -6,6 +6,7 @@ import { round } from "lodash-es";
 import { getMedia } from "@/api/catalog";
 import { useAnalyser, usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
+import type { AnnotatedMedia } from "@/stores/queue";
 
 const {
   mode,
@@ -25,7 +26,8 @@ const { playLive, playMedia, pause, resume, seek } = usePlayerControls();
 
 const { enqueueMedia, startPlayCurrent } = useQueueControls();
 
-const queue = ref([]);
+// const queue = ref([]);
+const queue = ref<Array<AnnotatedMedia>>([]);
 const loadPlaylist = async (uid: string) => {
   const { results } = await getMedia(
     100,
@@ -86,9 +88,12 @@ const draw = (drawData: Array<number>) => {
   }
 };
 
-const a = analyser.a32;
+const a = analyser?.a32;
 
 const { pause: pauseDraw, resume: resumeDraw } = useRafFn(() => {
+  if (!a) {
+    return;
+  }
   const sd = new Uint8Array(16);
   a.getByteFrequencyData(sd);
   const sd4 = [sd[4] * 0.8, sd[6], sd[8], sd[10] * 1.2];
@@ -122,7 +127,7 @@ const { pause: pauseDraw, resume: resumeDraw } = useRafFn(() => {
       </div>
       <div>
         <progress
-          @click="seek($event.offsetX / $event.currentTarget.offsetWidth)"
+          @click="seek($event.offsetX / $event.currentTarget?.offsetWidth)"
           :max="100"
           :value="relPosition * 100"
         />

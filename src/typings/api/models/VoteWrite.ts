@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Vote = {
+export type VoteWrite = {
     key: string;
     value: number | null;
-    readonly updated?: string;
+    readonly updated: string;
 };
 

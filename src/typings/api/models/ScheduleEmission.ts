@@ -9,16 +9,16 @@
  * values with complex, nested serializations
  */
 export type ScheduleEmission = {
-    readonly url?: string;
+    readonly url: string;
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly duration?: string;
+    readonly uid: string;
+    readonly duration: string;
     timeStart?: string | null;
     timeEnd?: string | null;
 };
