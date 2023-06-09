@@ -2,6 +2,15 @@
 /* tslint:disable */
 /* eslint-disable */
 
+/**
+ * * `genre` - Genre
+ * * `mood` - Mood
+ * * `descriptive` - Descriptive
+ * * `instrument` - Instrument
+ * * `profession` - Profession
+ * * `event` - Event
+ * * `language` - Language
+ */
 export enum TypeEnum {
     GENRE = 'genre',
     MOOD = 'mood',

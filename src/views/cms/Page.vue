@@ -8,6 +8,11 @@ import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 import { useSettings } from "@/composables/settings";
 import type { Page } from "@/typings/api";
 
+interface ErrorPage {
+  title: string;
+  message: string;
+}
+
 export default defineComponent({
   props: {
     path: {
@@ -22,16 +27,19 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n();
     const { locale } = useSettings();
-    const page = ref<Page | null>({});
+    const page = ref<Page | null>(null);
+    const errorPage = ref<ErrorPage | null>(null);
     const loadPage = async (path: string) => {
-      console.debug("path", path);
-      page.value = {};
+      page.value = null;
+      errorPage.value = null;
       try {
         page.value = await getPage(path);
-      } catch (err) {
-        page.value = {
+        errorPage.value = null;
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "";
+        errorPage.value = {
           title: t("pages.pageNotFound"),
-          body: err?.message,
+          message,
         };
       }
     };
@@ -54,13 +62,20 @@ export default defineComponent({
     );
     return {
       page,
+      errorPage,
     };
   },
 });
 </script>
 
 <template>
-  <div class="page">
+  <div v-if="errorPage" class="page has-error">
+    <div class="title">
+      <h1 v-text="errorPage.title" />
+    </div>
+    <div class="lead" v-if="errorPage.message" v-html="errorPage.message" />
+  </div>
+  <div v-if="page" class="page">
     <div class="title" v-if="page.title">
       <h1 v-text="page.title" />
     </div>

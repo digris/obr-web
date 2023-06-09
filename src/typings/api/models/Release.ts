@@ -8,14 +8,14 @@ export type Release = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly url?: string;
-    readonly name?: string;
-    readonly isNew?: boolean;
-    readonly image?: ReleaseImage | null;
+    readonly uid: string;
+    readonly url: string;
+    readonly name: string;
+    readonly isNew: boolean;
+    readonly image: ReleaseImage | null;
 };
 

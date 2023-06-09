@@ -2,14 +2,15 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Artist } from '../models/Artist';
-import type { CatalogPlaylist } from '../models/CatalogPlaylist';
 import type { Media } from '../models/Media';
 import type { Mood } from '../models/Mood';
 import type { PaginatedArtistList } from '../models/PaginatedArtistList';
-import type { PaginatedCatalogPlaylistList } from '../models/PaginatedCatalogPlaylistList';
 import type { PaginatedMediaList } from '../models/PaginatedMediaList';
 import type { PaginatedMoodList } from '../models/PaginatedMoodList';
+import type { PaginatedPlaylistList } from '../models/PaginatedPlaylistList';
 import type { PaginatedReleaseList } from '../models/PaginatedReleaseList';
+import type { PaginatedTagList } from '../models/PaginatedTagList';
+import type { Playlist } from '../models/Playlist';
 import type { Release } from '../models/Release';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -74,6 +75,27 @@ export class CatalogService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/catalog/artists/tags/',
+        });
+    }
+
+    /**
+     * Returns (signed) URL to download the master file.
+     * @param uid
+     * @returns void
+     * @throws ApiError
+     */
+    public static catalogMasterDownload(
+        uid: string,
+    ): CancelablePromise<void> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/catalog/masters/download/{uid}/',
+            path: {
+                'uid': uid,
+            },
+            errors: {
+                302: `No response body`,
+            },
         });
     }
 
@@ -176,23 +198,26 @@ export class CatalogService {
     }
 
     /**
+     * @param expand
      * @param limit Number of results to return per page.
      * @param objKey
      * @param offset The initial index from which to return the results.
      * @param userRating
-     * @returns PaginatedCatalogPlaylistList
+     * @returns PaginatedPlaylistList
      * @throws ApiError
      */
     public static catalogPlaylistsList(
+        expand?: Array<'duration' | 'editor' | 'latest_emission' | 'media_set' | 'tags'>,
         limit?: number,
         objKey?: string,
         offset?: number,
         userRating?: number,
-    ): CancelablePromise<PaginatedCatalogPlaylistList> {
+    ): CancelablePromise<PaginatedPlaylistList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/catalog/playlists/',
             query: {
+                'expand': expand,
                 'limit': limit,
                 'obj_key': objKey,
                 'offset': offset,
@@ -203,29 +228,52 @@ export class CatalogService {
 
     /**
      * @param uid
-     * @returns CatalogPlaylist
+     * @param expand
+     * @returns Playlist
      * @throws ApiError
      */
     public static catalogPlaylistsRetrieve(
         uid: string,
-    ): CancelablePromise<CatalogPlaylist> {
+        expand?: Array<'duration' | 'editor' | 'latest_emission' | 'media_set' | 'tags'>,
+    ): CancelablePromise<Playlist> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/catalog/playlists/{uid}/',
             path: {
                 'uid': uid,
             },
+            query: {
+                'expand': expand,
+            },
         });
     }
 
     /**
-     * @returns CatalogPlaylist
+     * @param expand
+     * @param limit Number of results to return per page.
+     * @param objKey
+     * @param offset The initial index from which to return the results.
+     * @param userRating
+     * @returns PaginatedTagList
      * @throws ApiError
      */
-    public static catalogPlaylistsTagsRetrieve(): CancelablePromise<CatalogPlaylist> {
+    public static catalogPlaylistsTagsList(
+        expand?: Array<'duration' | 'editor' | 'latest_emission' | 'media_set' | 'tags'>,
+        limit?: number,
+        objKey?: string,
+        offset?: number,
+        userRating?: number,
+    ): CancelablePromise<PaginatedTagList> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/catalog/playlists/tags/',
+            query: {
+                'expand': expand,
+                'limit': limit,
+                'obj_key': objKey,
+                'offset': offset,
+                'user_rating': userRating,
+            },
         });
     }
 

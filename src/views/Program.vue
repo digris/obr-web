@@ -1,44 +1,29 @@
-<script lang="ts">
+<script lang="ts" setup>
 /*
  * NOTE: the naming here is kind of confusing and maybe should be changed.
  * this view (views/Program.view) is used as top-level view bound to /program/
  * the actual program data is handled by components/broadcast/program/Program.vue
  */
-
-import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
-import { DateTime } from "luxon";
+import type { DateTime } from "luxon";
 
 import Program from "@/components/broadcast/program/Program.vue";
 
-export default defineComponent({
-  props: {
-    date: {
-      type: DateTime,
-      required: true,
+defineProps<{
+  date: DateTime;
+}>();
+
+const { t } = useI18n();
+const router = useRouter();
+const onDateUpdate = (date: DateTime) => {
+  router.push({
+    name: "program",
+    params: {
+      date: date.toISODate(),
     },
-  },
-  components: {
-    Program,
-  },
-  setup() {
-    const { t } = useI18n();
-    const router = useRouter();
-    const onDateUpdate = (date: DateTime) => {
-      router.push({
-        name: "program",
-        params: {
-          date: date.toISODate(),
-        },
-      });
-    };
-    return {
-      t,
-      onDateUpdate,
-    };
-  },
-});
+  });
+};
 </script>
 
 <template>

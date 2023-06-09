@@ -6,13 +6,13 @@ export type Newsletter = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly title?: string;
-    readonly description?: string;
-    readonly isSubscribed?: boolean;
+    readonly uid: string;
+    readonly title: string;
+    readonly description: string;
+    readonly isSubscribed: boolean;
 };
 

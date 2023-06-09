@@ -8,16 +8,20 @@
  * control which fields are displayed, and whether to replace simple
  * values with complex, nested serializations
  */
-export type CatalogPlaylist = {
+export type PlayoutScheduleMedia = {
+    readonly url: string;
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly url?: string;
-    name?: string | null;
+    readonly uid: string;
+    readonly name: string;
+    /**
+     * in milliseconds
+     */
+    readonly duration: number;
 };
 

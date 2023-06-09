@@ -3,10 +3,10 @@
 /* eslint-disable */
 
 export type MediaArtist = {
-    readonly url?: string;
-    readonly ct?: string;
-    readonly uid?: string;
-    readonly name?: string;
-    joinPhrase?: string | null;
+    readonly url: string;
+    readonly ct: string;
+    readonly uid: string;
+    readonly name: string;
+    joinPhrase?: string;
 };
 

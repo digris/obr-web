@@ -18,7 +18,7 @@ const updateAppBridgeAccount = (user: User) => {
     const data = {
       accessToken: user?.accessToken ?? null,
     };
-    window.appBridge?.send(channel, data);
+    window.appBridge.send(channel, data);
   }
 };
 

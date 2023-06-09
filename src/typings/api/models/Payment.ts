@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type Payment = {
-    readonly id?: string;
-    readonly uid?: string;
+    readonly id: string;
+    readonly uid: string;
 };
 

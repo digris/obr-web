@@ -13,8 +13,8 @@ export default defineComponent({
   },
   props: {
     next: {
-      type: [null, String],
-      default: null,
+      type: String,
+      default: "",
     },
   },
   setup() {

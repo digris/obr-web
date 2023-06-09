@@ -32,7 +32,7 @@ export default defineComponent({
   setup() {
     const { queueLength } = useQueueState();
     const { seek } = usePlayerControls();
-    const { media, color, isLive } = usePlayerState();
+    const { isVisible, media, color, isLive } = usePlayerState();
     const objKey = computed(() => {
       if (!media.value) {
         return null;
@@ -76,6 +76,7 @@ export default defineComponent({
       queueVisible.value = !queueVisible.value;
     };
     return {
+      isVisible,
       media,
       objKey,
       fgColor,
@@ -94,7 +95,7 @@ export default defineComponent({
 <template>
   <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
   <transition name="slide">
-    <div v-if="media" class="player" :style="cssVars">
+    <div v-if="isVisible" class="player" :style="cssVars">
       <Playhead class="playhead" @seek="seek" />
       <div class="container">
         <div class="left">

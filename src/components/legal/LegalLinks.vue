@@ -1,19 +1,10 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 
 import { useDevice } from "@/composables/device";
 
-export default defineComponent({
-  setup() {
-    const { t } = useI18n();
-    const { isWeb } = useDevice();
-    return {
-      t,
-      isWeb,
-    };
-  },
-});
+const { t } = useI18n();
+const { isWeb } = useDevice();
 </script>
 
 <template>
@@ -61,4 +52,3 @@ export default defineComponent({
   }
 }
 </style>
-<script setup lang="ts"></script>

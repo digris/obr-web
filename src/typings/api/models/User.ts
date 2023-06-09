@@ -15,30 +15,30 @@ export type User = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly email?: string;
-    readonly dateJoined?: string;
+    readonly uid: string;
+    readonly email: string;
+    readonly dateJoined: string;
     gender?: GenderEnum;
-    firstName?: string | null;
-    lastName?: string | null;
+    firstName?: string;
+    lastName?: string;
     country?: CountryEnum;
     yearOfBirth?: number | null;
     favoriteVenue?: string;
-    readonly isStaff?: boolean;
-    readonly isAdmin?: boolean;
+    readonly isStaff: boolean;
+    readonly isAdmin: boolean;
     /**
      * JWT access token, provides authentication for session-less requests when provided in header:
      * `Authorization: Bearer <token>`
      */
-    readonly accessToken?: string;
+    readonly accessToken: string;
     /**
      * CDN policy to be included when requesting protected media files from the CDN.
      * Expected cookie value: `Cloud-CDN-Cookie=<policy>; Path=/; Domain=<domain>; HttpOnly: SameSite=Lax`
      */
-    readonly cdnPolicy?: string;
+    readonly cdnPolicy: string;
 };
 

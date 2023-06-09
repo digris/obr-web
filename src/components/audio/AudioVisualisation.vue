@@ -1,8 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 
-import { HlsPlayer } from "@/player/hlsPlayer";
-
 const drawCanvas = async (
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -59,8 +57,16 @@ export default defineComponent({
       if (!canvas.value) {
         return;
       }
-      const player = HlsPlayer.getInstance();
+      const player = window.hlsPlayer;
+      if (!player) {
+        return;
+      }
+
       const analyser = player.analyser;
+      if (!analyser) {
+        return;
+      }
+
       const ctx = canvas.value?.getContext("2d");
 
       const getDrawData = () => {

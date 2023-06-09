@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { CatalogPlaylist } from './CatalogPlaylist';
+import type { Playlist } from './Playlist';
 
-export type PaginatedCatalogPlaylistList = {
+export type PaginatedPlaylistList = {
     count?: number;
     next?: string | null;
     previous?: string | null;
-    results?: Array<CatalogPlaylist>;
+    results?: Array<Playlist>;
 };
 

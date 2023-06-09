@@ -110,7 +110,7 @@ export default defineComponent({
       try {
         await loginUser(credentials);
         document.location.reload();
-      } catch (err) {
+      } catch (err: unknown) {
         console.warn(err);
         errors.value = [err.response];
       }

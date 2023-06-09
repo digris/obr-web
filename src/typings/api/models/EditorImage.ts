@@ -6,19 +6,19 @@ export type EditorImage = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
+    readonly uid: string;
     /**
      * To be used with `IMAGE_RESIZER_ENDPOINT`
      */
-    readonly path?: string;
+    readonly path: string;
     /**
      * "Internal" storage backend URL
      */
-    readonly url?: string;
-    readonly rgb?: Array<number>;
+    readonly url: string;
+    readonly rgb: Array<number>;
 };
 

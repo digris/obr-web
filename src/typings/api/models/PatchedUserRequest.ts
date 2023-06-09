@@ -13,8 +13,8 @@ import type { GenderEnum } from './GenderEnum';
  */
 export type PatchedUserRequest = {
     gender?: GenderEnum;
-    firstName?: string | null;
-    lastName?: string | null;
+    firstName?: string;
+    lastName?: string;
     country?: CountryEnum;
     yearOfBirth?: number | null;
     favoriteVenue?: string;

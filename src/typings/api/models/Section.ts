@@ -6,13 +6,13 @@ export type Section = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly title?: string;
-    readonly expandable?: boolean;
-    readonly body?: string;
+    readonly uid: string;
+    readonly title: string;
+    readonly expandable: boolean;
+    readonly body: string;
 };
 

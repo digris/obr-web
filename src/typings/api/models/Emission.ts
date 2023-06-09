@@ -4,6 +4,7 @@
 
 import type { EmissionMediaSet } from './EmissionMediaSet';
 import type { EmissionPlaylist } from './EmissionPlaylist';
+import type { EmissionVote } from './EmissionVote';
 
 /**
  * A ModelSerializer that takes additional arguments for
@@ -15,16 +16,17 @@ export type Emission = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly url?: string;
-    readonly playlist?: EmissionPlaylist;
+    readonly uid: string;
+    readonly url: string;
+    readonly playlist: EmissionPlaylist;
     timeStart?: string | null;
     timeEnd?: string | null;
-    readonly duration?: string;
-    readonly mediaSet?: Array<EmissionMediaSet>;
+    readonly duration: string;
+    readonly liveRatings: Array<EmissionVote>;
+    readonly mediaSet: Array<EmissionMediaSet>;
 };
 

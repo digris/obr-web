@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { ArtistImage } from './ArtistImage';
+
 /**
  * A ModelSerializer that takes additional arguments for
  * "fields", "omit" and "expand" in order to
@@ -12,18 +14,19 @@ export type Artist = {
     /**
      * Content type
      */
-    readonly ct?: string;
+    readonly ct: string;
     /**
      * UID
      */
-    readonly uid?: string;
-    readonly url?: string;
-    readonly name?: string;
-    readonly numMedia?: number;
-    readonly mediaTotalDuration?: number;
-    countryCode?: string | null;
+    readonly uid: string;
+    readonly url: string;
+    readonly name: string;
+    readonly numMedia: number;
+    readonly mediaTotalDuration: number;
+    readonly image: ArtistImage | null;
+    countryCode?: string;
     dateStart?: string | null;
     dateEnd?: string | null;
-    readonly userRating?: number | null;
+    readonly userRating: number | null;
 };
 
