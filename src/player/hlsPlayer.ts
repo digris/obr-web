@@ -79,7 +79,7 @@ class HlsPlayer {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setPlayerState = async (state: StorePlayerState): Promise<void> => {};
 
-  analyser: null | AudioAnalyser;
+  analyser: undefined | AudioAnalyser;
 
   private debugData = {};
 
@@ -92,7 +92,6 @@ class HlsPlayer {
       log.info("HlsPlayer only available in web-mode");
       this.audio = audio;
       this.hls = null;
-      this.analyser = null;
       return;
     }
 
@@ -116,8 +115,6 @@ class HlsPlayer {
 
     this.connectStore();
     this.connectSettings();
-
-    this.analyser = createAudioAnalyser(audio);
 
     setInterval(async () => {
       await this.syncStateToStore();
@@ -160,6 +157,8 @@ class HlsPlayer {
     audio.addEventListener("pause", () => this.setPlayState("paused"));
     audio.addEventListener("emptied", () => this.setPlayState("paused"));
     audio.addEventListener("ended", () => this.setPlayState("stopped"));
+
+    audio.addEventListener("play", () => this.connectAnalyser());
 
     audio.onended = async (): Promise<void> => {
       console.debug("onended");
@@ -381,6 +380,12 @@ class HlsPlayer {
     console.debug("play next");
     const { playNext } = useQueueControls();
     await playNext();
+  }
+
+  private connectAnalyser(): void {
+    if (!this.analyser) {
+      this.analyser = createAudioAnalyser(this.audio);
+    }
   }
 
   private connectStore(): void {

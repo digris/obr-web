@@ -9,19 +9,18 @@ packages = [{include="core", from="."}]
 
 [tool.poetry.dependencies]
 python = ">=3.10, <3.12"
-Django = "^4.1.3"
+Django = "^4.2.2"
 gunicorn = "^20.0.4"
-psycopg2-binary = "^2.9"
 google-cloud-secret-manager = "^2.11.1"
 google-auth = "^2.6.6"
-django-environ = "^0.9.0"
+django-environ = "^0.10"
 django-storages = {extras = ["google"], version = "^1.11.1"}
 djangorestframework = "^3.14.0"
 django-settings-export = "^1.2.1"
-django-filter = "^22.1"
+django-filter = "^23.2"
 Pillow = "^9.0.1"
 # django-admin-sortable2 = "^1.0.2"
-django-cleanup = "^6.0.0"
+django-cleanup = "^7.0"
 mondrian = "^0.8.1"
 drf-flex-fields = "^1.0.0"
 django-request-logging = "^0.7.3"
@@ -31,15 +30,15 @@ Hypercorn = "^0.12"
 click = "^8.0.0"
 stripe = "^3.2.0"
 colorthief = "^0.2.1"
-django-taggit = "^3.0.0"
+django-taggit = "^4.0"
 drf-spectacular = "^0.26.2"
 filetype = "^1.0.7"
 djangorestframework-camel-case = "^1.2.0"
-sentry-sdk = {version = ">=1.18.0,<1.19.0", extras = ["django"]}
+sentry-sdk = {version = "^1.25", extras = ["django"]}
 Markdown = "^3.3.4"
 setoptconf = "^0.3.0"
 whitenoise = "^6.2.0"
-bleach = "^5.0.0"
+bleach = "^6.0"
 django-countries = "^7.2.1"
 #grpcio = "<1.52.0"
 django-qsstats-magic = "^1.1.0"
@@ -49,7 +48,7 @@ google-api-core = "^2.8.1"
 django-modeltranslation = "^0.18.2"
 djangorestframework-simplejwt = "^5.2.0"
 sendgrid = "^6.9.7"
-django-admin-interface = "^0.24.0"
+django-admin-interface = "^0.26"
 django-admin-sortable2 = "^2.1.4"
 progress = "^1.6"
 python-dateutil = "^2.8.2"
@@ -57,6 +56,7 @@ django-tree-queries = "^0.14.0"
 google-cloud-bigquery = "^3.9.0"
 ua-parser = "^0.16.1"
 grpcio = "1.51.3"
+psycopg = {extras = ["binary", "pool"], version = "^3.1.9"}
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"
@@ -114,11 +114,11 @@ markers = [
     "e2e: marks tests as slow (deselect with '-m \"not e2e\"')",
 ]
 filterwarnings = [
+    "ignore:::pkg_resources",
     "ignore:::standard_library",
-    "ignore:::cms",
     "ignore:::html5lib",
-    "ignore:::djangocms_attributes_field",
-    "ignore::django.utils.deprecation.RemovedInDjango50Warning:django",
+#    "ignore::django.utils.deprecation.RemovedInDjango50Warning:django",
+    "ignore::django.utils.deprecation.RemovedInDjango51Warning:django",
     "ignore::DeprecationWarning:future",
     "ignore::DeprecationWarning:google",
 ]

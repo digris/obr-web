@@ -3,7 +3,14 @@ from .base import *
 DEBUG = True
 TEST_MODE = True
 LOGGING = {}
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "build")
 MEDIA_ROOT = PROJECT_ROOT / "data" / "test" / "media"
 DATABASES = {

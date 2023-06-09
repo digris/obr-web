@@ -8,7 +8,16 @@ SITE_URL = "http://local.obr-next:3000"
 ##################################################################
 # storage & media
 ##################################################################
-DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+
 MEDIA_ROOT = PROJECT_ROOT / "data" / "media"
 MEDIA_URL = ""
 

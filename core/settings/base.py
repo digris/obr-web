@@ -318,7 +318,7 @@ LANGUAGES = [
 
 TIME_ZONE = "Europe/Zurich"
 USE_I18N = True
-USE_L10N = False
+# USE_L10N = False  # depreciated - check for side effects
 USE_TZ = True
 
 DATETIME_FORMAT = "Y-m-d H:i:sO"
@@ -326,9 +326,18 @@ DATE_FORMAT = "Y-m-d"
 
 
 ##################################################################
-# static files
+# static files / storage
 ##################################################################
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # `build` -> vite output
 STATICFILES_DIRS = [

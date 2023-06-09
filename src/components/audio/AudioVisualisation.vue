@@ -1,6 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 
+import type { AudioAnalyser } from "@/player/analyser";
+
 const drawCanvas = async (
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -62,14 +64,17 @@ export default defineComponent({
         return;
       }
 
-      const analyser = player.analyser;
-      if (!analyser) {
-        return;
-      }
+      // const analyser = player.analyser;
+      // if (!analyser) {
+      //   return;
+      // }
 
       const ctx = canvas.value?.getContext("2d");
 
-      const getDrawData = () => {
+      const getDrawData = (analyser: AudioAnalyser) => {
+        if (!analyser) {
+          return new Uint8Array(300);
+        }
         // we just need one channel here
         const a = analyser.a1024;
         const spectrumData = new Uint8Array(300);
@@ -80,8 +85,8 @@ export default defineComponent({
       };
 
       const drawLoop = () => {
-        if (analyser && ctx) {
-          const drawData = getDrawData();
+        if (player.analyser && ctx) {
+          const drawData = getDrawData(player.analyser);
           drawCanvas(ctx, props.width, props.height, props.color, drawData);
         }
         requestAnimationFrame(drawLoop);
