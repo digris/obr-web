@@ -1,43 +1,36 @@
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 
 import { useIconSize } from "@/composables/icon";
 
-export default defineComponent({
-  props: {
-    scale: {
-      type: Number,
-      default: 1,
-    },
-    colorVar: {
-      type: String,
-      default: "--c-fg",
-    },
-  },
-  setup(props) {
-    const { iconSize: size } = useIconSize(props.scale);
-    const color = computed(() => `rgb(var(${props.colorVar}) / 100%)`);
-    const style = computed(() => {
-      return {
-        fill: color.value,
-        stroke: "none",
-        width: `${size.value}px`,
-        height: `${size.value}px`,
-      };
-    });
-    return {
-      style,
-    };
-  },
-});
+const props = withDefaults(
+  defineProps<{
+    scale?: number;
+    colorVar?: string;
+  }>(),
+  {
+    scale: 1,
+    colorVar: "--c-fg",
+  }
+);
+
+const { iconSize: size, iconStrokeWidth: strokeWidth } = useIconSize(props.scale);
+const color = computed(() => `rgb(var(${props.colorVar}) / 100%)`);
 </script>
 
 <template>
-  <!-- eslint-disable max-len -->
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" :style="style">
-    <rect x="10" y="22.4" width="28" height="3" />
-    <rect x="10" y="13.4" width="28" height="3" />
-    <rect x="10" y="31.4" width="28" height="3" />
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 48 48"
+    :style="{
+      fill: color,
+      stroke: 'none',
+      width: `${size}px`,
+      height: `${size}px`,
+    }"
+  >
+    <rect x="10" y="13.5" width="28" :height="strokeWidth" />
+    <rect x="10" y="22.5" width="28" :height="strokeWidth" />
+    <rect x="10" y="31.5" width="28" :height="strokeWidth" />
   </svg>
-  <!-- eslint-enable max-len -->
 </template>

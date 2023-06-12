@@ -12,6 +12,7 @@ import NoResults from "@/components/ui/loading/NoResults.vue";
 import { usePullToRefresh } from "@/composables/pullToRefresh";
 import { useRatingStore } from "@/stores/rating";
 import { useUiStore } from "@/stores/ui";
+import type { Artist } from "@/typings";
 
 export default defineComponent({
   components: {
@@ -50,7 +51,7 @@ export default defineComponent({
     const numResults = ref(-1);
     const limit = 16;
     const lastOffset = ref(0);
-    const artists = ref([]);
+    const artists = ref<Array<Artist>>([]);
     const tagList = ref([]);
     const tagListLoading = ref(false);
     const hasNext = ref(false);

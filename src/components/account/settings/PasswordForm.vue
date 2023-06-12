@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import type { AxiosError } from "axios";
 
 import { updatePassword } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -21,7 +22,7 @@ export default defineComponent({
     const password = ref("");
     const passwordConfirm = ref("");
     const formValid = ref(false);
-    const errors = ref<Array<string>>([]);
+    const errors = ref<Array<string | AxiosError>>([]);
     const handleInput = () => {
       formValid.value = password.value.length > 0 && password.value === passwordConfirm.value;
     };
@@ -30,9 +31,9 @@ export default defineComponent({
       try {
         await updatePassword(password.value);
         emit("updated");
-      } catch (err: any) {
-        console.warn(err);
-        errors.value = [err.response];
+      } catch (err: unknown) {
+        const error = err as AxiosError;
+        errors.value = [error];
       }
     };
     return {

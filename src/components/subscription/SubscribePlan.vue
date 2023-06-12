@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
 import { loadStripe } from "@stripe/stripe-js";
+import type { AxiosError } from "axios";
 
 import { createStripeCheckoutSession, getPlanOptions } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -8,6 +9,7 @@ import Datetime from "@/components/ui/date/Datetime.vue";
 import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import Money from "@/components/ui/Money.vue";
 import settings from "@/settings";
+import type { SubscriptionOptionOption } from "@/typings";
 
 const { STRIPE_PUBLISHABLE_KEY } = settings;
 // const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
@@ -26,10 +28,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const errors = ref<Array<string>>([]);
+    const errors = ref<Array<string | AxiosError>>([]);
     const message = ref(null);
     const selectedKey = ref(null);
-    const options = ref([]);
+    const options = ref<Array<SubscriptionOptionOption>>([]);
     const fetchOptions = async () => {
       errors.value = [];
       try {
@@ -39,8 +41,9 @@ export default defineComponent({
         if (response.options.length) {
           selectedKey.value = response.options[0].sku;
         }
-      } catch (err: any) {
-        errors.value = [err.response];
+      } catch (err: unknown) {
+        const error = err as AxiosError;
+        errors.value = [error];
       }
     };
     const selectOption = (option: any) => {
@@ -122,7 +125,7 @@ export default defineComponent({
               @click="selectOption(option)"
               :key="`options-${index}-${option.sku}`"
               class="option"
-              :class="{ 'is-selected': option.sku === selectedOption.sku }"
+              :class="{ 'is-selected': option.sku === selectedOption?.sku }"
             >
               <div class="price">
                 <Money :value="option.price" :include-currency="true" />

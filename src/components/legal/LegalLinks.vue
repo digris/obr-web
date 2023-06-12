@@ -18,6 +18,7 @@ const { isWeb } = useDevice();
 
 <style lang="scss" scoped>
 @use "@/style/base/live-color";
+@use "@/style/base/responsive";
 
 .legal-links {
   @include live-color.bg;
@@ -33,6 +34,10 @@ const { isWeb } = useDevice();
   font-size: var(--t-fs-small);
   font-weight: 300;
   border-top: 1px solid rgb(var(--c-page-fg) / 20%);
+
+  @include responsive.bp-medium {
+    justify-content: center;
+  }
 
   > .link-group {
     display: flex;

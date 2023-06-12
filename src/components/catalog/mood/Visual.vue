@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 
-type RGBAColor = Array<[number, number, number, number]>;
+type RGBAColor = Array<number>;
 
 interface Colors {
   inner: RGBAColor;

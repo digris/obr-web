@@ -1,6 +1,6 @@
 import { APIClient } from "@/api/client";
 import settings from "@/settings";
-import type { UserVoucher } from "@/typings/api";
+import type { UserVoucher, Voucher } from "@/typings";
 
 const SUBSCRIPTION_ENDPOINT = `${settings.API_BASE_URL}subscription/`;
 
@@ -25,7 +25,7 @@ async function getVoucher(code: string) {
   const params = {
     code,
   };
-  const response = await APIClient.get(url, { params });
+  const response = await APIClient.get<Voucher>(url, { params });
   return response.data;
 }
 
@@ -34,7 +34,7 @@ async function redeemVoucher(code: string) {
   const payload = {
     code,
   };
-  const response = await APIClient.post(url, payload);
+  const response = await APIClient.post<Voucher>(url, payload);
   return response.data;
 }
 

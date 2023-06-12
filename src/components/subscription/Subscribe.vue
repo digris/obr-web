@@ -19,8 +19,8 @@ export default defineComponent({
     const { notify } = useNotification();
     const isVisible = ref(false);
     const intent = ref("plan");
-    const next = ref(null);
-    const message = ref(null);
+    const next = ref("");
+    const message = ref("");
     const successVisible = ref(false);
     const close = () => {
       isVisible.value = false;
@@ -33,8 +33,8 @@ export default defineComponent({
       console.debug("subscription:subscribe", event);
       isVisible.value = true;
       intent.value = event.intent;
-      next.value = event.next || null;
-      message.value = event.message || null;
+      next.value = event?.next ?? "";
+      message.value = event?.message ?? "";
     });
     const subscriptionUpdated = () => {
       console.debug("show success");
@@ -46,7 +46,6 @@ export default defineComponent({
         ttl: 5,
       });
       if (next.value) {
-        // @ts-ignore
         router.push(next.value);
       }
       console.debug("next:", next.value);

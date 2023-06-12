@@ -9,8 +9,8 @@ export type EventBusEvents = {
   //
   "subscription:subscribe": {
     intent: string;
-    next: string;
-    message: string;
+    next?: string;
+    message?: string;
   };
   //
   "geolocation:blocked": {

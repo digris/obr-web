@@ -40,9 +40,9 @@ export default defineComponent({
     viewBox="0 0 48 48"
     :style="style"
   >
+    <!-- eslint-disable max-len -->
     <rect x="14" y="8" width="3.2" height="3.2" />
     <rect x="30.8" y="8" width="3.2" height="3.2" />
-    <!-- eslint-disable max-len -->
     <path
       d="M34,11.2v3.2h-3.2v-3.2H17.2v3.2H14v-3.2h-4v25.6h28V11.2H34z M15.6,32c-0.9,0-1.6-0.7-1.6-1.6s0.7-1.6,1.6-1.6
       c0.9,0,1.6,0.7,1.6,1.6S16.5,32,15.6,32z M15.6,27.2c-0.9,0-1.6-0.7-1.6-1.6c0-0.9,0.7-1.6,1.6-1.6c0.9,0,1.6,0.7,1.6,1.6

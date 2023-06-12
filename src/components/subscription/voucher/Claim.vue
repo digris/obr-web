@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import type { AxiosError } from "axios";
 
 import { getVoucher, redeemVoucher } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -9,6 +10,7 @@ import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import ModalPanel from "@/components/ui/panel/ModalPanel.vue";
 import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
+import type { Voucher } from "@/typings";
 
 const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
 
@@ -23,8 +25,8 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const { user, loadUser } = useAccount();
-    const errors = ref<Array<string>>([]);
-    const voucher = ref(null);
+    const errors = ref<Array<string | AxiosError>>([]);
+    const voucher = ref<Voucher | null>(null);
     const isValid = computed(() => !!voucher.value);
     const code = computed(() => {
       if (!route.hash.startsWith("#")) {
@@ -38,8 +40,9 @@ export default defineComponent({
       errors.value = [];
       try {
         voucher.value = await getVoucher(codeValue);
-      } catch (err: any) {
-        errors.value = [err.response];
+      } catch (err: unknown) {
+        const error = err as AxiosError;
+        errors.value = [error];
       }
     };
     const redeem = async () => {
@@ -49,13 +52,12 @@ export default defineComponent({
       }
       try {
         const response = await redeemVoucher(code.value);
-        console.debug(response);
+        console.debug("redeem voucher", response);
         await loadUser();
         await router.replace(route.path);
-      } catch (err: any) {
-        console.warn(err);
-        console.warn(err.response);
-        errors.value = [err.response];
+      } catch (err: unknown) {
+        const error = err as AxiosError;
+        errors.value = [error];
         throw err;
       }
     };
@@ -114,7 +116,7 @@ export default defineComponent({
             <i18n-t keypath="subscription.validNumDays" :plural="voucher.numDays" />
           </p>
           <i18n-t keypath="subscription.validUntilDate" tag="p">
-            <Datetime :value="voucher.untilDate" :display-time="false" />
+            <Datetime v-if="voucher.untilDate" :value="voucher.untilDate" :display-time="false" />
           </i18n-t>
         </div>
       </section>

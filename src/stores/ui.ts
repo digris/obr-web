@@ -6,6 +6,8 @@ interface State {
   primaryColor: RGBColor;
   playerVisible: boolean;
   filterExpanded: boolean;
+  vpWidth: number;
+  vpHeight: number;
 }
 
 export const useUiStore = defineStore("ui", {
@@ -13,11 +15,16 @@ export const useUiStore = defineStore("ui", {
     primaryColor: [0, 0, 0],
     playerVisible: false,
     filterExpanded: false,
+    vpWidth: window.innerWidth,
+    vpHeight: window.innerHeight,
   }),
   actions: {
-    setPrimaryColor(value: Array<number>) {
-      // this.primaryColor = [205, 0, 0];
+    setPrimaryColor(value: [number, number, number]): void {
       this.primaryColor = value;
+    },
+    setWindowSize(size: [number, number]): void {
+      this.vpWidth = size[0];
+      this.vpHeight = size[1];
     },
   },
 });

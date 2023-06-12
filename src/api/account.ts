@@ -1,5 +1,6 @@
 import { APIClient } from "@/api/client";
 import { useAPIBaseUrl } from "@/composables/api";
+import type { AddressCountries } from "@/typings";
 
 const { APIBaseUrl } = useAPIBaseUrl();
 
@@ -129,7 +130,7 @@ async function disconnectSocialBackend(provider: string, uid: string) {
 
 async function getAddressCountries() {
   const url = `${ACCOUNT_ENDPOINT}address-countries/`;
-  const response = await APIClient.get(url);
+  const response = await APIClient.get<AddressCountries[]>(url);
   return response.data;
 }
 

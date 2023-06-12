@@ -1,6 +1,4 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import AccountMenu from "@/components/navigation/AccountMenu.vue";
 import MainMenu from "@/components/navigation/MainMenu.vue";
 import SubscriptionStatus from "@/components/navigation/SubscriptionStatus.vue";
@@ -12,32 +10,14 @@ import Logo from "@/components/ui/logo/Logo.vue";
 import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 
-export default defineComponent({
-  components: {
-    Logo,
-    MainMenu,
-    AccountMenu,
-    SubscriptionStatus,
-    ToggleSearchButton,
-    ToggleMenuButton,
-    CircleButton,
-    IconProgram,
-  },
-  setup() {
-    const { isMobile } = useDevice();
-    const showSideMenu = () => {
-      eventBus.emit("side-menu:show");
-    };
-    const showGlobalSearch = () => {
-      eventBus.emit("global-search:show");
-    };
-    return {
-      isMobile,
-      showSideMenu,
-      showGlobalSearch,
-    };
-  },
-});
+const { isSmallScreen } = useDevice();
+
+const showSideMenu = () => {
+  eventBus.emit("side-menu:show");
+};
+const showGlobalSearch = () => {
+  eventBus.emit("global-search:show");
+};
 </script>
 
 <template>
@@ -56,7 +36,7 @@ export default defineComponent({
       <div class="search-toggle" @click.prevent="showGlobalSearch">
         <ToggleSearchButton />
       </div>
-      <router-link v-if="isMobile" class="program" :to="{ name: 'programRedirect' }">
+      <router-link v-if="isSmallScreen" class="program" :to="{ name: 'programRedirect' }">
         <CircleButton>
           <IconProgram color-var="--c-page-fg" />
         </CircleButton>

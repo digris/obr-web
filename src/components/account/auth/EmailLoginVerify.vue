@@ -1,7 +1,8 @@
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { whenever } from "@vueuse/core";
+import type { AxiosError } from "axios";
 
 import TokenInput from "@/components/account/auth/TokenInput.vue";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -10,75 +11,54 @@ import { useAccount } from "@/composables/account";
 
 const tokenRegex = new RegExp("^([A-Z0-9]{3})-?([A-Z0-9]{3})$");
 
-export default defineComponent({
-  components: {
-    AsyncButton,
-    ApiErrors,
-    TokenInput,
-  },
-  props: {
-    email: {
-      type: String,
-      required: false,
-      default: "",
-    },
-  },
-  emits: ["reset"],
-  setup(props, { emit }) {
-    const { t } = useI18n();
-    const { loadUser, loginUserByToken } = useAccount();
-    const token = ref("");
-    const tokenValid = ref(false);
-    const errors = ref<Array<string>>([]);
+const props = defineProps<{
+  email: string;
+}>();
 
-    const handleTokenInput = async (value: string) => {
-      token.value = value;
-      tokenValid.value = tokenRegex.test(value);
-      errors.value = [];
-    };
+const emit = defineEmits(["reset"]);
 
-    const submitForm = async () => {
-      if (!tokenValid.value) {
-        return;
-      }
-      errors.value = [];
-      const credentials = {
-        email: props.email,
-        token: token.value,
-      };
-      try {
-        const { created } = await loginUserByToken(credentials);
-        await loadUser();
-        if (created) {
-          document.location = "/account/";
-        } else {
-          document.location.reload();
-        }
-      } catch (err) {
-        console.warn(err);
-        errors.value = [err.response];
-        throw err;
-      }
-    };
+const { t } = useI18n();
+const { loadUser, loginUserByToken } = useAccount();
+const token = ref("");
+const tokenValid = ref(false);
+const errors = ref<Array<string | AxiosError>>([]);
 
-    // auto-submit form when token (format) is valid
-    whenever(tokenValid, submitForm);
+const handleTokenInput = async (value: string) => {
+  token.value = value;
+  tokenValid.value = tokenRegex.test(value);
+  errors.value = [];
+};
 
-    const reset = async () => {
-      emit("reset");
-    };
+const submitForm = async () => {
+  if (!tokenValid.value) {
+    return;
+  }
+  errors.value = [];
+  const credentials = {
+    email: props.email,
+    token: token.value,
+  };
+  try {
+    const { created } = await loginUserByToken(credentials);
+    await loadUser();
+    if (created) {
+      document.location = "/account/";
+    } else {
+      document.location.reload();
+    }
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    errors.value = [error];
+    throw error;
+  }
+};
 
-    return {
-      t,
-      token,
-      tokenValid,
-      errors,
-      handleTokenInput,
-      submitForm,
-      reset,
-    };
-  },
-});
+// auto-submit form when token (format) is valid
+whenever(tokenValid, submitForm);
+
+const reset = async () => {
+  emit("reset");
+};
 </script>
 
 <template>

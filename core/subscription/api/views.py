@@ -27,12 +27,17 @@ class PlanView(
     )
     def get(request):
         options = plan.get_options(user=request.user)
-        data = {
-            "message": "Choose your plan",
-            "options": options,
-        }
+        serializer = serializers.SubscriptionOptionSerializer(
+            {
+                "message": "Choose your plan",
+                "options": options,
+            },
+        )
 
-        return Response(data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
 
 
 class PaymentView(

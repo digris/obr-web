@@ -1,6 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useWindowSize } from "@vueuse/core";
+import { defineComponent } from "vue";
 import type { Emitter } from "mitt";
 
 import { AppBridge } from "@/app-bridge/appBridge";
@@ -45,12 +44,13 @@ export default defineComponent({
     Subscribe,
     GeoblockNotice,
     Player,
+    MobilePlayer,
     ClaimVoucher,
     CookieConsent,
     LegalLinks,
   },
   setup() {
-    const { isApp, isWeb } = useDevice();
+    const { isApp, isWeb, isSmallScreen } = useDevice();
 
     window.hlsPlayer = HlsPlayer.getInstance();
     window.appBridge = AppBridge.getInstance();
@@ -72,12 +72,8 @@ export default defineComponent({
     const { loadUser } = useAccount();
     loadUser();
 
-    const { width: vpWidth } = useWindowSize();
-    const playerComponent = computed(() => {
-      return vpWidth.value < 500 ? MobilePlayer : Player;
-    });
     return {
-      playerComponent,
+      isSmallScreen,
     };
   },
 });
@@ -97,7 +93,8 @@ export default defineComponent({
   <Subscribe />
   <GeoblockNotice />
   <ClaimVoucher />
-  <component :is="playerComponent" />
+  <MobilePlayer v-if="isSmallScreen" />
+  <Player v-else />
   <LegalLinks />
   <CookieConsent />
 </template>

@@ -3,7 +3,6 @@
 /* eslint-disable */
 
 export type VoucherRequest = {
-  code?: string;
   numDays?: number;
   validUntil?: string;
 };
