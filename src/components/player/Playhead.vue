@@ -161,7 +161,7 @@ export default defineComponent({
 
   .progress-position {
     // NOTE: width transition duration equals audioPlayer's POLL_INTERVAL
-    transition: fill 100ms, width 100ms linear;
+    transition: fill 100ms, width 50ms linear;
     fill: rgb(var(--c-fg) / 50%);
   }
 
@@ -171,6 +171,12 @@ export default defineComponent({
 
   .cue-point {
     fill: rgb(var(--c-fg) / 100%);
+  }
+
+  &.is-playing {
+    .progress-position {
+      transition: fill 100ms, width 250ms linear;
+    }
   }
 
   &.is-buffering {

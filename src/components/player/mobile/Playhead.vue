@@ -251,7 +251,8 @@ export default defineComponent({
       width: 1%;
       pointer-events: none;
       background: rgb(var(--c-fg) / 100%);
-      transition: width 100ms linear;
+
+      // transition: width 100ms linear;
 
       &.is-seeking {
         transition-duration: 1ms;
