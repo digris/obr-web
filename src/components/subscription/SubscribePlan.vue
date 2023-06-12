@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { createStripeCheckoutSession, getPlanOptions } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import Money from "@/components/ui/Money.vue";
 import settings from "@/settings";
 
@@ -15,7 +15,7 @@ const { STRIPE_PUBLISHABLE_KEY } = settings;
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     Datetime,
     Money,
   },
@@ -143,7 +143,7 @@ export default defineComponent({
         </div>
       </section>
       <section v-if="errors" class="section errors">
-        <APIErrors :errors="errors" />
+        <ApiErrors :errors="errors" />
       </section>
       <section class="section actions">
         <AsyncButton class="button" @click.prevent="startPayment('stripe')">

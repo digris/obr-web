@@ -1,42 +1,39 @@
-<script lang="ts">
-import { computed, defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed } from "vue";
 
-export default defineComponent({
-  props: {
-    errors: {
-      type: Array,
-      default: () => [],
-    },
-    debug: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props) {
-    const hasErrors = computed(() => props.errors.length);
-    return {
-      hasErrors,
-    };
-  },
-});
+interface ErrorData {
+  message?: string;
+  detail?: string;
+}
+
+interface Error {
+  data?: ErrorData;
+  status?: string;
+  message?: string;
+}
+
+const props = defineProps<{
+  errors: Array<Error>;
+}>();
+
+const hasErrors = computed(() => props.errors.length);
 </script>
 <template>
   <div v-if="hasErrors" class="errors">
     <div v-for="(error, index) in errors" :key="`error-${index}`" class="error">
-      <p v-if="error.data && error.data.message" class="error__message">
+      <p v-if="error.data && error.data.message" class="message">
         {{ error.data.message }}
       </p>
-      <p v-else-if="error.data && error.data.detail" class="error__message">
+      <p v-else-if="error.data && error.data.detail" class="message">
         {{ error.data.detail }}
       </p>
-      <p v-else-if="error.message" class="error__message">
+      <p v-else-if="error.message" class="message">
         {{ error.message }}
       </p>
       <p v-else class="error__message">An error occurred. Sorry.</p>
-      <code v-if="error.status" class="error__status">
+      <code v-if="error.status" class="status">
         <div class="status-code">#{{ error.status }}</div>
       </code>
-      <pre v-if="debug" class="debug" v-text="error" />
     </div>
   </div>
 </template>
@@ -54,7 +51,7 @@ export default defineComponent({
 .error {
   position: relative;
 
-  &__message {
+  .message {
     @include typo.bold;
 
     &:not(:first-child) {
@@ -62,7 +59,7 @@ export default defineComponent({
     }
   }
 
-  &__status {
+  .status {
     @include typo.small;
 
     top: 4px;

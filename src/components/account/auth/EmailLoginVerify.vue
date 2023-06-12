@@ -5,7 +5,7 @@ import { whenever } from "@vueuse/core";
 
 import TokenInput from "@/components/account/auth/TokenInput.vue";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import { useAccount } from "@/composables/account";
 
 const tokenRegex = new RegExp("^([A-Z0-9]{3})-?([A-Z0-9]{3})$");
@@ -13,7 +13,7 @@ const tokenRegex = new RegExp("^([A-Z0-9]{3})-?([A-Z0-9]{3})$");
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     TokenInput,
   },
   props: {
@@ -93,7 +93,7 @@ export default defineComponent({
     <form class="form" @submit.prevent="submitForm">
       <TokenInput ref="tokenInputRef" @input="handleTokenInput" />
       <div class="form-errors" v-if="errors.length">
-        <APIErrors :errors="errors" />
+        <ApiErrors :errors="errors" />
       </div>
       <div class="input-container submit">
         <AsyncButton

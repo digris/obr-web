@@ -5,13 +5,13 @@ import * as EmailValidator from "email-validator";
 
 import { updateEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import TextInput from "@/components/ui/form/TextInput.vue";
 
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     TextInput,
   },
   props: {
@@ -65,7 +65,7 @@ export default defineComponent({
       />
     </div>
     <div class="form-errors" v-if="errors.length">
-      <APIErrors :errors="errors" />
+      <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
       <AsyncButton

@@ -7,7 +7,7 @@ import { debounce } from "lodash-es";
 
 import { checkLoginEmail, sendLoginEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import Message from "@/components/ui/Message.vue";
 import { useAccount } from "@/composables/account";
 
@@ -20,7 +20,7 @@ export enum Flow {
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     Message,
   },
   emits: ["emailSent"],
@@ -189,7 +189,7 @@ export default defineComponent({
       <Message :level="message.level" :body="message.body" />
     </div>
     <div class="form-errors" v-if="errors.length">
-      <APIErrors :errors="errors" />
+      <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
       <AsyncButton

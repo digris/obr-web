@@ -5,7 +5,7 @@ import { useRoute, useRouter } from "vue-router";
 import { getVoucher, redeemVoucher } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import ModalPanel from "@/components/ui/panel/ModalPanel.vue";
 import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
@@ -15,7 +15,7 @@ const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
 export default defineComponent({
   components: {
     ModalPanel,
-    APIErrors,
+    ApiErrors,
     AsyncButton,
     Datetime,
   },
@@ -106,7 +106,7 @@ export default defineComponent({
       </section>
       <section v-if="errors && errors.length" class="error">
         <i18n-t keypath="subscription.voucher.invalidCode" tag="p" class="error__notes" />
-        <APIErrors :errors="errors" />
+        <ApiErrors :errors="errors" />
       </section>
       <section v-if="voucher" class="voucher">
         <div class="voucher__details">
