@@ -186,6 +186,7 @@ class AppBridge {
         const { setPlayerState } = usePlayerStore();
         const playerState = {
           playState: data.state, // NOTE: should be adjusted in obr-app
+          currentTime: data.absPosition, // NOTE: should be adjusted in obr-app
           ...data,
           // set missing dummy values
           bandwidth: 12800,
@@ -197,10 +198,6 @@ class AppBridge {
         const { setMaxBandwidth, setShuffleMode } = useSettingsStore();
         setMaxBandwidth(data.maxBandwidth);
         setShuffleMode(data.shuffleMode);
-        // if (data.darkMode) {
-        //   const { setDarkMode } = useSettingsStore();
-        //   setDarkMode(data.darkMode);
-        // }
         break;
       }
       case "schedule:update": {
