@@ -4,14 +4,14 @@ import { useI18n } from "vue-i18n";
 
 import { updatePassword } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import TextInput from "@/components/ui/form/TextInput.vue";
 import { useAccount } from "@/composables/account";
 
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     TextInput,
   },
   emits: ["updated"],
@@ -81,7 +81,7 @@ export default defineComponent({
       />
     </div>
     <div class="form-errors" v-if="errors.length">
-      <APIErrors :errors="errors" />
+      <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
       <AsyncButton

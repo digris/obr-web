@@ -5,7 +5,7 @@ import { debounce } from "lodash-es";
 import { getVoucher, redeemVoucher } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import { useAccount } from "@/composables/account";
 
 import CodeInput from "./voucher/CodeInput.vue";
@@ -15,7 +15,7 @@ const codeRegex = new RegExp("^([A-Z]{2})-?([A-Z]{2})-?([A-Z]{2})$");
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     Datetime,
     CodeInput,
   },
@@ -102,7 +102,7 @@ export default defineComponent({
         <CodeInput :code="codeInput" :valid="isValid" @input="handleCodeInput" />
       </div>
       <div v-if="errors">
-        <APIErrors :errors="errors" />
+        <ApiErrors :errors="errors" />
       </div>
     </section>
     <section v-if="voucher" class="section voucher">

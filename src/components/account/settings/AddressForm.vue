@@ -5,7 +5,7 @@ import { useI18n } from "vue-i18n";
 
 import { getAddressCountries, updateAddress } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
-import APIErrors from "@/components/ui/error/APIErrors.vue";
+import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import SelectInput from "@/components/ui/form/SelectInput.vue";
 import TextInput from "@/components/ui/form/TextInput.vue";
 import type { Address } from "@/typings/api";
@@ -13,7 +13,7 @@ import type { Address } from "@/typings/api";
 export default defineComponent({
   components: {
     AsyncButton,
-    APIErrors,
+    ApiErrors,
     TextInput,
     SelectInput,
   },
@@ -100,7 +100,7 @@ export default defineComponent({
       />
     </div>
     <div class="form-errors" v-if="errors.length">
-      <APIErrors :errors="errors" />
+      <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
       <AsyncButton class="button" @click.prevent="submitForm" v-text="t('formActions.save')" />

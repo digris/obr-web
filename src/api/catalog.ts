@@ -1,6 +1,6 @@
 import { APIClient } from "@/api/client";
-// import settings from "@/settings";
 import { useAPIBaseUrl } from "@/composables/api";
+import type { Mood } from "@/typings/api";
 
 const { APIBaseUrl } = useAPIBaseUrl();
 
@@ -9,19 +9,23 @@ const PLAYLIST_ENDPOINT = `${APIBaseUrl.value}catalog/playlists/`;
 const ARTIST_ENDPOINT = `${APIBaseUrl.value}catalog/artists/`;
 const MEDIA_ENDPOINT = `${APIBaseUrl.value}catalog/media/`;
 
+interface MoodListResponse {
+  results: Array<Mood>;
+}
+
 async function getMoods(limit: number, offset: number) {
   const url = MOOD_ENDPOINT;
   const params = {
     limit,
     offset,
   };
-  const response = await APIClient.get(url, { params });
+  const response = await APIClient.get<MoodListResponse>(url, { params });
   return response.data;
 }
 
 async function getMood(uid: string) {
   const url = `${MOOD_ENDPOINT}${uid}/`;
-  const response = await APIClient.get(url);
+  const response = await APIClient.get<Mood>(url);
   return response.data;
 }
 

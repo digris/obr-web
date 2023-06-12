@@ -68,11 +68,7 @@ export default defineComponent({
 <template>
   <div class="select-input">
     <label v-if="label" :for="id" v-text="label" />
-    <select
-      :id="id"
-      :value="modelValue"
-      @input="update(($event.target as HTMLInputElement).value)"
-    >
+    <select :id="id" :value="modelValue" @input="update(($event.target as HTMLInputElement).value)">
       <optgroup>
         <option
           v-for="option in annotatedOptions"
