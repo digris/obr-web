@@ -3,7 +3,7 @@ import { computed, onActivated, onDeactivated, onMounted, onUnmounted, ref } fro
 import { useI18n } from "vue-i18n";
 import { DateTime } from "luxon";
 
-const TIME_UPDATE_INTERVAL = 5000;
+const TIME_UPDATE_INTERVAL = 60000;
 
 const props = defineProps<{
   dateTime: DateTime;
@@ -36,7 +36,7 @@ const stopInterval = () => {
 onMounted(startInterval);
 onActivated(startInterval);
 onUnmounted(stopInterval);
-onDeactivated(onDeactivated);
+onDeactivated(stopInterval);
 </script>
 
 <template>

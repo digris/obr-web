@@ -1,12 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 import { debounce } from "lodash-es";
+import type { AxiosError } from "axios";
 
 import { getVoucher, redeemVoucher } from "@/api/subscription";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
 import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import { useAccount } from "@/composables/account";
+import type { Voucher } from "@/typings";
 
 import CodeInput from "./voucher/CodeInput.vue";
 
@@ -32,9 +34,9 @@ export default defineComponent({
   emits: ["subscriptionExtended"],
   setup(props, { emit }) {
     const { loadUser } = useAccount();
-    const errors = ref<Array<string>>([]);
+    const errors = ref<Array<string | AxiosError>>([]);
     const codeInput = ref(props.code);
-    const voucher = ref(null);
+    const voucher = ref<Voucher | null>(null);
     const isValid = computed(() => !!voucher.value);
 
     const fetchVoucher = async (code: string) => {
@@ -64,8 +66,7 @@ export default defineComponent({
       if (!voucher.value) {
         return;
       }
-      // @ts-ignore
-      const code = voucher.value?.code;
+      const code = voucher.value.code;
       if (!codeRegex.test(code)) {
         console.warn("invalid code", code);
         return;
@@ -76,10 +77,11 @@ export default defineComponent({
         console.debug(response);
         await loadUser();
         emit("subscriptionExtended");
-      } catch (err: any) {
-        console.warn(err);
-        console.warn(err.response);
-        errors.value = [err.response];
+      } catch (err: unknown) {
+        const error = err as AxiosError;
+        console.warn(error);
+        console.warn(error.response);
+        errors.value = [error];
         throw err;
       }
     };
@@ -109,7 +111,7 @@ export default defineComponent({
       <div>
         <i18n-t keypath="subscription.validNumDays" tag="p" :plural="voucher.numDays" />
         <i18n-t keypath="subscription.creditsUntilDate" tag="p">
-          <Datetime :value="voucher.untilDate" :display-time="false" />
+          <Datetime v-if="voucher.untilDate" :value="voucher.untilDate" :display-time="false" />
         </i18n-t>
       </div>
     </section>

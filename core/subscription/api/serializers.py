@@ -25,10 +25,34 @@ class PaymentOptionSerializer(
     )
 
 
+class SubscriptionOptionOptionSerializer(
+    serializers.Serializer,
+):
+    sku = serializers.CharField(
+        read_only=True,
+    )
+    title = serializers.CharField(
+        read_only=True,
+    )
+    price = serializers.FloatField(
+        read_only=True,
+    )
+    num_days = serializers.IntegerField(
+        read_only=True,
+    )
+    until_date = serializers.DateField(
+        read_only=True,
+    )
+
+
 class SubscriptionOptionSerializer(
     serializers.Serializer,
 ):
     message = serializers.CharField(
+        read_only=True,
+    )
+    options = serializers.ListField(
+        child=SubscriptionOptionOptionSerializer(),
         read_only=True,
     )
 
@@ -61,6 +85,12 @@ class VoucherSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
+    code = serializers.CharField(
+        read_only=True,
+    )
+    code_display = serializers.CharField(
+        read_only=True,
+    )
     is_valid = serializers.BooleanField(
         read_only=True,
     )
@@ -71,9 +101,6 @@ class VoucherSerializer(
     until_date = serializers.DateField(
         read_only=True,
         allow_null=True,
-    )
-    code_display = serializers.CharField(
-        read_only=True,
     )
 
     class Meta(CTUIDModelSerializer.Meta):

@@ -74,7 +74,8 @@ module.exports = {
           "error",
           {
             groups: [
-              ["^vue", "^@?\\w", "^pinia", "^lodash"],
+              ["^vue", "^@?\\w", "^pinia", "^lodash", "^axios"],
+              // ["^@/typings"],
               // ["^@/api"],
               // ["^@/stores"],
               // ["^@/composables"],

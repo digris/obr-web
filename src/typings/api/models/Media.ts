@@ -40,7 +40,7 @@ export type Media = {
   readonly cueIn: number;
   readonly cueOut: number;
   identifiers?: Array<Identifier> | null;
-  tags?: Array<Tag>;
   image?: MediaImage;
+  tags?: Array<Tag>;
 };
 

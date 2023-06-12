@@ -40,7 +40,7 @@ const props = defineProps({
   },
 });
 
-const root = ref(null);
+const root = ref<HTMLElement | null>(null);
 const { deleteAtIndex } = useQueueControls();
 
 const canRemove = computed(() => {
@@ -50,12 +50,11 @@ const remove = async () => {
   await deleteAtIndex(props.index);
 };
 const scrollIntoView = () => {
-  const el = root.value;
-  if (!el) {
+  if (!root.value) {
     return;
   }
   try {
-    el.scrollIntoViewIfNeeded({ block: "end", behavior: "smooth" });
+    (root.value as any).scrollIntoViewIfNeeded({ block: "end", behavior: "smooth" });
   } catch (e) {
     console.debug(e);
   }

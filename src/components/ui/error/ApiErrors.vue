@@ -1,38 +1,70 @@
 <script lang="ts" setup>
 import { computed } from "vue";
+import type { AxiosError, AxiosResponse } from "axios";
 
-interface ErrorData {
+interface ApiErrorResponse extends AxiosResponse {
   message?: string;
-  detail?: string;
 }
 
-interface Error {
-  data?: ErrorData;
-  status?: string;
-  message?: string;
+interface ApiError extends AxiosError {
+  response?: ApiErrorResponse;
+}
+
+interface DisplayError {
+  message: string;
+  code?: string | number;
 }
 
 const props = defineProps<{
-  errors: Array<Error>;
+  errors: Array<string | ApiError>;
 }>();
+
+const getErrorMessage = (error: ApiError): string => {
+  if (error.response?.data.message) {
+    console.debug("error message: error.response.data.message");
+    return error.response.data.message;
+  }
+  if (error.response?.data.detail) {
+    console.debug("error message: error.response.data.detail");
+    return error.response.data.detail;
+  }
+  if (error.response?.message) {
+    console.debug("error message: error.response.message");
+    return error.response.message;
+  }
+  return error.response?.statusText ?? "An error occurred. Sorry.";
+};
+
+const annotateErrors = (errors: Array<string | ApiError>): Array<DisplayError> => {
+  const annotatedErrors: Array<DisplayError> = [];
+  errors.forEach((error) => {
+    if (typeof error === "string") {
+      annotatedErrors.push({
+        message: error,
+      });
+    } else {
+      console.debug("error.response", error.response);
+      annotatedErrors.push({
+        message: getErrorMessage(error),
+        code: error.response?.status,
+      });
+    }
+  });
+  return annotatedErrors;
+};
+
+const annotatedErrors = computed(() => {
+  return annotateErrors(props.errors);
+});
 
 const hasErrors = computed(() => props.errors.length);
 </script>
 <template>
   <div v-if="hasErrors" class="errors">
-    <div v-for="(error, index) in errors" :key="`error-${index}`" class="error">
-      <p v-if="error.data && error.data.message" class="message">
-        {{ error.data.message }}
-      </p>
-      <p v-else-if="error.data && error.data.detail" class="message">
-        {{ error.data.detail }}
-      </p>
-      <p v-else-if="error.message" class="message">
-        {{ error.message }}
-      </p>
-      <p v-else class="error__message">An error occurred. Sorry.</p>
-      <code v-if="error.status" class="status">
-        <div class="status-code">#{{ error.status }}</div>
+    <div v-for="(error, index) in annotatedErrors" :key="`error-${index}`" class="error">
+      <p class="message" v-text="error.message" />
+      <code v-if="error.code" class="code">
+        <span class="status-code" v-text="`#${error.code}`" />
       </code>
     </div>
   </div>
@@ -59,7 +91,7 @@ const hasErrors = computed(() => props.errors.length);
     }
   }
 
-  .status {
+  .code {
     @include typo.small;
 
     top: 4px;

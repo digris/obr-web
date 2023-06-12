@@ -1,6 +1,6 @@
 import { APIClient } from "@/api/client";
 import { useAPIBaseUrl } from "@/composables/api";
-import type { Mood } from "@/typings/api";
+import type { Artist, Mood } from "@/typings/api";
 
 const { APIBaseUrl } = useAPIBaseUrl();
 
@@ -42,7 +42,11 @@ async function getArtists(
     ordering: ordering.join(","),
     ...filter,
   };
-  const response = await APIClient.get(url, { params });
+  const response = await APIClient.get<{
+    results: Array<Artist>;
+    count: number;
+    next: string | null;
+  }>(url, { params });
   return response.data;
 }
 
@@ -60,7 +64,7 @@ async function getArtist(uid: string) {
   const params = {
     expand: ["tags", "identifiers"],
   };
-  const response = await APIClient.get(url, { params });
+  const response = await APIClient.get<Artist>(url, { params });
   return response.data;
 }
 

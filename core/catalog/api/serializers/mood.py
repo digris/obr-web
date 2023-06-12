@@ -4,12 +4,28 @@ from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
 
 
+# @extend_schema_field(OpenApiTypes.OBJECT)
+class RayColorSerializer(serializers.Serializer):
+    inner = serializers.ListField(
+        child=RGBValueField(),
+        min_length=4,
+        max_length=4,
+        read_only=True,
+    )
+    outer = serializers.ListField(
+        child=RGBValueField(),
+        min_length=4,
+        max_length=4,
+        read_only=True,
+    )
+
+
 class RaySerializer(serializers.Serializer):
     count = serializers.IntegerField()
     spread = serializers.FloatField()
     width = serializers.FloatField()
     length = serializers.IntegerField()
-    colors = serializers.JSONField()
+    colors = RayColorSerializer()
 
 
 class MoodSerializer(

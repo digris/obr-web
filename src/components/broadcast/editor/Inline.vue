@@ -1,32 +1,18 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import LazyImage from "@/components/ui/LazyImage.vue";
 import { useDevice } from "@/composables/device";
+import type { Editor } from "@/typings";
 
-export default defineComponent({
-  props: {
-    editor: {
-      type: Object,
-      required: true,
-      default: () => null,
-    },
-  },
-  components: {
-    LazyImage,
-  },
-  setup() {
-    const { isMobile } = useDevice();
-    return {
-      isMobile,
-    };
-  },
-});
+defineProps<{
+  editor: Editor;
+}>();
+
+const { isSmallScreen } = useDevice();
 </script>
 
 <template>
   <router-link v-if="editor" class="editor" :to="`/discover/editors/${editor.uid}/`">
-    <div v-if="!isMobile" class="visual">
+    <div v-if="!isSmallScreen" class="visual">
       <LazyImage v-if="editor.image" class="image" :image="editor.image" :size="128" />
     </div>
     <div class="name" v-text="editor.name" />

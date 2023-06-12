@@ -11,7 +11,7 @@ import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
 import { useCatalogStore } from "@/stores/catalog";
-import type { Tag } from "@/typings/api/models/Tag";
+import type { Tag } from "@/typings";
 
 export default defineComponent({
   components: {

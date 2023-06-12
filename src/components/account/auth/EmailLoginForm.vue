@@ -1,9 +1,10 @@
-<script lang="ts">
-import { computed, defineComponent, ref, watch } from "vue";
+<script lang="ts" setup>
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { whenever } from "@vueuse/core";
 import * as EmailValidator from "email-validator";
 import { debounce } from "lodash-es";
+import type { AxiosError } from "axios";
 
 import { checkLoginEmail, sendLoginEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -11,145 +12,122 @@ import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import Message from "@/components/ui/Message.vue";
 import { useAccount } from "@/composables/account";
 
-export enum Flow {
+enum Flow {
   Password = "password",
   Token = "token",
   Register = "register",
 }
 
-export default defineComponent({
-  components: {
-    AsyncButton,
-    ApiErrors,
-    Message,
-  },
-  emits: ["emailSent"],
-  setup(props, { emit }) {
-    const { t } = useI18n();
-    const { loginUser } = useAccount();
-    const email = ref("");
-    const password = ref("");
-    const emailValid = ref(false);
-    const emailExists = ref(false);
-    const promptPassword = ref(false);
-    const buttonText = ref(t("account.auth.login"));
-    const message = ref({});
-    const errors = ref<Array<string>>([]);
-    const flow = computed(() => {
-      if (emailExists.value && promptPassword.value) {
-        return Flow.Password;
-      }
-      if (emailExists.value) {
-        return Flow.Token;
-      }
-      return Flow.Register;
-    });
-    const updateAccount = (account: any | null) => {
-      message.value = "";
-      if (account && account.uid) {
-        emailExists.value = true;
-        if (account.hasUsablePassword) {
-          promptPassword.value = true;
-          buttonText.value = t("account.auth.login");
-        } else {
-          message.value = {
-            level: "info",
-            body: t("account.auth.accountExists"),
-          };
-          buttonText.value = t("account.auth.sendToken");
-        }
-      } else {
-        emailExists.value = false;
-        promptPassword.value = false;
-        buttonText.value = t("account.auth.register");
-      }
-    };
-    const handleEmailChanged = debounce(async (value: string) => {
-      errors.value = [];
-      emailExists.value = false;
-      promptPassword.value = false;
-      if (EmailValidator.validate(value)) {
-        emailValid.value = true;
-        try {
-          const account = await checkLoginEmail(value);
-          updateAccount(account);
-        } catch (err: any) {
-          console.warn(err);
-          errors.value = [err.response];
-          // throw err;
-        }
-      } else {
-        emailValid.value = false;
-        buttonText.value = t("account.auth.login");
-      }
-    }, 200);
-    /*
-    NOTE: `keyup` does not fire on webView input autocomplete.
-          so we have to use watch to detect input.
-    */
-    watch(() => email.value, handleEmailChanged);
-    const submitEmailLogin = async () => {
-      message.value = {};
-      errors.value = [];
-      try {
-        const response = await sendLoginEmail(email.value);
-        emit("emailSent", response.email);
-      } catch (err: any) {
-        console.warn(err);
-        errors.value = [err.response];
-      }
-    };
-    const submitPasswordLogin = async () => {
-      message.value = {};
-      errors.value = [];
-      const credentials = {
-        email: email.value,
-        password: password.value,
+const emit = defineEmits(["emailSent"]);
+
+const { t } = useI18n();
+const { loginUser } = useAccount();
+const email = ref("");
+const password = ref("");
+const emailValid = ref(false);
+const emailExists = ref(false);
+const promptPassword = ref(false);
+const buttonText = ref(t("account.auth.login"));
+const message = ref({});
+const errors = ref<Array<string | AxiosError>>([]);
+const flow = computed(() => {
+  if (emailExists.value && promptPassword.value) {
+    return Flow.Password;
+  }
+  if (emailExists.value) {
+    return Flow.Token;
+  }
+  return Flow.Register;
+});
+const updateAccount = (account: any | null) => {
+  message.value = "";
+  if (account && account.uid) {
+    emailExists.value = true;
+    if (account.hasUsablePassword) {
+      promptPassword.value = true;
+      buttonText.value = t("account.auth.login");
+    } else {
+      message.value = {
+        level: "info",
+        body: t("account.auth.accountExists"),
       };
-      errors.value = [];
-      try {
-        await loginUser(credentials);
-        document.location.reload();
-      } catch (err: unknown) {
-        console.warn(err);
-        errors.value = [err.response];
-      }
-    };
-    const submitForm = async () => {
-      message.value = {};
-      errors.value = [];
-      if (flow.value === Flow.Register || flow.value === Flow.Token) {
-        await submitEmailLogin();
-      }
-      if (flow.value === Flow.Password) {
-        await submitPasswordLogin();
-      }
-    };
-    const resetPassword = async () => {
-      await submitEmailLogin();
-    };
+      buttonText.value = t("account.auth.sendToken");
+    }
+  } else {
+    emailExists.value = false;
+    promptPassword.value = false;
+    buttonText.value = t("account.auth.register");
+  }
+};
+const handleEmailChanged = debounce(async (value: string) => {
+  errors.value = [];
+  emailExists.value = false;
+  promptPassword.value = false;
+  if (EmailValidator.validate(value)) {
+    emailValid.value = true;
+    try {
+      const account = await checkLoginEmail(value);
+      updateAccount(account);
+    } catch (err: unknown) {
+      const error = err as AxiosError;
+      errors.value = [error];
+    }
+  } else {
+    emailValid.value = false;
+    buttonText.value = t("account.auth.login");
+  }
+}, 200);
+/*
+NOTE: `keyup` does not fire on webView input autocomplete.
+      so we have to use watch to detect input.
+*/
+watch(() => email.value, handleEmailChanged);
+const submitEmailLogin = async () => {
+  message.value = {};
+  errors.value = [];
+  try {
+    const response = await sendLoginEmail(email.value);
+    emit("emailSent", response.email);
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    errors.value = [error];
+  }
+};
+const submitPasswordLogin = async () => {
+  message.value = {};
+  errors.value = [];
+  const credentials = {
+    email: email.value,
+    password: password.value,
+  };
+  errors.value = [];
+  try {
+    await loginUser(credentials);
+    document.location.reload();
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    errors.value = [error];
+  }
+};
+const submitForm = async () => {
+  message.value = {};
+  errors.value = [];
+  if (flow.value === Flow.Register || flow.value === Flow.Token) {
+    await submitEmailLogin();
+  }
+  if (flow.value === Flow.Password) {
+    await submitPasswordLogin();
+  }
+};
+const resetPassword = async () => {
+  await submitEmailLogin();
+};
 
-    // auto-submit form in case of existing account
-    whenever(emailExists, async () => {
-      if (!promptPassword.value) {
-        await submitForm();
-      }
-    });
-
-    return {
-      flow,
-      email,
-      emailValid,
-      password,
-      emailExists,
-      promptPassword,
-      buttonText,
-      message,
-      errors,
-      submitForm,
-      resetPassword,
-    };
-  },
+// auto-submit form in case of existing account
+whenever(emailExists, async () => {
+  if (!promptPassword.value) {
+    await submitForm();
+  }
 });
 </script>
 

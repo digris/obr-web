@@ -1,4 +1,4 @@
-import { watchDebounced } from "@vueuse/core";
+import { useWindowSize, watchDebounced } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 
 import settings from "@/settings";
@@ -43,8 +43,12 @@ class UIStateHandler {
       setDocumentThemeColor(color);
     }
     const { primaryColor } = storeToRefs(useUiStore());
-    // watch(() => primaryColor.value, setDocumentPrimaryColor);
     watchDebounced(primaryColor, setDocumentPrimaryColor, { debounce: 200 });
+
+    // window / viewport dimensions
+    const { width: vpWidth, height: vpHeight } = useWindowSize();
+    const { setWindowSize } = useUiStore();
+    watchDebounced([vpWidth, vpHeight], setWindowSize, { debounce: 50 });
   }
 }
 

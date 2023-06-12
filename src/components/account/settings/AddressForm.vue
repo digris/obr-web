@@ -1,77 +1,52 @@
-<script lang="ts">
-import type { PropType } from "vue";
-import { defineComponent, onMounted, ref } from "vue";
+<script lang="ts" setup>
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import type { AxiosError } from "axios";
 
 import { getAddressCountries, updateAddress } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import SelectInput from "@/components/ui/form/SelectInput.vue";
 import TextInput from "@/components/ui/form/TextInput.vue";
-import type { Address } from "@/typings/api";
+import type { Address } from "@/typings";
 
-export default defineComponent({
-  components: {
-    AsyncButton,
-    ApiErrors,
-    TextInput,
-    SelectInput,
-  },
-  props: {
-    address: {
-      type: Object as PropType<Address>,
-      required: true,
-      default: () => ({}),
-    },
-  },
-  emits: ["updated"],
-  setup(props, { emit }) {
-    const { t } = useI18n();
-    const countryOptions = ref([]);
-    const line1 = ref(props.address.line1);
-    const line2 = ref(props.address.line2);
-    const postalCode = ref(props.address.postalCode);
-    const city = ref(props.address.city);
-    const country = ref(props.address.country);
-    const formValid = ref(false);
-    const errors = ref<Array<string>>([]);
-    const submitForm = async () => {
-      errors.value = [];
-      try {
-        await updateAddress({
-          line1: line1.value,
-          line2: line2.value,
-          postalCode: postalCode.value,
-          city: city.value,
-          country: country.value,
-        });
-        emit("updated");
-      } catch (err: any) {
-        console.warn(err);
-        errors.value = [err.response];
-      }
-    };
-    onMounted(async () => {
-      if (!countryOptions.value.length) {
-        const countries = await getAddressCountries();
-        countryOptions.value = countries.map((item) => {
-          return { value: item.iso2Code, name: item.name };
-        });
-      }
+const props = defineProps<{
+  address: Address;
+}>();
+
+const emit = defineEmits(["updated"]);
+
+const { t } = useI18n();
+const countryOptions = ref<Array<{ value: string; name: string }>>([]);
+const line1 = ref(props.address.line1);
+const line2 = ref(props.address.line2);
+const postalCode = ref(props.address.postalCode);
+const city = ref(props.address.city);
+const country = ref(props.address.country);
+const errors = ref<Array<string | AxiosError>>([]);
+const submitForm = async () => {
+  errors.value = [];
+  try {
+    await updateAddress({
+      line1: line1.value,
+      line2: line2.value,
+      postalCode: postalCode.value,
+      city: city.value,
+      country: country.value,
     });
-    return {
-      t,
-      line1,
-      line2,
-      postalCode,
-      city,
-      country,
-      countryOptions,
-      formValid,
-      errors,
-      submitForm,
-    };
-  },
+    emit("updated");
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    errors.value = [error];
+  }
+};
+onMounted(async () => {
+  if (!countryOptions.value.length) {
+    const countries = await getAddressCountries();
+    countryOptions.value = countries.map((item) => {
+      return { value: item.iso2Code, name: item.name };
+    });
+  }
 });
 </script>
 

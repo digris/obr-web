@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import type { AxiosError } from "axios";
 
 import { updateUser } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
@@ -45,7 +46,7 @@ export default defineComponent({
     const favoriteVenue = ref(props.user.favoriteVenue);
     const yearOfBirth = ref(props.user.yearOfBirth);
     const formValid = ref(false);
-    const errors = ref<Array<string>>([]);
+    const errors = ref<Array<string | AxiosError>>([]);
     const formErrors = ref<Array<string>>([]);
     const submitForm = async () => {
       errors.value = [];
@@ -59,10 +60,10 @@ export default defineComponent({
           yearOfBirth: yearOfBirth.value ? yearOfBirth.value : null,
         });
         emit("updated");
-      } catch (err: any) {
-        console.error(err.response.data);
-        errors.value = [err.response];
-        formErrors.value = err.response.data;
+      } catch (err: unknown) {
+        const error = err as AxiosError;
+        errors.value = [error];
+        formErrors.value = error.response?.data;
       }
     };
     return {

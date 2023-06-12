@@ -1,6 +1,6 @@
+import qs from "qs";
 import axios from "axios";
 import axiosRetry from "axios-retry";
-import qs from "qs";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";

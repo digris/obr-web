@@ -1,55 +1,37 @@
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 import * as EmailValidator from "email-validator";
+import type { AxiosError } from "axios";
 
 import { updateEmail } from "@/api/account";
 import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import TextInput from "@/components/ui/form/TextInput.vue";
 
-export default defineComponent({
-  components: {
-    AsyncButton,
-    ApiErrors,
-    TextInput,
-  },
-  props: {
-    currentEmail: {
-      type: String,
-      required: true,
-      default: "",
-    },
-  },
-  emits: ["updated"],
-  setup(props, { emit }) {
-    const { t } = useI18n();
-    const email = ref(props.currentEmail);
-    const formValid = ref(false);
-    const errors = ref<Array<string>>([]);
-    const handleInput = () => {
-      formValid.value = EmailValidator.validate(email.value);
-    };
-    const submitForm = async () => {
-      errors.value = [];
-      try {
-        await updateEmail(email.value);
-        emit("updated");
-      } catch (err: any) {
-        console.warn(err);
-        errors.value = [err.response];
-      }
-    };
-    return {
-      t,
-      email,
-      formValid,
-      errors,
-      handleInput,
-      submitForm,
-    };
-  },
-});
+const props = defineProps<{
+  currentEmail: string;
+}>();
+
+const emit = defineEmits(["updated"]);
+
+const { t } = useI18n();
+const email = ref(props.currentEmail);
+const formValid = ref(false);
+const errors = ref<Array<string | AxiosError>>([]);
+const handleInput = () => {
+  formValid.value = EmailValidator.validate(email.value);
+};
+const submitForm = async () => {
+  errors.value = [];
+  try {
+    await updateEmail(email.value);
+    emit("updated");
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+    errors.value = [error];
+  }
+};
 </script>
 
 <template>
