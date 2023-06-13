@@ -14,16 +14,16 @@ export default defineComponent({
   },
   emits: ["seek"],
   setup(props, { emit }) {
-    const root = ref<HTMLElement | null>(null);
+    const el = ref<HTMLElement | null>(null);
     // const isHover = ref(false);
-    const { x: mouseX, isOutside } = useMouseInElement(root);
-    const { width } = useElementSize(root);
+    const { x: mouseX, isOutside } = useMouseInElement(el);
+    const { width } = useElementSize(el);
     const {
       isLive,
       isOndemand,
       isPlaying,
       isBuffering,
-      relPosition: position,
+      relPosition,
       media,
       duration,
     } = usePlayerState();
@@ -32,7 +32,7 @@ export default defineComponent({
     });
     const playheadTime = computed(() => {
       if (isOutside.value) {
-        return null;
+        return undefined;
       }
       return (duration.value * mouseX.value) / width.value;
     });
@@ -49,7 +49,7 @@ export default defineComponent({
         return null;
       }
       // dom element is 20px wide
-      const posX = width.value * position.value - 10;
+      const posX = width.value * relPosition.value - 10;
       return Math.max(Math.min(posX, width.value - 20), 0);
     });
     const cueIn = computed(() => {
@@ -69,15 +69,15 @@ export default defineComponent({
         console.warn("no seek in live mode!");
         return;
       }
-      if (!root.value) {
+      if (!el.value) {
         return 0;
       }
-      // const seekTo = e.offsetX / root.value.getBoundingClientRect().width;
+      // const seekTo = e.offsetX / el.value.getBoundingClientRect().width;
       const seekTo = e.offsetX / width.value;
       emit("seek", seekTo);
     };
     return {
-      root,
+      el,
       isHover,
       playheadTime,
       playheadTimeX,
@@ -87,7 +87,7 @@ export default defineComponent({
       isOndemand,
       isPlaying,
       isBuffering,
-      position,
+      relPosition,
       cueIn,
       cueOut,
       seek,
@@ -98,7 +98,7 @@ export default defineComponent({
 
 <template>
   <div
-    ref="root"
+    ref="el"
     class="playhead-progress"
     :class="{
       'is-hover': isHover,
@@ -113,10 +113,10 @@ export default defineComponent({
       <rect x="0" y="14" width="100%" height="4" class="progress-total" />
       <g v-if="isOndemand">
         <rect
-          v-if="position && position >= cueIn"
+          v-if="relPosition && relPosition >= cueIn"
           :x="`${cueIn * 100}%`"
           y="14"
-          :width="`${(position - cueIn) * 100}%`"
+          :width="`${(relPosition - cueIn) * 100}%`"
           height="4"
           class="progress-position"
         />

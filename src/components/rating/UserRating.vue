@@ -54,7 +54,7 @@ export default defineComponent({
       });
     };
     const rate = debounce(
-      async (value: number) => {
+      async (value: number | null) => {
         if (props.readonly) {
           return;
         }
