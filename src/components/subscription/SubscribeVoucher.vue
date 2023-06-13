@@ -101,7 +101,7 @@ export default defineComponent({
   <div class="subscribe-voucher">
     <section class="section input">
       <div>
-        <CodeInput :code="codeInput" :valid="isValid" @input="handleCodeInput" />
+        <CodeInput :code="codeInput" :is-valid="isValid" @input="handleCodeInput" />
       </div>
       <div v-if="errors">
         <ApiErrors :errors="errors" />

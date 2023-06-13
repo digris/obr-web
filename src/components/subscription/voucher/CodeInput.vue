@@ -1,59 +1,42 @@
-<script lang="ts">
-import { computed, defineComponent, onMounted, ref } from "vue";
+<script lang="ts" setup>
+import { computed, onMounted, ref } from "vue";
 
-export default defineComponent({
-  props: {
-    code: {
-      type: String,
-      required: false,
-      default: "",
+const props = defineProps<{
+  code: string;
+  isValid: boolean;
+}>();
+
+const emit = defineEmits(["input"]);
+
+const el = ref<HTMLInputElement | null>(null);
+const inputValue = ref(props.code);
+const parseInput = (value: string) => {
+  return value.toUpperCase().replace(/\s/g, "").substring(0, 8);
+};
+const handleInput = async (e: any) => {
+  const value = parseInput(e.target.value);
+  inputValue.value = value;
+  emit("input", value);
+};
+const limitInput = computed(() => {
+  return inputValue.value && inputValue.value.length >= 8 ? 8 : 100;
+});
+onMounted(() => {
+  handleInput({
+    target: {
+      value: inputValue.value,
     },
-    valid: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-  },
-  emits: ["input"],
-  setup(props, { emit }) {
-    const inputEl = ref(null);
-    const inputValue = ref(props.code);
-    const parseInput = (value: string) => {
-      return value.toUpperCase().replace(/\s/g, "").substring(0, 8);
-    };
-    const handleInput = async (e: any) => {
-      const value = parseInput(e.target.value);
-      inputValue.value = value;
-      emit("input", value);
-    };
-    const limitInput = computed(() => {
-      return inputValue.value && inputValue.value.length >= 8 ? 8 : 100;
-    });
-    onMounted(() => {
-      handleInput({
-        target: {
-          value: inputValue.value,
-        },
-      });
-      // @ts-ignore
-      inputEl.value.focus();
-    });
-    return {
-      inputEl,
-      inputValue,
-      handleInput,
-      limitInput,
-    };
-  },
+  });
+  el.value?.focus();
 });
 </script>
 
 <template>
-  <div class="code-input" :class="{ 'is-valid': valid }">
+  <div class="code-input" :class="{ 'is-valid': isValid }">
     <div class="input-container">
       <i18n-t keypath="subscription.voucher.code" tag="label" for="ti-1299" />
       <input
-        ref="inputEl"
+        ref="el"
         id="ti-1299"
         class="input"
         @input="handleInput"
