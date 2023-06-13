@@ -4,17 +4,22 @@ const useObjKey = (obj: any) => {
   const objKey = ref("");
   const setObjKey = () => {
     const o = unref(obj);
+    console.debug("useObjKey: setObjKey", {
+      obj,
+      o,
+    })
     objKey.value = o?.ct && o?.uid ? `${o.ct}:${o.uid}` : "";
   };
-  if (isRef(obj) || isReactive(obj)) {
+  if (isRef(obj)) {
+    console.debug("useObjKey: isRef", obj)
+    watchEffect(setObjKey);
+  } else if (isReactive(obj)) {
+    console.debug("useObjKey: isReactive", obj)
     watchEffect(setObjKey);
   } else {
-    // watchEffect(setObjKey);
+    console.debug("useObjKey: non-ref value", obj)
     setObjKey();
   }
-  // const objKey = computed(() => {
-  //   return obj?.ct && obj?.uid ? `${obj.ct}:${obj.uid}` : "";
-  // });
   return {
     objKey,
   };

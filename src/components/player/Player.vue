@@ -1,10 +1,10 @@
-<script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+<script lang="ts" setup>
+import {computed, defineComponent, ref} from "vue";
 
 import UserRating from "@/components/rating/UserRating.vue";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
-import { useQueueState } from "@/composables/queue";
-import { getContrastColor } from "@/utils/color";
+import {usePlayerControls, usePlayerState} from "@/composables/player";
+import {useQueueState} from "@/composables/queue";
+import {getContrastColor} from "@/utils/color";
 
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
@@ -15,87 +15,33 @@ import Playhead from "./Playhead.vue";
 import Queue from "./Queue.vue";
 import QueueControl from "./QueueControl.vue";
 import VolumeControl from "./VolumeControl.vue";
+import {useObjKey} from "@/composables/obj";
 
-export default defineComponent({
-  components: {
-    CurrentMedia,
-    Playhead,
-    OnAir,
-    Bandwidth,
-    Circle,
-    Queue,
-    UserRating,
-    PlayerControl,
-    VolumeControl,
-    QueueControl,
-  },
-  setup() {
-    const { queueLength } = useQueueState();
-    const { seek } = usePlayerControls();
-    const { isVisible, media, color, isLive } = usePlayerState();
-    const objKey = computed(() => {
-      if (!media.value) {
-        return null;
-      }
-      return `${media.value?.ct}:${media.value?.uid}`;
-    });
-    const fgColor = computed(() => {
-      try {
-        const bg = color.value;
-        return getContrastColor(bg);
-      } catch (e) {
-        console.warn(e);
-      }
-      return [128, 128, 128];
-    });
-    const cssVars = computed(() => {
-      try {
-        const bg = color.value;
-        const fg = getContrastColor(bg);
-        const fgInverse = getContrastColor(fg);
-        const colors = {
-          "--c-bg": bg.join(" "),
-          "--c-fg": fg.join(" "),
-          "--c-fg-inverse": fgInverse.join(" "),
-        };
-        return colors;
-      } catch (e) {
-        console.warn(e);
-      }
-      return {
-        "--c-bg": isLive.value ? "255 255 255" : "0 0 0",
-        "--c-fg": isLive.value ? "0 0 0" : "255 255 255",
-        "--c-fg-inverse": isLive.value ? "255 255 255" : "0 0 0",
-      };
-    });
-    const queueVisible = ref(false);
-    const hideQueue = () => {
-      queueVisible.value = false;
-    };
-    const toggleQueue = () => {
-      queueVisible.value = !queueVisible.value;
-    };
-    return {
-      isVisible,
-      media,
-      objKey,
-      fgColor,
-      cssVars,
-      queueVisible,
-      queueLength,
-      hideQueue,
-      toggleQueue,
-      //
-      seek,
-    };
-  },
-});
+
+const { queueLength } = useQueueState();
+const { seek } = usePlayerControls();
+const { isVisible, media, color: bgColor, isLive } = usePlayerState();
+const {objKey} = useObjKey(media);
+const fgColor = computed(() => getContrastColor(bgColor.value));
+const fgColorInverse = computed(() => getContrastColor(fgColor.value));
+const queueVisible = ref(false);
+const hideQueue = () => { queueVisible.value = false };
+const toggleQueue = () => { queueVisible.value = !queueVisible.value };
 </script>
 
 <template>
   <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
+  <pre style="position: fixed; z-index: 999;" class="debug" v-text="{objKey}" />
   <transition name="slide">
-    <div v-if="isVisible" class="player" :style="cssVars">
+    <div
+      v-if="isVisible"
+      class="player"
+      :style="{
+        '--c-bg': bgColor.join(' '),
+        '--c-fg': fgColor.join(' '),
+        '--c-fg-inverse': fgColorInverse.join(' '),
+      }"
+    >
       <Playhead class="playhead" @seek="seek" />
       <div class="container">
         <div class="left">
@@ -108,7 +54,7 @@ export default defineComponent({
           <OnAir />
           <Bandwidth />
           <VolumeControl />
-          <Circle>
+          <Circle v-if="objKey">
             <UserRating color-var="--c-fg" :obj-key="objKey" />
           </Circle>
           <QueueControl
