@@ -30,7 +30,7 @@ const emailValid = ref(false);
 const emailExists = ref(false);
 const promptPassword = ref(false);
 const buttonText = ref(t("account.auth.login"));
-const message = ref<UiMessage | null>(null);
+const message = ref({});
 const errors = ref<Array<string | AxiosError>>([]);
 const flow = computed(() => {
   if (emailExists.value && promptPassword.value) {
@@ -42,7 +42,7 @@ const flow = computed(() => {
   return Flow.Register;
 });
 const updateAccount = (account: any | null) => {
-  message.value = null;
+  message.value = {};
   if (account && account.uid) {
     emailExists.value = true;
     if (account.hasUsablePassword) {

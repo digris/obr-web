@@ -1,7 +1,6 @@
-from image.api.serializers import ImageSerializer, BaseImageSerializer
-from rest_framework import serializers
 from catalog.models.release import ReleaseImage as Image
-
+from image.api.serializers import BaseImageSerializer
+from rest_framework import serializers
 
 
 class SearchResultImageSerializer(
@@ -9,6 +8,7 @@ class SearchResultImageSerializer(
 ):
     class Meta(BaseImageSerializer.Meta):
         model = Image
+
 
 class SearchMediaResultSerializer(serializers.Serializer):
     ct = serializers.CharField(
