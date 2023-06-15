@@ -32,11 +32,11 @@ export type Playlist = {
   readonly numMedia: number;
   readonly image: PlaylistImage | null;
   readonly userRating: number | null;
-  readonly emissions: Array<PlaylistEmission>;
-  readonly mediaSet: Array<PlaylistMedia>;
-  readonly latestEmission: PlaylistEmission;
-  readonly tags: Array<Tag>;
   readonly duration: number;
   readonly editor: PlaylistEditor;
+  readonly tags: Array<Tag>;
+  readonly latestEmission: PlaylistEmission;
+  readonly mediaSet: Array<PlaylistMedia>;
+  readonly emissions: Array<PlaylistEmission>;
 };
 

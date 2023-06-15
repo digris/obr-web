@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import {computed, defineComponent, ref} from "vue";
+import { computed, ref } from "vue";
+import { useToggle } from "@vueuse/core";
 
 import UserRating from "@/components/rating/UserRating.vue";
-import {usePlayerControls, usePlayerState} from "@/composables/player";
-import {useQueueState} from "@/composables/queue";
-import {getContrastColor} from "@/utils/color";
+import { useObjKey } from "@/composables/obj";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { useQueueState } from "@/composables/queue";
+import { getContrastColor } from "@/utils/color";
 
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
@@ -15,23 +17,21 @@ import Playhead from "./Playhead.vue";
 import Queue from "./Queue.vue";
 import QueueControl from "./QueueControl.vue";
 import VolumeControl from "./VolumeControl.vue";
-import {useObjKey} from "@/composables/obj";
-
 
 const { queueLength } = useQueueState();
 const { seek } = usePlayerControls();
-const { isVisible, media, color: bgColor, isLive } = usePlayerState();
-const {objKey} = useObjKey(media);
+const { isVisible, media, color: bgColor } = usePlayerState();
+const { objKey } = useObjKey(media);
 const fgColor = computed(() => getContrastColor(bgColor.value));
 const fgColorInverse = computed(() => getContrastColor(fgColor.value));
 const queueVisible = ref(false);
-const hideQueue = () => { queueVisible.value = false };
-const toggleQueue = () => { queueVisible.value = !queueVisible.value };
+const toggleQueue = useToggle(queueVisible);
+// const hideQueue = () => toggleQueue(false);
 </script>
 
 <template>
-  <Queue :is-visible="queueVisible && queueLength > 0" @close="hideQueue" />
-  <pre style="position: fixed; z-index: 999;" class="debug" v-text="{objKey}" />
+  <Queue :is-visible="queueVisible && queueLength > 0" @close="toggleQueue(false)" />
+  <!--<pre style="position: fixed; z-index: 999" class="debug" v-text="{ objKey }" />-->
   <transition name="slide">
     <div
       v-if="isVisible"
@@ -60,7 +60,7 @@ const toggleQueue = () => { queueVisible.value = !queueVisible.value };
           <QueueControl
             :queue-visible="queueVisible"
             :num-queued="queueLength"
-            @toggle-visibility="toggleQueue"
+            @toggle-visibility="toggleQueue()"
           />
         </div>
       </div>

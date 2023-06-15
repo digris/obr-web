@@ -72,6 +72,7 @@ export type { ScheduleMaster } from './models/ScheduleMaster';
 export type { ScheduleMedia } from './models/ScheduleMedia';
 export type { SchedulePlaylist } from './models/SchedulePlaylist';
 export type { SearchMediaResult } from './models/SearchMediaResult';
+export type { SearchResultImage } from './models/SearchResultImage';
 export type { Section } from './models/Section';
 export type { SendEmailLogin } from './models/SendEmailLogin';
 export type { SendEmailLoginLookup } from './models/SendEmailLoginLookup';

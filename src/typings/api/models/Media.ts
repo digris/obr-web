@@ -39,8 +39,8 @@ export type Media = {
   readonly fadeOut: number;
   readonly cueIn: number;
   readonly cueOut: number;
-  identifiers?: Array<Identifier> | null;
   image?: MediaImage;
+  identifiers?: Array<Identifier> | null;
   tags?: Array<Tag>;
 };
 

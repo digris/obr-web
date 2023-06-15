@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 import { DateTime } from "luxon";
 
@@ -9,7 +10,7 @@ export default defineComponent({
       required: true,
     },
     airtime: {
-      type: DateTime,
+      type: Object as PropType<DateTime>,
       required: false,
       default: null,
     },

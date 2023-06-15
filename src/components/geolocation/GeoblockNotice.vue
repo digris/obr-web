@@ -13,7 +13,7 @@ export default defineComponent({
     const { t } = useI18n();
     const isVisible = ref(false);
     const faqLink = "/faq/#42C745E4";
-    const message = ref(null);
+    const message = ref("");
     const successVisible = ref(false);
     const close = () => {
       isVisible.value = false;
@@ -22,7 +22,7 @@ export default defineComponent({
     eventBus.on("geolocation:blocked", (event) => {
       console.debug("geolocation:blocked", event);
       isVisible.value = true;
-      message.value = event.message || null;
+      message.value = event?.message ?? "";
     });
     return {
       t,

@@ -82,6 +82,7 @@ pyupgrade = "^2.29.1"
 black = "23.1.0"
 python-semantic-release = "^7.27.0"
 ruff = "^0.0.260"
+isort = "^5.12.0"
 
 [build-system]
 requires = ["poetry>=0.12"]

@@ -18,15 +18,8 @@ export default defineComponent({
     // const isHover = ref(false);
     const { x: mouseX, isOutside } = useMouseInElement(el);
     const { width } = useElementSize(el);
-    const {
-      isLive,
-      isOndemand,
-      isPlaying,
-      isBuffering,
-      relPosition,
-      media,
-      duration,
-    } = usePlayerState();
+    const { isLive, isOndemand, isPlaying, isBuffering, relPosition, media, duration } =
+      usePlayerState();
     const isHover = computed(() => {
       return !isOutside.value;
     });
@@ -64,7 +57,7 @@ export default defineComponent({
       }
       return 1;
     });
-    const seek = (e: PointerEvent) => {
+    const seek = (e: MouseEvent) => {
       if (isLive.value) {
         console.warn("no seek in live mode!");
         return;
