@@ -1,6 +1,14 @@
-from image.api.serializers import ImageSerializer
+from image.api.serializers import ImageSerializer, BaseImageSerializer
 from rest_framework import serializers
+from catalog.models.release import ReleaseImage as Image
 
+
+
+class SearchResultImageSerializer(
+    BaseImageSerializer,
+):
+    class Meta(BaseImageSerializer.Meta):
+        model = Image
 
 class SearchMediaResultSerializer(serializers.Serializer):
     ct = serializers.CharField(
@@ -17,6 +25,6 @@ class SearchMediaResultSerializer(serializers.Serializer):
         read_only=True,
         source="artist_display",
     )
-    image = ImageSerializer(
+    image = SearchResultImageSerializer(
         read_only=True,
     )

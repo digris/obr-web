@@ -10,6 +10,13 @@ export type AnnotatedSchedule = Schedule & {
   dtEnd: DateTime;
 };
 
+export type AnnotatedScheduleMedia = ScheduleMedia & {
+  cueIn?: number;
+  cueOut?: number;
+  fadeIn?: number;
+  fadeOut?: number;
+};
+
 interface State {
   schedule: Array<AnnotatedSchedule>;
 }
@@ -30,9 +37,6 @@ export const useScheduleStore = defineStore("schedule", {
         (s: AnnotatedSchedule) => s.dtStart <= this.time
       );
       return item ? item : null;
-    },
-    currentMedia(): ScheduleMedia | null {
-      return this.current?.media ?? null;
     },
     items(state: State): Array<AnnotatedSchedule> {
       if (this.current?.dtStart) {
@@ -60,6 +64,12 @@ export const useScheduleStore = defineStore("schedule", {
         return this.upcoming[this.upcoming.length - 1];
       }
       return null;
+    },
+    currentMedia(): AnnotatedScheduleMedia | null{
+      return this.current?.media ?? null;
+    },
+    nextMedia(): AnnotatedScheduleMedia | null{
+      return this.next?.media ?? null;
     },
     // items(): Array<AnnotatedSchedule | null> {
     //   return [this.next, this.current, ...this.past];

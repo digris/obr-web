@@ -12,6 +12,8 @@ import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import Message from "@/components/ui/Message.vue";
 import { useAccount } from "@/composables/account";
 
+// import type {UiMessage} from "@/types.d";
+
 enum Flow {
   Password = "password",
   Token = "token",
@@ -28,7 +30,7 @@ const emailValid = ref(false);
 const emailExists = ref(false);
 const promptPassword = ref(false);
 const buttonText = ref(t("account.auth.login"));
-const message = ref({});
+const message = ref<UiMessage | null>(null);
 const errors = ref<Array<string | AxiosError>>([]);
 const flow = computed(() => {
   if (emailExists.value && promptPassword.value) {
@@ -40,7 +42,7 @@ const flow = computed(() => {
   return Flow.Register;
 });
 const updateAccount = (account: any | null) => {
-  message.value = "";
+  message.value = null;
   if (account && account.uid) {
     emailExists.value = true;
     if (account.hasUsablePassword) {
