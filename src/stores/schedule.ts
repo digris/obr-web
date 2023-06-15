@@ -65,10 +65,10 @@ export const useScheduleStore = defineStore("schedule", {
       }
       return null;
     },
-    currentMedia(): AnnotatedScheduleMedia | null{
+    currentMedia(): AnnotatedScheduleMedia | null {
       return this.current?.media ?? null;
     },
-    nextMedia(): AnnotatedScheduleMedia | null{
+    nextMedia(): AnnotatedScheduleMedia | null {
       return this.next?.media ?? null;
     },
     // items(): Array<AnnotatedSchedule | null> {

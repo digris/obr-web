@@ -27,7 +27,9 @@ export const usePlayerState = () => {
     debugData,
   } = storeToRefs(usePlayerStore());
 
-  const { currentMedia: scheduleMedia, nextMedia: scheduleNextMedia } = storeToRefs(useScheduleStore());
+  const { currentMedia: scheduleMedia, nextMedia: scheduleNextMedia } = storeToRefs(
+    useScheduleStore()
+  );
   const { currentMedia: queueMedia, nextMedia: queueNextMedia } = storeToRefs(useQueueStore());
 
   const media = computed(() => {
