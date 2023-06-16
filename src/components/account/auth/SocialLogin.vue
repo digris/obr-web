@@ -50,9 +50,16 @@ export default defineComponent({
     };
     const getProviderText = (provider: string) => {
       const key = provider.split("-")[0];
-      return `${key.charAt(0).toUpperCase().toUpperCase()}${key.slice(1)}`;
+      return `${key.charAt(0).toUpperCase()}${key.slice(1)}`;
     };
     const beginLogin = async (backend: Backend) => {
+      if (isApp && backend.provider === "google-oauth2") {
+        console.debug("continue with app native google login");
+        iOSMaskVisible.value = true;
+        window.appBridge?.send("googleSignin:start");
+        return;
+      }
+
       const connectUrl = backend.connectUrl;
       const params: { [x: string]: string } = {};
       if (props.next) {

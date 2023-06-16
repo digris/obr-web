@@ -1,9 +1,17 @@
 import { defineStore } from "pinia";
 
-import { getUser, login, loginBySignedEmail, loginByToken, logout } from "@/api/account";
+import {
+  getUser,
+  login,
+  loginByGoogleIdToken,
+  loginBySignedEmail,
+  loginByToken,
+  logout,
+} from "@/api/account";
 
 interface State {
   user: any | null;
+  isNew: boolean;
 }
 
 export interface Credentials {
@@ -19,6 +27,7 @@ export interface TokenCredentials {
 export const useAccountStore = defineStore("account", {
   state: (): State => ({
     user: null,
+    isNew: false,
   }),
   getters: {
     subscription: (state: State) => {
@@ -47,6 +56,7 @@ export const useAccountStore = defineStore("account", {
       try {
         const { user, created } = await loginByToken(email, token);
         this.user = user;
+        this.isNew = created;
         return {
           user,
           created,
@@ -60,6 +70,17 @@ export const useAccountStore = defineStore("account", {
     async loginUserBySignedEmail(signedEmail: string) {
       try {
         this.user = await loginBySignedEmail(signedEmail);
+      } catch (err) {
+        console.warn(err);
+        this.user = null;
+        throw err;
+      }
+    },
+    async loginUserByGoogleIdToken(idToken: string) {
+      try {
+        const { user, created } = await loginByGoogleIdToken(idToken);
+        this.user = user;
+        this.isNew = created;
       } catch (err) {
         console.warn(err);
         this.user = null;

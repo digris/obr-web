@@ -66,8 +66,11 @@ class Media(
 
     @property
     def artist_display(self):
-        qs = self.media_artist.all()
-        return ", ".join(str(ma.artist) for ma in qs)
+        return ", ".join(str(ma.artist) for ma in self.media_artist.all())
+
+    @property
+    def release_display(self):
+        return ", ".join(str(r.name) for r in self.releases.all())
 
     @cached_property
     def num_airplays(self):
