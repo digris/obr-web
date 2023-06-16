@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 
-from account import email_login, token_login
+from account import email_login, google_id_token_login, token_login
 from account.cdn_credentials.utils import remove_credentials, set_credentials
 from account.models import Address, User
 from account.utils import social_backends
@@ -387,6 +387,91 @@ class SignedEmailLoginView(
             user.set_unusable_password()
             user.save()
             user_created = True
+
+        login(
+            request,
+            user,
+            backend=settings.AUTHENTICATION_BACKENDS[-1],
+        )
+
+        serializer = serializers.UserSerializer(
+            user,
+            context={
+                "request": request,
+            },
+        )
+
+        response = Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED if user_created else status.HTTP_200_OK,
+        )
+
+        if user.has_active_subscription:
+            response = set_credentials(response)
+        else:
+            response = remove_credentials(response)
+
+        return response
+
+
+@method_decorator(
+    csrf_exempt,
+    name="dispatch",
+)
+class GoogleIdTokenLoginView(
+    APIView,
+):
+    @staticmethod
+    @extend_schema(
+        methods=["POST"],
+        parameters=[
+            serializers.GoogleIdTokenLoginSerializer,
+        ],
+        request=None,
+        responses={
+            200: serializers.UserSerializer,
+            201: serializers.UserSerializer,
+        },
+        operation_id="google_id_token_login",
+        auth=[],
+        description="""Login user by google ID-Token. (native flow in obr-app)
+        Responds `200` for existing and `201` for created user.""",
+        tags=["authentication"],
+    )
+    def post(request):
+        request_serializer = serializers.GoogleIdTokenLoginSerializer(data=request.data)
+        if not request_serializer.is_valid():
+            return Response(
+                {
+                    "message": request_serializer.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        id_token = request_serializer.validated_data["id_token"]
+
+        try:
+            google_id_token_login.validate_id_token(id_token)
+        except google_id_token_login.IdTokenValidationError as e:
+            return Response(
+                {
+                    "message": f"{e}",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            user, user_created = google_id_token_login.get_or_create_user(
+                request=request,
+                token=id_token,
+            )
+        except google_id_token_login.IdTokenLoginError as e:
+            return Response(
+                {
+                    "message": f"{e}",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         login(
             request,

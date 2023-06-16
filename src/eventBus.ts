@@ -20,6 +20,7 @@ export type EventBusEvents = {
   "radio:flow": "reset" | "releaseFocus" | "focusNext" | "focusPrevious";
   //
   "side-menu:show": void;
+  "side-menu:hide": void;
   "global-search:show": void;
 };
 

@@ -305,6 +305,13 @@ SOCIAL_AUTH_APPLE_ID_SCOPE = [
 ]
 
 
+# additional authentication services
+GOOGLE_AUTH_CLIENT_ID = env(
+    "GOOGLE_AUTH_CLIENT_ID",
+    default="",
+)
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 

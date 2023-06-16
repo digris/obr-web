@@ -200,6 +200,12 @@ class Settings(
         db_index=True,
     )
 
+    testing_enabled = models.BooleanField(
+        "enable testing",
+        default=False,
+        db_index=True,
+    )
+
     def __str__(self):
         return f"{self.ct}:{self.uid}"
 

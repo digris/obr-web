@@ -30,6 +30,9 @@ export default defineComponent({
     eventBus.on("side-menu:show", () => {
       isVisible.value = true;
     });
+    eventBus.on("side-menu:hide", () => {
+      isVisible.value = false;
+    });
     const login = () => {
       const event = {
         intent: "login",

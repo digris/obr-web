@@ -6,7 +6,7 @@ export interface Action {
 }
 
 export interface Message {
-  level: string;
+  level: "info" | "success" | "error";
   body: string;
   key?: string;
   seen?: boolean;

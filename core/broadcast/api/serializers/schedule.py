@@ -24,6 +24,7 @@ class ScheduleMediaSerializer(CatalogMediaSerializer):
             "uid",
             "name",
             "artist_display",
+            "release_display",
             "artists",
             "releases",
             "duration",

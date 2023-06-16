@@ -68,6 +68,20 @@ async function loginBySignedEmail(signedEmail: string) {
   return response.data;
 }
 
+async function loginByGoogleIdToken(idToken: string) {
+  const url = `${ACCOUNT_ENDPOINT}google-id-token-login/`;
+  const payload = {
+    idToken,
+  };
+  const response = await APIClient.post(url, payload);
+  // NOTE: maybe we should return the same data for
+  //       all login requests.
+  return {
+    created: response.status === 201,
+    user: response.data,
+  };
+}
+
 async function getUser() {
   const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription,address`;
   const response = await APIClient.get(url);
@@ -144,6 +158,7 @@ export {
   getSubscription,
   getUser,
   login,
+  loginByGoogleIdToken,
   loginBySignedEmail,
   loginByToken,
   logout,

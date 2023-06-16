@@ -41,6 +41,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/responsive";
 @use "@/style/elements/button";
 
 .notifications {
@@ -48,40 +49,65 @@ export default defineComponent({
   position: fixed;
   right: 8px;
   z-index: 25;
+
+  @include responsive.bp-medium {
+    top: calc(var(--sa-t) + 66px);
+    right: 0;
+    left: 0;
+  }
 }
 
 .message {
   position: relative;
   min-width: 300px;
   max-width: 400px;
-  min-height: 2.5rem;
   padding: 1rem;
   background: rgb(var(--c-live-fg-inverse));
-
-  .close {
-    top: 0;
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding-top: 0.5rem;
-    padding-right: 0.75rem;
-    padding-left: 0.5rem;
-  }
+  display: grid;
+  grid-gap: 0;
+  grid-column-gap: 1rem;
+  grid-template-areas:
+    "body    close"
+    "actions actions";
 
   .body {
-    max-width: 270px;
-    padding-top: 2px;
-    padding-bottom: 0;
+    grid-area: body;
+    display: flex;
+    align-items: center;
+  }
+
+  .close {
+    grid-area: close;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    cursor: pointer;
   }
 
   .action {
-    padding-top: 1rem;
+    grid-area: actions;
+    margin-top: 1rem;
 
     .button {
       @include button.default(2rem);
+    }
+  }
+
+  @include responsive.bp-medium {
+    min-width: unset;
+    max-width: unset;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 0.5rem;
+
+    .action {
+      display: flex;
+      justify-content: center;
+
+      .button {
+        min-width: 150px;
+        max-width: 50%;
+      }
     }
   }
 

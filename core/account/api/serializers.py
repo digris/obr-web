@@ -75,6 +75,14 @@ class SignedEmailLoginSerializer(
     )
 
 
+class GoogleIdTokenLoginSerializer(
+    serializers.Serializer,
+):
+    id_token = serializers.CharField(
+        write_only=True,
+    )
+
+
 class SignedLoginCredentialsSerializer(
     serializers.Serializer,
 ):
@@ -111,9 +119,11 @@ class SettingsSerializer(
         model = Settings
         fields = CTUIDModelSerializer.Meta.fields + [
             "debug_enabled",
+            "testing_enabled",
         ]
         read_only_fields = [
             "debug_enabled",
+            "testing_enabled",
         ]
 
 

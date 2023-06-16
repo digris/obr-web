@@ -7,6 +7,8 @@ import { useQueueStore } from "@/stores/queue";
 import { useScheduleStore } from "@/stores/schedule";
 import { useSettingsStore } from "@/stores/settings";
 
+import { useIdTokenLogin } from "./googleIdTokenLogin";
+
 // how often the web-app sends a heartbeat to swift-app
 const HEARTBEAT_INTERVAL = 2000 * 0.9;
 
@@ -50,7 +52,9 @@ type sendChannel =
   // account
   | "account:setAccessToken"
   // browser
-  | "browser:navigate";
+  | "browser:navigate"
+  // sign-in
+  | "googleSignin:start";
 
 // channels RECEIVING data FROM swift-app
 type receiveChannel =
@@ -65,7 +69,9 @@ type receiveChannel =
   // ui
   | "ui:update"
   // rating
-  | "rating:update";
+  | "rating:update"
+  // sign-in
+  | "googleSignin:completed";
 
 type SendMessage = {
   c: sendChannel;
@@ -90,6 +96,9 @@ class AppBridge {
   static instance: AppBridge;
 
   pauseHeartbeat = (): void => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  loginByIdToken = async (payload: unknown): Promise<void> => {};
 
   private constructor() {
     const { isApp } = useDevice();
@@ -121,6 +130,10 @@ class AppBridge {
     // NOTE: mailto: etc. links should be implemented in swift / webview. example:
     // https://gist.github.com/dakeshi/d8e69e4ba50b31211d94
     window.addEventListener("click", this.onExternalLink.bind(this));
+
+    // we need to initiate useIdTokenLogin here to have access to router etc.
+    const { loginByIdToken } = useIdTokenLogin();
+    this.loginByIdToken = loginByIdToken;
   }
 
   public static getInstance(): AppBridge {
@@ -204,6 +217,10 @@ class AppBridge {
         console.debug("schedule", data.schedule);
         const { setSchedule } = useScheduleStore();
         await setSchedule(data.schedule);
+        break;
+      }
+      case "googleSignin:completed": {
+        await this.loginByIdToken(data);
         break;
       }
     }
