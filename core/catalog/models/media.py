@@ -75,8 +75,6 @@ class Media(
             parts.append(" " + str(ma.artist))
         return "".join(parts).strip()
 
-        # return ", ".join(str(ma.artist) for ma in self.media_artist.all())
-
     @property
     def release_display(self):
         return ", ".join(str(r.name) for r in self.releases.all())
