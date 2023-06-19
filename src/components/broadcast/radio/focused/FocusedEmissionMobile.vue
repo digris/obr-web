@@ -46,8 +46,14 @@ export default defineComponent({
 
 <template>
   <router-link :to="link" class="focused-emission">
-    <div class="title">{{ t("catalog.ct.playlist") }}: {{ titleDisplay }}</div>
-    <div v-if="editorDisplay" class="editor">by {{ editorDisplay }}</div>
+    <div class="title">
+      <span class="label">{{ t("catalog.ct.playlist") }}: </span>
+      {{ titleDisplay }}
+    </div>
+    <div v-if="editorDisplay" class="editor">
+      <span class="label">by </span>
+      {{ editorDisplay }}
+    </div>
   </router-link>
 </template>
 

@@ -29,8 +29,14 @@ export default defineComponent({
 
 <template>
   <router-link :to="link" class="focused-media">
-    <div class="name">Track: {{ media.name }}</div>
-    <div class="artist">by {{ media.artistDisplay }}</div>
+    <div class="name">
+      <span class="label">Track: </span>
+      {{ media.name }}
+    </div>
+    <div class="artist">
+      <span class="label">by </span>
+      {{ media.artistDisplay }}
+    </div>
   </router-link>
 </template>
 

@@ -30,7 +30,7 @@ export default defineComponent({
     const panelEl = ref<HTMLElement | null>(null);
     const follow = ref(true);
     const { width: vpWidth, height: vpHeight } = useWindowSize();
-    const isDocumentVisible = useDocumentVisibility();
+    const documentVisible = useDocumentVisibility();
     const { isSafari, isMobile } = useDevice();
     const panelStyle = computed(() => {
       const padding = (vpWidth.value - props.itemSize) / 2;
@@ -72,7 +72,7 @@ export default defineComponent({
       }
     );
     watch(
-      () => isDocumentVisible.value,
+      () => documentVisible.value,
       (value) => {
         if (value) {
           eventBus.emit("radio:flow", "reset");

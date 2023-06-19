@@ -114,6 +114,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .radio {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 200px;
+  justify-content: flex-start;
+
   > .emission {
     display: flex;
     align-items: center;
