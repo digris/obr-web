@@ -8,7 +8,15 @@ export interface Action {
 export interface Message {
   level: "info" | "success" | "error";
   body: string;
-  key?: string;
+  key: string;
+  seen?: boolean;
+  ttl?: number;
+  action?: Action;
+}
+
+export interface CreateMessage {
+  level: "info" | "success" | "error";
+  body: string;
   seen?: boolean;
   ttl?: number;
   action?: Action;
@@ -26,7 +34,7 @@ export const useNotificationStore = defineStore("notification", {
     setMessageSeen(key: string) {
       this.messages = this.messages.filter((m: Message) => m.key !== key);
     },
-    async notify(message: Message): Promise<void> {
+    async notify(message: CreateMessage): Promise<void> {
       const key = Math.random().toString(36).substring(2);
       const { ttl } = message;
       this.messages.push({
