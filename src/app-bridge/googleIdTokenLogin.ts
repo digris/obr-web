@@ -1,8 +1,19 @@
 import { useRouter } from "vue-router";
+import type { AxiosError } from "axios";
 
 import { useAccount } from "@/composables/account";
 import { useNotification } from "@/composables/notification";
 import eventBus from "@/eventBus";
+
+type TokenResult = {
+  idToken?: {
+    tokenString: string;
+  };
+};
+
+type TokenPayload = {
+  result: TokenResult;
+};
 
 export const useIdTokenLogin = () => {
   const { loginUserByGoogleIdToken, loadUser, user, isNew } = useAccount();
@@ -12,12 +23,27 @@ export const useIdTokenLogin = () => {
   /*
     payload contains the whole data sent by obr-app
   */
-  const loginByIdToken = async (payload) => {
-    const { result, status } = payload;
-    console.debug("loginByIdToken", result, status);
+  const loginByIdToken = async (payload: TokenPayload) => {
+    const { result } = payload;
 
     const idToken = result?.idToken?.tokenString;
-    await loginUserByGoogleIdToken(idToken);
+    if (!idToken) {
+      return;
+    }
+
+    try {
+      await loginUserByGoogleIdToken(idToken);
+    } catch (err: unknown) {
+      const error = err as AxiosError;
+      const message = error.response?.data.message ?? "Login error";
+      await notify({
+        level: "error",
+        body: `login error: ${message}`,
+        ttl: 30,
+      });
+      return false;
+    }
+
     await loadUser();
 
     eventBus.emit("side-menu:hide");
@@ -31,6 +57,7 @@ export const useIdTokenLogin = () => {
         ttl: 3,
       });
     }
+    return true;
   };
   return {
     loginByIdToken,

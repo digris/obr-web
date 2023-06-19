@@ -17,7 +17,7 @@ interface PlayerState extends State {
   debugData: object;
 }
 
-export const usePlayerStore = defineStore("hlsPlayer", {
+export const usePlayerStore = defineStore("player", {
   state: (): PlayerState => ({
     mode: "live",
     playState: "stopped",
@@ -29,6 +29,13 @@ export const usePlayerStore = defineStore("hlsPlayer", {
     isVisible: false,
     debugData: {},
   }),
+  persist: {
+    afterRestore: (ctx) => {
+      console.log(`just restored '${ctx.store.$id}'`);
+      console.debug((ctx.store.$state.playState = "paused"));
+    },
+    paths: ["isVisible"],
+  },
   getters: {
     // mode mappers
     isLive(state: PlayerState): boolean {

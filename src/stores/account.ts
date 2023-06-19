@@ -29,6 +29,7 @@ export const useAccountStore = defineStore("account", {
     user: null,
     isNew: false,
   }),
+  persist: true,
   getters: {
     subscription: (state: State) => {
       return state.user?.subscription;

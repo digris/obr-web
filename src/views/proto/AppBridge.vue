@@ -1,6 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
 
+import { useDevice } from "@/composables/device";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
 
@@ -8,6 +9,7 @@ export default defineComponent({
   components: {},
   setup() {
     const appBridge = window.appBridge;
+    const { isApp, appVersion } = useDevice();
     const { queuedMedia: media } = useQueueState();
     const mediaUids = computed(() => {
       return media.value.map((m: any) => m?.uid);
@@ -27,6 +29,9 @@ export default defineComponent({
       });
     };
     return {
+      isApp,
+      appVersion,
+      //
       media,
       mediaUids,
       //
@@ -49,15 +54,17 @@ export default defineComponent({
   <div class="app-bridge">
     <h2>APP Bridge</h2>
     <section>
-      <div
+      <pre
         :style="{
-          width: '100px',
-          height: 'var(--sa-t)',
-          background: 'red',
+          minWidth: '200px',
+          // height: 'var(--sa-t)',
+          // background: 'red',
         }"
-      >
-        =
-      </div>
+        v-text="{
+          isApp,
+          appVersion,
+        }"
+      />
     </section>
     <section>
       <h4>Controls</h4>

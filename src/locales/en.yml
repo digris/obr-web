@@ -166,7 +166,7 @@ subscription:
   creditsUntilDate: Balance until {0}
   validNumDays: 1 day | {count} days
   validUntilDate: Valid until {0}
-  numUsedAndTotal: "{0} redeemed from {1}"
+  numUsedAndTotal: "redeemed: {0}/{1}"
   voucher:
     code: Voucher code
     invalidCode: Invalid Coupon Code

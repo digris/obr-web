@@ -31,7 +31,7 @@ export default defineComponent({
     const follow = ref(true);
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const isDocumentVisible = useDocumentVisibility();
-    const { isSafari } = useDevice();
+    const { isSafari, isMobile } = useDevice();
     const panelStyle = computed(() => {
       const padding = (vpWidth.value - props.itemSize) / 2;
       return {
@@ -49,7 +49,7 @@ export default defineComponent({
           top: 0,
           left: pos,
           // behavior: "smooth", // NOTE: likely we have to use "auto" on safari
-          behavior: isSafari ? "auto" : "smooth",
+          behavior: isSafari && !isMobile ? "auto" : "smooth",
         });
       } else {
         panelEl.value.scrollLeft = pos;

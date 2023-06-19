@@ -4,6 +4,7 @@ import { createI18n } from "vue-i18n";
 // import * as Sentry from "@sentry/vue";
 import log from "loglevel";
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
 // @ts-ignore
 import de from "@/locales/de.yml";
@@ -27,6 +28,7 @@ import "./style/main.scss";
 log.setLevel("TRACE");
 
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App);
 app.use(pinia);

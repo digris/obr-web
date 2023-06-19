@@ -26,7 +26,7 @@ export default defineComponent({
     const size = 200;
     const bg = "#ffffff00";
     const fg = computed(() => {
-      return darkMode.value ? "#000000" : "#ffffff";
+      return darkMode.value ? "#ffffff" : "#000000";
     });
     return {
       t,

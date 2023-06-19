@@ -451,16 +451,6 @@ class GoogleIdTokenLoginView(
         id_token = request_serializer.validated_data["id_token"]
 
         try:
-            google_id_token_login.validate_id_token(id_token)
-        except google_id_token_login.IdTokenValidationError as e:
-            return Response(
-                {
-                    "message": f"{e}",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
             user, user_created = google_id_token_login.get_or_create_user(
                 request=request,
                 token=id_token,
