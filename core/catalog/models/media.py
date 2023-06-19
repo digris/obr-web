@@ -66,7 +66,16 @@ class Media(
 
     @property
     def artist_display(self):
-        return ", ".join(str(ma.artist) for ma in self.media_artist.all())
+        parts = []
+        for ma in self.media_artist.all():
+            if join_phrase := ma.join_phrase:
+                prefix = "" if join_phrase == "," else " "
+                suffix = "." if join_phrase == "feat" else ""
+                parts.append(prefix + join_phrase + suffix)
+            parts.append(" " + str(ma.artist))
+        return "".join(parts).strip()
+
+        # return ", ".join(str(ma.artist) for ma in self.media_artist.all())
 
     @property
     def release_display(self):
