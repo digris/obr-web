@@ -9,6 +9,7 @@ export type { Editor } from "./api";
 export type { Artist } from "./api";
 export type { Media } from "./api";
 export type { Mood } from "./api";
+export type { MediaArtist } from "./api";
 
 // subscription
 export type { UserVoucher } from "./api";

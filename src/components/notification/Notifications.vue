@@ -1,22 +1,9 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script lang="ts" setup>
 import { useNotification } from "@/composables/notification";
 
 import CloseButton from "./CloseButton.vue";
 
-export default defineComponent({
-  components: {
-    CloseButton,
-  },
-  setup() {
-    const { messages, setMessageSeen } = useNotification();
-    return {
-      messages,
-      setMessageSeen,
-    };
-  },
-});
+const { messages, setMessageSeen } = useNotification();
 </script>
 
 <template>
@@ -31,10 +18,12 @@ export default defineComponent({
         <CloseButton />
       </div>
       <div class="body" v-text="message.body" />
-      <div v-if="message.action && message.action.label" class="action">
-        <router-link :to="message.action.url" class="button">
-          {{ message.action.label }}
-        </router-link>
+      <div v-if="message.action" class="action">
+        <router-link
+          :to="message.action.url"
+          class="button"
+          v-text="message.action.label"
+        />
       </div>
     </div>
   </div>

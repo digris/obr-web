@@ -1,17 +1,13 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import type { MediaArtist } from "@/typings";
 
-export default defineComponent({
-  props: {
-    artists: {
-      type: Array,
-      default: () => [],
-    },
-    link: {
-      type: Boolean,
-      default: true,
-    },
-  },
+interface Props {
+  artists: Array<MediaArtist>;
+  link?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  link: true,
 });
 </script>
 
