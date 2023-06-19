@@ -22,6 +22,7 @@ export const useCatalogStore = defineStore("catalog", {
     //
     loading: [],
   }),
+  persist: true,
   getters: {
     artistByUid: (state: State) => (uid: string) => {
       return state.artists.find((obj) => obj.uid === uid) || null;

@@ -1,7 +1,6 @@
 import logging
 
 from django.conf import settings
-from django.utils.translation import gettext_lazy as _
 
 from account.models import User
 from google.auth.exceptions import GoogleAuthError
@@ -10,31 +9,14 @@ from google.oauth2 import id_token
 
 CLIENT_ID = settings.GOOGLE_AUTH_CLIENT_ID
 
+SOCIAL_AUTH_PROVIDER = "google-oauth2"
+
 
 logger = logging.getLogger(__name__)
 
 
-class IdTokenValidationError(Exception):
-    pass
-
-
 class IdTokenLoginError(Exception):
     pass
-
-
-def validate_id_token(token):
-    logger.debug(f"initiate id-token login: {token}")
-
-    try:
-        id_data = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
-    except GoogleAuthError as e:
-        raise IdTokenValidationError(f"Auth error: {e}") from e
-
-    try:
-        print(id_data)
-        return id_data
-    except ValueError as e:
-        raise IdTokenValidationError(_("Invalid token")) from e
 
 
 def get_or_create_user(request, token):
@@ -43,13 +25,29 @@ def get_or_create_user(request, token):
     try:
         id_data = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
     except GoogleAuthError as e:
-        raise IdTokenLoginError(f"Auth error: {e}") from e
+        raise IdTokenLoginError(f"auth error: {e}") from e
 
+    if id_data["aud"] != CLIENT_ID:
+        raise IdTokenLoginError("invalid token audience.")
+
+    user_created = False
+    social_auth_uid = id_data["sub"]
     email = id_data["email"]
     first_name = id_data.get("given_name", "")
     last_name = id_data.get("family_name", "")
 
-    user_created = False
+    try:
+        user = User.objects.get(
+            social_auth__provider=SOCIAL_AUTH_PROVIDER,
+            social_auth__uid=social_auth_uid,
+        )
+        logger.info(
+            f"got existing social-auth user: {user} - social-auth uid: {social_auth_uid}",
+        )
+        return user, user_created
+    except User.DoesNotExist:
+        pass
+
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
@@ -63,13 +61,18 @@ def get_or_create_user(request, token):
         user.save()
         user_created = True
 
-    # NOTE: this is just a temporary solution... ;)
-    if not user.social_auth.filter(provider="google-oauth2").exists():
-        logger.info(f"create dummy social auth for: {user}")
+    # NOTE: this is just a temporary solution...
+    if not user.social_auth.filter(
+        provider=SOCIAL_AUTH_PROVIDER,
+        uid=social_auth_uid,
+    ).exists():
+        logger.info(
+            f"create social auth for: {user} - social-auth uid: {social_auth_uid}",
+        )
         user.social_auth.create(
             user=user,
-            provider="google-oauth2",
-            uid=user.email,
+            provider=SOCIAL_AUTH_PROVIDER,
+            uid=social_auth_uid,
         )
 
     return user, user_created

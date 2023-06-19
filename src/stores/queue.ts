@@ -23,6 +23,7 @@ export const useQueueStore = defineStore("queue", {
     media: [],
     currentIndex: -1,
   }),
+  persist: true,
   getters: {
     numMedia(state: State): number {
       return state.media.length;

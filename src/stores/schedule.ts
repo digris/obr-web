@@ -25,6 +25,7 @@ export const useScheduleStore = defineStore("schedule", {
   state: (): State => ({
     schedule: [],
   }),
+  persist: true,
   getters: {
     time(): DateTime {
       const { time } = useTimeStore();

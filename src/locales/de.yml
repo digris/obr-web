@@ -169,7 +169,7 @@ subscription:
   creditsUntilDate: Guthaben bis am {0}
   validNumDays: 1 Tag | {count} Tage
   validUntilDate: Gültig bis am {0}
-  numUsedAndTotal: "{0} von {1} eingelöst"
+  numUsedAndTotal: "eingelöst: {0}/{1}"
   voucher:
     code: Gratis-Code
     invalidCode: Ungültiger Gutschein-Code

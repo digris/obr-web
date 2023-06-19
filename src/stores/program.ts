@@ -29,6 +29,7 @@ export const useProgramStore = defineStore("program", {
   state: (): State => ({
     emissions: [],
   }),
+  // persist: true,
   actions: {
     async loadEmissions(date: DateTime): Promise<void> {
       const program = await getProgram(date.toISODate());

@@ -2,10 +2,29 @@
 // import { useWindowSize } from "@vueuse/core";
 import { computed } from "vue";
 import Bowser from "bowser";
+import { coerce as semverCoerce } from "semver";
 import { storeToRefs } from "pinia";
 
 import settings from "@/settings";
 import { useUiStore } from "@/stores/ui";
+
+type AppVersion = {
+  major: number;
+  minor: number;
+  patch: number;
+};
+
+const parseAppUA = (ua: string): null | AppVersion => {
+  if (!ua.toLowerCase().startsWith("obr-app-ios/")) {
+    return null;
+  }
+  const semVer = semverCoerce(ua.substring(12));
+  if (!semVer) {
+    return null;
+  }
+  const { major, minor, patch } = semVer;
+  return { major, minor, patch };
+};
 
 const parser = Bowser.getParser(window.navigator.userAgent);
 const osName = parser.getOSName(true);
@@ -18,6 +37,7 @@ const useDevice = () => {
   const isIos = osName === "ios";
   const isSafari = browserName === "safari";
   const isApp = settings.CLIENT_MODE === "app";
+  const appVersion = isApp ? parseAppUA(parser.getUA()) : null;
   const isWeb = !isApp;
 
   const { vpWidth, vpHeight } = storeToRefs(useUiStore());
@@ -31,6 +51,7 @@ const useDevice = () => {
     isIos,
     isSafari,
     isApp,
+    appVersion,
     isWeb,
     osName,
     browserName,

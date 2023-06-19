@@ -2,7 +2,7 @@
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useClipboard } from "@vueuse/core";
+import { useClipboard, useShare } from "@vueuse/core";
 
 import QRCodeVoucher from "@/components/account/qrcode/QRCodeVoucher.vue";
 import Datetime from "@/components/ui/date/Datetime.vue";
@@ -30,11 +30,20 @@ export default defineComponent({
         display,
       };
     });
+    const { share, isSupported: shareSupported } = useShare();
     const { copy: copyCode, copied: copiedCode } = useClipboard({
       source: props.voucher.codeDisplay,
     });
+    const shareCode = () => {
+      share({
+        title: `Code: ${props.voucher.codeDisplay}`,
+        url: link.value.href,
+      });
+    };
     return {
       t,
+      shareCode,
+      shareSupported,
       copyCode,
       copiedCode,
       link,
@@ -58,17 +67,20 @@ export default defineComponent({
         <i18n-t keypath="subscription.validNumDays" :plural="voucher.numDays" />
       </div>
       <div class="usage">
-        <i18n-t keypath="subscription.numUsedAndTotal">
-          <span v-text="voucher.numUsed" />
-          <span v-text="voucher.maxNumUse" />
-        </i18n-t>
-        <span> - </span>
-        <i18n-t keypath="subscription.validUntilDate">
-          <Datetime :value="voucher.validUntil" :display-time="false" />
-        </i18n-t>
+        <div class="usage__count">
+          <i18n-t keypath="subscription.numUsedAndTotal">
+            <span v-text="voucher.numUsed" />
+            <span v-text="voucher.maxNumUse" />
+          </i18n-t>
+        </div>
+        <div class="usage__date">
+          <i18n-t keypath="subscription.validUntilDate">
+            <Datetime :value="voucher.validUntil" :display-time="false" />
+          </i18n-t>
+        </div>
       </div>
-      <div class="link">
-        <a @click.prevent="false" :href="link.href" v-text="link.display" />
+      <div v-if="shareSupported" class="share">
+        <span @click.prevent="shareCode" class="button" v-text="`Share Code`" />
       </div>
     </div>
     <div class="invalid-notice" v-if="!voucher.isValid">
@@ -80,23 +92,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+@use "@/style/elements/button";
 
 .voucher {
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: 169px 1fr;
   padding: 1rem;
-  background: rgb(var(--c-green));
-  color: rgb(var(--c-light));
+  background: rgb(var(--c-dark) / 5%);
+  color: rgb(var(--c-dark));
+  position: relative;
 
   &.is-invalid {
-    color: rgb(var(--c-light) / 50%);
-    background: rgb(var(--c-dark) / 50%);
+    color: rgb(var(--c-dark) / 25%);
     pointer-events: none;
-    position: relative;
 
     .qr-code {
-      opacity: 0.5;
+      opacity: 0.25;
     }
 
     .invalid-notice {
@@ -167,18 +179,36 @@ export default defineComponent({
     }
 
     .usage {
-      flex-grow: 1;
-      display: flex;
-      align-items: end;
+      align-items: center;
       line-height: 1.5;
       white-space: break-spaces;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: flex-end;
+
+      &__count {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        text-transform: capitalize;
+      }
+
+      &__date {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+      }
     }
 
-    .link {
-      user-select: text;
+    .share {
+      padding: 0.5rem 1rem 0;
 
-      > a {
+      > span {
+        @include typo.large;
+
         text-decoration: underline;
+        cursor: pointer;
       }
     }
   }
@@ -186,6 +216,7 @@ export default defineComponent({
   @include responsive.bp-medium {
     grid-template-columns: unset;
     grid-template-rows: 169px 1fr;
+    background: transparent;
 
     .qr-code {
       margin-top: 0;

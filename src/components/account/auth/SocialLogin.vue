@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { computed, defineComponent, onMounted, ref } from "vue";
 import { refAutoReset } from "@vueuse/core";
 
 import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
@@ -36,7 +36,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { isApp } = useDevice();
+    const { isApp, appVersion } = useDevice();
     const authBackends = ref<Array<Backend>>([]);
     const iOSMaskVisible = refAutoReset(false, 5000);
     const fetchBackends = async () => {
@@ -44,6 +44,13 @@ export default defineComponent({
       const backends = await getSocialBackends();
       authBackends.value = backends.auth;
     };
+    const availableBackends = computed(() => {
+      // NOTE: temporarily disable oauth2 for app versions prior to 1.0.1
+      if (isApp && appVersion?.major !== 1) {
+        return authBackends.value.filter((b) => b.provider !== "google-oauth2");
+      }
+      return authBackends.value;
+    });
     const getProviderLogo = (provider: string) => {
       const key = provider.split("-")[0];
       return ICONS[key];
@@ -89,7 +96,7 @@ export default defineComponent({
     onMounted(fetchBackends);
 
     return {
-      authBackends,
+      availableBackends,
       beginLogin,
       disconnect,
       getProviderLogo,
@@ -102,9 +109,15 @@ export default defineComponent({
 
 <template>
   <div class="social-login">
-    <section v-if="authBackends.length" class="backends backends--disconnected">
+    <section
+      v-if="availableBackends.length"
+      class="backends backends--disconnected"
+      :style="{
+        '--num-backends': availableBackends.length,
+      }"
+    >
       <div
-        v-for="backend in authBackends"
+        v-for="backend in availableBackends"
         :key="`disconnected-backend-${backend.provider}`"
         @click="beginLogin(backend)"
         class="backend"
@@ -141,7 +154,10 @@ export default defineComponent({
 
     @include responsive.bp-medium {
       grid-template-columns: repeat(1, 1fr);
-      min-height: 108px;
+
+      // min-height: 108px;
+
+      min-height: calc(var(--num-backends) * 54px);
     }
 
     &--loading {

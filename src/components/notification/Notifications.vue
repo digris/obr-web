@@ -48,7 +48,7 @@ export default defineComponent({
   top: 88px;
   position: fixed;
   right: 8px;
-  z-index: 25;
+  z-index: 125;
 
   @include responsive.bp-medium {
     top: calc(var(--sa-t) + 66px);

@@ -32,9 +32,8 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const { isApp } = useDevice();
+    const { isApp, isDesktop } = useDevice();
     const { user, subscription, settings, address, loadUser } = useAccount();
-    const { isDesktop } = useDevice();
     const socialNext = window.location.pathname;
     return {
       t,

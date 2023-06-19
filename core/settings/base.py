@@ -232,6 +232,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env(
     default="",
 )
 
+# use unique google account ids instead of email
+SOCIAL_AUTH_GOOGLE_OAUTH2_USE_UNIQUE_USER_ID = True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     "https://www.googleapis.com/auth/userinfo.email",
