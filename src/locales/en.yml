@@ -192,5 +192,10 @@ geolocation:
     note: Currently we can only provide access to our on-demand service for people living in Switzerland.
     faqNote: More about in the {0} section.
     faqLabel: FAQ
+browserCompatibility:
+  notSupported:
+    note: It looks like your browser ({0}) is not officially supported.
+    faqNote: Read more in our {0} section.
+    faqLabel: FAQ
 pages:
   pageNotFound: Page not found

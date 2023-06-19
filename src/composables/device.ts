@@ -55,6 +55,7 @@ const useDevice = () => {
     isWeb,
     osName,
     browserName,
+    uaParser: parser,
     //
     vpWidth,
     vpHeight,

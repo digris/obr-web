@@ -4,6 +4,7 @@ import type { Emitter } from "mitt";
 
 import { AppBridge } from "@/app-bridge/appBridge";
 import AuthSidebar from "@/components/account/auth/AuthSidebar.vue";
+import CompatibilityNotice from "@/components/browser-compatibility/CompatibilityNotice.vue";
 import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
 import CookieConsent from "@/components/legal/CookieConsent.vue";
 import LegalLinks from "@/components/legal/LegalLinks.vue";
@@ -47,6 +48,7 @@ export default defineComponent({
     MobilePlayer,
     ClaimVoucher,
     CookieConsent,
+    CompatibilityNotice,
     LegalLinks,
   },
   setup() {
@@ -97,4 +99,5 @@ export default defineComponent({
   <Player v-else />
   <LegalLinks />
   <CookieConsent />
+  <CompatibilityNotice />
 </template>

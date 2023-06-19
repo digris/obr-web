@@ -1,54 +1,59 @@
-<script lang="ts">
-import type { PropType } from "vue";
-import { computed, defineComponent, onActivated, onMounted, ref } from "vue";
-import { whenever } from "@vueuse/core";
+<script lang="ts" setup>
+import { computed, onActivated, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useEventListener, whenever } from "@vueuse/core";
 import { useRouteHash } from "@vueuse/router";
 import showdown from "showdown";
 
 import ExpandableSection from "@/components/ui/section/ExpandableSection.vue";
 import type { Topic } from "@/typings/api";
 
-const converter = new showdown.Converter();
+const props = defineProps<{
+  topic: Topic;
+}>();
 
-export default defineComponent({
-  components: {
-    ExpandableSection,
-  },
-  props: {
-    topic: {
-      type: Object as PropType<Topic>,
-      required: true,
-    },
-  },
-  setup(props) {
-    const hash = useRouteHash();
-    const el = ref<HTMLAnchorElement | null>(null);
-    const uid = computed(() => props.topic.uid);
-    const isExpanded = computed(() => hash.value === `#${uid.value}`);
-    const onExpand = () => (hash.value = `#${uid.value}`);
-    const onCondense = () => (hash.value = "");
-    const answerHtml = computed(() => converter.makeHtml(props.topic.answer));
-    const scrollTo = () => {
-      if (isExpanded.value && el.value) {
-        // @ts-ignore
-        el.value?.scrollIntoViewIfNeeded({
-          block: "start",
-          behavior: "smooth",
-        });
-      }
-    };
-    whenever(isExpanded, scrollTo);
-    onActivated(() => scrollTo);
-    onMounted(() => scrollTo);
-    return {
-      el,
-      isExpanded,
-      onExpand,
-      onCondense,
-      answerHtml,
-    };
-  },
+const converter = new showdown.Converter({
+  openLinksInNewWindow: true,
 });
+
+const router = useRouter();
+const hash = useRouteHash();
+const linkEl = ref<HTMLAnchorElement | null>(null);
+const uid = computed(() => props.topic.uid);
+const isExpanded = computed(() => hash.value === `#${uid.value}`);
+const onExpand = () => (hash.value = `#${uid.value}`);
+const onCondense = () => (hash.value = "");
+const answerHtml = computed(() => converter.makeHtml(props.topic.answer));
+
+// override link handling
+const answerEl = ref<HTMLElement | null>(null);
+useEventListener(answerEl, "click", (e) => {
+  const origin = (e.target as Element).closest("a");
+  const href = origin?.getAttribute("href");
+  if (!href) {
+    return;
+  }
+  if (href.startsWith("/")) {
+    console.debug("FAQ: internal link - navigate via router", href);
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    router.push(href);
+  }
+});
+
+const scrollTo = () => {
+  if (isExpanded.value && linkEl.value) {
+    // @ts-ignore
+    linkEl.value?.scrollIntoViewIfNeeded({
+      block: "start",
+      behavior: "smooth",
+    });
+  }
+};
+whenever(isExpanded, scrollTo);
+onActivated(scrollTo);
+onMounted(scrollTo);
 </script>
 
 <template>
@@ -59,9 +64,9 @@ export default defineComponent({
     class="topic"
   >
     <template #title>
-      <a ref="el" :href="`#${topic.uid}`" @click.prevent v-text="topic.question" />
+      <a ref="linkEl" :href="`#${topic.uid}`" @click.prevent v-text="topic.question" />
     </template>
-    <div class="answer markdown" v-html="answerHtml" />
+    <div ref="answerEl" class="answer markdown" v-html="answerHtml" />
   </ExpandableSection>
 </template>
 

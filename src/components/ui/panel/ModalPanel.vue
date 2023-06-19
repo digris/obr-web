@@ -54,6 +54,9 @@ export default defineComponent({
             <slot name="default" />
           </div>
         </div>
+        <div v-if="hasFooter" class="modal-panel__footer">
+          <slot name="footer" />
+        </div>
         <div v-if="hasSuccess" class="modal-panel__success">
           <slot name="success" />
         </div>
@@ -79,7 +82,7 @@ export default defineComponent({
   justify-content: center;
   color: rgb(var(--c-dark) / 100%);
   font-weight: 500;
-  background: rgb(var(--c-dark) / 80%);
+  background: rgb(0 0 0 / 80%);
 
   .container {
     @include container.small;

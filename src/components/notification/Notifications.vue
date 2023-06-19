@@ -19,11 +19,7 @@ const { messages, setMessageSeen } = useNotification();
       </div>
       <div class="body" v-text="message.body" />
       <div v-if="message.action" class="action">
-        <router-link
-          :to="message.action.url"
-          class="button"
-          v-text="message.action.label"
-        />
+        <router-link :to="message.action.url" class="button" v-text="message.action.label" />
       </div>
     </div>
   </div>
