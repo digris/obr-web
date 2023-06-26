@@ -1,6 +1,7 @@
 import { useIntervalFn } from "@vueuse/core";
 import log from "loglevel";
 
+import { useAccount } from "@/composables/account";
 import { useDevice } from "@/composables/device";
 import { usePlayerStore } from "@/stores/player";
 import { useQueueStore } from "@/stores/queue";
@@ -64,12 +65,14 @@ type receiveChannel =
   | "player:update"
   // schedule
   | "schedule:update"
-  // settings
-  | "settings:update"
   // ui
   | "ui:update"
   // rating
   | "rating:update"
+  // settings
+  | "settings:update"
+  // settings
+  | "account:update"
   // sign-in
   | "googleSignin:completed";
 
@@ -152,6 +155,12 @@ class AppBridge {
       heartbeatDelay: HEARTBEAT_HEARTBEAT_DELAY,
     };
     await this.send("heartbeat:setDelays", delays);
+
+    // send accessToken in case of existing user session
+    const { user } = useAccount();
+    if (user.value?.accessToken) {
+      await this.send("account:setAccessToken", {accessToken: user.value?.accessToken})
+    }
   }
   async heartbeat(): Promise<void> {
     // log.debug("AppBridge - heartbeat");
@@ -159,9 +168,9 @@ class AppBridge {
   }
   // web > native - SEND payload TO swift-app channel
   async send(channel: sendChannel, data?: object) {
-    // if (channel !== "heartbeat") {
-    //   log.debug("AppBridge - send", channel, data);
-    // }
+    if (channel !== "heartbeat") {
+      log.debug("AppBridge - send", channel, data);
+    }
     const message: SendMessage = {
       c: channel,
     };
@@ -217,6 +226,9 @@ class AppBridge {
         console.debug("schedule", data.schedule);
         const { setSchedule } = useScheduleStore();
         await setSchedule(data.schedule);
+        break;
+      }
+      case "account:update": {
         break;
       }
       case "googleSignin:completed": {
