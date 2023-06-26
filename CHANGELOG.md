@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.112 (2023-06-26)
+### Fix
+* Reauthenticate app-user in case of existing session ([`81846a8`](https://github.com/digris/obr-web/commit/81846a89d16c2ff2159f3cb6ed06e44171104e5c))
+
 ## v0.0.111 (2023-05-25)
 ### Fix
 * Use native HLS on safari. ([`4974ef6`](https://github.com/digris/obr-web/commit/4974ef66a775dc790b1af9e3439268577f39c59f))
