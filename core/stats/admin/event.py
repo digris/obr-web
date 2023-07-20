@@ -19,6 +19,7 @@ class PlayerEventAdmin(
         "device_key",
     ]
     list_filter = [
+        "source",
         "time",
         "state",
         "ingested",

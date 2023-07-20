@@ -159,7 +159,7 @@ class AppBridge {
     // send accessToken in case of existing user session
     const { user } = useAccount();
     if (user.value?.accessToken) {
-      await this.send("account:setAccessToken", {accessToken: user.value?.accessToken})
+      await this.send("account:setAccessToken", { accessToken: user.value?.accessToken });
     }
   }
   async heartbeat(): Promise<void> {
