@@ -8,7 +8,6 @@
       <li>High-Quality Streaming</li>
       <li>Always up to date</li>
       <li>Listen to the whole catalog when & where<small>*</small> you want!</li>
-      <li>Proin imperdiet tempus consectetur.</li>
     </ul>
   </div>
 </template>

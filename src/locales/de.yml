@@ -10,14 +10,14 @@ catalog:
     playlist: Show | Shows
     numMedia: 1 Track | {count} Tracks
   list:
-#    playAllTracks: Track spielen | Alle {count} Tracks spielen
     playAllTracks: Alle Tracks spielen | Alle {count} Tracks spielen
 menu:
   accountSettings: Konto Einstellungen
   admin: Admin
   userVouchers: Gutschein Codes
   home: Radio
-  discover: Discover
+#  discover: Discover
+  discover: Erkunden
   collection: Favoriten
   program: Programm
   reception: Empfang
@@ -25,9 +25,9 @@ menu:
   about: About
   contact: Kontakt
   donate: Spenden
-  developers: Developers
+  developers: Entwickler*innen
   imprint: Impressum
-  dpp: Datenschutzerklarung
+  dpp: Datenschutzerklärung
   terms: AGB
   logout: Abmelden
 navigation:
@@ -35,7 +35,7 @@ navigation:
     title: Suche
     noResults: Sorry! Keine Einträge gefunden.
     cta: Durchsuche das open broadcast Archiv.
-    info: Du kannst nach Tracks, Releases oder Künsternamem suchen.
+    info: Du kannst nach Tracks, Releases oder Namen von Künstler*innen suchen.
 search:
   search: Suche
 program:
@@ -97,7 +97,7 @@ account:
     loginToken: Login-Code
     loginEmailSent:
       title: Eine E-Mail mit einem Login-Code wurde an {0} geschickt.
-      note: Falls du keine Nachricht erhalten hast, prüfe deinen Spam Ordner.
+      note: Falls du keine Nachricht erhalten hast, prüfe deinen Spam-Ordner.
     loginEmailSendAgain: E-Mail erneut senden
     social:
       continueWith: Weiter mit {0}
@@ -147,9 +147,9 @@ account:
       gender:
         label: Pronomen
         options:
-          female: she/her
-          male: he/his
-          other: they/them
+          female: sie/ihr
+          male: er/sein
+          other: they/their
     newsletter:
       title: Newsletter
     social:
@@ -158,10 +158,10 @@ account:
       connect: verbinden
       disconnect: trennen
       loginAccounts:
-        title: Login Konten
+        title: Login-Konten
       streamingAccounts:
-        title: Streaming Konten
-        info: Verbundene streaming Konten  # TODO: Text needed
+        title: Streaming-Konten
+        info: Verbundene streaming-Konten
 subscription:
   credits: Guthaben
   creditsExpired: Guthaben abgelaufen
@@ -177,8 +177,8 @@ subscription:
     authenticateAndRedeem: Anmelden und einlösen
   subscribe:
     title: Guthaben
-    lead: "Keine Abos - dafür Prepaid Guthaben!\n
-           Die von uns gespielten Inhalte zu jederzeit hören für {0} pro Monat."
+    lead: "Keine Abos - dafür Prepaid-Guthaben!\n
+           Die von uns gespielten Inhalte jederzeit hören für {0} pro Monat."
     ctaVoucher:
       text: Hast du einen {0}?
       button: Gratis-Code
@@ -187,7 +187,7 @@ subscription:
       button: Guthaben kaufen.
     # SubscribePlan.vue
     total:
-      legal: Total inkl. aller Steuren und Gebühren
+      legal: Total inkl. aller Steuern und Gebühren
     payNow: Jetzt Bezahlen
     # SubscribeVoucher.vue
     redeemNow: Jetzt Jetzt Einlösen
@@ -198,8 +198,8 @@ geolocation:
     faqLabel: FAQ
 browserCompatibility:
   notSupported:
-    note: It looks like your browser ({0}) is not officially supported.
-    faqNote: Read more in our {0} section.
+    note: Es scheint, dass dein Browser ({0}) nicht offiziell unterstützt wird.
+    faqNote: Informationen dazu unter {0}
     faqLabel: FAQ
 pages:
   pageNotFound: Seite nicht gefunden

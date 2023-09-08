@@ -22,20 +22,24 @@ export default defineComponent({
 <i18n lang="yaml">
 de:
   title: Spenden
-  lead: Du kannst uns gerne mit einer Spende unterstützen.
+  lead: Wir erweitern unser Programm kontinuierlich. Das kostet Geld.
+  lead2: Mit einer Spende hilfst du uns, dir noch mehr Musik aus der ganzen Welt präsentieren zu können.
   bankTransfer: Überweisung
   thankYou: Wir danken für die Unterstützung!
 en:
   title: Donate
-  lead: Support us
-  bankTransfer: Wire
-  thankYou: THX
+  lead: We are constantly expanding our program. That costs money.
+  lead2: With a donation you help us to present you even more music from all over the world.
+  bankTransfer: Bank Transfer
+  thankYou: Thank you for your support!
 </i18n>
 
 <template>
   <Page :title="t('title')">
     <template #lead>
       {{ t("lead") }}
+      <br />
+      {{ t("lead2") }}
     </template>
     <div class="donate">
       <div class="method transfer">
