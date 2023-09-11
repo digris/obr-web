@@ -53,6 +53,8 @@ class AccountHandler {
     );
     useIntervalFn(async () => {
       await loadUser();
+      // NOTE: consider calling heartbeat from another place.
+      // await sendHeartbeat();
     }, FAST_POLLING_INTERVAL);
     useIntervalFn(
       async () => {

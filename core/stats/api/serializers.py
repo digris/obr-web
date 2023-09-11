@@ -1,6 +1,6 @@
 from api_extra.serializers import CTUIDModelSerializer
 from rest_framework import serializers
-from stats.models import StreamEvent
+from stats.models import Heartbeat, StreamEvent
 
 
 class PlayerEventCreateSerializer(
@@ -49,6 +49,38 @@ class StreamEventSerializer(
             "seconds_connected",
             "time_start",
             "time_end",
+        ]
+
+
+class HeartbeatCreateSerializer(
+    CTUIDModelSerializer,
+):
+    in_foreground = serializers.BooleanField(
+        default=False,
+    )
+
+    player_source = serializers.ChoiceField(
+        choices=[
+            "live",
+            "ondemand",
+        ],
+    )
+
+    player_state = serializers.ChoiceField(
+        choices=[
+            "playing",
+            "stopped",
+            "paused",
+            "buffering",
+        ],
+    )
+
+    class Meta(CTUIDModelSerializer.Meta):
+        model = Heartbeat
+        fields = CTUIDModelSerializer.Meta.fields + [
+            "in_foreground",
+            "player_source",
+            "player_state",
         ]
 
 
