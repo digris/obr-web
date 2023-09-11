@@ -1,5 +1,6 @@
 from django.db.models.functions import Now
 
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,8 +11,16 @@ from stats.models import Heartbeat
 class HeartbeatView(
     APIView,
 ):
+    @extend_schema(
+        methods=["PUT"],
+        operation_id="stats_heartbeat",
+        description="""Send Heartbeat""",
+        request=serializers.HeartbeatCreateSerializer,
+        responses={
+            201: None,
+        },
+    )
     def put(self, request):
-
         # NOTE: this is just a minimalistic serializer, as the only field we get from the
         #       client is `in_foreground`.
         #       to handle this situation in the same way as in other views we use a serializer here as well.
