@@ -22,6 +22,7 @@ import type { EventBusEvents } from "@/eventBus";
 import { HlsPlayer } from "@/player/hlsPlayer";
 import createMediaSessionHandler from "@/player/mediaSession";
 import createEventHandler from "@/stats/event";
+import createHeartbeatHandler from "@/stats/heartbeat";
 import createAccountHandler from "@/utils/account";
 import createScheduleHandler from "@/utils/schedule";
 import createUIStateHandler from "@/utils/ui";
@@ -70,6 +71,7 @@ export default defineComponent({
 
     createAccountHandler();
     createUIStateHandler();
+    createHeartbeatHandler();
 
     const { loadUser } = useAccount();
     loadUser();

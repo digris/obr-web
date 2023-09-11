@@ -21,6 +21,11 @@ urlpatterns = [
         name="stream-events",
     ),
     path(
+        "heartbeat/",
+        views.HeartbeatView.as_view(),
+        name="heartbeat",
+    ),
+    path(
         "archive/",
         views.StatsArchiveView.as_view(),
         name="archive",

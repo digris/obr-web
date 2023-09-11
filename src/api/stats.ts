@@ -8,8 +8,12 @@ async function createPlayerEvents(events: Array<object>) {
   const payload = {
     events: [...events],
   };
-  const response = await APIClient.put(url, payload);
-  return response;
+  return await APIClient.put(url, payload);
 }
 
-export { createPlayerEvents };
+async function sendHeartbeat(payload: object) {
+  const url = `${STATS_ENDPOINT}heartbeat/`;
+  return await APIClient.put(url, payload);
+}
+
+export { createPlayerEvents, sendHeartbeat };
