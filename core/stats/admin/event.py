@@ -3,6 +3,7 @@ from django.utils.html import mark_safe
 
 from stats.models import PlayerEvent, StreamEvent
 from ua_parser import user_agent_parser
+from user_identity.admin import get_admin_link_for_user_identity
 
 
 @admin.register(PlayerEvent)
@@ -10,12 +11,13 @@ class PlayerEventAdmin(
     admin.ModelAdmin,
 ):
     list_display = [
-        "time",
+        "user_identity",
+        "user_display",
         "state",
         "duration_display",
         "obj_key",
         "source",
-        "user_identity",
+        # "user_identity",
         "device_key",
     ]
     list_filter = [
@@ -24,12 +26,17 @@ class PlayerEventAdmin(
         "state",
         "ingested",
     ]
+    ordering = ["-time"]
     date_hierarchy = "time"
     search_fields = [
         "obj_key",
         "user_identity",
         "device_key",
     ]
+
+    @admin.display(description="User")
+    def user_display(self, obj):
+        return get_admin_link_for_user_identity(obj.user_identity)
 
     @admin.display(description="Duration")
     def duration_display(self, obj):
