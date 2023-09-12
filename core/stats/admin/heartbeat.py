@@ -55,6 +55,8 @@ class HeartbeatAdmin(
     list_filter = [
         ("time", IsOnlineFilter),
         "in_foreground",
+        "player_source",
+        "player_state",
     ]
     date_hierarchy = "time"
     search_fields = [
