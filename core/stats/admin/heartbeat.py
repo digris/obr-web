@@ -67,6 +67,7 @@ class HeartbeatAdmin(
         "user_identity",
         "device_key",
         "user_agent",
+        "remote_ip",
         "in_foreground",
         "player_source",
         "player_state",

@@ -29,12 +29,13 @@ class HeartbeatView(
         )
 
         if serializer.is_valid():
-            heartbeat, _ = Heartbeat.objects.update_or_create(
+            Heartbeat.objects.update_or_create(
                 user_identity=request.user_identity,
                 device_key=request.device_key,
                 defaults={
                     "time": Now(),
                     "user_agent": request.headers.get("User-Agent", ""),
+                    "remote_ip": request.remote_ip,
                 }
                 | serializer.validated_data,
             )

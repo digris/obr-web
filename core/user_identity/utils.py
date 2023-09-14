@@ -2,13 +2,13 @@ import base64
 import hashlib
 
 
-def get_sha1(value):
+def encode_sha1(value):
     hashed_value = hashlib.sha1()  # NOQA: S324
     hashed_value.update(value.encode("ascii"))
     return hashed_value.hexdigest()
 
 
-def get_base64(value):
+def encode_base64(value):
     return base64.b64encode(value.encode("ascii")).decode("ascii")
 
 
@@ -31,9 +31,9 @@ def get_anonymous_user_key(request):
     accept_language = get_accept_language(request)
 
     parts = [
-        get_base64(remote_ip),
-        get_sha1(user_agent)[:10],
-        get_sha1(accept_language)[:10],
+        encode_base64(remote_ip),
+        encode_sha1(user_agent)[:10],
+        encode_sha1(accept_language)[:10],
     ]
 
     return "anonymous:" + "-".join(parts)
@@ -52,9 +52,9 @@ def get_device_key(request):
     accept_language = get_accept_language(request)
 
     parts = [
-        get_base64(remote_ip),
-        get_sha1(user_agent)[:10],
-        get_sha1(accept_language)[:10],
+        encode_base64(remote_ip),
+        encode_sha1(user_agent)[:10],
+        encode_sha1(accept_language)[:10],
     ]
 
     return "-".join(parts)

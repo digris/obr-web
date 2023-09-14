@@ -28,6 +28,10 @@ class Heartbeat(
         blank=True,
         default="",
     )
+    remote_ip = models.GenericIPAddressField(
+        null=True,
+        blank=True,
+    )
     # NOTE: browser & state related. this actually could be derived,
     #       but can be useful to have them here.
     in_foreground = models.BooleanField(
