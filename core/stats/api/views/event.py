@@ -55,18 +55,23 @@ class PlayerEventViewSet(
     @staticmethod
     def override_media_durations(qs):
         media_uids = [e.obj_key[-8:] for e in qs]
-
         media_qs = Media.objects.filter(uid__in=media_uids)
-
         media_durations = {m.uid: m.duration for m in media_qs}
+
+        # NOTE: this is rather ugly, consider as a temporary solution...
+        #       it can happen that a play event has no close enough end time (no subsequent event)
+        #       e.g. if the network disconnected, browser closed etc.
+        #       so if the calculated event duration is longer than the media duration we just override it
+        #       with the media duration.
 
         for event in qs:
             media_uid = event.obj_key[-8:]
             media_duration = media_durations[media_uid]
             if event.duration.total_seconds() > media_duration.total_seconds() + 5:
-                logger.warning(
+                logger.debug(
                     f"fix duration for {media_uid} - {event.duration.seconds} > {media_duration.seconds}"
                 )
+                # NOTE: yes - i know, this is ugly. see above...
                 event.duration = media_duration
 
         return qs
