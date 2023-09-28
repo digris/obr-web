@@ -112,7 +112,10 @@ class StreamEventViewSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = StreamEvent.objects.filter(bytes_sent__gt=1024, seconds_connected__gte=30)
+    queryset = StreamEvent.objects.filter(
+        bytes_sent__gt=1024,
+        seconds_connected__gte=30,
+    )
     serializer_class = serializers.StreamEventSerializer
 
     permission_classes = [

@@ -344,10 +344,12 @@ class MediaViewSet(
             pass
 
         mood_tags = sorted(
-            tags.filter(type="mood")[:NUM_MOOD_TAGS], key=lambda x: x.name
+            tags.filter(type="mood")[:NUM_MOOD_TAGS],
+            key=lambda x: x.name,
         )
         other_tags = sorted(
-            tags.exclude(type="mood")[:NUM_OTHER_TAGS], key=lambda x: x.name
+            tags.exclude(type="mood")[:NUM_OTHER_TAGS],
+            key=lambda x: x.name,
         )
 
         data = []

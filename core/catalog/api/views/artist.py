@@ -197,7 +197,8 @@ class ArtistViewSet(
 
         mood_tags = []
         other_tags = sorted(
-            tags.exclude(type="mood")[:NUM_OTHER_TAGS], key=lambda x: x.name
+            tags.exclude(type="mood")[:NUM_OTHER_TAGS],
+            key=lambda x: x.name,
         )
 
         data = []
