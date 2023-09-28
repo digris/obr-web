@@ -68,7 +68,7 @@ export default defineComponent({
   <OverlayPanel :is-visible="isVisible" @close="close">
     <div>
       <i18n-t keypath="subscription.subscribe.title" tag="div" class="title" />
-      <i18n-t keypath="subscription.subscribe.lead" tag="div" class="lead"> CHF 1.- </i18n-t>
+      <i18n-t keypath="subscription.subscribe.lead" tag="div" class="lead"> CHF ?.- </i18n-t>
       <i18n-t
         v-if="intent === 'plan'"
         keypath="subscription.subscribe.ctaVoucher.text"

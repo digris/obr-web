@@ -24,6 +24,8 @@ export default {
       return this.currency.symbol;
     },
     valueDisplay() {
+      return "?"; // TODO: remove once we know the prices..
+      /*
       const options = {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -33,6 +35,7 @@ export default {
         valueStr = valueStr.replace(".00", ".-");
       }
       return valueStr;
+      */
     },
   },
 };

@@ -184,9 +184,7 @@ export default defineComponent({
 
 .subscribe-plan {
   margin-bottom: 8rem;
-
-  // pointer-events: none;
-
+  pointer-events: none;
   filter: grayscale(1);
   opacity: 0.5;
 }
