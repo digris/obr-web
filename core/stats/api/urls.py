@@ -6,19 +6,21 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r"ratings", views.RatingViewSet)
+router.register(r"player-events", views.PlayerEventViewSet)
+router.register(r"stream-events", views.StreamEventViewSet)
 
 app_name = "stats"
 urlpatterns = [
     path("", include(router.urls)),
     path(
-        "player-events/",
-        views.PlayerEventView.as_view(),
-        name="player-events",
+        "ingest/player-events/",
+        views.PlayerEventCreateView.as_view(),
+        name="player-events-create",
     ),
     path(
-        "stream-events/",
-        views.StreamEventView.as_view(),
-        name="stream-events",
+        "ingest/stream-events/",
+        views.StreamEventCreateView.as_view(),
+        name="stream-events-create",
     ),
     path(
         "heartbeat/",

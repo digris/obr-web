@@ -4,7 +4,7 @@ import settings from "@/settings";
 const STATS_ENDPOINT = `${settings.API_BASE_URL}stats/`;
 
 async function createPlayerEvents(events: Array<object>) {
-  const url = `${STATS_ENDPOINT}player-events/`;
+  const url = `${STATS_ENDPOINT}ingest/player-events/`;
   const payload = {
     events: [...events],
   };
