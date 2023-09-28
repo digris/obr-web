@@ -20,6 +20,8 @@ from tagging import utils as tagging_utils
 MEDIA_MIN_DURATION = 12
 DEFAULT_ORDER_BY = "-latest_airplay"
 ARTIST_MIN_NUM_MEDIA = getattr(settings, "CATALOG_ARTIST_MIN_NUM_MEDIA", 1)
+NUM_MOOD_TAGS = 0
+NUM_OTHER_TAGS = 24
 
 
 class ArtistFilter(filters.FilterSet):
@@ -194,7 +196,9 @@ class ArtistViewSet(
             pass
 
         mood_tags = []
-        other_tags = sorted(tags.exclude(type="mood")[:12], key=lambda x: x.name)
+        other_tags = sorted(
+            tags.exclude(type="mood")[:NUM_OTHER_TAGS], key=lambda x: x.name
+        )
 
         data = []
         # for t in sorted(tags[:30], key=lambda x: x.name):

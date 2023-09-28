@@ -16,6 +16,8 @@ from tagging.api.serializers import TagSerializer
 
 MEDIA_MIN_DURATION = 12
 DEFAULT_ORDER_BY = "-latest_emission_time_start"
+NUM_MOOD_TAGS = 9
+NUM_OTHER_TAGS = 18
 
 
 class PlaylistFilter(filters.FilterSet):
@@ -233,8 +235,12 @@ class PlaylistViewSet(
         except FieldError:
             pass
 
-        mood_tags = sorted(tags.filter(type="mood")[:6], key=lambda x: x.name)
-        other_tags = sorted(tags.exclude(type="mood")[:12], key=lambda x: x.name)
+        mood_tags = sorted(
+            tags.filter(type="mood")[:NUM_MOOD_TAGS], key=lambda x: x.name
+        )
+        other_tags = sorted(
+            tags.exclude(type="mood")[:NUM_OTHER_TAGS], key=lambda x: x.name
+        )
 
         data = []
         # for t in sorted(tags[:30], key=lambda x: x.name):
