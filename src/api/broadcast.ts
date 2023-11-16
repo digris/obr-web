@@ -1,10 +1,13 @@
 import { APIClient } from "@/api/client";
+import { useAPIBaseUrl } from "@/composables/api";
 import settings from "@/settings";
+
+const { APIBaseUrl } = useAPIBaseUrl();
 
 const SCHEDULE_ENDPOINT = `${settings.API_BASE_URL}broadcast/schedule/`;
 const PROGRAM_ENDPOINT = `${settings.API_BASE_URL}broadcast/program/`;
-const EDITOR_ENDPOINT = `${settings.API_BASE_URL}broadcast/editors/`;
 const EMISSION_ENDPOINT = `${settings.API_BASE_URL}broadcast/emissions/`;
+const EDITOR_ENDPOINT = `${APIBaseUrl.value}broadcast/editors/`;
 
 async function getSchedule(params: any) {
   const response = await APIClient.get(SCHEDULE_ENDPOINT, { params });
