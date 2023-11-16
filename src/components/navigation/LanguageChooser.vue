@@ -12,7 +12,7 @@ export default defineComponent({
       locale.value = value;
       settingsStore.setLocale(value);
       // NOTE: refresh is only needed to also update resources loaded via API
-      // document.location.reload();
+      document.location.reload();
     };
     return {
       currentLocale: locale,
