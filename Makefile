@@ -13,7 +13,6 @@ GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 lint:
 	yarn lint
 	poetry run isort core/ --check
-	#poetry run ./manage.py spectacular --file /dev/null --validate --fail-on-warn
 	poetry run ./manage.py spectacular --file /dev/null --validate
 	poetry run ruff check core/
 	poetry run black --check core/
