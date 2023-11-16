@@ -12,6 +12,7 @@ const { isWeb } = useDevice();
     <div class="link-group">
       <router-link to="/legal/dpp/" v-text="t('menu.dpp')" />
       <router-link to="/legal/terms/" v-text="t('menu.terms')" />
+      <router-link to="/legal/imprint/" v-text="t('menu.imprint')" />
     </div>
   </nav>
 </template>
