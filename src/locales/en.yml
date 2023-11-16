@@ -161,6 +161,10 @@ account:
         info: Connected streaming accounts  # TODO: Text needed
 subscription:
   credits: Credits
+  # temporary
+  noCredits: No Credits
+  noCreditsNote: For legal reasons it is currently not possible to buy credits.
+  #
   creditsExpired: Credit expired
   numDaysRemaining: 1 day | {count} days
   creditsUntilDate: Balance until {0}

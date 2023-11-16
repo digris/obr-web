@@ -164,6 +164,10 @@ account:
         info: Verbundene streaming-Konten
 subscription:
   credits: Guthaben
+  # temporary
+  noCredits: Kein Guthaben
+  noCreditsNote: Aus rechtlichen Gründen ist im Moment kein Kauf von Guthaben möglich.
+  #
   creditsExpired: Guthaben abgelaufen
   numDaysRemaining: 1 Tag | {count} Tage
   creditsUntilDate: Guthaben bis am {0}

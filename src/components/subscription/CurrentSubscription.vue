@@ -12,6 +12,7 @@ export default defineComponent({
   },
   setup() {
     const { subscription } = useAccount();
+    const faqLink = "/faq/#42C745E4";
     const now = ref(DateTime.now());
     const numDaysRemaining = computed(() => {
       if (!subscription.value) {
@@ -34,6 +35,7 @@ export default defineComponent({
     };
     return {
       subscription,
+      faqLink,
       isActive,
       isBlocked,
       numDaysRemaining,
@@ -56,8 +58,14 @@ export default defineComponent({
     <div v-if="isBlocked" class="details">
       <i18n-t keypath="geolocation.availability.note" />
     </div>
-    <div v-else class="details">
+    <div v-else-if="!isActive" class="details">
+      <!-- NOTE: temporary text as long as subscription is not possible
       <i18n-t v-if="!isActive" keypath="subscription.creditsExpired" tag="p" />
+      -->
+      <i18n-t keypath="subscription.noCredits" tag="p" />
+      <i18n-t keypath="subscription.noCreditsNote" tag="p" class="note" />
+    </div>
+    <div v-else class="details">
       <i18n-t keypath="subscription.validNumDays" tag="p" :plural="numDaysRemaining" />
       <i18n-t v-if="subscription" keypath="subscription.validUntilDate" tag="p">
         <Datetime :value="subscription.activeUntil" :display-time="false" />
@@ -86,6 +94,14 @@ export default defineComponent({
 
   &.is-blocked {
     color: rgb(var(--c-red));
+  }
+
+  .details {
+    .note {
+      @include typo.default;
+
+      color: rgb(var(--c-dark) / 50%);
+    }
   }
 }
 </style>
