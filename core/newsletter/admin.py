@@ -13,6 +13,7 @@ class NewsletterAdmin(
     list_display = [
         "__str__",
         "description",
+        "mailchimp_tag",
         "uid",
     ]
     search_fields = [
@@ -32,6 +33,7 @@ class SubscriptionAdmin(
     list_display = [
         "newsletter",
         "user",
+        "mailchimp_subscriber_hash",
         "uid",
         "created",
     ]

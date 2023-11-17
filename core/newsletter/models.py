@@ -1,3 +1,5 @@
+import hashlib
+
 from django.db import models
 
 from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
@@ -13,6 +15,12 @@ class Newsletter(
     )
     description = models.TextField(
         max_length=256,
+        blank=True,
+        default="",
+    )
+    mailchimp_tag = models.CharField(
+        verbose_name="Mailchimp Tag",
+        max_length=64,
         blank=True,
         default="",
     )
@@ -39,7 +47,6 @@ class Subscription(
         on_delete=models.CASCADE,
         related_name="subscriptions",
     )
-
     user = models.ForeignKey(
         to="account.User",
         on_delete=models.CASCADE,
@@ -53,3 +60,9 @@ class Subscription(
 
     def __str__(self):
         return f"{self.newsletter} - {self.user}"
+
+    @property
+    def mailchimp_subscriber_hash(self):
+        subscriber_hash = hashlib.md5()
+        subscriber_hash.update(self.user.email.encode())
+        return subscriber_hash.hexdigest()

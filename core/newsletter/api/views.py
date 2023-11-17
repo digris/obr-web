@@ -67,7 +67,11 @@ class NewsletterView(APIView):
                     user=request.user,
                 )
 
-        Subscription.objects.exclude(newsletter__uid__in=newsletter_uids).delete()
+        Subscription.objects.filter(
+            user=request.user,
+        ).exclude(
+            newsletter__uid__in=newsletter_uids,
+        ).delete()
 
         response_serializer = serializers.NewsletterSerializer(
             self.get_queryset(),

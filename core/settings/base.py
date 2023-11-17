@@ -618,6 +618,14 @@ SENDGRID_API_KEY = env(
     "SENDGRID_API_KEY",
     default=None,
 )
+MAILCHIMP_API_KEY = env(
+    "MAILCHIMP_API_KEY",
+    default=None,
+)
+MAILCHIMP_LIST_ID = env(
+    "MAILCHIMP_LIST_ID",
+    default=None,
+)
 
 
 ##################################################################
