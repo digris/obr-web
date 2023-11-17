@@ -15,7 +15,7 @@ def get_client(api_key):
     mailchimp_client = MailchimpMarketing.Client()
     try:
         server_prefix = api_key.split("-")[1]
-    except IndexError:
+    except (AttributeError, IndexError):
         server_prefix = ""
     mailchimp_client.set_config(
         {
