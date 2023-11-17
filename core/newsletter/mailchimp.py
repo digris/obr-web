@@ -2,7 +2,7 @@ import logging
 
 from django.conf import settings
 
-import mailchimp_marketing as MailchimpMarketing
+import mailchimp_marketing
 from mailchimp_marketing.api_client import ApiClientError
 
 API_KEY = settings.MAILCHIMP_API_KEY
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_client(api_key):
-    mailchimp_client = MailchimpMarketing.Client()
+    mailchimp_client = mailchimp_marketing.Client()
     try:
         server_prefix = api_key.split("-")[1]
     except (AttributeError, IndexError):

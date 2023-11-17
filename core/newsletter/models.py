@@ -63,6 +63,6 @@ class Subscription(
 
     @property
     def mailchimp_subscriber_hash(self):
-        subscriber_hash = hashlib.md5()
+        subscriber_hash = hashlib.md5()  # NOQA S324
         subscriber_hash.update(self.user.email.encode())
         return subscriber_hash.hexdigest()
