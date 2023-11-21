@@ -102,11 +102,8 @@ export default defineComponent({
 <template>
   <div>
     <div class="preview-mode-info">
-      <p>
-        We're sorry to say that you can't subscribe to our on-demand service at the moment.
-        <br />
-        We're waiting for some legal clarification before we can offer full access.
-      </p>
+      <i18n-t keypath="subscription.subscribe.legalRestrictionInfo" tag="p" />
+      <!--
       <p style="padding-top: 1rem">
         We know this is disappointing, but don't worry, we've got you covered.
         <br />
@@ -114,6 +111,7 @@ export default defineComponent({
         <a href="mailto:info@openbroadcast.ch">info@openbroadcast.ch</a>, and we'll send you a
         voucher code.
       </p>
+      -->
     </div>
     <div class="subscribe-plan">
       <section class="section info">
@@ -179,6 +177,10 @@ export default defineComponent({
 
   a {
     text-decoration: underline;
+  }
+
+  p {
+    white-space: pre-wrap;
   }
 }
 

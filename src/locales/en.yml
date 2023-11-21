@@ -186,6 +186,9 @@ subscription:
       text: Don't have a code? {0}
       button: Buy credits.
     # SubscribePlan.vue
+    legalRestrictionInfo: |
+        We're sorry to say that you can't subscribe to our on-demand service at the moment.
+        We're waiting for some legal clarification before we can offer full access.
     total:
       legal: Total including all taxes and fees
     payNow: Pay now

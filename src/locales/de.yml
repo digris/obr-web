@@ -190,6 +190,9 @@ subscription:
       text: Du hast keinen Code? {0}
       button: Guthaben kaufen.
     # SubscribePlan.vue
+    legalRestrictionInfo: |
+        Momentan kannst du dich nicht für unseren On-Demand-Service anmelden.
+        Wir warten auf rechtliche Klärungen damit wir vollen Zugang anbieten können.
     total:
       legal: Total inkl. aller Steuern und Gebühren
     payNow: Jetzt Bezahlen
