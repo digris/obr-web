@@ -12,7 +12,6 @@ RUN set -ex \
         git
 
 COPY ["yarn.lock", "package.json", "./"]
-ADD ./patches/ ./patches/
 
 #ENV NODE_ENV=production
 
