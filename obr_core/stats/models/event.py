@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import F, Window
 from django.db.models.functions import Lead
 
-from base.models.mixins import CTModelMixin, CTUIDModelMixin
+from common.models.mixins import CTModelMixin, CTUIDModelMixin
 
 
 class PlayerEventQuerySet(

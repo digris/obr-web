@@ -5,7 +5,7 @@ from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 
-from base.models.context_managers import suppress_auto_now
+from common.models.context_managers import suppress_auto_now
 from rating.models import Vote, VoteScope, VoteSource
 from sync import api_client
 

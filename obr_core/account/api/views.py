@@ -10,7 +10,7 @@ from account import email_login, google_id_token_login, token_login
 from account.cdn_credentials.utils import remove_credentials, set_credentials
 from account.models import Address, User
 from account.utils import social_backends
-from base.utils.signer import timestamp_signer
+from common.utils.signer import timestamp_signer
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response

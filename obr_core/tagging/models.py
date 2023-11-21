@@ -1,7 +1,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from sync.models.mixins import SyncTimeModelMixin
 
 # from taggit.managers import TaggableManager  # NOQA

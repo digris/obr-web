@@ -2,7 +2,7 @@ import urllib.parse
 
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 
-from base.utils.signer import timestamp_signer
+from common.utils.signer import timestamp_signer
 
 REDIRECTOR_URL = (
     "https://europe-west6-open-broadcast.cloudfunctions.net/social-auth-redirector"

@@ -6,7 +6,7 @@ from django.core.signing import BadSignature, SignatureExpired
 from django.utils.translation import gettext_lazy as _
 
 from account import token_login
-from base.utils.signer import timestamp_signer
+from common.utils.signer import timestamp_signer
 from electronic_mail.message import BaseMessage, SendMessageError
 
 logger = logging.getLogger(__name__)

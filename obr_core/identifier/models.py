@@ -2,7 +2,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 
 class IdentifierScope(models.TextChoices):

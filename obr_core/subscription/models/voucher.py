@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from tree_queries.models import TreeNode
 
 DEFAULT_DAYS_VALID = 28

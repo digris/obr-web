@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.db import models
 from django.utils import timezone
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from rating.queries import get_live_ratings_for_time_range
 
 MEDIA_MIN_DURATION = 12

@@ -7,7 +7,7 @@ from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 from .extract import extract_colors, extract_md5
 

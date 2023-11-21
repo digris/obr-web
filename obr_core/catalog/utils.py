@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.db.models import Q
 
 import google.auth
-from base.utils.qs import next_in_order, prev_in_order  # pragma: no cover
+from common.utils.qs import next_in_order, prev_in_order  # pragma: no cover
 from google.auth.transport import requests as auth_requests
 from google.cloud import storage
 
