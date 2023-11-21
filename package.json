@@ -14,17 +14,13 @@
     "fix": "yarn fix:eslint && yarn fix:stylelint",
     "fix:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "fix:stylelint": "stylelint \"**/*.{vue,scss}\" --fix",
-    "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./obr_ui/typings/api/",
-    "postinstall": "patch-package"
+    "schema:generate": "openapi --input http://local.obr-next:8080/api/v1/schema-json/ --output ./obr_ui/typings/api/"
   },
   "engines": {
     "node": ">=16.0.0 <21.0.0"
   },
   "dependencies": {
     "@intlify/unplugin-vue-i18n": "^0.10.0",
-    "@openreplay/tracker": "^3.5.12",
-    "@openreplay/tracker-assist": "^3.5.11",
-    "@openreplay/tracker-axios": "^3.5.1",
     "@sentry/tracing": "^7.45.0",
     "@sentry/vue": "^7.45.0",
     "@stripe/stripe-js": "^1.24.0",
@@ -40,10 +36,8 @@
     "loglevel": "^1.8.0",
     "luxon": "^2.4",
     "mitt": "^3.0.0",
-    "patch-package": "^6.4.7",
     "pinia": "^2.0.0-rc.10",
     "pinia-plugin-persistedstate": "^3.1.0",
-    "postinstall-postinstall": "^2.1.0",
     "pulltorefreshjs": "^0.1.22",
     "qrcode.vue": "^3.3.3",
     "qs": "^6.10.3",
