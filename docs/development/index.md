@@ -50,7 +50,7 @@ To use an `.env` file for configuration:
 cp .env.example .env
 ```
 
-In order to use the variables defined in `.env` set `DJANGO_SETTINGS_MODULE` to `core.settings.env`.  
+In order to use the variables defined in `.env` set `DJANGO_SETTINGS_MODULE` to `config.settings.env`.  
 
 For more in-depth changes on the settings module extend `settings.development`.
 
@@ -180,7 +180,7 @@ yarn serve
 
 ```shell
 # core
-DJANGO_SETTINGS_MODULE=core.settings.env \
+DJANGO_SETTINGS_MODULE=config.settings.env \
 poetry run ./manage.py runserver 0.0.0.0:8080
 # front-end
 yarn serve

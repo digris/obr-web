@@ -30,12 +30,12 @@ COPY [ \
   "./" \
 ]
 
-ADD ./src/ ./src/
+ADD ./obr_ui/ ./obr_ui/
 
 RUN yarn build
 
 # TODO: maybe use webpack to handle assets?
-ADD ./src/assets/ ./build/assets/
+ADD ./obr_ui/assets/ ./build/assets/
 
 
 #######################################################################
@@ -88,7 +88,8 @@ COPY ["pyproject.toml","poetry.lock", "./"]
 #    | /venv/bin/pip install \
 #    -r /dev/stdin
 
-ADD ./core/ ./core/
+ADD ./config/ ./config/
+ADD ./obr_core/ ./obr_core/
 
 RUN set -ex \
     && poetry build \
@@ -109,13 +110,14 @@ COPY --from=node-builder /root/build/ ./build
 COPY --from=python-builder /venv /venv
 
 COPY ["manage.py", "./"]
-ADD ./core/ ./core/
+ADD ./config/ ./config/
+ADD ./obr_core/ ./obr_core/
 ADD ./content/ ./content/
 COPY CHANGELOG.md ./content/pages/changelog.md
 
 ENV PATH="/venv/bin:$PATH"
 
-ENV DJANGO_SETTINGS_MODULE=core.settings.build
+ENV DJANGO_SETTINGS_MODULE=config.settings.build
 RUN ./manage.py check
 RUN ./manage.py collectstatic --clear --no-input
 #RUN ./manage.py compilemessages
@@ -123,11 +125,10 @@ RUN unset DJANGO_SETTINGS_MODULE
 
 USER app
 
-ENV DJANGO_SETTINGS_MODULE=core.settings.live \
+ENV DJANGO_SETTINGS_MODULE=config.settings.live \
     PORT=8000 \
     TZ="Europe/Zurich"
 
 EXPOSE 8000
 
-#CMD exec gunicorn core.wsgi --bind :$PORT --workers 2 --timeout 600
-CMD exec hypercorn core.asgi:application --bind :$PORT
+CMD exec hypercorn config.asgi:application --bind :$PORT

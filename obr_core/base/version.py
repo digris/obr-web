@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from core import __version__
+from config import __version__
 
 SHORT_SHA = getattr(settings, "GIT_SHORT_SHA", "")
 

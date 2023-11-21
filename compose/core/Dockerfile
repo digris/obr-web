@@ -42,7 +42,8 @@ COPY ["pyproject.toml","poetry.lock", "./"]
 
 # RUN poetry export --without-hashes -f requirements.txt | /venv/bin/pip install -q -r /dev/stdin
 
-ADD ./core/ ./core/
+ADD ./config/ ./config/
+ADD ./obr_core/ ./obr_core/
 
 RUN set -ex \
     && poetry build \
@@ -62,7 +63,8 @@ WORKDIR /app/
 COPY --from=python-builder /venv /venv
 
 COPY ["manage.py", "./"]
-ADD ./core/ ./core/
+ADD ./config/ ./config/
+ADD ./obr_core/ ./obr_core/
 
 # additional entry-points
 COPY compose/core/sync-schedule ./
@@ -71,9 +73,9 @@ ENV PATH="/venv/bin:$PATH"
 
 USER app
 
-ENV DJANGO_SETTINGS_MODULE=core.settings.development \
+ENV DJANGO_SETTINGS_MODULE=config.settings.development \
     PORT=8000
 
 EXPOSE 8000
 
-CMD exec hypercorn core.asgi:application --bind :$PORT
+CMD exec hypercorn config.asgi:application --bind :$PORT

@@ -17,14 +17,14 @@ export default defineConfig({
     VueI18nPlugin({
       runtimeOnly: true,
       compositionOnly: true,
-      include: resolve(__dirname, "src/locales/**"),
+      include: resolve(__dirname, "obr_ui/locales/**"),
     }),
   ],
   build: {
     target: "es2020",
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "src/main.ts"),
+        main: resolve(__dirname, "obr_ui/main.ts"),
       },
       output: {
         entryFileNames: "[name].js",
@@ -50,7 +50,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@": fileURLToPath(new URL("./obr_ui", import.meta.url)),
       // "vue": "vue/dist/vue.esm-bundler.js",
       "vue-i18n": "vue-i18n/dist/vue-i18n.cjs.js",
       // "hls.js": "hls.js/dist/hls.light.js",
@@ -64,7 +64,7 @@ export default defineConfig({
       ignored: ["**/data/**"],
     },
     proxy: {
-      "^((?!src/|static/|node_modules/|@).)*$": {
+      "^((?!src/|obr_ui/|static/|node_modules/|@).)*$": {
         target: "http://local.obr-next:8080",
         // origin: 'http://127.0.0.1:8080/',
         configure: (proxy) => {

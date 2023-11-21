@@ -5,7 +5,10 @@ description = "openbroadcast.ch - next"
 authors = ["Jonas Ohrstrom <jonas.ohrstrom@digris.ch>"]
 license = "MIT"
 
-packages = [{include="core", from="."}]
+packages = [
+    {include="config", from="."},
+    {include="obr_core", from="."},
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10, <3.12"
@@ -92,7 +95,7 @@ sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 
 [tool.semantic_release]
 version_variable = [
-    "core/__init__.py:__version__",
+    "config/__init__.py:__version__",
     "pyproject.toml:^version",
 ]
 branch = "main"
@@ -102,7 +105,7 @@ build_command = "pip install poetry && poetry build"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--ds core.settings.test"  # term:skip-covered / term-missing
+addopts = "--ds config.settings.test"  # term:skip-covered / term-missing
 python_files = ["test_*.py"]
 markers = [
     "integration: marks tests as slow (deselect with '-m \"not integration\"')",
@@ -122,7 +125,7 @@ filterwarnings = [
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 
 [mypy.plugins.django-stubs]
-django_settings_module = "core.settings.test"
+django_settings_module = "config.settings.test"
 
 [tool.ruff]
 select = [
@@ -157,8 +160,8 @@ select = [
 extend-exclude = [
     "tests",
     "migrations",
-    "core/settings",
-    "core/sync/management",
+    "config/settings",
+    "obr_core/sync/management",
 ]
 
 extend-ignore = [
