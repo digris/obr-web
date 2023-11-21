@@ -28,11 +28,11 @@ jobs:
           architecture: 'x64'
       - run: pip install black
       - run: black --version
-      - run: black ./core/ --check
+      - run: black ./obr_core/ --check
       - run: pip install poetry==1.2.2
 #      - run: poetry export --without-hashes --with dev -f requirements.txt | pip install -r /dev/stdin
       - run: poetry install --no-cache
-      - run: poetry run ruff check core/
+      - run: poetry run ruff check obr_core/
 
   test-be:
     runs-on: ubuntu-latest

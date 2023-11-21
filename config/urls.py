@@ -12,7 +12,7 @@ admin.autodiscover()
 admin.site.site_header = "open broadcast radio"
 
 urlpatterns = i18n_patterns(
-    re_path(r"^api/v1/", include("core.urls_api", namespace="api")),
+    re_path(r"^api/v1/", include("config.urls_api", namespace="api")),
     prefix_default_language=False,
 )
 

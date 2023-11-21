@@ -8,7 +8,7 @@ import environ
 from .. import __version__
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-APP_ROOT = os.path.join(PROJECT_ROOT, "core")
+APP_ROOT = os.path.join(PROJECT_ROOT, "obr_core")
 
 sys.path.insert(0, APP_ROOT)
 
@@ -95,7 +95,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "core.urls"
+ROOT_URLCONF = "config.urls"
 
 APPEND_SLASH = True
 
@@ -125,7 +125,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "core.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 ##################################################################

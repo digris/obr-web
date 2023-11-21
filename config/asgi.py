@@ -10,7 +10,7 @@ from django.core.handlers.asgi import (
     sync_to_async,
 )
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings.default")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.default")
 
 
 class PatchedASGIHandler(ASGIHandler):

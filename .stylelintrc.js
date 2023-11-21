@@ -31,6 +31,6 @@ module.exports = {
     ignoreFiles: [
       '**/*.tsx',
       '**/*.ts',
-      'src/views/proto/**.*',
+      'obr_ui/views/proto/**.*',
     ],
 }
