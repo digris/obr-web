@@ -8,8 +8,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from common.models.mixins import CTModelMixin, CTUIDModelMixin, TimestampedModelMixin
 from catalog.sync.media import sync_master, sync_media
+from common.models.mixins import CTModelMixin, CTUIDModelMixin, TimestampedModelMixin
 from sync.models.mixins import SyncModelMixin
 from tagging.managers import TaggableManager
 from tagging.models import TaggedItem

@@ -2,8 +2,8 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
 
-from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from broadcast.sync.editor import sync_editor
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from image.models import BaseSortableImage
 from sync.models.mixins import SyncModelMixin
 from tagging.models import TaggableManager, TaggedItem

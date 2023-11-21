@@ -89,7 +89,7 @@ build-backend = "poetry.masonry.api"
 profile = "black"
 force_single_line = false
 default_section = "THIRDPARTY"
-known_first_party = "core"  # change it for the name of your django project
+known_first_party = "core"
 known_django = "django"
 sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
 
