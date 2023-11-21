@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from subscription import signals as subscription_signals
 
 

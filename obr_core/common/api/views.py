@@ -1,8 +1,8 @@
 from django.conf import settings
 
-from base import version
-from base.api import serializers
-from base.utils.urls import get_absolute_url
+from common import version
+from common.api import serializers
+from common.utils.urls import get_absolute_url
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.response import Response

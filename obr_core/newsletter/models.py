@@ -2,7 +2,7 @@ import hashlib
 
 from django.db import models
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 
 class Newsletter(

@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.text import slugify
 
 import markdown
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 MARKDOWN_EXTENSIONS = [
     "markdown.extensions.attr_list",

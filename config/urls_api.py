@@ -20,7 +20,7 @@ app_name = "api"
 
 
 @extend_schema(
-    operation_id="base",
+    operation_id="common",
     description="API Root, providing human readable entry points.",
     responses={
         200: inline_serializer(
@@ -51,11 +51,11 @@ def api_root(request, format=None):
                 format=format,
             ),
             "version/": reverse(
-                "api:base:version",
+                "api:common:version",
                 request=request,
             ),
             "settings/": reverse(
-                "api:base:settings",
+                "api:common:settings",
                 request=request,
             ),
             "broadcast/": reverse(
@@ -78,7 +78,7 @@ urlpatterns = [
     path(
         "",
         api_root,
-        name="base",
+        name="common",
     ),
     path(
         "jwt/",
@@ -112,9 +112,14 @@ urlpatterns = [
         name="redoc",
     ),
     # Core API
+    # "base/" is kept for compatibility
     path(
         "base/",
-        include("base.api.urls", "base"),
+        include("common.api.urls", "base"),
+    ),
+    path(
+        "common/",
+        include("common.api.urls", "common"),
     ),
     path(
         "account/",

@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from base.models.mixins import CTUIDModelMixin
+from common.models.mixins import CTUIDModelMixin
 
 
 class Heartbeat(

@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "social_django",
     "django_countries",
     "adminsortable2",  # disabled for the moment. (wait for django 4 support)
-    "base",
+    "common",
     "tagging",
     "api_extra",
     "sync",
@@ -117,7 +117,7 @@ TEMPLATES = [
                 "django_settings_export.settings_export",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
-                "base.context_processors.version",
+                "common.context_processors.version",
                 "geolocation.context_processors.geolocation",
                 "client_mode.context_processors.client_mode",
             ],

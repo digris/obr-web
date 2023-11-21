@@ -13,7 +13,7 @@ from account import token_login
 from account.cdn_credentials.policy import get_cdn_policy
 from account.settings import LOGIN_TOKEN_MAX_AGE
 from account.sync.user import sync_user
-from base.models.mixins import CTUIDModelMixin
+from common.models.mixins import CTUIDModelMixin
 from django_countries.fields import CountryField
 from rest_framework_simplejwt.tokens import SlidingToken
 from sync.models.mixins import SyncModelMixin

@@ -6,7 +6,7 @@ from django.db.models import Max, Q
 from django.db.models.functions import Now
 from django.utils.functional import cached_property
 
-from base.models.mixins import CTUIDModelMixin, TimestampedModelMixin
+from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from catalog.sync.playlist import sync_playlist
 from image.models import BaseSortableImage
 from sync.models.mixins import SyncModelMixin

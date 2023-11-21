@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
 
 import requests
-from base.models.context_managers import suppress_auto_now
+from common.models.context_managers import suppress_auto_now
 from rating.models import Vote, VoteScope, VoteSource
 
 OBR_SYNC_ENDPOINT = getattr(settings, "OBR_SYNC_ENDPOINT", None)
