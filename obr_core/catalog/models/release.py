@@ -70,7 +70,7 @@ class Release(
 
     @cached_property
     def image(self):
-        return self.images.first()
+        return self.images.latest()
 
     @cached_property
     def num_media(self):
@@ -126,7 +126,7 @@ class ReleaseImage(BaseSortableImage):
         on_delete=models.CASCADE,
     )
 
-    class Meta:
+    class Meta(BaseSortableImage.Meta):
         app_label = "catalog"
         verbose_name = "Image"
         verbose_name_plural = "Images"

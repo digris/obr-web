@@ -93,7 +93,7 @@ class Playlist(
 
     @cached_property
     def image(self):
-        return self.images.first()
+        return self.images.latest()
 
     @property
     # NOTE: rethink this implementation (currently not in use)
@@ -235,7 +235,7 @@ class PlaylistImage(
         on_delete=models.CASCADE,
     )
 
-    class Meta:
+    class Meta(BaseSortableImage.Meta):
         app_label = "catalog"
         verbose_name = "Image"
         verbose_name_plural = "Images"

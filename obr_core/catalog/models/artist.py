@@ -62,7 +62,7 @@ class Artist(
 
     @cached_property
     def image(self):
-        return self.images.first()
+        return self.images.latest()
 
     def sync_data(self, *args, **kwargs):
         return sync_artist(self, *args, **kwargs)
@@ -77,7 +77,7 @@ class ArtistImage(BaseSortableImage):
         on_delete=models.CASCADE,
     )
 
-    class Meta:
+    class Meta(BaseSortableImage.Meta):
         app_label = "catalog"
         verbose_name = "Image"
         verbose_name_plural = "Images"

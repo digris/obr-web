@@ -90,7 +90,7 @@ class Editor(
 
     @cached_property
     def image(self):
-        return self.images.first()
+        return self.images.latest()
 
     @cached_property
     def is_former(self):
@@ -109,7 +109,7 @@ class EditorImage(BaseSortableImage):
         on_delete=models.CASCADE,
     )
 
-    class Meta:
+    class Meta(BaseSortableImage.Meta):
         app_label = "broadcast"
         verbose_name = "Image"
         verbose_name_plural = "Images"

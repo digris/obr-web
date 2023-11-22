@@ -35,8 +35,6 @@ class PlayerEventCreateView(
             many=True,
         )
 
-        print(request)
-
         if serializer.is_valid():
             for event_data in serializer.data:
                 event = PlayerEvent(

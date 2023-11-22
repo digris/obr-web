@@ -59,6 +59,7 @@ class BaseImage(
 
     class Meta:
         abstract = True
+        get_latest_by = "created"
 
     def __str__(self):
         return f"{self.pk} / {self.uid}"
@@ -95,7 +96,7 @@ class BaseSortableImage(BaseImage):
         choices=((x, x) for x in range(1, 100)),
     )
 
-    class Meta:
+    class Meta(BaseImage.Meta):
         ordering = ("position",)
         abstract = True
 
