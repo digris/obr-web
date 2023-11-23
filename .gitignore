@@ -9,6 +9,7 @@ playground
 /.ruff_cache
 *.egg-info
 db.sqlite3
+venv/*
 __pycache__
 .coverage
 coverage
