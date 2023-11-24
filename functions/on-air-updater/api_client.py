@@ -11,7 +11,7 @@ class ApiError(Exception):
 
 def get_metadata():
     try:
-        r = requests.get(URL)
+        r = requests.get(URL + "?secondsAhead=1800")
     except requests.exceptions.RequestException as e:
         raise ApiError(str(e)) from e
 
@@ -29,10 +29,26 @@ def get_metadata():
     if not len(data):
         raise ApiError("empty result")
 
-    result = data[0]
+    now = datetime.now(tz=datetime.now().astimezone().tzinfo)
+    try:
+        result = next(
+            (
+                i
+                for i in data
+                if datetime.fromisoformat(i["timeStart"])
+                < now
+                <= datetime.fromisoformat(i["timeEnd"])
+            ),
+            {},
+        )
+    except ValueError as e:
+        raise ApiError(str(e)) from e
+    
+    if not "key" in result:
+        raise ApiError(f"invalid result: {result}")
 
-    if "timeEnd" not in result:
-        raise ApiError("missing timeEnd")
+    print(result["key"])
+    print(result["media"]["name"])
 
     try:
         dt = datetime.fromisoformat(result["timeEnd"])
