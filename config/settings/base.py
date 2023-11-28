@@ -512,9 +512,9 @@ SPECTACULAR_SETTINGS = {
 API_BASE_URL = "/api/v1/"
 
 STREAM_ENDPOINTS = {
-    "dash": "https://stream-abr.next.openbroadcast.ch/dash/stream.mpd",
-    "hls": "https://stream-abr.next.openbroadcast.ch/hls/manifest.m3u8",
-    "icecast": "https://stream.next.openbroadcast.ch/256.mp3",
+    "dash": "https://stream-abr.openbroadcast.ch/dash/stream.mpd",
+    "hls": "https://stream-abr.openbroadcast.ch/hls/manifest.m3u8",
+    "icecast": "https://stream.openbroadcast.ch/256.mp3",
 }
 
 STREAM_LATENCY = 0  # seconds

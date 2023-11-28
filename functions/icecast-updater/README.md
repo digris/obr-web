@@ -1,7 +1,7 @@
 # Icecast Updater
 
 - triggered by pub-sub - topic: on-air-updated
-- sends metadata to icecast server
+- sends metadata to icecast metadata-service
 
 
 ## Deploy CF

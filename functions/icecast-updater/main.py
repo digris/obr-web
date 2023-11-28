@@ -6,7 +6,7 @@ import os
 import requests
 
 USER_AGENT = "next.openbroadcast.ch - metadata updater/0.0.1"
-API_URL = os.environ.get("API_URL", "https://stream.next.openbroadcast.ch/")
+API_URL = os.environ.get("API_URL", "https://stream.openbroadcast.ch/")
 API_TOKEN = os.environ.get("API_TOKEN")
 
 assert API_URL, "API_URL not set"
@@ -82,4 +82,4 @@ def run(event, context):
 
 if __name__ == "__main__":
     r = requests.get("https://next.openbroadcast.ch/api/v1/broadcast/schedule/")
-    update(r.json()[0])
+    update_metadata(r.json()[0])
