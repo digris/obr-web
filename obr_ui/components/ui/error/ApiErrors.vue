@@ -8,6 +8,7 @@ interface ApiErrorResponse extends AxiosResponse {
 
 interface ApiError extends AxiosError {
   response?: ApiErrorResponse;
+  data?: any;
 }
 
 interface DisplayError {
@@ -31,6 +32,10 @@ const getErrorMessage = (error: ApiError): string => {
   if (error.response?.message) {
     console.debug("error message: error.response.message");
     return error.response.message;
+  }
+  if (error.data?.message) {
+    console.debug("error message: error.data.message");
+    return error.data.message;
   }
   return error.response?.statusText ?? "An error occurred. Sorry.";
 };
