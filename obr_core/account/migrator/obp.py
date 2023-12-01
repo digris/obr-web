@@ -59,7 +59,7 @@ class OBPMigrator:
 
         print(f"total: {len(user_accounts)} - created: {len(migrated_accounts)}")
 
-    def update_legacy_users(self):
+    def update_legacy_users(self):  # NOQA: C901
         user_accounts = self.get_user_accounts()
         created_users = []
         for user_account in user_accounts:
