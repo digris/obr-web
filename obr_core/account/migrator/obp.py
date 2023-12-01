@@ -39,7 +39,7 @@ class OBPMigrator:
                 continue
 
             try:
-                user = User.objects.get(email=email)
+                user = User.objects.using(self.database).get(email=email)
                 logger.info(
                     f"existing account: {obp_id} - {user.obp_id} / {email} - {user.email}",
                 )
@@ -99,7 +99,9 @@ class OBPMigrator:
                 gender = ""
 
             try:
-                user, created = LegacyUser.objects.update_or_create(
+                user, created = LegacyUser.objects.using(
+                    self.database,
+                ).update_or_create(
                     email=email,
                     obp_id=obp_id,
                     defaults={

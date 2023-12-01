@@ -15,6 +15,21 @@ from tagging.managers import TaggableManager
 from tagging.models import TaggedItem
 
 
+class Kind(models.TextChoices):
+    UNDEFINED = "", "Not specified"
+    SONG = "song", "Song"
+    ACAPPELLA = "acappella", "A cappella"
+    SOUNDEFFECTS = "soundeffects", "Sound effects"
+    SOUNDTRACK = "soundtrack", "Soundtrack"
+    SPOKENWORD = "spokenword", "Spokenword"
+    INTERVIEW = "interview", "Interview"
+    JINGLE = "jingle", "Jingle"
+    DJMIX = "djmix", "DJ-Mix"
+    CONCERT = "concert", "Concert"
+    LIVEACT = "liveact", "Live Act PA)"
+    RADIOSHOW = "radioshow", "Radio show"
+
+
 class Media(
     TimestampedModelMixin,
     CTUIDModelMixin,
@@ -26,6 +41,14 @@ class Media(
     duration = models.DurationField(
         default=timedelta(),
         db_index=True,
+    )
+
+    kind = models.CharField(
+        max_length=16,
+        blank=True,
+        db_index=True,
+        choices=Kind.choices,
+        default=Kind.UNDEFINED,
     )
 
     artists = models.ManyToManyField(

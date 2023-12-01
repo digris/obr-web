@@ -37,6 +37,7 @@ def sync_media(media, skip_media=False, **kwargs):
         "updated": timezone.make_aware(datetime.fromisoformat(data.get("updated"))),
         "name": data.get("name").strip(),
         "duration": timedelta(seconds=data.get("duration")),
+        "kind": data.get("type"),
     }
 
     type(media).objects.filter(id=media.id).update(**update)

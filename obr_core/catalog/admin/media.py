@@ -21,12 +21,14 @@ class MediaAdmin(admin.ModelAdmin):
         "uid",
         "artist_display",
         "duration",
+        "kind",
         "latest_airplay",
         "num_airplays",
         "sync_state",
     ]
     list_filter = [
         "sync_state",
+        "kind",
         "airplays__time_start",
         "releases__release_type",
     ]

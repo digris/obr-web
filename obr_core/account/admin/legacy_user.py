@@ -1,6 +1,15 @@
 from django.contrib import admin
 
+from account import email_login
+
 from ..models import LegacyUser
+
+
+@admin.action(description="Send login email")
+# pylint: disable=unused-argument
+def send_login_email(modeladmin, request, queryset):
+    for legacy_user in queryset.all():
+        email_login.send_login_email(email=legacy_user.email)
 
 
 @admin.register(LegacyUser)
@@ -22,6 +31,8 @@ class LegacyUserAdmin(admin.ModelAdmin):
         "email",
         "user",
         "obp_id",
+        "date_joined",
+        "date_last_login",
         "first_name",
         "last_name",
         "phone",
@@ -43,3 +54,6 @@ class LegacyUserAdmin(admin.ModelAdmin):
         "gender",
     ]
     date_hierarchy = "date_last_login"
+    actions = [
+        send_login_email,
+    ]
