@@ -7,7 +7,41 @@ import Visual from "@/components/catalog/mood/Visual.vue";
 const el = ref<HTMLElement | null>(null);
 const { width, height } = useElementSize(el);
 
-const json = ref("{}");
+const json = ref(`{
+  "rays": [
+    {
+      "count": 2,
+      "width": 0.1,
+      "colors": {
+        "inner": [
+          0, 0, 0, 0.5
+        ],
+        "outer": [
+          255, 255, 255, 0.5
+        ]
+      },
+      "length": 2000,
+      "spread": 2
+    },
+    {
+      "count": 2,
+      "width": 2,
+      "colors": {
+        "inner": [
+          0, 0, 0, 0.5
+        ],
+        "outer": [
+          255, 255, 255, 0.5
+        ]
+      },
+      "length": 2000,
+      "spread": 2
+    }
+  ],
+  "color": [
+    119, 231, 199
+  ]
+}`);
 const visible = ref(true);
 const data = computed(() => {
   try {
