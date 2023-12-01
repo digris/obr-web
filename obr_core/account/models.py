@@ -295,6 +295,10 @@ class LegacyUser(
         blank=True,
         validators=[MinValueValidator(1900), MaxValueValidator(2022)],
     )
+    is_listener = models.BooleanField(
+        default=False,
+        help_text="has account on radio site",
+    )
 
     def __str__(self):
         return self.email
@@ -319,16 +323,6 @@ def user_pre_save(sender, instance, **kwargs):
         ]:
             if not getattr(instance, k) and getattr(legacy_user, k):
                 setattr(instance, k, getattr(legacy_user, k))
-
-        # if not instance.first_name and legacy_user.first_name:
-        #
-        # if not instance.last_name and legacy_user.last_name:
-        #
-        # if not instance.phone and legacy_user.phone:
-        #
-        # if not instance.gender and legacy_user.gender:
-        #
-        # if not instance.year_of_birth and legacy_user.year_of_birth:
 
 
 @receiver(post_save, sender=User)

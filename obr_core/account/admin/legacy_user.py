@@ -9,6 +9,7 @@ class LegacyUserAdmin(admin.ModelAdmin):
         "email",
         "user",
         "obp_id",
+        "is_listener",
         "first_name",
         "last_name",
         "phone",
@@ -28,12 +29,14 @@ class LegacyUserAdmin(admin.ModelAdmin):
         "gender",
         "date_joined",
         "date_last_login",
+        "is_listener",
     ]
     search_fields = [
         "email",
         "obp_id",
     ]
     list_filter = [
+        "is_listener",
         "date_joined",
         "date_last_login",
         "year_of_birth",
