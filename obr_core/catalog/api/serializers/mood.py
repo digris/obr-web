@@ -1,7 +1,20 @@
-from api_extra.serializers import CTUIDModelSerializer, RGBValueField
+from api_extra.serializers import CTUIDModelSerializer
 from catalog.models import Mood
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from tagging.api.serializers import TagSerializer
+
+
+@extend_schema_field(
+    {
+        "type": "integer",
+    },
+)
+class RGBValueField(
+    serializers.FloatField,
+):
+    min_value = 0
+    max_value = 255
 
 
 # @extend_schema_field(OpenApiTypes.OBJECT)
