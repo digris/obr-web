@@ -30,8 +30,8 @@ class OBPMigrator:
         for user_account in user_accounts:
             email = user_account.get("email")
             obp_id = user_account.get("id")
-            first_name = user_account.get("first_name")
-            last_name = user_account.get("last_name")
+            first_name = user_account.get("first_name", "")[:60]
+            last_name = user_account.get("last_name", "")[:60]
             date_joined = user_account.get("date_joined")
             last_login = user_account.get("last_login")
 
@@ -65,11 +65,38 @@ class OBPMigrator:
         for user_account in user_accounts:
             email = user_account.get("email")
             obp_id = user_account.get("id")
-            date_joined = user_account.get("date_joined")
-            date_last_login = user_account.get("last_login")
 
             if not (email and obp_id):
                 continue
+
+            date_joined = user_account.get("date_joined")
+            date_last_login = user_account.get("last_login")
+            first_name = user_account.get("first_name", "")[:60]
+            last_name = user_account.get("last_name", "")[:60]
+
+            phone_mobile = user_account.get("phone_mobile")
+            birth_date = user_account.get("birth_date")
+            gender_str = user_account.get("gender")
+
+            if phone_mobile and phone_mobile.startswith("+"):
+                phone = phone_mobile.strip().replace(" ", "")
+            else:
+                phone = ""
+
+            if birth_date:
+                try:
+                    year_of_birth = int(birth_date[:4])
+                    assert year_of_birth > 1900
+                    assert year_of_birth < 2023
+                except (ValueError, AssertionError):
+                    year_of_birth = None
+            else:
+                year_of_birth = None
+
+            if gender_str and gender_str in ["female", "male", "other"]:
+                gender = gender_str
+            else:
+                gender = ""
 
             try:
                 user, created = LegacyUser.objects.update_or_create(
@@ -78,6 +105,11 @@ class OBPMigrator:
                     defaults={
                         "date_joined": date_joined,
                         "date_last_login": date_last_login,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "phone": phone,
+                        "year_of_birth": year_of_birth,
+                        "gender": gender,
                     },
                 )
             except IntegrityError as e:

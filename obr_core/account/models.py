@@ -268,6 +268,33 @@ class LegacyUser(
         blank=True,
         null=True,
     )
+    first_name = models.CharField(
+        max_length=64,
+        default="",
+        blank=True,
+    )
+    last_name = models.CharField(
+        max_length=64,
+        default="",
+        blank=True,
+    )
+    phone = models.CharField(
+        max_length=64,
+        blank=True,
+        default="",
+        db_index=True,
+    )
+    gender = models.CharField(
+        max_length=16,
+        choices=GenderStr.choices,
+        default=GenderStr.UNDEFINED,
+        blank=True,
+    )
+    year_of_birth = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1900), MaxValueValidator(2022)],
+    )
 
     def __str__(self):
         return self.email
@@ -282,6 +309,26 @@ def user_pre_save(sender, instance, **kwargs):
     if legacy_user := LegacyUser.objects.filter(email=instance.email).first():
         instance.migration_source = MigrationSource.OBP
         instance.obp_id = legacy_user.obp_id
+
+        for k in [
+            "first_name",
+            "last_name",
+            "phone",
+            "gender",
+            "year_of_birth",
+        ]:
+            if not getattr(instance, k) and getattr(legacy_user, k):
+                setattr(instance, k, getattr(legacy_user, k))
+
+        # if not instance.first_name and legacy_user.first_name:
+        #
+        # if not instance.last_name and legacy_user.last_name:
+        #
+        # if not instance.phone and legacy_user.phone:
+        #
+        # if not instance.gender and legacy_user.gender:
+        #
+        # if not instance.year_of_birth and legacy_user.year_of_birth:
 
 
 @receiver(post_save, sender=User)
