@@ -66,15 +66,19 @@ class OBPMigrator:
             email = user_account.get("email")
             obp_id = user_account.get("id")
             date_joined = user_account.get("date_joined")
-            last_login = user_account.get("last_login")
+            date_last_login = user_account.get("last_login")
 
             if not (email and obp_id):
                 continue
 
             try:
-                user, created = LegacyUser.objects.get_or_create(
+                user, created = LegacyUser.objects.update_or_create(
                     email=email,
                     obp_id=obp_id,
+                    defaults={
+                        "date_joined": date_joined,
+                        "date_last_login": date_last_login,
+                    },
                 )
             except IntegrityError as e:
                 logger.info(f"error creating user: {e}")
@@ -83,7 +87,7 @@ class OBPMigrator:
             if created:
                 created_users.append(user)
 
-            print(f"{obp_id} : {date_joined} : {last_login or '-' * 19} : {email}")
+            print(f"{obp_id} : {date_joined} : {date_last_login or '-' * 19} : {email}")
 
         print(f"total: {len(user_accounts)} - created: {len(created_users)}")
 

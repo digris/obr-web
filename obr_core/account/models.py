@@ -260,9 +260,20 @@ class LegacyUser(
         verbose_name="open broadcast - platform ID",
         db_index=True,
     )
+    date_joined = models.DateTimeField(
+        blank=True,
+        null=True,
+    )
+    date_last_login = models.DateTimeField(
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.email
+
+    def user(self):
+        return User.objects.filter(obp_id=self.obp_id).first()
 
 
 @receiver(pre_save, sender=User)

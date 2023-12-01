@@ -15,15 +15,17 @@ def run():
 
     data = [
         {
-            "email": d["email"],
-            "first_name": d["first_name"],
-            "last_name": d["last_name"],
+            "EMAIL": d["email"],
+            "FNAME": d["first_name"],
+            "LNAME": d["last_name"],
+            "DJOINED": d["date_joined"][:10],
+            "DLOGIN": d["last_login"][:10],
         }
         for d in data
     ]
 
     writer = csv.DictWriter(sys.stdout, fieldnames=data[0].keys())
-
+    writer.writeheader()
     writer.writerows(data)
 
 

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
   <meta id="theme-color" name="theme-color" content="rgb({% if color %}{{ color|join:',' }}{% else %}200,200,200{% endif %})">
   <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
-  <link rel="icon" type="image/png" href="{% static 'assets/favicon/default.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'assets/manifest/icon-triangle-white.png' %}">
   <link rel="manifest" href="{% url 'manifest:manifest' %}">
   {% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
   <link href="{% static 'main.js' %}" rel="modulepreload">
