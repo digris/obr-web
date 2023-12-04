@@ -43,6 +43,7 @@ class Heartbeat(
         choices=[
             ("live", "live"),
             ("ondemand", "ondemand"),
+            ("unknown", "unknown"),
         ],
     )
     player_state = models.CharField(

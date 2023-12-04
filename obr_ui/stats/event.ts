@@ -1,6 +1,7 @@
 import { computed, watch } from "vue";
 import { debounce, isEqual } from "lodash-es";
 
+import { sendPlayerEvent } from "@/analytics/event";
 import { createPlayerEvents } from "@/api/stats";
 import { usePlayerState } from "@/composables/player";
 
@@ -11,16 +12,13 @@ export interface Event {
   source: string;
 }
 
-const createGA4Event = (event: Event) => {
-  const GA4event = {
-    event: "player",
+const createAnalyticsEvent = (event: Event) => {
+  sendPlayerEvent({
     state: event.state,
     source: event.source,
     obj_key: event.objKey,
     obj_name: event.objName,
-  };
-  // @ts-ignore
-  window.dataLayer.push(GA4event);
+  });
 };
 
 class EventHandler {
@@ -39,7 +37,7 @@ class EventHandler {
       if (!event.objKey) {
         return;
       }
-      createGA4Event(event);
+      createAnalyticsEvent(event);
       await createPlayerEvents([event]);
     }, 200);
     watch(combinedState, (newValue, oldValue) => {

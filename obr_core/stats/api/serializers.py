@@ -85,6 +85,7 @@ class HeartbeatCreateSerializer(
         choices=[
             "live",
             "ondemand",
+            "unknown",
         ],
     )
 

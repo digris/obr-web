@@ -43,9 +43,10 @@ class Media(
         db_index=True,
     )
 
-    kind = models.CharField(
+    kind = models.CharField(  # NOQA DJ001
         max_length=16,
         blank=True,
+        null=True,
         db_index=True,
         choices=Kind.choices,
         default=Kind.UNDEFINED,
