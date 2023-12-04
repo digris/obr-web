@@ -4,7 +4,8 @@ from django.utils import timezone
 
 from subscription.models import Subscription, SubscriptionType
 
-NUM_DAYS_TRIAL = -1  # NOTE: for legal reasons trial is disabled
+# NUM_DAYS_TRIAL = -1  # NOTE: for legal reasons trial is disabled
+NUM_DAYS_TRIAL = 5  # NOTE: for legal reasons trial is disabled - or not???
 
 
 def start_trial(user, num_days=NUM_DAYS_TRIAL):
