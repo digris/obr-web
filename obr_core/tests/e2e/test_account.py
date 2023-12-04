@@ -59,7 +59,7 @@ class TestAccount:
         settings.SITE_URL = live_server.url
         self.driver.get(live_server.url)
 
-        assert "open broadcast radio" == self.driver.title
+        assert "Play | open broadcast radio" == self.driver.title
 
         body = self.driver.find_element(By.TAG_NAME, "body").text
         # assert "2021-01-01T" in body

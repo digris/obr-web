@@ -55,7 +55,7 @@ const routes = [
     name: "home",
     component: Radio,
     meta: {
-      title: "Radio",
+      title: "Play",
       colorTheme: "live",
     },
   },
@@ -563,7 +563,6 @@ router.beforeEach(async (to, from, next) => {
     .reverse()
     .find((r) => r.meta && r.meta.title);
   if (node && node.meta.title) {
-    console.debug("node title", node.meta.title);
     usePageTitle(node.meta.title);
   }
   next();
