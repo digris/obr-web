@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
-// import { Integrations } from "@sentry/tracing";
-// import * as Sentry from "@sentry/vue";
+import { Integrations } from "@sentry/tracing";
+import * as Sentry from "@sentry/vue";
 import log from "loglevel";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
@@ -10,7 +10,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import de from "@/locales/de.yml";
 // @ts-ignore
 import en from "@/locales/en.yml";
-// import settings from "@/settings";
+import settings from "@/settings";
 // import createEventHandler from "@/stats/event";
 import { useSettingsStore } from "@/stores/settings";
 // import createAccountHandler from "@/utils/account";
@@ -61,31 +61,31 @@ app.use(router);
 app.use(i18n);
 app.directive("tooltip", TooltipDirective);
 
-// if (settings.SENTRY_DSN) {
-//   Sentry.init({
-//     app,
-//     dsn: settings.SENTRY_DSN,
-//     integrations: [
-//       new Integrations.BrowserTracing({
-//         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-//         tracePropagationTargets: [
-//           "local.obr-next",
-//           "next.openbroadcast.ch",
-//           "openbroadcast.ch",
-//           /^\//,
-//         ],
-//       }),
-//       new Sentry.Replay({
-//         maskAllText: false,
-//         blockAllMedia: false,
-//       }),
-//     ],
-//     trackComponents: true,
-//     tracesSampleRate: 1.0,
-//     replaysSessionSampleRate: 0.1,
-//     replaysOnErrorSampleRate: 1.0,
-//   });
-// }
+if (settings.SENTRY_DSN) {
+  Sentry.init({
+    app,
+    dsn: settings.SENTRY_DSN,
+    integrations: [
+      new Integrations.BrowserTracing({
+        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+        tracePropagationTargets: [
+          "local.obr-next",
+          "next.openbroadcast.ch",
+          "openbroadcast.ch",
+          /^\//,
+        ],
+      }),
+      new Sentry.Replay({
+        maskAllText: false,
+        blockAllMedia: false,
+      }),
+    ],
+    trackComponents: true,
+    tracesSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
+    replaysOnErrorSampleRate: 1.0,
+  });
+}
 
 // if (settings.SENTRY_DSN) {
 //   Sentry.init({
