@@ -73,6 +73,8 @@ type receiveChannel =
   | "settings:update"
   // settings
   | "account:update"
+  // appscene
+  | "appscene:update"
   // sign-in
   | "googleSignin:completed";
 
@@ -229,6 +231,19 @@ class AppBridge {
         break;
       }
       case "account:update": {
+        break;
+      }
+      case "appscene:update": {
+        // for some reason the app "looses" the accessToken / cdnKey
+        // so we force an update here...
+        const { sceneName, eventName } = data;
+        if (sceneName === "Main" && eventName === "sceneDidBecomeActive") {
+          console.debug("appscene", "mainSceneDidBecomeActive");
+          const { user } = useAccount();
+          if (user.value?.accessToken) {
+            await this.send("account:setAccessToken", { accessToken: user.value?.accessToken });
+          }
+        }
         break;
       }
       case "googleSignin:completed": {

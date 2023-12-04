@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.db.models.functions import Now
+from django.utils import timezone
 
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
@@ -44,6 +47,11 @@ class HeartbeatView(
                 None,
                 status=status.HTTP_201_CREATED,
             )
+
+        # NOTE: this should be done by a separate cleanup task
+        Heartbeat.objects.filter(
+            time__lt=timezone.now() - timedelta(seconds=120),
+        ).delete()
 
         return Response(
             serializer.errors,
