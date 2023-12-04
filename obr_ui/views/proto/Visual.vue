@@ -107,19 +107,9 @@ watch(() => rayConfig.value, redraw);
   grid-gap: 1rem;
 
   > .visual {
-    background: yellow;
     aspect-ratio: 2/1;
-    /*
-    :deep(.visual-container ) {
-      .visual {
-        transform: scale(0.5);
-        transform-origin: top left;
-      }
-    }
-    */
   }
   > .data {
-    background: red;
     > textarea {
       width: 100%;
       height: 100%;
