@@ -10,6 +10,7 @@ import MediaList from "@/components/catalog/media/List.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
+import { usePageTitle } from "@/composables/title";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
@@ -52,6 +53,7 @@ export default defineComponent({
       search: [],
       options: {},
     }));
+    usePageTitle(computed(() => playlist.value?.name));
     onActivated(() => loadPlaylist(props.uid));
     return {
       t,

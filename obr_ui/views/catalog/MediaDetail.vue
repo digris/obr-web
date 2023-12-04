@@ -9,6 +9,7 @@ import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
+import { usePageTitle } from "@/composables/title";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
@@ -54,6 +55,7 @@ export default defineComponent({
     const image = computed(() => {
       return release.value && release.value.image ? release.value.image : null;
     });
+    usePageTitle(computed(() => media.value?.name));
     onActivated(() => loadMedia(props.uid));
     return {
       media,

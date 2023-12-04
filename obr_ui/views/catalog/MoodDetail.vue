@@ -7,6 +7,7 @@ import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
 import MediaList from "@/components/catalog/media/List.vue";
 import Visual from "@/components/catalog/mood/Visual.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
+import { usePageTitle } from "@/composables/title";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
@@ -59,6 +60,7 @@ export default defineComponent({
       merged.tags = tags;
       return merged;
     });
+    usePageTitle(computed(() => mood.value?.name));
     onActivated(() => loadMood(props.uid));
     const allMediaLoaded = ref(false);
     return {

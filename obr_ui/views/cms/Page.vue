@@ -1,11 +1,12 @@
 <script lang="ts">
-import { defineComponent, nextTick, onBeforeMount, ref, watch } from "vue";
+import { computed, defineComponent, nextTick, onBeforeMount, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { getPage } from "@/api/cms";
 import Section from "@/components/cms/Section.vue";
 import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 import { useSettings } from "@/composables/settings";
+import { usePageTitle } from "@/composables/title";
 import type { Page } from "@/typings/api";
 
 interface ErrorPage {
@@ -43,6 +44,7 @@ export default defineComponent({
         };
       }
     };
+    usePageTitle(computed(() => page.value?.title));
     onBeforeMount(async () => {
       await loadPage(props.path);
     });

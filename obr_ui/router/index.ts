@@ -14,6 +14,7 @@ import MoodList from "@/components/catalog/mood/List.vue";
 import PlaylistList from "@/components/catalog/playlist/List.vue";
 import DiscoverHome from "@/components/discover/Home.vue";
 import Searchbar from "@/components/filter/Searchbar.vue";
+import { usePageTitle } from "@/composables/title";
 import DiscoverHeader from "@/layouts/DiscoverHeader.vue";
 import { setBodyColorTheme } from "@/utils/color";
 import { parseFilterQuery } from "@/utils/filter";
@@ -54,6 +55,7 @@ const routes = [
     name: "home",
     component: Radio,
     meta: {
+      title: "Radio",
       colorTheme: "live",
     },
   },
@@ -76,6 +78,9 @@ const routes = [
     name: "program",
     components: {
       default: Program,
+    },
+    meta: {
+      title: "Program",
     },
     props: {
       default: (route: any) => ({
@@ -317,6 +322,9 @@ const routes = [
     path: "/collection/",
     name: "collection",
     component: Collection,
+    meta: {
+      title: "Favourites",
+    },
     /*
     beforeEnter: async (to: any, from: any, next: any) => {
       const authenticated = await isAuthenticated();
@@ -390,6 +398,9 @@ const routes = [
     path: "/account/",
     name: "Account",
     component: Account,
+    meta: {
+      title: "Account",
+    },
     redirect: {
       name: "accountSettings",
     },
@@ -444,12 +455,18 @@ const routes = [
     path: "/faq/",
     name: "faq",
     component: Faq,
+    meta: {
+      title: "FAQ",
+    },
   },
   // non-cms pages
   {
     path: "/donate/",
     name: "donate",
     component: Donate,
+    meta: {
+      title: "Donate",
+    },
   },
   // prototypes
   {
@@ -515,6 +532,9 @@ const routes = [
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: NotFound,
+    meta: {
+      title: "404",
+    },
   },
 ];
 
@@ -542,8 +562,9 @@ router.beforeEach(async (to, from, next) => {
     .slice()
     .reverse()
     .find((r) => r.meta && r.meta.title);
-  if (node) {
-    // set tile?
+  if (node && node.meta.title) {
+    console.debug("node title", node.meta.title);
+    usePageTitle(node.meta.title);
   }
   next();
 });

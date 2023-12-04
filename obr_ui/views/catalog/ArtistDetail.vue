@@ -1,7 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, onActivated, onBeforeUpdate } from "vue";
 import { useI18n } from "vue-i18n";
-import { useTitle } from "@vueuse/core";
 
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlayAllAction from "@/components/catalog/actions/PlayAllAction.vue";
@@ -10,6 +9,7 @@ import ObjectIdentifiers from "@/components/identifier/ObjectIdentifiers.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import Duration from "@/components/ui/time/Duration.vue";
+import { usePageTitle } from "@/composables/title";
 import DetailHeader from "@/layouts/DetailHeader.vue";
 import DetailHeaderLoading from "@/layouts/DetailHeaderLoading.vue";
 import DetailPage from "@/layouts/DetailPage.vue";
@@ -46,10 +46,7 @@ export default defineComponent({
       search: [],
       options: {},
     }));
-    const title = computed(() => {
-      return artist.value?.name;
-    });
-    useTitle(title);
+    usePageTitle(computed(() => artist.value?.name));
     // this is kind of bad. don't know yet how to improve...
     // onActivated is called when component is already in keep-alive router,
     // onBeforeUpdate is needed to switch between different objects in the already active component.
