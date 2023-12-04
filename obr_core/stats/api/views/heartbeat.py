@@ -43,15 +43,15 @@ class HeartbeatView(
                 | serializer.validated_data,
             )
 
+            # NOTE: this should be done by a separate cleanup task
+            Heartbeat.objects.filter(
+                time__lt=timezone.now() - timedelta(seconds=120),
+            ).delete()
+
             return Response(
                 None,
                 status=status.HTTP_201_CREATED,
             )
-
-        # NOTE: this should be done by a separate cleanup task
-        Heartbeat.objects.filter(
-            time__lt=timezone.now() - timedelta(seconds=120),
-        ).delete()
 
         return Response(
             serializer.errors,

@@ -73,6 +73,11 @@ class HeartbeatAdmin(
         "player_state",
     ]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.order_by("device_key")
+        return qs
+
     @admin.display(description="Online", boolean=True)
     def is_online_display(self, obj):
         return obj.time_since_last_heartbeat.total_seconds() < IS_ONLINE_THRESHOLD
