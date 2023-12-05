@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.113 (2023-12-05)
+### Fix
+* Set live domain ;) ([`1de5c39`](https://github.com/digris/obr-web/commit/1de5c39df1d1f699eb189914833e91f1e9801fd5))
+
 ## v0.0.112 (2023-06-26)
 ### Fix
 * Reauthenticate app-user in case of existing session ([`81846a8`](https://github.com/digris/obr-web/commit/81846a89d16c2ff2159f3cb6ed06e44171104e5c))
