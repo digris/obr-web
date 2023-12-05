@@ -104,5 +104,5 @@ export default defineComponent({
   <LegalLinks />
   <CookieConsent />
   <CompatibilityNotice />
-  <div v-show="true" id="app-version" :data-version="version" v-text="version" />
+  <div v-show="false" id="app-version" :data-version="version" v-text="version" />
 </template>
