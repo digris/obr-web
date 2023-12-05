@@ -1,13 +1,10 @@
 <template>
   <div class="service">
-    <p class="title">
-      Get eclectic!<br />
-      <!--For music enthusiasts, by music enthusiasts.-->
-    </p>
+    <i18n-t class="title" keypath="account.serviceInfoAside.title" tag="p" />
     <ul>
-      <li>High-Quality Streaming</li>
-      <li>Always up to date</li>
-      <li>Listen to the whole catalog when & where<small>*</small> you want!</li>
+      <i18n-t keypath="account.serviceInfoAside.bullet1" tag="li" />
+      <i18n-t keypath="account.serviceInfoAside.bullet2" tag="li" />
+      <i18n-t keypath="account.serviceInfoAside.bullet3" tag="li"><sup>*</sup></i18n-t>
     </ul>
   </div>
 </template>
@@ -16,6 +13,8 @@
 @use "@/style/base/typo";
 
 .service {
+  color: rgb(var(--c-white));
+
   .title {
     @include typo.x-large;
     @include typo.bold;
@@ -28,3 +27,4 @@
   }
 }
 </style>
+<script setup lang="ts"></script>

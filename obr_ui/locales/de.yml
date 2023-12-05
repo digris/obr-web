@@ -29,6 +29,7 @@ menu:
   imprint: Impressum
   dpp: Datenschutzerklärung
   terms: Nutzungsbedingungen
+  login: Anmelden
   logout: Abmelden
 navigation:
   search:
@@ -103,16 +104,21 @@ account:
       continueWith: Weiter mit {0}
   legal:
     terms:
-      term: By signing up you agree to the {0} and {1}.
-      tos: Terms of Service
-      pp: Privacy Policy
+      term: Mit deiner Anmeldung stimmst du den {0} und der {1} zu.
+      tos: Nutzungsbedingungen
+      pp: Datenschutzerklärung
     availability:
-      note: "Currently we can only provide access to our on-demand service for people living in Switzerland. 
-            More about in the {0} section."
+      note: "{0}Derzeit können wir unseren On-Demand-Service nur für Menschen mit Wohnsitz in der Schweiz zugänglich machen.
+            Mehr dazu unter {1}."
       faq: FAQ
   qrcode:
     title: Mobile Login
     info: Scanne den QR-Code mit deinem Mobiltelefon
+  serviceInfoAside:
+    title: Get eclectic!
+    bullet1: Streaming in bester Qualität
+    bullet2: Immer informiert
+    bullet3: Höre unseren ganzen Katalog – wann und wo{0} du willst
   settings:
     subscription:
       title: Guthaben für kostenpflichtige Inhalte

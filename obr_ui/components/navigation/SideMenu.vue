@@ -126,7 +126,10 @@ export default defineComponent({
         />
       </section>
       <section class="section" v-else>
-        <a href="#" @click.prevent="login"> Login </a>
+        <a
+          href="#" @click.prevent="login"
+          v-text="t('menu.login')"
+        />
       </section>
       <section class="section section--primary">
         <router-link

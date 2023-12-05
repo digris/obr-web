@@ -29,7 +29,8 @@ menu:
   imprint: Imprint
   dpp: Privacy Policy
   terms: Terms & Conditions
-  logout: Logout
+  login: Sign in
+  logout: Sign out
 navigation:
   search:
     title: Search
@@ -107,11 +108,16 @@ account:
       tos: Terms of Service
       pp: Privacy Policy
     availability:
-      note: "Currently we can only provide access to our on-demand service for people living in Switzerland. More about in the {0} section."
+      note: "{0} Currently we can only provide access to our on-demand service for people living in Switzerland. More about in the {1} section."
       faq: FAQ
   qrcode:
     title: Mobile login
     info: Scan the QR code with your mobile phone
+  serviceInfoAside:
+    title: Get eclectic!
+    bullet1: High-Quality Streaming
+    bullet2: Always up to date
+    bullet3: Listen to the whole catalog when & where{0} you want
   settings:
     subscription:
       title: Credit for Paid Content

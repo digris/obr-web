@@ -59,6 +59,12 @@
     {{ user.theme.css|safe }}
   </style>{% endif %}
   {% include 'utils/version-watcher.html' %}
+  <script>
+  // NOTE: temporary redirect from preview site
+  if(document.settings.CLIENT_MODE === "web" && document.location.hostname === "next.openbroadcast.ch") {
+    document.location.href = "https://openbroadcast.ch/";
+  }
+  </script>
   {% usersnap %}{% endspaceless %}
 </body>
 <!--
