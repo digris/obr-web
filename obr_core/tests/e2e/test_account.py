@@ -68,7 +68,7 @@ class TestAccount:
 
         self.driver.save_screenshot("screenshots/start.png")
 
-        self.driver.find_element(By.XPATH, "//a[normalize-space()='Login']").click()
+        self.driver.find_element(By.XPATH, "//a[normalize-space()='Sign in']").click()
 
         fill_form(
             self.driver,
@@ -117,7 +117,7 @@ class TestAccount:
         time.sleep(2)
 
         account_button = self.driver.find_element(By.CSS_SELECTOR, ".account-menu > a")
-        assert account_button.text == "Login"
+        assert account_button.text == "Sign in"
 
         # re-login with created account
 
