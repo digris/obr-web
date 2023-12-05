@@ -14,7 +14,7 @@ import { usePlayerStore } from "@/stores/player";
 import type { AudioAnalyser } from "./analyser";
 import { createAudioAnalyser } from "./analyser";
 
-const PROTECTED_MEDIA = "https://media.next.openbroadcast.ch/";
+const PROTECTED_MEDIA = "https://media.openbroadcast.ch/";
 
 const hlsConfig = {
   ...hlsBaseConfig,

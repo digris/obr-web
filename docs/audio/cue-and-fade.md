@@ -29,8 +29,8 @@ NOTE: in general the API uses seconds for duration based values.
 ## Development Playlist
 
 - Playlist UID: `80FB3498`
-- [Web](https://next.openbroadcast.ch/discover/playlists/80FB3498/)
-- [API](https://next.openbroadcast.ch/api/v1/catalog/media/?limit=16&offset=0&ordering=&obj_key=catalog.playlist:80FB3498)
+- [Web](https://openbroadcast.ch/discover/playlists/80FB3498/)
+- [API](https://openbroadcast.ch/api/v1/catalog/media/?limit=16&offset=0&ordering=&obj_key=catalog.playlist:80FB3498)
 
 | UID       | title          | dur. [s] |  cue-in [s] |  cue-out [s] | fade-in [s] |  fade-out [s] | play dur. [s] |
 |-----------|----------------|---------:|------------:|-------------:|------------:|--------------:|--------------:|

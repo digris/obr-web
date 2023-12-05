@@ -2,7 +2,7 @@
 
 ## ReDoc
 
-- https://next.openbroadcast.ch/api/v1/schema/redoc/
+- https://openbroadcast.ch/api/v1/schema/redoc/
 
 ## Topics
 

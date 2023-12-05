@@ -90,7 +90,7 @@ gcloud beta compute backend-buckets update obr-media-backend-bucket \
 # signed cookie is invalid...
 gcloud beta compute backend-buckets update obr-media-backend-bucket \
     --custom-response-header='Access-Control-Allow-Credentials: true' \
-    --custom-response-header='Access-Control-Allow-Origin: https://next.openbroadcast.ch'
+    --custom-response-header='Access-Control-Allow-Origin: https://openbroadcast.ch'
 ```
 
 
@@ -109,7 +109,7 @@ gcloud compute backend-buckets describe obr-media-backend-bucket
 
 curl \
   -b 'Cloud-CDN-Cookie=URLPrefix=aHR0cDovL21lZGlhLm9ici1uZXh0LmhhemVsZmlyZS5jb20vZW5jb2RlZA==:Expires=1616446849:KeyName=cdn-key:Signature=BPmnfRLIN4jM_UCdSyXyEhXC7Yk=' \
-  https://media.next.openbroadcast.ch/encoded/F001/manifest.mpd
+  https://media.openbroadcast.ch/encoded/F001/manifest.mpd
 
 ```
 

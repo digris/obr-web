@@ -9,7 +9,7 @@ const useAPIBaseUrl = () => {
   const APIBaseUrl = computed(() => {
     /*
     NOTE: review behaviour:
-          curl 'https://next.openbroadcast.ch/discover/playlists/' \
+          curl 'https://openbroadcast.ch/discover/playlists/' \
                -H 'accept-language: de,en-US;q=0.9,en;q=0.8'
     */
     /*

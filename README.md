@@ -6,8 +6,8 @@
 
 - [GitHub Project](https://github.com/digris/obr-web)
 - [Project Board](https://github.com/orgs/digris/projects/2)
-- [next.openbroadcast.ch](https://next.openbroadcast.ch/)
-- [next.openbroadcast.ch/admin/](https://next.openbroadcast.ch/admin/)
+- [openbroadcast.ch](https://openbroadcast.ch/)
+- [openbroadcast.ch/admin/](https://openbroadcast.ch/admin/)
 - [Gitlab Project](https://gitlab.com/digris/open-broadcast/openbroadcast.ch)
 
 

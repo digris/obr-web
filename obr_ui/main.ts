@@ -70,7 +70,6 @@ app.directive("tooltip", TooltipDirective);
 //         routingInstrumentation: Sentry.vueRouterInstrumentation(router),
 //         tracePropagationTargets: [
 //           "local.obr-next",
-//           "next.openbroadcast.ch",
 //           "openbroadcast.ch",
 //           /^\//,
 //         ],

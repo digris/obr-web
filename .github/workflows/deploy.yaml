@@ -93,7 +93,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "next.openbroadcast.ch - deploying ${{ steps.vars.outputs.sha_short }}"
+              "text": "openbroadcast.ch - deploying ${{ steps.vars.outputs.sha_short }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

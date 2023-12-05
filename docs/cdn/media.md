@@ -38,9 +38,9 @@ Media items (a.k.a. "Tracks") can be mapped directly to CDN resources via `UID`:
 
 ```
 e.g.: 
-https://next.openbroadcast.ch/discover/tracks/57E76303/
+https://openbroadcast.ch/discover/tracks/57E76303/
 #
-https://next.openbroadcast.ch/discover/tracks/<-UID-->/
+https://openbroadcast.ch/discover/tracks/<-UID-->/
 ```
 
 can be mapped to:
@@ -52,13 +52,13 @@ https://<media-endpoint>/encoded/<uid>/<hls|dash>/manifest.<mpd|m3u8>
 for `DASH` the example form above would result in:
 
 ```
-https://media.next.openbroadcast.ch/encoded/57E76303/dash/manifest.mpd
+https://media.openbroadcast.ch/encoded/57E76303/dash/manifest.mpd
 ```
 
 and accordingly for `HLS`:
 
 ```
-https://media.next.openbroadcast.ch/encoded/57E76303/hls/manifest.m3u8
+https://media.openbroadcast.ch/encoded/57E76303/hls/manifest.m3u8
 ```
 
 
@@ -67,7 +67,7 @@ https://media.next.openbroadcast.ch/encoded/57E76303/hls/manifest.m3u8
 For testing implementations the following URL / file can be used:
 
 ```
-https://media.next.openbroadcast.ch/encoded/0000TEST/test-credentials.txt
+https://media.openbroadcast.ch/encoded/0000TEST/test-credentials.txt
 ```
 
 
@@ -83,7 +83,7 @@ from getpass import getpass
 def get_user():
     email = "api-test@openbroadcast.ch"
     password = getpass("password: ")
-    url = "https://next.openbroadcast.ch/api/v1/account/login/"
+    url = "https://openbroadcast.ch/api/v1/account/login/"
     r = requests.post(url, json={"email": email, "password": password})
     return r.json()
 
@@ -96,7 +96,7 @@ cdn_policy = user["cdnPolicy"]
 ```python
 from urllib.request import urlopen, Request
 
-test_url = "https://media.next.openbroadcast.ch/encoded/0000TEST/test-credentials.txt"
+test_url = "https://media.openbroadcast.ch/encoded/0000TEST/test-credentials.txt"
 
 # should fail
 urlopen(Request(test_url)).read()
@@ -110,7 +110,7 @@ urlopen(Request(test_url, headers={"Cookie": f"Cloud-CDN-Cookie={cdn_policy}"}))
 ```python
 import requests
 
-test_url = "https://media.next.openbroadcast.ch/encoded/0000TEST/test-credentials.txt"
+test_url = "https://media.openbroadcast.ch/encoded/0000TEST/test-credentials.txt"
 
 requests.get(test_url)  # <Response [403]>
 
@@ -121,7 +121,7 @@ requests.get(test_url, cookies={"Cloud-CDN-Cookie": cdn_policy})  # <Response [2
 #### CDN request using `curl`
 
 ```shell
-TEST_URL="https://media.next.openbroadcast.ch/encoded/0000TEST/test-credentials.txt"
+TEST_URL="https://media.openbroadcast.ch/encoded/0000TEST/test-credentials.txt"
 CDN_POLICY="..."
 
 curl \

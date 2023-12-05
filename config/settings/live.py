@@ -18,7 +18,7 @@ env.read_env(io.StringIO(payload))
 
 from .base import *  # NOQA
 
-SITE_URL = "https://next.openbroadcast.ch"
+SITE_URL = "https://openbroadcast.ch"
 
 ##################################################################
 # make sure to add further setting overrides *after*

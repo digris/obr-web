@@ -478,7 +478,7 @@ SPECTACULAR_SETTINGS = {
     ],
     "SERVERS": [
         {
-            "url": "https://next.openbroadcast.ch",
+            "url": "https://openbroadcast.ch",
         },
         {
             "url": "http://local.obr-next:8080",
@@ -520,13 +520,13 @@ STREAM_ENDPOINTS = {
 STREAM_LATENCY = 0  # seconds
 
 MEDIA_ENDPOINTS = {
-    "dash": "https://media.next.openbroadcast.ch/encoded/",
-    "hls": "https://media.next.openbroadcast.ch/encoded/",
+    "dash": "https://media.openbroadcast.ch/encoded/",
+    "hls": "https://media.openbroadcast.ch/encoded/",
 }
 
 IMAGE_RESIZER_ENDPOINT = env(
     "IMAGE_RESIZER_ENDPOINT",
-    default="https://next.openbroadcast.ch/images/",
+    default="https://openbroadcast.ch/images/",
 )
 
 

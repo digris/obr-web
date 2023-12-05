@@ -26,7 +26,7 @@ def test_get_cdn_policy():
 
     assert (
         policy
-        == "URLPrefix=aHR0cHM6Ly9tZWRpYS5uZXh0Lm9wZW5icm9hZGNhc3QuY2gvZW5jb2RlZA==:Expires=1636416000:KeyName=cdn-key:Signature=c4O57_Tajb7N2YWpPCY5vnOF15Y="
+        == "URLPrefix=aHR0cHM6Ly9tZWRpYS5vcGVuYnJvYWRjYXN0LmNoL2VuY29kZWQ=:Expires=1636416000:KeyName=cdn-key:Signature=e3iLIIGqKHuINVLxrAOBMmg4cUo="
     )
 
 
@@ -44,5 +44,5 @@ def test_remove_credentials(client):
     response = remove_credentials(response)
     assert (
         str(response.cookies)
-        == 'Set-Cookie: Cloud-CDN-Cookie=""; Domain=next.openbroadcast.ch; expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Path=/'
+        == 'Set-Cookie: Cloud-CDN-Cookie=""; Domain=openbroadcast.ch; expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; Path=/'
     )

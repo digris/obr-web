@@ -35,7 +35,7 @@ export default defineComponent({
   <div class="ptype-view">
     <div class="stage typo">
       <p class="t t--wf t--500">Foo the Bear 500</p>
-      <p class="t t--alt t--500">Foo the Bear 500 (alt)</p>
+      <p class="t t--alt t--500">Bar the Fox 500 (alt)</p>
     </div>
     <div class="stage" :style="stageVarsA">
       <pre v-text="stageVarsA" />

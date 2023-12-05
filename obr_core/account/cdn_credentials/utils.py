@@ -2,7 +2,7 @@ import logging
 
 from .policy import get_cdn_policy
 
-CLOUD_CDN_DOMAIN = "next.openbroadcast.ch"
+CLOUD_CDN_DOMAIN = "openbroadcast.ch"
 CLOUD_CDN_COOKIE_NAME = "Cloud-CDN-Cookie"
 
 logger = logging.getLogger(__name__)

@@ -5,7 +5,7 @@ import logging
 import os
 import requests
 
-USER_AGENT = "next.openbroadcast.ch - metadata updater/0.0.1"
+USER_AGENT = "openbroadcast.ch - metadata updater/0.0.1"
 API_URL = os.environ.get("API_URL", "https://stream.openbroadcast.ch/")
 API_TOKEN = os.environ.get("API_TOKEN")
 
@@ -81,5 +81,5 @@ def run(event, context):
 
 
 if __name__ == "__main__":
-    r = requests.get("https://next.openbroadcast.ch/api/v1/broadcast/schedule/")
+    r = requests.get("https://openbroadcast.ch/api/v1/broadcast/schedule/")
     update_metadata(r.json()[0])

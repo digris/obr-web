@@ -2,7 +2,7 @@ import json
 import requests
 from datetime import datetime
 
-URL = "https://next.openbroadcast.ch/api/v1/broadcast/schedule/"
+URL = "https://openbroadcast.ch/api/v1/broadcast/schedule/"
 
 
 class ApiError(Exception):

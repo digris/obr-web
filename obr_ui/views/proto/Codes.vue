@@ -33,7 +33,7 @@ export default defineComponent({
     </div>
     <div class="qr qr--voucher">
       <qrcode-vue
-        value="https://next.openbroadcast.ch/#KS-HM-ZH"
+        value="https://openbroadcast.ch/#KS-HM-ZH"
         :size="512"
         background="#ffffff"
         foreground="#000000"
@@ -42,7 +42,7 @@ export default defineComponent({
       />
       <div class="text">
         <p class="code">KS-HM-ZH</p>
-        <p class="url">next.openbroadcast.ch</p>
+        <p class="url">openbroadcast.ch</p>
       </div>
       <div class="step">2</div>
     </div>

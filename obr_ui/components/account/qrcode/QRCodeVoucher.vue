@@ -21,7 +21,7 @@ export default defineComponent({
     const { t } = useI18n();
     const { darkMode } = useSettings();
     const voucherUrl = computed(() => {
-      return `https://next.openbroadcast.ch/#${props.voucher.codeDisplay}`;
+      return `https://openbroadcast.ch/#${props.voucher.codeDisplay}`;
     });
     const size = 200;
     const bg = "#ffffff00";

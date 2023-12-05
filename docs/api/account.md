@@ -2,7 +2,7 @@
 
 ## Authentication
 
- - [API Doc](https://next.openbroadcast.ch/api/v1/schema/redoc/#tag/authentication)
+ - [API Doc](https://openbroadcast.ch/api/v1/schema/redoc/#tag/authentication)
 
 ### Default Login / Session / JWT Token
 
@@ -117,7 +117,7 @@ See [docs/cdn/media](../cdn/media.md)
 
 ### "Password-less" Login
 
-See [API Doc](https://next.openbroadcast.ch/api/v1/schema/redoc/#tag/authentication)
+See [API Doc](https://openbroadcast.ch/api/v1/schema/redoc/#tag/authentication)
 
 #### Auth-code Login
 

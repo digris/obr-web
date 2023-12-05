@@ -4,7 +4,7 @@ import hashlib
 import hmac
 
 COOKIE_NAME = "Cloud-CDN-Cookie"
-URL_PREFIX = "https://media.next.openbroadcast.ch/encoded"
+URL_PREFIX = "https://media.openbroadcast.ch/encoded"
 KEY_NAME = "cdn-key"
 KEY_BASE64 = "uH2LcPhs5zzOLQsu65rtZw=="
 

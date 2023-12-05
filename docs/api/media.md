@@ -4,7 +4,7 @@
 
 ## API Media (a.k.a. "Tracks") Endpoint
 
-- `https://next.openbroadcast.ch/de/api/v1/catalog/media/`
+- `https://openbroadcast.ch/de/api/v1/catalog/media/`
 
 ### Expandable Fields
 
@@ -25,31 +25,31 @@ As default listings are limited to 100 results. This can be changed using the `l
 ### Example Media Listing
 
 ```text
-https://next.openbroadcast.ch/api/v1/catalog/media/
+https://openbroadcast.ch/api/v1/catalog/media/
 ```
 
 ```json
 {
     "count": 17341,
-    "next": "https://next.openbroadcast.ch/api/v1/catalog/media/?limit=100&offset=100",
+    "next": "https://openbroadcast.ch/api/v1/catalog/media/?limit=100&offset=100",
     "previous": null,
     "results": [
         {
             "ct": "catalog.media",
             "uid": "79979982",
-            "url": "https://next.openbroadcast.ch/api/v1/catalog/media/79979982/",
+            "url": "https://openbroadcast.ch/api/v1/catalog/media/79979982/",
             "name": "Swimmers",
             "artistDisplay": "Zero 7, Jem Cooke",
             "artists": [
                 {
-                    "url": "https://next.openbroadcast.ch/api/v1/catalog/artists/47A045B9/",
+                    "url": "https://openbroadcast.ch/api/v1/catalog/artists/47A045B9/",
                     "ct": "catalog.artist",
                     "uid": "47A045B9",
                     "name": "Zero 7",
                     "joinPhrase": null
                 },
                 {
-                    "url": "https://next.openbroadcast.ch/api/v1/catalog/artists/69B33661/",
+                    "url": "https://openbroadcast.ch/api/v1/catalog/artists/69B33661/",
                     "ct": "catalog.artist",
                     "uid": "69B33661",
                     "name": "Jem Cooke",
@@ -60,7 +60,7 @@ https://next.openbroadcast.ch/api/v1/catalog/media/
                 {
                     "ct": "catalog.release",
                     "uid": "10B894B9",
-                    "url": "https://next.openbroadcast.ch/api/v1/catalog/releases/10B894B9/",
+                    "url": "https://openbroadcast.ch/api/v1/catalog/releases/10B894B9/",
                     "name": "Swimmers",
                     "numMedia": 1,
                     "isNew": false,
@@ -109,7 +109,7 @@ or `/api/v1/broadcast/schedule/`):
 {
   "ct": "catalog.playlist",
   "uid": "80FB3498",
-  "url": "https://next.openbroadcast.ch/api/v1/catalog/playlists/80FB3498/",
+  "url": "https://openbroadcast.ch/api/v1/catalog/playlists/80FB3498/",
   "name": "DEV - FADE / CUE",
   "image": {
     ...
@@ -128,7 +128,7 @@ In the case from above: `obj_key=catalog.playlist:80FB3498`
 Using the `obj_key` the tracks for the given playlist can be retrieved:
 
 ```text
-https://next.openbroadcast.ch/api/v1/catalog/media/?obj_key=catalog.playlist:80FB3498
+https://openbroadcast.ch/api/v1/catalog/media/?obj_key=catalog.playlist:80FB3498
 ```
 
 
@@ -141,7 +141,7 @@ Given a playlist resource (e.g. retrieved from `/api/v1/catalog/moods/`):
 {
   "ct": "catalog.mood",
   "uid": "66BB2601",
-  "url": "https://next.openbroadcast.ch/api/v1/catalog/moods/66BB2601/",
+  "url": "https://openbroadcast.ch/api/v1/catalog/moods/66BB2601/",
   "name": "Cocktail",
   "teaser": "Anything with friends around the table",
   "tags": [
@@ -168,5 +168,5 @@ In the case from above: `obj_key=catalog.mood:66BB2601`
 Using the `obj_key` the tracks for the given mood can be retrieved:
 
 ```text
-https://next.openbroadcast.ch/api/v1/catalog/media/?obj_key=catalog.mood:66BB2601
+https://openbroadcast.ch/api/v1/catalog/media/?obj_key=catalog.mood:66BB2601
 ```

@@ -37,5 +37,5 @@ def email_login_code(request):
 
 def redirect(request):
     return HttpResponsePermanentRedirect(
-        "https://next.openbroadcast.ch/proto/app-bridge/",
+        "https://openbroadcast.ch/proto/app-bridge/",
     )

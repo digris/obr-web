@@ -18,13 +18,13 @@ Assuming an image endpoint as:
 
 ```
 # IMAGE_RESIZER_ENDPOINT
-https://next.openbroadcast.ch/images/
+https://openbroadcast.ch/images/
 ```
 
 And an image resource in the form of:
 
 ```
-curl https://next.openbroadcast.ch/api/v1/catalog/artists/D0BBF91A/ | jq '.image'
+curl https://openbroadcast.ch/api/v1/catalog/artists/D0BBF91A/ | jq '.image'
 # 
 "image": {
     "path": "catalog/artist/DFD5FE55/60748682.jpg",
@@ -40,10 +40,10 @@ Combine the two:
 
 ```
 # example
-https://next.openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg
+https://openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg
 ```
 
-![Blundetto](https://next.openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg)
+![Blundetto](https://openbroadcast.ch/images/crop/200x200/catalog/artist/DFD5FE55/60748682.jpg)
 
 ## Image (Re-)Sizer Implementation & Flow
 
