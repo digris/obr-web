@@ -25,7 +25,13 @@ export default defineComponent({
 <template>
   <div>
     <div class="account-menu" v-if="!user">
-      <a href="#" @click.prevent="login" class="menu-link"> Login </a>
+      <i18n-t
+        tag="a"
+        href="#"
+        @click.prevent="login"
+        class="menu-link"
+        keypath="account.auth.login"
+      />
     </div>
   </div>
 </template>

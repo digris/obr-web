@@ -85,7 +85,7 @@ formActions:
 account:
   title: Account
   auth:
-    login: Login
+    login: Sign in
     register: Create account
     password: Password
     sendToken: Send code
