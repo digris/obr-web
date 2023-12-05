@@ -21,6 +21,7 @@ import { useDevice } from "@/composables/device";
 import type { EventBusEvents } from "@/eventBus";
 import { HlsPlayer } from "@/player/hlsPlayer";
 import createMediaSessionHandler from "@/player/mediaSession";
+import settings from "@/settings";
 import createEventHandler from "@/stats/event";
 import createHeartbeatHandler from "@/stats/heartbeat";
 import createAccountHandler from "@/utils/account";
@@ -78,6 +79,7 @@ export default defineComponent({
 
     return {
       isSmallScreen,
+      version: settings.VERSION,
     };
   },
 });
@@ -102,4 +104,5 @@ export default defineComponent({
   <LegalLinks />
   <CookieConsent />
   <CompatibilityNotice />
+  <div v-show="true" id="app-version" :data-version="version" v-text="version" />
 </template>

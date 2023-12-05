@@ -18,8 +18,9 @@
   </style>
   <script>
     document.settings = {% json_settings settings %};
-    {% if color %}document.settings.COLOR = {{ color }}{% endif %}
-    {% if client_mode %}document.settings.CLIENT_MODE = "{{ client_mode }}"{% endif %}
+    document.settings.VERSION = "{{ version }}";
+    {% if color %}document.settings.COLOR = {{ color }};{% endif %}
+    {% if client_mode %}document.settings.CLIENT_MODE = "{{ client_mode }}";{% endif %}
   </script>
   <script>
     window.dataLayer = [];
@@ -57,6 +58,7 @@
   {% if user.is_authenticated and user.theme and user.theme.css %}<style>
     {{ user.theme.css|safe }}
   </style>{% endif %}
+  {% include 'utils/version-watcher.html' %}
   {% usersnap %}{% endspaceless %}
 </body>
 <!--

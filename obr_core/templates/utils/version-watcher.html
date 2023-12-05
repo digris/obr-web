@@ -1,0 +1,13 @@
+<script>
+addEventListener("DOMContentLoaded", (event) => {
+    const id = "app-version";
+    const version = "{{ version }}";
+    setInterval(() => {
+      const el = document.getElementById(id);
+      if (el?.dataset?.version !== version) {
+        console.warn("version changed: reload app");
+        window.location.reload();
+      }
+    }, 10000);
+});
+</script>
