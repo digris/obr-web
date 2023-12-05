@@ -112,7 +112,7 @@ class TestAccount:
 
         self.driver.find_element(By.CSS_SELECTOR, ".menu-toggle").click()
         time.sleep(1)
-        self.driver.find_element(By.XPATH, "//a[normalize-space()='Logout']").click()
+        self.driver.find_element(By.XPATH, "//a[normalize-space()='Sign out']").click()
 
         time.sleep(2)
 
