@@ -737,6 +737,21 @@ Django = ">=3.2"
 typing-extensions = "*"
 
 [[package]]
+name = "django-nonrelated-inlines"
+version = "0.2"
+description = "Django admin inlines for unrelated models"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "django-nonrelated-inlines-0.2.tar.gz", hash = "sha256:e123010a3ad18b049781d6688b3ff45b2441e69fd63802bec94c37cd36c83611"},
+    {file = "django_nonrelated_inlines-0.2-py3-none-any.whl", hash = "sha256:216a4513971c58568f450a2339064746624de718a946088534e86011b400ccc3"},
+]
+
+[package.dependencies]
+Django = ">=2.0"
+
+[[package]]
 name = "django-qsstats-magic"
 version = "1.1.0"
 description = "A django microframework that eases the generation of aggregate data for querysets."
@@ -3689,4 +3704,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "2f6dce8ef2fe0135003dd053a74461a67fe227c12e504d34b3ee26de31c4d176"
+content-hash = "c1e0ede40ae79c7e2f9311ebba1dfe20117fad9e0e6b7bf42c0861a0b7fd10e7"

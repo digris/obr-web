@@ -60,6 +60,7 @@ grpcio = "1.51.3"
 psycopg = {extras = ["binary", "pool"], version = "^3.1.9"}
 mailchimp-marketing = "^3.0.80"
 google-cloud-pubsub = "^2.18.4"
+django-nonrelated-inlines = "^0.2"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"

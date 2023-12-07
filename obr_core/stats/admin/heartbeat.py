@@ -3,10 +3,67 @@ from datetime import timedelta
 from django.contrib import admin
 from django.utils import timezone
 
-from stats.models import Heartbeat
+from nonrelated_inlines.admin import NonrelatedTabularInline
+from stats.models import Heartbeat, PlayerEvent
 from user_identity.admin import get_admin_link_for_user_identity
 
 IS_ONLINE_THRESHOLD = 120
+
+
+class PlayerEventInline(NonrelatedTabularInline):
+    model = PlayerEvent
+    extra = 0
+
+    fieldsets = [
+        (
+            "",
+            {
+                "fields": [
+                    "time_display",
+                    "source",
+                    "state",
+                    "duration_display",
+                    "obj_key",
+                ],
+            },
+        ),
+    ]
+
+    readonly_fields = [
+        "time_display",
+        "duration_display",
+    ]
+
+    def get_form_queryset(self, obj):
+        qs = self.model.objects.filter(device_key=obj.device_key)
+        qs = qs.filter(time__gte=obj.created).exclude(
+            state__in=["buffering", "stopped"],
+        )
+        return qs
+
+    @staticmethod
+    def save_new_instance(parent, instance):
+        return False
+
+    @staticmethod
+    def has_add_permission(request, obj):
+        return False
+
+    @staticmethod
+    def has_change_permission(request, obj):
+        return False
+
+    @staticmethod
+    def has_delete_permission(request, obj):
+        return False
+
+    @admin.display(description="Time", empty_value="-")
+    def time_display(self, obj):
+        return f"{obj.time:%H:%M:%S}"
+
+    @admin.display(description="Duration", empty_value="-")
+    def duration_display(self, obj):
+        return str(obj.duration).split(".")[0] if obj.duration else "-"
 
 
 class IsOnlineFilter(admin.DateFieldListFilter):
@@ -98,6 +155,9 @@ class HeartbeatAdmin(
         "in_foreground",
         "player_source",
         "player_state",
+    ]
+    inlines = [
+        PlayerEventInline,
     ]
 
     def get_queryset(self, request):
