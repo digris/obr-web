@@ -122,10 +122,10 @@ class HeartbeatAdmin(
     admin.ModelAdmin,
 ):
     list_display = [
-        "user_identity",
+        # "user_identity",
+        "time_online",
         "user_display",
         "time_since_last_heartbeat_in_seconds",
-        "time_online",
         # "created",
         "player_source",
         "player_state",
@@ -141,9 +141,9 @@ class HeartbeatAdmin(
         "player_source",
         "player_state",
     ]
-    date_hierarchy = "time"
     search_fields = [
         "user_identity",
+        "user_agent",
     ]
     readonly_fields = [
         "time",
