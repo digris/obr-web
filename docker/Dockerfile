@@ -130,4 +130,4 @@ ENV DJANGO_SETTINGS_MODULE=config.settings.live \
 
 EXPOSE 8000
 
-CMD exec hypercorn config.asgi:application --bind :$PORT
+CMD exec hypercorn config.asgi:application --workers 4 --bind :$PORT

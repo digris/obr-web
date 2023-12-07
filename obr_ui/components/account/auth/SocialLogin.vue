@@ -49,6 +49,10 @@ export default defineComponent({
       if (isApp && appVersion?.major !== 1) {
         return authBackends.value.filter((b) => b.provider !== "google-oauth2");
       }
+      // NOTE: temporarily disable apple-id for app-mode
+      if (isApp) {
+        return authBackends.value.filter((b) => b.provider !== "apple-id");
+      }
       return authBackends.value;
     });
     const getProviderLogo = (provider: string) => {

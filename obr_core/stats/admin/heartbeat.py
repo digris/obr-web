@@ -37,6 +37,29 @@ class IsOnlineFilter(admin.DateFieldListFilter):
         )
 
 
+class DeviceFilter(admin.SimpleListFilter):
+    title = "Device"
+    parameter_name = "user_agent"
+
+    def lookups(self, request, model_admin):
+        return [
+            ("web", "Web"),
+            ("app", "App"),
+        ]
+
+    def queryset(self, request, queryset):
+        ua_app = "OBR-App"
+        if self.value() == "web":
+            return queryset.exclude(
+                user_agent__startswith=ua_app,
+            )
+        if self.value() == "app":
+            return queryset.filter(
+                user_agent__startswith=ua_app,
+            )
+        return None
+
+
 @admin.register(Heartbeat)
 class HeartbeatAdmin(
     admin.ModelAdmin,
@@ -45,15 +68,18 @@ class HeartbeatAdmin(
         "user_identity",
         "user_display",
         "time_since_last_heartbeat_in_seconds",
-        # "time_since_last_heartbeat",
+        "time_online",
+        # "created",
         "player_source",
         "player_state",
         "user_agent_display",
+        "remote_ip",
         "in_foreground",
         "is_online_display",
     ]
     list_filter = [
         ("time", IsOnlineFilter),
+        DeviceFilter,
         "in_foreground",
         "player_source",
         "player_state",
@@ -64,6 +90,7 @@ class HeartbeatAdmin(
     ]
     readonly_fields = [
         "time",
+        "created",
         "user_identity",
         "device_key",
         "user_agent",
@@ -75,16 +102,20 @@ class HeartbeatAdmin(
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        qs = qs.order_by("device_key")
+        qs = qs.order_by("-created")
         return qs
 
     @admin.display(description="Online", boolean=True)
     def is_online_display(self, obj):
         return obj.time_since_last_heartbeat.total_seconds() < IS_ONLINE_THRESHOLD
 
-    @admin.display(description="Last beat [s]")
+    @admin.display(description="Last beat [s]", ordering="time")
     def time_since_last_heartbeat_in_seconds(self, obj):
         return round(obj.time_since_last_heartbeat.total_seconds())
+
+    @admin.display(description="Time online", ordering="created")
+    def time_online(self, obj):
+        return str(timezone.now() - obj.created).split(".")[0]
 
     @admin.display(description="User")
     def user_display(self, obj):

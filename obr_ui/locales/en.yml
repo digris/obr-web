@@ -143,7 +143,7 @@ account:
       labelCountry: country
     personal:
       title: Personal Information
-      labelName: Surname
+      labelName: Name
       labelSurname: Surname
       labelYearOfBirth: Year of birth
       labelFavoriteVenue: Favorite club or venue
