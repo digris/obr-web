@@ -55,7 +55,8 @@ type sendChannel =
   // browser
   | "browser:navigate"
   // sign-in
-  | "googleSignin:start";
+  | "googleSignin:start"
+  | "appleSignin:start";
 
 // channels RECEIVING data FROM swift-app
 type receiveChannel =
@@ -76,7 +77,8 @@ type receiveChannel =
   // appscene
   | "appscene:update"
   // sign-in
-  | "googleSignin:completed";
+  | "googleSignin:completed"
+  | "appleSignin:completed";
 
 type SendMessage = {
   c: sendChannel;
@@ -248,6 +250,10 @@ class AppBridge {
       }
       case "googleSignin:completed": {
         await this.loginByIdToken(data);
+        break;
+      }
+      case "appleSignin:completed": {
+        console.debug("appleSignin:completed", data);
         break;
       }
     }

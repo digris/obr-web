@@ -18,7 +18,7 @@ const parseAppUA = (ua: string): null | AppVersion => {
   if (!ua.toLowerCase().startsWith("obr-app-ios/")) {
     return null;
   }
-  const semVer = semverCoerce(ua.substring(12));
+  const semVer = semverCoerce(ua.substring(11));
   if (!semVer) {
     return null;
   }

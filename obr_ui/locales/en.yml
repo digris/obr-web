@@ -19,7 +19,7 @@ menu:
   home: Radio
   discover: Discover
   collection: Favourites
-  program: Program
+  program: Programme
   reception: Reception
   faq: FAQ
   about: About
@@ -58,7 +58,7 @@ player:
   bannedRemove: I like it
 rating:
   downvoteTitle: What bothers you?
-  downvoteLead: In order to constantly improve the radio program, we need your feedback!
+  downvoteLead: In order to constantly improve the radio programme, we need your feedback!
   downvoteScope:
     track: I don't like this title
     genre: I don't like this kind of music

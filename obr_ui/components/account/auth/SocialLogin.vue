@@ -46,11 +46,11 @@ export default defineComponent({
     };
     const availableBackends = computed(() => {
       // NOTE: temporarily disable oauth2 for app versions prior to 1.0.1
-      if (isApp && appVersion?.major !== 1) {
+      if (isApp && appVersion?.major === 1 && appVersion?.minor === 0 && appVersion?.patch < 1) {
         return authBackends.value.filter((b) => b.provider !== "google-oauth2");
       }
-      // NOTE: temporarily disable apple-id for app-mode
-      if (isApp) {
+      // NOTE: temporarily disable apple-id for app versions prior to 1.0.3
+      if (isApp && appVersion?.major === 1 && appVersion?.minor === 0 && appVersion?.patch < 3) {
         return authBackends.value.filter((b) => b.provider !== "apple-id");
       }
       return authBackends.value;
@@ -68,6 +68,13 @@ export default defineComponent({
         console.debug("continue with app native google login");
         iOSMaskVisible.value = true;
         window.appBridge?.send("googleSignin:start");
+        return;
+      }
+
+      if (isApp && backend.provider === "apple-id") {
+        console.debug("continue with app native apple-id login");
+        iOSMaskVisible.value = true;
+        window.appBridge?.send("appleSignin:start");
         return;
       }
 
