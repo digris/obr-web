@@ -90,7 +90,10 @@ class Editor(
 
     @cached_property
     def image(self):
-        return self.images.latest()
+        try:
+            return self.images.latest()
+        except self.images.model.DoesNotExist:
+            return None
 
     @cached_property
     def is_former(self):

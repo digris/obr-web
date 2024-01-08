@@ -93,7 +93,10 @@ class Playlist(
 
     @cached_property
     def image(self):
-        return self.images.latest()
+        try:
+            return self.images.latest()
+        except self.images.model.DoesNotExist:
+            return None
 
     @property
     # NOTE: rethink this implementation (currently not in use)
@@ -132,6 +135,7 @@ class Playlist(
         # NOTE: maybe this could be handled in a more elegant way.
         if self.series:
             return {
+                "ct": "catalog.series",
                 "uid": self.series.uid,
                 "name": self.series.name,
                 "episode": self.series_episode,

@@ -62,7 +62,10 @@ class Artist(
 
     @cached_property
     def image(self):
-        return self.images.latest()
+        try:
+            return self.images.latest()
+        except self.images.model.DoesNotExist:
+            return None
 
     def sync_data(self, *args, **kwargs):
         return sync_artist(self, *args, **kwargs)

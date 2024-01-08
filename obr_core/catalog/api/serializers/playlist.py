@@ -1,8 +1,12 @@
-from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSerializer
+from api_extra.serializers import (
+    CTUIDModelSerializer,
+    CTUIDSerializer,
+    DurationInSecondsSerializer,
+)
 from broadcast.models.editor import Editor
 from broadcast.models.emission import Emission
 from catalog.api.serializers import MediaSerializer
-from catalog.models import Playlist, PlaylistImage, PlaylistMedia, Series
+from catalog.models import Playlist, PlaylistImage, PlaylistMedia
 from image.api.serializers import BaseImageSerializer, ImageSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
@@ -79,20 +83,17 @@ class PlaylistEmissionSerializer(
 
 
 class PlaylistSeriesSerializer(
-    CTUIDModelSerializer,
-    serializers.ModelSerializer,
+    CTUIDSerializer,
+    serializers.Serializer,
 ):
     name = serializers.CharField(
         read_only=True,
     )
-    episode = serializers.CharField(
+    episode = serializers.IntegerField(
         read_only=True,
-        source="series_episode",
-        default="",
     )
 
     class Meta:
-        model = Series
         fields = [
             "ct",
             "uid",
@@ -128,6 +129,7 @@ class PlaylistSerializer(
         allow_null=True,
     )
     series = PlaylistSeriesSerializer(
+        source="series_dict",
         read_only=True,
     )
 
