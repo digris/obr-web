@@ -39,9 +39,6 @@ class SettingsView(APIView):
         operation_id="settings",
     )
     def get(request):
-        # NOTE: rnd - test encoder for APP
-        stream_endpoints = settings.STREAM_ENDPOINTS
-        # stream_endpoints["hls"] = "http://164.92.244.52:8080/live.m3u8"
 
         serializer = serializers.SettingsSerializer(
             {
@@ -49,7 +46,7 @@ class SettingsView(APIView):
                     request,
                     settings.IMAGE_RESIZER_ENDPOINT,
                 ),
-                "STREAM_ENDPOINTS": stream_endpoints,
+                "STREAM_ENDPOINTS": settings.STREAM_ENDPOINTS,
                 "STREAM_LATENCY": settings.STREAM_LATENCY,
                 "MEDIA_ENDPOINTS": settings.MEDIA_ENDPOINTS,
                 "SENTRY_DSN": settings.SENTRY_DSN,
