@@ -41,7 +41,7 @@ class SettingsView(APIView):
     def get(request):
         # NOTE: rnd - test encoder for APP
         stream_endpoints = settings.STREAM_ENDPOINTS
-        stream_endpoints["hls"] = "http://164.92.244.52:8080/live.m3u8"
+        # stream_endpoints["hls"] = "http://164.92.244.52:8080/live.m3u8"
 
         serializer = serializers.SettingsSerializer(
             {

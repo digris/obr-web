@@ -35,8 +35,8 @@ type CueFade = {
 };
 
 const getLiveUrl = (): string => {
-  return "https://obr-stream-hls.hazelfire.com/live.m3u8";
-  // return `${settings.STREAM_ENDPOINTS.hls}?${Date.now()}`;
+  // return "https://obr-stream-hls.hazelfire.com/live.m3u8";
+  return `${settings.STREAM_ENDPOINTS.hls}?${Date.now()}`;
 };
 
 const getOnDemandUrl = (uid: string): string => {
