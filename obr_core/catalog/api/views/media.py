@@ -22,8 +22,8 @@ from tagging import utils as tagging_utils
 
 MEDIA_MIN_DURATION = 12
 DEFAULT_ORDER_BY = "-latest_airplay"
-NUM_MOOD_TAGS = 9
-NUM_OTHER_TAGS = 18
+NUM_MOOD_TAGS = 14
+NUM_OTHER_TAGS = 28
 
 
 class MediaFilter(
