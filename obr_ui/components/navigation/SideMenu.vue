@@ -49,6 +49,14 @@ export default defineComponent({
         console.debug("err", err);
       }
     };
+    const primaryPages = computed(() => {
+      return [
+        {
+          path: "/shop/",
+          title: t("menu.shop"),
+        },
+      ];
+    });
     const pages = computed(() => {
       return [
         {
@@ -98,6 +106,7 @@ export default defineComponent({
       userVouchers,
       login,
       logout,
+      primaryPages,
       pages,
       isWeb,
     };
@@ -165,6 +174,15 @@ export default defineComponent({
           }"
           @click="onNavigate"
           v-text="t('menu.reception')"
+        />
+      </section>
+      <section v-if="false" class="section">
+        <router-link
+          v-for="(page, index) in primaryPages"
+          :key="`page-${index}-${page.path}`"
+          :to="page.path"
+          @click="onNavigate"
+          v-text="page.title"
         />
       </section>
       <section class="section">

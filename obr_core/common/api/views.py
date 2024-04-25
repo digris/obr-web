@@ -39,7 +39,6 @@ class SettingsView(APIView):
         operation_id="settings",
     )
     def get(request):
-
         serializer = serializers.SettingsSerializer(
             {
                 "IMAGE_RESIZER_ENDPOINT": get_absolute_url(

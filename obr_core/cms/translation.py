@@ -4,7 +4,7 @@ from .models import Page, Section
 
 
 @register(Page)
-class CategoryTranslationOptions(
+class PageTranslationOptions(
     TranslationOptions,
 ):
     fields = [
@@ -14,10 +14,12 @@ class CategoryTranslationOptions(
 
 
 @register(Section)
-class TopicTranslationOptions(
+class SectionTranslationOptions(
     TranslationOptions,
 ):
     fields = [
         "title",
         "body",
+        "cta_title",
+        "cta_url",
     ]

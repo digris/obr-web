@@ -16,7 +16,7 @@ class SectionAdminInline(
         models.TextField: {
             "widget": forms.Textarea(
                 attrs={
-                    "rows": 22,
+                    "rows": 10,
                     "cols": 80,
                 },
             ),

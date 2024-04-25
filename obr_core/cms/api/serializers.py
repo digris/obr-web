@@ -27,6 +27,8 @@ class SectionSerializer(
             "title",
             "expandable",
             "body",
+            "cta_title",
+            "cta_url",
         ]
 
 

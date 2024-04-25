@@ -94,6 +94,17 @@ class Section(
     position = models.PositiveSmallIntegerField(
         default=0,
     )
+    # CTA
+    cta_title = models.CharField(
+        max_length=64,
+        blank=True,
+        default="",
+    )
+    cta_url = models.URLField(
+        blank=True,
+        default="",
+    )
+
     page = models.ForeignKey(
         Page,
         on_delete=models.CASCADE,

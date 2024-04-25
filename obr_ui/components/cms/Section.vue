@@ -5,6 +5,8 @@ import { computed, defineComponent, ref } from "vue";
 import ExpandableSection from "@/components/ui/section/ExpandableSection.vue";
 import type { Section } from "@/typings/api";
 
+import SectionCta from "./SectionCta.vue";
+
 export default defineComponent({
   props: {
     section: {
@@ -14,6 +16,7 @@ export default defineComponent({
   },
   components: {
     ExpandableSection,
+    SectionCta,
   },
   setup(props) {
     const isExpanded = ref(false);
@@ -40,10 +43,12 @@ export default defineComponent({
       <h2 @click.prevent v-text="section.title" />
     </template>
     <div class="body" v-html="section.body" />
+    <SectionCta :section="section" />
   </ExpandableSection>
   <section v-else class="section">
     <h2 v-if="section.title" class="title" v-text="section.title" />
     <div class="body" v-html="section.body" />
+    <SectionCta :section="section" />
   </section>
 </template>
 
@@ -63,6 +68,10 @@ export default defineComponent({
   :deep(.body) {
     @include cms.content;
     @include cms.pyembed;
+
+    img {
+      max-width: 100%;
+    }
 
     > .toc {
       @include cms.toc;

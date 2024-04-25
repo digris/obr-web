@@ -211,6 +211,8 @@ watch(objKey, async (key) => {
 }
 
 .prompt {
+  margin-bottom: calc(72px + 1rem); /* player height + margin */
+
   &__lead {
     padding: 0 0 1rem;
 
