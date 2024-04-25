@@ -254,6 +254,7 @@ en:
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    margin-bottom: 2rem;
     padding: 2rem 0 1rem;
 
     .button {
