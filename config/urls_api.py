@@ -170,6 +170,10 @@ urlpatterns = [
         include("newsletter.api.urls", "newsletter"),
     ),
     path(
+        "survey/",
+        include("survey.api.urls", "survey"),
+    ),
+    path(
         "sync/",
         include("sync.api.urls", "sync"),
     ),

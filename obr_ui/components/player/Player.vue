@@ -10,6 +10,7 @@ import { getContrastColor } from "@/utils/color";
 
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
+import News from "./button/News.vue";
 import OnAir from "./button/OnAir.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import PlayerControl from "./PlayerControl.vue";
@@ -52,6 +53,7 @@ const toggleQueue = useToggle(queueVisible);
         </div>
         <div class="right">
           <OnAir />
+          <News />
           <Bandwidth />
           <VolumeControl />
           <Circle v-if="objKey">
@@ -119,6 +121,10 @@ $player-height: 72px;
 
   .right {
     justify-content: flex-end;
+
+    .news {
+      margin-left: 1rem;
+    }
 
     .bandwidth {
       margin-left: 1rem;

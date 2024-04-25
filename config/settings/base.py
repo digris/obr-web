@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     "electronic_mail",
     "stats",
     "newsletter",
+    "survey",
     "slack",
     #
     "usersnap",
