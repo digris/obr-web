@@ -6,6 +6,7 @@ import { round } from "lodash-es";
 
 import Spectrogram from "@/components/audio/Spectrogram.vue";
 import { usePlayerState } from "@/composables/player";
+import { useSettings } from "@/composables/settings";
 import eventBus from "@/eventBus";
 import type { AnnotatedSchedule } from "@/stores/schedule";
 import { useScheduleStore } from "@/stores/schedule";
@@ -34,6 +35,7 @@ export default defineComponent({
     const { time } = storeToRefs(useTimeStore());
     const { isLive } = usePlayerState();
     const { setPrimaryColor } = useUiStore();
+    const { userSettings } = useSettings();
     const { items, current: currentItem } = storeToRefs(useScheduleStore());
     const { width: vpWidth, height: vpHeight } = useWindowSize();
     const itemSize = computed(() => {
@@ -97,6 +99,7 @@ export default defineComponent({
     whenever(isLive, () => eventBus.emit("radio:flow", "releaseFocus"));
 
     // visualisation
+    const spectrogramVisible = computed(() => userSettings.value?.testingEnabled);
     const { primaryColor } = storeToRefs(useUiStore());
     const spectrogramColor = computed(() => {
       const fg = getContrastColor(primaryColor.value);
@@ -118,6 +121,7 @@ export default defineComponent({
       releaseFocus,
       // visualisation
       primaryColor,
+      spectrogramVisible,
       spectrogramColor,
       vpWidth,
     };
@@ -160,7 +164,7 @@ export default defineComponent({
       <Rating v-if="focusedItem?.media" :media="focusedItem.media" />
     </div>
   </div>
-  <Spectrogram v-if="false" :height="200" :width="vpWidth" :color="spectrogramColor" />
+  <Spectrogram v-if="spectrogramVisible" :height="200" :width="vpWidth" :color="spectrogramColor" />
 </template>
 
 <style lang="scss" scoped>

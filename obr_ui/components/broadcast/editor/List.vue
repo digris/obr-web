@@ -2,6 +2,7 @@
 import { computed, defineComponent, onMounted, ref } from "vue";
 
 import { getEditors } from "@/api/broadcast";
+import SocialMediaLinks from "@/components/social-media/SocialMediaLinks.vue";
 import { useRatingStore } from "@/stores/rating";
 
 import EditorCard from "./Card.vue";
@@ -9,6 +10,7 @@ import EditorCard from "./Card.vue";
 export default defineComponent({
   components: {
     EditorCard,
+    SocialMediaLinks,
   },
   setup() {
     const { injectRatings } = useRatingStore();
@@ -52,6 +54,7 @@ export default defineComponent({
       </div>
     </div>
     -->
+    <SocialMediaLinks />
   </div>
 </template>
 
@@ -63,7 +66,11 @@ export default defineComponent({
 .editor-list {
   @include container.default;
 
-  margin-bottom: 4rem;
+  /* margin-bottom: 4rem; */
+}
+
+.social-media-links {
+  margin-top: 4rem;
 }
 
 .grid {
