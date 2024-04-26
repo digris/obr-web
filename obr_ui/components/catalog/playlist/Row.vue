@@ -83,7 +83,8 @@ export default defineComponent({
             },
           }"
         >
-          <PlaylistName :playlist="playlist" :airtime="latestEmission" />
+          <!--<PlaylistName :playlist="playlist" :airtime="latestEmission" />-->
+          <PlaylistName :playlist="playlist" />
         </router-link>
       </div>
       <div class="editor" v-if="playlist.editor">

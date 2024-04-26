@@ -1,3 +1,4 @@
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.exceptions import FieldError
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
@@ -91,8 +92,23 @@ class PlaylistFilter(filters.FilterSet):
 
 
 def get_search_qs(qs, q):
-    qs = qs.filter(
-        Q(name__icontains=q) | Q(series__name__icontains=q),
+    query = "&".join(q.strip().split(" "))
+    search_query = SearchQuery(query, search_type="raw")
+    search_vector = SearchVector(
+        "name",
+        "series_episode",
+        "series__name",
+        "editor__display_name",
+    )
+    qs = (
+        qs.annotate(
+            search=search_vector,
+            rank=SearchRank(search_vector, search_query),
+        )
+        .filter(
+            search=search_query,
+        )
+        .order_by("-rank")
     )
     return qs
 
