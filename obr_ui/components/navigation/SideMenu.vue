@@ -176,7 +176,7 @@ export default defineComponent({
           v-text="t('menu.reception')"
         />
       </section>
-      <section v-if="false" class="section">
+      <section class="section">
         <router-link
           v-for="(page, index) in primaryPages"
           :key="`page-${index}-${page.path}`"
