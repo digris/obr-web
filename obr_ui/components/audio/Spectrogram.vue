@@ -50,6 +50,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .spectrogram-container {
   padding-top: 0;
+  pointer-events: none;
 }
 
 .spectrogram {
