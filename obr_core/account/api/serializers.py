@@ -75,6 +75,34 @@ class SignedEmailLoginSerializer(
     )
 
 
+class AppleIdLoginProfileSerializer(
+    serializers.Serializer,
+):
+    given_name = serializers.CharField(
+        write_only=True,
+        required=False,
+    )
+    family_name = serializers.CharField(
+        write_only=True,
+        required=False,
+    )
+
+
+class AppleIdLoginSerializer(
+    serializers.Serializer,
+):
+    id_token = serializers.CharField(
+        write_only=True,
+    )
+    authorization_code = serializers.CharField(
+        write_only=True,
+    )
+    profile = AppleIdLoginProfileSerializer(
+        write_only=True,
+        allow_null=True,
+    )
+
+
 class GoogleIdTokenLoginSerializer(
     serializers.Serializer,
 ):

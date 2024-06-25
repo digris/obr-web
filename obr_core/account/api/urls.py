@@ -25,6 +25,11 @@ urlpatterns = [
         name="signed-email-login",
     ),
     path(
+        "apple-id-login/",
+        views.AppleIdLoginView.as_view(),
+        name="apple-id-login",
+    ),
+    path(
         "google-id-token-login/",
         views.GoogleIdTokenLoginView.as_view(),
         name="google-id-token-login",

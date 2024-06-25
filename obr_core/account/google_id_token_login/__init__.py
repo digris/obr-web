@@ -20,7 +20,7 @@ class IdTokenLoginError(Exception):
 
 
 def get_or_create_user(request, token):
-    logger.debug(f"initiate id-token login: {token}")
+    logger.debug(f"initiate google id-token login: {token}")
 
     try:
         id_data = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
@@ -61,7 +61,6 @@ def get_or_create_user(request, token):
         user.save()
         user_created = True
 
-    # NOTE: this is just a temporary solution...
     if not user.social_auth.filter(
         provider=SOCIAL_AUTH_PROVIDER,
         uid=social_auth_uid,

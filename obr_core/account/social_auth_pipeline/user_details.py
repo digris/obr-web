@@ -32,7 +32,7 @@ def get_user_details(  # NOQA: C901
             user.last_name = response["lastname"]
             changed = True
 
-    if not user.country and request.geolocation_country:
+    if not user.country and (request and request.geolocation_country):
         user.country = request.geolocation_country
         changed = True
 

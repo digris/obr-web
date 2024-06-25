@@ -8,7 +8,8 @@ import { useQueueStore } from "@/stores/queue";
 import { useScheduleStore } from "@/stores/schedule";
 import { useSettingsStore } from "@/stores/settings";
 
-import { useIdTokenLogin } from "./googleIdTokenLogin";
+import { useAppleIdLogin } from "./appleIdLogin";
+import { useGoogleIdTokenLogin } from "./googleIdTokenLogin";
 
 // how often the web-app sends a heartbeat to swift-app
 const HEARTBEAT_INTERVAL = 2000 * 0.9;
@@ -105,7 +106,10 @@ class AppBridge {
   pauseHeartbeat = (): void => {};
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loginByIdToken = async (payload: unknown): Promise<void> => {};
+  loginByAppleId = async (payload: unknown): Promise<void> => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  loginByGoogleIdToken = async (payload: unknown): Promise<void> => {};
 
   private constructor() {
     const { isApp } = useDevice();
@@ -138,9 +142,12 @@ class AppBridge {
     // https://gist.github.com/dakeshi/d8e69e4ba50b31211d94
     window.addEventListener("click", this.onExternalLink.bind(this));
 
-    // we need to initiate useIdTokenLogin here to have access to router etc.
-    const { loginByIdToken } = useIdTokenLogin();
-    this.loginByIdToken = loginByIdToken;
+    // we need to initiate use*IdTokenLogin here to have access to router etc.
+    const { loginByAppleId } = useAppleIdLogin();
+    this.loginByAppleId = loginByAppleId;
+
+    const { loginByGoogleIdToken } = useGoogleIdTokenLogin();
+    this.loginByGoogleIdToken = loginByGoogleIdToken;
   }
 
   public static getInstance(): AppBridge {
@@ -248,12 +255,14 @@ class AppBridge {
         }
         break;
       }
-      case "googleSignin:completed": {
-        await this.loginByIdToken(data);
-        break;
-      }
       case "appleSignin:completed": {
         console.debug("appleSignin:completed", data);
+        await this.loginByAppleId(data);
+        break;
+      }
+      case "googleSignin:completed": {
+        // console.debug("googleSignin:completed", data);
+        await this.loginByGoogleIdToken(data);
         break;
       }
     }

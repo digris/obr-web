@@ -13,6 +13,7 @@ const useAccount = () => {
     logoutUser,
     loadUser,
     loginUserBySignedEmail,
+    loginUserByAppleId,
     loginUserByGoogleIdToken,
     loginUserByToken,
   } = useAccountStore();
@@ -30,6 +31,7 @@ const useAccount = () => {
     logoutUser,
     loginUser,
     loginUserBySignedEmail,
+    loginUserByAppleId,
     loginUserByGoogleIdToken,
     loginUserByToken,
   };

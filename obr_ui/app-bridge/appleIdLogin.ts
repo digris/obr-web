@@ -5,34 +5,44 @@ import { useAccount } from "@/composables/account";
 import { useNotification } from "@/composables/notification";
 import eventBus from "@/eventBus";
 
+type Profile = {
+  givenName?: string;
+  familyName?: string;
+  email?: string;
+  realUserStatus?: string;
+};
+
 type TokenResult = {
-  idToken?: {
-    tokenString: string;
-  };
+  authorizationCode?: string;
+  identityToken?: string;
+  profile?: Profile;
 };
 
 type TokenPayload = {
   result: TokenResult;
 };
 
-export const useGoogleIdTokenLogin = () => {
-  const { loginUserByGoogleIdToken, loadUser, user, isNew } = useAccount();
+export const useAppleIdLogin = () => {
+  const { loginUserByAppleId, loadUser, user, isNew } = useAccount();
   const router = useRouter();
   const { notify } = useNotification();
 
   /*
     payload contains the whole data sent by obr-app
   */
-  const loginByGoogleIdToken = async (payload: TokenPayload) => {
+  const loginByAppleId = async (payload: TokenPayload) => {
     const { result } = payload;
 
-    const idToken = result?.idToken?.tokenString;
-    if (!idToken) {
+    const idToken = result?.identityToken;
+    const authorizationCode = result?.authorizationCode;
+    const profile = result?.profile;
+    if (!(idToken && authorizationCode)) {
+      console.debug("missing authorizationCode or idToken");
       return;
     }
 
     try {
-      await loginUserByGoogleIdToken(idToken);
+      await loginUserByAppleId(idToken, authorizationCode, profile);
     } catch (err: unknown) {
       const error = err as AxiosError;
       const message = error.response?.data.message ?? "Login error";
@@ -60,6 +70,6 @@ export const useGoogleIdTokenLogin = () => {
     return true;
   };
   return {
-    loginByGoogleIdToken,
+    loginByAppleId,
   };
 };

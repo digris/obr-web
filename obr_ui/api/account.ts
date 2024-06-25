@@ -68,6 +68,22 @@ async function loginBySignedEmail(signedEmail: string) {
   return response.data;
 }
 
+async function loginByAppleId(idToken: string, authorizationCode: string, profile: object) {
+  const url = `${ACCOUNT_ENDPOINT}apple-id-login/`;
+  const payload = {
+    idToken,
+    authorizationCode,
+    profile,
+  };
+  const response = await APIClient.post(url, payload);
+  // NOTE: maybe we should return the same data for
+  //       all login requests.
+  return {
+    created: response.status === 201,
+    user: response.data,
+  };
+}
+
 async function loginByGoogleIdToken(idToken: string) {
   const url = `${ACCOUNT_ENDPOINT}google-id-token-login/`;
   const payload = {
@@ -158,6 +174,7 @@ export {
   getSubscription,
   getUser,
   login,
+  loginByAppleId,
   loginByGoogleIdToken,
   loginBySignedEmail,
   loginByToken,

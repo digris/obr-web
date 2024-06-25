@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import {
   getUser,
   login,
+  loginByAppleId,
   loginByGoogleIdToken,
   loginBySignedEmail,
   loginByToken,
@@ -71,6 +72,18 @@ export const useAccountStore = defineStore("account", {
     async loginUserBySignedEmail(signedEmail: string) {
       try {
         this.user = await loginBySignedEmail(signedEmail);
+      } catch (err) {
+        console.warn(err);
+        this.user = null;
+        throw err;
+      }
+    },
+    async loginUserByAppleId(idToken: string, authorizationCode: string, profile: object) {
+      console.debug("loginUserByAppleId", idToken, authorizationCode, profile);
+      try {
+        const { user, created } = await loginByAppleId(idToken, authorizationCode, profile);
+        this.user = user;
+        this.isNew = created;
       } catch (err) {
         console.warn(err);
         this.user = null;
