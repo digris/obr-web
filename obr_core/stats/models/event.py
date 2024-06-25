@@ -1,8 +1,11 @@
 from django.db import models
 from django.db.models import F, Window
 from django.db.models.functions import Lead
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from common.models.mixins import CTModelMixin, CTUIDModelMixin
+from user_identity.utils import generate_device_key
 
 
 class PlayerEventQuerySet(
@@ -125,6 +128,12 @@ class StreamEvent(
     time_end = models.DateTimeField(
         db_index=True,
     )
+    device_key = models.CharField(
+        max_length=64,
+        db_index=True,
+        default="",
+        blank=True,
+    )
 
     class Meta:
         app_label = "stats"
@@ -134,3 +143,17 @@ class StreamEvent(
 
     def __str__(self):
         return f"{self.ct}:{self.uid}"
+
+
+@receiver(pre_save, sender=StreamEvent)
+def stream_event_pre_save(sender, instance, **kwargs):
+    if instance.ip and instance.user_agent:
+        instance.device_key = generate_device_key(
+            instance.ip,
+            instance.user_agent,
+        )
+
+    if instance.ip:
+        instance.device_key = generate_device_key(
+            instance.ip,
+        )

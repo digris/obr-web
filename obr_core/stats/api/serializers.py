@@ -68,6 +68,7 @@ class StreamEventSerializer(
             "bytes_sent",
             "referer",
             "user_agent",
+            "device_key",
             "seconds_connected",
             "time_start",
             "time_end",

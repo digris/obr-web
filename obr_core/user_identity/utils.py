@@ -58,3 +58,11 @@ def get_device_key(request):
     ]
 
     return "-".join(parts)
+
+
+def generate_device_key(remote_ip, *args):
+    parts = [
+        encode_base64(remote_ip),
+    ] + [encode_sha1(arg)[:10] for arg in args]
+
+    return "-".join(parts)
