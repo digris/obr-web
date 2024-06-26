@@ -72,6 +72,9 @@ class StreamEventSerializer(
             "seconds_connected",
             "time_start",
             "time_end",
+            "geoip_city",
+            "geoip_region",
+            "geoip_country",
         ]
 
 
