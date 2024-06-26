@@ -64,8 +64,8 @@ class StreamEventAdmin(
     list_filter = [
         "time_start",
         "time_end",
-        "geoip_country",
         "path",
+        "geoip_country",
     ]
     date_hierarchy = "time_start"
     search_fields = [
@@ -73,6 +73,8 @@ class StreamEventAdmin(
         "path",
         "referer",
         "user_agent",
+        "geoip_city",
+        "geoip_region",
     ]
     readonly_fields = [
         "device_key",
