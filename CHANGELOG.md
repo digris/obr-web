@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.114 (2024-06-26)
+### Fix
+* Player fad-in / volume handling ([`fc1f6b5`](https://github.com/digris/obr-web/commit/fc1f6b51f43085bce1c25851d06f42e554047938))
+
 ## v0.0.113 (2023-12-05)
 ### Fix
 * Set live domain ;) ([`1de5c39`](https://github.com/digris/obr-web/commit/1de5c39df1d1f699eb189914833e91f1e9801fd5))
