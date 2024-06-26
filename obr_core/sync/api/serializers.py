@@ -28,8 +28,8 @@ class SyncAppSerializer(serializers.Serializer):
     )
     max_age = serializers.IntegerField(
         allow_null=True,
-        default=24 * 60 * 60,
-        max_value=7 * 24 * 60 * 60,
+        default=1 * 24 * 60 * 60,
+        max_value=28 * 24 * 60 * 60,
         help_text="max age / last time updated before n seconds",
     )
     updated = serializers.JSONField(

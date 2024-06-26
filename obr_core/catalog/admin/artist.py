@@ -21,11 +21,13 @@ class ArtistAdmin(admin.ModelAdmin):
         "created",
         "updated",
         "sync_state",
+        "sync_last_update",
     ]
     list_filter = [
         "created",
         "updated",
         "sync_state",
+        "sync_last_update",
     ]
     search_fields = [
         "name",

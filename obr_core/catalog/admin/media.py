@@ -25,9 +25,11 @@ class MediaAdmin(admin.ModelAdmin):
         "latest_airplay",
         "num_airplays",
         "sync_state",
+        "sync_last_update",
     ]
     list_filter = [
         "sync_state",
+        "sync_last_update",
         "kind",
         "airplays__time_start",
         "releases__release_type",

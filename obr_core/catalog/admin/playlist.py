@@ -64,10 +64,12 @@ class PlaylistAdmin(
         "editor",
         "uid",
         "sync_state",
+        "sync_last_update",
     ]
     list_filter = [
         "updated",
         "sync_state",
+        "sync_last_update",
         "editor",
         "series",
     ]
