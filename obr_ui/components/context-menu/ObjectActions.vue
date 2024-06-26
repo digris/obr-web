@@ -61,10 +61,10 @@ export default defineComponent({
       emit("close");
     });
     const { share, isSupported: shareSupported } = useShare();
-    const shareObj = async () => {
+    const shareObj = () => {
       const title = props.obj?.name ?? document.title;
       const url = props.obj?.detailUrl ?? document.location.href;
-      await share({
+      share({
         title,
         url,
       });
