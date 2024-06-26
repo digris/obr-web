@@ -1,3 +1,5 @@
+import logging
+
 from django.db import models
 from django.db.models import F, Window
 from django.db.models.functions import Lead
@@ -5,7 +7,11 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
 from common.models.mixins import CTModelMixin, CTUIDModelMixin
+from django_countries.fields import CountryField
+from geoip import lookup
 from user_identity.utils import generate_device_key
+
+logger = logging.getLogger(__name__)
 
 
 class PlayerEventQuerySet(
@@ -134,6 +140,26 @@ class StreamEvent(
         default="",
         blank=True,
     )
+    geoip_city = models.CharField(
+        verbose_name="city",
+        max_length=128,
+        blank=True,
+        default="",
+        db_index=True,
+    )
+    geoip_region = models.CharField(
+        verbose_name="region",
+        max_length=128,
+        blank=True,
+        default="",
+        db_index=True,
+    )
+    geoip_country = CountryField(
+        verbose_name="country",
+        blank=True,
+        default="",
+        db_index=True,
+    )
 
     class Meta:
         app_label = "stats"
@@ -154,6 +180,10 @@ def stream_event_pre_save(sender, instance, **kwargs):
         )
 
     if instance.ip:
-        instance.device_key = generate_device_key(
-            instance.ip,
-        )
+        try:
+            geoip_data = lookup.geoip(instance.ip)
+            instance.geoip_city = geoip_data.get("city", "")[:128]
+            instance.geoip_region = geoip_data.get("region", "")[:128]
+            instance.geoip_country = geoip_data.get("country_code", "")
+        except lookup.GeoipError as e:
+            logger.info(f"geoip error: {e}")

@@ -57,10 +57,14 @@ class StreamEventAdmin(
         "bytes_sent",
         "referer",
         "user_agent_display",
+        "geoip_country",
+        "geoip_region",
+        "geoip_city",
     ]
     list_filter = [
         "time_start",
         "time_end",
+        "geoip_country",
         "path",
     ]
     date_hierarchy = "time_start"
@@ -70,6 +74,15 @@ class StreamEventAdmin(
         "referer",
         "user_agent",
     ]
+    readonly_fields = [
+        "device_key",
+        "geoip_city",
+        "geoip_region",
+        "geoip_country",
+    ]
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
     @admin.display(description="UA")
     def user_agent_display(self, obj):

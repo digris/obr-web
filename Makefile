@@ -21,21 +21,21 @@ lint-be:
 lint-fe:
 	yarn lint
 
-.PHONY: fix-be
-fix-be:
+.PHONY: format-be
+format-be:
 	poetry run isort obr_core/
 	poetry run ruff check --fix-only obr_core/
 	poetry run black obr_core/
 
-.PHONY: fix-fe
-fix-fe:
+.PHONY: format-fe
+format-fe:
 	yarn fix
 
 .PHONY: lint
 lint: lint-be lint-fe
 
-.PHONY: fix
-fix: fix-be fix-fe
+.PHONY: format
+fix: format-be format-fe
 
 .PHONY: test-be
 test-be:

@@ -1,7 +1,7 @@
 import base64
+import datetime
 import logging
 import time
-from datetime import datetime, timezone
 
 import jwt
 import requests
@@ -11,7 +11,7 @@ from jwt.exceptions import PyJWTError
 
 SOCIAL_AUTH_PROVIDER = "apple-id"
 
-ID_TOKEN_ISSUER = "https://appleid.apple.com"
+ID_TOKEN_ISSUER = "https://appleid.apple.com"  # noqa S105
 
 APP_ID = "ch.digris.obrapp"
 APP_TEAM_ID = "236JDQVAKF"
@@ -36,7 +36,7 @@ def base64_decode(value):
 
 def get_public_key(key_id):
     url = "https://appleid.apple.com/auth/keys"
-    r = requests.get(url)
+    r = requests.get(url, timeout=5)
     keys = r.json()["keys"]
     return next((key for key in keys if key["kid"] == key_id), None)
 
@@ -77,6 +77,7 @@ def verify_authorization_code(authorization_code):
         headers={
             "Content-Type": "application/x-www-form-urlencoded",
         },
+        timeout=5,
     )
 
     print(r.status_code)
@@ -95,13 +96,18 @@ def decode_id_token(id_token):
             audience=APP_ID,
             algorithms=["RS256"],
         )
-    except PyJWTError as error:
-        raise AppleIdLoginError(f"token validation failed by {error}")
+    except PyJWTError as e:
+        raise AppleIdLoginError(f"token validation failed by {e}") from e
 
     return decoded
 
 
-def get_or_create_user(request, id_token, authorization_code, profile=None):
+def get_or_create_user(  # noqa C901
+    request,
+    id_token,
+    authorization_code,
+    profile=None,
+):
     payload = decode_id_token(id_token)
     print("payload", payload)
 
@@ -118,8 +124,11 @@ def get_or_create_user(request, id_token, authorization_code, profile=None):
     if audience != APP_ID:
         raise AppleIdLoginError(f"invalid audience: {audience}")
 
-    if datetime.fromtimestamp(expires_at, tz=timezone.utc) < datetime.now(
-        tz=timezone.utc,
+    if datetime.datetime.fromtimestamp(
+        expires_at,
+        tz=datetime.UTC,
+    ) < datetime.datetime.now(
+        tz=datetime.UTC,
     ):
         raise AppleIdLoginError("token has expired")
 
