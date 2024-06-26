@@ -103,3 +103,9 @@ class Vote(
     @property
     def is_anonymous(self):
         return not self.user
+
+    def get_totals(self):
+        return {
+            "up": self.content_object.votes.filter(value=VoteValue.UP).count(),
+            "down": self.content_object.votes.filter(value=VoteValue.DOWN).count(),
+        }

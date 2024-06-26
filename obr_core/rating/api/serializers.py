@@ -28,6 +28,10 @@ class VoteSerializer(
     is_anonymous = serializers.BooleanField(
         read_only=True,
     )
+    totals = serializers.JSONField(
+        read_only=True,
+        source="get_totals",
+    )
 
     class Meta(CTUIDModelSerializer.Meta):
         model = Vote
@@ -40,6 +44,7 @@ class VoteSerializer(
             "comment",
             "updated",
             "is_anonymous",
+            "totals",
         ]
 
 

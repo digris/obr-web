@@ -93,7 +93,7 @@ class ObjectRatingView(
 
     @extend_schema(
         responses={
-            200: serializers.VoteWriteSerializer,
+            200: serializers.VoteSerializer,
             204: None,
         },
     )
@@ -106,7 +106,7 @@ class ObjectRatingView(
                 status=status.HTTP_204_NO_CONTENT,
             )
 
-        serializer = serializers.VoteWriteSerializer(vote)
+        serializer = serializers.VoteSerializer(vote)
 
         return Response(
             serializer.data,

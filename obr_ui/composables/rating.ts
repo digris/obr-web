@@ -3,7 +3,7 @@ import { useRatingStore } from "@/stores/rating";
 import { useScheduleStore } from "@/stores/schedule";
 
 const useRating = () => {
-  const { ratingByKey, loadRating, setRating } = useRatingStore();
+  const { ratingByKey, totalsByKey, loadRating, setRating } = useRatingStore();
   const { currentMedia: scheduleMedia } = useScheduleStore();
   const { isLive: playerIsLive, isPlaying: playerIsPlaying, media: playerMedia } = usePlayerState();
 
@@ -35,6 +35,7 @@ const useRating = () => {
 
   return {
     ratingByKey,
+    totalsByKey,
     loadRating,
     setRating,
     setRatingWithSource,
