@@ -17,9 +17,7 @@ APP_ID = "ch.digris.obrapp"
 APP_TEAM_ID = "236JDQVAKF"
 
 APP_KEY_ID = "DX7Z5X95D3"
-APP_KEY_CONTENT = """-----BEGIN PRIVATE KEY-----
-(( THIS IS NOT THE KEY ;) ))
------END PRIVATE KEY-----"""
+APP_KEY_CONTENT = ""
 
 
 logger = logging.getLogger(__name__)
@@ -57,6 +55,7 @@ def generate_client_secret():
 
 
 def verify_authorization_code(authorization_code):
+    # NOTE: this is not working. is it even needed??
     print("ac", authorization_code)
 
     client_secret = generate_client_secret()
@@ -131,8 +130,6 @@ def get_or_create_user(  # noqa C901
         tz=datetime.UTC,
     ):
         raise AppleIdLoginError("token has expired")
-
-    # NOTE: this does not work at the moment:
 
     social_auth_uid = apple_id
     user_created = False

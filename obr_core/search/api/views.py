@@ -1,9 +1,13 @@
+from datetime import timedelta
+
 from django.db.models import Q
 
 from catalog.models import Media
 from rest_framework import mixins, viewsets
 
 from .serializers import SearchMediaResultSerializer
+
+MEDIA_MIN_DURATION = 12
 
 
 class GlobalMediaSearchView(
@@ -19,6 +23,10 @@ class GlobalMediaSearchView(
             "releases",
             "releases__images",
         )
+
+        qs = qs.exclude(kind=Media.Kind.JINGLE)
+
+        qs = qs.filter(duration__gt=timedelta(seconds=MEDIA_MIN_DURATION))
 
         qs = qs.filter(
             Q(name__unaccent__icontains=q)
