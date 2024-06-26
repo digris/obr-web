@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from common.utils.urls import get_absolute_url
 from drf_spectacular.utils import OpenApiTypes, extend_schema_field
 from rest_framework import serializers
 
@@ -14,6 +15,20 @@ class RGBValueField(
 ):
     min_value = 0
     max_value = 255
+
+
+@extend_schema_field(
+    {
+        "type": "string",
+    },
+)
+class AbsoluteURLField(
+    serializers.URLField,
+):
+    def to_representation(self, value):
+        if request := self.context.get("request"):
+            return get_absolute_url(request, value)
+        return value
 
 
 class CTUIDSerializer(

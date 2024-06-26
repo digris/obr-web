@@ -35,7 +35,7 @@ format-fe:
 lint: lint-be lint-fe
 
 .PHONY: format
-fix: format-be format-fe
+format: format-be format-fe
 
 .PHONY: test-be
 test-be:

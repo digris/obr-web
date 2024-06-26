@@ -1,4 +1,8 @@
-from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSerializer
+from api_extra.serializers import (
+    AbsoluteURLField,
+    CTUIDModelSerializer,
+    DurationInSecondsSerializer,
+)
 from catalog.models import Artist, ArtistImage
 from identifier.api.serializers import IdentifierSerializer
 from image.api.serializers import BaseImageSerializer
@@ -20,6 +24,9 @@ class ArtistSerializer(
     url = serializers.HyperlinkedIdentityField(
         view_name="api:catalog:artist-detail",
         lookup_field="uid",
+    )
+    detail_url = AbsoluteURLField(
+        source="get_absolute_url",
     )
     name = serializers.CharField(
         read_only=True,
@@ -43,6 +50,7 @@ class ArtistSerializer(
         model = Artist
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
+            "detail_url",
             "name",
             "num_media",
             "media_total_duration",

@@ -1,4 +1,8 @@
-from api_extra.serializers import CTUIDModelSerializer, DurationInSecondsSerializer
+from api_extra.serializers import (
+    AbsoluteURLField,
+    CTUIDModelSerializer,
+    DurationInSecondsSerializer,
+)
 from catalog.api.serializers.release import ReleaseSerializer
 from catalog.models import Media, MediaArtists
 from catalog.models.release import ReleaseImage as Image
@@ -58,6 +62,9 @@ class MediaSerializer(
         view_name="api:catalog:media-detail",
         lookup_field="uid",
     )
+    detail_url = AbsoluteURLField(
+        source="get_absolute_url",
+    )
     name = serializers.CharField(
         read_only=True,
     )
@@ -113,6 +120,7 @@ class MediaSerializer(
         model = Media
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
+            "detail_url",
             "name",
             "artist_display",
             "release_display",

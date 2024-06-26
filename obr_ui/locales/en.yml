@@ -57,6 +57,7 @@ player:
   favoritesRemove: Remove from favorites
   bannedAdd: I do not like it
   bannedRemove: I like it
+  share: Share
 rating:
   downvoteTitle: What bothers you?
   downvoteLead: In order to constantly improve the radio programme, we need your feedback!

@@ -1,4 +1,5 @@
 from api_extra.serializers import (
+    AbsoluteURLField,
     CTUIDModelSerializer,
     CTUIDSerializer,
     DurationInSecondsSerializer,
@@ -111,6 +112,9 @@ class PlaylistSerializer(
         view_name="api:catalog:playlist-detail",
         lookup_field="uid",
     )
+    detail_url = AbsoluteURLField(
+        source="get_absolute_url",
+    )
     image = PlaylistImageSerializer(
         read_only=True,
         allow_null=True,
@@ -137,6 +141,7 @@ class PlaylistSerializer(
         model = Playlist
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
+            "detail_url",
             "name",
             "series",
             "latest_emission_time_start",

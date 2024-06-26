@@ -1,11 +1,13 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
+import { useShare } from "@vueuse/core";
 import { debounce } from "lodash-es";
 
 import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
+import IconShare from "@/components/ui/icon/IconShare.vue";
 import { useObjKey } from "@/composables/obj";
 import { useQueueControls } from "@/composables/queue";
 import { useRating } from "@/composables/rating";
@@ -26,6 +28,7 @@ export default defineComponent({
     IconEnueue,
     IconHeart,
     IconFlash,
+    IconShare,
   },
   emits: ["close"],
   setup(props, { emit }) {
@@ -57,6 +60,16 @@ export default defineComponent({
       await startPlayCurrent();
       emit("close");
     });
+    const { share, isSupported: shareSupported } = useShare();
+    const shareObj = async () => {
+      const title = props.obj?.name ?? document.title;
+      const url = props.obj?.detailUrl ?? document.location.href;
+      await share({
+        title,
+        url,
+      });
+      emit("close");
+    };
     return {
       t,
       iconScale,
@@ -66,6 +79,8 @@ export default defineComponent({
       rate,
       enqueueNext,
       enqueueEnd,
+      shareSupported,
+      shareObj,
     };
   },
 });
@@ -106,6 +121,13 @@ export default defineComponent({
       <Action v-else @click="rate(0)" :label="t('player.bannedRemove')">
         <template #icon>
           <IconFlash :scale="iconScale" />
+        </template>
+      </Action>
+    </section>
+    <section v-if="shareSupported">
+      <Action @click="shareObj()" :label="t('player.share')">
+        <template #icon>
+          <IconShare :scale="iconScale" />
         </template>
       </Action>
     </section>
