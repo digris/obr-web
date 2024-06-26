@@ -14,6 +14,15 @@ const BROWSER_REQUIREMENTS = {
     safari: ">=15",
   },
 
+  ios: {
+    safari: ">=15",
+  },
+
+  android: {
+    chrome: ">=100",
+    "android browser": ">=10",
+  },
+
   desktop: {
     chrome: ">=100",
     firefox: ">=100",
@@ -21,10 +30,6 @@ const BROWSER_REQUIREMENTS = {
   },
 
   mobile: {
-    safari: ">=15",
-  },
-
-  ios: {
     safari: ">=15",
   },
 };
