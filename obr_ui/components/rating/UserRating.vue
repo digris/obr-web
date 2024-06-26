@@ -41,8 +41,15 @@ export default defineComponent({
   },
   setup(props) {
     const { iconSize } = useIconSize(props.iconScale);
-    const { ratingByKey, loadRating, setRatingWithSource } = useRating();
+    const { ratingByKey, totalsByKey, loadRating, setRatingWithSource } = useRating();
     const rating = computed(() => ratingByKey(props.objKey));
+    const totals = computed(() => totalsByKey(props.objKey));
+    const totalsDisplay = computed(() => {
+      if (!totals.value) {
+        return "";
+      }
+      return `up: ${totals.value?.up ?? 0}, down: ${totals.value?.down ?? 0}`;
+    });
     const isFlipped = ref(false);
     const flipIcon = async () => {
       isFlipped.value = true;
@@ -80,6 +87,7 @@ export default defineComponent({
     });
     return {
       rating,
+      totalsDisplay,
       rate,
       style,
       iconSize,
@@ -96,6 +104,7 @@ export default defineComponent({
       'is-flipped': isFlipped,
     }"
     :style="style"
+    :title="totalsDisplay"
   >
     <IconHeart v-if="rating === 1" :scale="iconScale" :color-var="colorVar" @click="rate(null)" />
     <IconFlash
