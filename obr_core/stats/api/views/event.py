@@ -3,9 +3,12 @@ from datetime import timedelta
 
 from catalog.models import Media
 from django_filters import rest_framework as filters
-from rest_framework import mixins, viewsets
+from drf_spectacular.utils import extend_schema
+from rest_framework import mixins, status, viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from stats.api import permissions, serializers
+from stats.events import post_process_player_events
 from stats.models import PlayerEvent, StreamEvent
 
 logger = logging.getLogger(__name__)
@@ -127,3 +130,25 @@ class StreamEventViewSet(
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = StreamEventFilter
+
+
+class PlayerEventProcessView(
+    APIView,
+):
+    permission_classes = [
+        permissions.WebhookPermission,
+    ]
+
+    @extend_schema(
+        methods=["POST"],
+        operation_id="player_event_process",
+    )
+    def post(self, request):
+        num_processed = post_process_player_events()
+
+        return Response(
+            {
+                "num_processed": num_processed,
+            },
+            status=status.HTTP_200_OK,
+        )

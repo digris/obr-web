@@ -23,6 +23,11 @@ urlpatterns = [
         name="stream-events-create",
     ),
     path(
+        "process/player-events/",
+        views.PlayerEventProcessView.as_view(),
+        name="player-events-process",
+    ),
+    path(
         "heartbeat/",
         views.HeartbeatView.as_view(),
         name="heartbeat",

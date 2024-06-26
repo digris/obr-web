@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.db.models import F
 from django.db.models.functions import Now
+from django.utils import timezone
 
 from stats.models import PlayerEvent
 
@@ -14,13 +15,13 @@ def post_process_player_events(database="default"):
     qs = (
         PlayerEvent.objects.using(database)
         .annotate(
-            annotated_time_end=F("time") + F("max_duration"),
+            annotated_max_time_end=F("time") + F("max_duration"),
         )
         .filter(
             time_end__isnull=True,
-            annotated_time_end__lt=Now(),
+            annotated_max_time_end__lt=Now(),
             state=PlayerEvent.State.PLAYING,
-            time__lt=Now() - timedelta(days=1),
+            time__lt=timezone.now() - timedelta(days=1),
         )
     )
 
@@ -36,10 +37,8 @@ def post_process_player_events(database="default"):
     qs = (
         PlayerEvent.objects.using(database)
         .annotate_times_and_durations()
-        .annotate(
-            annotated_max_time_end=F("time") + F("max_duration"),
-        )
         .filter(
+            time__gte=timezone.now() - timedelta(days=1),
             time_end__isnull=True,
             state__in=[
                 PlayerEvent.State.PLAYING,
@@ -47,15 +46,16 @@ def post_process_player_events(database="default"):
                 PlayerEvent.State.BUFFERING,
             ],
         )
+        .annotate(
+            annotated_max_time_end=F("time") + F("max_duration"),
+        )
         .exclude(
-            time__lte=Now() - timedelta(days=10000),
             annotated_time_end=None,
         )
     )
 
     # and set the time_end field
     # qs.update does not work here (in combination with window)
-    print("###")
     # for event in [e for e in qs if e.annotated_time_end]:
     for event in qs:
         if (
@@ -74,12 +74,8 @@ def post_process_player_events(database="default"):
             time_end=time_end,
         )
 
-    print("pass 2", qs.count())
+    count = qs.count()
 
-    return qs.count()
+    print("pass 2", count)
 
-    #
-    #
-    # # Window is disallowed in the filter clause
-    # # so filtering has to be done in python
-    #
+    return count
