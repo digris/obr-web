@@ -6,6 +6,7 @@ from django.db.models.functions import Lead
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
+from catalog.models import Media
 from common.models.mixins import CTModelMixin, CTUIDModelMixin
 from django_countries.fields import CountryField
 from geoip import lookup
@@ -19,12 +20,12 @@ class PlayerEventQuerySet(
 ):
     def annotate_times_and_durations(self):
         return self.annotate(
-            time_end=Window(
+            annotated_time_end=Window(
                 expression=Lead("time"),
                 partition_by=[F("user_identity"), F("device_key")],
                 order_by=F("time").asc(),
             ),
-            duration=F("time_end") - F("time"),
+            annotated_duration=F("annotated_time_end") - F("time"),
         )
 
 
@@ -35,19 +36,41 @@ class PlayerEventManager(
         return PlayerEventQuerySet(
             self.model,
             using=self._db,
-        ).annotate_times_and_durations()
+        )
+
+    def annotated_times_and_durations(self):
+        return self.get_queryset().annotate_times_and_durations()
 
 
 class PlayerEvent(
     CTModelMixin,
     models.Model,
 ):
+    class State(models.TextChoices):
+        PLAYING = "playing", "Playing"
+        PAUSED = "paused", "Paused"
+        STOPPED = "stopped", "Stopped"
+        BUFFERING = "buffering", "Buffering"
+
     time = models.DateTimeField(
         db_index=True,
+    )
+    # NOTE: time end is calculated on post-processing
+    time_end = models.DateTimeField(
+        db_index=True,
+        null=True,
+        blank=True,
+    )
+    # NOTE: here we store the maximum possible duration (=duration of media)
+    max_duration = models.DurationField(
+        db_index=True,
+        null=True,
+        blank=True,
     )
     state = models.CharField(
         max_length=32,
         db_index=True,
+        choices=State.choices,
     )
     obj_key = models.CharField(
         max_length=32,
@@ -80,6 +103,18 @@ class PlayerEvent(
 
     def __str__(self):
         return f"{self.ct}:{self.id}"
+
+
+@receiver(pre_save, sender=PlayerEvent)
+def player_event_pre_save(sender, instance, **kwargs):
+    if instance.state == "playing" and not instance.max_duration:
+        _, media_uid = instance.obj_key.split(":")
+        try:
+            media = Media.objects.get(uid=media_uid)
+            instance.max_duration = media.duration
+            logger.debug(f"max duration set to {media.duration}")
+        except Media.DoesNotExist:
+            return
 
 
 class StreamEvent(

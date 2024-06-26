@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils import timezone
 from django.utils.html import mark_safe
 
 from stats.models import PlayerEvent, StreamEvent
@@ -11,14 +12,17 @@ class PlayerEventAdmin(
     admin.ModelAdmin,
 ):
     list_display = [
-        "user_identity",
-        "user_display",
         "state",
+        "time_display",
+        "time_end_display",
+        "annotated_duration_display",
         "duration_display",
+        "max_duration_display",
+        "user_display",
         "obj_key",
         "source",
         # "user_identity",
-        "device_key",
+        # "device_key",
     ]
     list_filter = [
         "source",
@@ -34,13 +38,42 @@ class PlayerEventAdmin(
         "device_key",
     ]
 
-    @admin.display(description="User")
-    def user_display(self, obj):
-        return get_admin_link_for_user_identity(obj.user_identity)
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate_times_and_durations()
+
+    @admin.display(description="Time")
+    def time_display(self, obj):
+        timestamp_in_tz = obj.time.astimezone(timezone.get_default_timezone())
+        return timestamp_in_tz.strftime("%b %d, %Y, %H:%M:%S")
+
+    @admin.display(description="Time end")
+    def time_end_display(self, obj):
+        if not obj.time_end:
+            return None
+        timestamp_in_tz = obj.time_end.astimezone(timezone.get_default_timezone())
+        return timestamp_in_tz.strftime("%b %d, %Y, %H:%M:%S")
+
+    @admin.display(description="Duration (est)")
+    def annotated_duration_display(self, obj):
+        if obj.state == PlayerEvent.State.STOPPED:
+            return None
+        if not obj.annotated_duration:
+            return None
+        return obj.annotated_duration
 
     @admin.display(description="Duration")
     def duration_display(self, obj):
-        return obj.duration
+        if not obj.time_end:
+            return None
+        return obj.time_end - obj.time
+
+    @admin.display(description="Duration (max)")
+    def max_duration_display(self, obj):
+        return obj.max_duration
+
+    @admin.display(description="User")
+    def user_display(self, obj):
+        return get_admin_link_for_user_identity(obj.user_identity)
 
 
 @admin.register(StreamEvent)

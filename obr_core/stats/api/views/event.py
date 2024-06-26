@@ -45,9 +45,9 @@ class PlayerEventViewSet(
     filterset_class = PlayerEventFilter
 
     def get_queryset(self):
-        qs = PlayerEvent.objects.filter(
+        qs = PlayerEvent.objects.annotated_times_and_durations().filter(
             state="playing",
-            duration__gt=timedelta(seconds=5),
+            annotated_duration__gt=timedelta(seconds=5),
         )
 
         return qs
@@ -67,12 +67,15 @@ class PlayerEventViewSet(
         for event in qs:
             media_uid = event.obj_key[-8:]
             media_duration = media_durations[media_uid]
-            if event.duration.total_seconds() > media_duration.total_seconds() + 5:
+            if (
+                event.annotated_duration.total_seconds()
+                > media_duration.total_seconds() + 5
+            ):
                 logger.debug(
-                    f"fix duration for {media_uid} - {event.duration.seconds} > {media_duration.seconds}",
+                    f"fix duration for {media_uid} - {event.annotated_duration.seconds} > {media_duration.seconds}",
                 )
                 # NOTE: yes - i know, this is ugly. see above...
-                event.duration = media_duration
+                event.annotated_duration = media_duration
 
         return qs
 

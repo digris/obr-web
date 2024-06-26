@@ -67,8 +67,8 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "django.request": {
-            "level": "INFO",
+        "django.server": {
+            "level": "WARNING",
             "handlers": ["console"],
             "propagate": False,
         },
@@ -87,8 +87,13 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
+        "stats": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
         "sync": {
-            "level": "INFO",
+            "level": "DEBUG",
             "handlers": ["console"],
             "propagate": False,
         },

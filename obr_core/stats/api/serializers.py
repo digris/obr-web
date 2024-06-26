@@ -34,7 +34,7 @@ class PlayerEventSerializer(
 ):
     time_start = serializers.DateTimeField(source="time")
     time_end = serializers.DateTimeField()
-    duration = DurationInSecondsSerializer()
+    duration = DurationInSecondsSerializer(source="annotated_duration")
 
     class Meta(CTUIDModelSerializer.Meta):
         model = PlayerEvent
