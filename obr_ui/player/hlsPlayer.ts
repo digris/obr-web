@@ -222,7 +222,7 @@ class HlsPlayer {
   note: to control the volume from "outside" use `setBaseVolume`
   */
   private setVolume(value?: number): void {
-    this.volume = value || this.volume;
+    this.volume = value !== undefined ? value : this.volume;
     this.audio.volume = this.volume * this.baseVolume;
   }
 
