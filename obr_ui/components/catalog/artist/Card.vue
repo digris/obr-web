@@ -5,6 +5,7 @@ import { useI18n } from "vue-i18n";
 import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import UserRating from "@/components/rating/UserRating.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
 import { useDevice } from "@/composables/device";
@@ -17,6 +18,7 @@ export default defineComponent({
     CircleButton,
     UserRating,
     ContextMenu,
+    ObjectTags,
   },
   props: {
     artist: {
@@ -63,6 +65,7 @@ export default defineComponent({
         {{ artist.name }}
         <span v-if="artist.countryCode">({{ artist.countryCode }})</span>
       </router-link>
+      <ObjectTags v-if="isDesktop" class="tags" :obj="artist" :limit="4" :types="['genre']" />
       <div class="subtitle" v-text="t('catalog.ct.numMedia', artist.numMedia)" />
       <div v-if="isDesktop" class="actions">
         <CircleButton :scale="0.75">

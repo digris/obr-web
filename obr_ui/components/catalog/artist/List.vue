@@ -76,11 +76,13 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchArtists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
+      const expand = ["tags"];
       const { count, next, results } = await getArtists(
         limit,
         offset,
         combinedFilter.value,
-        ordering.value
+        ordering.value,
+        expand
       );
       hasNext.value = !!next;
       numResults.value = count;

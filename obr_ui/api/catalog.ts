@@ -33,13 +33,15 @@ async function getArtists(
   limit: number,
   offset: number,
   filter: any,
-  ordering: Array<string> = []
+  ordering: Array<string> = [],
+  expand: Array<string> = []
 ) {
   const url = ARTIST_ENDPOINT;
   const params = {
     limit,
     offset,
     ordering: ordering.join(","),
+    expand,
     ...filter,
   };
   const response = await APIClient.get<{

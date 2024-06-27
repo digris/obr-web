@@ -20,6 +20,10 @@ export default defineComponent({
       type: Number,
       default: 8,
     },
+    types: {
+      type: Array,
+      default: () => [],
+    },
     separator: {
       type: String,
       default: ", ",
@@ -34,20 +38,16 @@ export default defineComponent({
       return props.obj?.uid;
     });
     const tags = computed(() => {
-      return props.obj && props.obj.tags ? props.obj.tags.slice(0, props.limit) : [];
-    });
-    const discoverLinkTo = computed(() => {
-      return {
-        name: "discoverMedia",
-        query: {
-          tags: tags.value.map((t: any) => t.uid),
-        },
-      };
+      let objTags = props.obj && props.obj.tags ? props.obj.tags.slice(0, props.limit) : [];
+      if (props.types.length) {
+        objTags = objTags.filter((tag: any) => props.types.includes(tag.type));
+      }
+      objTags = objTags.sort((a: any, b: any) => a.name.localeCompare(b.name));
+      return objTags;
     });
     return {
       keyPrefix,
       tags,
-      discoverLinkTo,
     };
   },
 });
@@ -60,9 +60,6 @@ export default defineComponent({
       '--spacing': spacing,
     }"
   >
-    <!-- <router-link
-      :to="discoverLinkTo"
-    > -->
     <Tag
       class="tags__tag"
       v-for="tag in tags"
@@ -71,7 +68,6 @@ export default defineComponent({
       :prefix="prefix"
       suffix=""
     />
-    <!-- </router-link> -->
   </div>
 </template>
 

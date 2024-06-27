@@ -6,6 +6,7 @@ import PlayAction from "@/components/catalog/actions/PlayAction.vue";
 import PlaylistName from "@/components/catalog/playlist/Name.vue";
 import ContextMenu from "@/components/context-menu/ContextMenu.vue";
 import UserRating from "@/components/rating/UserRating.vue";
+import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import RelativeDateTime from "@/components/ui/date/RelativeDateTime.vue";
 import LazyImage from "@/components/ui/LazyImage.vue";
@@ -21,6 +22,7 @@ export default defineComponent({
     ContextMenu,
     RelativeDateTime,
     PlaylistName,
+    ObjectTags,
   },
   props: {
     playlist: {
@@ -69,6 +71,7 @@ export default defineComponent({
       <router-link class="title" :to="link">
         <PlaylistName :playlist="playlist" />
       </router-link>
+      <ObjectTags v-if="isDesktop" class="tags" :obj="playlist" :limit="4" :types="['genre']" />
       <RelativeDateTime class="subtitle" :date-time="latestEmission" />
       <div v-if="isDesktop" class="actions">
         <CircleButton :scale="0.75">

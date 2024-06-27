@@ -44,11 +44,37 @@
   }
 
   @include responsive.bp-medium {
-    // NOTE: we do not show actions on mobile
-    //       basically there is no need for grid, but to have the same
-    //       structure
     grid-template-columns: 1fr 0;
   }
+}
+
+@mixin meta-with-tags {
+  position: relative;
+  display: grid;
+  grid-template-areas:
+    "title    actions"
+    "tags     tags"
+    "subtitle subtitle";
+  grid-template-columns: 1fr 72px;
+
+  .actions {
+    position: absolute;
+  }
+
+  .tags {
+    grid-area: tags;
+    height: 100%;
+
+    &:empty::before {
+      content: "+";
+      opacity: 0;
+    }
+  }
+
+  @include responsive.bp-medium {
+    grid-template-columns: 1fr 0;
+  }
+
 }
 
 @mixin default {
@@ -66,6 +92,12 @@
 
   .meta {
     @include meta;
+  }
+
+  &:has(.tags) {
+    .meta {
+      @include meta-with-tags;
+    }
   }
 
   @include responsive.on-hover {

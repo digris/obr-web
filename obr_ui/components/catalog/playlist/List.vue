@@ -94,7 +94,7 @@ export default defineComponent({
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const fetchPlaylists = async (limit = 16, offset = 0) => {
       // NOTE: depending on the layout we need different data / expands
-      const expand = props.layout === "grid" ? [] : ["tags", "editor", "duration"];
+      const expand = props.layout === "grid" ? ["tags"] : ["tags", "editor", "duration"];
       const { count, next, results } = await getPlaylists(
         limit,
         offset,
