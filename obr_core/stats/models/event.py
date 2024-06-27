@@ -208,7 +208,7 @@ class StreamEvent(
 
 @receiver(pre_save, sender=StreamEvent)
 def stream_event_pre_save(sender, instance, **kwargs):
-    if instance.ip and instance.user_agent:
+    if instance.ip:
         instance.device_key = generate_device_key(
             instance.ip,
             instance.user_agent,
@@ -216,7 +216,7 @@ def stream_event_pre_save(sender, instance, **kwargs):
 
     if instance.ip:
         try:
-            geoip_data = lookup.geoip(instance.ip)
+            geoip_data = lookup.geoip_mm(instance.ip)
             instance.geoip_city = geoip_data.get("city", "")[:128]
             instance.geoip_region = geoip_data.get("region", "")[:128]
             instance.geoip_country = geoip_data.get("country_code", "")

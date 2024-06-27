@@ -18,6 +18,9 @@ export default defineComponent({
         <div class="line line--primary">
           <div class="bar loading-placeholder" />
         </div>
+        <div class="line line--primary">
+          <div class="bar loading-placeholder" />
+        </div>
         <div class="line line--secondary">
           <div class="bar loading-placeholder" />
         </div>
@@ -96,7 +99,7 @@ export default defineComponent({
       &--primary {
         .bar {
           height: 1.1rem;
-          width: 60%;
+          width: 80%;
         }
       }
 

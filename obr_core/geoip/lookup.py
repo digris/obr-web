@@ -1,8 +1,15 @@
 import json
 
+from django.conf import settings
+
+import geoip2.database
+import geoip2.errors
 import requests
 
 BASE_URL = "https://json.geoiplookup.io/"
+
+
+DB_FILE = settings.PROJECT_ROOT / "data/geoip/GeoLite2-City.mmdb"
 
 
 class GeoipError(Exception):
@@ -26,3 +33,17 @@ def geoip(ip):
         raise GeoipError(f"error decoding JSON response: {e}") from e
 
     return result
+
+
+def geoip_mm(ip):
+    with geoip2.database.Reader(DB_FILE) as reader:
+        try:
+            res = reader.city(ip)
+        except geoip2.errors.AddressNotFoundError as e:
+            raise GeoipError(f"unable to lookup: {e}") from e
+
+        return {
+            "city": res.city.name or "",
+            "region": res.subdivisions.most_specific.name or "",
+            "country_code": res.country.iso_code or "",
+        }

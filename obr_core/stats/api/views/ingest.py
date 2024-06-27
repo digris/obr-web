@@ -37,13 +37,22 @@ class PlayerEventCreateView(
 
         if serializer.is_valid():
             for event_data in serializer.data:
+                # NOTE: client / browser timestamps are not reliable ;)
+                #       so we use timezone.now()
+
+                now = timezone.now()
+
+                ts = timezone.make_aware(
+                    datetime.fromtimestamp(float(event_data["ts"]) / 1000.0),
+                )
+
+                logger.debug(f"now: {now} - ts-browser: {ts} - diff: {now - ts}")
+
                 event = PlayerEvent(
                     source=event_data["source"],
                     state=event_data["state"],
                     obj_key=event_data["obj_key"],
-                    time=timezone.make_aware(
-                        datetime.fromtimestamp(float(event_data["ts"]) / 1000.0),
-                    ),
+                    time=now,
                     user_identity=request.user_identity,
                     device_key=request.device_key,
                 )

@@ -8,8 +8,6 @@ import ButtonPlay from "@/components/player/button/ButtonPlay.vue";
 import UserRating from "@/components/rating/UserRating.vue";
 import ObjectTags from "@/components/tagging/ObjectTags.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
-// import IconPlus from "@/components/ui/icon/IconPlus.vue";
-// import IconMinus from "@/components/ui/icon/IconMinus.vue";
 import IconCaret from "@/components/ui/icon/IconCaret.vue";
 import { useDevice } from "@/composables/device";
 import { useObjKey } from "@/composables/obj";
@@ -23,8 +21,6 @@ export default defineComponent({
     ObjectTags,
     UserRating,
     CircleButton,
-    // IconPlus,
-    // IconMinus,
     IconCaret,
   },
   props: {
@@ -142,6 +138,7 @@ export default defineComponent({
       return {
         name: props.emission.series ? props.emission.series.name : props.emission.name,
         appendix: props.emission.series ? props.emission.series.episode : null,
+        secondary: props.emission.name,
       };
     });
     const tagsDisplay = computed(() => {
@@ -154,15 +151,6 @@ export default defineComponent({
       return props.emission.dtStart.setLocale("de-ch").toLocaleString(DateTime.TIME_24_SIMPLE);
     });
     const mediaSet = ref([]);
-    // const showMedia = async () => {
-    //   props.isExpanded = true;
-    //   const data = await getEmission(props.emission.uid);
-    //   mediaSet.value = data.mediaSet;
-    //   scrollIntoView(true);
-    // };
-    // const hideMedia = () => {
-    //   props.isExpanded = false;
-    // };
     watch(
       () => props.isExpanded,
       async (newValue) => {
@@ -219,6 +207,7 @@ export default defineComponent({
       <router-link v-if="!isUpcoming" :to="routeTo" @click="navigate">
         {{ title.name }}
         <span v-if="title.appendix" v-text="`#${title.appendix}`" />
+        <!--<small v-text="title.secondary" />-->
       </router-link>
       <span v-else>
         {{ title.name }}
@@ -241,10 +230,6 @@ export default defineComponent({
       </CircleButton>
       <CircleButton @click="toggleExpanded">
         <IconCaret :direction="isExpanded ? 'up' : 'down'" />
-        <!--
-        <IconMinus v-if="isExpanded" />
-        <IconPlus v-else />
-        -->
       </CircleButton>
     </div>
   </div>

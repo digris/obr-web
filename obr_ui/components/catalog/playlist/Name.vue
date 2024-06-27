@@ -24,7 +24,6 @@ export default defineComponent({
     });
     const titleDisplay = computed(() => {
       if (title.value.name && props.airtime) {
-        // return `${title.value.name} ${props.airtime.toFormat("HH:mm")}`;
         return `${title.value.name} ${props.airtime.toLocaleString(DateTime.TIME_24_SIMPLE)}`;
       }
       if (title.value.name && title.value.appendix) {

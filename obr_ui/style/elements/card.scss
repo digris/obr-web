@@ -23,7 +23,9 @@
     grid-area: title;
     align-self: end;
     margin-top: 6px;
-    overflow: hidden;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .subtitle {
@@ -64,6 +66,9 @@
   .tags {
     grid-area: tags;
     height: 100%;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     &:empty::before {
       content: "+";
