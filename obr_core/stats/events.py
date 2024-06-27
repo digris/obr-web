@@ -38,11 +38,11 @@ def post_process_player_events(database="default"):
         PlayerEvent.objects.using(database)
         .annotate_times_and_durations()
         .filter(
-            time__gte=timezone.now() - timedelta(days=1),
+            time__gte=timezone.now() - timedelta(days=1000),
             time_end__isnull=True,
             state__in=[
                 PlayerEvent.State.PLAYING,
-                PlayerEvent.State.PAUSED,
+                # PlayerEvent.State.PAUSED,
                 PlayerEvent.State.BUFFERING,
             ],
         )
