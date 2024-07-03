@@ -99,6 +99,8 @@ class ProcessedPlayerEventViewSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
+    basename = "processedplayerevent"
+
     queryset = PlayerEvent.objects.all()
     serializer_class = serializers.ProcessedPlayerEventSerializer
 
