@@ -34,13 +34,15 @@ class EventHandler {
       };
     });
     const addEvent = debounce(async (event) => {
+      console.debug("event: addEvent", event);
       if (!event.objKey) {
         return;
       }
       createAnalyticsEvent(event);
       await createPlayerEvents([event]);
-    }, 200);
+    }, 2000);
     watch(combinedState, (newValue, oldValue) => {
+      console.debug("event: new:", newValue, "old:", oldValue);
       if (isEqual(newValue, oldValue)) {
         return;
       }

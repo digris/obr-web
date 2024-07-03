@@ -1,7 +1,7 @@
 import { watch } from "vue";
 import Hls from "hls.js";
 import log from "loglevel";
-import { isEqual, round } from "lodash-es";
+import { debounce, isEqual, round } from "lodash-es";
 
 import { useDevice } from "@/composables/device";
 import { useQueueControls } from "@/composables/queue";
@@ -195,11 +195,16 @@ class HlsPlayer {
     });
   }
 
-  private setPlayState(playState: PlayState): void {
-    // log.debug("player setPlayState:", playState);
+  // private setPlayState(playState: PlayState): void {
+  //   log.debug("player setPlayState:", playState);
+  //   this.playState = playState;
+  //   this.syncStateToStore().then(() => {});
+  // }
+
+  private setPlayState = debounce(async (playState: PlayState): Promise<void> => {
     this.playState = playState;
-    this.syncStateToStore().then(() => {});
-  }
+    await this.syncStateToStore();
+  }, 200);
 
   private setCueFade(cueFade: CueFade): void {
     // log.debug("setCueFade", cueFade);
@@ -308,7 +313,6 @@ class HlsPlayer {
       this.setPlayState("buffering");
       if (this.fadeIn) {
         log.debug("fade in: set volume to 0");
-        // this.audio.volume = 0;
         this.setVolume(0);
       }
       if (this.hls) {

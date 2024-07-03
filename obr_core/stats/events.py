@@ -6,43 +6,18 @@ from django.utils import timezone
 
 from stats.models import PlayerEvent
 
+MAX_AGE = 4 * 60 * 60  # 4 hours: the longest expected duration of a track
 
-def post_process_player_events(database="default"):
-    ###################################################################
-    # first pass: get unprocessed (no time_end) events where
-    # time + max_duration is in the past and older than 24 hours
-    ###################################################################
-    qs = (
-        PlayerEvent.objects.using(database)
-        .annotate(
-            annotated_max_time_end=F("time") + F("max_duration"),
-        )
-        .filter(
-            time_end__isnull=True,
-            annotated_max_time_end__lt=Now(),
-            state=PlayerEvent.State.PLAYING,
-            time__lt=timezone.now() - timedelta(days=1),
-        )
-    )
 
-    # and set the time_end field
-    # qs.update(
-
-    print("pass 1", qs.count())
-
-    ###################################################################
-    # second pass: get unprocessed (no time_end) and update the
-    # time_end to the calculated / annotated time
-    ###################################################################
+def set_events_time_end_by_next_event(database="default"):
     qs = (
         PlayerEvent.objects.using(database)
         .annotate_times_and_durations()
         .filter(
-            time__gte=timezone.now() - timedelta(days=1000),
+            time__gte=timezone.now() - timedelta(seconds=MAX_AGE),
             time_end__isnull=True,
             state__in=[
                 PlayerEvent.State.PLAYING,
-                # PlayerEvent.State.PAUSED,
                 PlayerEvent.State.BUFFERING,
             ],
         )
@@ -54,9 +29,8 @@ def post_process_player_events(database="default"):
         )
     )
 
-    # and set the time_end field
-    # qs.update does not work here (in combination with window)
-    # for event in [e for e in qs if e.annotated_time_end]:
+    updated_events = []
+
     for event in qs:
         if (
             event.state == PlayerEvent.State.PLAYING
@@ -64,18 +38,76 @@ def post_process_player_events(database="default"):
             and event.annotated_max_time_end
         ):
             time_end = min(event.annotated_time_end, event.annotated_max_time_end)
-            print("TE", time_end)
-        else:
+        elif event.annotated_time_end:
             time_end = event.annotated_time_end
 
-        PlayerEvent.objects.using(database).filter(
-            pk=event.pk,
-        ).update(
-            time_end=time_end,
+        else:
+            continue
+
+        event.time_end = time_end
+        updated_events.append(event)
+
+    # update all changed events
+    PlayerEvent.objects.using(database).bulk_update(updated_events, ["time_end"])
+
+    return len(updated_events)
+
+
+def set_events_time_end_by_max_duration(database="default"):
+    qs = (
+        PlayerEvent.objects.using(database)
+        .annotate(
+            annotated_max_time_end=F("time") + F("max_duration"),
         )
+        .filter(
+            time__gte=timezone.now() - timedelta(seconds=MAX_AGE),
+            time_end__isnull=True,
+            annotated_max_time_end__lt=Now(),
+            state=PlayerEvent.State.PLAYING,
+        )
+    )
 
-    count = qs.count()
+    # and set the time_end field
+    num_updated = qs.update(
+        time_end=F("annotated_max_time_end"),
+    )
 
-    print("pass 2", count)
+    return num_updated
 
-    return count
+
+def fix_durations(database="default"):
+    qs = (
+        PlayerEvent.objects.using(database)
+        .annotate_times_and_durations()
+        .filter(
+            time__gte=timezone.now() - timedelta(seconds=MAX_AGE),
+        )
+    )
+
+    updated_events = []
+
+    for event in [e for e in qs if e.time_end and e.annotated_time_end]:
+        dur = event.time_end - event.time
+        annotated_dur = event.annotated_time_end - event.time
+
+        diff = dur - annotated_dur
+
+        if diff.total_seconds() > 0:
+            print(f"{event.id} diff: {diff.total_seconds()}")
+
+            event.time_end = event.annotated_time_end
+            updated_events.append(event)
+
+    # update all changed events
+    PlayerEvent.objects.using(database).bulk_update(updated_events, ["time_end"])
+
+    return len(updated_events)
+
+
+def post_process_player_events(database="default"):
+    num_updated = set_events_time_end_by_next_event(database=database)
+    num_updated += set_events_time_end_by_max_duration(database=database)
+
+    num_updated += fix_durations(database=database)
+
+    return num_updated

@@ -58,6 +58,11 @@ class StreamEventSerializer(
         allow_blank=True,
     )
 
+    geoip_country = serializers.CharField(
+        read_only=True,
+        source="geoip_country.code",
+    )
+
     class Meta(CTUIDModelSerializer.Meta):
         model = StreamEvent
         fields = CTUIDModelSerializer.Meta.fields + [

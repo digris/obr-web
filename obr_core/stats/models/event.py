@@ -18,6 +18,11 @@ logger = logging.getLogger(__name__)
 class PlayerEventQuerySet(
     models.QuerySet,
 ):
+    def annotate_duration(self):
+        return self.annotate(
+            duration=F("time_end") - F("time"),
+        )
+
     def annotate_times_and_durations(self):
         return self.annotate(
             annotated_time_end=Window(
@@ -219,6 +224,6 @@ def stream_event_pre_save(sender, instance, **kwargs):
             geoip_data = lookup.geoip(instance.ip)
             instance.geoip_city = geoip_data.get("city", "")[:128]
             instance.geoip_region = geoip_data.get("region", "")[:128]
-            instance.geoip_country = geoip_data.get("country_code", "")
+            instance.geoip_country = geoip_data.get("country_code", "")[:2]
         except lookup.GeoipError as e:
             logger.info(f"geoip error: {e}")
