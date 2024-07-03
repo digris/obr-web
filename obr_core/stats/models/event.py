@@ -43,6 +43,9 @@ class PlayerEventManager(
             using=self._db,
         )
 
+    def annotated_duration(self):
+        return self.get_queryset().annotate_duration()
+
     def annotated_times_and_durations(self):
         return self.get_queryset().annotate_times_and_durations()
 
@@ -119,6 +122,7 @@ def player_event_pre_save(sender, instance, **kwargs):
             instance.max_duration = media.duration
             logger.debug(f"max duration set to {media.duration}")
         except Media.DoesNotExist:
+            logger.warning(f"media not found: {media_uid}")
             return
 
 

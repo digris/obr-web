@@ -49,7 +49,7 @@ class PlayerEventViewSet(
 
     def get_queryset(self):
         qs = PlayerEvent.objects.annotated_times_and_durations().filter(
-            state="playing",
+            state=PlayerEvent.State.PLAYING,
             annotated_duration__gt=timedelta(seconds=5),
         )
 
@@ -87,6 +87,40 @@ class PlayerEventViewSet(
 
         page = self.paginate_queryset(queryset)
         page = self.override_media_durations(page)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ProcessedPlayerEventViewSet(
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
+):
+    queryset = PlayerEvent.objects.all()
+    serializer_class = serializers.ProcessedPlayerEventSerializer
+
+    permission_classes = [
+        permissions.ViewPermission,
+    ]
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = PlayerEventFilter
+
+    def get_queryset(self):
+        qs = PlayerEvent.objects.annotated_duration().filter(
+            state=PlayerEvent.State.PLAYING,
+            duration__gt=timedelta(seconds=5),
+        )
+
+        return qs
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)

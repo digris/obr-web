@@ -2,6 +2,7 @@ from .archive import StatsArchiveView  # NOQA
 from .event import (  # NOQA
     PlayerEventProcessView,
     PlayerEventViewSet,
+    ProcessedPlayerEventViewSet,
     StreamEventViewSet,
 )
 from .heartbeat import HeartbeatView  # NOQA
