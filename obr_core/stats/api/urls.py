@@ -7,7 +7,11 @@ from . import views
 router = routers.DefaultRouter()
 router.register(r"ratings", views.RatingViewSet)
 router.register(r"player-events", views.PlayerEventViewSet)
-router.register(r"processed-player-events", views.ProcessedPlayerEventViewSet)
+router.register(
+    r"processed-player-events",
+    views.ProcessedPlayerEventViewSet,
+    basename="processedplayerevent",
+)
 router.register(r"stream-events", views.StreamEventViewSet)
 
 app_name = "stats"
