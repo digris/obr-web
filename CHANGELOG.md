@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.0.115 (2024-07-04)
+### Fix
+* Correct rounding in duration serializer ([`d805da6`](https://github.com/digris/obr-web/commit/d805da67cd5bfc2edea3b81f4a6160011cb8869b))
+
 ## v0.0.114 (2024-06-26)
 ### Fix
 * Player fad-in / volume handling ([`fc1f6b5`](https://github.com/digris/obr-web/commit/fc1f6b51f43085bce1c25851d06f42e554047938))
