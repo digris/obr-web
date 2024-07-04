@@ -19,6 +19,8 @@ def set_events_time_end_by_next_event(database="default"):
             state__in=[
                 PlayerEvent.State.PLAYING,
                 PlayerEvent.State.BUFFERING,
+                PlayerEvent.State.PAUSED,
+                PlayerEvent.State.STOPPED,
             ],
         )
         .annotate(
