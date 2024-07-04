@@ -78,7 +78,7 @@ class DurationInSecondsSerializer(
         if not isinstance(instance, timedelta):
             return 0
 
-        return instance.seconds
+        return round(instance.total_seconds())
 
 
 @extend_schema_field(
