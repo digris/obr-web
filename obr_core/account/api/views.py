@@ -74,7 +74,14 @@ class UserView(
             )
 
             if request.user.has_active_subscription:
-                response = set_credentials(response)
+                cdn_policy_ttl = 60 * 60
+
+                # TODO: remove this after testing
+                #       this is only used to fix an issue in the iOS app
+                if hasattr(request.user, "settings") and request.user.settings.debug_enabled:
+                    cdn_policy_ttl = 60 * 2
+
+                response = set_credentials(response, seconds_valid=cdn_policy_ttl)
             else:
                 response = remove_credentials(response)
 

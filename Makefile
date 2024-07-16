@@ -7,7 +7,8 @@ MAKEFLAGS += --no-builtin-rules
 
 GCP_PROJECT = open-broadcast
 DOCKER_TAG = ch-openbroadcast-next
-PORT = 8080
+PORT_BE = 8080
+PORT_FE = 3000
 GIT_SHORT_SHA = $(shell git rev-parse --short HEAD)
 
 .PHONY: lint-be
@@ -113,6 +114,14 @@ translations:
 	  -i 'node_modules/*'
 	poetry run ./manage.py compilemessages
 
+.PHONY: run-be
+run-be:
+	./manage.py runserver 0.0.0.0:${PORT_BE}
+
+.PHONY: run-fe
+run-fe:
+	yarn serve --port ${PORT_FE}
+
 .PHONY: run-hypercorn
 run-hypercorn:
-	hypercorn core.asgi:application --bind :${PORT} --access-logfile - --error-logfile - --reload
+	hypercorn core.asgi:application --bind :${PORT_BE} --access-logfile - --error-logfile - --reload
