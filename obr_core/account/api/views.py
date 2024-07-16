@@ -78,7 +78,10 @@ class UserView(
 
                 # TODO: remove this after testing
                 #       this is only used to fix an issue in the iOS app
-                if hasattr(request.user, "settings") and request.user.settings.debug_enabled:
+                if (
+                    hasattr(request.user, "settings")
+                    and request.user.settings.debug_enabled
+                ):
                     cdn_policy_ttl = 60 * 2
 
                 response = set_credentials(response, seconds_valid=cdn_policy_ttl)
