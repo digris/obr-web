@@ -55,7 +55,7 @@ In order to use the variables defined in `.env` set `DJANGO_SETTINGS_MODULE` to 
 For more in-depth changes on the settings module extend `settings.development`.
 
 
-### `docker-compose` Settings
+### `docker-compose` Settings - Development
 
 `docker-compose.yml` also makes use of variables defined in environment / `.env`.  
 If needed create a `docker-compose.override.yml` file in order to override the defaults.
@@ -65,14 +65,15 @@ If needed create a `docker-compose.override.yml` file in order to override the d
 
 To simplify the development there is a `docker-compose` configuration to run the needed auxiliary services:
 
-| service        | exp. port(s)   |                                 - |
-|----------------|---------------:|-----------------------------------|
-| nginx          |           5000 | http://local.obr-next:5000/       |
-| db             |           5434 | psql://obr:obr@127.0.0.1:5434/obr |
-| image-resizer  |              - |                                   |
-| media-encoder  |              - |                                   |
-| sync-schedule  |              - |                                   |
-| mailhog        |     1025, 5025 | http://localhost:5025/            |
+| service       | exp. port(s)   |                                 - |
+|---------------|---------------:|-----------------------------------|
+| nginx         |           5000 | http://local.obr-next:5000/       |
+| db            |           5434 | psql://obr:obr@127.0.0.1:5434/obr |
+| image-resizer |              - |                                   |
+| media-encoder |              - |                                   |
+| sync-schedule |              - |                                   |
+| migrate       |              - |                                   |
+| mailhog       |     1025, 5025 | http://localhost:5025/            |
 
 
 ### Nginx Service

@@ -7,6 +7,7 @@ import imgApple from "@/assets/brand-icons/apple.svg";
 import imgDeezer from "@/assets/brand-icons/deezer.svg";
 import imgGoogle from "@/assets/brand-icons/google.svg";
 import imgSpotify from "@/assets/brand-icons/spotify.svg";
+import { useDevice } from "@/composables/device";
 
 import Section from "./Section.vue";
 
@@ -58,6 +59,7 @@ export default defineComponent({
   },
   setup(props) {
     const { t } = useI18n();
+    const { isApp } = useDevice();
     const connected = ref<Array<Backend>>([]);
     const auth = ref<Array<Backend>>([]);
     const sync = ref<Array<Backend>>([]);
@@ -77,6 +79,18 @@ export default defineComponent({
       sync.value = annotateBackends(backends.sync);
     };
     const beginLogin = (backend: Backend) => {
+      if (isApp && backend.provider === "google-oauth2") {
+        console.debug("continue with app native google login");
+        window.appBridge?.send("googleSignin:start");
+        return;
+      }
+
+      if (isApp && backend.provider === "apple-id") {
+        console.debug("continue with app native apple-id login");
+        window.appBridge?.send("appleSignin:start");
+        return;
+      }
+
       let nextUrl = backend.connectUrl;
       if (props.next) {
         nextUrl += `?next=${props.next}`;

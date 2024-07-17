@@ -114,6 +114,8 @@ ADD ./obr_core/ ./obr_core/
 ADD ./content/ ./content/
 COPY CHANGELOG.md ./content/pages/changelog.md
 
+RUN mkdir -p /app/build
+
 ENV PATH="/venv/bin:$PATH"
 
 ENV DJANGO_SETTINGS_MODULE=config.settings.build

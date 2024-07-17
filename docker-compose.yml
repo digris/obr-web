@@ -9,10 +9,10 @@ services:
     volumes:
       - ${PWD}/data:/data
       - ${PWD}/dist:/var/www/static
-#    environment:
-#      IMAGE_RESIZER: image-resizer:8000
-#      CORE: core:8000
-#      STATIC: core:8000
+    environment:
+      IMAGE_RESIZER: image-resizer:8000
+      CORE: core:8000
+      STATIC: core:8000
     networks:
       - obr
     extra_hosts:
@@ -23,8 +23,8 @@ services:
       POSTGRES_USER: obr
       POSTGRES_PASSWORD: obr
       POSTGRES_HOST_AUTH_METHOD: password
-    ports:
-      - "5434:5432"
+#    ports:
+#      - "5434:5432"
     volumes:
       - obr-db:/var/lib/postgresql/data
     networks:
@@ -33,8 +33,8 @@ services:
     build:
       context: ${PWD}
       dockerfile: ${PWD}/compose/image-resizer/Dockerfile
-    ports:
-      - "8180:8000"
+#    ports:
+#      - "8180:8000"
     volumes:
       - ${PWD}/data:/data
     environment:
@@ -50,26 +50,27 @@ services:
       - ${PWD}/data:/data
   core:
     user: 1000:1000
-    command: echo "core disabled by default - run locally."
-#    command: ./manage.py runserver 0.0.0.0:8000
+    command: ./manage.py runserver 0.0.0.0:8000
     build:
       context: ${PWD}
-      dockerfile: ${PWD}/compose/core/Dockerfile
+#      dockerfile: ${PWD}/compose/core/Dockerfile
+      dockerfile: ${PWD}/docker/Dockerfile
     image: obr/core:lateest
-#    ports:
-#      - "7777:8000"
+    ports:
+      - "8080:8000"
     volumes:
       - ${PWD}/data:/app/data
     environment:
       DEBUG: "yes"
       DATABASE_URL: psql://obr:obr@db:5432/obr
+      DJANGO_SETTINGS_MODULE: config.settings.env
     networks:
       - obr
     depends_on:
+      - migrate
       - db
   sync-schedule:
     user: 1000:1000
-#    command: echo "sync-schedule disabled."
     command: ./sync-schedule
     image: obr/core:lateest
     volumes:
@@ -77,11 +78,24 @@ services:
     environment:
       DATABASE_URL: psql://obr:obr@db:5432/obr
       OBP_SYNC_TOKEN: "${OBP_SYNC_TOKEN}"
+      DJANGO_SETTINGS_MODULE: config.settings.env
     networks:
       - obr
     depends_on:
       - db
+      - migrate
       - core
+  migrate:
+    user: 1000:1000
+    command: ./manage.py migrate --noinput
+    image: obr/core:lateest
+    environment:
+      DATABASE_URL: psql://obr:obr@db:5432/obr
+      DJANGO_SETTINGS_MODULE: config.settings.env
+    networks:
+      - obr
+    depends_on:
+      - db
   mailhog:
     build:
       context: ${PWD}

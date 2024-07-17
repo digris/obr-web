@@ -66,6 +66,8 @@ COPY ["manage.py", "./"]
 ADD ./config/ ./config/
 ADD ./obr_core/ ./obr_core/
 
+RUN mkdir -p /app/build
+
 # additional entry-points
 COPY compose/core/sync-schedule ./
 

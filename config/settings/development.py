@@ -21,6 +21,8 @@ STORAGES = {
 MEDIA_ROOT = PROJECT_ROOT / "data" / "media"
 MEDIA_URL = ""
 
+IMAGE_RESIZER_ENDPOINT = "/images/"
+
 MEDIA_ENDPOINTS = {
     "dash": "/encoded/",
     "hls": "/encoded/",
