@@ -32,7 +32,9 @@ def test_get_cdn_policy():
     expires = int(policy.split(":")[1].split("=")[1])
 
     # NOTE: should be valid for 24 hours
-    assert datetime.datetime.utcfromtimestamp(expires) == datetime.datetime(2012, 1, 2, 0, 0)
+    assert datetime.datetime.utcfromtimestamp(expires) == datetime.datetime(
+        2012, 1, 2, 0, 0
+    )
 
 
 @pytest.mark.django_db
