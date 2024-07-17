@@ -105,6 +105,12 @@ class StreamEventSerializer(
         ]
 
 
+class PlayerEventProcessSerializer(
+    serializers.Serializer,
+):
+    num_processed = serializers.IntegerField()
+
+
 class HeartbeatCreateSerializer(
     CTUIDModelSerializer,
 ):

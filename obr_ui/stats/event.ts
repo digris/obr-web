@@ -34,7 +34,6 @@ class EventHandler {
       };
     });
     const addEvent = debounce(async (event) => {
-      console.debug("event: addEvent", event);
       if (!event.objKey) {
         return;
       }
@@ -42,7 +41,6 @@ class EventHandler {
       await createPlayerEvents([event]);
     }, 2000);
     watch(combinedState, (newValue, oldValue) => {
-      console.debug("event: new:", newValue, "old:", oldValue);
       if (isEqual(newValue, oldValue)) {
         return;
       }

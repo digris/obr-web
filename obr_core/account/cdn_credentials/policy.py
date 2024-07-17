@@ -7,6 +7,7 @@ COOKIE_NAME = "Cloud-CDN-Cookie"
 URL_PREFIX = "https://media.openbroadcast.ch/encoded"
 KEY_NAME = "cdn-key"
 KEY_BASE64 = "uH2LcPhs5zzOLQsu65rtZw=="
+CDN_POLICY_SECONDS_VALID = 60 * 60 * 24
 
 
 def get_signed_cookie(url_prefix, key_name, base64_key, expiration_time):
@@ -33,12 +34,13 @@ def get_signed_cookie(url_prefix, key_name, base64_key, expiration_time):
     return signed_policy
 
 
-def get_cdn_policy(seconds_valid=60 * 60):
+def get_cdn_policy(seconds_valid=CDN_POLICY_SECONDS_VALID):
     signed_policy = get_signed_cookie(
         url_prefix=URL_PREFIX,
         key_name=KEY_NAME,
         base64_key=KEY_BASE64,
-        expiration_time=datetime.datetime.now() + datetime.timedelta(seconds_valid),
+        expiration_time=datetime.datetime.now()
+        + datetime.timedelta(seconds=seconds_valid),
     )
 
     return signed_policy

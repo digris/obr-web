@@ -4,11 +4,12 @@ from .policy import get_cdn_policy
 
 CLOUD_CDN_DOMAIN = "openbroadcast.ch"
 CLOUD_CDN_COOKIE_NAME = "Cloud-CDN-Cookie"
+CDN_POLICY_SECONDS_VALID = 60 * 60 * 24
 
 logger = logging.getLogger(__name__)
 
 
-def set_credentials(response, seconds_valid=60 * 60):
+def set_credentials(response, seconds_valid=CDN_POLICY_SECONDS_VALID):
     logger.debug(f"set credentials - valid for: {seconds_valid}")
     policy = get_cdn_policy(seconds_valid=seconds_valid)
     logger.debug(f"policy: {policy}")

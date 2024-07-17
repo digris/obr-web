@@ -11,11 +11,11 @@ from django.utils import timezone
 from account import signals as account_signals
 from account import token_login
 from account.cdn_credentials.policy import get_cdn_policy
+from account.jwt_token.tokens import SlidingToken
 from account.settings import LOGIN_TOKEN_MAX_AGE
 from account.sync.user import sync_user
 from common.models.mixins import CTUIDModelMixin
 from django_countries.fields import CountryField
-from rest_framework_simplejwt.tokens import SlidingToken
 from sync.models.mixins import SyncModelMixin
 
 
@@ -175,12 +175,21 @@ class User(
 
     @property
     def access_token(self):
+        timedelta(minutes=60 * 12)
+        timedelta(days=28)
         return str(SlidingToken.for_user(self))
 
     @property
     def cdn_policy(self):
+        # TODO: remove this after testing
+        #       this is only used to fix an issue in the iOS app
+        if hasattr(self, "settings") and self.settings.debug_enabled:
+            cdn_policy_ttl = 60 * 2
+            return get_cdn_policy(seconds_valid=cdn_policy_ttl)
+
         if self.has_active_subscription:
             return get_cdn_policy()
+
         return None
 
 

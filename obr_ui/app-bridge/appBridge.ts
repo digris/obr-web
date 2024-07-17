@@ -77,6 +77,8 @@ type receiveChannel =
   | "account:update"
   // appscene
   | "appscene:update"
+  // errors
+  | "apperror:update"
   // sign-in
   | "googleSignin:completed"
   | "appleSignin:completed";
@@ -253,6 +255,14 @@ class AppBridge {
             await this.send("account:setAccessToken", { accessToken: user.value?.accessToken });
           }
         }
+        break;
+      }
+      case "apperror:update": {
+        const { message: errorMessage, code: errorCode } = data;
+        if (errorCode === "") {
+          break;
+        }
+        console.error("apperror", errorCode, errorMessage);
         break;
       }
       case "appleSignin:completed": {

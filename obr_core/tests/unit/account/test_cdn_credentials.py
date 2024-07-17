@@ -26,8 +26,13 @@ def test_get_cdn_policy():
 
     assert (
         policy
-        == "URLPrefix=aHR0cHM6Ly9tZWRpYS5vcGVuYnJvYWRjYXN0LmNoL2VuY29kZWQ=:Expires=1636416000:KeyName=cdn-key:Signature=e3iLIIGqKHuINVLxrAOBMmg4cUo="
+        == "URLPrefix=aHR0cHM6Ly9tZWRpYS5vcGVuYnJvYWRjYXN0LmNoL2VuY29kZWQ=:Expires=1325462400:KeyName=cdn-key:Signature=UDa_H9Bz86Vjn5ISTxlgQARYgNI="
     )
+
+    expires = int(policy.split(":")[1].split("=")[1])
+
+    # NOTE: should be valid for 24 hours
+    assert datetime.datetime.utcfromtimestamp(expires) == datetime.datetime(2012, 1, 2, 0, 0)
 
 
 @pytest.mark.django_db

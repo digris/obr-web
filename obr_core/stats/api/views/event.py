@@ -169,6 +169,8 @@ class StreamEventViewSet(
 class PlayerEventProcessView(
     APIView,
 ):
+    serializer_class = serializers.PlayerEventProcessSerializer
+
     permission_classes = [
         permissions.WebhookPermission,
     ]

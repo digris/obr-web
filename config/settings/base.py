@@ -454,9 +454,12 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "USER_ID_FIELD": "uid",
     "USER_ID_CLAIM": "user_uid",
-    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.SlidingToken",),
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=60 * 12),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=3),
+    "SLIDING_TOKEN_LIFETIME": timedelta(days=28),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=120),
+    # "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.SlidingToken",),
+    "AUTH_TOKEN_CLASSES": ("account.jwt_token.tokens.SlidingToken",),
+    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "account.jwt_token.serializers.TokenObtainSlidingSerializer",
+    "SLIDING_TOKEN_REFRESH_SERIALIZER": "account.jwt_token.serializers.TokenRefreshSlidingSerializer",
 }
 
 
