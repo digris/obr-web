@@ -22,7 +22,7 @@ def test_get_signed_cookie():
 
 @freeze_time("2012-01-01 00:00:00", tz_offset=0)
 def test_get_cdn_policy():
-    policy = get_cdn_policy()
+    policy = get_cdn_policy(seconds_valid=60 * 60 * 24)
 
     assert (
         policy

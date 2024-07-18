@@ -3,11 +3,13 @@ import datetime
 import hashlib
 import hmac
 
+from django.conf import settings
+
 COOKIE_NAME = "Cloud-CDN-Cookie"
 URL_PREFIX = "https://media.openbroadcast.ch/encoded"
 KEY_NAME = "cdn-key"
 KEY_BASE64 = "uH2LcPhs5zzOLQsu65rtZw=="
-CDN_POLICY_SECONDS_VALID = 60 * 60 * 24
+CDN_POLICY_SECONDS_VALID = settings.CDN_POLICY_LIFETIME
 
 
 def get_signed_cookie(url_prefix, key_name, base64_key, expiration_time):

@@ -1,10 +1,12 @@
 import logging
 
+from django.conf import settings
+
 from .policy import get_cdn_policy
 
-CLOUD_CDN_DOMAIN = "openbroadcast.ch"
 CLOUD_CDN_COOKIE_NAME = "Cloud-CDN-Cookie"
-CDN_POLICY_SECONDS_VALID = 60 * 60 * 24
+CLOUD_CDN_DOMAIN = settings.CDN_POLICY_DOMAIN
+CDN_POLICY_SECONDS_VALID = settings.CDN_POLICY_LIFETIME
 
 logger = logging.getLogger(__name__)
 

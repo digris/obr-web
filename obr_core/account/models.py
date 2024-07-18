@@ -181,12 +181,6 @@ class User(
 
     @property
     def cdn_policy(self):
-        # TODO: remove this after testing
-        #       this is only used to fix an issue in the iOS app
-        if hasattr(self, "settings") and self.settings.debug_enabled:
-            cdn_policy_ttl = 60 * 2
-            return get_cdn_policy(seconds_valid=cdn_policy_ttl)
-
         if self.has_active_subscription:
             return get_cdn_policy()
 

@@ -2,8 +2,6 @@ import environ
 
 from .base import *
 
-SITE_URL = "http://local.obr-next:3000"
-
 
 ##################################################################
 # storage & media
@@ -38,8 +36,12 @@ CSRF_TRUSTED_ORIGINS = [
     "http://local.obr-next:3000",
     "http://local.obr-next:5000",
     "http://local.obr-next:8080",
-    "http://mba.local:5000",
+    "http://localhost:5000",
+    "http://localhost:8080",
 ]
+
+if SITE_URL not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(SITE_URL)
 
 MIDDLEWARE += [
     # "querycount.middleware.QueryCountMiddleware",
@@ -91,12 +93,12 @@ LOGGING = {
             "propagate": False,
         },
         "stats": {
-            "level": "DEBUG",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },
         "sync": {
-            "level": "DEBUG",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },

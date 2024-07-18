@@ -14,8 +14,14 @@ sys.path.insert(0, APP_ROOT)
 
 env = environ.Env(
     DEBUG=(bool, False),
+    SITE_URL=(str, "https://openbroadcast.ch"),
     OBP_SYNC_SKIP_MEDIA=(bool, False),
     OBP_SYNC_SKIP_IMAGES=(bool, False),
+    # JWT
+    JWT_TOKEN_LIFETIME=(int, 60 * 60 * 24 * 28),  # 28 days
+    JWT_TOKEN_REFRESH_LIFETIME=(int, 60 * 60 * 24 * 120),  # 120 days
+    CDN_POLICY_LIFETIME=(int, 60 * 60 * 24),  # 1 day
+    CDN_POLICY_DOMAIN=(str, "openbroadcast.ch"),
 )
 
 DEBUG = env("DEBUG")
@@ -23,16 +29,14 @@ SECRET_KEY = env(
     "SECRET_KEY",
     default="---secret-key---",
 )
+SITE_URL = env("SITE_URL").strip("/")
 
 ALLOWED_HOSTS = ["*"]
 SESSION_COOKIE_NAME = "sid"
 SESSION_COOKIE_SAMESITE = None
 
-SITE_URL = ""
 
 INSTALLED_APPS = [
-    # "admin_interface",
-    # "colorfield",
     "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -43,7 +47,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "storages",
-    # "taggit",
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
@@ -454,8 +457,10 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "USER_ID_FIELD": "uid",
     "USER_ID_CLAIM": "user_uid",
-    "SLIDING_TOKEN_LIFETIME": timedelta(days=28),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=120),
+    # "SLIDING_TOKEN_LIFETIME": timedelta(days=28),
+    # "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=120),
+    "SLIDING_TOKEN_LIFETIME": timedelta(seconds=env("JWT_TOKEN_LIFETIME")),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(seconds=env("JWT_TOKEN_REFRESH_LIFETIME")),
     # "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.SlidingToken",),
     "AUTH_TOKEN_CLASSES": ("account.jwt_token.tokens.SlidingToken",),
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "account.jwt_token.serializers.TokenObtainSlidingSerializer",
@@ -532,6 +537,13 @@ IMAGE_RESIZER_ENDPOINT = env(
     "IMAGE_RESIZER_ENDPOINT",
     default="https://openbroadcast.ch/images/",
 )
+
+
+##################################################################
+# CDN
+##################################################################
+CDN_POLICY_LIFETIME = env.int("CDN_POLICY_LIFETIME")
+CDN_POLICY_DOMAIN = env("CDN_POLICY_DOMAIN")
 
 
 ##################################################################

@@ -7,6 +7,13 @@ upstream static {
 upstream image-resizer {
   server ${IMAGE_RESIZER};
 }
+upstream cdn-cookie-validator {
+  server ${CDN_COOKIE_VALIDATOR};
+}
+
+map $http_cookie $cdn_cookie_expires {
+  "~*Cloud-CDN-Cookie=.*:Expires=(\d+):" $1;
+}
 
 server {
   listen 80 default_server;
@@ -31,13 +38,18 @@ server {
     proxy_pass http://image-resizer/;
   }
 
-#  location /encoded/ {
-#    autoindex on;
-#    expires 1h;
-#    # access_log off;
-#    add_header Cache-Control "public";
-#    alias /data/encoded/;
-#  }
+
+  location /validate_cdn_cookie {
+    internal;
+    proxy_set_header Content-Length "";
+    proxy_pass_request_body off;
+
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Cookie $http_cookie;
+    proxy_pass http://cdn-cookie-validator/;
+  }
 
   location /encoded/ {
     # Disable cache
@@ -46,6 +58,8 @@ server {
     # CORS setup
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Expose-Headers' 'Content-Length';
+    add_header X-Session-Id $cookie_sid;
+    add_header X-Cloud-CDN-Expires $cdn_cookie_expires;
 
     # allow CORS preflight requests
     if ($request_method = 'OPTIONS') {
@@ -60,6 +74,8 @@ server {
         application/vnd.apple.mpegurl m3u8;
         video/mp2t ts;
     }
+
+    auth_request /validate_cdn_cookie;
 
     alias /data/encoded/;
   }
@@ -83,7 +99,13 @@ server {
   }
 
   location / {
+
     proxy_pass http://core/;
+
+#    if ($cdn_cookie_expires) {
+#      rewrite ^ /validate_cdn_cookie last;
+#    }
+
     proxy_buffering off;
 #    proxy_set_header X-Vite-Proxied "on";
 #    proxy_set_header Host $host:3000;
@@ -92,5 +114,8 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Client-Geo-Location-Region "CH";
     proxy_set_header X-Client-Geo-Location-City "Zurich";
+
+    add_header X-Session-Id $cookie_sid;
+    add_header X-Cloud-CDN-Expires $cdn_cookie_expires;
   }
 }

@@ -13,8 +13,11 @@ services:
       IMAGE_RESIZER: image-resizer:8000
       CORE: core:8000
       STATIC: core:8000
+      CDN_COOKIE_VALIDATOR: cdn-cookie-validator:8000
     networks:
       - obr
+    depends_on:
+      - core
     extra_hosts:
       - "host.docker.internal:host-gateway"
   db:
@@ -48,6 +51,8 @@ services:
       dockerfile: ${PWD}/compose/media-encoder/Dockerfile
     volumes:
       - ${PWD}/data:/data
+    depends_on:
+      - core
   core:
     user: 1000:1000
     command: ./manage.py runserver 0.0.0.0:8000
@@ -60,10 +65,13 @@ services:
       - "8080:8000"
     volumes:
       - ${PWD}/data:/app/data
+    env_file: ".env"
     environment:
       DEBUG: "yes"
-      DATABASE_URL: psql://obr:obr@db:5432/obr
       DJANGO_SETTINGS_MODULE: config.settings.env
+      DATABASE_URL: psql://obr:obr@db:5432/obr
+      # EMAIL_URL: smtp://mailhog:1025
+      EMAIL_URL: consolemail://
     networks:
       - obr
     depends_on:
@@ -71,10 +79,11 @@ services:
       - db
   sync-schedule:
     user: 1000:1000
-    command: ./sync-schedule
+    command: sh -c './manage.py sync_schedule -s $(date "+%Y-%m-%d") -i 300'
     image: obr/core:lateest
     volumes:
       - ${PWD}/data:/app/data
+    env_file: ".env"
     environment:
       DATABASE_URL: psql://obr:obr@db:5432/obr
       OBP_SYNC_TOKEN: "${OBP_SYNC_TOKEN}"
@@ -89,6 +98,7 @@ services:
     user: 1000:1000
     command: ./manage.py migrate --noinput
     image: obr/core:lateest
+    env_file: ".env"
     environment:
       DATABASE_URL: psql://obr:obr@db:5432/obr
       DJANGO_SETTINGS_MODULE: config.settings.env
@@ -96,15 +106,13 @@ services:
       - obr
     depends_on:
       - db
-  mailhog:
+  cdn-cookie-validator:
+    user: 1000:1000
     build:
       context: ${PWD}
-      dockerfile: ${PWD}/compose/mailhog/Dockerfile
-    logging:
-      driver: "none"
+      dockerfile: ${PWD}/compose/cdn-cookie-validator/Dockerfile
     ports:
-      - "1025:1025" # smtp
-      - "5025:8025" # ui
+      - "8008:8000"
     networks:
       - obr
 

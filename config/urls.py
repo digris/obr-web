@@ -6,7 +6,6 @@ from django.views.static import serve
 
 from spa.views import SPA404View, SPAIndexView
 
-SITE_URL = settings.SITE_URL
 
 admin.autodiscover()
 admin.site.site_header = "open broadcast radio"

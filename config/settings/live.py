@@ -18,13 +18,10 @@ env.read_env(io.StringIO(payload))
 
 from .base import *  # NOQA
 
-SITE_URL = "https://openbroadcast.ch"
-
 ##################################################################
 # make sure to add further setting overrides *after*
 # importing .base
 ##################################################################
-
 
 SECRET_KEY = env("SECRET_KEY")
 ALLOWED_HOSTS = ["*"]

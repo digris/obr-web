@@ -61,6 +61,9 @@ For more in-depth changes on the settings module extend `settings.development`.
 If needed create a `docker-compose.override.yml` file in order to override the defaults.
 
 
+NTOTE: to run the application as a whole see: [Run Services (non-dev)](./docker-compose.md)
+
+
 ## Backing Services
 
 To simplify the development there is a `docker-compose` configuration to run the needed auxiliary services:

@@ -124,4 +124,4 @@ run-fe:
 
 .PHONY: run-hypercorn
 run-hypercorn:
-	hypercorn core.asgi:application --bind :${PORT_BE} --access-logfile - --error-logfile - --reload
+	hypercorn config.asgi:application --bind :${PORT_BE} --access-logfile - --error-logfile - --reload

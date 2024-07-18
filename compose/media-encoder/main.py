@@ -62,11 +62,11 @@ def run(
 
     for src_dir in master_dirs:
         dst_dir = encoded_dir / src_dir.stem
-        if (dst_dir / 'dash').is_dir() and not force:
-            num_skipped += 1
-        else:
-            encode_dir_to_dash(src_dir, dst_dir)
-            num_encoded += 1
+        # if (dst_dir / 'dash').is_dir() and not force:
+        #     num_skipped += 1
+        # else:
+        #     encode_dir_to_dash(src_dir, dst_dir)
+        #     num_encoded += 1
 
         if (dst_dir / 'hls').is_dir() and not force:
             num_skipped += 1
