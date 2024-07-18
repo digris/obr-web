@@ -36,7 +36,7 @@ Authorization: Bearer <accessToken>
 ```
 
 
-#### Refreshing JWT Token
+#### Refreshing JWT Token (Sliding)
 
 The provided token has a limited lifetime ("a couple of hours") - see `core/settings/base.py` for configured token 
 lifetimes.
@@ -57,6 +57,31 @@ which will (amongst others) include an updated token:
     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCK0..."
 }
 ```
+
+
+#### Refreshing JWT Token (Explicit)
+
+The provided token can also be used as a "refresh-token" to obtain a new token.  
+It contains two "claims":
+ - `exp`: the expiration time of the token
+ - `refresh_exp`: the expiration time as long the token can be used to optain a new token
+
+So if a token is expired by `exp` but still valid by `refresh_exp` it can be used to obtain a new token:
+
+```
+POST: /api/v1/jwt/refresh/
+
+{
+    "token": "<accessToken>"
+}
+```
+
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCK0..."
+}
+```
+
 
 ### User Details
 
