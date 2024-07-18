@@ -19,11 +19,11 @@ STORAGES = {
 MEDIA_ROOT = PROJECT_ROOT / "data" / "media"
 MEDIA_URL = ""
 
-IMAGE_RESIZER_ENDPOINT = "/images/"
+IMAGE_RESIZER_ENDPOINT = f"{SITE_URL}/images/"
 
 MEDIA_ENDPOINTS = {
-    "dash": "/encoded/",
-    "hls": "/encoded/",
+    "dash": f"{SITE_URL}/encoded/",
+    "hls": f"{SITE_URL}/encoded/",
 }
 
 INSTALLED_APPS += [
