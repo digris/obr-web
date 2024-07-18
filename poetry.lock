@@ -98,6 +98,49 @@ yarl = ">=1.0,<2.0"
 speedups = ["Brotli", "aiodns", "brotlicffi"]
 
 [[package]]
+name = "aioquic"
+version = "0.9.25"
+description = "An implementation of QUIC and HTTP/3"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "aioquic-0.9.25-cp38-abi3-macosx_10_9_x86_64.whl", hash = "sha256:4032a718dea1cc670379dcac15da6ee49440ffaffca565d4505c74f6ac56bb34"},
+    {file = "aioquic-0.9.25-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:9a416579f78177ea3590fdb16933f6168f425f9109fcad00e09b3ac3f991d0bb"},
+    {file = "aioquic-0.9.25-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9a7a69f4396540e38caf2cf3f69f42844a9130e3dac2590fd8713d5dc77b3a1f"},
+    {file = "aioquic-0.9.25-cp38-abi3-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:7fd3b0e42e3dab1ca7396fbb6810deb3a0d9324bfc730fb4a7697de08f1b4dc3"},
+    {file = "aioquic-0.9.25-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:7e4f592f0ad0d57753c7d3851f75041052528b76a7255011294b208c6a9e360b"},
+    {file = "aioquic-0.9.25-cp38-abi3-win32.whl", hash = "sha256:18658be4dc06eb1cba9a7bbc80b716b25d3dcbfb89360575de9e2b66c0bee6a7"},
+    {file = "aioquic-0.9.25-cp38-abi3-win_amd64.whl", hash = "sha256:da07befc3fa186621a6ff34695d9bf51c803e49f6c02fec53f50c86b74cdd55f"},
+    {file = "aioquic-0.9.25-pp310-pypy310_pp73-macosx_10_9_x86_64.whl", hash = "sha256:cbd60cec8cc8e134dc1e2ebb79047827298b84d3b5ff011c36ee101110da63b8"},
+    {file = "aioquic-0.9.25-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f73db85db29e35260f85961840d5089c3da3e404c6b7dfdaadbd9842a53c10a1"},
+    {file = "aioquic-0.9.25-pp310-pypy310_pp73-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:bac804af55b230acaebefc33eb04356df1844cc77da5f4a7f860cbe41052553d"},
+    {file = "aioquic-0.9.25-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4ab61fe290e3eed71e2f0ee1dd6916040adc087fc2d4f9dc0dfd037c09a6defc"},
+    {file = "aioquic-0.9.25-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:9852358f7bbb52c56e1151fa054505a3880f1d2cffef8a83a1bbb653a2faaab0"},
+    {file = "aioquic-0.9.25-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:4d8b00e2fbf6fee5c9bb5e6d481f1d414f9a3318ae500f673470f6571f2455dd"},
+    {file = "aioquic-0.9.25-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:dd1cda94f7c5e1a4bb75a2f195c0f20839b54b014e3d81eeab47d6a625c7a761"},
+    {file = "aioquic-0.9.25-pp38-pypy38_pp73-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3fad05736e0152e698a3fd18d421bab1a77f379ff085b953e306e53df00d0b9e"},
+    {file = "aioquic-0.9.25-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:827652aa7b52ac069fc1fc9b1d8308f6c19adcfb86cd7f563c0ce5be8b416ce9"},
+    {file = "aioquic-0.9.25-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:7fb11167019d24ec9b5c62e40cef365a4911cd74f5fb23a1283d772e92c8ef7d"},
+    {file = "aioquic-0.9.25-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:45241ac5b9b6d4cd976109220dfecddc377d610d4675fffb69869bedcdfa841c"},
+    {file = "aioquic-0.9.25-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d8637030a95f68454cdaa58c0a7d0cbee5eca1e694a5cb8d6c179846f7d4d86c"},
+    {file = "aioquic-0.9.25-pp39-pypy39_pp73-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:4d4641eee9cdd05b9c11088077b376423f8ed148f198d491d72d8189596f1aaf"},
+    {file = "aioquic-0.9.25-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bb187080955b026da4d3c9ea5fa1be32c4413e27bd8e458f66d94bf9a2b42e72"},
+    {file = "aioquic-0.9.25-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:0066c0867c7c78aad05cd1f7ebcc1a61b61f3dbc57e65823df26edc0098b6c75"},
+    {file = "aioquic-0.9.25.tar.gz", hash = "sha256:70795c78905326d855c2ae524072234aae586c789b81292e272d021e9b0430a3"},
+]
+
+[package.dependencies]
+certifi = "*"
+cryptography = "*"
+pylsqpack = ">=0.3.3,<0.4.0"
+pyopenssl = ">=22"
+service-identity = ">=23.1.0"
+
+[package.extras]
+dev = ["coverage[toml] (>=7.2.2)"]
+
+[[package]]
 name = "aiosignal"
 version = "1.3.1"
 description = "aiosignal: a list of registered asynchronous callbacks"
@@ -713,18 +756,18 @@ files = [
 
 [[package]]
 name = "django"
-version = "4.2.13"
+version = "5.0.7"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.10"
 files = [
-    {file = "Django-4.2.13-py3-none-any.whl", hash = "sha256:a17fcba2aad3fc7d46fdb23215095dbbd64e6174bf4589171e732b18b07e426a"},
-    {file = "Django-4.2.13.tar.gz", hash = "sha256:837e3cf1f6c31347a1396a3f6b65688f2b4bb4a11c580dcb628b5afe527b68a5"},
+    {file = "Django-5.0.7-py3-none-any.whl", hash = "sha256:f216510ace3de5de01329463a315a629f33480e893a9024fc93d8c32c22913da"},
+    {file = "Django-5.0.7.tar.gz", hash = "sha256:bd4505cae0b9bd642313e8fb71810893df5dc2ffcacaa67a33af2d5cd61888f2"},
 ]
 
 [package.dependencies]
-asgiref = ">=3.6.0,<4"
+asgiref = ">=3.7.0,<4"
 sqlparse = ">=0.3.1"
 tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 
@@ -1127,7 +1170,7 @@ sidecar = ["drf-spectacular-sidecar"]
 name = "exceptiongroup"
 version = "1.2.0"
 description = "Backport of PEP 654 (exception groups)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1848,27 +1891,32 @@ files = [
 
 [[package]]
 name = "hypercorn"
-version = "0.12.0"
+version = "0.17.3"
 description = "A ASGI Server based on Hyper libraries and inspired by Gunicorn"
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "Hypercorn-0.12.0-py3-none-any.whl", hash = "sha256:485a03dc171549dd802c5a2d4cce2d46daf077fbc06c7db90e0862ebc1bd07c9"},
-    {file = "Hypercorn-0.12.0.tar.gz", hash = "sha256:0504720bfc3fad83b4520b37fa5032b75ee3f2e71d26d6f7fea41fa2995b0138"},
+    {file = "hypercorn-0.17.3-py3-none-any.whl", hash = "sha256:059215dec34537f9d40a69258d323f56344805efb462959e727152b0aa504547"},
+    {file = "hypercorn-0.17.3.tar.gz", hash = "sha256:1b37802ee3ac52d2d85270700d565787ab16cf19e1462ccfa9f089ca17574165"},
 ]
 
 [package.dependencies]
+aioquic = {version = ">=0.9.0,<1.0", optional = true, markers = "extra == \"h3\""}
+exceptiongroup = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
 h11 = "*"
 h2 = ">=3.1.0"
 priority = "*"
-toml = "*"
+taskgroup = {version = "*", markers = "python_version < \"3.11\""}
+tomli = {version = "*", markers = "python_version < \"3.11\""}
+typing_extensions = {version = "*", markers = "python_version < \"3.11\""}
 wsproto = ">=0.14.0"
 
 [package.extras]
+docs = ["pydata_sphinx_theme", "sphinxcontrib_mermaid"]
 h3 = ["aioquic (>=0.9.0,<1.0)"]
-trio = ["trio (>=0.11.0)"]
-uvloop = ["uvloop"]
+trio = ["trio (>=0.22.0)"]
+uvloop = ["uvloop (>=0.18)"]
 
 [[package]]
 name = "hyperframe"
@@ -3170,6 +3218,53 @@ files = [
 pylint = ">=1.7"
 
 [[package]]
+name = "pylsqpack"
+version = "0.3.18"
+description = "Python wrapper for the ls-qpack QPACK library"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pylsqpack-0.3.18-cp38-abi3-macosx_10_9_x86_64.whl", hash = "sha256:1f415d2e03c779261ac7ed421a009a4c752eef6f1ef7b5a34c4a463a5e17fbad"},
+    {file = "pylsqpack-0.3.18-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:c84e6d4dcb708d766a50bfd16579d8a0bff4eb4e5f5dff9f3df4018454d4013b"},
+    {file = "pylsqpack-0.3.18-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:bac5f2dc255ae70e5a14033e769769b38bd4c980b365dacd88665610f245e36f"},
+    {file = "pylsqpack-0.3.18-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:75042b442a0a7a283b5adc21045e6583f3c817d40ccec769837bf2f90b79c494"},
+    {file = "pylsqpack-0.3.18-cp38-abi3-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:8b5fd04bb27180286811f8e1659974e6e5e854a882de3f2aba8caefc1bb9ab81"},
+    {file = "pylsqpack-0.3.18-cp38-abi3-win32.whl", hash = "sha256:a2798e1c08bd36875f77a1ebec0f130fdf9e27eebdb0499a764201d55ef78770"},
+    {file = "pylsqpack-0.3.18-cp38-abi3-win_amd64.whl", hash = "sha256:40465d025b946bca195bdaed74b3b79fe3f7f419ab1d4bc4109dca34ba9881d7"},
+    {file = "pylsqpack-0.3.18-pp38-pypy38_pp73-macosx_10_9_x86_64.whl", hash = "sha256:ae628cd359ecb466dd85f151ea1ad53de3114e5a9ae0f0ac1408fb43a4318032"},
+    {file = "pylsqpack-0.3.18-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4a248be29d9ca1fa2ebd7ef4b8ac166d17df0d8d4631b4499c8c566e221d4e5b"},
+    {file = "pylsqpack-0.3.18-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:005ddce84bdcbf5c3cf99f764504208e1aa0a91a8331bf47108f2708f2a315e6"},
+    {file = "pylsqpack-0.3.18-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3dd664354422d4cd51c189febb5f5d22bf3d8c453cc25517c04ce01a57478060"},
+    {file = "pylsqpack-0.3.18-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:c003eb882f41e4dbd093243c67b97c8634209b4d5ba7edd16163b1ff37306254"},
+    {file = "pylsqpack-0.3.18-pp39-pypy39_pp73-macosx_10_9_x86_64.whl", hash = "sha256:8ea75152e8cb8b8c7cfef11c3aa5ebe5b226bd850889f56ff70a688e9680acbf"},
+    {file = "pylsqpack-0.3.18-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:3c4cccfd91afd589994f844fd1dbae0acdb58a8ab929d8edeadb25339deb6590"},
+    {file = "pylsqpack-0.3.18-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:06e1bbe47514b83cd03158e5558ef8cc44f578169c1820098be9f3cc4137f16a"},
+    {file = "pylsqpack-0.3.18-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:e1054b0b44f6141a99e84a9aa6a27c9df028e9223747b893e8e37cdc95b602f1"},
+    {file = "pylsqpack-0.3.18-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:711f3aa645f72a928e22606c1f026cde905de23efc07028fe1bc7429f73ec8ee"},
+    {file = "pylsqpack-0.3.18.tar.gz", hash = "sha256:45ae55e721877505f4d5ccd49591d69353f2a548a8673dfafb251d385b3c097f"},
+]
+
+[[package]]
+name = "pyopenssl"
+version = "24.1.0"
+description = "Python wrapper module around the OpenSSL library"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pyOpenSSL-24.1.0-py3-none-any.whl", hash = "sha256:17ed5be5936449c5418d1cd269a1a9e9081bc54c17aed272b45856a3d3dc86ad"},
+    {file = "pyOpenSSL-24.1.0.tar.gz", hash = "sha256:cabed4bfaa5df9f1a16c0ef64a0cb65318b5cd077a7eda7d6970131ca2f41a6f"},
+]
+
+[package.dependencies]
+cryptography = ">=41.0.5,<43"
+
+[package.extras]
+docs = ["sphinx (!=5.2.0,!=5.2.0.post0,!=7.2.5)", "sphinx-rtd-theme"]
+test = ["pretend", "pytest (>=3.0.1)", "pytest-rerunfailures"]
+
+[[package]]
 name = "pysocks"
 version = "1.7.1"
 description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
@@ -3801,6 +3896,31 @@ starlite = ["starlite (>=1.48)"]
 tornado = ["tornado (>=5)"]
 
 [[package]]
+name = "service-identity"
+version = "24.1.0"
+description = "Service identity verification for pyOpenSSL & cryptography."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "service_identity-24.1.0-py3-none-any.whl", hash = "sha256:a28caf8130c8a5c1c7a6f5293faaf239bbfb7751e4862436920ee6f2616f568a"},
+    {file = "service_identity-24.1.0.tar.gz", hash = "sha256:6829c9d62fb832c2e1c435629b0a8c476e1929881f28bee4d20bc24161009221"},
+]
+
+[package.dependencies]
+attrs = ">=19.1.0"
+cryptography = "*"
+pyasn1 = "*"
+pyasn1-modules = "*"
+
+[package.extras]
+dev = ["pyopenssl", "service-identity[idna,mypy,tests]"]
+docs = ["furo", "myst-parser", "pyopenssl", "sphinx", "sphinx-notfound-page"]
+idna = ["idna"]
+mypy = ["idna", "mypy", "types-pyopenssl"]
+tests = ["coverage[toml] (>=5.0.2)", "pytest"]
+
+[[package]]
 name = "setoptconf"
 version = "0.3.0"
 description = "A module for retrieving program settings from various sources in a consistant method."
@@ -4015,6 +4135,21 @@ files = [
 requests = {version = ">=2.20", markers = "python_version >= \"3.0\""}
 
 [[package]]
+name = "taskgroup"
+version = "0.0.0a4"
+description = "backport of asyncio.TaskGroup, asyncio.Runner and asyncio.timeout"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "taskgroup-0.0.0a4-py2.py3-none-any.whl", hash = "sha256:5c1bd0e4c06114e7a4128583ab75c987597d5378a33948a3b74c662b90f61277"},
+    {file = "taskgroup-0.0.0a4.tar.gz", hash = "sha256:eb08902d221e27661950f2a0320ddf3f939f579279996f81fe30779bca3a159c"},
+]
+
+[package.dependencies]
+exceptiongroup = "*"
+
+[[package]]
 name = "text-unidecode"
 version = "1.3"
 description = "The most basic Text::Unidecode port"
@@ -4030,7 +4165,7 @@ files = [
 name = "toml"
 version = "0.10.2"
 description = "Python Library for Tom's Obvious, Minimal Language"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 files = [
@@ -4042,7 +4177,7 @@ files = [
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -4461,4 +4596,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "0361bf9c0e3e1025d930223ddf41c1087da979de16f53f5f1e12a9aa29c730af"
+content-hash = "be93cda21d7d0f6dd1dbb25bef247a36555c331267d8fa44fe26bea34f2bc5ea"

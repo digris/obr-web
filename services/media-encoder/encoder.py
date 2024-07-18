@@ -43,7 +43,7 @@ def encode_hls(src, dst):
         src,
         "-ac 2",
         "-ar 44100",
-        "-filter:a loudnorm",
+        # "-filter:a loudnorm",
         "-map 0:a -c:a:0 aac -b:a:0 64k",
         "-map 0:a -c:a:1 aac -b:a:1 256k",
         "-map_metadata -1",

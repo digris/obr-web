@@ -12,7 +12,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.10, <3.12"
-Django = "^4.2.7"
+Django = "^5.0"
 google-cloud-secret-manager = "^2.11.1"
 google-auth = "^2.6.6"
 django-environ = "^0.10"
@@ -27,7 +27,7 @@ drf-flex-fields = "^1.0.0"
 django-request-logging = "^0.7.3"
 google-cloud-logging = "^3.1.2"
 social-auth-app-django = "^5"
-Hypercorn = "^0.12"
+Hypercorn = {version = "^0.17.3", extras = ["h3"]}
 click = "^8.0.0"
 stripe = "^3.2.0"
 colorthief = "^0.2.1"
