@@ -15,6 +15,14 @@ docker compose build
 ```
 
 
+## Pre-built Images
+
+```shell
+docker pull ghcr.io/digris/obr-web:main
+docker tag ghcr.io/digris/obr-web:main obr/core:lateest
+```
+
+
 ## Configuration
 
 Create an `.env` file with the following variables:
