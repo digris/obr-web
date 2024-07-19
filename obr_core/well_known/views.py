@@ -18,8 +18,8 @@ def apple_app_site_association(request):
                         "paths": [
                             "NOT /social/*",
                             "NOT /admin/*",
-                            "NOT /app-bridge/social-auth-redirect/",
-                            "NOT /app-bridge/social-auth-redirect/*",
+                            "NOT /social/complete/apple-id/",
+                            "NOT /social/complete/google-oauth2/",
                             "*",
                         ],
                     },
