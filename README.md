@@ -1,6 +1,6 @@
 # open broadcast - radio
 
-"Next-gen" version of openbroadcast.ch website to be launched in 2022.
+[openbroadcast.ch](https://openbroadcast.ch/)
 
 [![CI](https://github.com/digris/obr-web/actions/workflows/ci.yaml/badge.svg)](https://github.com/digris/obr-web/actions/workflows/ci.yaml)
 
@@ -34,8 +34,8 @@ gcloud projects describe open-broadcast
 
 - [Stripe](https://...)
 - [Sentry](https://sentry.io/organizations/obr/projects/obr/?project=5953969)
-- [OpenReplay](https://app.openreplay.com/4567/) (inactive, migrated session tracking to sentry)
 - [Analytics](https://analytics.google.com/analytics/web/#/p299020254/reports/intelligenthome)
+
 
 ## Documentation
 
