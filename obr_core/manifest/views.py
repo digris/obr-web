@@ -18,14 +18,14 @@ def manifest_view(request):
             "icons": [
                 {
                     "src": request.build_absolute_uri(
-                        static("assets/manifest/icon-192x192.png")
+                        static("assets/manifest/icon-192x192.png"),
                     ),
                     "sizes": "192x192",
                     "type": "image/png",
                 },
                 {
                     "src": request.build_absolute_uri(
-                        static("assets/manifest/icon-512x512.png")
+                        static("assets/manifest/icon-512x512.png"),
                     ),
                     "sizes": "512x512",
                     "type": "image/png",
