@@ -1,8 +1,5 @@
 from django.http import JsonResponse
 from django.templatetags.static import static
-from django.conf import settings
-
-from common.utils.urls import get_absolute_url
 
 
 def manifest_view(request):
@@ -20,12 +17,16 @@ def manifest_view(request):
             "orientation": "portrait",
             "icons": [
                 {
-                    "src": request.build_absolute_uri(static("assets/manifest/icon-192x192.png")),
+                    "src": request.build_absolute_uri(
+                        static("assets/manifest/icon-192x192.png")
+                    ),
                     "sizes": "192x192",
                     "type": "image/png",
                 },
                 {
-                    "src": request.build_absolute_uri(static("assets/manifest/icon-512x512.png")),
+                    "src": request.build_absolute_uri(
+                        static("assets/manifest/icon-512x512.png")
+                    ),
                     "sizes": "512x512",
                     "type": "image/png",
                 },
