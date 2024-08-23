@@ -1,14 +1,14 @@
-# Icecast Updater
+# TuneIn Updater
 
 - triggered by pub-sub - topic: on-air-update-in-60s
-- sends metadata to icecast metadata-service
+- sends metadata to tunein
 
 
 ## Deploy CF
 
 ```shell
 gcloud functions deploy \
-    icecast-updater \
+    tunein-updater \
     --entry-point run \
     --project open-broadcast \
     --runtime python312 \
@@ -16,4 +16,13 @@ gcloud functions deploy \
     --region europe-west6 \
     --source ./ \
     --trigger-topic on-air-update-in-60s
+```
+
+## Run Locally
+
+```shell
+PARTNER_ID=NxpdyOwG \
+PARTNER_KEY=*** \
+STATION_ID=s129700 \
+./main.py
 ```

@@ -6,46 +6,45 @@ import os
 import requests
 
 USER_AGENT = "openbroadcast.ch - metadata updater/0.0.1"
-API_URL = os.environ.get("API_URL", "https://stream.openbroadcast.ch/")
-API_TOKEN = os.environ.get("API_TOKEN")
+
+API_URL = os.environ.get("API_URL", "http://air.radiotime.com/Playing.ashx")
+
+PARTNER_ID = os.environ.get("PARTNER_ID")
+PARTNER_KEY = os.environ.get("PARTNER_KEY")
+STATION_ID = os.environ.get("STATION_ID")
 
 assert API_URL, "API_URL not set"
-assert API_TOKEN, "API_TOKEN not set"
+assert PARTNER_ID, "PARTNER_ID not set"
+assert PARTNER_KEY, "PARTNER_KEY not set"
+assert STATION_ID, "STATION_ID not set"
 
 
 def update_metadata(item):
     media = item.get("media")
-    playlist = item.get("playlist")
 
     if not media:
         return
 
-    payload = {
+    params = {
+        "partnerId": PARTNER_ID,
+        "partnerKey": PARTNER_KEY,
+        "id": STATION_ID,
         "title": media["name"],
         "artist": media["artistDisplay"],
+        "album": media["releaseDisplay"],
     }
 
-    if series := playlist.get("series"):
-
-        show = series.get("name")
-
-        if episode := series.get("episode"):
-            show += f" #{episode}"
-
-        payload["show"] = show
-
     try:
-        r = requests.post(
-            API_URL + "metadata",
-            json=payload,
+        r = requests.get(
+            API_URL,
+            params=params,
             headers={
                 "user-agent": USER_AGENT,
-                "Authorization": f"Bearer {API_TOKEN}",
             },
             timeout=(10, 10),
         )
 
-        print(r.status_code, r.text)
+        print(r.status_code, r.text.replace("\n", ""))
 
     except requests.exceptions.RequestException as e:
         print(f"error: {e}")

@@ -1,0 +1,7 @@
+flask<3.0
+requests
+google-cloud-tasks
+google-api-core
+googleapis-common-protos
+google-cloud-pubsub
+google-cloud-logging

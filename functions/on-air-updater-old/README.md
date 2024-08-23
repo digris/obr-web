@@ -1,8 +1,8 @@
 # On-Air Updater
 
 - reads on-air info
-- emits item data to pub-sub - topic: on-air-update-in-60s
-- schedules itself to run on next item start-time (taking into account 60s "timeshift")
+- emits current data to pub-sub - topic: on-air-updated
+- schedules itself to run on next item start-time
 
 ## Create Task Queue
 
@@ -13,8 +13,8 @@ gcloud tasks queues create on-air-updater --location=europe-west6
 ## Create Pub-Sub Topic & Subscription
 
 ```shell
-gcloud pubsub topics create on-air-update-in-60s
-gcloud pubsub subscriptions create on-air-update-in-60s --topic on-air-update-in-60s
+gcloud pubsub topics create on-air-updated
+gcloud pubsub subscriptions create on-air-updated --topic on-air-updated
 ```
 
 ## Prepare Subscription

@@ -11,13 +11,10 @@ from google.cloud import tasks_v2, pubsub_v1
 from google.cloud.logging_v2.handlers import CloudLoggingHandler
 from google.protobuf import timestamp_pb2
 
-# "timeshift" in seconds
-TIMESHIFT = -60
-
 PROJECT_ID = "open-broadcast"
 LOCATION = "europe-west6"
 QUEUE = "on-air-updater"
-TOPIC_ID = "on-air-update-in-60s"
+TOPIC_ID = "on-air-updated"
 
 RUN_URL = "https://europe-west6-open-broadcast.cloudfunctions.net/on-air-updater?run=1"
 
@@ -66,8 +63,6 @@ def schedule_next_run(in_seconds):
         },
     }
 
-    print("payload", payload)
-
     response = client.create_task(request=payload)
 
     logging.info("created task %s", response.name)
@@ -81,31 +76,29 @@ def run(request):
         return "SKIP"
 
     try:
-        next_run_in, result = api_client.get_metadata(timeshift=TIMESHIFT)
+        next_run_in, result = api_client.get_metadata()
 
         data = json.dumps(result).encode("utf-8")
         publisher.publish(topic_path, data)
 
         logging.debug(result)
 
-        next_run_in = next_run_in - TIMESHIFT
-
     except api_client.ApiError as e:
         logging.warning({
             "error": "ApiError",
             "message": str(e),
         })
-        next_run_in = 10
+        next_run_in = 5
 
     schedule_next_run(in_seconds=next_run_in)
 
-    return f"OK - next run: {next_run_in}"
+    return "OK"
 
 
 if __name__ == "__main__":
     while True:
         try:
-            next_run_in, result = api_client.get_metadata(timeshift=TIMESHIFT)
+            next_run_in, result = api_client.get_metadata()
         except api_client.ApiError as e:
             print(f"ApiError: {e}")
             next_run_in = 5

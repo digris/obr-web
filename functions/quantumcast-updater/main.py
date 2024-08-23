@@ -6,43 +6,53 @@ import os
 import requests
 
 USER_AGENT = "openbroadcast.ch - metadata updater/0.0.1"
-API_URL = os.environ.get("API_URL", "https://stream.openbroadcast.ch/")
+
+CHANNEL_KEY = os.environ.get("CHANNEL_KEY")
 API_TOKEN = os.environ.get("API_TOKEN")
 
-assert API_URL, "API_URL not set"
+assert CHANNEL_KEY, "CHANNEL_KEY not set"
 assert API_TOKEN, "API_TOKEN not set"
+
+API_URL = f"https://metadata.streamabc.net/metapush/{CHANNEL_KEY}/{API_TOKEN}"
 
 
 def update_metadata(item):
     media = item.get("media")
-    playlist = item.get("playlist")
 
     if not media:
         return
 
+    duration = media["duration"] - item["fadeIn"] * 0.001 - item["cueOut"] * 0.001
+
+    cover_url = None
+
+    if releases := media.get("releases", []):
+        if path := releases[0].get("image", {}).get("path"):
+            cover_url = f"https://openbroadcast.ch/images/crop/800x800/{path}"
+
+
     payload = {
-        "title": media["name"],
+        "id": item["key"],
+        "time": item["timeStart"],
+        #
+        "song": media["name"],
         "artist": media["artistDisplay"],
+        "duration": round(duration),
+        #
+        "separator": " - ",
     }
 
-    if series := playlist.get("series"):
-
-        show = series.get("name")
-
-        if episode := series.get("episode"):
-            show += f" #{episode}"
-
-        payload["show"] = show
+    if cover_url:
+        payload["cover"] = cover_url
 
     try:
         r = requests.post(
-            API_URL + "metadata",
+            API_URL,
             json=payload,
             headers={
                 "user-agent": USER_AGENT,
-                "Authorization": f"Bearer {API_TOKEN}",
             },
-            timeout=(10, 10),
+            timeout=(2, 10),
         )
 
         print(r.status_code, r.text)
