@@ -24,6 +24,7 @@ class PlayerEventQuerySet(
         )
 
     def annotate_times_and_durations(self):
+        # https://www.agiliq.com/blog/2017/12/django-20-window-expressions-tutorial/
         return self.annotate(
             annotated_time_end=Window(
                 expression=Lead("time"),
@@ -75,6 +76,15 @@ class PlayerEvent(
         null=True,
         blank=True,
     )
+    # NOTE: here we store derived duration (time_end - time) in seconds
+    #       for faster querying
+    calculated_duration_s = models.DecimalField(
+        max_digits=10,
+        decimal_places=3,
+        db_index=True,
+        default=0,
+        blank=True,
+    )
     state = models.CharField(
         max_length=32,
         db_index=True,
@@ -124,6 +134,11 @@ def player_event_pre_save(sender, instance, **kwargs):
         except Media.DoesNotExist:
             logger.warning(f"media not found: {media_uid}")
             return
+
+    if instance.state == "playing" and instance.time_end:
+        instance.calculated_duration_s = (instance.time_end - instance.time).total_seconds()
+    elif instance.state == "playing":
+        instance.calculated_duration_s = 0
 
 
 class StreamEvent(
