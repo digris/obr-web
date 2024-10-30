@@ -27,21 +27,31 @@ export default defineComponent({
     },
   },
   emits: ["keyup", "change", "update:modelValue"],
+
   setup(props, { emit }) {
     const id = ref(`form-date-input-${Math.random().toString(36).slice(2)}`);
     const update = (value: string) => {
       emit("update:modelValue", value);
     };
+    const onClick = () => {
+      const el = document.getElementById(id.value);
+      if (el) {
+        try {
+          el.showPicker();
+        } catch (err) {} // eslint-disable-line no-empty
+      }
+    };
     return {
       id,
       update,
+      onClick,
     };
   },
 });
 </script>
 
 <template>
-  <div class="date-input">
+  <div class="date-input" @click="onClick">
     <label v-if="label" :for="id" v-text="label" />
     <input
       :id="id"

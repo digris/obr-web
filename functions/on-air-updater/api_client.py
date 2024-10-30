@@ -36,7 +36,8 @@ def get_metadata(timeshift=0):
     if not len(data):
         raise ApiError("empty result")
 
-    now = datetime.now(tz=datetime.now().astimezone().tzinfo) + timedelta(seconds=timeshift)
+    now = datetime.now(tz=datetime.now().astimezone().tzinfo) - timedelta(seconds=timeshift)
+    print(f"now shifted: {now:%H:%M:%S}")
 
     try:
         result = next(
@@ -57,9 +58,14 @@ def get_metadata(timeshift=0):
 
     try:
         dt = datetime.fromisoformat(result["timeEnd"])
-        next_start_in = (dt - datetime.now(tz=dt.tzinfo) + timedelta(seconds=timeshift)).total_seconds()
+        next_start_in = (dt - datetime.now(tz=dt.tzinfo)).total_seconds() + timeshift
     except ValueError as e:
         raise ApiError(str(e)) from e
+
+    ts = datetime.fromisoformat(result["timeStart"])
+    te = datetime.fromisoformat(result["timeEnd"])
+    title = result["media"]["name"]
+    print(f"runs:        {ts:%H:%M:%S} - {te:%H:%M:%S}     # {title}")
 
     return next_start_in, result
 

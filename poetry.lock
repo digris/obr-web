@@ -1344,6 +1344,18 @@ files = [
 ]
 
 [[package]]
+name = "funcy"
+version = "2.0"
+description = "A fancy and practical functional tools"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "funcy-2.0-py2.py3-none-any.whl", hash = "sha256:53df23c8bb1651b12f095df764bfb057935d49537a56de211b098f4c79614bb0"},
+    {file = "funcy-2.0.tar.gz", hash = "sha256:3963315d59d41c6f30c04bc910e10ab50a3ac4a225868bfa96feed133df075cb"},
+]
+
+[[package]]
 name = "geoip2"
 version = "4.8.0"
 description = "MaxMind GeoIP2 API"
@@ -4596,4 +4608,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "be93cda21d7d0f6dd1dbb25bef247a36555c331267d8fa44fe26bea34f2bc5ea"
+content-hash = "8b9a2891e1dd80a8669c0eb3ea523e715f77757a7f7be3a904f158c7f3b08d26"

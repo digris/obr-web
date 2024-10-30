@@ -15,14 +15,15 @@ class PlayerEventAdmin(
         "state",
         "time_display",
         "time_end_display",
+        #
+        "calculated_duration_s",
+        #
         "max_duration_display",
-        "annotated_duration_display",
-        "duration_display",
-        "user_display",
+        # "annotated_duration_display",
         "obj_key",
         "source",
-        # "user_identity",
-        # "device_key",
+        "user_display",
+        "device_key",
     ]
     list_filter = [
         "source",
@@ -37,9 +38,25 @@ class PlayerEventAdmin(
         "user_identity",
         "device_key",
     ]
+    exclude = [
+        "time",
+        "time_end",
+    ]
+    readonly_fields = [
+        "time_display",
+        "time_end_display",
+        "state",
+        "source",
+        "obj_key",
+        "user_identity",
+        "device_key",
+        "max_duration",
+        #
+        "calculated_duration_s",
+        "duration_display",
+    ]
 
-    def get_queryset(self, request):
-        return super().get_queryset(request).annotate_times_and_durations()
+    # def get_queryset(self, request):
 
     @admin.display(description="Time", ordering="time")
     def time_display(self, obj):
@@ -55,17 +72,15 @@ class PlayerEventAdmin(
 
     @admin.display(description="Duration (est)")
     def annotated_duration_display(self, obj):
-        if obj.state == PlayerEvent.State.STOPPED:
-            return None
-        if not obj.annotated_duration:
-            return None
-        return round(obj.annotated_duration.total_seconds())
+        return "N/A"
+        # if obj.state == PlayerEvent.State.STOPPED:
+        # if not obj.annotated_duration:
 
     @admin.display(description="Duration")
     def duration_display(self, obj):
         if not obj.time_end:
             return None
-        return round((obj.time_end - obj.time).total_seconds())
+        return round((obj.time_end - obj.time).total_seconds(), 3)
 
     @admin.display(description="Duration (max)")
     def max_duration_display(self, obj):

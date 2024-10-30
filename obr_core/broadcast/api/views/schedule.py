@@ -4,10 +4,10 @@ from datetime import timedelta
 
 from django.utils import timezone
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 
 from broadcast.api import serializers
 from broadcast.models import Emission
+from common.cache.decorators import ignorable_cache_page
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -40,7 +40,8 @@ class ScheduleView(
             ),
         },
     )
-    @method_decorator(cache_page(5 * 60))
+    # @method_decorator(cache_page(5 * 60))
+    @method_decorator(ignorable_cache_page(5 * 60))
     def get(self, request):
         seconds_ahead = int(request.GET.get("secondsAhead", 0))
         seconds_back = int(request.GET.get("secondsBack", 0))

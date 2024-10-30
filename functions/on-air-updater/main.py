@@ -88,8 +88,6 @@ def run(request):
 
         logging.debug(result)
 
-        next_run_in = next_run_in - TIMESHIFT
-
     except api_client.ApiError as e:
         logging.warning({
             "error": "ApiError",
@@ -110,8 +108,8 @@ if __name__ == "__main__":
             print(f"ApiError: {e}")
             next_run_in = 5
 
-        logging.debug({
-            "next_run_in": next_run_in,
-        })
+        print(f"next run in: {next_run_in}")
 
-        time.sleep(next_run_in + 1)
+        time.sleep(2)
+
+        # time.sleep(next_run_in + 1)

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
-from django.db.models import F
-from django.db.models.functions import Now
+from django.db.models import DecimalField, ExpressionWrapper, F
+from django.db.models.functions import Cast, Extract, Now
 from django.utils import timezone
 
 from stats.models import PlayerEvent
@@ -77,7 +77,7 @@ def set_events_time_end_by_max_duration(database="default"):
     return num_updated
 
 
-def fix_durations(database="default"):
+def fix_events_duration(database="default"):
     qs = (
         PlayerEvent.objects.using(database)
         .annotate_times_and_durations()
@@ -106,10 +106,32 @@ def fix_durations(database="default"):
     return len(updated_events)
 
 
+def set_events_calculated_duration_s(database="default"):
+    qs = PlayerEvent.objects.using(database).filter(
+        state=PlayerEvent.State.PLAYING,
+        time__gte=timezone.now() - timedelta(seconds=MAX_AGE),
+        time_end__isnull=False,
+        calculated_duration_s=0,
+    )
+
+    num_updated = qs.update(
+        calculated_duration_s=ExpressionWrapper(
+            Cast(
+                Extract(F("time_end") - F("time"), "epoch"),
+                output_field=DecimalField(max_digits=10, decimal_places=3),
+            ),
+            output_field=DecimalField(max_digits=10, decimal_places=3),
+        ),
+    )
+
+    return num_updated
+
+
 def post_process_player_events(database="default"):
     num_updated = set_events_time_end_by_next_event(database=database)
     num_updated += set_events_time_end_by_max_duration(database=database)
 
-    num_updated += fix_durations(database=database)
+    num_updated += fix_events_duration(database=database)
+    num_updated += set_events_calculated_duration_s(database=database)
 
     return num_updated

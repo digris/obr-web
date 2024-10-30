@@ -30,13 +30,13 @@ def update_metadata(item):
         if path := releases[0].get("image", {}).get("path"):
             cover_url = f"https://openbroadcast.ch/images/crop/800x800/{path}"
 
-
     payload = {
         "id": item["key"],
         "time": item["timeStart"],
         #
         "song": media["name"],
         "artist": media["artistDisplay"],
+        # "album": media["releaseDisplay"],
         "duration": round(duration),
         #
         "separator": " - ",
@@ -44,6 +44,8 @@ def update_metadata(item):
 
     if cover_url:
         payload["cover"] = cover_url
+
+    print(json.dumps(payload, indent=2))
 
     try:
         r = requests.post(

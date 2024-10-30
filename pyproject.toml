@@ -63,6 +63,7 @@ google-cloud-pubsub = "^2.18.4"
 django-nonrelated-inlines = "^0.2"
 pytz = "^2024.1"
 geoip2 = "^4.8.0"
+funcy = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"

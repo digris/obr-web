@@ -5,7 +5,7 @@ from google.cloud import pubsub_v1
 
 
 PROJECT_ID = "open-broadcast"
-SUBSCRIPTION_ID = "on-air-updated"
+SUBSCRIPTION_ID = "on-air-update-in-60s"
 
 subscriber = pubsub_v1.SubscriberClient()
 subscription_path = subscriber.subscription_path(PROJECT_ID, SUBSCRIPTION_ID)
@@ -15,6 +15,8 @@ def callback(message: pubsub_v1.subscriber.message.Message):
     data = json.loads(message.data.decode("utf-8"))
     print(json.dumps(data, indent=2))
     message.ack()
+
+
 
 
 streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)
