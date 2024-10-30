@@ -136,7 +136,9 @@ def player_event_pre_save(sender, instance, **kwargs):
             return
 
     if instance.state == "playing" and instance.time_end:
-        instance.calculated_duration_s = (instance.time_end - instance.time).total_seconds()
+        instance.calculated_duration_s = (
+            instance.time_end - instance.time
+        ).total_seconds()
     elif instance.state == "playing":
         instance.calculated_duration_s = 0
 
