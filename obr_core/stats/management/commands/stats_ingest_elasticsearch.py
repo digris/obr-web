@@ -38,17 +38,17 @@ class Command(BaseCommand):
 
         if "stream" in source:
             num_ingested += stats.ingest.ingest_stream_sessions(
-                database=options["database"]
+                database=options["database"],
             )
 
         if "player" in source:
             num_ingested += stats.ingest.ingest_player_sessions(
-                database=options["database"]
+                database=options["database"],
             )
 
         if "legacy-stream" in source:
             num_ingested += stats.ingest.ingest_legacy_stream_sessions(
-                database=options["database"]
+                database=options["database"],
             )
 
         if "user" in source:

@@ -68,7 +68,7 @@ def encode_base64(value):
     return base64.b64encode(value.encode("ascii")).decode("ascii")
 
 
-def parse_ua_aggregator(ua: str) -> str | None:
+def parse_ua_aggregator(ua: str) -> str | None:  # noqa C901
     ua = ua.lower() if ua else ""
 
     if "tunein" in ua:
@@ -173,7 +173,7 @@ def get_player_sessions(database="default"):
     with connections[database].cursor() as cursor:
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
-        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        results = [dict(zip(columns, row)) for row in cursor.fetchall()]  # noqa B905
 
     return results
 
@@ -190,7 +190,7 @@ def get_stream_sessions(database="default"):
     with connections[database].cursor() as cursor:
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
-        results = [dict(zip(columns, row)) for row in cursor.fetchall()]
+        results = [dict(zip(columns, row)) for row in cursor.fetchall()]  # noqa B905
 
     return results
 
@@ -211,8 +211,8 @@ def ingest_legacy_stream_sessions(database="default"):
         s = SESSION_DICT.copy()
         s.update(
             {
-                "_id": hashlib.md5(
-                    f"{r['time_start']}{r['time_end']}".encode()
+                "_id": hashlib.md5(  # noqa S324
+                    f"{r['time_start']}{r['time_end']}".encode(),
                 ).hexdigest(),
                 "origin": "icecast",
                 "time_start": r["time_start"],
@@ -228,7 +228,7 @@ def ingest_legacy_stream_sessions(database="default"):
                 #
                 "aggregator": parse_ua_aggregator(r["user_agent"]),
                 "device_key": generate_device_key(r["ip"], r["user_agent"]),
-            }
+            },
         )
 
         # NOTE: we run this in pipeline
@@ -271,7 +271,7 @@ def ingest_stream_sessions(database="default"):
                 "device_key": r["device_key"],
                 #
                 "aggregator": parse_ua_aggregator(r["user_agent"]),
-            }
+            },
         )
 
         # NOTE: we run this in pipeline
@@ -303,8 +303,8 @@ def ingest_player_sessions(database="default"):
         s = SESSION_DICT.copy()
         s.update(
             {
-                "_id": hashlib.md5(
-                    f"{r['time_start']}{r['time_end']}".encode()
+                "_id": hashlib.md5(  # noqa S324
+                    f"{r['time_start']}{r['time_end']}".encode(),
                 ).hexdigest(),
                 "origin": "obr",
                 "time_start": r["time_start"],
@@ -320,7 +320,7 @@ def ingest_player_sessions(database="default"):
                 "device_key": r["device_key"],
                 #
                 "aggregator": "obr",
-            }
+            },
         )
 
         if r["user_identity"].startswith("account.user:"):
@@ -379,7 +379,7 @@ def ingest_users(database="default"):
                 "country": u.country.code if u.country else None,
                 "year_of_birth": u.year_of_birth,
                 "favorite_venue": u.favorite_venue,
-            }
+            },
         )
 
     es = EsService()
@@ -403,7 +403,7 @@ def ingest_votes(database="default"):
                 "_id": v.uid,
                 "@timestamp": v.created,
                 "value": v.value,
-            }
+            },
         )
 
     es = EsService()
