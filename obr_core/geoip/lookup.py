@@ -35,15 +35,23 @@ def geoip(ip):
     return result
 
 
-def geoip_mm(ip):
-    with geoip2.database.Reader(DB_FILE) as reader:
-        try:
-            res = reader.city(ip)
-        except geoip2.errors.AddressNotFoundError as e:
-            raise GeoipError(f"unable to lookup: {e}") from e
+try:
+    reader = geoip2.database.Reader(DB_FILE)
+except FileNotFoundError:
+    reader = None
 
-        return {
-            "city": res.city.name or "",
-            "region": res.subdivisions.most_specific.name or "",
-            "country_code": res.country.iso_code or "",
-        }
+
+def geoip_mm(ip):
+    if not reader:
+        raise GeoipError("unable to open GeoLite2 database")
+
+    try:
+        res = reader.city(ip)
+    except geoip2.errors.AddressNotFoundError as e:
+        raise GeoipError(f"unable to lookup: {e}") from e
+
+    return {
+        "city": res.city.name or "",
+        "region": res.subdivisions.most_specific.name or "",
+        "country_code": res.country.iso_code or "",
+    }

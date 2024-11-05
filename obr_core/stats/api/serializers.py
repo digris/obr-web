@@ -39,6 +39,7 @@ class PlayerEventSerializer(
     class Meta(CTUIDModelSerializer.Meta):
         model = PlayerEvent
         fields = CTUIDModelSerializer.Meta.fields + [
+            "id",
             "time_start",
             "time_end",
             "obj_key",
@@ -56,11 +57,13 @@ class ProcessedPlayerEventSerializer(
 ):
     time_start = serializers.DateTimeField(source="time")
     time_end = serializers.DateTimeField()
-    duration = DurationInSecondsSerializer()
+    # NOTE: field is decimal, but we want a number in the API
+    duration = serializers.FloatField(source="calculated_duration_s")
 
     class Meta(CTUIDModelSerializer.Meta):
         model = PlayerEvent
         fields = CTUIDModelSerializer.Meta.fields + [
+            "id",
             "time_start",
             "time_end",
             "obj_key",
@@ -88,6 +91,7 @@ class StreamEventSerializer(
     class Meta(CTUIDModelSerializer.Meta):
         model = StreamEvent
         fields = CTUIDModelSerializer.Meta.fields + [
+            "origin",
             "ip",
             "path",
             "method",

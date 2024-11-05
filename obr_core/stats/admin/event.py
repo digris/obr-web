@@ -100,6 +100,7 @@ class StreamEventAdmin(
     list_display = [
         "time_start",
         "seconds_connected",
+        "origin",
         "ip",
         "method",
         "status",
@@ -112,6 +113,7 @@ class StreamEventAdmin(
         "geoip_city",
     ]
     list_filter = [
+        "origin",
         "time_start",
         "time_end",
         "path",

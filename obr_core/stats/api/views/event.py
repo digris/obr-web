@@ -25,6 +25,10 @@ class PlayerEventFilter(
         field_name="time",
         lookup_expr="gt",
     )
+    time_until = filters.DateTimeFilter(
+        field_name="time",
+        lookup_expr="lte",
+    )
 
     class Meta:
         model = PlayerEvent
@@ -47,10 +51,12 @@ class PlayerEventViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PlayerEventFilter
 
+    event_min_duration = 5
+
     def get_queryset(self):
         qs = PlayerEvent.objects.annotated_times_and_durations().filter(
             state=PlayerEvent.State.PLAYING,
-            annotated_duration__gt=timedelta(seconds=5),
+            annotated_duration__gt=timedelta(seconds=self.event_min_duration),
         )
 
         return qs
@@ -109,10 +115,12 @@ class ProcessedPlayerEventViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PlayerEventFilter
 
+    event_min_duration = 5
+
     def get_queryset(self):
         qs = PlayerEvent.objects.annotated_duration().filter(
             state=PlayerEvent.State.PLAYING,
-            duration__gt=timedelta(seconds=5),
+            calculated_duration_s__gt=self.event_min_duration,
         )
 
         return qs
@@ -140,10 +148,15 @@ class StreamEventFilter(
         field_name="time_start",
         lookup_expr="gt",
     )
+    time_until = filters.DateTimeFilter(
+        field_name="time_start",
+        lookup_expr="lte",
+    )
 
     class Meta:
         model = StreamEvent
         fields = [
+            "origin",
             "path",
         ]
 
@@ -155,6 +168,8 @@ class StreamEventViewSet(
     queryset = StreamEvent.objects.filter(
         bytes_sent__gt=1024,
         seconds_connected__gte=30,
+        # TODO: temporary: to not interfere with the stats-tool
+        origin=StreamEvent.Origin.ICECAST,
     )
     serializer_class = serializers.StreamEventSerializer
 

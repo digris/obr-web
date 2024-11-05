@@ -147,6 +147,16 @@ class StreamEvent(
     CTUIDModelMixin,
     models.Model,
 ):
+    class Origin(models.TextChoices):
+        ICECAST = "icecast", "Icecast"
+        HLS = "hls", "HLS"
+
+    origin = models.CharField(
+        max_length=16,
+        db_index=True,
+        choices=Origin.choices,
+        default=Origin.ICECAST,
+    )
     ip = models.GenericIPAddressField(
         null=True,
         blank=True,

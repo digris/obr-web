@@ -1,3 +1,42 @@
+## Stream Event Ingest
+
+```python
+import requests
+from datetime import datetime, timedelta
+from urllib.parse import urlparse
+
+seconds_connected = 60
+
+time_local = "05/Nov/2024:11:16:32 +0000"
+time_end = datetime.strptime(time_local, "%d/%b/%Y:%H:%M:%S %z")
+time_start = time_end - timedelta(seconds=seconds_connected)
+
+
+event = {
+    "origin": "hls",
+    "ip": "83.150.2.154",
+    "method": "GET",
+    "path": urlparse("/320.mp3").path,
+    "status": 200,
+    "bytes_sent": int("12345"),
+    "user_agent": "Linux UPnP/1.0 Sonos/57.21-51190 (ZPS12) Nullsoft Winamp3 version 3.0 (compatible)",
+    "referer": "",
+    "time_start": str(time_start),
+    "time_end": str(time_end),
+    "seconds_connected": seconds_connected,
+}
+r = requests.post(
+    "http://localhost:8080/api/v1/stats/ingest/stream-events/", 
+    json=[event],
+    headers={
+        "Authorization": "Token 9986ab9b46ee7f5501f554a80b5725337c2c56a6",
+    }
+)
+print(r.status_code, r.text)
+
+```
+
+
 ## Player Event Cleanup
 
 ```python
@@ -364,6 +403,41 @@ diff = set(ids_1) - set(ids_2)
 
 diff_qs = base_qs.filter(id__in=diff)
 
+```
+
+## Player Event "Session" Aggregation
+
+```postgresql
+WITH ordered_events AS (
+    SELECT *,
+           LAG(time_end)
+           OVER (PARTITION BY user_identity, device_key ORDER BY time) as prev_time_end
+    FROM stats_player_event
+    WHERE
+        time >= '2024-01-01 00:00:00 +00:00'
+        AND time <= '2024-10-30 00:00:00 +00:00'
+        AND state = 'playing'
+        AND user_identity = 'account.user:D34C5A0A'
+),
+events AS (
+    SELECT *,
+           SUM(CASE WHEN EXTRACT(EPOCH FROM (time - prev_time_end)) > 300 THEN 1 ELSE 0 END)
+           OVER (PARTITION BY user_identity, device_key ORDER BY time) as group_id
+    FROM ordered_events
+)
+SELECT MIN(time) as time_start,
+       MAX(time_end) as time_end,
+       EXTRACT(EPOCH FROM (MAX(time_end) - MIN(time))) as duration_s,
+       SUM(calculated_duration_s) as duration_playing_s,
+       SUM(CASE WHEN source = 'live' THEN calculated_duration_s ELSE 0 END) as duration_playing_live_s,
+       SUM(CASE WHEN source = 'on-demand' THEN calculated_duration_s ELSE 0 END) as duration_playing_ondemand_s,
+       user_identity,
+       convert_from(decode(split_part(device_key, '-', 1), 'base64'), 'UTF8') as remote_addr
+FROM events
+GROUP BY user_identity, device_key, group_id
+HAVING SUM(calculated_duration_s) > 30
+ORDER BY time_start
+LIMIT 10000;
 ```
 
 
