@@ -27,6 +27,10 @@ urlpatterns += [
         "code/",
         include("subscription.urls_voucher", namespace="subscription-voucher"),
     ),
+    path(
+        "stream/",
+        include("redirect.urls_stream", namespace="redirect-stream"),
+    ),
     # avoid serving SPA view for admin & API
     re_path(r"^api/v1/", SPA404View.as_view()),
     re_path(r"^admin/", SPA404View.as_view()),
