@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     "faq",
     "share",
     "redirect",
+    "qr_redirect",
     "electronic_mail",
     "stats",
     "newsletter",

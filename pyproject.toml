@@ -65,6 +65,8 @@ pytz = "^2024.1"
 geoip2 = "^4.8.0"
 funcy = "^2.0"
 elasticsearch = "^8.15.1"
+opensearch-py = "^2.7.1"
+qrcode = {extras = ["pil"], version = "^8.0"}
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"

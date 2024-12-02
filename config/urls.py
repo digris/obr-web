@@ -28,6 +28,10 @@ urlpatterns += [
         include("subscription.urls_voucher", namespace="subscription-voucher"),
     ),
     path(
+        "qr/",
+        include("qr_redirect.urls", namespace="qr-redirect"),
+    ),
+    path(
         "stream/",
         include("redirect.urls_stream", namespace="redirect-stream"),
     ),
