@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 PLAYER_EVENT_MIN_DURATION = 5
 STREAM_EVENT_MIN_DURATION = 20
 
+
 class PlayerEventFilter(
     filters.FilterSet,
 ):
