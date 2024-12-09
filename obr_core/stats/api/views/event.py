@@ -14,6 +14,9 @@ from stats.models import PlayerEvent, StreamEvent
 logger = logging.getLogger(__name__)
 
 
+PLAYER_EVENT_MIN_DURATION = 5
+STREAM_EVENT_MIN_DURATION = 20
+
 class PlayerEventFilter(
     filters.FilterSet,
 ):
@@ -51,7 +54,7 @@ class PlayerEventViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PlayerEventFilter
 
-    event_min_duration = 5
+    event_min_duration = PLAYER_EVENT_MIN_DURATION
 
     def get_queryset(self):
         qs = PlayerEvent.objects.annotated_times_and_durations().filter(
@@ -78,7 +81,7 @@ class PlayerEventViewSet(
             media_duration = media_durations[media_uid]
             if (
                 event.annotated_duration.total_seconds()
-                > media_duration.total_seconds() + 5
+                > media_duration.total_seconds() + PLAYER_EVENT_MIN_DURATION
             ):
                 logger.debug(
                     f"fix duration for {media_uid} - {event.annotated_duration.seconds} > {media_duration.seconds}",
@@ -115,7 +118,7 @@ class ProcessedPlayerEventViewSet(
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PlayerEventFilter
 
-    event_min_duration = 5
+    event_min_duration = PLAYER_EVENT_MIN_DURATION
 
     def get_queryset(self):
         qs = PlayerEvent.objects.annotated_duration().filter(
@@ -167,7 +170,7 @@ class StreamEventViewSet(
 ):
     queryset = StreamEvent.objects.filter(
         bytes_sent__gt=1024,
-        seconds_connected__gte=30,
+        seconds_connected__gte=STREAM_EVENT_MIN_DURATION,
         # TODO: temporary: to not interfere with the stats-tool
         origin=StreamEvent.Origin.ICECAST,
     )
