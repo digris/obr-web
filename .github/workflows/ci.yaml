@@ -45,6 +45,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: 'x64'
+      - run: sudo apt-get update && sudo apt-get install -y libjpeg-dev zlib1g-dev
       - run: pip install poetry==2.0.1
       - run: poetry install --no-cache
       - run: poetry run make test-be
