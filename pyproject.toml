@@ -11,7 +11,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.12"
+python = ">=3.10, <=3.12"
 Django = "^5.0"
 google-cloud-secret-manager = "^2.11.1"
 google-auth = "^2.6.6"

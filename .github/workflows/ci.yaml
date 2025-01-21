@@ -29,7 +29,7 @@ jobs:
       - run: pip install black
       - run: black --version
       - run: black ./obr_core/ --check
-      - run: pip install poetry==1.2.2
+      - run: pip install poetry==2.0.1
       - run: poetry install --no-cache
       - run: poetry run ruff check obr_core/
 
@@ -45,7 +45,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           architecture: 'x64'
-      - run: pip install poetry==1.2.2
+      - run: pip install poetry==2.0.1
       - run: poetry install --no-cache
       - run: poetry run make test-be
 
@@ -81,7 +81,7 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install
       - run: yarn build
-      - run: pip install poetry==1.2.2
+      - run: pip install poetry==2.0.1
       - run: poetry install --no-cache
       - run: poetry run make test-e2e
       - uses: actions/upload-artifact@v3
