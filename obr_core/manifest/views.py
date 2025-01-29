@@ -7,6 +7,7 @@ def manifest_view(request):
         {
             "name": "open broadcast radio",
             "short_name": "open broadcast",
+            "id": "/",
             "start_url": "/",
             "scope": "/",
             "display": "standalone",
@@ -31,24 +32,69 @@ def manifest_view(request):
                     "type": "image/png",
                 },
             ],
+            "screenshots": [
+                {
+                    "src": request.build_absolute_uri(
+                        static("assets/manifest/screenshot-412x914.png"),
+                    ),
+                    "form_factor": "narrow",
+                    "sizes": "412x914",
+                    "type": "image/png",
+                },
+                {
+                    "src": request.build_absolute_uri(
+                        static("assets/manifest/screenshot-1600x960.png"),
+                    ),
+                    "form_factor": "wide",
+                    "sizes": "1600x960",
+                    "type": "image/png",
+                },
+            ],
             "shortcuts": [
                 {
                     "name": "Discover",
                     "short_name": "Discover",
                     "description": "Discover music",
                     "url": "/discover/moods/",
+                    "icons": [
+                        {
+                            "src": request.build_absolute_uri(
+                                static("assets/manifest/icon-192x192.png"),
+                            ),
+                            "sizes": "192x192",
+                            "type": "image/png",
+                        },
+                    ],
                 },
                 {
                     "name": "Shows",
                     "short_name": "Shows",
                     "description": "Shows",
                     "url": "/discover/playlists/",
+                    "icons": [
+                        {
+                            "src": request.build_absolute_uri(
+                                static("assets/manifest/icon-192x192.png"),
+                            ),
+                            "sizes": "192x192",
+                            "type": "image/png",
+                        },
+                    ],
                 },
                 {
                     "name": "Program",
                     "short_name": "Program",
                     "description": "Program",
                     "url": "/program/",
+                    "icons": [
+                        {
+                            "src": request.build_absolute_uri(
+                                static("assets/manifest/icon-192x192.png"),
+                            ),
+                            "sizes": "192x192",
+                            "type": "image/png",
+                        },
+                    ],
                 },
             ],
             "prefer_related_applications": True,
