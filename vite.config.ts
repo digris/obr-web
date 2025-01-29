@@ -3,6 +3,7 @@ import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import { fileURLToPath, URL } from "url";
 import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,6 +20,14 @@ export default defineConfig({
       compositionOnly: true,
       include: resolve(__dirname, "obr_ui/locales/**"),
     }),
+    viteStaticCopy({
+      targets: [
+        {
+          src: resolve(__dirname, "obr_ui/pwa"),
+          dest: ".",
+        },
+      ],
+    }),
   ],
   build: {
     target: "es2020",
@@ -30,17 +39,6 @@ export default defineConfig({
         entryFileNames: "[name].js",
         chunkFileNames: "[name].js",
         assetFileNames: "[name].[ext]",
-        // manualChunks: {
-        //   'player': [
-        //     'shaka-player',
-        //   ],
-        //   'vue': [
-        //     'vue',
-        //     'vue-router',
-        //     'vue-i18n',
-        //     'vuex',
-        //   ],
-        // },
       },
     },
     outDir: resolve(__dirname, "build"),

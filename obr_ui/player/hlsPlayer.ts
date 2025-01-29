@@ -1,4 +1,5 @@
 import { watch } from "vue";
+import { useWakeLock } from "@vueuse/core";
 import Hls from "hls.js";
 import log from "loglevel";
 import { debounce, isEqual, round } from "lodash-es";
@@ -24,6 +25,7 @@ const hlsConfig = {
   },
 };
 
+type StreamFormat = "hls" | "icecast";
 type Mode = "live" | "ondemand";
 type PlayState = "stopped" | "buffering" | "playing" | "paused";
 
@@ -34,8 +36,10 @@ type CueFade = {
   fadeOut: number;
 };
 
-const getLiveUrl = (): string => {
-  // return "https://obr-stream-hls.hazelfire.com/live.m3u8";
+const getLiveUrl = (format: StreamFormat = "hls"): string => {
+  if (format === "icecast") {
+    return settings.STREAM_ENDPOINTS.icecast;
+  }
   return `${settings.STREAM_ENDPOINTS.hls}?${Date.now()}`;
 };
 
@@ -86,7 +90,9 @@ class HlsPlayer {
   private constructor() {
     const audio = document.createElement("audio");
 
-    const { isWeb } = useDevice();
+    const { isSupported: wakeLockIsSupported, request: wakeLockRequest } = useWakeLock();
+
+    const { isWeb, isAndroid } = useDevice();
 
     if (!isWeb) {
       log.info("HlsPlayer only available in web-mode");
@@ -95,11 +101,28 @@ class HlsPlayer {
       return;
     }
 
-    const nativeHlsSupported = !!audio.canPlayType("application/vnd.apple.mpegurl");
+    const nativeHlsSupported = isAndroid
+      ? false
+      : !!audio.canPlayType("application/vnd.apple.mpegurl");
     const hlsSupported = Hls.isSupported();
 
     log.debug("nativeHlsSupported", nativeHlsSupported);
     log.debug("hlsSupported", hlsSupported);
+
+    if (wakeLockIsSupported.value) {
+      log.debug("wakeLock requested", wakeLockIsSupported.value);
+      wakeLockRequest("screen").then(() => {
+        log.debug("wakeLock acquired");
+      });
+    }
+
+    if (isAndroid) {
+      log.debug("Android device");
+      const ctx = new window.AudioContext();
+      const osc = ctx.createOscillator();
+      osc.connect(ctx.destination);
+      osc.start();
+    }
 
     const hls = nativeHlsSupported ? null : new Hls(hlsConfig);
 
@@ -278,10 +301,8 @@ class HlsPlayer {
   }
 
   public async playLive(): Promise<void> {
-    log.debug("playLive");
-    // const url = `http://local.obr-next:3000/encoded/hls/manifest.m3u8`;
-    // const url = "https://obr-stream-hls.hazelfire.com/live.m3u8"
     const url = getLiveUrl();
+    log.debug("playLive", url);
     this.setPlayState("buffering");
     this.mode = "live";
     this.mediaUid = null;

@@ -54,7 +54,7 @@ export default defineComponent({
     LegalLinks,
   },
   setup() {
-    const { isApp, isWeb, isSmallScreen } = useDevice();
+    const { isApp, isWeb, isAndroid, isSmallScreen } = useDevice();
 
     window.hlsPlayer = HlsPlayer.getInstance();
     window.appBridge = AppBridge.getInstance();
@@ -68,6 +68,14 @@ export default defineComponent({
       createEventHandler();
       createMediaSessionHandler();
       createScheduleHandler();
+    }
+
+    if (isAndroid && "serviceWorker" in navigator) {
+      console.debug("initialize: android-mode");
+      navigator.serviceWorker
+        .register("/static/pwa/service-worker.js")
+        .then(() => console.log("service worker: registered"))
+        .catch((err) => console.log("service worker: registration failed:", err));
     }
 
     createAccountHandler();

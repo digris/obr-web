@@ -2,6 +2,7 @@
 // import { useWindowSize } from "@vueuse/core";
 import { computed } from "vue";
 import Bowser from "bowser";
+import log from "loglevel";
 import { coerce as semverCoerce } from "semver";
 import { storeToRefs } from "pinia";
 
@@ -31,10 +32,13 @@ const osName = parser.getOSName(true);
 const browserName = parser.getBrowserName(true);
 const browserPlatform = parser.getPlatformType(true);
 
+log.debug("Device info", { parser, osName, browserName, browserPlatform });
+
 const useDevice = () => {
   const isMobile = browserPlatform !== "desktop";
   const isDesktop = browserPlatform === "desktop";
   const isIos = osName === "ios";
+  const isAndroid = osName === "android";
   const isSafari = browserName === "safari";
   const isApp = settings.CLIENT_MODE === "app";
   const appVersion = isApp ? parseAppUA(parser.getUA()) : null;
@@ -49,6 +53,7 @@ const useDevice = () => {
     isMobile,
     isDesktop,
     isIos,
+    isAndroid,
     isSafari,
     isApp,
     appVersion,

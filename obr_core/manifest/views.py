@@ -9,10 +9,10 @@ def manifest_view(request):
             "short_name": "open broadcast",
             "start_url": "/",
             "scope": "/",
-            "display": "fullscreen",
-            "theme_color": "#000",
-            "background_color": "#000",
-            "description": "open broadcast hybrid radio",
+            "display": "standalone",
+            "theme_color": "#000000",
+            "background_color": "#000000",
+            "description": "open broadcast - eclectic music",
             "categories": ["music", "radio"],
             "orientation": "portrait",
             "icons": [
@@ -37,6 +37,12 @@ def manifest_view(request):
                     "short_name": "Discover",
                     "description": "Discover music",
                     "url": "/discover/moods/",
+                },
+                {
+                    "name": "Shows",
+                    "short_name": "Shows",
+                    "description": "Shows",
+                    "url": "/discover/playlists/",
                 },
                 {
                     "name": "Program",
