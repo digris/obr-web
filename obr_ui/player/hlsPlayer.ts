@@ -117,9 +117,10 @@ class HlsPlayer {
     }
 
     if (isAndroid) {
-      log.debug("Android device");
       const ctx = new window.AudioContext();
       const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      gain.gain.value = 0;
       osc.connect(ctx.destination);
       osc.start();
     }
