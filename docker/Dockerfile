@@ -2,7 +2,7 @@
 # node based builder to build front-end / vue.js
 #######################################################################
 #FROM node:lts-alpine as node-builder
-FROM node:16-slim as node-builder
+FROM node:20-slim as node-builder
 
 WORKDIR /root/
 
