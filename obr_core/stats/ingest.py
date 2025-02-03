@@ -270,9 +270,9 @@ def ingest_legacy_stream_sessions(
                 "path": r["path"],
                 "referer": r.get("referer", ""),
                 "user_agent": r["user_agent"],
-                "user_agent_short": r.get("user_agent", "")[:25]
-                if r["user_agent"]
-                else "",
+                "user_agent_short": (
+                    r.get("user_agent", "")[:25] if r["user_agent"] else ""
+                ),
                 #
                 "aggregator": parse_ua_aggregator(r["user_agent"]),
                 "device_key": generate_device_key(r["ip"], r["user_agent"]),
