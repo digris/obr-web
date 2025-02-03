@@ -184,6 +184,7 @@ extend-ignore = [
     "ARG", # NOTE: migrate # pylint: disable=unused-argument
     "PLW2901", # NOTE: check possible implications
     "TRY", # NOTE: check possible implications
+    "S608", # NOTE: check possible implications
 ]
 
 # Same as Black.
