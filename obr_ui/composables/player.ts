@@ -2,7 +2,7 @@ import { computed } from "vue";
 import { storeToRefs } from "pinia";
 
 import { useDevice } from "@/composables/device";
-import type { CueFade } from "@/player/hlsPlayer";
+import type { CueFade, NewsProvider } from "@/player/hlsPlayer";
 import { usePlayerStore } from "@/stores/player";
 import type { AnnotatedMedia } from "@/stores/queue";
 import { useQueueStore } from "@/stores/queue";
@@ -13,6 +13,7 @@ export const usePlayerState = () => {
     isVisible,
     mode,
     isLive,
+    isNews,
     isOndemand,
     isBuffering,
     isPlaying,
@@ -64,6 +65,7 @@ export const usePlayerState = () => {
     isVisible,
     mode,
     isLive,
+    isNews,
     isOndemand,
     isBuffering,
     isPlaying,
@@ -97,6 +99,12 @@ export const usePlayerControls = () => {
   const playLive = async () => {
     setVisibility(true);
     await player.playLive();
+  };
+  const playNews = async (provider: NewsProvider) => {
+    await player.playNews(provider);
+  };
+  const endPlayNews = async () => {
+    await player.endPlayNews();
   };
   const playUid = async (uid: string, estimatedDuration?: number, cueFade?: CueFade) => {
     setVisibility(true);
@@ -134,6 +142,8 @@ export const usePlayerControls = () => {
 
   return {
     playLive: isWeb ? playLive : appPlayLive,
+    playNews,
+    endPlayNews,
     playMedia,
     pause: isWeb ? pause : appPause,
     resume: isWeb ? resume : appResume,

@@ -41,6 +41,9 @@ export const usePlayerStore = defineStore("player", {
     isLive(state: PlayerState): boolean {
       return state.mode === "live";
     },
+    isNews(state: PlayerState): boolean {
+      return state.mode === "news";
+    },
     isOndemand(state: PlayerState): boolean {
       return state.mode === "ondemand";
     },

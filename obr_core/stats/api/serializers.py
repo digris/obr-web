@@ -125,6 +125,7 @@ class HeartbeatCreateSerializer(
     player_source = serializers.ChoiceField(
         choices=[
             "live",
+            "news",
             "ondemand",
             "unknown",
         ],

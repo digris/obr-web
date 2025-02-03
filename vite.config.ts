@@ -14,7 +14,13 @@ export default defineConfig({
   },
   plugins: [
     splitVendorChunkPlugin(),
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith("stripe-"),
+        },
+      },
+    }),
     VueI18nPlugin({
       runtimeOnly: true,
       compositionOnly: true,

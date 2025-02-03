@@ -42,6 +42,7 @@ class Heartbeat(
         db_index=True,
         choices=[
             ("live", "live"),
+            ("news", "news"),
             ("ondemand", "ondemand"),
             ("unknown", "unknown"),
         ],

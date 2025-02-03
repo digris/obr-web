@@ -148,6 +148,7 @@ class SettingsSerializer(
         fields = CTUIDModelSerializer.Meta.fields + [
             "debug_enabled",
             "testing_enabled",
+            "news_provider",
         ]
         read_only_fields = [
             "debug_enabled",

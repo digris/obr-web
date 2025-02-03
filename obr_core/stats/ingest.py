@@ -2,8 +2,8 @@ import base64
 import hashlib
 import json
 import logging
+from datetime import datetime, timedelta
 
-from django.core.serializers.json import DjangoJSONEncoder
 from django.db import connections
 
 import elasticsearch
@@ -13,9 +13,13 @@ from rating.models import Vote
 
 LOGGER = logging.getLogger(__name__)
 
-ES_HOST = "lbox"
+
+EVENT_MIN_DURATION = 20
+
+
+ES_HOST = "49.13.151.17"
 ES_PORT = 9200
-ES_API_KEY = "UWpNdDRwSUJpNTExT0hZNTAzODg6SjFpMG5OY3dUQ3VmWW1KM1hDQmtTQQ=="
+ES_API_KEY = "d0p4UHE1TUJ5azF4Y21YazZYVGE6UFl5aTZOajZTSFc1N0tHcGdyYURDZw=="
 
 GEOIP_DICT = {
     "country": None,
@@ -56,6 +60,10 @@ SESSION_DICT = {
     #
     "aggregator": None,
 }
+
+
+class IngestError(Exception):
+    pass
 
 
 def encode_sha1(value):
@@ -132,26 +140,41 @@ class EsService:
             )
         except elasticsearch.TransportError as e:
             LOGGER.warning(f"failed to index documents: {e}")
+            raise IngestError(f"failed to index documents: {e}") from e
         except elasticsearch.helpers.BulkIndexError as e:
             LOGGER.warning(f"failed to index documents: {e}")
             print(e.__dict__)
+            raise IngestError(f"failed to index documents: {e}") from e
 
 
-def get_player_sessions(database="default"):
-    query = """
+def get_player_sessions(
+    database="default",
+    time_from: datetime | None = None,
+    time_until: datetime | None = None,
+):
+    time_starts_str = (
+        time_from.strftime("%Y-%m-%d %H:%M:%S") if time_from else "2000-01-01 00:00:00"
+    )
+    time_until_str = (
+        time_until.strftime("%Y-%m-%d %H:%M:%S")
+        if time_until
+        else "3000-12-31 00:00:00"
+    )
+
+    query = f"""
     WITH ordered_events AS (
         SELECT *,
                LAG(time_end)
                OVER (PARTITION BY user_identity, device_key ORDER BY time) as prev_time_end
         FROM stats_player_event
         WHERE
-            time >= '2022-01-01 00:00:00 +00:00'
-            AND time <= '2024-10-31 00:00:00 +00:00'
+            time >= '{time_starts_str}'
+            AND time <= '{time_until_str}'
             AND state = 'playing'
     ),
     events AS (
         SELECT *,
-               SUM(CASE WHEN EXTRACT(EPOCH FROM (time - prev_time_end)) > 300 THEN 1 ELSE 0 END)
+               SUM(CASE WHEN EXTRACT(EPOCH FROM (time - prev_time_end)) > 30 THEN 1 ELSE 0 END)
                OVER (PARTITION BY user_identity, device_key ORDER BY time) as group_id
         FROM ordered_events
     )
@@ -166,9 +189,11 @@ def get_player_sessions(database="default"):
            convert_from(decode(split_part(device_key, '-', 1), 'base64'), 'UTF8') as remote_addr
     FROM events
     GROUP BY user_identity, device_key, group_id
-    HAVING SUM(calculated_duration_s) > 30
+    HAVING SUM(calculated_duration_s) >= {EVENT_MIN_DURATION}
     ORDER BY time_start;
     """
+
+    print(query)
 
     with connections[database].cursor() as cursor:
         cursor.execute(query)
@@ -178,14 +203,31 @@ def get_player_sessions(database="default"):
     return results
 
 
-def get_stream_sessions(database="default"):
-    query = """
+def get_stream_sessions(
+    database="default",
+    time_from: datetime | None = None,
+    time_until: datetime | None = None,
+):
+    time_starts_str = (
+        time_from.strftime("%Y-%m-%d %H:%M:%S") if time_from else "2000-01-01 00:00:00"
+    )
+    time_until_str = (
+        time_until.strftime("%Y-%m-%d %H:%M:%S")
+        if time_until
+        else "3000-12-31 00:00:00"
+    )
+
+    query = f"""
     SELECT *,
              EXTRACT(EPOCH FROM (time_end - time_start)) as duration_s
              FROM stats_stream_event
-             WHERE seconds_connected > 30
+             WHERE seconds_connected >= {EVENT_MIN_DURATION}
+             AND time_start >= '{time_starts_str}'
+             AND time_end <= '{time_until_str}'
     ORDER BY time_start;
     """
+
+    print(query)
 
     with connections[database].cursor() as cursor:
         cursor.execute(query)
@@ -195,14 +237,17 @@ def get_stream_sessions(database="default"):
     return results
 
 
-def ingest_legacy_stream_sessions(database="default"):
+def ingest_legacy_stream_sessions(
+    database="default",
+    index_prefix="",
+):
     path = "data/stats/stream-events.json"
     with open(path) as f:
         data = json.load(f)
 
     raw = data["results"]
 
-    filtered = [f for f in raw if f["seconds_connected"] > 30]
+    filtered = [f for f in raw if f["seconds_connected"] >= EVENT_MIN_DURATION]
 
     print(f"raw:       {len(filtered)} sessions")
 
@@ -225,6 +270,9 @@ def ingest_legacy_stream_sessions(database="default"):
                 "path": r["path"],
                 "referer": r.get("referer", ""),
                 "user_agent": r["user_agent"],
+                "user_agent_short": r.get("user_agent", "")[:25]
+                if r["user_agent"]
+                else "",
                 #
                 "aggregator": parse_ua_aggregator(r["user_agent"]),
                 "device_key": generate_device_key(r["ip"], r["user_agent"]),
@@ -241,25 +289,48 @@ def ingest_legacy_stream_sessions(database="default"):
     print(f"annotated: {len(sessions)} sessions")
 
     es = EsService()
-    es.ingest("listener-sessions", sessions)
+    es.ingest(index_prefix + "listener-sessions", sessions)
 
     return len(sessions)
 
 
-def ingest_stream_sessions(database="default"):
-    raw = get_stream_sessions(database)
+def ingest_stream_sessions(
+    database="default",
+    index_prefix="",
+    time_from: datetime | None = None,
+    time_until: datetime | None = None,
+):
+    raw = get_stream_sessions(
+        database=database,
+        time_from=time_from,
+        time_until=time_until,
+    )
 
     print(f"raw:       {len(raw)} sessions")
 
     sessions = []
     for r in raw:
         s = SESSION_DICT.copy()
+
+        time_start = r["time_start"]
+        time_end = r["time_end"]
+
+        if r["origin"] == "hls":
+            time_start = time_start + timedelta(hours=1)
+            time_end = time_end + timedelta(hours=1)
+
+        # if r["origin"] == "hls":
+        #     if r["ip"] == "83.150.2.154":
+
+        if r["ip"] == "83.150.2.154":
+            print(time_start, time_end, r["origin"])
+
         s.update(
             {
                 "_id": str(r["uuid"]),
-                "origin": "icecast",
-                "time_start": r["time_start"],
-                "time_end": r["time_end"],
+                "origin": r["origin"],
+                "time_start": time_start,
+                "time_end": time_end,
                 "duration_s": r["duration_s"],
                 "duration_playing_s": r["duration_s"],
                 "duration_playing_live_s": r["duration_s"],
@@ -268,6 +339,7 @@ def ingest_stream_sessions(database="default"):
                 "path": r["path"],
                 "referer": r["referer"],
                 "user_agent": r["user_agent"],
+                "user_agent_short": r.get("user_agent", "")[:25],
                 "device_key": r["device_key"],
                 #
                 "aggregator": parse_ua_aggregator(r["user_agent"]),
@@ -279,20 +351,29 @@ def ingest_stream_sessions(database="default"):
 
         sessions.append(s)
 
-    print(json.dumps(sessions[100], cls=DjangoJSONEncoder, indent=2))
+    # if sessions:
 
     print(f"annotated: {len(sessions)} sessions")
 
     es = EsService()
-    es.ingest("listener-sessions", sessions)
+    es.ingest(index_prefix + "listener-sessions", sessions)
     #
     print(f"inserted:  {len(sessions)} sessions")
 
     return len(sessions)
 
 
-def ingest_player_sessions(database="default"):
-    raw = get_player_sessions(database)
+def ingest_player_sessions(
+    database="default",
+    index_prefix="",
+    time_from: datetime | None = None,
+    time_until: datetime | None = None,
+):
+    raw = get_player_sessions(
+        database=database,
+        time_from=time_from,
+        time_until=time_until,
+    )
 
     print(f"raw:       {len(raw)} sessions")
 
@@ -339,18 +420,12 @@ def ingest_player_sessions(database="default"):
 
             s["user"] = u
 
-        # NOTE: we run this in pipeline
-        # if ip := r['remote_addr']:
-        #
-        #
-        #         pass
-
         sessions.append(s)
 
     print(f"annotated: {len(sessions)} sessions")
 
     es = EsService()
-    es.ingest("listener-sessions", sessions)
+    es.ingest(index_prefix + "listener-sessions", sessions)
 
     print(f"inserted:  {len(sessions)} sessions")
 
@@ -392,6 +467,7 @@ def ingest_users(database="default"):
 
 def ingest_votes(database="default"):
     qs = Vote.objects.using(database).filter(created__year__gte=2024)
+    qs = qs.select_related("user")
 
     print(f"qs:        {qs.count()} votes")
 
@@ -403,6 +479,9 @@ def ingest_votes(database="default"):
                 "_id": v.uid,
                 "@timestamp": v.created,
                 "value": v.value,
+                "source": v.source,
+                "scope": v.scope,
+                "user": {"uid": v.user.uid, "email": v.user.email} if v.user else None,
             },
         )
 

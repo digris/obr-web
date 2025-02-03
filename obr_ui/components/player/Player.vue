@@ -6,11 +6,14 @@ import UserRating from "@/components/rating/UserRating.vue";
 import { useObjKey } from "@/composables/obj";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
+import { useSettings } from "@/composables/settings";
 import { getContrastColor } from "@/utils/color";
 
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
+import Donate from "./button/Donate.vue";
 import News from "./button/News.vue";
+import NewsSurvey from "./button/NewsSurvey.vue";
 import OnAir from "./button/OnAir.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import PlayerControl from "./PlayerControl.vue";
@@ -21,13 +24,15 @@ import VolumeControl from "./VolumeControl.vue";
 
 const { queueLength } = useQueueState();
 const { seek } = usePlayerControls();
-const { isVisible, media, color: bgColor } = usePlayerState();
+const { isVisible, isNews, media, color: bgColor } = usePlayerState();
 const { objKey } = useObjKey(media);
 const fgColor = computed(() => getContrastColor(bgColor.value));
 const fgColorInverse = computed(() => getContrastColor(fgColor.value));
 const queueVisible = ref(false);
 const toggleQueue = useToggle(queueVisible);
-// const hideQueue = () => toggleQueue(false);
+
+const { userSettings } = useSettings();
+const testingEnabled = computed(() => userSettings.value?.testingEnabled);
 </script>
 
 <template>
@@ -46,14 +51,17 @@ const toggleQueue = useToggle(queueVisible);
       <Playhead class="playhead" @seek="seek" />
       <div class="container">
         <div class="left">
-          <CurrentMedia :media="media" />
+          <div v-if="isNews">(( CurrentNews ))</div>
+          <CurrentMedia v-else :media="media" />
         </div>
         <div class="center">
           <PlayerControl :fg-color="fgColor" />
         </div>
         <div class="right">
           <OnAir />
-          <News />
+          <News v-if="testingEnabled" />
+          <NewsSurvey v-else />
+          <Donate v-if="testingEnabled" />
           <Bandwidth />
           <VolumeControl />
           <Circle v-if="objKey">

@@ -2,26 +2,22 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+import NewsSurvey from "@/components/survey/NewsSurvey.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
-import { useAccount } from "@/composables/account";
-import { usePlayerControls, usePlayerState } from "@/composables/player";
+import { usePlayerState } from "@/composables/player";
 
 const { t } = useI18n();
 
 const { isNews } = usePlayerState();
 
-const { settings } = useAccount();
-
 const overlayVisible = ref(false);
-
-const { playLive, playNews, endPlayNews } = usePlayerControls();
 </script>
 
 <i18n lang="yaml">
 de:
-  title: "News Service"
+  title: "Umfrage"
 en:
-  title: "News Service"
+  title: "Survey"
 </i18n>
 
 <template>
@@ -33,23 +29,8 @@ en:
         @close="overlayVisible = false"
         :title="t('title')"
       >
-        (( NEWS ))
+        <NewsSurvey @close="overlayVisible = false" />
       </OverlayPanel>
-    </Teleport>
-    <Teleport to="body">
-      <div class="debug-panel">
-        <pre
-          v-text="{
-            settings,
-            isNews,
-          }"
-        />
-        <div class="actions">
-          <button @click.prevent="playLive()">Trigger Live</button>
-          <button @click.prevent="playNews('srf')">Trigger News</button>
-          <button @click.prevent="endPlayNews()">End News</button>
-        </div>
-      </div>
     </Teleport>
   </div>
 </template>
@@ -58,27 +39,7 @@ en:
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
 
-.debug-panel {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  background: black;
-  color: white;
-  padding: 0.5rem;
-  font-size: 0.75rem;
-  z-index: 999;
-  min-width: 250px;
-
-  .actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-}
-
 .news {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

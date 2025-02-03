@@ -1,0 +1,6 @@
+POST http://localhost:5004/publish/news
+Content-Type: application/json
+
+{
+    "provider": "srf"
+}

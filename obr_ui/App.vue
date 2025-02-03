@@ -28,6 +28,8 @@ import createAccountHandler from "@/utils/account";
 import createScheduleHandler from "@/utils/schedule";
 import createUIStateHandler from "@/utils/ui";
 
+import { init } from "./init";
+
 declare global {
   interface Window {
     eventBus: Emitter<EventBusEvents>;
@@ -89,6 +91,9 @@ export default defineComponent({
       isSmallScreen,
       version: settings.VERSION,
     };
+  },
+  async mounted() {
+    await init(this);
   },
 });
 </script>

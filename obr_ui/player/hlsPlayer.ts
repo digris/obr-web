@@ -25,9 +25,9 @@ const hlsConfig = {
   },
 };
 
-type StreamFormat = "hls" | "icecast";
-type Mode = "live" | "ondemand";
+type Mode = "live" | "ondemand" | "news";
 type PlayState = "stopped" | "buffering" | "playing" | "paused";
+type NewsProvider = "srf" | "bbc" | "dlf";
 
 type CueFade = {
   cueIn: number;
@@ -36,11 +36,12 @@ type CueFade = {
   fadeOut: number;
 };
 
-const getLiveUrl = (format: StreamFormat = "hls"): string => {
-  if (format === "icecast") {
-    return settings.STREAM_ENDPOINTS.icecast;
-  }
+const getLiveUrl = (): string => {
   return `${settings.STREAM_ENDPOINTS.hls}?${Date.now()}`;
+};
+
+const getNewsUrl = (provider: NewsProvider): string => {
+  return `https://stream-abr.openbroadcast.ch/hls/news/${provider}.m3u8?${Date.now()}`;
 };
 
 const getOnDemandUrl = (uid: string): string => {
@@ -59,6 +60,7 @@ const getStepVolume = (start: number, end: number, time: number, reverse = false
 class HlsPlayer {
   static instance: HlsPlayer;
   private audio: HTMLAudioElement;
+  private newsAudio: HTMLAudioElement;
   private hls: null | Hls;
 
   private mediaUid: null | string = null;
@@ -73,6 +75,8 @@ class HlsPlayer {
   private cueOut = 0;
   private fadeIn = 0;
   private fadeOut = 0;
+
+  private fadeActive = false;
 
   private volume = 1;
   public baseVolume = 1; // user-controllable volume
@@ -89,6 +93,7 @@ class HlsPlayer {
 
   private constructor() {
     const audio = document.createElement("audio");
+    const newsAudio = document.createElement("audio");
 
     const { isSupported: wakeLockIsSupported, request: wakeLockRequest } = useWakeLock();
 
@@ -97,6 +102,7 @@ class HlsPlayer {
     if (!isWeb) {
       log.info("HlsPlayer only available in web-mode");
       this.audio = audio;
+      this.newsAudio = newsAudio;
       this.hls = null;
       return;
     }
@@ -138,7 +144,14 @@ class HlsPlayer {
       hls.attachMedia(audio);
     }
 
+    // debug only
+    audio.addEventListener("loadedmetadata", (e) => {
+      console.log("e", e);
+      console.dir(audio);
+    });
+
     this.audio = audio;
+    this.newsAudio = newsAudio;
     this.hls = hls;
 
     this.connectStore();
@@ -256,14 +269,19 @@ class HlsPlayer {
   */
   private setVolume(value?: number): void {
     this.volume = value !== undefined ? value : this.volume;
-    this.audio.volume = this.volume * this.baseVolume;
+    this.audio.volume = Math.min(this.volume * this.baseVolume, 1);
   }
 
   /*
   handle cue-points and fade volumes
   */
   private async onTimeupdate(): Promise<void> {
-    if (this.mode === "live") {
+    if (this.fadeActive) {
+      // skip reset logic if fade is active
+      return;
+    }
+
+    if (this.mode === "live" || this.mode === "news") {
       if (this.volume < 1) {
         this.setVolume(1);
       }
@@ -308,18 +326,71 @@ class HlsPlayer {
   public async playLive(): Promise<void> {
     const url = getLiveUrl();
     log.debug("playLive", url);
-    this.setPlayState("buffering");
+
+    await this.setPlayState("buffering");
+
     this.mode = "live";
     this.mediaUid = null;
 
     if (this.hls) {
-      await this.hls.loadSource(url);
+      this.hls.loadSource(url);
     } else {
       console.debug("load source: native mode", url);
       this.audio.src = url;
     }
+
     this.resetCueFade();
     await this.audio.play();
+  }
+
+  public async volFadeOut(duration = 1000, callback: () => Promise<void>): Promise<void> {
+    const step = 0.05;
+    const interval = duration / (1 / step);
+
+    log.debug("volFadeOut", step, interval);
+
+    this.fadeActive = true;
+
+    const fadeAudio = setInterval(async () => {
+      if (!this.fadeActive) {
+        clearInterval(fadeAudio);
+        return;
+      }
+
+      if (this.volume > step) {
+        this.setVolume(this.volume - step);
+      } else {
+        this.setVolume(0);
+        this.fadeActive = false;
+        clearInterval(fadeAudio);
+        await callback();
+      }
+    }, interval);
+  }
+
+  public async volFadeIn(duration = 1000): Promise<void> {
+    const step = 0.05;
+    const interval = duration / (1 / step);
+
+    log.debug("volFadeIn", step, interval);
+
+    this.fadeActive = true;
+    this.setVolume(0);
+
+    const fadeAudio = setInterval(() => {
+      if (!this.fadeActive) {
+        clearInterval(fadeAudio);
+        return;
+      }
+
+      if (this.volume < 1) {
+        this.setVolume(this.volume + step);
+      } else {
+        this.setVolume(1);
+        this.fadeActive = false;
+        clearInterval(fadeAudio);
+      }
+    }, interval);
   }
 
   public async playUid(uid: string, estimatedDuration?: number, cueFade?: CueFade): Promise<void> {
@@ -360,6 +431,49 @@ class HlsPlayer {
         await this.audio.play();
       }, 1000);
     }
+  }
+
+  public async playNews(provider: NewsProvider): Promise<void> {
+    const url = getNewsUrl(provider);
+    log.debug("playNews", provider, url);
+
+    if (!["playing", "buffering"].includes(this.playState)) {
+      log.debug("playNews:skip - not playing or buffering");
+      return;
+    }
+
+    await this.volFadeOut(1000, async () => {
+      console.debug("fade out done");
+      this.audio.pause();
+
+      await this.setPlayState("buffering");
+
+      this.mode = "news";
+      this.mediaUid = null;
+
+      if (this.hls) {
+        this.hls.loadSource(url);
+      } else {
+        console.debug("load source: native mode", url);
+        this.audio.src = url;
+      }
+
+      this.resetCueFade();
+      await this.audio.play();
+    });
+  }
+
+  public async endPlayNews(): Promise<void> {
+    log.debug("endPlayNews");
+
+    if (this.mode !== "news" || !["playing", "buffering"].includes(this.playState)) {
+      log.debug("endPlayNews:skip - not in news mode and / or not playing");
+      return;
+    }
+
+    this.setVolume(0);
+    await this.playNext();
+    await this.volFadeIn(2000);
   }
 
   public async pause(): Promise<void> {

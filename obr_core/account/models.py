@@ -39,6 +39,11 @@ class GenderStr(models.TextChoices):
     OTHER = "other", "other"
 
 
+class NewsProvider(models.TextChoices):
+    DISABLED = "", "none"
+    SRF = "srf", "SRF"
+
+
 class UserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers
@@ -196,16 +201,21 @@ class Settings(
         on_delete=models.CASCADE,
         related_name="settings",
     )
-
     debug_enabled = models.BooleanField(
         "enable debug",
         default=False,
         db_index=True,
     )
-
     testing_enabled = models.BooleanField(
         "enable testing",
         default=False,
+        db_index=True,
+    )
+    news_provider = models.CharField(
+        max_length=64,
+        choices=NewsProvider.choices,
+        default=NewsProvider.DISABLED,
+        blank=True,
         db_index=True,
     )
 

@@ -6,6 +6,8 @@ export const hlsBaseConfig = {
   liveSyncDurationCount: 3,
   lowLatencyMode: true,
   // xhrSetup: (xhr: XMLHttpRequest, url: string) => {},
+  abrBandWidthFactor: 0.5,
+  abrBandWidthUpFactor: 0.3,
   manifestLoadPolicy: {
     default: {
       maxTimeToFirstByteMs: Infinity,
