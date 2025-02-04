@@ -43,6 +43,7 @@ export default defineComponent({
     }"
   >
     <pre v-text="value" />
+    <slot />
   </div>
 </template>
 

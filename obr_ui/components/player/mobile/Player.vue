@@ -7,9 +7,11 @@ import MediaArtists from "@/components/catalog/media/MediaArtists.vue";
 import { useDevice } from "@/composables/device";
 import { usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
+import { useSettings } from "@/composables/settings";
 import { useUiStore } from "@/stores/ui";
 import { getContrastColor } from "@/utils/color";
 
+import News from "../button/News.vue";
 import NewsSurvey from "../button/NewsSurvey.vue";
 import OnAir from "../button/OnAir.vue";
 // NOTE: shared components for desktop & mobile
@@ -25,6 +27,7 @@ export default defineComponent({
     Queue,
     QueueControl,
     MediaArtists,
+    News,
     NewsSurvey,
     OnAir,
     PlayerPlayButton,
@@ -81,6 +84,9 @@ export default defineComponent({
       return {};
     });
 
+    const { userSettings } = useSettings();
+    const testingEnabled = computed(() => userSettings.value?.testingEnabled);
+
     return {
       isApp,
       playerVisible,
@@ -97,6 +103,8 @@ export default defineComponent({
       queueLength,
       hideQueue,
       toggleQueue,
+      //
+      testingEnabled,
     };
   },
 });
@@ -128,7 +136,8 @@ export default defineComponent({
           </div>
           <div class="right">
             <OnAir class="on-air" />
-            <NewsSurvey class="news" />
+            <News v-if="testingEnabled" />
+            <NewsSurvey v-else />
             <QueueControl
               class="queue-control"
               :queue-visible="queueVisible"

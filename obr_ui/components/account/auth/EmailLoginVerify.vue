@@ -76,12 +76,9 @@ const reset = async () => {
         <ApiErrors :errors="errors" />
       </div>
       <div class="input-container submit">
-        <AsyncButton
-          class="button"
-          @click.prevent="submitForm"
-          :disabled="!tokenValid"
-          v-text="t('account.auth.login')"
-        />
+        <AsyncButton class="button" @click.prevent="submitForm" :disabled="!tokenValid">
+          {{ t("account.auth.login") }}
+        </AsyncButton>
       </div>
     </form>
   </div>

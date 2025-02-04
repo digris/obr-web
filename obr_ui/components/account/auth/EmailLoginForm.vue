@@ -172,12 +172,9 @@ whenever(emailExists, async () => {
       <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton
-        class="button"
-        @click.prevent="submitForm"
-        :disabled="!emailValid"
-        v-text="buttonText"
-      />
+      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!emailValid">
+        {{ buttonText }}
+      </AsyncButton>
     </div>
   </form>
 </template>

@@ -18,7 +18,7 @@ export default defineComponent({
     },
     color: {
       type: String,
-      default: "rgb(255 0 0 / 100%)",
+      default: "rgb(255 255 255 / 100%)",
     },
   },
   setup(props) {
@@ -42,7 +42,7 @@ export default defineComponent({
 <template>
   <div class="spectrogram-container" :style="containerStyle">
     <div class="spectrogram" :style="spectrogramStyle">
-      <AudioVisualisation :width="width" :height="260" :color="color" />
+      <AudioVisualisation :width="width" :height="height + 60" :color="color" />
     </div>
   </div>
 </template>

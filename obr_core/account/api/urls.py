@@ -65,6 +65,11 @@ urlpatterns = [
         name="address",
     ),
     path(
+        "settings/",
+        views.SettingsUpdateView.as_view(),
+        name="settings",
+    ),
+    path(
         "social-backends/",
         views.SocialBackendListView.as_view(),
         name="social-backends",

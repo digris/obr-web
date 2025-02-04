@@ -42,6 +42,8 @@ class GenderStr(models.TextChoices):
 class NewsProvider(models.TextChoices):
     DISABLED = "", "none"
     SRF = "srf", "SRF"
+    BBC = "bbc", "BBC"
+    DLF = "dlf", "DLF"
 
 
 class UserManager(BaseUserManager):

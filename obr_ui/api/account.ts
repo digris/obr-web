@@ -146,6 +146,12 @@ async function updateAddress(payload: any) {
   return response.data;
 }
 
+async function updateSettings(payload: any) {
+  const url = `${ACCOUNT_ENDPOINT}settings/`;
+  const response = await APIClient.patch(url, payload);
+  return response.data;
+}
+
 async function getSocialBackends() {
   const url = `${ACCOUNT_ENDPOINT}social-backends/`;
   const response = await APIClient.get(url);
@@ -183,6 +189,7 @@ export {
   updateAddress,
   updateEmail,
   updatePassword,
+  updateSettings,
   // refreshCredentials,
   updateUser,
 };

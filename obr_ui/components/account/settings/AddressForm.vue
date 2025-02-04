@@ -78,7 +78,9 @@ onMounted(async () => {
       <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton class="button" @click.prevent="submitForm" v-text="t('formActions.save')" />
+      <AsyncButton class="button" @click.prevent="submitForm">
+        {{ t("formActions.save") }}
+      </AsyncButton>
     </div>
   </form>
 </template>

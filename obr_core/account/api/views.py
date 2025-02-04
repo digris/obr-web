@@ -809,6 +809,46 @@ class AddressUpdateView(
         )
 
 
+class SettingsUpdateView(
+    APIView,
+):
+    serializer_class = serializers.SettingsSerializer
+
+    @staticmethod
+    @extend_schema(
+        request=serializers.SettingsSerializer,
+        responses={
+            200: serializers.SettingsSerializer,
+        },
+        methods=["PATCH"],
+        operation_id="user_update_settings",
+    )
+    # pylint: disable=unused-argument
+    def patch(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return Response(
+                {
+                    "message": _("Not authorized"),
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = serializers.SettingsSerializer(
+            request.user.settings,
+            data=request.data,
+            partial=True,
+        )
+        serializer.is_valid(
+            raise_exception=True,
+        )
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK,
+        )
+
+
 class SocialBackendListView(
     APIView,
 ):

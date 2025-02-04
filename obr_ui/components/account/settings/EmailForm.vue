@@ -50,12 +50,9 @@ const submitForm = async () => {
       <ApiErrors :errors="errors" />
     </div>
     <div class="input-container submit">
-      <AsyncButton
-        class="button"
-        @click.prevent="submitForm"
-        :disabled="!formValid"
-        v-text="t('formActions.save')"
-      />
+      <AsyncButton class="button" @click.prevent="submitForm" :disabled="!formValid">
+        {{ t("formActions.save") }}
+      </AsyncButton>
     </div>
   </form>
 </template>
