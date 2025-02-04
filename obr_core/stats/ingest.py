@@ -4,6 +4,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 
+from django.conf import settings
 from django.db import connections
 
 import elasticsearch
@@ -17,9 +18,8 @@ LOGGER = logging.getLogger(__name__)
 EVENT_MIN_DURATION = 20
 
 
-ES_HOST = "49.13.151.17"
-ES_PORT = 9200
-ES_API_KEY = "d0p4UHE1TUJ5azF4Y21YazZYVGE6UFl5aTZOajZTSFc1N0tHcGdyYURDZw=="
+ES_API_URL = settings.STATS_ES_API_URL
+ES_API_KEY = settings.STATS_ES_API_KEY
 
 GEOIP_DICT = {
     "country": None,
@@ -123,7 +123,7 @@ class EsService:
 
     def __init__(self):
         self.client = elasticsearch.Elasticsearch(
-            f"https://{ES_HOST}:{ES_PORT}",
+            ES_API_URL,
             api_key=ES_API_KEY,
             verify_certs=False,
             ssl_show_warn=False,

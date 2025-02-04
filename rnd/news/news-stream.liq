@@ -18,11 +18,11 @@ jingle_closer = "recorded/closer.mp3"
 
 sse_url = "https://openbroadcast.ch/sse"
 
-# news_source = mksafe(input.http(
-#   "http://stream.srg-ssr.ch/m/SRF_news/aacp_96",
-# ))
+news_source = mksafe(input.http(
+  "http://stream.srg-ssr.ch/m/SRF_news/aacp_96",
+))
 
-news_source = mksafe(playlist("mock/ref/"))
+# news_source = mksafe(playlist("mock/ref/"))
 # news_final (see below)
 
 
