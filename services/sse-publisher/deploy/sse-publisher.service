@@ -20,5 +20,8 @@ StandardOutput=syslog
 StandardError=syslog
 SyslogIdentifier=sse-publisher
 
+KillMode=control-group
+KillSignal=SIGKILL
+
 [Install]
 WantedBy=multi-user.target

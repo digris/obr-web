@@ -1,54 +1,49 @@
-import { useAccount } from "@/composables/account";
+import type { App } from "vue";
 
-const SSE_URL = "https://openbroadcast.ch/sse";
+import { useNews } from "@/composables/news";
+import type { NewsProvider } from "@/player/hlsPlayer";
+import settings from "@/settings";
 
-interface NewsItem {
+const SSE_PUBLISHER_URL = settings.SSE_PUBLISHER_URL;
+
+interface NewsMessage {
   ts: number;
   cmd: "start" | "stop";
-  provider: string;
+  provider: NewsProvider;
 }
 
-export async function init(app) {
-  console.log("init: start", app);
+export async function init(app: App): Promise<void> {
+  console.log("init", app);
 
-  const { settings } = useAccount();
+  const { provider: newsProvider } = useNews();
+  const { playNews, endPlayNews } = useNews();
 
-  /******************************************************************
-    event source is used to "consume" fast changing stats data
-    ******************************************************************/
-  const eventSource = new EventSource(`${SSE_URL}/news`);
-  eventSource.onmessage = (event) => {
-    const item: NewsItem = JSON.parse(event.data) as NewsItem;
-    console.debug("sse", item);
+  const sse = new EventSource(SSE_PUBLISHER_URL);
 
-    console.log("settings", settings);
-    console.log("settings:newsProvider", settings.value.newsProvider);
+  sse.addEventListener("news", async (e): Promise<void> => {
+    const message: NewsMessage = JSON.parse(e.data) as NewsMessage;
 
-    const { ts, cmd, provider } = item;
+    console.debug(message, e);
+
+    const { ts, cmd, provider } = message;
 
     const delay = (ts + 4) * 1000 - Date.now();
-    // const delay = 0;
 
-    console.debug("item", ts, cmd, provider, delay);
     if (cmd === "start") {
-      console.debug("start", provider);
-
-      if (settings.value.newsProvider !== provider) {
-        console.debug("news provider not enabled", provider, settings.value.newsProvider);
+      if (newsProvider.value !== provider) {
+        console.info("news provider not enabled", provider, newsProvider.value);
         return;
       }
 
-      setTimeout(() => {
-        window.hlsPlayer.playNews(provider);
+      setTimeout(async () => {
+        await playNews(provider);
       }, delay);
     }
 
     if (cmd === "stop") {
-      console.debug("stop");
-      setTimeout(() => {
-        window.hlsPlayer.endPlayNews();
+      setTimeout(async () => {
+        await endPlayNews();
       }, delay);
     }
-  };
-  console.log("init: end");
+  });
 }

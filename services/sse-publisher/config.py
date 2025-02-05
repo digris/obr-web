@@ -1,9 +1,12 @@
 import logging.config
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     debug: bool = False
+    port: int = 5004
+    api_token: str = "---CHANGE-ME---"
     #
     model_config = SettingsConfigDict(env_file=".env")
 

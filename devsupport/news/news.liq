@@ -7,34 +7,34 @@ settings.log.unix_timestamps.set(false)
 settings.frame.audio.samplerate.set(44100)
 settings.frame.audio.channels.set(2)
 
-# keep reference of process start
-time_start = time()
 
 news_source_active = ref(false)
 news_final_source_amplify = ref(0.0)
 
-jingle_opener = "recorded/opener-5s.mp3"
-jingle_closer = "recorded/closer.mp3"
 
-sse_url = "https://openbroadcast.ch/sse"
 
-news_source = mksafe(input.http(
-  "http://stream.srg-ssr.ch/m/SRF_news/aacp_96",
-))
+sse_publisher_url = environment.get(
+  "SSE_PUBLISHER_URL", 
+  default="https://openbroadcast.ch/sse/"
+)
 
-# news_source = mksafe(playlist("mock/ref/"))
+sse_publisher_api_token = environment.get(
+  "SSE_PUBLISHER_API_TOKEN", 
+  default=""
+)
+
+harbor_port = int_of_string(environment.get("HARBOR_PORT", default="8000"))
+
+
+# news_source = mksafe(input.http(
+#   "http://stream.srg-ssr.ch/m/SRF_news/aacp_96",
+# ))
+
+news_source = mksafe(playlist("mock/ref/"))
 # news_final (see below)
 
-
-#######################################################################
-# helpers & debug
-#######################################################################
-
-def time_up()
-  # round(time() - time_start)
-  time() - time_start
-end
-
+jingle_opener = "recorded/opener-5s.mp3"
+jingle_closer = "recorded/closer.mp3"
 
 
 #######################################################################
@@ -56,26 +56,27 @@ def sse_publish(cmd, payload = {})
   publish event to SSE publisher API
   >#
 
-  print("#{time_up()} - SSE: #{cmd} - #{payload}");
+  print("SSE: #{cmd} - #{payload}");
 
-  uri = "#{sse_url}/news"
+  uri = "#{sse_publisher_url}news/"
   print("POST: #{uri}")
   h = http.post(
     headers=[
-      ("user-agent", "test"),
       ("Content-Type", "application/json; charset=UTF-8"),
+      ("User-Agent", "News-Stream/0.0.1"),
+      ("Authorization", "Bearer #{sse_publisher_api_token}"),
     ],
+    timeout=5.0,
     data=json.stringify({
       cmd=cmd,
       ...payload
     }),
     uri
   )
-  if h.status_code == 204 then
-    print("SSE: #{cmd} - OK")
-  end
-  if h.status_code >= 400 then
-    log.important("failed to publish sse event: #{h.status_code} - #{h}")
+  if h.status_code == 201 then
+    print("SSE OK: #{cmd} - #{h}")
+  else
+    print("SSE ERROR: failed to publish event: #{h.status_code} - #{h}")
   end
 
 end
@@ -95,14 +96,14 @@ def on_begin_detected(_)
 
   >#
 
-  print("#{time_up()} - detected:begin");
+  print("detected:begin");
 
   thread.run(
     #################################################################
     delay=2.0,
     #################################################################
     fun() -> begin
-      print("#{time_up()} - final-queue: set amplify to 1.0");
+      print("final-queue: set amplify to 1.0");
       news_final_source_amplify.set(1.0);
     end
   )
@@ -112,7 +113,7 @@ def on_begin_detected(_)
     delay=4.0,
     #################################################################
     fun() -> begin
-      print("#{time_up()} - final-queue: start opener");
+      print("final-queue: start opener");
       news_final_queue.push(
         request.create(jingle_opener)    
       );
@@ -156,18 +157,18 @@ def on_end_detected()
   
   if news_source_active() == false then
 
-    print("#{time_up()} - detected:blank - no source active");
+    print("detected:blank - no source active");
 
   else
 
-    print("#{time_up()} - detected:end");
+    print("detected:end");
     
     thread.run(
       #################################################################
       delay=1.0,
       #################################################################
       fun() -> begin
-        print("#{time_up()} - final-queue: start closer");
+        print("final-queue: start closer");
         news_final_queue.push(
           request.create(jingle_closer)
         );
@@ -179,7 +180,7 @@ def on_end_detected()
       delay=10.0,
       #################################################################
       fun() -> begin
-        print("#{time_up()} - final-queue: set amplify to 0.0");
+        print("final-queue: set amplify to 0.0");
         news_final_source_amplify.set(0.0);
       end
     )
@@ -233,20 +234,6 @@ news_source = blank.detect(
 )
 
 
-
-#######################################################################
-# debug
-#######################################################################
-# 
-# news_source = rms(news_source)
-# def print_rms()
-#   l = news_source.rms()
-#   r = dB_of_lin(l)
-#   print("RMS: #{round(r)} dB - LIN: #{l}")
-# end
-# thread.run(every=1., print_rms)
-
-
 #######################################################################
 # jingle insertion & delayed "final" source
 #######################################################################
@@ -290,16 +277,16 @@ news_final = smooth_add(
 
 
 # LS: v2.2
-def hls_segment_name(~position,~extname=_,stream_name) =
-  timestamp = int_of_float(time())
-  "#{stream_name}-#{timestamp}-#{position}.ts"
-end
+# def hls_segment_name(~position,~extname=_,stream_name) =
+#   timestamp = int_of_float(time())
+#   "#{stream_name}-#{timestamp}-#{position}.ts"
+# end
 
 # LS: v2.3
-# def hls_segment_name(metadata) =
-#   timestamp = int_of_float(time())
-#   "#{metadata.stream_name}-#{timestamp}-#{metadata.position}.ts"
-# end
+def hls_segment_name(metadata) =
+  timestamp = int_of_float(time())
+  "#{metadata.stream_name}-#{timestamp}-#{metadata.position}.ts"
+end
 
 
 #######################################################################
@@ -307,8 +294,8 @@ end
 #######################################################################
 
 output.harbor.hls(
-  port=5005,
-  playlist="manifest.m3u8",
+  port=harbor_port,
+  playlist="srf.m3u8",
   segment_duration=1.0,
   segments=5,
   segments_overhead=5,
@@ -333,16 +320,26 @@ output.harbor.hls(
 
 # output.file.hls(
 #   "/Users/ohrstrom/code/obr-web/playground/news/hls",
-#   playlist="manifest.m3u8",
+#   playlist="srf.m3u8",
 #   segment_duration=1.0,
 #   segments=5,
 #   segments_overhead=5,
 #   segment_name=hls_segment_name,
 #   [
-#     ("aac_196", aac_196),
-#     ("aac_48", aac_48),
+#     (
+#       "aac_96",
+#       %ffmpeg(
+#         format="mpegts",
+#         %audio(
+#           channels=2,
+#           samplerate=44100,
+#           codec="aac",
+#           b="96k",
+#           profile="aac_low"
+#         )
+#       )
+#     ),
 #   ],
-# #   [("mp3-low", %mp3(bitrate=96)), ("mp3-hi", %mp3(bitrate=160))],
 #   news_final
 # )
 

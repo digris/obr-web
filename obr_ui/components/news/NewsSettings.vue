@@ -1,21 +1,17 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
-import { useI18n } from "vue-i18n";
 import type { AxiosError } from "axios";
 
-import { updateSettings } from "@/api/account";
 import Debug from "@/components/dev/Debug.vue";
-import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import { useAccount } from "@/composables/account";
+import { useNews } from "@/composables/news";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 const { settings } = useAccount();
 
 const { isNews } = usePlayerState();
 const { playLive, playNews, endPlayNews } = usePlayerControls();
-
-const { t } = useI18n();
 
 const NEWS_PROVIDERS = [
   {
@@ -39,52 +35,36 @@ const providers = computed(() => {
   return NEWS_PROVIDERS;
 });
 
-const setProvider = (providerKey: string) => {
-  if (settings.value.newsProvider === providerKey) {
-    settings.value.newsProvider = ""; // NOTE: this is ugly, it should rather be `null`
-  } else {
-    settings.value.newsProvider = providerKey;
-  }
-};
+const { provider: newsProvider } = useNews();
 
 const errors = ref<Array<string | AxiosError>>([]);
 
-const submitForm = async () => {
-  errors.value = [];
-  try {
-    await updateSettings(settings.value);
-  } catch (err: unknown) {
-    console.error(err);
-    const error = err as AxiosError;
-    errors.value = [error];
+const setProvider = async (providerKey: string) => {
+  if (newsProvider.value === providerKey) {
+    newsProvider.value = ""; // NOTE: this is ugly, it should rather be `null`
+  } else {
+    newsProvider.value = providerKey;
   }
 };
 </script>
 <template>
-  <div>
-    <form class="form" @submit.prevent="submitForm">
-      <div class="input-container providers">
-        <label v-for="provider in providers" :key="`${provider.key}-input`" class="provider">
-          <input
-            class="input"
-            type="checkbox"
-            name="providers"
-            :checked="settings.newsProvider === provider.key"
-            @change="setProvider(provider.key)"
-          />
-          <span class="title" v-text="provider.title" />
-          <span class="description" v-text="provider.description" />
-        </label>
-      </div>
-      <div class="form-errors" v-if="errors.length">
-        <ApiErrors :errors="errors" />
-      </div>
-      <div class="input-container submit">
-        <AsyncButton class="button" @click.prevent="submitForm">
-          {{ t("formActions.save") }}
-        </AsyncButton>
-      </div>
-    </form>
+  <div class="news-settings">
+    <div class="input-container providers">
+      <label v-for="provider in providers" :key="`${provider.key}-input`" class="provider">
+        <input
+          class="input"
+          type="checkbox"
+          name="providers"
+          :checked="newsProvider === provider.key"
+          @change="setProvider(provider.key)"
+        />
+        <span class="title" v-text="provider.title" />
+        <span class="description" v-text="provider.description" />
+      </label>
+    </div>
+    <div class="form-errors" v-if="errors.length">
+      <ApiErrors :errors="errors" />
+    </div>
     <Debug :value="{ settings, isNews }">
       <div class="actions">
         <button @click.prevent="playLive()">Trigger Live</button>
@@ -104,7 +84,7 @@ const submitForm = async () => {
   background: transparent;
 }
 
-.form {
+.news-settings {
   @include form.default;
 
   .providers {

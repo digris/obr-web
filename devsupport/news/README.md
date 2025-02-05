@@ -11,5 +11,7 @@
 eval $(opam env --switch=ls-23)
 
 # mock stream server
-./news-stream.liq
+SSE_PUBLISHER_URL=http://localhost:5004/sse/ \
+SSE_PUBLISHER_API_TOKEN=---CHANGE-ME--- \
+./news.liq
 ```

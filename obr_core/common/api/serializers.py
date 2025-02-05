@@ -26,6 +26,9 @@ class StreamEndpointsSerializer(
     icecast = serializers.CharField(
         read_only=True,
     )
+    news = serializers.CharField(
+        read_only=True,
+    )
 
 
 class MediaEndpointsSerializer(

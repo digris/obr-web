@@ -1,6 +1,42 @@
-POST http://localhost:5004/publish/news
+POST http://localhost:5004/sse/news/
 Content-Type: application/json
+Authorization: Bearer ---CHANGE-ME---
 
 {
+    "ts": 1234567890,
+    "cmd": "start",
+    "provider": "srf"
+}
+
+###
+POST http://localhost:5004/sse/news/
+Content-Type: application/json
+Authorization: Bearer ---CHANGE-ME---
+
+{
+    "ts": 1234567890,
+    "cmd": "stop",
+    "provider": "srf"
+}
+
+###
+POST http://localhost:8009/sse/news/
+Content-Type: application/json
+Authorization: Bearer ---CHANGE-ME---
+
+{
+    "ts": 1234567890,
+    "cmd": "start",
+    "provider": "srf"
+}
+
+###
+POST https://openbroadcast.ch/sse/news/
+Content-Type: application/json
+Authorization: Bearer ***
+
+{
+    "ts": 1234567890,
+    "cmd": "start",
     "provider": "srf"
 }

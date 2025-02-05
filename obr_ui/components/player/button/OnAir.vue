@@ -56,7 +56,7 @@ export default defineComponent({
   &.is-live,
   &:hover {
     background: rgb(var(--c-red));
-    border-color: transparent;
+    border-color: rgb(var(--c-red));
   }
 }
 </style>

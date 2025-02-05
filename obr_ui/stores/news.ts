@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 
 interface NewsItem {
@@ -9,7 +10,14 @@ interface NewsItem {
 
 export const useNewsStore = defineStore("news", () => {
   const schedule = ref<NewsItem[]>([]);
+  const provider = useStorage("news/provider", "", localStorage, {
+    serializer: {
+      read: (v) => v,
+      write: (v) => v,
+    },
+  });
   return {
     schedule,
+    provider,
   };
 });

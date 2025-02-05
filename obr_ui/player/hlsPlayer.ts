@@ -41,7 +41,7 @@ const getLiveUrl = (): string => {
 };
 
 const getNewsUrl = (provider: NewsProvider): string => {
-  return `https://stream-abr.openbroadcast.ch/hls/news/${provider}.m3u8?${Date.now()}`;
+  return `${settings.STREAM_ENDPOINTS.news}${provider}.m3u8?${Date.now()}`;
 };
 
 const getOnDemandUrl = (uid: string): string => {
@@ -597,5 +597,5 @@ class HlsPlayer {
   }
 }
 
-export type { CueFade, Mode, PlayState };
+export type { CueFade, Mode, NewsProvider, PlayState };
 export { HlsPlayer };

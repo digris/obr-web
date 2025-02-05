@@ -33,7 +33,6 @@ export default defineComponent({
     const { objKey } = useObjKey(props.obj);
     const keyPrefix = computed(() => props.obj?.uid);
     const objIdentifiers = computed(() => {
-      // eslint-disable-next-line max-len
       return props.obj && props.obj.identifiers
         ? props.obj.identifiers.slice(0, props.limit - 1)
         : [];
@@ -50,7 +49,10 @@ export default defineComponent({
       return [];
     });
     const identifiers = computed(() => {
-      return [...objIdentifiers.value, ...extraIdentifiers.value];
+      return [
+        ...objIdentifiers.value.filter((i: any) => i.scope !== "isrc"),
+        ...extraIdentifiers.value,
+      ];
     });
     return {
       objKey,

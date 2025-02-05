@@ -70,7 +70,11 @@ export default defineComponent({
 <template>
   <DetailPage>
     <template #background="slotProps">
-      <Spectrogram :height="slotProps.height" :width="slotProps.width" color="rgb(0 0 0 / 20%)" />
+      <Spectrogram
+        :height="slotProps.height / 3"
+        :width="slotProps.width"
+        color="rgb(0 0 0 / 10%)"
+      />
     </template>
     <template #header>
       <DetailHeader v-if="playlist" :obj="playlist" :title="title" title-scope="Show">

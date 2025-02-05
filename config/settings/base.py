@@ -430,7 +430,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_RENDERER_CLASSES": [
         "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
-        "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+        # "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
     ],
     "DEFAULT_PARSER_CLASSES": [
         "djangorestframework_camel_case.parser.CamelCaseJSONParser",
@@ -521,13 +521,18 @@ SPECTACULAR_SETTINGS = {
 ##################################################################
 API_BASE_URL = "/api/v1/"
 
+STREAM_LATENCY = 0  # in seconds
+
 STREAM_ENDPOINTS = {
     "dash": "https://stream-abr.openbroadcast.ch/dash/stream.mpd",
     "hls": "https://stream-abr.openbroadcast.ch/hls/manifest.m3u8",
     "icecast": "https://stream.openbroadcast.ch/256.mp3",
+    #
+    "news": env(
+        "STREAM_ENDPOINT_NEWS",
+        default="https://stream-abr.openbroadcast.ch/hls/news/",
+    )
 }
-
-STREAM_LATENCY = 0  # seconds
 
 MEDIA_ENDPOINTS = {
     "dash": "https://media.openbroadcast.ch/encoded/",
@@ -595,6 +600,7 @@ SETTINGS_EXPORT = [
     "SENTRY_DSN",
     "OPENREPLAY_PROJECT_KEY",
     "STRIPE_PUBLISHABLE_KEY",
+    "SSE_PUBLISHER_URL",
 ]
 
 
@@ -634,6 +640,15 @@ STATS_ES_API_URL = env(
 STATS_ES_API_KEY = env(
     "STATS_ES_API_KEY",
     default="",
+)
+
+
+##################################################################
+# SSE Publisher
+##################################################################
+SSE_PUBLISHER_URL = env(
+    "SSE_PUBLISHER_URL",
+    default="https://openbroadcast.ch/sse/",
 )
 
 

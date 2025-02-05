@@ -18,7 +18,7 @@ export default defineComponent({
     // const isHover = ref(false);
     const { x: mouseX, isOutside } = useMouseInElement(el);
     const { width } = useElementSize(el);
-    const { isLive, isOndemand, isPlaying, isBuffering, relPosition, media, duration } =
+    const { isLive, isNews, isOndemand, isPlaying, isBuffering, relPosition, media, duration } =
       usePlayerState();
     const isHover = computed(() => {
       return !isOutside.value;
@@ -62,6 +62,10 @@ export default defineComponent({
         console.warn("no seek in live mode!");
         return;
       }
+      if (isNews.value) {
+        console.warn("no seek in news mode!");
+        return;
+      }
       if (!el.value) {
         return 0;
       }
@@ -77,6 +81,7 @@ export default defineComponent({
       playheadHandleX,
       mouseX,
       isLive,
+      isNews,
       isOndemand,
       isPlaying,
       isBuffering,
@@ -96,6 +101,7 @@ export default defineComponent({
     :class="{
       'is-hover': isHover,
       'is-live': isLive,
+      'is-news': isNews,
       'is-ondemand': isOndemand,
       'is-playing': isPlaying,
       'is-buffering': isBuffering,
@@ -191,6 +197,12 @@ export default defineComponent({
   }
 
   &.is-live {
+    .progress-total {
+      fill: rgb(var(--c-fg) / 0%);
+    }
+  }
+
+  &.is-news {
     .progress-total {
       fill: rgb(var(--c-fg) / 0%);
     }

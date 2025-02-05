@@ -55,7 +55,7 @@ export default defineComponent({
       </slot>
     </section>
   </div>
-  <div class="background" v-if="hasBackground">
+  <div class="background" v-if="hasBackground" :style="{ height: `${headerHeight}px` }">
     <slot name="background" :width="headerWidth" :height="headerHeight" />
   </div>
 </template>
@@ -96,5 +96,7 @@ export default defineComponent({
   width: 100%;
   z-index: 1;
   overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 }
 </style>

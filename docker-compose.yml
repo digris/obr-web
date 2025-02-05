@@ -115,6 +115,29 @@ services:
       - "8008:8000"
     networks:
       - obr
+  sse-publisher:
+    user: 1000:1000
+    build:
+      context: ${PWD}
+      dockerfile: ${PWD}/compose/sse-publisher/Dockerfile
+    environment:
+      API_TOKEN: BLA-BLUP
+    ports:
+      - "8009:8000"
+    networks:
+      - obr
+  news-stream:
+    user: 1000:1000
+    build:
+      context: ${PWD}
+      dockerfile: ${PWD}/compose/news-stream/Dockerfile
+    environment:
+      SSE_PUBLISHER_URL: http://sse-publisher:8000/sse/
+      SSE_PUBLISHER_API_TOKEN: BLA-BLUP
+    ports:
+      - "8010:8000"
+    networks:
+      - obr
 
 volumes:
   obr:
