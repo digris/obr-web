@@ -144,12 +144,6 @@ class HlsPlayer {
       hls.attachMedia(audio);
     }
 
-    // debug only
-    audio.addEventListener("loadedmetadata", (e) => {
-      console.log("e", e);
-      console.dir(audio);
-    });
-
     this.audio = audio;
     this.newsAudio = newsAudio;
     this.hls = hls;
@@ -202,7 +196,6 @@ class HlsPlayer {
     audio.addEventListener("play", () => this.connectAnalyser());
 
     audio.onended = async (): Promise<void> => {
-      console.debug("onended");
       await this.playNext();
     };
 
@@ -224,7 +217,7 @@ class HlsPlayer {
   private setupHlsEvents(hls: Hls) {
     hls.on(Hls.Events.MEDIA_ATTACHED, () => {
       // this.attached = true;
-      log.debug("audio attached to hls");
+      log.debug("HLS:MEDIA_ATTACHED");
     });
 
     // hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
@@ -297,7 +290,6 @@ class HlsPlayer {
     // check if time is after cue-out point
     // if no cue-out is set this is handled by the audio `ended` event
     if (this.cueOut && time > endTime) {
-      log.debug("endTime reached");
       await this.pause();
       await this.playNext();
     }
@@ -305,20 +297,16 @@ class HlsPlayer {
     if (fadeInEndTime && startTime < time && time < fadeInEndTime) {
       // check if fade-in should occur
       const stepVolume = getStepVolume(startTime, fadeInEndTime, time);
-      log.debug("fade-in in progress", stepVolume);
       this.setVolume(stepVolume);
     } else if (fadeOutStartTime && endTime > time && time > fadeOutStartTime) {
       // check if fade-out should occur
       const stepVolume = getStepVolume(fadeOutStartTime, endTime, time, true);
-      log.debug("fade-out in progress", stepVolume);
       this.setVolume(stepVolume);
     } else if (time <= startTime) {
       // ensure 0 volume in case play position is before cue-in
-      log.info("time before start time");
       this.setVolume(0);
     } else if (this.volume < 1 && time > fadeInEndTime && time < fadeOutStartTime) {
       // ensure volume is set to max
-      log.info("reset volume");
       this.setVolume(1);
     }
   }
@@ -335,7 +323,6 @@ class HlsPlayer {
     if (this.hls) {
       this.hls.loadSource(url);
     } else {
-      console.debug("load source: native mode", url);
       this.audio.src = url;
     }
 
@@ -371,8 +358,6 @@ class HlsPlayer {
   public async volFadeIn(duration = 1000): Promise<void> {
     const step = 0.05;
     const interval = duration / (1 / step);
-
-    log.debug("volFadeIn", step, interval);
 
     this.fadeActive = true;
     this.setVolume(0);
@@ -415,7 +400,6 @@ class HlsPlayer {
       if (this.hls) {
         await this.hls.loadSource(url);
       } else {
-        console.debug("load source: native mode", url);
         this.audio.src = url;
       }
       this.currentTime = this.cueIn;
@@ -443,7 +427,6 @@ class HlsPlayer {
     }
 
     await this.volFadeOut(1000, async () => {
-      console.debug("fade out done");
       this.audio.pause();
 
       await this.setPlayState("buffering");
@@ -454,7 +437,6 @@ class HlsPlayer {
       if (this.hls) {
         this.hls.loadSource(url);
       } else {
-        console.debug("load source: native mode", url);
         this.audio.src = url;
       }
 
@@ -521,7 +503,6 @@ class HlsPlayer {
   }
 
   private async playNext(): Promise<void> {
-    console.debug("play next");
     const { playNext } = useQueueControls();
     await playNext();
   }

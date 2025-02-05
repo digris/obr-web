@@ -6,7 +6,6 @@ export interface PlayerEvent {
 }
 
 const sendGA4Event = (GA4Event: object) => {
-  console.debug("sendGA4Event", GA4Event);
   // @ts-ignore
   window.dataLayer.push(GA4Event);
 };
