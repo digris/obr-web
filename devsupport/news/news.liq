@@ -30,7 +30,7 @@ harbor_port = int_of_string(environment.get("HARBOR_PORT", default="8000"))
 #   "http://stream.srg-ssr.ch/m/SRF_news/aacp_96",
 # ))
 
-news_source = mksafe(playlist("mock/ref/"))
+news_source = mksafe(playlist("mock/srf/"))
 # news_final (see below)
 
 jingle_opener = "recorded/opener-5s.mp3"

@@ -3,34 +3,42 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import NewsSettings from "@/components/news/NewsSettings.vue";
-import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import SlideUpPanel from "@/components/ui/panel/SlideUpPanel.vue";
+import { useNews } from "@/composables/news";
 import { usePlayerState } from "@/composables/player";
 
 const { t } = useI18n();
 
 const { isNews } = usePlayerState();
 
+const { endPlayNews } = useNews();
+
 const overlayVisible = ref(false);
 </script>
 
 <i18n lang="yaml">
 de:
-  title: "News Service"
+  title: "Choose your News!"
 en:
-  title: "News Service"
+  title: "Choose your News!"
 </i18n>
 
 <template>
   <div @click="overlayVisible = !overlayVisible" class="news" :class="{ 'is-news': isNews }">
     <span class="news__text">News</span>
     <Teleport to="body">
-      <OverlayPanel
+      <SlideUpPanel
         :is-visible="overlayVisible"
         @close="overlayVisible = false"
         :title="t('title')"
       >
         <NewsSettings />
-      </OverlayPanel>
+        <template #footer>
+          <div class="news__cta">
+            <button class="button" :disabled="!isNews" @click="endPlayNews()">SKIP</button>
+          </div>
+        </template>
+      </SlideUpPanel>
     </Teleport>
   </div>
 </template>
@@ -38,6 +46,7 @@ en:
 <style lang="scss" scoped>
 @use "@/style/base/responsive";
 @use "@/style/base/typo";
+@use "@/style/elements/button";
 
 @keyframes pulse {
   0% {
@@ -70,6 +79,27 @@ en:
     @include typo.small;
 
     color: rgb(var(--c-fg));
+  }
+
+  &__cta {
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .button {
+      @include button.default;
+
+      background: red;
+      color: black;
+      border-radius: 2rem;
+
+      &:disabled {
+        opacity: 0.25;
+        background: transparent;
+        color: #ababab;
+      }
+    }
   }
 
   @include responsive.on-hover {

@@ -1,5 +1,4 @@
-import { watch } from "vue";
-import { useDocumentVisibility, useWindowSize, watchDebounced } from "@vueuse/core";
+import { useWindowSize, watchDebounced } from "@vueuse/core";
 import { storeToRefs } from "pinia";
 
 import settings from "@/settings";
@@ -52,6 +51,7 @@ class UIStateHandler {
     watchDebounced([vpWidth, vpHeight], setWindowSize, { debounce: 50 });
 
     // handle document leave / "come-back"
+    /*
     const documentVisibility = useDocumentVisibility();
     watch(
       () => documentVisibility.value,
@@ -59,6 +59,7 @@ class UIStateHandler {
         console.debug("UI - document visible", visibility);
       }
     );
+    */
   }
 }
 

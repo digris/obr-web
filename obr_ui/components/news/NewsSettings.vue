@@ -60,6 +60,7 @@ const setProvider = async (providerKey: string) => {
         />
         <span class="title" v-text="provider.title" />
         <span class="description" v-text="provider.description" />
+        <a class="link" v-text="provider.url" :href="provider.url" target="_blank" />
       </label>
     </div>
     <div class="form-errors" v-if="errors.length">
@@ -95,7 +96,8 @@ const setProvider = async (providerKey: string) => {
       display: grid;
       grid-template-areas:
         "checkbox title"
-        "checkbox description";
+        "checkbox description"
+        "checkbox link";
       grid-template-columns: 36px 1fr;
       grid-column-gap: 1rem;
       margin-bottom: 1rem;
@@ -116,8 +118,13 @@ const setProvider = async (providerKey: string) => {
 
       > .description {
         grid-area: description;
+        margin-top: 0.5rem;
+      }
 
-        @include typo.dim;
+      > .link {
+        grid-area: link;
+        text-decoration: underline;
+        margin-top: 0.5rem;
       }
     }
   }
