@@ -34,8 +34,13 @@ en:
       >
         <NewsSettings />
         <template #footer>
-          <div class="news__cta">
-            <button class="button" :disabled="!isNews" @click="endPlayNews()">SKIP</button>
+          <div
+            class="controls"
+            :style="{
+              '--c-fg': 'var(--c-white)',
+            }"
+          >
+            <div class="button" :disabled="!isNews" @click.prevent="endPlayNews()">SKIP</div>
           </div>
         </template>
       </SlideUpPanel>
@@ -81,27 +86,6 @@ en:
     color: rgb(var(--c-fg));
   }
 
-  &__cta {
-    min-height: 4rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    .button {
-      @include button.default;
-
-      background: red;
-      color: black;
-      border-radius: 2rem;
-
-      &:disabled {
-        opacity: 0.25;
-        background: transparent;
-        color: #ababab;
-      }
-    }
-  }
-
   @include responsive.on-hover {
     background: rgb(var(--c-fg) / 12.5%);
     border-color: transparent;
@@ -112,6 +96,18 @@ en:
     border-color: rgb(var(--c-red));
     transform: scale(1);
     animation: pulse 1s infinite;
+  }
+}
+
+.controls {
+  min-height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 2rem;
+
+  .button {
+    @include button.outlined(3rem);
   }
 }
 </style>

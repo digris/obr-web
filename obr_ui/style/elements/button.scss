@@ -33,6 +33,36 @@
   }
 }
 
+@mixin outlined($height: 3rem) {
+  @include typo.bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: $height;
+  padding-right: math.div($height, 1.5);
+  padding-left: math.div($height, 1.5);
+  color: rgb(var(--c-fg));
+  font-size: math.div($height, 3);
+  border: 1px solid rgb(var(--c-fg) / 20%);
+  border-radius: $height * 0.5;
+  cursor: pointer;
+  transition: background 250ms, border-color 100ms;
+
+  &:not(:disabled) {
+    @include responsive.on-hover {
+      background: rgb(var(--c-fg) / 10%);
+      border-color: rgb(var(--c-fg) / 0%);
+      transition: background 100ms, border-color 100ms;
+    }
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
 @mixin circle($size: 3rem) {
   background: orangered;
 }

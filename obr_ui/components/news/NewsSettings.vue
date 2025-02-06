@@ -50,7 +50,14 @@ const setProvider = async (providerKey: string) => {
 <template>
   <div class="news-settings">
     <div class="input-container providers">
-      <label v-for="provider in providers" :key="`${provider.key}-input`" class="provider">
+      <label
+        v-for="provider in providers"
+        :key="`${provider.key}-input`"
+        class="provider"
+        :class="{
+          'is-selected': newsProvider === provider.key,
+        }"
+      >
         <input
           class="input"
           type="checkbox"
@@ -91,6 +98,7 @@ const setProvider = async (providerKey: string) => {
   .providers {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
 
     .provider {
       display: grid;
@@ -100,7 +108,11 @@ const setProvider = async (providerKey: string) => {
         "checkbox link";
       grid-template-columns: 36px 1fr;
       grid-column-gap: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
+
+      &.is-selected {
+        color: rgb(var(--c-green));
+      }
 
       > input {
         height: 36px;
