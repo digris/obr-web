@@ -20,14 +20,28 @@ const NEWS_PROVIDERS = [
     language: "DE",
     description:
       "Nachrichten aus den Bereichen US-Wahlen 2024, Ukraine, Klima, Schweiz, International, Wirtschaft, Gesellschaft und Ratgeber",
-    url: "https://www.srf.ch/news",
+    url: "srf.ch/news",
+  },
+  {
+    key: "dlf",
+    title: "DLF",
+    language: "DE",
+    description: "BBC News",
+    url: "deutschlandfunk.de",
   },
   {
     key: "bbc",
     title: "BBC",
     language: "EN",
     description: "BBC News",
-    url: "https://www.bbc.co.uk/news",
+    url: "bbc.co.uk/news",
+  },
+  {
+    key: "france-info",
+    title: "France Info",
+    language: "FR",
+    description: "BBC News",
+    url: "francetvinfo.fr",
   },
 ];
 
@@ -66,8 +80,10 @@ const setProvider = async (providerKey: string) => {
           @change="setProvider(provider.key)"
         />
         <span class="title" v-text="provider.title" />
+        <!--
         <span class="description" v-text="provider.description" />
-        <a class="link" v-text="provider.url" :href="provider.url" target="_blank" />
+        -->
+        <a class="link" v-text="provider.url" :href="`https://${provider.url}`" target="_blank" />
       </label>
     </div>
     <div class="form-errors" v-if="errors.length">
@@ -110,16 +126,13 @@ const setProvider = async (providerKey: string) => {
       grid-column-gap: 1rem;
       margin-bottom: 0;
 
-      &.is-selected {
-        color: rgb(var(--c-green));
-      }
-
       > input {
         height: 36px;
         width: 36px;
         grid-area: checkbox;
         align-self: start;
         margin-top: 4px;
+        cursor: pointer;
       }
 
       > .title {
@@ -137,6 +150,14 @@ const setProvider = async (providerKey: string) => {
         grid-area: link;
         text-decoration: underline;
         margin-top: 0.5rem;
+      }
+
+      &.is-selected {
+        color: rgb(var(--c-green));
+
+        > input {
+          background: rgb(var(--c-green));
+        }
       }
     }
   }

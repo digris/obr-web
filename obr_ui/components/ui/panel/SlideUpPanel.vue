@@ -3,8 +3,12 @@ import { computed, defineComponent, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useEventListener } from "@vueuse/core";
 
+import CloseButton from "@/components/ui/panel/CloseButton.vue";
+
 export default defineComponent({
-  components: {},
+  components: {
+    CloseButton,
+  },
   props: {
     isVisible: {
       type: Boolean,
@@ -40,11 +44,19 @@ export default defineComponent({
     <div v-if="isVisible" @click="close" class="mask" />
   </transition>
   <transition name="slide">
-    <div v-if="isVisible" class="slide-up-panel">
+    <div
+      v-if="isVisible"
+      class="slide-up-panel"
+      :style="{
+        '--c-fg': 'var(--c-white)',
+        '--c-dark': 'var(--c-white)',
+      }"
+    >
       <div class="container">
         <div class="slide-up-panel__content">
           <div v-if="title" class="slide-up-panel__content__title">
-            <div v-text="title" />
+            <span v-text="title" />
+            <CloseButton @click.prevent="close" />
           </div>
           <div class="slide-up-panel__content__body">
             <slot name="default" />
@@ -132,7 +144,14 @@ export default defineComponent({
       @include typo.large;
       @include typo.bold;
 
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
       padding: 1.5rem 0;
+
+      > span {
+        flex-grow: 1;
+      }
     }
   }
 }

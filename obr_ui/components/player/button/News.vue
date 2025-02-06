@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import NewsSettings from "@/components/news/NewsSettings.vue";
@@ -11,9 +11,11 @@ const { t } = useI18n();
 
 const { isNews } = usePlayerState();
 
-const { endPlayNews } = useNews();
+const { provider, endPlayNews } = useNews();
 
 const overlayVisible = ref(false);
+
+const skipVisible = computed(() => isNews && provider.value);
 </script>
 
 <i18n lang="yaml">
@@ -40,7 +42,18 @@ en:
               '--c-fg': 'var(--c-white)',
             }"
           >
-            <div class="button" :disabled="!isNews" @click.prevent="endPlayNews()">SKIP</div>
+            <div v-if="provider" class="selected-provider">
+              Selected Service: <em>{{ provider }}</em>
+            </div>
+            <div v-else class="selected-provider">No Service Selected</div>
+            <button
+              v-if="skipVisible"
+              class="button"
+              :disabled="!isNews"
+              @click.prevent="endPlayNews()"
+            >
+              Skip News
+            </button>
           </div>
         </template>
       </SlideUpPanel>
@@ -105,6 +118,15 @@ en:
   align-items: center;
   justify-content: flex-end;
   margin-top: 2rem;
+
+  .selected-provider {
+    flex-grow: 1;
+
+    > em {
+      text-transform: uppercase;
+      font-style: normal;
+    }
+  }
 
   .button {
     @include button.outlined(3rem);

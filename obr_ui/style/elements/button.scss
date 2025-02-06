@@ -44,6 +44,7 @@
   padding-left: math.div($height, 1.5);
   color: rgb(var(--c-fg));
   font-size: math.div($height, 3);
+  background: transparent;
   border: 1px solid rgb(var(--c-fg) / 20%);
   border-radius: $height * 0.5;
   cursor: pointer;
