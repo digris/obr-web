@@ -47,6 +47,8 @@ def sync_release(release, skip_images=False, **kwargs):
             label = Label(uuid=uuid, name=name)
             label.save()
 
+        type(release).objects.filter(id=release.id).update(label=label)
+
     logger.info(f"sync completed for {release.ct}:{release.uid}")
 
     return release

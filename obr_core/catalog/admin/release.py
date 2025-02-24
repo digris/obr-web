@@ -43,6 +43,9 @@ class ReleaseAdmin(admin.ModelAdmin):
         "uid",
         "tags",
     ]
+    raw_id_fields = [
+        "label",
+    ]
     inlines = [
         MediaArtistInline,
         ReleaseImageInline,
