@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 def sync_release(release, skip_images=False, **kwargs):
     # pylint: disable=import-outside-toplevel
+    from catalog.models import Label
     from catalog.models.release import ReleaseImage
 
     try:
@@ -33,6 +34,18 @@ def sync_release(release, skip_images=False, **kwargs):
 
     if not skip_images:
         update_image(release, data.get("image"), ReleaseImage)
+
+    if label_dict := data.get("label"):
+        uuid = label_dict.get("uuid")
+        name = label_dict.get("name")
+        logger.debug(f"sync label: {uuid} - {name}")
+
+        try:
+            label = Label.objects.get(uuid=uuid)
+
+        except Label.DoesNotExist:
+            label = Label(uuid=uuid, name=name)
+            label.save()
 
     logger.info(f"sync completed for {release.ct}:{release.uid}")
 

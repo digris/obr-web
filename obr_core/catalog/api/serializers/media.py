@@ -79,6 +79,9 @@ class MediaSerializer(
     release_display = serializers.CharField(
         read_only=True,
     )
+    label_display = serializers.CharField(
+        read_only=True,
+    )
     releases = ReleaseSerializer(
         many=True,
         read_only=True,
@@ -124,6 +127,7 @@ class MediaSerializer(
             "name",
             "artist_display",
             "release_display",
+            "label_display",
             "artists",
             "releases",
             "duration",

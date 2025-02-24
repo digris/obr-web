@@ -102,6 +102,12 @@ class Media(
     def release_display(self):
         return ", ".join(str(r.name) for r in self.releases.all())
 
+    @property
+    def label_display(self):
+        return ", ".join(
+            str(r.label.name) for r in self.releases.exclude(label__isnull=True)
+        )
+
     @cached_property
     def num_airplays(self):
         return self.airplays.count()

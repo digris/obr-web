@@ -135,6 +135,7 @@ class MediaViewSet(
             "releases",
             "releases__images",
             "releases__media",
+            "releases__label",
             "votes",
             "votes__user",
         )

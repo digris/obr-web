@@ -9,6 +9,7 @@ router.register(r"moods", views.MoodViewSet)
 router.register(r"artists", views.ArtistViewSet)
 router.register(r"media", views.MediaViewSet)
 router.register(r"releases", views.ReleaseViewSet)
+router.register(r"labels", views.LabelViewSet)
 router.register(r"playlists", views.PlaylistViewSet)
 
 app_name = "catalog"

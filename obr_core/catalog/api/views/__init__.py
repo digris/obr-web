@@ -1,4 +1,5 @@
 from .artist import ArtistViewSet  # NOQA
+from .label import LabelViewSet  # NOQA
 from .master import MasterDownloadView  # NOQA
 from .media import MediaViewSet  # NOQA
 from .mood import MoodViewSet  # NOQA

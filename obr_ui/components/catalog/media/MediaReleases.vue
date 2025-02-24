@@ -19,6 +19,10 @@ export default defineComponent({
   <div v-if="releases.length" class="media-releases">
     <span v-for="(release, index) in releases" :key="`media-release-${index}`" class="release">
       <span class="release__name" v-text="release.name" />
+      <span v-if="release.label" class="release__label__name">
+        <br />
+        {{ release.label.name }}
+      </span>
     </span>
   </div>
 </template>
@@ -34,6 +38,10 @@ export default defineComponent({
   text-overflow: ellipsis;
 
   &__name {
+    white-space: nowrap;
+  }
+
+  &__label__name {
     white-space: nowrap;
   }
 }

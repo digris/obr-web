@@ -16,9 +16,6 @@ class Command(BaseCommand):
             except Release.DoesNotExist:
                 raise CommandError(f"release does not exist: {uid}")
 
-            # poll.opened = False
-            # poll.save()
-
             release.sync_data(skip_media=False)
 
             self.stdout.write(f"sync completed for release: {uid}")

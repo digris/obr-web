@@ -1,30 +1,24 @@
 from django.contrib import admin
 
-from catalog.models.release import Release, ReleaseImage
+from catalog.models.label import Label, LabelImage
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
 from sync.admin import sync_qs_action
 
 
-class MediaArtistInline(admin.TabularInline):
-    model = Release.media.through
-    raw_id_fields = ["media"]
-    extra = 0
+class LabelImageInline(SortableImageInlineMixin, admin.TabularInline):
+    model = LabelImage
 
 
-class ReleaseImageInline(SortableImageInlineMixin, admin.TabularInline):
-    model = ReleaseImage
-
-
-@admin.register(Release)
-class ReleaseAdmin(admin.ModelAdmin):
+@admin.register(Label)
+class LabelAdmin(admin.ModelAdmin):
     save_on_top = True
     list_display = [
         "image_display",
         "__str__",
         "uid",
-        "num_media",
+        "num_releases",
         "sync_state",
     ]
     list_filter = [
@@ -35,17 +29,16 @@ class ReleaseAdmin(admin.ModelAdmin):
     search_fields = [
         "name",
         "uid",
-        "media__name",
-        "media__uuid",
     ]
     readonly_fields = [
         "uuid",
         "uid",
         "tags",
+        #
+        "updated",
     ]
     inlines = [
-        MediaArtistInline,
-        ReleaseImageInline,
+        LabelImageInline,
         IdentifierInline,
     ]
     actions = [
@@ -59,7 +52,7 @@ class ReleaseAdmin(admin.ModelAdmin):
         return get_admin_inline_image(obj.image)
 
     @admin.display(
-        description="Num. tracks",
+        description="Num. releases",
     )
-    def num_media(self, obj):  # pragma: no cover
-        return obj.num_media
+    def num_releases(self, obj):  # pragma: no cover
+        return obj.num_releases

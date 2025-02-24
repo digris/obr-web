@@ -41,6 +41,14 @@ class Release(
         blank=True,
     )
 
+    label = models.ForeignKey(
+        "catalog.Label",
+        on_delete=models.SET_NULL,
+        related_name="releases",
+        null=True,
+        blank=True,
+    )
+
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
@@ -67,6 +75,10 @@ class Release(
 
     def get_absolute_url(self):
         return None
+
+    @property
+    def label_display(self):
+        return str(self.label.name) if self.label else ""
 
     @cached_property
     def image(self):
