@@ -13,6 +13,10 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
   tasks:
+
+    ###################################################################
+    # system
+    ###################################################################
     - name: install base packages
       tags: system
       ansible.builtin.apt:
@@ -20,24 +24,13 @@
           acl,
           git,
           htop,
+          locales,
           net-tools,
+          direnv,
+          fuse,
           python3-pip,
         ]
         state: present
-
-#    - name: install base packages (testing)
-#      tags: system
-#      ansible.builtin.apt:
-#        pkg: [
-#          python3-poetry,
-#        ]
-#        state: present
-#        default_release: testing
-
-#    - name: install poetry
-#      ansible.builtin.shell:
-#        cmd: curl -sSL https://install.python-poetry.org | python3 - --yes --prefix /usr/local
-#        creates: /usr/local/bin/poetry
 
     - name: install poetry
       ansible.builtin.shell:
@@ -58,15 +51,13 @@
         name: obr
         group: obr
 
-    - name: ddd /opt
+    - name: add /opt
       tags: system
       ansible.builtin.file:
         path: /opt
         state: directory
-#        owner: obr
-#        group: obr
 
-    - name: ddd /opt/obr-web
+    - name: add /opt/obr-web
       tags: system
       ansible.builtin.file:
         path: /opt
@@ -74,6 +65,70 @@
         owner: obr
         group: obr
 
+    - name: configure direnv
+      tags: system
+      ansible.builtin.lineinfile:
+        path: ~/.bashrc
+        line: 'eval "$(direnv hook bash)"'
+        create: yes
+        state: present
+      become: yes
+      become_user: obr
+
+    ###################################################################
+    # cloud sql proxy
+    ###################################################################
+    - name: add /cloudsql
+      tags: cloudsql
+      ansible.builtin.file:
+        path: /cloudsql
+        state: directory
+
+    - name: download cloud_sql_proxy
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.0.0/cloud-sql-proxy.linux.amd64
+        dest: /usr/local/bin/cloud-sql-proxy
+        mode: '0755'
+
+    - name: create sql proxy systemd service
+      tags: cloudsql
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/cloud-sql-proxy.service
+        content: |
+          [Unit]
+          Description=Cloud SQL Proxy
+          After=network.target
+  
+          [Service]
+          Type=simple
+          ExecStart=/usr/local/bin/cloud-sql-proxy --fuse /cloudsql open-broadcast:europe-west6:open-broadcast-db
+          Restart=always
+          LimitNOFILE=4096
+  
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: reload systemd
+      tags: cloudsql
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: enable sql proxy systemd service
+      tags: cloudsql
+      ansible.builtin.systemd:
+        name: cloud-sql-proxy
+        enabled: yes
+
+    - name: start sql proxy systemd service
+      tags: cloudsql
+      ansible.builtin.systemd:
+        name: cloud-sql-proxy
+        state: started
+
+    ###################################################################
+    # repo & co
+    ###################################################################
     - name: clone repository
       tags: repo
       ansible.builtin.git:
@@ -97,7 +152,8 @@
       changed_when: false
 
     - name: install python dependencies
-      ansible.builtin.command: "~/.local/bin/poetry install --without dev --sync"
+#      ansible.builtin.command: "~/.local/bin/poetry install --without dev --sync"
+      ansible.builtin.command: "~/.local/bin/poetry install --sync"
       args:
         chdir: /opt/obr-web
       become: yes

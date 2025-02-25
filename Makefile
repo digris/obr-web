@@ -101,7 +101,7 @@ update-settings:
 
 .PHONY: show-settings
 show-settings:
-	gcloud --project $(GCP_PROJECT) \
+	@gcloud --project $(GCP_PROJECT) \
 	  secrets versions access latest --secret=ch-openbroadcast-settings
 
 .PHONY: translations
