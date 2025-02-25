@@ -1,0 +1,106 @@
+---
+
+# to run without inventory file (note the comma!):
+# ansible-playbook -i 34.65.201.172, ansible/obr-services.yml
+
+- name: obr-services
+  hosts: 34.65.201.172
+  remote_user: "{{ lookup('env', 'GCP_SSH_USER') }}"
+  become: true
+  gather_facts: yes
+  environment:
+    LC_ALL: en_US.UTF-8
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: install base packages
+      tags: system
+      ansible.builtin.apt:
+        pkg: [
+          acl,
+          git,
+          htop,
+          net-tools,
+          python3-pip,
+        ]
+        state: present
+
+#    - name: install base packages (testing)
+#      tags: system
+#      ansible.builtin.apt:
+#        pkg: [
+#          python3-poetry,
+#        ]
+#        state: present
+#        default_release: testing
+
+#    - name: install poetry
+#      ansible.builtin.shell:
+#        cmd: curl -sSL https://install.python-poetry.org | python3 - --yes --prefix /usr/local
+#        creates: /usr/local/bin/poetry
+
+    - name: install poetry
+      ansible.builtin.shell:
+        cmd: curl -sSL https://install.python-poetry.org | python3 -
+        creates: ~/.local/bin/poetry
+      become: yes
+      become_user: obr
+
+    - name: add group "obr"
+      tags: system
+      ansible.builtin.group:
+        name: obr
+        state: present
+
+    - name: ddd user "obr"
+      tags: system
+      ansible.builtin.user:
+        name: obr
+        group: obr
+
+    - name: ddd /opt
+      tags: system
+      ansible.builtin.file:
+        path: /opt
+        state: directory
+#        owner: obr
+#        group: obr
+
+    - name: ddd /opt/obr-web
+      tags: system
+      ansible.builtin.file:
+        path: /opt
+        state: directory
+        owner: obr
+        group: obr
+
+    - name: clone repository
+      tags: repo
+      ansible.builtin.git:
+        repo: https://github.com/digris/obr-web.git
+        version: main
+        dest: /opt/obr-web
+        force: yes
+      environment:
+        GIT_TERMINAL_PROMPT: 0
+      become: yes
+      become_user: obr
+      register: repo_clone
+
+    - name: configure poetry
+      tags: repo
+      ansible.builtin.command: "~/.local/bin/poetry config virtualenvs.in-project true --local"
+      args:
+        chdir: /opt/obr-web
+      become: yes
+      become_user: obr
+      changed_when: false
+
+    - name: install python dependencies
+      ansible.builtin.command: "~/.local/bin/poetry install --without dev --sync"
+      args:
+        chdir: /opt/obr-web
+      become: yes
+      become_user: obr
+      register: poetry_install
+      changed_when: "'No dependencies to install or update' not in poetry_install.stdout"

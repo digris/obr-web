@@ -11,7 +11,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.13"
+python = ">=3.11, <3.13"
 Django = "^5.0"
 google-cloud-secret-manager = "^2.11.1"
 google-auth = "^2.6.6"
@@ -89,6 +89,7 @@ python-semantic-release = "^7.27.0"
 ruff = "^0.0.260"
 isort = "^5.12.0"
 ipython = "^8.25.0"
+ansible = "^11.2.0"
 
 [build-system]
 requires = ["poetry>=0.12"]
