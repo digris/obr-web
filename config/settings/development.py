@@ -44,8 +44,24 @@ if SITE_URL not in CSRF_TRUSTED_ORIGINS:
     CSRF_TRUSTED_ORIGINS.append(SITE_URL)
 
 MIDDLEWARE += [
-    # "querycount.middleware.QueryCountMiddleware",
+    "querycount.middleware.QueryCountMiddleware",
 ]
+
+QUERYCOUNT = {
+    "THRESHOLDS": {
+        "MEDIUM": 50,
+        "HIGH": 200,
+        "MIN_TIME_TO_LOG": 0,
+        "MIN_QUERY_COUNT_TO_LOG": 0,
+    },
+    "IGNORE_REQUEST_PATTERNS": [
+        r"^/admin/jsi18n/",
+        r"^/favicon.ico",
+    ],
+    "IGNORE_SQL_PATTERNS": [],
+    "DISPLAY_DUPLICATES": 3,
+    "RESPONSE_HEADER": "X-DjangoQueryCount-Count",
+}
 
 LOGGING = {
     "version": 1,

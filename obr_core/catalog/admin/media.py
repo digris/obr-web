@@ -2,7 +2,7 @@ import json
 from datetime import date, timedelta
 
 from django.contrib import admin
-from django.db.models import Count, Max
+from django.db.models import Count, Max, Q
 from django.db.models.functions import Coalesce
 from django.utils.safestring import mark_safe
 
@@ -75,14 +75,22 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
 
     def get_queryset(self, request):  # pragma: no cover
         qs = super().get_queryset(request)
-        qs = qs.prefetch_related(
+        qs = qs.select_related(
+            "master",
+        ).prefetch_related(
             "airplays",
             "media_artist",
             "media_artist__artist",
+            "releases",
+            "releases__images",
+            "releases__label",
+            "votes",
         )
         qs = qs.annotate(
             latest_airplay=Max("airplays__time_start"),
             num_votes=Count("votes"),
+            num_votes_up=Count("votes", filter=Q(votes__value__gte=1)),
+            num_votes_down=Count("votes", filter=Q(votes__value__lte=-1)),
             num_airplays=Coalesce(
                 Count("airplays", distinct=True),
                 0,
@@ -145,7 +153,9 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         description="Cover",
     )
     def image_display(self, obj):  # pragma: no cover
-        return get_admin_inline_image(obj.image)
+        if obj.releases.exists():
+            return get_admin_inline_image(obj.releases.first().images.first())
+        return None
 
     @unfold.decorators.display(
         description="media",
@@ -177,10 +187,8 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         ordering="num_votes",
     )
     def rating_display(self, obj):
-        up_votes = obj.votes.filter(value__gte=1).count()
-        down_votes = obj.votes.filter(value__lte=-1).count()
         return mark_safe(  # NOQA S308
-            f"<span>{up_votes}</span> &ndash; <span>{down_votes}</span>",
+            f"<span>{obj.num_votes_up}</span> &ndash; <span>{obj.num_votes_down}</span>",
         )
 
     @unfold.decorators.display(
