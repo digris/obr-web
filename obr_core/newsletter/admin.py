@@ -1,20 +1,23 @@
 from django.contrib import admin
 
-from modeltranslation.admin import TranslationAdmin
+import unfold.admin
+import unfold.decorators
+from modeltranslation.admin import TabbedTranslationAdmin
 
 from .models import Newsletter, Subscription
 
 
 @admin.register(Newsletter)
 class NewsletterAdmin(
-    TranslationAdmin,
+    unfold.admin.ModelAdmin,
+    TabbedTranslationAdmin,
 ):
     save_on_top = True
     list_display = [
         "__str__",
         "description",
         "mailchimp_tag",
-        "uid",
+        "uid_display",
     ]
     search_fields = [
         "title",
@@ -24,18 +27,28 @@ class NewsletterAdmin(
         "updated",
     ]
 
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid
+
 
 @admin.register(Subscription)
 class SubscriptionAdmin(
-    admin.ModelAdmin,
+    unfold.admin.ModelAdmin,
 ):
     save_on_top = True
     list_display = [
-        "newsletter",
         "user",
+        "newsletter",
         "mailchimp_subscriber_hash",
-        "uid",
         "created",
+        "uid_display",
     ]
     raw_id_fields = [
         "user",
@@ -50,3 +63,13 @@ class SubscriptionAdmin(
         "created",
         "updated",
     ]
+
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid

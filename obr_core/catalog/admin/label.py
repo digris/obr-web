@@ -1,29 +1,39 @@
 from django.contrib import admin
 
+import unfold.admin
+import unfold.contrib.filters.admin
+import unfold.decorators
 from catalog.models.label import Label, LabelImage
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
-from sync.admin import sync_qs_action
+from sync.admin import SyncAdminMixin, sync_qs_action
 
 
-class LabelImageInline(SortableImageInlineMixin, admin.TabularInline):
+class LabelImageInline(SortableImageInlineMixin):
     model = LabelImage
 
 
 @admin.register(Label)
-class LabelAdmin(admin.ModelAdmin):
-    save_on_top = True
+class LabelAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
+    list_fullwidth = True
+    list_filter_sheet = False
+
+    date_hierarchy = "created"
     list_display = [
         "image_display",
-        "__str__",
-        "uid",
-        "num_releases",
-        "sync_state",
+        "label_display",
+        "kind_display",
+        "num_releases_display",
+        "num_children_display",
+        "sync_last_update",
+        "sync_state_display",
+        "uid_display",
     ]
     list_filter = [
-        "created",
-        "updated",
+        "kind",
         "sync_state",
     ]
     search_fields = [
@@ -37,6 +47,9 @@ class LabelAdmin(admin.ModelAdmin):
         #
         "updated",
     ]
+    autocomplete_fields = [
+        "root",
+    ]
     inlines = [
         LabelImageInline,
         IdentifierInline,
@@ -45,14 +58,46 @@ class LabelAdmin(admin.ModelAdmin):
         sync_qs_action,
     ]
 
+    ###################################################################
+    # display
+    ###################################################################
     @admin.display(
         description="Image",
     )
     def image_display(self, obj):  # pragma: no cover
         return get_admin_inline_image(obj.image)
 
-    @admin.display(
-        description="Num. releases",
+    @unfold.decorators.display(
+        description="label",
+        header=True,
+        ordering="name",
     )
-    def num_releases(self, obj):  # pragma: no cover
-        return obj.num_releases
+    def label_display(self, obj):
+        return obj.name, obj.root or "-"
+
+    @unfold.decorators.display(
+        description="type",
+        header=True,
+        ordering="kind",
+    )
+    def kind_display(self, obj):
+        return obj.get_kind_display(), obj.root.get_kind_display() if obj.root else "-"
+
+    @admin.display(
+        description="releases",
+    )
+    def num_releases_display(self, obj):  # pragma: no cover
+        return obj.num_releases or "-"
+
+    @admin.display(
+        description="sub-labels",
+    )
+    def num_children_display(self, obj):  # pragma: no cover
+        return obj.children.count() or "-"
+
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid

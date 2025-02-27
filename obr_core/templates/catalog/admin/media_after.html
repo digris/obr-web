@@ -1,0 +1,5 @@
+{% load unfold %}
+
+{% component "unfold/components/card.html" with title="Airplays (archived)" %}
+    {% component "unfold/components/chart/bar.html" with data=airplays_chart height=320 %}{% endcomponent %}
+{% endcomponent %}

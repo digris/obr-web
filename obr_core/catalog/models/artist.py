@@ -67,6 +67,10 @@ class Artist(
         except self.images.model.DoesNotExist:
             return None
 
+    @cached_property
+    def num_media(self):
+        return self.media.count()
+
     def sync_data(self, *args, **kwargs):
         return sync_artist(self, *args, **kwargs)
 

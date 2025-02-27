@@ -173,10 +173,6 @@ class Series(
     def sync_data(self, *args, **kwargs):
         pass
 
-    @property
-    def num_playlists(self):
-        return self.playlists.count()
-
 
 class PlaylistMedia(
     CTUIDModelMixin,

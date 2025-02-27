@@ -1,15 +1,21 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
+import unfold.admin
+
 from .utils import get_admin_inline_image
 
 # sortable disabled for the moment. (wait for django 4 support)
 
 
 class SortableImageInlineMixin(
-    # SortableInlineAdminMixin,
-    admin.TabularInline,
+    unfold.admin.TabularInline,
 ):
+
+    ordering_field = "position"
+    hide_ordering_field = True
+    hide_title = True
+
     extra = 0
     max_num = 10
 

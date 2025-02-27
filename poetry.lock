@@ -950,21 +950,6 @@ Django = ">=3.2"
 typing-extensions = "*"
 
 [[package]]
-name = "django-nonrelated-inlines"
-version = "0.2"
-description = "Django admin inlines for unrelated models"
-optional = false
-python-versions = ">=3.6"
-groups = ["main"]
-files = [
-    {file = "django-nonrelated-inlines-0.2.tar.gz", hash = "sha256:e123010a3ad18b049781d6688b3ff45b2441e69fd63802bec94c37cd36c83611"},
-    {file = "django_nonrelated_inlines-0.2-py3-none-any.whl", hash = "sha256:216a4513971c58568f450a2339064746624de718a946088534e86011b400ccc3"},
-]
-
-[package.dependencies]
-Django = ">=2.0"
-
-[[package]]
 name = "django-qsstats-magic"
 version = "1.1.0"
 description = "A django microframework that eases the generation of aggregate data for querysets."
@@ -1069,6 +1054,21 @@ files = [
 
 [package.extras]
 tests = ["coverage"]
+
+[[package]]
+name = "django-unfold"
+version = "0.49.1"
+description = "Modern Django admin theme for seamless interface development"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "django_unfold-0.49.1-py3-none-any.whl", hash = "sha256:b555854a7f7838c81947aca4a946370f30659d67cbef5d2c104b5a4623cfb3c9"},
+    {file = "django_unfold-0.49.1.tar.gz", hash = "sha256:1f039f3bb7183d14daa193fab2556061a9818bc7dbd62ecfac59c0a381e07951"},
+]
+
+[package.dependencies]
+django = ">=3.2"
 
 [[package]]
 name = "djangorestframework"
@@ -4693,4 +4693,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11, <3.13"
-content-hash = "f54a613ad4dc6b0f81e7ae00059d2db353649afd13187f7c430fd1ef8c4fde23"
+content-hash = "8fd7ea7d2ff87ff9ed9c854d17329475853f388c5d1227f808d9958b57d67502"

@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.html import mark_safe
 
+import unfold.admin
+import unfold.decorators
 from stats.models import PlayerEvent, StreamEvent
 from ua_parser import user_agent_parser
 from user_identity.admin import get_admin_link_for_user_identity
@@ -9,10 +11,10 @@ from user_identity.admin import get_admin_link_for_user_identity
 
 @admin.register(PlayerEvent)
 class PlayerEventAdmin(
-    admin.ModelAdmin,
+    unfold.admin.ModelAdmin,
 ):
     list_display = [
-        "state",
+        "state_display",
         "time_display",
         "time_end_display",
         #
@@ -56,7 +58,18 @@ class PlayerEventAdmin(
         "duration_display",
     ]
 
-    # def get_queryset(self, request):
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="state",
+        label={
+            "playing": "success",
+            "paused": "info",
+        },
+    )
+    def state_display(self, obj):
+        return obj.state
 
     @admin.display(description="Time", ordering="time")
     def time_display(self, obj):
@@ -95,12 +108,12 @@ class PlayerEventAdmin(
 
 @admin.register(StreamEvent)
 class StreamEventAdmin(
-    admin.ModelAdmin,
+    unfold.admin.ModelAdmin,
 ):
     list_display = [
         "time_start",
         "seconds_connected",
-        "origin",
+        "origin_display",
         "ip",
         "method",
         "status",
@@ -137,6 +150,16 @@ class StreamEventAdmin(
 
     def has_change_permission(self, request, obj=None):
         return False
+
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="origin",
+        label=True,
+    )
+    def origin_display(self, obj):
+        return obj.origin
 
     @admin.display(description="UA")
     def user_agent_display(self, obj):

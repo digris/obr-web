@@ -36,12 +36,10 @@ class Media(
         RADIOSHOW = "radioshow", "Radio show"
 
     name = models.CharField(max_length=256)
-
     duration = models.DurationField(
         default=timedelta(),
         db_index=True,
     )
-
     kind = models.CharField(  # NOQA DJ001
         max_length=16,
         blank=True,
@@ -50,7 +48,6 @@ class Media(
         choices=Kind.choices,
         default=Kind.UNDEFINED,
     )
-
     artists = models.ManyToManyField(
         "catalog.Artist",
         through="catalog.MediaArtists",
@@ -58,18 +55,15 @@ class Media(
         related_name="media",
         blank=True,
     )
-
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
         related_name="tagged_media",
     )
-
     votes = GenericRelation(
         "rating.Vote",
         related_query_name="media",
     )
-
     identifiers = GenericRelation(
         "identifier.Identifier",
         related_name="artist",
@@ -109,10 +103,6 @@ class Media(
         )
 
     @cached_property
-    def num_airplays(self):
-        return self.airplays.count()
-
-    @cached_property
     def latest_airplay(self):
         # This data optimally should be prefetched in the queryset.
         latest = (
@@ -131,6 +121,10 @@ class Media(
         if release := self.releases.first():
             return release.image
         return None
+
+    @cached_property
+    def release(self):
+        return self.releases.first()
 
     def sync_data(self, *args, **kwargs):
         return sync_media(self, *args, **kwargs)

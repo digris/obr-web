@@ -158,6 +158,7 @@ class StreamEvent(
         default=Origin.ICECAST,
     )
     ip = models.GenericIPAddressField(
+        verbose_name="client IP",
         null=True,
         blank=True,
         db_index=True,

@@ -15,8 +15,24 @@ class Label(
     SyncModelMixin,
     models.Model,
 ):
+    class Kind(models.TextChoices):
+        UNDEFINED = "", "-"
+        MAJOR = "major", "Major"
+        INDEPENDENT = "independent", "Independent"
+        NET = "net", "Netlabel"
+        EVENT = "event", "Event"
+
     name = models.CharField(
         max_length=256,
+    )
+    kind = models.CharField(  # NOQA DJ001
+        verbose_name="label type",
+        max_length=16,
+        blank=True,
+        null=True,
+        db_index=True,
+        choices=Kind.choices,
+        default=Kind.UNDEFINED,
     )
     date_start = models.DateField(
         null=True,
@@ -27,6 +43,13 @@ class Label(
         null=True,
         blank=True,
         db_index=True,
+    )
+    root = models.ForeignKey(
+        "self",
+        null=True,
+        blank=True,
+        related_name="children",
+        on_delete=models.SET_NULL,
     )
     tags = TaggableManager(
         through=TaggedItem,

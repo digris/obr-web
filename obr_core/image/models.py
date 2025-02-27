@@ -90,10 +90,10 @@ class BaseImage(
 
 
 class BaseSortableImage(BaseImage):
-    position = models.PositiveSmallIntegerField(
+    position = models.PositiveIntegerField(
         "Position",
-        default=1,
-        choices=((x, x) for x in range(1, 100)),
+        default=0,
+        db_index=True,
     )
 
     class Meta(BaseImage.Meta):

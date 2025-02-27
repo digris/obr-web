@@ -1,44 +1,63 @@
-from django.contrib import admin
-from django.db.models import Max
+import json
+from datetime import date, timedelta
 
+from django.contrib import admin
+from django.db.models import Count, Max
+from django.db.models.functions import Coalesce
+from django.utils.safestring import mark_safe
+
+import qsstats
+import unfold.admin
+import unfold.decorators
 from catalog.models.media import Airplay, Master, Media
 from identifier.admin import IdentifierInline
-from sync.admin import sync_qs_action
+from image.utils import get_admin_inline_image
+from sync.admin import SyncAdminMixin, sync_qs_action
 
 
-class MediaArtistInline(admin.TabularInline):
+class MediaArtistInline(unfold.admin.TabularInline):
     model = Media.artists.through
-    raw_id_fields = ["artist"]
+    autocomplete_fields = ["artist"]
     extra = 0
+    hide_title = True
+    verbose_name = "Artist"
+    verbose_name_plural = "Artists"
 
 
 @admin.register(Media)
-class MediaAdmin(admin.ModelAdmin):
-    save_on_top = True
+class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
+    list_fullwidth = True
+    list_filter_sheet = False
 
     list_display = [
-        "__str__",
-        "uid",
-        "artist_display",
-        "duration",
+        "image_display",
+        "media_display",
+        "release_display",
         "kind",
-        "latest_airplay",
-        "num_airplays",
-        "sync_state",
+        "duration_display",
+        "rating_display",
+        "num_airplays_display",
+        "latest_airplay_display",
         "sync_last_update",
+        "sync_state_display",
+        "uid_display",
     ]
     list_filter = [
-        "sync_state",
-        "sync_last_update",
+        # "sync_last_update",
         "kind",
-        "airplays__time_start",
-        "releases__release_type",
+        "sync_state",
     ]
     search_fields = [
         "name",
         "uid",
         "artists__name",
         "artists__uid",
+        "releases__name",
+        "releases__uid",
+        "releases__label__name",
+        "releases__label__uid",
         "identifiers__value",
     ]
     readonly_fields = [
@@ -61,17 +80,133 @@ class MediaAdmin(admin.ModelAdmin):
             "media_artist",
             "media_artist__artist",
         )
-        qs = qs.annotate(latest_airplay=Max("airplays__time_start"))
+        qs = qs.annotate(
+            latest_airplay=Max("airplays__time_start"),
+            num_votes=Count("votes"),
+            num_airplays=Coalesce(
+                Count("airplays", distinct=True),
+                0,
+            )
+            + Coalesce(
+                Count("archived_airplays", distinct=True),
+                0,
+            ),
+        )
         return qs
 
-    def latest_airplay(self, obj):  # pragma: no cover
+    ###################################################################
+    # extra templates
+    ###################################################################
+    change_form_after_template = "catalog/admin/media_after.html"
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        extra_context = extra_context or {}
+        obj = self.get_object(request, object_id)
+
+        today = date.today()
+
+        qss = qsstats.QuerySetStats(obj.airplays.all(), "time_start")
+        qss_archived = qsstats.QuerySetStats(obj.archived_airplays.all(), "time_start")
+
+        ts = qss.time_series(today - timedelta(days=365), today, interval="months")
+        ts_archived = qss_archived.time_series(
+            today - timedelta(days=365),
+            today,
+            interval="months",
+        )
+
+        labels = [f"{d[0]:%b. %Y}" for d in ts]
+        values = [d[1] for d in ts]
+        values_archived = [d[1] for d in ts_archived]
+
+        data = [x + y for x, y in zip(values, values_archived, strict=True)]
+
+        extra_context.update(
+            {
+                "airplays_chart": json.dumps(
+                    {
+                        "labels": labels,
+                        "datasets": [
+                            {
+                                "data": data,
+                                "backgroundColor": "var(--color-primary-600)",
+                            },
+                        ],
+                    },
+                ),
+            },
+        )
+        return super().changeform_view(request, object_id, form_url, extra_context)
+
+    ###################################################################
+    # display
+    ###################################################################
+    @admin.display(
+        description="Cover",
+    )
+    def image_display(self, obj):  # pragma: no cover
+        return get_admin_inline_image(obj.image)
+
+    @unfold.decorators.display(
+        description="media",
+        header=True,
+        ordering="name",
+    )
+    def media_display(self, obj):
+        return obj.name, obj.artist_display
+
+    @unfold.decorators.display(
+        description="release",
+        header=True,
+        ordering="releases__name",
+    )
+    def release_display(self, obj):
+        return obj.release or "-", (
+            obj.release.label if obj.release and obj.release.label else "-"
+        )
+
+    @unfold.decorators.display(
+        description="duration",
+        ordering="duration",
+    )
+    def duration_display(self, obj):
+        return timedelta(seconds=obj.duration.seconds)
+
+    @unfold.decorators.display(
+        description="rating",
+        ordering="num_votes",
+    )
+    def rating_display(self, obj):
+        up_votes = obj.votes.filter(value__gte=1).count()
+        down_votes = obj.votes.filter(value__lte=-1).count()
+        return mark_safe(  # NOQA S308
+            f"<span>{up_votes}</span> &ndash; <span>{down_votes}</span>",
+        )
+
+    @unfold.decorators.display(
+        description="airplays",
+        ordering="num_airplays",
+    )
+    def num_airplays_display(self, obj):
+        return obj.num_airplays
+
+    @unfold.decorators.display(
+        description="latest airplay",
+        ordering="latest_airplay",
+    )
+    def latest_airplay_display(self, obj):
         return obj.latest_airplay
 
-    latest_airplay.admin_order_field = "latest_airplay"
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid
 
 
 @admin.register(Master)
-class MasterAdmin(admin.ModelAdmin):
+class MasterAdmin(unfold.admin.ModelAdmin):
     save_on_top = True
 
     list_display = [
@@ -109,13 +244,14 @@ class MasterAdmin(admin.ModelAdmin):
 
 
 @admin.register(Airplay)
-class AirplayAdmin(admin.ModelAdmin):
+class AirplayAdmin(unfold.admin.ModelAdmin):
     save_on_top = True
     date_hierarchy = "time_start"
     list_display = [
-        "media",
+        "media_display",
         "time_start",
         "time_end",
+        "duration",
     ]
     search_fields = [
         "media__name",
@@ -125,3 +261,14 @@ class AirplayAdmin(admin.ModelAdmin):
     raw_id_fields = [
         "media",
     ]
+
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="media",
+        header=True,
+        ordering="media__name",
+    )
+    def media_display(self, obj):
+        return obj.media, obj.media.artist_display if obj.media else "-"

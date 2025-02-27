@@ -1,108 +1,158 @@
-{% extends "admin/login.html" %}
+{% extends 'unfold/layouts/skeleton.html' %}
 
-{% block extrahead %}
-{{ block.super }}
-<style>
-    .login {
-        /*background: var(--secondary);*/
-        background: linear-gradient(270deg, var(--secondary), var(--primary));
-    }
+{% load i18n static %}
 
-    .login #container {
-        background: var(--header-branding-color);
-        background: #fff;
-        width: 480px;
-        max-width: 80%;
-        border: 0;
-    }
+{% block extrastyle %}
+  {{ block.super }}
+  {{ form.media }}
+  <style>
+      .social-login {
+          background: #fff;
+          padding: 10px 0 30px;
+          text-align: center;
+      }
 
-    .social-login-container {
-        background: #fff;
-    }
+      .social-login .button {
+          margin: 10px 0;
+          color: #333;
+          background: #eee;
+          border: 1px solid #999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 32px;
+          padding: 0.5rem 1rem !important;
+      }
 
-    .social-login {
-        background: #fff;
-        padding: 10px 0 30px;
-        text-align: center;
-    }
+      .social-login .button:hover {
+          border-color: var(--primary);
+      }
 
-    .social-login .button {
-        margin: 10px 0;
-        color: #333;
-        background: #eee;
-        border: 1px solid #999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 32px;
-        padding: 0.5rem 1rem !important;
-    }
-
-    .social-login .button:hover {
-        border-color: var(--primary);
-    }
-
-    .social-login .button > svg {
-        enable-background: new 0 0 512 512;
-        height: 24px;
-        padding-right: 1rem;
-    }
-
-    .separator {
-        margin: 0 0 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1rem;
-    }
-
-    .separator > hr {
-        flex-grow: 1;
-    }
-
-</style>
+      .social-login .button > svg {
+          enable-background: new 0 0 512 512;
+          height: 24px;
+          padding-right: 1rem;
+      }
+  </style>
 {% endblock %}
 
-{% block content %}
-<div
-        class="social-login-container"
->
-    <div
-            class="social-login"
-    >
-        <a
-                class="button"
-                href="{% url 'social:begin' 'google-oauth2' %}?{{ request.GET.urlencode }}"
-        >
-            <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink"
-                    x="0px"
-                    y="0px"
-                    viewBox="0 0 512 512"
-                    xml:space="preserve"
-            >
-        <path style="fill:#FBBB00;" d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256
-          c0-42.451,10.324-82.483,28.624-117.732h0.014l57.992,10.632l25.404,57.644c-5.317,15.501-8.215,32.141-8.215,49.456
-          C103.821,274.792,107.225,292.797,113.47,309.408z"/>
+{% block bodyclass %}{{ block.super }}bg-gray-50 login dark:bg-gray-900{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block nav-sidebar %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block title %}
+  {{ title }} | {{ site_title }}
+{% endblock %}
+
+{% block base %}
+  <div class="flex min-h-screen">
+    <div class="flex flex-grow items-center justify-center mx-auto px-4 relative">
+      <div class="w-full sm:w-96">
+        <h1 class="font-semibold mb-10">
+          <span class="block text-primary-600 text-xl">{{ site_title }}</span>
+        </h1>
+
+        {% include "unfold/helpers/messages/errornote.html" with errors=form.errors %}
+
+        {% include "unfold/helpers/messages/error.html" with errors=form.non_field_errors %}
+
+        {% if user.is_authenticated %}
+          {% blocktranslate trimmed asvar message %}
+            You are authenticated as {{ username }}, but are not authorized to
+            access this page. Would you like to login to a different account?
+          {% endblocktranslate %}
+
+          {% include "unfold/helpers/messages/error.html" with error=message %}
+        {% endif %}
+
+        <div class="oauth-login mb-8">
+          <div class="">
+            <a class="bg-primary-600 border border-transparent flex flex-row font-semibold group items-center justify-center py-2 rounded-md text-sm text-white w-full"
+               href="{% url 'social:begin' 'google-oauth2' %}?{{ request.GET.urlencode }}">
+              <span class="uppercase pr-2">Google Log in</span>
+              <!--
+              <i class="material-symbols-outlined ml-2 relative right-0 text-lg transition-all group-hover:-right-1">google</i>
+              -->
+              <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      x="0px"
+                      y="0px"
+                      viewBox="0 0 512 512"
+                      xml:space="preserve"
+                      class="h-4 w-4 relative right-0 transition-all group-hover:-right-1"
+              >
+                            <path style="fill:#FBBB00;" d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256
+                              c0-42.451,10.324-82.483,28.624-117.732h0.014l57.992,10.632l25.404,57.644c-5.317,15.501-8.215,32.141-8.215,49.456
+                              C103.821,274.792,107.225,292.797,113.47,309.408z"/>
                 <path style="fill:#518EF8;" d="M507.527,208.176C510.467,223.662,512,239.655,512,256c0,18.328-1.927,36.206-5.598,53.451
-	c-12.462,58.683-45.025,109.925-90.134,146.187l-0.014-0.014l-73.044-3.727l-10.338-64.535
-	c29.932-17.554,53.324-45.025,65.646-77.911h-136.89V208.176h138.887L507.527,208.176L507.527,208.176z"/>
+                      c-12.462,58.683-45.025,109.925-90.134,146.187l-0.014-0.014l-73.044-3.727l-10.338-64.535
+                      c29.932-17.554,53.324-45.025,65.646-77.911h-136.89V208.176h138.887L507.527,208.176L507.527,208.176z"/>
                 <path style="fill:#28B446;" d="M416.253,455.624l0.014,0.014C372.396,490.901,316.666,512,256,512
-	c-97.491,0-182.252-54.491-225.491-134.681l82.961-67.91c21.619,57.698,77.278,98.771,142.53,98.771
-	c28.047,0,54.323-7.582,76.87-20.818L416.253,455.624z"/>
+                      c-97.491,0-182.252-54.491-225.491-134.681l82.961-67.91c21.619,57.698,77.278,98.771,142.53,98.771
+                      c28.047,0,54.323-7.582,76.87-20.818L416.253,455.624z"/>
                 <path style="fill:#F14336;" d="M419.404,58.936l-82.933,67.896c-23.335-14.586-50.919-23.012-80.471-23.012
-	c-66.729,0-123.429,42.957-143.965,102.724l-83.397-68.276h-0.014C71.23,56.123,157.06,0,256,0
-	C318.115,0,375.068,22.126,419.404,58.936z"/>
-      </svg>
-            <span>Sign in with your Google account</span>
-        </a>
+                      c-66.729,0-123.429,42.957-143.965,102.724l-83.397-68.276h-0.014C71.23,56.123,157.06,0,256,0
+                      C318.115,0,375.068,22.126,419.404,58.936z"/>
+                          </svg>
+            </a>
+          </div>
+          <div class="border-b h-1 mt-8"></div>
+        </div>
+
+        <form action="{{ app_path }}" method="post" id="login-form">
+          {% csrf_token %}
+
+          {% include "unfold/helpers/field.html" with field=form.username %}
+
+          {% include "unfold/helpers/field.html" with field=form.password %}
+
+          {% url 'admin_password_reset' as password_reset_url %}
+
+          {% if password_reset_url %}
+            <div class="password-reset-link">
+              <a href="{{ password_reset_url }}">
+                {% translate 'Forgotten your password or username?' %}
+              </a>
+            </div>
+          {% endif %}
+
+          <div class="submit-row">
+            <button type="submit"
+                    class="bg-primary-600 border border-transparent flex flex-row font-semibold group items-center justify-center py-2 rounded-md text-sm text-white w-full">
+              {% translate 'Log in' %}
+
+              <i class="material-symbols-outlined ml-2 relative right-0 text-lg transition-all group-hover:-right-1">arrow_forward</i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="absolute flex flex-row items-center justify-between left-0 m-4 right-0 top-0">
+        {% if site_url %}
+          <a href="{{ site_url }}" class="flex font-medium items-center text-sm text-primary-600">
+            <span class="material-symbols-outlined mr-2">arrow_back</span> {% trans 'Return to site' %}
+          </a>
+        {% endif %}
+
+        {% if not theme %}
+          {% include "unfold/helpers/theme_switch.html" %}
+        {% endif %}
+      </div>
     </div>
-    <div class="separator">
-        <hr>
-        <span>or</span>
-        <hr>
-    </div>
-</div>
-{{ block.super }}
+
+    {% if image %}
+      <div class="bg-cover flex-grow hidden max-w-3xl xl:max-w-4xl xl:block"
+           style="background-image: url('{{ image }}')">
+      </div>
+    {% endif %}
+  </div>
 {% endblock %}

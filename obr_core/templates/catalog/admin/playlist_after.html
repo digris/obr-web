@@ -1,0 +1,5 @@
+{% load unfold %}
+
+{% component "unfold/components/card.html" with title="Emissions" %}
+    {% component "unfold/components/table.html" with table=emissions_table card_included=1 %}{% endcomponent %}
+{% endcomponent %}

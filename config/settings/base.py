@@ -2,6 +2,7 @@ import os
 import sys
 from datetime import timedelta
 from pathlib import Path
+from django.urls import reverse_lazy
 
 import environ
 
@@ -37,6 +38,10 @@ SESSION_COOKIE_SAMESITE = None
 
 
 INSTALLED_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
     "modeltranslation",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -717,6 +722,333 @@ OPENREPLAY_PROJECT_KEY = env(
     "OPENREPLAY_PROJECT_KEY",
     default=None,
 )
+
+
+##################################################################
+# unfold admin
+##################################################################
+UNFOLD = {
+    "SITE_TITLE": "open broadcast - radio",
+    "SITE_HEADER": "open broadcast - radio",
+    "SITE_SUBHEADER": "eclectic music",
+    "SITE_URL": "/",
+    "SITE_SYMBOL": "radio",
+    "SHOW_HISTORY": False,
+    "THEME": "light",
+    # "ENVIRONMENT": "config.environment_callback",
+    "LOGIN": {
+        "redirect_after": lambda request: reverse_lazy(
+            "admin:catalog_release_changelist"
+        ),
+    },
+    "BORDER_RADIUS": "3px",
+    "COLORS": {
+        "base": {
+            "50": "249 250 251",
+            "100": "243 244 246",
+            "200": "229 231 235",
+            "300": "209 213 219",
+            "400": "156 163 175",
+            "500": "107 114 128",
+            "600": "75 85 99",
+            "700": "55 65 81",
+            "800": "31 41 55",
+            "900": "17 24 39",
+            "950": "3 7 18",
+        },
+        "primary": {
+            "50": "233 237 255",
+            "100": "217 221 255",
+            "200": "190 198 255",
+            "300": "147 153 254",
+            "400": "92 101 252",
+            "500": "67 76 247",
+            "600": "47 51 234",
+            "700": "39 42 206",
+            "800": "33 37 168",
+            "900": "28 31 135",
+            "950": "16 17 100"
+        },
+        "font": {
+            "subtle-light": "var(--color-base-500)",  # text-base-500
+            "subtle-dark": "var(--color-base-400)",  # text-base-400
+            "default-light": "var(--color-base-600)",  # text-base-600
+            "default-dark": "var(--color-base-300)",  # text-base-300
+            "important-light": "var(--color-base-900)",  # text-base-900
+            "important-dark": "var(--color-base-100)",  # text-base-100
+        },
+    },
+    "EXTENSIONS": {
+        "modeltranslation": {
+            "flags": {
+                "en": "🇬🇧",
+                "de": "🇩🇪",
+            },
+        },
+    },
+    "SITE_DROPDOWN": [
+        {
+            "icon": "diamond",
+            "title": "Admin",
+            "link": reverse_lazy("admin:index"),
+        },
+        {
+            "icon": "diamond",
+            "title": "openbroadcast.ch",
+            "link": "https://openbroadcast.ch/",
+        },
+        {
+            "icon": "diamond",
+            "title": "Github",
+            "link": "https://github.com/digris/obr-web/",
+        },
+        {
+            "icon": "diamond",
+            "title": "Analytics",
+            "link": "https://analytics.google.com/analytics/web/#/p299020254/reports/intelligenthome",
+        },
+        {
+            "icon": "diamond",
+            "title": "Stats",
+            "link": "https://stats.openbroadcast.ch/",
+        },
+    ],
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": "Catalog",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Tracks",
+                        "icon": "library_music",
+                        "link": reverse_lazy("admin:catalog_media_changelist"),
+                    },
+                    # {
+                    #     "title": "Masters",
+                    #     "icon": "group",
+                    #     "link": reverse_lazy("admin:catalog_master_changelist"),
+                    # },
+                    {
+                        "title": "Artists",
+                        "icon": "artist",
+                        "link": reverse_lazy("admin:catalog_artist_changelist"),
+                    },
+                    {
+                        "title": "Releases",
+                        "icon": "album",
+                        "link": reverse_lazy("admin:catalog_release_changelist"),
+                    },
+                    {
+                        "title": "Labels",
+                        "icon": "apartment",
+                        "link": reverse_lazy("admin:catalog_label_changelist"),
+                    },
+                    {
+                        "title": "Moods",
+                        "icon": "mood",
+                        "link": reverse_lazy("admin:catalog_mood_changelist"),
+                    },
+                    {
+                        "title": "Series",
+                        "icon": "sunny",
+                        "link": reverse_lazy("admin:catalog_series_changelist"),
+                    },
+                    {
+                        "title": "Playlists",
+                        "icon": "playlist_play",
+                        "link": reverse_lazy("admin:catalog_playlist_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Broadcast",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Editors",
+                        "icon": "group",
+                        "link": reverse_lazy("admin:broadcast_editor_changelist"),
+                    },
+                    {
+                        "title": "Emissions",
+                        "icon": "event",
+                        "link": reverse_lazy("admin:broadcast_emission_changelist"),
+                    },
+                    {
+                        "title": "Emissions (Archived)",
+                        "icon": "event",
+                        "link": reverse_lazy("admin:stats_emission_changelist"),
+                    },
+                    {
+                        "title": "Airplays",
+                        "icon": "event_list",
+                        "link": reverse_lazy("admin:catalog_airplay_changelist"),
+                    },
+                    {
+                        "title": "Airplays (Archived)",
+                        "icon": "event_list",
+                        "link": reverse_lazy("admin:stats_airplay_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Rating",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Votes",
+                        "icon": "voting_chip",
+                        "link": reverse_lazy("admin:rating_vote_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Subscription",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Subscriptions",
+                        "icon": "card_membership",
+                        "link": reverse_lazy("admin:subscription_subscription_changelist"),
+                    },
+                    {
+                        "title": "Payments",
+                        "icon": "credit_card",
+                        "link": reverse_lazy("admin:subscription_payment_changelist"),
+                    },
+                    {
+                        "title": "Vouchers",
+                        "icon": "loyalty",
+                        "link": reverse_lazy("admin:subscription_voucher_changelist"),
+                    },
+                    {
+                        "title": "Redemptions",
+                        "icon": "redeem",
+                        "link": reverse_lazy("admin:subscription_redemption_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Tagging",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Tags",
+                        "icon": "tag",
+                        "link": reverse_lazy("admin:tagging_tag_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "CMS",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Pages",
+                        "icon": "web",
+                        "link": reverse_lazy("admin:cms_page_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "FAQ",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Categories",
+                        "icon": "category",
+                        "link": reverse_lazy("admin:faq_category_changelist"),
+                    },
+                    {
+                        "title": "Topics",
+                        "icon": "quiz",
+                        "link": reverse_lazy("admin:faq_topic_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Newsletter",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Newsletters",
+                        "icon": "newspaper",
+                        "link": reverse_lazy("admin:newsletter_newsletter_changelist"),
+                    },
+                    {
+                        "title": "Subscriptions",
+                        "icon": "subscriptions",
+                        "link": reverse_lazy("admin:newsletter_subscription_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Stats",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Heartbeat",
+                        "icon": "cardiology",
+                        "link": reverse_lazy("admin:stats_heartbeat_changelist"),
+                    },
+                    {
+                        "title": "Player Events",
+                        "icon": "play_circle",
+                        "link": reverse_lazy("admin:stats_playerevent_changelist"),
+                    },
+                    {
+                        "title": "Stream Events",
+                        "icon": "stream",
+                        "link": reverse_lazy("admin:stats_streamevent_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Admin",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Users",
+                        "icon": "manage_accounts",
+                        "link": reverse_lazy("admin:account_user_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": "Addresses",
+                        "icon": "home",
+                        "link": reverse_lazy("admin:account_address_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": "Groups",
+                        "icon": "groups",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": "Auth Tokens",
+                        "icon": "token",
+                        "link": reverse_lazy("admin:authtoken_tokenproxy_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+        ],
+    },
+}
 
 
 ##################################################################

@@ -1,13 +1,20 @@
 from django.contrib import admin
 
-from modeltranslation.admin import TranslationAdmin
+import unfold.admin
+import unfold.decorators
+from modeltranslation.admin import TabbedTranslationAdmin
 
 from .models import Category, Topic
 
 
 @admin.register(Category)
-class CategoryAdmin(TranslationAdmin):
-    save_on_top = True
+class CategoryAdmin(
+    unfold.admin.ModelAdmin,
+    TabbedTranslationAdmin,
+):
+    compressed_fields = False
+    warn_unsaved_form = True
+
     list_display = [
         "__str__",
         "priority",
@@ -21,12 +28,17 @@ class CategoryAdmin(TranslationAdmin):
 
 
 @admin.register(Topic)
-class TopicAdmin(TranslationAdmin):
-    save_on_top = True
+class TopicAdmin(
+    unfold.admin.ModelAdmin,
+    TabbedTranslationAdmin,
+):
+    compressed_fields = True
+    warn_unsaved_form = True
+
     list_display = [
         "__str__",
-        "priority",
         "category",
+        "priority",
     ]
     search_fields = [
         "name",
@@ -36,4 +48,17 @@ class TopicAdmin(TranslationAdmin):
     ]
     list_editable = [
         "priority",
+    ]
+
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": [
+                    ("category", "priority"),
+                    "question",
+                    "answer",
+                ],
+            },
+        ),
     ]

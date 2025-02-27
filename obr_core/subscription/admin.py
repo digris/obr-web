@@ -1,19 +1,30 @@
 from django.contrib import admin
 
-from subscription.models import Payment, Redemption, Subscription, Voucher
+import unfold.admin
+import unfold.decorators
+from subscription.models import (
+    Payment,
+    PaymentState,
+    Redemption,
+    Subscription,
+    SubscriptionType,
+    Voucher,
+)
 
 
 @admin.register(Subscription)
-class SubscriptionAdmin(admin.ModelAdmin):
-    save_on_top = True
+class SubscriptionAdmin(unfold.admin.ModelAdmin):
+    compressed_fields = True
+
+    date_hierarchy = "updated"
     list_display = [
-        "uid",
-        "type",
         "user",
+        "is_active_display",
+        "type_display",
         "active_until",
-        "is_active",
         "created",
         "updated",
+        "uid_display",
     ]
     search_fields = [
         "uid",
@@ -27,31 +38,85 @@ class SubscriptionAdmin(admin.ModelAdmin):
     readonly_fields = [
         "user",
     ]
-    date_hierarchy = "updated"
+
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="type",
+        ordering="type",
+        label={
+            SubscriptionType.PLAN: "success",
+            SubscriptionType.TRIAL: "info",
+        },
+    )
+    def type_display(self, obj):
+        return obj.type
+
+    @unfold.decorators.display(
+        description="active",
+        ordering="is_active",
+        label={
+            "active": "success",
+            "inactive": "-",
+        },
+    )
+    def is_active_display(self, obj):
+        return "active" if obj.is_active else "inactive"
+
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid
 
 
 @admin.register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
-    save_on_top = True
+class PaymentAdmin(unfold.admin.ModelAdmin):
+    compressed_fields = True
+
+    date_hierarchy = "created"
     list_display = [
-        "uid",
-        "state",
-        "provider",
+        "user",
+        "state_display",
         "amount",
         "currency",
-        "user",
+        "provider",
         "created",
         "updated",
+        "uid_display",
     ]
     list_filter = [
         "state",
         "provider",
         "created",
     ]
-    date_hierarchy = "created"
+
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="state",
+        ordering="state",
+        label={
+            PaymentState.PAID: "success",
+            PaymentState.INITIALIZED: "info",
+            PaymentState.PENDING: "warning",
+        },
+    )
+    def state_display(self, obj):
+        return obj.state
+
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid
 
 
-class RedemptionInline(admin.TabularInline):
+class RedemptionInline(unfold.admin.TabularInline):
     model = Redemption
 
     def has_change_permission(self, request, obj=None):
@@ -70,17 +135,22 @@ class RedemptionInline(admin.TabularInline):
 
 
 @admin.register(Voucher)
-class VoucherAdmin(admin.ModelAdmin):
-    save_on_top = True
+class VoucherAdmin(unfold.admin.ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
+    list_filter_sheet = False
+
+    date_hierarchy = "created"
     list_display = [
-        "uid",
-        "code_display",
         "user",
-        "num_days",
-        "num_used",
         "is_valid_display",
-        "inherit",
+        "code_display",
+        "num_used",
+        "num_days",
+        "valid_until",
+        "inherit_display",
         "parent",
+        "uid_display",
     ]
     search_fields = [
         "uid",
@@ -92,7 +162,6 @@ class VoucherAdmin(admin.ModelAdmin):
         "parent",
         "user",
     ]
-    date_hierarchy = "created"
 
     inlines = [
         RedemptionInline,
@@ -105,22 +174,51 @@ class VoucherAdmin(admin.ModelAdmin):
             ]
         return []
 
-    @admin.display(
-        boolean=True,
-        description="Valid",
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="code",
+        label=True,
+    )
+    def code_display(self, obj):
+        return obj.code_display
+
+    @unfold.decorators.display(
+        description="valid",
+        label={
+            "valid": "success",
+            "expired": "warning",
+        },
     )
     def is_valid_display(self, obj):
-        return obj.is_valid
+        return "valid" if obj.is_valid else "expired"
+
+    @unfold.decorators.display(
+        description="inherit",
+        label={
+            "yes": "info",
+        },
+    )
+    def inherit_display(self, obj):
+        return "yes" if obj.inherit else "no"
+
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid
 
 
 @admin.register(Redemption)
-class RedemptionAdmin(admin.ModelAdmin):
+class RedemptionAdmin(unfold.admin.ModelAdmin):
     save_on_top = True
     list_display = [
-        "uid",
-        "voucher",
         "user",
+        "code_display",
         "created",
+        "uid_display",
     ]
     search_fields = [
         "voucher__code",
@@ -133,3 +231,20 @@ class RedemptionAdmin(admin.ModelAdmin):
         "voucher",
         "user",
     ]
+
+    ###################################################################
+    # display
+    ###################################################################
+    @unfold.decorators.display(
+        description="code",
+        label=True,
+    )
+    def code_display(self, obj):
+        return obj.voucher
+
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid

@@ -1,35 +1,52 @@
 from django.contrib import admin
 
+import unfold.admin
+import unfold.contrib.filters.admin
+import unfold.decorators
 from catalog.models.release import Release, ReleaseImage
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
-from sync.admin import sync_qs_action
+from sync.admin import SyncAdminMixin, sync_qs_action
 
 
-class MediaArtistInline(admin.TabularInline):
+class ReleaseMediaInline(unfold.admin.TabularInline):
     model = Release.media.through
-    raw_id_fields = ["media"]
+    autocomplete_fields = ["media"]
     extra = 0
+    hide_title = True
+    verbose_name = "Track"
+    verbose_name_plural = "Tracks"
 
 
-class ReleaseImageInline(SortableImageInlineMixin, admin.TabularInline):
+class ReleaseImageInline(SortableImageInlineMixin, unfold.admin.TabularInline):
     model = ReleaseImage
 
 
 @admin.register(Release)
-class ReleaseAdmin(admin.ModelAdmin):
-    save_on_top = True
+class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
+    list_fullwidth = True
+    list_filter_sheet = False
+
+    date_hierarchy = "created"
     list_display = [
         "image_display",
-        "__str__",
-        "uid",
-        "num_media",
-        "sync_state",
+        "release_display",
+        "label_display",
+        "num_media_display",
+        "sync_last_update",
+        "sync_state_display",
+        "uid_display",
     ]
     list_filter = [
-        "created",
-        "updated",
+        (
+            "release_date",
+            unfold.contrib.filters.admin.RangeDateFilter,
+        ),
+        "release_type",
+        "label__kind",
         "sync_state",
     ]
     search_fields = [
@@ -37,17 +54,19 @@ class ReleaseAdmin(admin.ModelAdmin):
         "uid",
         "media__name",
         "media__uuid",
+        "label__name",
+        "label__uuid",
     ]
     readonly_fields = [
         "uuid",
         "uid",
         "tags",
     ]
-    raw_id_fields = [
+    autocomplete_fields = [
         "label",
     ]
     inlines = [
-        MediaArtistInline,
+        ReleaseMediaInline,
         ReleaseImageInline,
         IdentifierInline,
     ]
@@ -55,14 +74,47 @@ class ReleaseAdmin(admin.ModelAdmin):
         sync_qs_action,
     ]
 
+    ###################################################################
+    # display
+    ###################################################################
     @admin.display(
-        description="Image",
+        description="Cover",
     )
     def image_display(self, obj):  # pragma: no cover
         return get_admin_inline_image(obj.image)
 
+    @unfold.decorators.display(
+        description="release",
+        header=True,
+        ordering="name",
+    )
+    def release_display(self, obj):
+        lines = [obj.name]
+        if obj.release_date:
+            lines.append(
+                f"{obj.release_date.year} - {obj.release_type.upper()}",
+            )
+        else:
+            lines.append(obj.release_type.upper())
+        return lines
+
+    @unfold.decorators.display(
+        description="label",
+        header=True,
+        ordering="label__name",
+    )
+    def label_display(self, obj):
+        return obj.label or "-", obj.label.get_kind_display() if obj.label else "-"
+
     @admin.display(
         description="Num. tracks",
     )
-    def num_media(self, obj):  # pragma: no cover
+    def num_media_display(self, obj):  # pragma: no cover
         return obj.num_media
+
+    @unfold.decorators.display(
+        description="UID",
+        label=True,
+    )
+    def uid_display(self, obj):
+        return obj.uid

@@ -3,16 +3,21 @@ from datetime import timedelta
 from django.contrib import admin
 from django.utils import timezone
 
-from nonrelated_inlines.admin import NonrelatedTabularInline
+import unfold.admin
+import unfold.contrib.inlines.admin
+import unfold.decorators
 from stats.models import Heartbeat, PlayerEvent
 from user_identity.admin import get_admin_link_for_user_identity
 
 IS_ONLINE_THRESHOLD = 120
 
 
-class PlayerEventInline(NonrelatedTabularInline):
+class PlayerEventInline(
+    unfold.contrib.inlines.admin.NonrelatedTabularInline,
+):
     model = PlayerEvent
     extra = 0
+    hide_title = True
 
     fieldsets = [
         (
@@ -119,20 +124,24 @@ class DeviceFilter(admin.SimpleListFilter):
 
 @admin.register(Heartbeat)
 class HeartbeatAdmin(
-    admin.ModelAdmin,
+    unfold.admin.ModelAdmin,
 ):
+    compressed_fields = True
+    list_fullwidth = True
+    list_filter_sheet = False
+
     list_display = [
         # "user_identity",
         "time_online",
         "user_display",
         "time_since_last_heartbeat_in_seconds",
         # "created",
-        "player_source",
-        "player_state",
+        "player_source_display",
+        "player_state_display",
         "user_agent_display",
         "remote_ip",
-        "in_foreground",
-        "is_online_display",
+        "foreground_display",
+        "online_display",
     ]
     list_filter = [
         ("time", IsOnlineFilter),
@@ -165,10 +174,9 @@ class HeartbeatAdmin(
         qs = qs.order_by("-created")
         return qs
 
-    @admin.display(description="Online", boolean=True)
-    def is_online_display(self, obj):
-        return obj.time_since_last_heartbeat.total_seconds() < IS_ONLINE_THRESHOLD
-
+    ###################################################################
+    # display
+    ###################################################################
     @admin.display(description="Last beat [s]", ordering="time")
     def time_since_last_heartbeat_in_seconds(self, obj):
         return round(obj.time_since_last_heartbeat.total_seconds())
@@ -184,3 +192,40 @@ class HeartbeatAdmin(
     @admin.display(description="UA")
     def user_agent_display(self, obj):
         return obj.user_agent.split("(")[0].strip()
+
+    @unfold.decorators.display(
+        description="source",
+        label=True,
+    )
+    def player_source_display(self, obj):
+        return obj.player_source
+
+    @unfold.decorators.display(
+        description="state",
+        label={
+            "playing": "success",
+        },
+    )
+    def player_state_display(self, obj):
+        return obj.player_state
+
+    @unfold.decorators.display(
+        description="mode",
+        label={
+            "foreground": "success",
+        },
+    )
+    def foreground_display(self, obj):
+        return "foreground" if obj.in_foreground else "background"
+
+    @unfold.decorators.display(
+        description="online",
+        label={
+            "online": "success",
+        },
+    )
+    def online_display(self, obj):
+        if obj.time_since_last_heartbeat.total_seconds() < IS_ONLINE_THRESHOLD:
+            return "online"
+
+        return "offline"

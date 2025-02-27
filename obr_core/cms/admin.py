@@ -2,31 +2,25 @@ from django import forms
 from django.contrib import admin
 from django.db import models
 
-from modeltranslation.admin import TranslationAdmin, TranslationStackedInline
+import unfold.admin
+import unfold.decorators
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationStackedInline
 
 from .models import Page, Section
 
 
 class SectionAdminInline(
+    unfold.admin.StackedInline,
     TranslationStackedInline,
 ):
     model = Section
     extra = 0
-    formfield_overrides = {
-        models.TextField: {
-            "widget": forms.Textarea(
-                attrs={
-                    "rows": 10,
-                    "cols": 80,
-                },
-            ),
-        },
-    }
 
 
 @admin.register(Page)
 class PageAdmin(
-    TranslationAdmin,
+    unfold.admin.ModelAdmin,
+    TabbedTranslationAdmin,
 ):
     save_on_top = True
     list_display = [
