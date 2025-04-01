@@ -14,6 +14,8 @@ from identifier.admin import IdentifierInline
 from image.utils import get_admin_inline_image
 from sync.admin import SyncAdminMixin, sync_qs_action
 
+AGGREGATE_MAX_AGE = date(2024, 1, 1)
+
 
 class MediaArtistInline(unfold.admin.TabularInline):
     model = Media.artists.through
@@ -92,19 +94,23 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
             num_votes_up=Count(
                 "votes",
                 distinct=True,
-                filter=Q(votes__value__gte=1),
+                filter=Q(votes__value__gte=1, votes__created__gte=AGGREGATE_MAX_AGE),
             ),
             num_votes_down=Count(
                 "votes",
                 distinct=True,
-                filter=Q(votes__value__lte=-1),
+                filter=Q(votes__value__lte=-1, votes__created__gte=AGGREGATE_MAX_AGE),
             ),
             num_airplays=Coalesce(
-                Count("airplays", distinct=True),
+                Count("airplays", votes__created__gte=AGGREGATE_MAX_AGE, distinct=True),
                 0,
             )
             + Coalesce(
-                Count("archived_airplays", distinct=True),
+                Count(
+                    "archived_airplays",
+                    votes__created__gte=AGGREGATE_MAX_AGE,
+                    distinct=True,
+                ),
                 0,
             ),
         )
