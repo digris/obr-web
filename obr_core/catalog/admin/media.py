@@ -106,13 +106,15 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
                 filter=Q(votes__value__lte=-1, votes__created__gte=AGGREGATE_MAX_AGE),
             ),
             num_airplays=Coalesce(
-                Count("airplays", votes__created__gte=AGGREGATE_MAX_AGE, distinct=True),
+                Count(
+                    "airplays", airplays__created__gte=AGGREGATE_MAX_AGE, distinct=True
+                ),
                 0,
             )
             + Coalesce(
                 Count(
                     "archived_airplays",
-                    votes__created__gte=AGGREGATE_MAX_AGE,
+                    archived_airplays__created__gte=AGGREGATE_MAX_AGE,
                     distinct=True,
                 ),
                 0,
