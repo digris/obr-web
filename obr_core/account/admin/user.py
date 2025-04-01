@@ -3,6 +3,9 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.template.response import TemplateResponse
 from django.urls import path
 
+import unfold.admin
+import unfold.contrib.filters.admin
+import unfold.decorators
 from social_django.models import UserSocialAuth
 from subscription.models import Subscription
 from sync.admin import sync_qs_action
@@ -11,7 +14,7 @@ from ..forms import UserChangeForm, UserCreationForm
 from ..models import Address, LoginToken, Settings, Theme, User
 
 
-class UserSocialAuthInline(admin.TabularInline):
+class UserSocialAuthInline(unfold.admin.TabularInline):
     model = UserSocialAuth
     extra = 0
     readonly_fields = [
@@ -23,22 +26,24 @@ class UserSocialAuthInline(admin.TabularInline):
     ]
 
 
-class SubscriptionInline(admin.TabularInline):
+class SubscriptionInline(unfold.admin.TabularInline):
     model = Subscription
     extra = 0
 
 
-class SettingsInline(admin.TabularInline):
+class SettingsInline(unfold.admin.TabularInline):
     model = Settings
     can_delete = False
 
 
-class AddressInline(admin.StackedInline):
+class AddressInline(unfold.admin.StackedInline):
     model = Address
 
     readonly_fields = [
         "country",
     ]
+
+    ordering_field = "country"
 
     fieldsets = (
         (
@@ -57,7 +62,7 @@ class AddressInline(admin.StackedInline):
 
 
 @admin.register(Address)
-class AddressAdmin(admin.ModelAdmin):
+class AddressAdmin(unfold.admin.ModelAdmin):
     model = Address
     list_display = [
         "user",
@@ -83,7 +88,7 @@ class AddressAdmin(admin.ModelAdmin):
 
 
 @admin.register(Theme)
-class ThemeAdmin(admin.ModelAdmin):
+class ThemeAdmin(unfold.admin.ModelAdmin):
     model = Theme
     list_display = [
         "user",
@@ -98,7 +103,7 @@ class ThemeAdmin(admin.ModelAdmin):
 
 
 @admin.register(User)
-class UserAdmin(AuthUserAdmin):
+class UserAdmin(unfold.admin.ModelAdmin, AuthUserAdmin):
     add_form = UserCreationForm
     form = UserChangeForm
     model = User
@@ -257,7 +262,7 @@ class UserAdmin(AuthUserAdmin):
 
 
 @admin.register(LoginToken)
-class LoginTokenAdmin(admin.ModelAdmin):
+class LoginTokenAdmin(unfold.admin.ModelAdmin):
     save_on_top = True
     list_display = [
         "uid",
