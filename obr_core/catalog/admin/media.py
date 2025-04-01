@@ -107,7 +107,9 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
             ),
             num_airplays=Coalesce(
                 Count(
-                    "airplays", airplays__created__gte=AGGREGATE_MAX_AGE, distinct=True
+                    "airplays",
+                    airplays__created__gte=AGGREGATE_MAX_AGE,
+                    distinct=True,
                 ),
                 0,
             )
