@@ -93,7 +93,6 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
                 "votes",
                 distinct=True,
                 filter=Q(votes__value__gte=1),
-                # filter=Q(votes__value__gte=1, votes__created__gte=date(2024, 1, 1)),
             ),
             num_votes_down=Count(
                 "votes",
