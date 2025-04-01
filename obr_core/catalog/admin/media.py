@@ -90,7 +90,11 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         )
         qs = qs.annotate(
             latest_airplay=Max("airplays__time_start"),
-            num_votes=Count("votes"),
+            num_votes=Count(
+                "votes",
+                distinct=True,
+                filter=Q(votes__created__gte=AGGREGATE_MAX_AGE),
+            ),
             num_votes_up=Count(
                 "votes",
                 distinct=True,
