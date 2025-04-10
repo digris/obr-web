@@ -66,7 +66,7 @@ funcy = "^2.0"
 elasticsearch = "^8.15.1"
 opensearch-py = "^2.7.1"
 qrcode = {extras = ["pil"], version = "^8.0"}
-django-unfold = "^0.49.1"
+django-unfold = "0.54.0"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Count
 
 import unfold.admin
 import unfold.contrib.filters.admin
@@ -74,6 +75,19 @@ class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         sync_qs_action,
     ]
 
+    def get_queryset(self, request):  # pragma: no cover
+        qs = super().get_queryset(request)
+        qs = qs.prefetch_related(
+            "images",
+        )
+        qs = qs.annotate(
+            num_media=Count(
+                "media",
+                distinct=True,
+            ),
+        )
+        return qs
+
     ###################################################################
     # display
     ###################################################################
@@ -108,6 +122,7 @@ class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
 
     @admin.display(
         description="Num. tracks",
+        ordering="num_media",
     )
     def num_media_display(self, obj):  # pragma: no cover
         return obj.num_media

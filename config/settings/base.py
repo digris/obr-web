@@ -788,29 +788,34 @@ UNFOLD = {
     },
     "SITE_DROPDOWN": [
         {
-            "icon": "diamond",
+            "icon": "admin_panel_settings",
             "title": "Admin",
             "link": reverse_lazy("admin:index"),
         },
         {
-            "icon": "diamond",
+            "icon": "radio",
             "title": "openbroadcast.ch",
             "link": "https://openbroadcast.ch/",
         },
         {
-            "icon": "diamond",
+            "icon": "code",
             "title": "Github",
             "link": "https://github.com/digris/obr-web/",
         },
         {
-            "icon": "diamond",
+            "icon": "stacked_line_chart",
             "title": "Analytics",
             "link": "https://analytics.google.com/analytics/web/#/p299020254/reports/intelligenthome",
         },
         {
-            "icon": "diamond",
+            "icon": "area_chart",
             "title": "Stats",
             "link": "https://stats.openbroadcast.ch/",
+        },
+        {
+            "icon": "monitoring",
+            "title": "Kibana Dashboard",
+            "link": "https://openbroadcast.ch/kibana/",
         },
     ],
     "SIDEBAR": {

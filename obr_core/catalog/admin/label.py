@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Count
 
 import unfold.admin
 import unfold.contrib.filters.admin
@@ -58,6 +59,19 @@ class LabelAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         sync_qs_action,
     ]
 
+    def get_queryset(self, request):  # pragma: no cover
+        qs = super().get_queryset(request)
+        qs = qs.prefetch_related(
+            "images",
+        )
+        qs = qs.annotate(
+            num_releases=Count(
+                "releases",
+                distinct=True,
+            ),
+        )
+        return qs
+
     ###################################################################
     # display
     ###################################################################
@@ -85,6 +99,7 @@ class LabelAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
 
     @admin.display(
         description="releases",
+        ordering="num_releases",
     )
     def num_releases_display(self, obj):  # pragma: no cover
         return obj.num_releases or "-"
