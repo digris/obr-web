@@ -59,9 +59,15 @@ const testingEnabled = computed(() => userSettings.value?.testingEnabled);
         </div>
         <div class="right">
           <OnAir />
+          <!--
+          news controls for test-users. survey for the others.
+          -->
           <News v-if="testingEnabled" />
           <NewsSurvey v-else />
-          <Donate v-if="testingEnabled" />
+          <!--
+          donate disabled for the moment
+          -->
+          <Donate v-if="false" />
           <Bandwidth />
           <VolumeControl />
           <Circle v-if="objKey">
