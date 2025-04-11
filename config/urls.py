@@ -1,14 +1,25 @@
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path, re_path
 from django.views.static import serve
 
+from common.cache.sitemap import sitemap_cache_control_view
 from spa.views import SPA404View, SPAIndexView
+
+import common.sitemaps
+import catalog.sitemaps
 
 
 admin.autodiscover()
 admin.site.site_header = "open broadcast radio"
+
+sitemaps = {
+    "common": common.sitemaps.CommonSitemap,
+    # "catalog:artists": catalog.sitemaps.ArtistSitemap,
+    # "catalog:media": catalog.sitemaps.MediaSitemap,
+}
 
 urlpatterns = i18n_patterns(
     re_path(r"^api/v1/", include("config.urls_api", namespace="api")),
@@ -34,6 +45,15 @@ urlpatterns += [
     path(
         "stream/",
         include("redirect.urls_stream", namespace="redirect-stream"),
+    ),
+    # sitemap
+    path(
+        "sitemap.xml",
+        sitemap_cache_control_view(sitemap),
+        {
+            "sitemaps": sitemaps,
+        },
+        name="django.contrib.sitemaps.views.sitemap",
     ),
     # avoid serving SPA view for admin & API
     re_path(r"^api/v1/", SPA404View.as_view()),

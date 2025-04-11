@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
+    # "django.contrib.sites",
+    "django.contrib.sitemaps",
     "django.contrib.postgres",
     "storages",
     "rest_framework",
