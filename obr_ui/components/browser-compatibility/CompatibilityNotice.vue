@@ -32,6 +32,10 @@ const BROWSER_REQUIREMENTS = {
   mobile: {
     safari: ">=15",
   },
+
+  bot: {
+    googlebot: ">=2",
+  },
 };
 
 const { t } = useI18n();
