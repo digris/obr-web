@@ -17,8 +17,8 @@ admin.site.site_header = "open broadcast radio"
 
 sitemaps = {
     "common": common.sitemaps.CommonSitemap,
-    # "catalog:artists": catalog.sitemaps.ArtistSitemap,
-    # "catalog:media": catalog.sitemaps.MediaSitemap,
+    "catalog:artists": catalog.sitemaps.ArtistSitemap,
+    "catalog:media": catalog.sitemaps.MediaSitemap,
 }
 
 urlpatterns = i18n_patterns(
