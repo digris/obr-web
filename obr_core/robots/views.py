@@ -8,6 +8,8 @@ def robots_txt(request):
         "User-Agent: PetalBot",
         "Disallow: /",
         "User-Agent: *",
-        "Allow: /",
+        "Disallow: /program/",
+        "Disallow: /collection/",
+        "Disallow: /admin/",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
