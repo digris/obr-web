@@ -19,6 +19,7 @@ sitemaps = {
     "common": common.sitemaps.CommonSitemap,
     "catalog:artists": catalog.sitemaps.ArtistSitemap,
     "catalog:media": catalog.sitemaps.MediaSitemap,
+    "catalog:playlist": catalog.sitemaps.PlaylistSitemap,
 }
 
 urlpatterns = i18n_patterns(

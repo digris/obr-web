@@ -1,0 +1,3 @@
+{{ obj.title_display }}{% if obj.country_code %} ({{ obj.country_code }}){% endif %}
+feat. {% for media in obj.airplayed_playlist_media|slice:"0:8" %}{{ media.media.artist_display }}{% if not forloop.last %}, {% endif %}{% endfor %}
+{% for tag in obj.tags.all %}#{{ tag.name }}{% if not forloop.last %} {% endif %}{% endfor %}

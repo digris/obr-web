@@ -1,6 +1,9 @@
+import html
 import re
 
 from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
@@ -61,12 +64,24 @@ def get_playlist_meta(request, uid):
     title = obj.title_display
     url = obj.get_absolute_url()
 
+    description = mark_safe(
+        html.unescape(
+            render_to_string(
+                "share/description/_playlist.txt",
+                {
+                    "obj": obj,
+                },
+            ),
+        ),
+    ).replace("\n", " - ")
+
     meta = [
         ["og:title", title],
         ["og:url", request.build_absolute_uri(url)],
         ["og:type", "music.playlist"],
         ["og:locale", f"{language}_CH"],
         ["og:updated_time", round(obj.updated.timestamp())],
+        ["description", description],
     ]
 
     meta += get_image_meta(request, obj.image, 1200, 1200)
@@ -99,11 +114,23 @@ def get_artist_meta(request, uid):
     title = obj.name
     url = obj.get_absolute_url()
 
+    description = mark_safe(
+        html.unescape(
+            render_to_string(
+                "share/description/_artist.txt",
+                {
+                    "obj": obj,
+                },
+            ),
+        ),
+    ).replace("\n", " - ")
+
     meta = [
         ["og:title", title],
         ["og:url", request.build_absolute_uri(url)],
         ["og:type", "profile"],
         ["og:updated_time", round(obj.updated.timestamp())],
+        ["description", description],
     ]
 
     meta += get_image_meta(request, obj.image, 1200, 1200)
@@ -120,12 +147,24 @@ def get_media_meta(request, uid):
     title = obj.name
     url = obj.get_absolute_url()
 
+    description = mark_safe(
+        html.unescape(
+            render_to_string(
+                "share/description/_media.txt",
+                {
+                    "obj": obj,
+                },
+            ),
+        ),
+    ).replace("\n", " - ")
+
     meta = [
         ["og:title", title],
         ["og:url", request.build_absolute_uri(url)],
         ["og:type", "music.song"],
         ["og:updated_time", round(obj.updated.timestamp())],
         ["music:duration", obj.duration.seconds],
+        ["description", description],
     ]
 
     for artist in obj.artists.all():

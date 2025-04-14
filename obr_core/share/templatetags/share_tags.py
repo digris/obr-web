@@ -6,7 +6,7 @@ register = template.Library()
 
 
 @register.inclusion_tag(
-    "share/templatetags/opengraph_meta.html",
+    "share/templatetags/_meta.html",
     takes_context=True,
 )
 def opengraph_meta(context):

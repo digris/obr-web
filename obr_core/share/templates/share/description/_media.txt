@@ -1,0 +1,3 @@
+{{ obj.name }} by {{ obj.artist_display }}
+{% if obj.release %}{{ obj.release.name }}{% if obj.release.release_date %} ({{ obj.release.release_date.year }}){% endif %}{% if obj.release.label %} on {{ obj.release.label.name }}{% endif %}{% endif %}
+{% for tag in obj.tags.all %}#{{ tag.name }}{% if not forloop.last %} {% endif %}{% endfor %}

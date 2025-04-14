@@ -1,0 +1,2 @@
+{{ obj.name }}{% if obj.country_code %} ({{ obj.country_code }}){% endif %}
+{% for tag in obj.tags.all %}#{{ tag.name }}{% if not forloop.last %} {% endif %}{% endfor %}

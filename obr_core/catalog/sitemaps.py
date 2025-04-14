@@ -4,7 +4,7 @@ from django.contrib.sitemaps import Sitemap
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Now
 
-from catalog.models import Artist, Media
+from catalog.models import Artist, Media, Playlist
 
 MEDIA_MIN_DURATION = 12
 ARTIST_MIN_NUM_MEDIA = 1
@@ -55,6 +55,29 @@ class MediaSitemap(Sitemap):
             ),
         )
         qs = qs.filter(latest_airplay__lte=Now())
+        return qs
+
+    def lastmod(self, obj):
+        return obj.updated
+
+
+class PlaylistSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.6
+
+    def items(self):
+        qs = Playlist.objects.all()
+        qs = qs.annotate(
+            latest_emission_time_start=Max(
+                "emissions__time_start",
+                filter=Q(
+                    emissions__time_start__lte=Now(),
+                ),
+            ),
+        )
+        qs = qs.filter(
+            latest_emission_time_start__lte=Now(),
+        )
         return qs
 
     def lastmod(self, obj):
