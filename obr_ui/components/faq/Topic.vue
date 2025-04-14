@@ -5,6 +5,7 @@ import { useEventListener, whenever } from "@vueuse/core";
 import { useRouteHash } from "@vueuse/router";
 import showdown from "showdown";
 
+import { type AnalyticsEvent, sendEvent } from "@/analytics/event";
 import ExpandableSection from "@/components/ui/section/ExpandableSection.vue";
 import type { Topic } from "@/typings/api";
 
@@ -21,7 +22,16 @@ const hash = useRouteHash();
 const linkEl = ref<HTMLAnchorElement | null>(null);
 const uid = computed(() => props.topic.uid);
 const isExpanded = computed(() => hash.value === `#${uid.value}`);
-const onExpand = () => (hash.value = `#${uid.value}`);
+const onExpand = () => {
+  hash.value = `#${uid.value}`;
+  const evt = {
+    kind: "faq:expand",
+    data: {
+      topic: props.topic.question,
+    },
+  } as AnalyticsEvent;
+  sendEvent(evt);
+};
 const onCondense = () => (hash.value = "");
 const answerHtml = computed(() => converter.makeHtml(props.topic.answer));
 

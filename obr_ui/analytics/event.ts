@@ -5,13 +5,23 @@ export interface PlayerEvent {
   source: string;
 }
 
+export interface AnalyticsEvent {
+  kind: string;
+  data: object;
+}
+
 const sendGA4Event = (GA4Event: object) => {
   // @ts-ignore
   window.dataLayer.push(GA4Event);
 };
 
-const sendEvent = () => {
-  console.log("sendEvent");
+const sendEvent = (event: AnalyticsEvent) => {
+  const { kind, data } = event;
+  const ga4Event = {
+    event: kind,
+    ...data,
+  };
+  sendGA4Event(ga4Event);
 };
 
 const sendPlayerEvent = (event: PlayerEvent) => {
