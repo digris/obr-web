@@ -64,7 +64,7 @@ def get_playlist_meta(request, uid):
     title = obj.title_display
     url = obj.get_absolute_url()
 
-    description = mark_safe(
+    description = mark_safe(  # NOQA: S308
         html.unescape(
             render_to_string(
                 "share/description/_playlist.txt",
@@ -114,7 +114,7 @@ def get_artist_meta(request, uid):
     title = obj.name
     url = obj.get_absolute_url()
 
-    description = mark_safe(
+    description = mark_safe(  # NOQA: S308
         html.unescape(
             render_to_string(
                 "share/description/_artist.txt",
@@ -147,7 +147,7 @@ def get_media_meta(request, uid):
     title = obj.name
     url = obj.get_absolute_url()
 
-    description = mark_safe(
+    description = mark_safe(  # NOQA: S308
         html.unescape(
             render_to_string(
                 "share/description/_media.txt",

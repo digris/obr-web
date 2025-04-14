@@ -1,3 +1,2 @@
-{{ obj.title_display }}{% if obj.country_code %} ({{ obj.country_code }}){% endif %}
-feat. {% for media in obj.airplayed_playlist_media|slice:"0:8" %}{{ media.media.artist_display }}{% if not forloop.last %}, {% endif %}{% endfor %}
-{% for tag in obj.tags.all %}#{{ tag.name }}{% if not forloop.last %} {% endif %}{% endfor %}
+{{ obj.title_display }}{% if obj.editor %} - curated by {{ obj.editor.display_name }}{% endif %}
+feat. {% for media in obj.airplayed_playlist_media|slice:"0:8" %}{{ media.media.artist_display }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if obj.airplayed_playlist_media.count > 8 %} and others{% endif %}
