@@ -1,8 +1,9 @@
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
+import { visualizer } from "rollup-plugin-visualizer";
 import { fileURLToPath, URL } from "url";
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { type PluginOption, defineConfig, splitVendorChunkPlugin } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
@@ -34,6 +35,9 @@ export default defineConfig({
         },
       ],
     }),
+    visualizer({
+      filename: "ui-bundle-stats.html",
+    }) as PluginOption,
   ],
   build: {
     target: "es2020",

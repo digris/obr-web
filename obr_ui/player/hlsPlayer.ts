@@ -1,6 +1,6 @@
 import { watch } from "vue";
 import { useWakeLock } from "@vueuse/core";
-import Hls from "hls.js";
+import Hls from "hls.js/dist/hls.light.min.js";
 import log from "loglevel";
 import { debounce, isEqual, round } from "lodash-es";
 
