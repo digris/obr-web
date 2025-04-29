@@ -11,5 +11,6 @@ def robots_txt(request):
         "Disallow: /program/",
         "Disallow: /collection/",
         "Disallow: /admin/",
+        "Allow: /program/$",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
