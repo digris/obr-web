@@ -3,6 +3,7 @@ import re
 
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.templatetags.static import static
 from django.utils.safestring import mark_safe
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
@@ -14,12 +15,24 @@ from catalog.models import Artist, Media, Playlist
 # https://ogp.me/
 # https://developers.facebook.com/docs/opengraph/music/
 
-BASE_META = [
-    ["fb:app_id", "746436298732388"],
-    ["og:site_name", "open broadcast - radio"],
+
+DEFAULT_META = [
+    ["og:title", _("open broadcast - radio")],
+    ["og:type", "music.website"],
 ]
 
-DEFAULT_META = [["og:title", _("open broadcast - radio")], ["og:type", "music.website"]]
+
+def get_base_meta(request):
+    return [
+        ["fb:app_id", "746436298732388"],
+        ["og:site_name", "open broadcast - radio"],
+        [
+            "og:logo",
+            request.build_absolute_uri(
+                static("assets/share/icon-512x512.png"),
+            ),
+        ],
+    ]
 
 
 def get_scope_and_uid(path):
@@ -58,7 +71,7 @@ def get_playlist_meta(request, uid):
             .get(uid=uid)
         )
     except Playlist.DoesNotExist:
-        return BASE_META
+        return get_base_meta(request)
 
     language = get_language()
     title = obj.title_display
@@ -102,14 +115,14 @@ def get_playlist_meta(request, uid):
 
         # for artist in media.artists.all():
 
-    return BASE_META + meta
+    return get_base_meta(request) + meta
 
 
 def get_artist_meta(request, uid):
     try:
         obj = Artist.objects.get(uid=uid)
     except Artist.DoesNotExist:
-        return BASE_META
+        return get_base_meta(request)
 
     title = obj.name
     url = obj.get_absolute_url()
@@ -131,18 +144,19 @@ def get_artist_meta(request, uid):
         ["og:type", "profile"],
         ["og:updated_time", round(obj.updated.timestamp())],
         ["description", description],
+        ["og:description", description],
     ]
 
     meta += get_image_meta(request, obj.image, 1200, 1200)
 
-    return BASE_META + meta
+    return get_base_meta(request) + meta
 
 
 def get_media_meta(request, uid):
     try:
         obj = Media.objects.prefetch_related("artists").get(uid=uid)
     except Media.DoesNotExist:
-        return BASE_META
+        return get_base_meta(request)
 
     title = obj.name
     url = obj.get_absolute_url()
@@ -165,6 +179,7 @@ def get_media_meta(request, uid):
         ["og:updated_time", round(obj.updated.timestamp())],
         ["music:duration", obj.duration.seconds],
         ["description", description],
+        ["og:description", description],
     ]
 
     for artist in obj.artists.all():
@@ -174,14 +189,14 @@ def get_media_meta(request, uid):
 
     meta += get_image_meta(request, obj.image, 1200, 1200)
 
-    return BASE_META + meta
+    return get_base_meta(request) + meta
 
 
 def get_editor_meta(request, uid):
     try:
         obj = Editor.objects.get(uid=uid)
     except Editor.DoesNotExist:
-        return BASE_META
+        return get_base_meta(request)
 
     title = obj.display_name
     url = obj.get_absolute_url()
@@ -200,7 +215,7 @@ def get_editor_meta(request, uid):
 
     meta += get_image_meta(request, obj.image, 1200, 1200)
 
-    return BASE_META + meta
+    return get_base_meta(request) + meta
 
 
 def get_radio_meta(request):
@@ -225,7 +240,7 @@ def get_radio_meta(request):
             ["og:audio:type", "audio/vnd.facebook.bridge"],
         ]
 
-    return BASE_META + meta
+    return get_base_meta(request) + meta
 
 
 def get_default_meta(request):
@@ -235,7 +250,7 @@ def get_default_meta(request):
         ["og:locale", f"{language}_CH"],
     ]
 
-    return BASE_META + DEFAULT_META + meta
+    return get_base_meta(request) + DEFAULT_META + meta
 
 
 def get_meta_for_request(request):
