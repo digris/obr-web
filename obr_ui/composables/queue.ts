@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 import { shuffle } from "lodash-es";
 
 import { getMedia } from "@/api/catalog";
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import type { AnnotatedMedia } from "@/stores/queue";
@@ -70,8 +71,12 @@ const useQueueControls = () => {
     clearQueue: clearQueueWeb,
     shuffleQueue: shuffleQueueWeb,
   } = useQueueStore();
+
+  const { logUIAction } = useAnalytics();
+
   const hasPrevious = computed(() => previousIndex.value !== null);
   const hasNext = computed(() => !!isLive);
+
   const enqueueObj = async (obj: any, mode = "append") => {
     log.debug("queueControls - enqueueObj", obj, mode);
     const objKey = `${obj.ct}:${obj.uid}`;
@@ -89,6 +94,7 @@ const useQueueControls = () => {
       log.debug("queueControls - enqueueObj app-mode", channel, data);
       await appBridge.send(channel, data);
     }
+    logUIAction("queue:enqueueObj", mode);
   };
   const enqueueMedia = async (media: Array<Media>, mode = "append", scope = []) => {
     log.debug("queueControls - enqueueMedia", media, mode, scope);
@@ -103,6 +109,7 @@ const useQueueControls = () => {
       log.debug("queueControls - enqueueMedia app-mode", channel, data);
       await appBridge.send(channel, data);
     }
+    logUIAction("queue:enqueueMedia", mode);
   };
   const startPlayCurrent = async (force = false) => {
     if (!isWeb) {
@@ -137,6 +144,7 @@ const useQueueControls = () => {
       log.debug("queueControls - enqueueMedia app-mode", channel, data);
       await appBridge.send(channel, data);
     }
+    logUIAction("queue:playFromIndex", index);
   };
   const playPrevious = async () => {
     log.debug("queueControls - playPrevious");
@@ -145,6 +153,7 @@ const useQueueControls = () => {
     } else {
       throw new Error("no previous media");
     }
+    logUIAction("queue:playPrevious");
   };
   const playNext = async () => {
     log.debug("queueControls - playNext");
@@ -155,6 +164,7 @@ const useQueueControls = () => {
       log.info("no next media - switch to live");
       await playLive();
     }
+    logUIAction("queue:playNext");
   };
   // mapping actions depending on mode
   const clearQueue = async (): Promise<void> => {
@@ -164,6 +174,7 @@ const useQueueControls = () => {
       const channel = "queue:clear";
       await appBridge.send(channel);
     }
+    logUIAction("queue:clear");
   };
   const shuffleQueue = async (): Promise<void> => {
     console.debug("queueControls - shuffleQueue");
@@ -173,6 +184,7 @@ const useQueueControls = () => {
       const channel = "queue:shuffle";
       await appBridge.send(channel);
     }
+    logUIAction("queue:shuffle", shuffleMode.value ? "on" : "off");
   };
   const deleteAtIndex = async (index: number): Promise<void> => {
     if (isWeb) {
@@ -184,6 +196,7 @@ const useQueueControls = () => {
       };
       await appBridge.send(channel, data);
     }
+    logUIAction("queue:deleteAtIndex");
   };
   return {
     // mapped state

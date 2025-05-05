@@ -13,6 +13,7 @@ export interface Event {
 }
 
 const createAnalyticsEvent = (event: Event) => {
+  console.debug("event", event);
   sendPlayerEvent({
     state: event.state,
     source: event.source,

@@ -67,7 +67,7 @@ const testingEnabled = computed(() => userSettings.value?.testingEnabled);
           <!--
           donate disabled for the moment
           -->
-          <Donate v-if="false" />
+          <Donate />
           <Bandwidth />
           <VolumeControl />
           <Circle v-if="objKey">
@@ -137,6 +137,10 @@ $player-height: 72px;
     justify-content: flex-end;
 
     .news {
+      margin-left: 1rem;
+    }
+
+    .donate {
       margin-left: 1rem;
     }
 

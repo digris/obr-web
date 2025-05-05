@@ -1,3 +1,5 @@
+import { useAccount } from "@/composables/account";
+
 export interface PlayerEvent {
   state: string;
   obj_key: string;
@@ -11,8 +13,16 @@ export interface AnalyticsEvent {
 }
 
 const sendGA4Event = (GA4Event: object) => {
+  const { user } = useAccount();
+  console.debug("GA4Event", {
+    ...GA4Event,
+    user_id: user.value?.uid,
+  });
   // @ts-ignore
-  window.dataLayer.push(GA4Event);
+  window.dataLayer.push({
+    ...GA4Event,
+    user_id: user.value?.uid,
+  });
 };
 
 const sendEvent = (event: AnalyticsEvent) => {

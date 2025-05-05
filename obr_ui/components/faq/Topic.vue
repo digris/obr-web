@@ -25,7 +25,7 @@ const isExpanded = computed(() => hash.value === `#${uid.value}`);
 const onExpand = () => {
   hash.value = `#${uid.value}`;
   const evt = {
-    kind: "faq:expand",
+    kind: "faq_expand",
     data: {
       topic: props.topic.question,
     },

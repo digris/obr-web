@@ -1,54 +1,39 @@
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 
 import IconQueue from "@/components/ui/icon/IconQueue.vue";
 import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
+import { useAnalytics } from "@/composables/analytics";
 
 import Circle from "./button/Circle.vue";
+const { logUIAction } = useAnalytics();
 
-export default defineComponent({
-  components: {
-    IconQueue,
-    AnimatedNumber,
-    Circle,
-  },
-  props: {
-    queueVisible: {
-      type: Boolean,
-      default: false,
-    },
-    numQueued: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-  },
-  emits: ["toggleVisibility"],
-  setup(setup, { emit }) {
-    const isTweening = ref(false);
-    const onClick = () => {
-      emit("toggleVisibility");
-    };
-    const onTweenStart = (diff: number) => {
-      if (diff === -1) {
-        return;
-      }
-      isTweening.value = true;
-    };
-    const onTweenEnd = (diff: number) => {
-      if (diff === -1) {
-        return;
-      }
-      isTweening.value = false;
-    };
-    return {
-      isTweening,
-      onClick,
-      onTweenStart,
-      onTweenEnd,
-    };
-  },
-});
+const props = defineProps<{
+  queueVisible?: boolean;
+  numQueued: number;
+}>();
+
+const emit = defineEmits<{
+  (e: "toggleVisibility"): void;
+}>();
+
+const isTweening = ref(false);
+
+const onClick = () => {
+  emit("toggleVisibility");
+
+  logUIAction(props.queueVisible ? "queue:hide" : "queue:show");
+};
+
+const onTweenStart = (diff: number) => {
+  if (diff === -1) return;
+  isTweening.value = true;
+};
+
+const onTweenEnd = (diff: number) => {
+  if (diff === -1) return;
+  isTweening.value = false;
+};
 </script>
 
 <template>
