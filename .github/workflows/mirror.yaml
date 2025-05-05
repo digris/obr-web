@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # fetch all history for proper mirroring
+          fetch-depth: 0  # ensure full history is available
 
       - name: Set up SSH key for GitLab
         run: |
@@ -19,7 +19,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
 
-      - name: Push all branches and tags to GitLab
+      - name: Push 'main' and 'development' branches to GitLab with tags
         run: |
           git remote add gitlab git@gitlab.com:digris/open-broadcast/openbroadcast.ch.git
-          git push --mirror gitlab
+          git push --follow-tags gitlab main development
