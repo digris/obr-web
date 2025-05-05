@@ -13,7 +13,6 @@ export interface Event {
 }
 
 const createAnalyticsEvent = (event: Event) => {
-  console.debug("event", event);
   sendPlayerEvent({
     state: event.state,
     source: event.source,
@@ -25,6 +24,7 @@ const createAnalyticsEvent = (event: Event) => {
 class EventHandler {
   constructor() {
     const { media, isLive, playState } = usePlayerState();
+    let lastPlayState: string | undefined = undefined;
     const combinedState = computed(() => {
       const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
       return {
@@ -38,8 +38,31 @@ class EventHandler {
       if (!event.objKey) {
         return;
       }
-      createAnalyticsEvent(event);
-      await createPlayerEvents([event]);
+
+      // NOTE: ignore repeating pause & stop
+
+      let ignoreEvent = false;
+
+      if (lastPlayState === undefined) {
+        ignoreEvent = true;
+      }
+
+      if (event.state === "stopped") {
+        ignoreEvent = true;
+      }
+
+      if (lastPlayState === "paused" && event.state === "paused") {
+        ignoreEvent = true;
+      }
+
+      console.debug("addEvent", `skip: ${ignoreEvent}`, `last: ${lastPlayState}`, event);
+
+      if (!ignoreEvent) {
+        createAnalyticsEvent(event);
+        await createPlayerEvents([event]);
+      }
+
+      lastPlayState = event.state;
     }, 2000);
     watch(combinedState, (newValue, oldValue) => {
       if (isEqual(newValue, oldValue)) {
