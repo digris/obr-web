@@ -236,7 +236,7 @@ def get_radio_meta(request):
         [
             "description",
             _(
-                "Discover eclectic and curated music on open broadcast radio – your gateway to diverse sounds and fresh music picks, streaming anytime, anywhere."
+                "Discover eclectic and curated music on open broadcast radio – your gateway to diverse sounds and fresh music picks, streaming anytime, anywhere.",
             ),
         ],
     ]
