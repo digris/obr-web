@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - development
 
 jobs:
   to_gitlab:
@@ -22,7 +23,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
 
-      - name: Push 'main' and 'development' branches to GitLab with tags
+      - name: Push to GitLab
         run: |
           git remote add gitlab git@gitlab.com:digris/open-broadcast/openbroadcast.ch.git
-          git push --follow-tags gitlab main
+          git push --follow-tags gitlab $GITHUB_REF_NAME
