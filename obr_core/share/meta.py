@@ -233,6 +233,12 @@ def get_radio_meta(request):
         ],
         ["og:image:width", 622],
         ["og:image:height", 622],
+        [
+            "description",
+            _(
+                "Discover eclectic and curated music on open broadcast radio – your gateway to diverse sounds and fresh music picks, streaming anytime, anywhere."
+            ),
+        ],
     ]
     if stream_url := getattr(settings, "STREAM_ENDPOINTS", {}).get("icecast"):
         meta = meta + [

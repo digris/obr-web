@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-25 09:50+0100\n"
+"POT-Creation-Date: 2025-05-05 09:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,52 +18,90 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: core/account/api/views.py:112 core/account/api/views.py:514
-#: core/account/api/views.py:558 core/account/api/views.py:612
+#: obr_core/account/api/views.py:107 obr_core/account/api/views.py:660
+#: obr_core/account/api/views.py:713 obr_core/account/api/views.py:766
+#: obr_core/account/api/views.py:831
 msgid "Not authorized"
 msgstr ""
 
-#: core/account/api/views.py:174
+#: obr_core/account/api/views.py:169
 msgid "The email or password you entered is incorrect."
 msgstr ""
 
-#: core/account/email_login/__init__.py:62
+#: obr_core/account/api/views.py:680
+msgid "E-mail address already registered"
+msgstr ""
+
+#: obr_core/account/email_login/__init__.py:62
 msgid "Signature expired"
 msgstr ""
 
-#: core/account/email_login/__init__.py:64
+#: obr_core/account/email_login/__init__.py:64
 msgid "Invalid signature"
 msgstr ""
 
-#: core/share/meta.py:19 core/share/meta.py:175
+#: obr_core/share/meta.py:20 obr_core/share/meta.py:226
 msgid "open broadcast - radio"
 msgstr ""
 
-#: core/share/meta.py:176
+#: obr_core/share/meta.py:227
 msgid "eclectic music"
 msgstr ""
 
-#: core/subscription/models/subscription.py:85
-#, python-brace-format
-msgid "Subscription not available in {country}"
+#: obr_core/share/meta.py:236
+msgid "Discover eclectic and curated music on open broadcast radio – your gateway to diverse sounds and fresh music picks, streaming anytime, anywhere."
 msgstr ""
 
-#: core/subscription/models/subscription.py:87
+#: obr_core/subscription/models/subscription.py:89
 msgid "Subscription blocked"
 msgstr ""
 
-#: core/subscription/utils/voucher.py:34
+#: obr_core/subscription/utils/voucher.py:31
 msgid "Malformed voucher-code"
 msgstr ""
 
-#: core/subscription/utils/voucher.py:39
+#: obr_core/subscription/utils/voucher.py:36
 msgid "Voucher-code does not exist"
 msgstr ""
 
-#: core/subscription/utils/voucher.py:47
+#: obr_core/subscription/utils/voucher.py:44
 msgid "You did already use this voucher-code"
 msgstr ""
 
-#: core/templates/account/email/login_email/message.html:19
+#: obr_core/subscription/utils/voucher.py:52
+msgid "You cannot use your own vouchers, or vouchers from people you invited."
+msgstr ""
+
+#: obr_core/templates/account/email/login_email/message.html:19
 msgid "Enter the login-code displayed above on the website or in your APP."
+msgstr ""
+
+#: obr_core/templates/account/email/login_email/message.html:26
+#, python-format
+msgid "Or login directly by <a href=\"%(login_url)s\">clicking here</a>."
+msgstr ""
+
+#: obr_core/templates/admin/index.html:12
+msgid "Django site admin"
+msgstr ""
+
+#: obr_core/templates/admin/index.html:18
+msgid "Django administration"
+msgstr ""
+
+#: obr_core/templates/admin/login.html:68
+#, python-format
+msgid "You are authenticated as %(username)s, but are not authorized to access this page. Would you like to login to a different account?"
+msgstr ""
+
+#: obr_core/templates/admin/login.html:123
+msgid "Forgotten your password or username?"
+msgstr ""
+
+#: obr_core/templates/admin/login.html:131
+msgid "Log in"
+msgstr ""
+
+#: obr_core/templates/admin/login.html:142
+msgid "Return to site"
 msgstr ""
