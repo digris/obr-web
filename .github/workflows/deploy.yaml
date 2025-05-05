@@ -61,7 +61,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for image
         id: meta
-        uses: docker/metadata-action@v2
+        uses: docker/metadata-action@v5
         with:
           images: |
             ${{ env.GH_REGISTRY }}/${{ env.GH_ORGANIZATION }}/${{ env.IMAGE_NAME }}
