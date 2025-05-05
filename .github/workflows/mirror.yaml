@@ -1,6 +1,9 @@
 name: Mirror to gitlab
 
-on: [push, delete]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   to_gitlab:
@@ -22,4 +25,4 @@ jobs:
       - name: Push 'main' and 'development' branches to GitLab with tags
         run: |
           git remote add gitlab git@gitlab.com:digris/open-broadcast/openbroadcast.ch.git
-          git push --follow-tags gitlab main development
+          git push --follow-tags gitlab main
