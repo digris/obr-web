@@ -6,7 +6,7 @@ import AnimatedNumber from "@/components/ui/number/AnimatedNumber.vue";
 import { useAnalytics } from "@/composables/analytics";
 
 import Circle from "./button/Circle.vue";
-const { logUIAction } = useAnalytics();
+const { logUIEvent } = useAnalytics();
 
 const props = defineProps<{
   queueVisible?: boolean;
@@ -22,7 +22,7 @@ const isTweening = ref(false);
 const onClick = () => {
   emit("toggleVisibility");
 
-  logUIAction(props.queueVisible ? "queue:hide" : "queue:show");
+  logUIEvent(props.queueVisible ? "queue:hide" : "queue:show");
 };
 
 const onTweenStart = (diff: number) => {

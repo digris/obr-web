@@ -1,6 +1,8 @@
 <script lang="js">
 import { computed, defineComponent } from 'vue';
 
+import { useAnalytics } from "@/composables/analytics";
+
 import Query from './Query.vue';
 import Tag from './Tag.vue';
 
@@ -36,6 +38,7 @@ export default defineComponent({
     'change',
   ],
   setup(props, { emit }) {
+    const { logRawEvent } = useAnalytics();
     const selectedTags = computed(() => {
       return props.filter.tags || [];
     });
@@ -68,6 +71,17 @@ export default defineComponent({
         ...other,
       };
       emit('change', filter);
+      if (filter.tags.length) {
+        const tagNames = filter.tags.map((t) => {
+          const tagObj = props.tagList.find((el) => el.uid === t);
+          return tagObj ? tagObj.name : t;
+        }).sort((a, b) => a.localeCompare(b));
+        console.debug("filter", filter, tagNames);
+        logRawEvent("view_search_results", {
+          search_term: tagNames.join(','),
+          filter_type: "tags",
+        });
+      }
     };
     return {
       selectedTags,

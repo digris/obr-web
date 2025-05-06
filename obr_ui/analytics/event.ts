@@ -27,18 +27,29 @@ const sendGA4Event = (GA4Event: object) => {
 
 const sendEvent = (event: AnalyticsEvent) => {
   const { kind, data } = event;
-  const ga4Event = {
-    event: kind,
-    ...data,
-  };
-  sendGA4Event(ga4Event);
-};
-
-const sendPlayerEvent = (event: PlayerEvent) => {
+  const { action, ...rest } = data as any;
   sendGA4Event({
-    event: "player",
-    ...event,
+    event: kind,
+    event_name: `${kind}:${action}`,
+    data: rest,
   });
 };
 
-export { sendEvent, sendPlayerEvent };
+const sendPlayerEvent = (event: PlayerEvent) => {
+  const { state, ...rest } = event as any;
+  sendGA4Event({
+    event: "player",
+    event_name: `player:${state}`,
+    data: rest,
+  });
+};
+
+const sendRawEvent = (event: AnalyticsEvent) => {
+  const { kind, data } = event;
+  sendGA4Event({
+    event: kind,
+    ...data,
+  });
+};
+
+export { sendEvent, sendPlayerEvent, sendRawEvent };

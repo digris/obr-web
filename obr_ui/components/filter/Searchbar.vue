@@ -12,6 +12,7 @@ import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconClose from '@/components/ui/icon/IconClose.vue';
 import IconFilter from '@/components/ui/icon/IconFilter.vue';
 import IconSearch from '@/components/ui/icon/IconSearch.vue';
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
 import { useUiStore } from "@/stores/ui";
 
@@ -38,6 +39,7 @@ export default defineComponent({
     const router = useRouter();
     const { filterExpanded } = storeToRefs(useUiStore());
     const { isDesktop } = useDevice();
+    const { logUIEvent, logRawEvent } = useAnalytics();
     const isFormVisible = computed(() => {
       if (props.hideFormForMobile) {
         return isDesktop;
@@ -46,6 +48,7 @@ export default defineComponent({
     })
     const toggleFilter = () => {
       filterExpanded.value = !filterExpanded.value;
+      logUIEvent("searchbar:filter", filterExpanded.value ? "show" : "hide");
     };
     const q = ref('');
     const submitSearch = () => {
@@ -57,6 +60,13 @@ export default defineComponent({
       }
       const routeName = route.name || 'discoverPlaylists';
       router.push({ name: routeName, query: newQuery });
+
+      if (newQuery.q) {
+        logRawEvent("view_search_results", {
+          search_term: newQuery.q,
+          filter_type: "search",
+        });
+      }
     };
     const searchInput = (e) => {
       if (e.code === 'Escape') {

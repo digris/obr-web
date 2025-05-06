@@ -9,6 +9,7 @@ import {
   loginByToken,
   logout,
 } from "@/api/account";
+import { useAnalytics } from "@/composables/analytics";
 
 interface State {
   user: any | null;
@@ -43,13 +44,20 @@ export const useAccountStore = defineStore("account", {
     },
   },
   actions: {
+    // reusable references to analytics (will be changed when refactoring store to composition API)
+    logUserEvent(action: string, value?: string | number | boolean | null) {
+      const { logEvent } = useAnalytics();
+      logEvent("user", { action, value });
+    },
     async loginUser(credentials: Credentials) {
       const { email, password } = credentials;
       try {
         this.user = await login(email, password);
-      } catch (err) {
+        this.logUserEvent("login", "local");
+      } catch (err: any) {
         console.warn(err);
         this.user = null;
+        this.logUserEvent("login-failed", err?.response?.statusText);
         throw err;
       }
     },
@@ -59,13 +67,18 @@ export const useAccountStore = defineStore("account", {
         const { user, created } = await loginByToken(email, token);
         this.user = user;
         this.isNew = created;
+        if (created) {
+          this.logUserEvent("signup", "token");
+        }
+        this.logUserEvent("login", "token");
         return {
           user,
           created,
         };
-      } catch (err) {
+      } catch (err: any) {
         console.warn(err);
         this.user = null;
+        this.logUserEvent("login-failed", err?.response?.statusText);
         throw err;
       }
     },
@@ -84,6 +97,10 @@ export const useAccountStore = defineStore("account", {
         const { user, created } = await loginByAppleId(idToken, authorizationCode, profile);
         this.user = user;
         this.isNew = created;
+        if (created) {
+          this.logUserEvent("signup", "apple");
+        }
+        this.logUserEvent("login", "apple");
       } catch (err) {
         console.warn(err);
         this.user = null;
@@ -91,10 +108,15 @@ export const useAccountStore = defineStore("account", {
       }
     },
     async loginUserByGoogleIdToken(idToken: string) {
+      console.debug("loginUserByGoogleIdToken", idToken);
       try {
         const { user, created } = await loginByGoogleIdToken(idToken);
         this.user = user;
         this.isNew = created;
+        if (created) {
+          this.logUserEvent("signup", "google");
+        }
+        this.logUserEvent("login", "google");
       } catch (err) {
         console.warn(err);
         this.user = null;
@@ -105,6 +127,7 @@ export const useAccountStore = defineStore("account", {
       try {
         await logout();
         this.user = null;
+        this.logUserEvent("logout");
       } catch (err) {
         console.warn(err);
         throw err;

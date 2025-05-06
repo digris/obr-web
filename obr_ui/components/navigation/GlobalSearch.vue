@@ -6,6 +6,7 @@ import { getGlobalMediaSearchResults } from "@/api/search";
 import SearchInput from "@/components/search/SearchInput.vue";
 import SearchResults from "@/components/search/SearchResults.vue";
 import SidePanel from "@/components/ui/panel/SidePanel.vue";
+import { useAnalytics } from "@/composables/analytics";
 import eventBus from "@/eventBus";
 
 export default defineComponent({
@@ -24,6 +25,7 @@ export default defineComponent({
       isVisible.value = true;
     };
     eventBus.on("global-search:show", () => show());
+    const { logRawEvent } = useAnalytics();
     watchDebounced(
       q,
       async (value: string) => {
@@ -31,13 +33,17 @@ export default defineComponent({
           const { count, results: searchResults } = await getGlobalMediaSearchResults(value, 10);
           resultsTotalCount.value = count;
           results.value = searchResults;
+          logRawEvent("view_search_results", {
+            search_term: value,
+            filter_type: "global-search",
+          });
         } else {
           resultsTotalCount.value = 0;
           results.value = [];
         }
       },
       {
-        debounce: 200,
+        debounce: 500,
       }
     );
     return {
