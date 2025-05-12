@@ -499,6 +499,7 @@ class HlsPlayer {
   public setMaxBandwidth(value: number): void {
     log.debug("setMaxBandwidth", value);
     this.maxBandwidth = value;
+    // NOTE: manual bandwidth capping is not supported in HLS.js?
     // hlsPlayer.hls.autoLevelCapping = 2
   }
 

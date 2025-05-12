@@ -2,6 +2,7 @@
 import type { PropType } from "vue";
 import { computed, defineComponent } from "vue";
 
+import { useAnalytics } from "@/composables/analytics";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls, useQueueState } from "@/composables/queue";
 import { s2hhmmss } from "@/utils/time";
@@ -23,6 +24,17 @@ export default defineComponent({
   setup() {
     const { pause, resume: play } = usePlayerControls();
     const { isLive, isPlaying, isBuffering, currentTime, duration } = usePlayerState();
+    const { logUIEvent } = useAnalytics();
+    const logFn = <T extends (...args: any[]) => any>(
+      fn: T,
+      event: string
+    ): ((...args: Parameters<T>) => ReturnType<T>) => {
+      return (...args: Parameters<T>) => {
+        const result = fn(...args);
+        logUIEvent(event);
+        return result;
+      };
+    };
     const currentTimeDisplay = computed(() => {
       if (currentTime.value === null) {
         return "00:00:00";
@@ -42,10 +54,10 @@ export default defineComponent({
       isBuffering,
       currentTimeDisplay,
       totalTimeDisplay,
-      playNext,
-      playPrevious,
-      pause,
       play,
+      pause,
+      playNext: logFn(playNext, "player:play-next"),
+      playPrevious: logFn(playPrevious, "player:play-previous"),
     };
   },
 });

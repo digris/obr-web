@@ -7,16 +7,20 @@ import ToggleSearchButton from "@/components/navigation/ToggleSearchButton.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconProgram from "@/components/ui/icon/IconProgram.vue";
 import Logo from "@/components/ui/logo/Logo.vue";
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 
 const { isSmallScreen } = useDevice();
+const { logUIEvent } = useAnalytics();
 
 const showSideMenu = () => {
   eventBus.emit("side-menu:show");
+  logUIEvent("side-menu:show");
 };
 const showGlobalSearch = () => {
   eventBus.emit("global-search:show");
+  logUIEvent("global-search:show");
 };
 </script>
 

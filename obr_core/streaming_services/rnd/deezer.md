@@ -8,7 +8,7 @@ import requests
 from account.models import User
 from catalog.models import Media
 
-user = User.objects.get(email="jonas+deezer@anorg.net")
+user = User.objects.get(email="none@none.no")
 
 sa = user.social_auth.filter(provider="deezer").first()
 

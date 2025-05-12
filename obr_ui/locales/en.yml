@@ -166,7 +166,7 @@ account:
         title: Login accounts
       streamingAccounts:
         title: Streaming accounts
-        info: Connected streaming accounts  # TODO: Text needed
+        info: Connect your streaming accounts  # TODO: Text needed
 subscription:
   credits: Credits
   # temporary
@@ -181,6 +181,7 @@ subscription:
   numUsedAndTotal: "redeemed: {0}/{1}"
   voucher:
     code: Voucher code
+    redeemCode: Redeem Voucher
     invalidCode: Invalid Coupon Code
     redeem: Redeem now
     authenticateAndRedeem: Sign up and redeem

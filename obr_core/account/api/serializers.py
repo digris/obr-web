@@ -282,6 +282,7 @@ class SocialBackendSerializer(
 class ConnectedSocialBackendSerializer(
     serializers.ModelSerializer,
 ):
+    kind = serializers.CharField(read_only=True, default="")
     can_disconnect = serializers.SerializerMethodField()
     disconnect_url = serializers.SerializerMethodField()
 
@@ -290,6 +291,7 @@ class ConnectedSocialBackendSerializer(
         fields = [
             "provider",
             "uid",
+            "kind",
             "can_disconnect",
             "disconnect_url",
         ]

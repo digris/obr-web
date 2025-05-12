@@ -5,6 +5,7 @@ import { round } from "lodash-es";
 
 import PlayheadHandle from "@/components/player/PlayheadHandle.vue";
 import PlayheadTime from "@/components/player/PlayheadTime.vue";
+import { useAnalytics } from "@/composables/analytics";
 import { usePlayerState } from "@/composables/player";
 
 export default defineComponent({
@@ -20,6 +21,7 @@ export default defineComponent({
     const { width } = useElementSize(el);
     const { isLive, isNews, isOndemand, isPlaying, isBuffering, relPosition, media, duration } =
       usePlayerState();
+    const { logUIEvent } = useAnalytics();
     const isHover = computed(() => {
       return !isOutside.value;
     });
@@ -69,9 +71,9 @@ export default defineComponent({
       if (!el.value) {
         return 0;
       }
-      // const seekTo = e.offsetX / el.value.getBoundingClientRect().width;
       const seekTo = e.offsetX / width.value;
       emit("seek", seekTo);
+      logUIEvent("player:seek", Math.round(seekTo * 100));
     };
     return {
       el,

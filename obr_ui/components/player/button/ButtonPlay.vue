@@ -7,6 +7,7 @@ import IconPause from "@/components/ui/icon/IconPause.vue";
 import IconPlay from "@/components/ui/icon/IconPlay.vue";
 import IconPlaying from "@/components/ui/icon/IconPlaying.vue";
 import IconPlayQueued from "@/components/ui/icon/IconPlayQueued.vue";
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
 import { useIconSize } from "@/composables/icon";
 import { getContrastColor } from "@/utils/color";
@@ -75,6 +76,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { isMobile } = useDevice();
     const { iconSize } = useIconSize(props.scale);
+    const { logUIEvent } = useAnalytics();
     const isHover = ref(false);
     const icon = computed(() => {
       if (props.isBuffering) {
@@ -99,6 +101,7 @@ export default defineComponent({
     });
     const handleClick = () => {
       emit(action.value);
+      logUIEvent(`player:${action.value}`);
     };
     const fgColor = computed(() => {
       if (props.isActive) {

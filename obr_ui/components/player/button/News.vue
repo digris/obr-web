@@ -5,13 +5,14 @@ import { useI18n } from "vue-i18n";
 import NewsSettings from "@/components/news/NewsSettings.vue";
 import SlideUpPanel from "@/components/ui/panel/SlideUpPanel.vue";
 import { useNews } from "@/composables/news";
-import { usePlayerState } from "@/composables/player";
+import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 const { t } = useI18n();
 
 const { isNews } = usePlayerState();
+const { endPlayNews } = usePlayerControls();
 
-const { provider, endPlayNews } = useNews();
+const { selectedProvider: provider } = useNews();
 
 const overlayVisible = ref(false);
 
@@ -20,13 +21,18 @@ const skipVisible = computed(() => isNews && provider.value);
 
 <i18n lang="yaml">
 de:
-  title: "Choose your News!"
+  title: "News Einstellungen"
 en:
-  title: "Choose your News!"
+  title: "News Settings"
 </i18n>
 
 <template>
-  <div @click="overlayVisible = !overlayVisible" class="news" :class="{ 'is-news': isNews }">
+  <div
+    @click="overlayVisible = !overlayVisible"
+    class="news"
+    :class="{ 'is-news': isNews }"
+    data-cta-target="news"
+  >
     <span class="news__text">News</span>
     <Teleport to="body">
       <SlideUpPanel
@@ -34,7 +40,15 @@ en:
         @close="overlayVisible = false"
         :title="t('title')"
       >
-        <NewsSettings />
+        <div class="body">
+          <div class="info">
+            <p>
+              We're seeking your input to enhance our radio programming. We're considering
+              introducing a new feature – an option that allows you to access daily news updates.
+            </p>
+          </div>
+          <NewsSettings />
+        </div>
         <template #footer>
           <div
             class="controls"
@@ -43,7 +57,14 @@ en:
             }"
           >
             <div v-if="provider" class="selected-provider">
-              Selected Service: <em>{{ provider }}</em>
+              Selected Service:
+              <em>
+                <span>{{ provider.title }}</span>
+                <span v-if="provider.language"> ({{ provider.language }})</span>
+              </em>
+              <a class="link" :href="`https://${provider.url}`" target="_blank">
+                <span>{{ provider.url }}</span>
+              </a>
             </div>
             <div v-else class="selected-provider">No Service Selected</div>
             <button
@@ -112,19 +133,38 @@ en:
   }
 }
 
+.body {
+  > .info {
+    > p {
+      max-width: 760px;
+    }
+  }
+}
+
 .controls {
-  min-height: 4rem;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: 2rem;
+  border-top: 1px solid rgb(var(--c-fg));
 
   .selected-provider {
     flex-grow: 1;
 
     > em {
-      text-transform: uppercase;
       font-style: normal;
+    }
+
+    > a {
+      &::before {
+        content: "●";
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      > span {
+        text-decoration: underline;
+      }
     }
   }
 

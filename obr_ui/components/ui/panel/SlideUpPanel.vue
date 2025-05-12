@@ -121,7 +121,6 @@ export default defineComponent({
 
     display: flex;
     flex-direction: column;
-    padding-bottom: 1rem;
   }
 
   @include responsive.bp-medium {
@@ -133,7 +132,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 78px;
+    height: 76px;
     margin-top: 0;
   }
 
@@ -147,12 +146,17 @@ export default defineComponent({
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 1.5rem 0;
+      padding: 1.5rem 0 1rem;
 
       > span {
         flex-grow: 1;
       }
     }
+  }
+
+  &__footer {
+    display: flex;
+    min-height: 76px;
   }
 }
 

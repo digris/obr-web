@@ -8,6 +8,7 @@ import IconEnueue from "@/components/ui/icon/IconEnqueue.vue";
 import IconFlash from "@/components/ui/icon/IconFlash.vue";
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import IconShare from "@/components/ui/icon/IconShare.vue";
+import { useAnalytics } from "@/composables/analytics";
 import { useObjKey } from "@/composables/obj";
 import { useQueueControls } from "@/composables/queue";
 import { useRating } from "@/composables/rating";
@@ -34,6 +35,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useI18n();
     const { objKey } = useObjKey(props.obj);
+    const { logUIEvent } = useAnalytics();
     const iconScale = 0.875;
     const { ratingByKey, setRatingWithSource } = useRating();
     const rating = computed(() => ratingByKey(objKey.value));
@@ -54,11 +56,13 @@ export default defineComponent({
       await enqueueObj(props.obj, "insert");
       await startPlayCurrent();
       emit("close");
+      logUIEvent("player:enqueue-next", objKey.value);
     });
     const enqueueEnd = requireSubscription(async () => {
       await enqueueObj(props.obj, "append");
       await startPlayCurrent();
       emit("close");
+      logUIEvent("player:enqueue-end", objKey.value);
     });
     const { share, isSupported: shareSupported } = useShare();
     const shareObj = () => {
@@ -69,6 +73,7 @@ export default defineComponent({
         url,
       });
       emit("close");
+      logUIEvent("share:start", objKey.value);
     };
     return {
       t,

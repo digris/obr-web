@@ -14,14 +14,13 @@ class VoteAdmin(
 
     date_hierarchy = "updated"
     list_display = [
-        # "__str__",
         "content_object",
         "user",
         "value",
         "source",
         "scope",
+        "origin",
         "content_type",
-        # "content_object",
         "created",
         "comment",
     ]
@@ -29,6 +28,7 @@ class VoteAdmin(
         "value",
         "source",
         "scope",
+        "origin",
         "updated",
     ]
     search_fields = [

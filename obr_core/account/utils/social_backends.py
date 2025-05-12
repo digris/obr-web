@@ -25,11 +25,17 @@ def get_backends_for_user(user):
         b for b in backends_data.get("not_associated", []) if b in SYNC_BACKENDS
     ]
 
+    connected_backends = list(backends_data.get("associated", []))
+
+    # NOTE: this is a quick hack to add backend type
+    for b in connected_backends:
+        b.kind = "sync" if b.provider in SYNC_BACKENDS else "auth"
+
     # NOTE: quick fix to have apple as first (required for app store submission)
     auth_backends.sort()
 
     backends = {
-        "connected": backends_data.get("associated", []),
+        "connected": connected_backends,
         "disconnected": backends_data.get("not_associated", []),
         "all": backends_data.get("backends", []),
         "auth": auth_backends,

@@ -1,98 +1,85 @@
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import type { AxiosError } from "axios";
 
 import Debug from "@/components/dev/Debug.vue";
 import ApiErrors from "@/components/ui/error/ApiErrors.vue";
 import { useAccount } from "@/composables/account";
+import { useAnalytics } from "@/composables/analytics";
 import { useNews } from "@/composables/news";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 
 const { settings } = useAccount();
 
 const { isNews } = usePlayerState();
-const { playLive, playNews, endPlayNews } = usePlayerControls();
+const { playNews, endPlayNews } = usePlayerControls();
+const { logUIEvent } = useAnalytics();
 
-const NEWS_PROVIDERS = [
-  {
-    key: "srf",
-    title: "SRF News",
-    language: "DE",
-    description:
-      "Nachrichten aus den Bereichen US-Wahlen 2024, Ukraine, Klima, Schweiz, International, Wirtschaft, Gesellschaft und Ratgeber",
-    url: "srf.ch/news",
-  },
-  {
-    key: "dlf",
-    title: "DLF",
-    language: "DE",
-    description: "BBC News",
-    url: "deutschlandfunk.de",
-  },
-  {
-    key: "bbc",
-    title: "BBC",
-    language: "EN",
-    description: "BBC News",
-    url: "bbc.co.uk/news",
-  },
-  {
-    key: "france-info",
-    title: "France Info",
-    language: "FR",
-    description: "BBC News",
-    url: "francetvinfo.fr",
-  },
-];
-
-const providers = computed(() => {
-  return NEWS_PROVIDERS;
-});
-
-const { provider: newsProvider } = useNews();
+const { providers, selectedProvider, setProvider } = useNews();
 
 const errors = ref<Array<string | AxiosError>>([]);
 
-const setProvider = async (providerKey: string) => {
-  if (newsProvider.value === providerKey) {
-    newsProvider.value = ""; // NOTE: this is ugly, it should rather be `null`
+const toggleProvider = async (key: string) => {
+  if (providers.value.find((provider) => provider.key === key)?.enabled === false) {
+    return;
+  }
+
+  if (selectedProvider.value?.key === key) {
+    setProvider(null);
+    logUIEvent("news:disable");
   } else {
-    newsProvider.value = providerKey;
+    setProvider(key);
+    logUIEvent("news:enable", key);
   }
 };
 </script>
 <template>
   <div class="news-settings">
-    <div class="input-container providers">
-      <label
+    <div class="info">
+      <p>Wähle deinen News-Service:</p>
+    </div>
+    <div class="providers">
+      <div
         v-for="provider in providers"
         :key="`${provider.key}-input`"
         class="provider"
         :class="{
-          'is-selected': newsProvider === provider.key,
+          'is-enabled': provider.enabled,
+          'is-selected': provider.selected,
         }"
+        @click="toggleProvider(provider.key)"
       >
-        <input
-          class="input"
-          type="checkbox"
-          name="providers"
-          :checked="newsProvider === provider.key"
-          @change="setProvider(provider.key)"
-        />
-        <span class="title" v-text="provider.title" />
-        <!--
-        <span class="description" v-text="provider.description" />
-        -->
+        <div class="title">
+          <span class="title__name" v-text="provider.title" />
+          <span v-if="provider.language" class="title__language" v-text="provider.language" />
+          <span v-if="!provider.enabled" class="title__disabled" v-text="`coming soon`" />
+        </div>
+        <div class="description">
+          <p v-text="provider.description" />
+        </div>
         <a class="link" v-text="provider.url" :href="`https://${provider.url}`" target="_blank" />
-      </label>
+      </div>
+    </div>
+    <div class="actions">
+      <div>
+        <div
+          class="unset-provider"
+          :class="{
+            'is-selected': !selectedProvider,
+          }"
+          @click="setProvider(null)"
+        >
+          <div class="checkbox" type="checkbox" />
+          <span class="label">Keine News einblenden</span>
+        </div>
+      </div>
     </div>
     <div class="form-errors" v-if="errors.length">
       <ApiErrors :errors="errors" />
     </div>
     <Debug :value="{ settings, isNews }">
       <div class="actions">
-        <button @click.prevent="playLive()">Trigger Live</button>
-        <button @click.prevent="playNews('srf')">Trigger News</button>
+        <button @click.prevent="playNews('rfi')">Trigger News</button>
         <button @click.prevent="endPlayNews()">End News</button>
       </div>
     </Debug>
@@ -109,54 +96,120 @@ const setProvider = async (providerKey: string) => {
 }
 
 .news-settings {
-  @include form.default;
+  .info {
+    padding: 2rem 0 1rem;
+  }
 
   .providers {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 1rem;
 
     .provider {
-      display: grid;
-      grid-template-areas:
-        "checkbox title"
-        "checkbox description"
-        "checkbox link";
-      grid-template-columns: 36px 1fr;
-      grid-column-gap: 1rem;
-      margin-bottom: 0;
+      cursor: pointer;
+      background: rgb(var(--c-fg) / 20%);
+      padding: 0.5rem;
+      border: 1px solid rgb(var(--c-fg) / 5%);
+      border-radius: 0.25rem;
+      transition: 60ms background ease-in-out;
 
-      > input {
+      .title {
+        display: flex;
+
+        &__language {
+          margin-left: 0.25rem;
+
+          &::before {
+            content: "(";
+          }
+
+          &::after {
+            content: ")";
+          }
+        }
+
+        &__disabled {
+          flex-grow: 1;
+          text-align: end;
+        }
+      }
+
+      .description {
+        @include typo.dim;
+
+        white-space: pre-line;
+      }
+
+      .link {
+        display: none;
+      }
+
+      &:not(.is-enabled) {
+        cursor: not-allowed;
+
+        .title {
+          &__name,
+          &__language {
+            @include typo.dim;
+          }
+
+          &__disabled {
+            color: rgb(var(--c-green) / 100%);
+            opacity: 1;
+          }
+        }
+      }
+
+      &.is-selected {
+        background: rgb(var(--c-green) / 100%);
+      }
+    }
+  }
+
+  .actions {
+    padding: 1.25rem 0 4rem;
+
+    .unset-provider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+
+      > .checkbox {
+        position: relative;
         height: 36px;
         width: 36px;
         grid-area: checkbox;
         align-self: start;
-        margin-top: 4px;
-        cursor: pointer;
+        border: 2px solid rgb(var(--c-fg) / 100%);
+        border-radius: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+          content: "";
+          display: flex;
+          height: 1rem;
+          width: 1rem;
+          transform: scale(0);
+          transition: 60ms transform ease-in-out, 60ms background ease-in-out;
+          background: rgb(var(--c-fg) / 100%);
+          border-radius: 1px;
+        }
       }
 
-      > .title {
-        grid-area: title;
-
-        @include typo.large;
-      }
-
-      > .description {
-        grid-area: description;
-        margin-top: 0.5rem;
-      }
-
-      > .link {
-        grid-area: link;
-        text-decoration: underline;
-        margin-top: 0.5rem;
+      .label {
+        @include typo.default;
       }
 
       &.is-selected {
-        color: rgb(var(--c-green));
-
-        > input {
+        > .checkbox {
           background: rgb(var(--c-green));
+
+          &::before {
+            transform: scale(1);
+          }
         }
       }
     }

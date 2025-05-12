@@ -221,6 +221,7 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.associate_user",
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
+    "account.social_auth_pipeline.user_streaming_services.sync_streaming_services",
     "account.social_auth_pipeline.app_bridge.app_redirect",
     "account.social_auth_pipeline.user_redirect.registration_redirect",
 )
@@ -257,6 +258,9 @@ SOCIAL_AUTH_SPOTIFY_SCOPE = [
     "user-read-private",
     "user-read-email",
     "user-top-read",
+    #
+    "user-library-read",
+    "playlist-modify-private",
 ]
 
 # spotify oauth2
@@ -283,8 +287,8 @@ SOCIAL_AUTH_DEEZER_SECRET = env(
 
 SOCIAL_AUTH_DEEZER_SCOPE = [
     "manage_library",
+    "delete_library",
     "listening_history",
-    "manage_library",
     "offline_access",
 ]
 

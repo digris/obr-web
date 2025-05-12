@@ -31,6 +31,13 @@ class VoteScope(
     GENRE = "genre", "genre"
 
 
+class VoteOrigin(
+    models.TextChoices,
+):
+    USER = "user", "user"
+    SYNC = "sync", "sync"
+
+
 class Vote(
     TimestampedModelMixin,
     CTUIDModelMixin,
@@ -52,6 +59,12 @@ class Vote(
         max_length=16,
         choices=VoteScope.choices,
         default=VoteScope.UNDEFINED,
+        db_index=True,
+    )
+    origin = models.CharField(
+        max_length=16,
+        choices=VoteOrigin.choices,
+        default=VoteOrigin.USER,
         db_index=True,
     )
     comment = models.TextField(

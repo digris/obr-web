@@ -5,6 +5,7 @@ import type { Emitter } from "mitt";
 import { AppBridge } from "@/app-bridge/appBridge";
 import AuthSidebar from "@/components/account/auth/AuthSidebar.vue";
 import CompatibilityNotice from "@/components/browser-compatibility/CompatibilityNotice.vue";
+import CtaPresenter from "@/components/cta/CtaPresenter.vue";
 import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
 import CookieConsent from "@/components/legal/CookieConsent.vue";
 import LegalLinks from "@/components/legal/LegalLinks.vue";
@@ -50,6 +51,7 @@ export default defineComponent({
     GeoblockNotice,
     Player,
     MobilePlayer,
+    CtaPresenter,
     ClaimVoucher,
     CookieConsent,
     CompatibilityNotice,
@@ -115,6 +117,7 @@ export default defineComponent({
   <MobilePlayer v-if="isSmallScreen" />
   <Player v-else />
   <LegalLinks />
+  <CtaPresenter />
   <CookieConsent />
   <CompatibilityNotice />
   <div v-show="false" id="app-version" :data-version="version" v-text="version" />

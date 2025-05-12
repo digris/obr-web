@@ -10,7 +10,7 @@ interface NewsItem {
 
 export const useNewsStore = defineStore("news", () => {
   const schedule = ref<NewsItem[]>([]);
-  const provider = useStorage("news/provider", "", localStorage, {
+  const providerKey = useStorage("news/provider", "", localStorage, {
     serializer: {
       read: (v) => v,
       write: (v) => v,
@@ -18,6 +18,6 @@ export const useNewsStore = defineStore("news", () => {
   });
   return {
     schedule,
-    provider,
+    providerKey,
   };
 });

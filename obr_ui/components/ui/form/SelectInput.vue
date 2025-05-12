@@ -84,6 +84,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/base/responsive";
 @use "@/style/elements/form";
 
 .select-input {
@@ -109,6 +110,10 @@ export default defineComponent({
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
     appearance: none; // NOTE: do we need a custom input here?
+
+    @include responsive.bp-medium {
+      min-height: 2.25rem;
+    }
 
     &:focus {
       background: rgb(var(--c-dark) / 10%);

@@ -16,6 +16,7 @@ import News from "./button/News.vue";
 import NewsSurvey from "./button/NewsSurvey.vue";
 import OnAir from "./button/OnAir.vue";
 import CurrentMedia from "./CurrentMedia.vue";
+import CurrentNews from "./CurrentNews.vue";
 import PlayerControl from "./PlayerControl.vue";
 import Playhead from "./Playhead.vue";
 import Queue from "./Queue.vue";
@@ -51,7 +52,7 @@ const testingEnabled = computed(() => userSettings.value?.testingEnabled);
       <Playhead class="playhead" @seek="seek" />
       <div class="container">
         <div class="left">
-          <div v-if="isNews">(( CurrentNews ))</div>
+          <CurrentNews v-if="isNews" />
           <CurrentMedia v-else :media="media" />
         </div>
         <div class="center">

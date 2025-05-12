@@ -2,7 +2,7 @@ FROM savonet/liquidsoap:v2.3.1
 
 WORKDIR /app
 
-COPY devsupport/news/ ./
+COPY devsupport/news/rfi/ ./
 
 EXPOSE 8000
 

@@ -223,7 +223,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 20;
+    z-index: 15;
   }
 }
 

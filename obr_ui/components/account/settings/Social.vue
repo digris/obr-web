@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
 
 import { disconnectSocialBackend, getSocialBackends } from "@/api/account";
 import imgApple from "@/assets/brand-icons/apple.svg";
@@ -60,6 +61,7 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n();
     const { isApp } = useDevice();
+    const route = useRoute();
     const connected = ref<Array<Backend>>([]);
     const auth = ref<Array<Backend>>([]);
     const sync = ref<Array<Backend>>([]);
@@ -93,7 +95,8 @@ export default defineComponent({
 
       let nextUrl = backend.connectUrl;
       if (props.next) {
-        nextUrl += `?next=${props.next}`;
+        // nextUrl += `?next=${props.next}#${backend.provider}`;
+        nextUrl += `?next=${props.next}#social-connected`;
       }
       window.location.href = nextUrl;
     };
@@ -101,7 +104,16 @@ export default defineComponent({
       await disconnectSocialBackend(backend.provider, backend.uid);
       await fetchBackends();
     };
-    onMounted(fetchBackends);
+    onMounted(() => {
+      fetchBackends();
+      if (route.hash === "#social-connected") {
+        setTimeout(() => {
+          document.querySelector("#social-connected")?.scrollIntoView({
+            block: "center",
+          });
+        }, 1);
+      }
+    });
 
     return {
       t,
@@ -117,9 +129,12 @@ export default defineComponent({
 
 <template>
   <Section :outlined="false" :title="t('account.settings.social.title')">
+    <!--
     <div class="info">
       <p v-text="t('account.settings.social.info')" />
     </div>
+    -->
+    <div id="social-connected" />
     <div
       v-for="backend in connected"
       :key="`auth-backend-${backend.provider}`"
@@ -131,16 +146,23 @@ export default defineComponent({
         {{ backend.title }}
         <span v-if="backend.uid" class="uid" v-text="backend.uid" />
       </p>
+      <div v-if="backend.kind === 'sync'" class="streaming-sync">
+        <button class="button" v-text="backend.provider" />
+      </div>
       <button
         @click="disconnect(backend)"
-        class="button"
+        class="button button--disconnect"
         :class="{ 'is-disabled': !backend.canDisconnect }"
         :disabled="!backend.canDisconnect"
         v-text="t('account.settings.social.disconnect')"
       />
     </div>
   </Section>
-  <Section :outlined="false" :title="t('account.settings.social.loginAccounts.title')">
+  <Section
+    v-if="auth.length"
+    :outlined="false"
+    :title="t('account.settings.social.loginAccounts.title')"
+  >
     <div
       v-for="backend in auth"
       :key="`auth-backend-${backend.provider}`"
@@ -151,12 +173,17 @@ export default defineComponent({
       <p class="title" v-text="backend.title" />
       <button
         @click="beginLogin(backend)"
-        class="button"
+        class="button button--connect"
         v-text="t('account.settings.social.connect')"
       />
     </div>
   </Section>
-  <Section :outlined="false" :title="t('account.settings.social.streamingAccounts.title')">
+  <Section
+    v-if="sync.length"
+    :outlined="false"
+    :title="t('account.settings.social.streamingAccounts.title')"
+  >
+    <!---->
     <div class="info">
       <p v-text="t('account.settings.social.streamingAccounts.info')" />
     </div>
@@ -170,7 +197,7 @@ export default defineComponent({
       <p class="title" v-text="backend.title" />
       <button
         @click="beginLogin(backend)"
-        class="button"
+        class="button button--connect"
         v-text="t('account.settings.social.connect')"
       />
     </div>
@@ -184,6 +211,7 @@ export default defineComponent({
 .info {
   padding: 0.5rem 2rem 1rem 0;
   opacity: 0.5;
+  white-space: pre-line;
 
   @include responsive.bp-medium {
     @include typo.small;
@@ -192,7 +220,8 @@ export default defineComponent({
 
 .backend {
   display: grid;
-  grid-template-columns: 32px auto 120px;
+  grid-template-columns: 28px auto 120px;
+  grid-gap: 0.25rem;
   align-items: center;
   margin-bottom: 0.5rem;
   padding: 0.25rem 0.25rem 0.25rem 1rem;
@@ -200,13 +229,17 @@ export default defineComponent({
   border: 1px solid rgb(var(--c-dark) / 20%);
   border-radius: 3px;
 
+  &:has(.streaming-sync) {
+    grid-template-columns: 28px auto 120px 120px;
+  }
+
   [data-theme="dark"] & {
     border-color: rgb(var(--c-dark) / 5%);
     background: rgb(var(--c-dark) / 5%);
   }
 
   &:hover {
-    background: rgb(var(--c-dark) / 10%);
+    background: rgb(var(--c-dark) / 1%);
   }
 
   .logo {
@@ -232,12 +265,15 @@ export default defineComponent({
   }
 
   .button {
+    @include typo.tiny;
+
     min-width: 120px;
     padding: 0.75rem 1.5rem;
     background: rgb(var(--c-dark) / 10%);
     border: 0;
     cursor: pointer;
     color: rgb(var(--c-dark));
+    text-transform: uppercase;
 
     [data-theme="dark"] & {
       background: rgb(var(--c-dark) / 10%);
@@ -245,6 +281,24 @@ export default defineComponent({
 
     &:disabled {
       cursor: not-allowed;
+    }
+
+    &--connect {
+      background: rgb(var(--c-green) / 10%);
+      color: rgb(var(--c-green));
+
+      &:hover {
+        background: rgb(var(--c-green) / 15%);
+      }
+    }
+
+    &--disconnect {
+      background: rgb(var(--c-red) / 10%);
+      color: rgb(var(--c-red));
+
+      &:hover {
+        background: rgb(var(--c-red) / 15%);
+      }
     }
   }
 

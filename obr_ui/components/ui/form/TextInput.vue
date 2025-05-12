@@ -132,6 +132,10 @@ export default defineComponent({
     border-radius: 3px;
     transition: 100ms background ease-in-out, 100ms border-color ease-in-out;
 
+    @include responsive.bp-medium {
+      min-height: 2.25rem;
+    }
+
     &:focus {
       background: rgb(var(--c-dark) / 10%);
       border-color: transparent;

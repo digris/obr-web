@@ -94,7 +94,6 @@ const useQueueControls = () => {
       log.debug("queueControls - enqueueObj app-mode", channel, data);
       await appBridge.send(channel, data);
     }
-    logUIEvent("queue:enqueueObj", mode);
   };
   const enqueueMedia = async (media: Array<Media>, mode = "append", scope = []) => {
     log.debug("queueControls - enqueueMedia", media, mode, scope);
@@ -109,7 +108,6 @@ const useQueueControls = () => {
       log.debug("queueControls - enqueueMedia app-mode", channel, data);
       await appBridge.send(channel, data);
     }
-    logUIEvent("queue:enqueueMedia", mode);
   };
   const startPlayCurrent = async (force = false) => {
     if (!isWeb) {
@@ -144,7 +142,6 @@ const useQueueControls = () => {
       log.debug("queueControls - enqueueMedia app-mode", channel, data);
       await appBridge.send(channel, data);
     }
-    logUIEvent("queue:playFromIndex", index);
   };
   const playPrevious = async () => {
     log.debug("queueControls - playPrevious");
@@ -153,7 +150,6 @@ const useQueueControls = () => {
     } else {
       throw new Error("no previous media");
     }
-    logUIEvent("queue:playPrevious");
   };
   const playNext = async () => {
     log.debug("queueControls - playNext");
@@ -164,7 +160,6 @@ const useQueueControls = () => {
       log.info("no next media - switch to live");
       await playLive();
     }
-    logUIEvent("queue:playNext");
   };
   // mapping actions depending on mode
   const clearQueue = async (): Promise<void> => {

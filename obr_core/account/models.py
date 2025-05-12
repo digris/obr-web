@@ -44,6 +44,7 @@ class NewsProvider(models.TextChoices):
     SRF = "srf", "SRF"
     BBC = "bbc", "BBC"
     DLF = "dlf", "DLF"
+    RFI = "rfi", "RFI"
 
 
 class UserManager(BaseUserManager):

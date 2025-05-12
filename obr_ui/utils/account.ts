@@ -4,6 +4,7 @@ import { useIntervalFn } from "@vueuse/core";
 import { isEqual } from "lodash-es";
 
 import { useAccount } from "@/composables/account";
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
 import { useSubscription } from "@/composables/subscription";
 import eventBus from "@/eventBus";
@@ -66,6 +67,7 @@ const requireSubscription = (fn: Function, message = "") => {
   // eslint-disable-next-line func-names
   return function (...args: any) {
     const { user, subscription } = useAccount();
+    const { logUIEvent } = useAnalytics();
     if (!user.value) {
       const event = {
         intent: "login",
@@ -73,15 +75,17 @@ const requireSubscription = (fn: Function, message = "") => {
         message,
       };
       eventBus.emit("account:authenticate", event);
+      logUIEvent("subscription:paywall", "unauthenticated");
       return false;
     }
     if (!subscription.value) {
       const event = {
-        intent: "plan",
+        intent: "voucher",
         next: window.location.pathname,
         message,
       };
       eventBus.emit("subscription:subscribe", event);
+      logUIEvent("subscription:paywall", "no-subscription");
       return false;
     }
     if (subscription.value.isBlocked) {
@@ -89,15 +93,17 @@ const requireSubscription = (fn: Function, message = "") => {
         message: subscription.value.isBlocked,
       };
       eventBus.emit("geolocation:blocked", event);
+      logUIEvent("subscription:paywall", "geo-blocked");
       return false;
     }
     if (!subscription.value.isActive) {
       const event = {
-        intent: "plan",
+        intent: "voucher",
         next: window.location.pathname,
         message,
       };
       eventBus.emit("subscription:subscribe", event);
+      logUIEvent("subscription:paywall", "inactive-subscription");
       return false;
     }
     // @ts-ignore

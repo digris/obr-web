@@ -9,6 +9,7 @@ import { onClickOutside } from '@vueuse/core';
 
 import CircleButton from '@/components/ui/button/CircleButton.vue';
 import IconContext from '@/components/ui/icon/IconContext.vue';
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from '@/composables/device';
 import { useIconSize } from "@/composables/icon";
 import eventBus from '@/eventBus';
@@ -43,6 +44,7 @@ export default defineComponent({
     ListActions,
   },
   setup(props) {
+    const { logUIEvent } = useAnalytics();
     const root = ref(null);
     const menu = ref(null);
     const menuPosition = ref('bottom');
@@ -62,6 +64,7 @@ export default defineComponent({
         menuPosition.value = 'bottom';
       }
       isVisible.value = true;
+      logUIEvent("context-menu:show");
     };
     const hide = () => {
       isVisible.value = false;

@@ -162,19 +162,23 @@ account:
       title: Newsletter
     social:
       title: Verbundene Konten
-      info: Verbundene Logins  # TODO: Text needed
+      info: Verbundene Logins
       connect: verbinden
       disconnect: trennen
       loginAccounts:
         title: Login-Konten
       streamingAccounts:
         title: Streaming-Konten
-        info: Verbundene streaming-Konten
+        info: "Verbinde deine streaming-Konten:\n
+         Deine Library wird automatisch synchronisiert und deine Likes werden als  
+         Playliste \"open broadcast\" gespeichert."
 subscription:
   credits: Guthaben
   # temporary
   noCredits: Kein Guthaben
-  noCreditsNote: Aus rechtlichen Gründen ist im Moment kein Kauf von Guthaben möglich.
+#  noCreditsNote: Aus rechtlichen Gründen ist im Moment kein Kauf von Guthaben möglich. TV-EH-VU
+  noCreditsNote: "Aus rechtlichen Gründen ist im Moment kein Kauf von Guthaben möglich.\n
+         Du kannst jedoch einen Gratis-Code einlösen, um Guthaben zu erhalten."
   #
   creditsExpired: Guthaben abgelaufen
   numDaysRemaining: 1 Tag | {count} Tage
@@ -184,6 +188,7 @@ subscription:
   numUsedAndTotal: "eingelöst: {0}/{1}"
   voucher:
     code: Gratis-Code
+    redeemCode: Gratis-Code Einlösen
     invalidCode: Ungültiger Gutschein-Code
     redeem: Jetzt Einlösen
     authenticateAndRedeem: Anmelden und einlösen
@@ -205,11 +210,11 @@ subscription:
       legal: Total inkl. aller Steuern und Gebühren
     payNow: Jetzt Bezahlen
     # SubscribeVoucher.vue
-    redeemNow: Jetzt Jetzt Einlösen
+    redeemNow: Jetzt Einlösen
 geolocation:
   availability:
-    note: Currently we can only provide access to our on-demand service for people living in Switzerland.
-    faqNote: More about in the {0} section.
+    note: Derzeit können wir unseren On-Demand-Dienst nur für Personen mit Wohnsitz in der Schweiz anbieten.
+    faqNote: Mehr dazu im unter {0}.
     faqLabel: FAQ
 browserCompatibility:
   notSupported:

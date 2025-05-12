@@ -5,6 +5,7 @@ import { storeToRefs } from "pinia";
 
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconLogo from "@/components/ui/icon/IconLogo.vue";
+import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueControls } from "@/composables/queue";
@@ -36,6 +37,7 @@ export default defineComponent({
       isBuffering: playerIsBuffering,
       isPaused: playerIsPaused,
     } = usePlayerState();
+    const { logUIEvent } = useAnalytics();
     const isCurrentPlayerMedia = computed(
       () => currentPlayerMedia.value?.uid === props.item.media.uid
     );
@@ -61,15 +63,18 @@ export default defineComponent({
     const handleClick = async () => {
       if (isBuffering.value || isPlaying.value) {
         await pausePlayer();
+        logUIEvent("player:pause");
         return;
       }
       if (isCurrentScheduleItem.value) {
-        const startTime = -10;
-        await playLive(startTime);
+        await playLive();
+        logUIEvent("player:play", "live");
       } else if (isPaused.value) {
         await resumePlayer();
+        logUIEvent("player:resume", "on-demand");
       } else {
         startPlayMedia(props.item.media);
+        logUIEvent("player:play", "on-demand");
       }
     };
     return {

@@ -15,7 +15,7 @@ interface NewsMessage {
 export async function init(app: App): Promise<void> {
   console.log("init", app);
 
-  const { provider: newsProvider } = useNews();
+  const { selectedProvider } = useNews();
   const { playNews, endPlayNews } = useNews();
 
   const sse = new EventSource(SSE_PUBLISHER_URL);
@@ -30,8 +30,8 @@ export async function init(app: App): Promise<void> {
     const delay = (ts + 4) * 1000 - Date.now();
 
     if (cmd === "start") {
-      if (newsProvider.value !== provider) {
-        console.info("news provider not enabled", provider, newsProvider.value);
+      if (selectedProvider.value?.key !== provider) {
+        console.info("news provider not enabled", selectedProvider);
         return;
       }
 

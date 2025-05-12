@@ -70,7 +70,7 @@ export default defineComponent({
     <Personal :user="user" @updated="loadUser" />
     <Address :address="address" @updated="loadUser" />
     <Newsletter />
-    <Social />
+    <Social next="/account/settings/" />
     <QRCodeLogin v-if="isDesktop" :user="user" />
   </Page>
 </template>

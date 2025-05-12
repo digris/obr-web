@@ -71,16 +71,25 @@ export default defineComponent({
         <Datetime :value="subscription.activeUntil" :display-time="false" />
       </i18n-t>
     </div>
+    <div v-if="!isBlocked" class="actions">
+      <i18n-t
+        @click="extendSubscription"
+        keypath="subscription.voucher.redeemCode"
+        tag="button"
+        class="button"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 @use "@/style/base/typo";
+@use "@/style/elements/button";
 
 .subscription {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
   color: rgb(var(--c-dark));
   cursor: pointer;
 
@@ -101,6 +110,22 @@ export default defineComponent({
       @include typo.default;
 
       color: rgb(var(--c-dark) / 50%);
+      white-space: pre-line;
+    }
+  }
+
+  .actions {
+    @include typo.default;
+
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+
+    .button {
+      @include button.outlined(2.5rem);
+
+      min-width: 33%;
     }
   }
 }

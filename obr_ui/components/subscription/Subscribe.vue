@@ -5,6 +5,7 @@ import { useRouter } from "vue-router";
 import SubscribePlan from "@/components/subscription/SubscribePlan.vue";
 import SubscribeVoucher from "@/components/subscription/SubscribeVoucher.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
+import { useAnalytics } from "@/composables/analytics";
 import { useNotification } from "@/composables/notification";
 import eventBus from "@/eventBus";
 
@@ -17,6 +18,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const { notify } = useNotification();
+    const { logUIEvent } = useAnalytics();
     const isVisible = ref(false);
     const intent = ref("plan");
     const next = ref("");
@@ -28,13 +30,14 @@ export default defineComponent({
     };
     const setIntent = (value: string) => {
       intent.value = value;
+      logUIEvent("subscription:subscribe", intent.value);
     };
     eventBus.on("subscription:subscribe", (event) => {
-      console.debug("subscription:subscribe", event);
       isVisible.value = true;
       intent.value = event.intent;
       next.value = event?.next ?? "";
       message.value = event?.message ?? "";
+      logUIEvent("subscription:subscribe", intent.value);
     });
     const subscriptionUpdated = () => {
       console.debug("show success");
