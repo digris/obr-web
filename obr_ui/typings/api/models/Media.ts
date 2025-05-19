@@ -28,6 +28,7 @@ export type Media = {
   readonly artistDisplay: string;
   readonly artists: Array<MediaArtist>;
   readonly releases: Array<Release>;
+  readonly lyricsExplicit: number;
   /**
    * in seconds
    */

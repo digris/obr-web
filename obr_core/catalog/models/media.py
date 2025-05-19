@@ -84,11 +84,13 @@ class Media(
         max_length=5,
         blank=True,
         default="",
+        db_index=True,
     )
     lyrics_explicit = models.IntegerField(
         verbose_name="Explicit lyrics",
         choices=LyricsExplicit.choices,
         default=LyricsExplicit.CLEAN,
+        db_index=True,
     )
 
     class Meta:

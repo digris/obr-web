@@ -85,6 +85,9 @@ export default defineComponent({
           }"
           v-text="media.name"
         />
+        <div v-if="media.lyricsExplicit" class="lyrics-explicit">
+          <span title="Explicit lyrics">E</span>
+        </div>
       </div>
       <div class="artist">
         <MediaArtists :artists="media.artists" />
@@ -152,6 +155,28 @@ export default defineComponent({
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+
+    .lyrics-explicit {
+      position: relative;
+      display: flex;
+
+      > span {
+        @include typo.light;
+        @include typo.dim;
+
+        top: -10px;
+        position: absolute;
+        display: inline-flex;
+        padding-left: 0.25em;
+        font-size: 10px;
+
+        @include responsive.bp-medium-up {
+          font-size: 12px;
+          padding-left: 0.5em;
+          top: -16px;
+        }
+      }
     }
   }
 
