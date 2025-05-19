@@ -18,11 +18,15 @@ def media_link_to_spotify(
 
     def try_get_media():
         isrc = media.identifiers.filter(scope="isrc").first()
+
         if isrc:
             try:
-                return client.get_media_by_isrc(isrc=isrc.value)
+                if isrc_result := client.get_media_by_isrc(isrc=isrc.value):
+                    return isrc_result
+
             except APIClientError as e:
                 logger.error(f"APIClientError (ISRC): {e}")
+
         try:
             return client.get_media_by_search(
                 name=media.name,
@@ -30,6 +34,7 @@ def media_link_to_spotify(
             )
         except APIClientError as e:
             logger.error(f"APIClientError (Search): {e}")
+
         return None
 
     result = try_get_media()
