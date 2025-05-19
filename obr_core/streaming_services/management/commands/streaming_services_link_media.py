@@ -42,7 +42,7 @@ class Command(BaseCommand):
             | Q(
                 kind__in=[
                     Media.Kind.JINGLE,
-                ]
+                ],
             ),
         ).order_by("id")
 
@@ -60,11 +60,11 @@ class Command(BaseCommand):
             if identifier:
                 num_linked += 1
                 self.stdout.write(
-                    f"linked:     {media.uid} - {media} by: {media.artist_display} to: {identifier.value}"
+                    f"linked:     {media.uid} - {media} by: {media.artist_display} to: {identifier.value}",
                 )
             else:
                 self.stdout.write(
-                    f"not linked: {media.uid} - {media} by: {media.artist_display}"
+                    f"not linked: {media.uid} - {media} by: {media.artist_display}",
                 )
 
         self.stdout.write(f"linked {num_linked} of {num_total} media identifiers")

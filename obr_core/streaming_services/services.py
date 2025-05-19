@@ -26,7 +26,7 @@ def media_link_to_spotify(
         try:
             return client.get_media_by_search(
                 name=media.name,
-                artist_name=media.artist_display,
+                artist_name=" ".join(ma.artist.name for ma in media.media_artist.all()),
             )
         except APIClientError as e:
             logger.error(f"APIClientError (Search): {e}")

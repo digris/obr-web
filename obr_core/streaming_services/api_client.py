@@ -1,4 +1,5 @@
 import json
+import time
 from datetime import timedelta
 
 from django.conf import settings
@@ -37,12 +38,8 @@ class SpotifyAPIClient:
         # spotify auth does not include 'expires'. we check when the token was last updated
         # and "manually" refresh if older than 50 minutes (token valid for 1 hour)
         if sa.modified < timezone.now() - timedelta(seconds=50 * 60):
-            # refresh token
-            try:
-                print("refreshing token")
-                sa.refresh_token(strategy=load_strategy())
-            except Exception as e:
-                raise APIClientError(f"Failed to refresh token: {e}") from e
+            print("refreshing token")
+            sa.refresh_token(strategy=load_strategy())
 
         return sa.access_token
 
@@ -59,6 +56,11 @@ class SpotifyAPIClient:
 
         try:
             r = requests.get(url, params=params, headers=headers, timeout=(5, 30))
+
+            if r.status_code == 429:
+                print("Rate limit exceeded, sleep for 10 seconds...")
+                time.sleep(10)
+
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
             print("HTTPError", e)
