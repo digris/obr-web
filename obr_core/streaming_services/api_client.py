@@ -30,7 +30,7 @@ class SpotifyAPIClient:
         except UserSocialAuth.DoesNotExist as e:
             raise APIClientError(
                 f"UserSocialAuth not found: {self.social_auth_provider} - {self.social_auth_email} - {e}",
-            )
+            ) from e
 
         return sa.get_access_token(strategy=load_strategy())
 
@@ -49,12 +49,12 @@ class SpotifyAPIClient:
             response = requests.get(url, params=params, headers=headers, timeout=(1, 2))
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
-            raise APIClientError(f"HTTP error: {e}")
+            raise APIClientError(f"HTTP error: {e}") from e
 
         try:
             data = response.json()
         except json.decoder.JSONDecodeError as e:
-            raise APIClientError(f"JSON decode error: {e}")
+            raise APIClientError(f"JSON decode error: {e}") from e
 
         return data
 
