@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     "electronic_mail",
     "stats",
     "newsletter",
+    "streaming_services",
     "survey",
     "slack",
     #

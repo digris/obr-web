@@ -32,12 +32,11 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n();
-    const { isApp, isDesktop } = useDevice();
+    const { isDesktop } = useDevice();
     const { user, subscription, settings, address, loadUser } = useAccount();
     const socialNext = window.location.pathname;
     return {
       t,
-      isApp,
       user,
       subscription,
       settings,
@@ -53,7 +52,6 @@ export default defineComponent({
 <template>
   <Page v-if="user" :title="t('account.title')">
     <Section
-      :readonly="isApp"
       v-if="user"
       class="subscription"
       :title="t('account.settings.subscription.title')"

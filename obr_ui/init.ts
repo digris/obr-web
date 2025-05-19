@@ -23,7 +23,7 @@ export async function init(app: App): Promise<void> {
   sse.addEventListener("news", async (e): Promise<void> => {
     const message: NewsMessage = JSON.parse(e.data) as NewsMessage;
 
-    console.debug(message, e);
+    console.info("SSE-event", message);
 
     const { ts, cmd, provider } = message;
 
@@ -42,7 +42,7 @@ export async function init(app: App): Promise<void> {
 
     if (cmd === "stop") {
       setTimeout(async () => {
-        await endPlayNews();
+        await endPlayNews(provider);
       }, delay);
     }
   });

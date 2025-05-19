@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 
+from catalog.signals import sync_media_completed
 from google.cloud import storage
 from identifier.models import IdentifierScope
 from sync import api_client
@@ -104,6 +105,11 @@ def sync_media(media, skip_media=False, **kwargs):
             ReleaseMedia.objects.filter(id=release_media.id).update(
                 position=position,
             )
+
+    sync_media_completed.send(
+        sender=None,
+        media=media,
+    )
 
     logger.info(f"sync completed for {media.ct}:{media.uid}")
 

@@ -66,7 +66,7 @@ class Media(
     )
     identifiers = GenericRelation(
         "identifier.Identifier",
-        related_name="artist",
+        related_name="media",
     )
 
     class Meta:

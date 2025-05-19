@@ -118,5 +118,10 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
+        "streaming_services": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
     },
 }

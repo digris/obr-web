@@ -6,6 +6,8 @@ import { useObjKey } from "@/composables/obj";
 
 import Identifier from "./Identifier.vue";
 
+const EXCLUDED_SCOPES = ["isrc", "spotify", "deezer"];
+
 export default defineComponent({
   components: {
     Identifier,
@@ -50,7 +52,7 @@ export default defineComponent({
     });
     const identifiers = computed(() => {
       return [
-        ...objIdentifiers.value.filter((i: any) => i.scope !== "isrc"),
+        ...objIdentifiers.value.filter((i: any) => !EXCLUDED_SCOPES.includes(i.scope)),
         ...extraIdentifiers.value,
       ];
     });

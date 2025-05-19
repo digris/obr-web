@@ -4,12 +4,12 @@ from datetime import date, timedelta
 from django.contrib import admin
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Coalesce
-from django.utils.safestring import mark_safe
 
 import qsstats
 import unfold.admin
 import unfold.decorators
 from catalog.models.media import Airplay, Master, Media
+from catalog.models.release import Release
 from identifier.admin import IdentifierInline
 from image.utils import get_admin_inline_image
 from sync.admin import SyncAdminMixin, sync_qs_action
@@ -24,6 +24,15 @@ class MediaArtistInline(unfold.admin.TabularInline):
     hide_title = True
     verbose_name = "Artist"
     verbose_name_plural = "Artists"
+
+
+class MediaReleaseInline(unfold.admin.TabularInline):
+    model = Release.media.through
+    autocomplete_fields = ["release"]
+    extra = 0
+    hide_title = True
+    verbose_name = "Release"
+    verbose_name_plural = "Releases"
 
 
 @admin.register(Media)
@@ -69,6 +78,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     ]
     inlines = [
         MediaArtistInline,
+        MediaReleaseInline,
         IdentifierInline,
     ]
     actions = [
@@ -233,6 +243,23 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     )
     def uid_display(self, obj):
         return obj.uid
+
+    fieldsets = [
+        (
+            None,
+            {
+                "fields": [
+                    "sync_state",
+                    "name",
+                    "duration",
+                    "kind",
+                    "uuid",
+                    "uid",
+                    "tags",
+                ],
+            },
+        ),
+    ]
 
 
 @admin.register(Master)

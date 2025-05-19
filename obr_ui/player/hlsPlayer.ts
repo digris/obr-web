@@ -27,7 +27,7 @@ const hlsConfig = {
 
 type Mode = "live" | "ondemand" | "news";
 type PlayState = "stopped" | "buffering" | "playing" | "paused";
-type NewsProvider = "srf" | "bbc" | "dlf";
+type NewsProvider = "srf" | "bbc" | "dlf" | "rfi";
 
 type CueFade = {
   cueIn: number;
@@ -69,6 +69,7 @@ class HlsPlayer {
   public currentTime = 0;
 
   public mode: Mode = "live";
+  public newsProvider: null | NewsProvider = null;
   public playState: PlayState = "stopped";
 
   private cueIn = 0;
@@ -432,6 +433,7 @@ class HlsPlayer {
       await this.setPlayState("buffering");
 
       this.mode = "news";
+      this.newsProvider = provider;
       this.mediaUid = null;
 
       if (this.hls) {
@@ -445,13 +447,20 @@ class HlsPlayer {
     });
   }
 
-  public async endPlayNews(): Promise<void> {
-    log.debug("endPlayNews");
+  public async endPlayNews(provider?: NewsProvider): Promise<void> {
+    log.debug("endPlayNews", provider);
 
     if (this.mode !== "news" || !["playing", "buffering"].includes(this.playState)) {
       log.debug("endPlayNews:skip - not in news mode and / or not playing");
       return;
     }
+
+    if (provider && provider !== this.newsProvider) {
+      log.debug("endPlayNews:skip - provider mismatch");
+      return;
+    }
+
+    this.newsProvider = null;
 
     this.setVolume(0);
     await this.playNext();
@@ -460,7 +469,7 @@ class HlsPlayer {
 
   public async pause(): Promise<void> {
     log.debug("pause");
-    await this.audio.pause();
+    this.audio.pause();
     if (this.mode === "live") {
       if (this.hls) {
         this.hls.stopLoad();

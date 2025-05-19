@@ -14,6 +14,8 @@ class IdentifierScope(models.TextChoices):
     OFFICIAL = "official", "Website"
     # NOTE: how to handle scopes that don't make sense for all content-types?
     ISRC = "isrc", "ISRC"
+    SPOTIFY = "spotify", "Spotify"
+    DEEZER = "deezer", "Deezer"
 
 
 class Identifier(
@@ -28,7 +30,6 @@ class Identifier(
         null=True,
         blank=False,
     )
-
     value = models.CharField(  # NOQA: DJ001
         verbose_name="Identifier",
         max_length=512,
@@ -36,7 +37,6 @@ class Identifier(
         null=True,
         blank=False,
     )
-
     content_type = models.ForeignKey(
         ContentType,
         on_delete=models.CASCADE,
