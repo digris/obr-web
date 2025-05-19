@@ -257,7 +257,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     )
     def identifiers_display(self, obj):
         return format_html_join(
-            mark_safe("<br>"),
+            mark_safe("<br>"),  # NOQA S308
             "{}",
             ([i.get_scope_display()] for i in obj.identifiers.all()),
         )
