@@ -665,6 +665,15 @@ SSE_PUBLISHER_URL = env(
 
 
 ##################################################################
+# streaming services
+##################################################################
+STREAMING_SERVICES_SPOTIFY_SOCIAL_AUTH_EMAIL = env(
+    "STREAMING_SERVICES_SPOTIFY_SOCIAL_AUTH_EMAIL",
+    default="jonas.ohrstrom@digris.ch",
+)
+
+
+##################################################################
 # 3rd party services
 ##################################################################
 USERSNAP_API_KEY = env(

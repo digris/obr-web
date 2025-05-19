@@ -1,9 +1,11 @@
 import json
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from django.contrib import admin
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Coalesce
+from django.utils.safestring import mark_safe
+from django.utils.timezone import make_aware
 
 import qsstats
 import unfold.admin
@@ -14,7 +16,7 @@ from identifier.admin import IdentifierInline
 from image.utils import get_admin_inline_image
 from sync.admin import SyncAdminMixin, sync_qs_action
 
-AGGREGATE_MAX_AGE = date(2024, 1, 1)
+AGGREGATE_MAX_AGE = make_aware(datetime.combine(date(2024, 1, 1), datetime.min.time()))
 
 
 class MediaArtistInline(unfold.admin.TabularInline):
@@ -59,6 +61,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         # "sync_last_update",
         "kind",
         "sync_state",
+        "identifiers__scope",
     ]
     search_fields = [
         "name",

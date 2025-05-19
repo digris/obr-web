@@ -24,6 +24,7 @@ class Identifier(
     models.Model,
 ):
     scope = models.CharField(  # NOQA: DJ001
+        verbose_name="Identifier scope",
         max_length=32,
         choices=IdentifierScope.choices,
         db_index=True,

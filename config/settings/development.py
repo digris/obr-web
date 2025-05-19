@@ -16,6 +16,9 @@ STORAGES = {
 }
 
 
+STREAMING_SERVICES_SPOTIFY_SOCIAL_AUTH_EMAIL = "none@none.no"
+
+
 MEDIA_ROOT = PROJECT_ROOT / "data" / "media"
 MEDIA_URL = ""
 
@@ -119,7 +122,7 @@ LOGGING = {
             "propagate": False,
         },
         "streaming_services": {
-            "level": "DEBUG",
+            "level": "INFO",
             "handlers": ["console"],
             "propagate": False,
         },

@@ -1,4 +1,3 @@
-import json
 import logging
 
 import account.models
@@ -24,21 +23,22 @@ def media_link_to_spotify(
         )
     except APIClientError as e:
         logger.error(f"APIClientError: {e}")
-        return
-
-    print(json.dumps(result, indent=2))
+        return None
 
     if not result:
         logger.debug("no result")
-        return
+        return None
 
     if uri := result.get("uri"):
-        media.identifiers.update_or_create(
+        identifier, _ = media.identifiers.update_or_create(
             scope="spotify",
             defaults={
                 "value": uri,
             },
         )
+        return identifier
+
+    return None
 
 
 def media_link_to_deezer(

@@ -1,10 +1,12 @@
 import json
 
+from django.conf import settings
+
 import requests
 from social_django.models import UserSocialAuth
 from social_django.utils import load_strategy
 
-SPOTIFY_SOCIAL_AUTH_EMAIL = "jonas.ohrstrom@digris.ch"
+SPOTIFY_SOCIAL_AUTH_EMAIL = settings.STREAMING_SERVICES_SPOTIFY_SOCIAL_AUTH_EMAIL
 
 
 class APIClientError(Exception):
@@ -68,8 +70,6 @@ class SpotifyAPIClient:
         data = self.get("/search", params=params)
 
         tracks = data.get("tracks", {}).get("items", [])
-
-        print("tracks", tracks)
 
         return tracks[0] if tracks else None
 
