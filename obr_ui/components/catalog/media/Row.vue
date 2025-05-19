@@ -163,7 +163,6 @@ export default defineComponent({
 
       > span {
         @include typo.light;
-        @include typo.dim;
 
         top: -10px;
         position: absolute;
