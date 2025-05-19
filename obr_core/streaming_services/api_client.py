@@ -1,6 +1,8 @@
 import json
+from datetime import timedelta
 
 from django.conf import settings
+from django.utils import timezone
 
 import requests
 from social_django.models import UserSocialAuth
@@ -32,7 +34,17 @@ class SpotifyAPIClient:
                 f"UserSocialAuth not found: {self.social_auth_provider} - {self.social_auth_email} - {e}",
             ) from e
 
-        return sa.get_access_token(strategy=load_strategy())
+        # spotify auth does not include 'expires'. we check when the token was last updated
+        # and "manually" refresh if older than 50 minutes (token valid for 1 hour)
+        if sa.modified < timezone.now() - timedelta(seconds=50 * 60):
+            # refresh token
+            try:
+                print("refreshing token")
+                sa.refresh_token(strategy=load_strategy())
+            except Exception as e:
+                raise APIClientError(f"Failed to refresh token: {e}") from e
+
+        return sa.access_token
 
     def get_headers(self):
         access_token = self.get_access_token()
@@ -46,20 +58,37 @@ class SpotifyAPIClient:
         headers = self.get_headers()
 
         try:
-            response = requests.get(url, params=params, headers=headers, timeout=(2, 5))
-            response.raise_for_status()
+            r = requests.get(url, params=params, headers=headers, timeout=(5, 30))
+            r.raise_for_status()
         except requests.exceptions.HTTPError as e:
             print("HTTPError", e)
             raise APIClientError(f"HTTP error: {e}") from e
 
         try:
-            data = response.json()
+            data = r.json()
         except json.decoder.JSONDecodeError as e:
             raise APIClientError(f"JSON decode error: {e}") from e
 
         return data
 
-    def lookup_media(self, name: str, artist_name: str) -> dict | None:
+    def get_media_by_id(self, media_id: str) -> dict | None: ...
+
+    def get_media_by_isrc(self, isrc: str) -> dict | None:
+
+        query = f"isrc:{isrc}"
+
+        params = {
+            "q": query,
+            "type": "track",
+        }
+
+        data = self.get("/search", params=params)
+
+        tracks = data.get("tracks", {}).get("items", [])
+
+        return tracks[0] if tracks else None
+
+    def get_media_by_search(self, name: str, artist_name: str) -> dict | None:
 
         query = f"track:{name} artist:{artist_name}"
 

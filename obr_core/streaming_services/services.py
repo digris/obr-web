@@ -16,29 +16,36 @@ def media_link_to_spotify(
     logger.debug(f"link media to spotify: {media}")
     client = SpotifyAPIClient()
 
-    try:
-        result = client.lookup_media(
-            name=media.name,
-            artist_name=media.artist_display,
-        )
-    except APIClientError as e:
-        logger.error(f"APIClientError: {e}")
+    def try_get_media():
+        isrc = media.identifiers.filter(scope="isrc").first()
+        if isrc:
+            try:
+                return client.get_media_by_isrc(isrc=isrc.value)
+            except APIClientError as e:
+                logger.error(f"APIClientError (ISRC): {e}")
+        try:
+            return client.get_media_by_search(
+                name=media.name,
+                artist_name=media.artist_display,
+            )
+        except APIClientError as e:
+            logger.error(f"APIClientError (Search): {e}")
         return None
 
+    result = try_get_media()
     if not result:
         logger.debug("no result")
         return None
 
-    if uri := result.get("uri"):
-        identifier, _ = media.identifiers.update_or_create(
-            scope="spotify",
-            defaults={
-                "value": uri,
-            },
-        )
-        return identifier
+    uri = result.get("uri")
+    if not uri:
+        return None
 
-    return None
+    identifier, _ = media.identifiers.update_or_create(
+        scope="spotify",
+        defaults={"value": uri},
+    )
+    return identifier
 
 
 def media_link_to_deezer(
