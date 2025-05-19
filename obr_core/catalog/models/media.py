@@ -35,6 +35,10 @@ class Media(
         LIVEACT = "liveact", "Live Act PA)"
         RADIOSHOW = "radioshow", "Radio show"
 
+    class LyricsExplicit(models.IntegerChoices):
+        CLEAN = 0, "Clean"
+        EXPLICIT = 1, "Explicit"
+
     name = models.CharField(max_length=256)
     duration = models.DurationField(
         default=timedelta(),
@@ -67,6 +71,24 @@ class Media(
     identifiers = GenericRelation(
         "identifier.Identifier",
         related_name="media",
+    )
+
+    # lyrics
+    lyrics_text = models.TextField(
+        verbose_name="Lyrics",
+        blank=True,
+        default="",
+    )
+    lyrics_language = models.CharField(
+        verbose_name="Lyrics language",
+        max_length=5,
+        blank=True,
+        default="",
+    )
+    lyrics_explicit = models.IntegerField(
+        verbose_name="Explicit lyrics",
+        choices=LyricsExplicit.choices,
+        default=LyricsExplicit.CLEAN,
     )
 
     class Meta:

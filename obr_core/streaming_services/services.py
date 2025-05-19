@@ -48,7 +48,10 @@ def media_link_to_spotify(
 
     identifier, _ = media.identifiers.update_or_create(
         scope="spotify",
-        defaults={"value": uri},
+        defaults={
+            "value": uri,
+            "origin": "crawler",
+        },
     )
     return identifier
 

@@ -18,6 +18,13 @@ class IdentifierScope(models.TextChoices):
     DEEZER = "deezer", "Deezer"
 
 
+class IdentifierOrigin(
+    models.TextChoices,
+):
+    OBP = "obp", "OBP"
+    CRAWLER = "crawler", "Crawler"
+
+
 class Identifier(
     TimestampedModelMixin,
     CTUIDModelMixin,
@@ -30,6 +37,12 @@ class Identifier(
         db_index=True,
         null=True,
         blank=False,
+    )
+    origin = models.CharField(  # NOQA: DJ001
+        max_length=32,
+        choices=IdentifierOrigin.choices,
+        default=IdentifierOrigin.OBP,
+        db_index=True,
     )
     value = models.CharField(  # NOQA: DJ001
         verbose_name="Identifier",

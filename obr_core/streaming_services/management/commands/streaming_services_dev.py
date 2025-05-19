@@ -19,7 +19,8 @@ class Command(BaseCommand):
             default=0,
         )
 
-    def add_spotify_tracks_data(self, spotify_tracks):
+    @staticmethod
+    def populate_spotify_tracks_data(spotify_tracks):
         client = SpotifyAPIClient()
 
         tracks = spotify_tracks.copy()
@@ -46,7 +47,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         limit = options["limit"]
-        options["offset"]
 
         qs = Media.objects.exclude(
             kind__in=[
@@ -77,7 +77,9 @@ class Command(BaseCommand):
                     },
                 )
 
-            spotify_track_results.extend(self.add_spotify_tracks_data(spotify_tracks))
+            spotify_track_results.extend(
+                self.populate_spotify_tracks_data(spotify_tracks),
+            )
 
             num_loaded += len(batch)
 
@@ -92,6 +94,10 @@ class Command(BaseCommand):
 
         explicit_qs = Media.objects.filter(
             id__in=explicit_track_ids,
+        )
+
+        explicit_qs.update(
+            lyrics_explicit=Media.LyricsExplicit.EXPLICIT,
         )
 
         print("num. explicit media:", explicit_qs.count())

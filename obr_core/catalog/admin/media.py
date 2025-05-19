@@ -4,6 +4,7 @@ from datetime import date, datetime, timedelta
 from django.contrib import admin
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Coalesce
+from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.timezone import make_aware
 
@@ -50,9 +51,11 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         "release_display",
         "kind",
         "duration_display",
-        "rating_display",
-        "num_airplays_display",
-        "latest_airplay_display",
+        # "rating_display",
+        # "num_airplays_display",
+        # "latest_airplay_display",
+        "lyrics_display",
+        "identifiers_display",
         "sync_last_update",
         "sync_state_display",
         "uid_display",
@@ -60,6 +63,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     list_filter = [
         # "sync_last_update",
         "kind",
+        "lyrics_explicit",
         "sync_state",
         "identifiers__scope",
     ]
@@ -101,7 +105,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
             "releases__label",
             "votes",
         )
-        qs = qs.annotate(
+        qs.annotate(
             latest_airplay=Max("airplays__time_start"),
             num_votes=Count(
                 "votes",
@@ -239,6 +243,24 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     )
     def latest_airplay_display(self, obj):
         return obj.latest_airplay
+
+    @unfold.decorators.display(
+        description="Lyrics",
+        ordering="lyrics_explicit",
+        label=True,
+    )
+    def lyrics_display(self, obj):
+        return obj.get_lyrics_explicit_display()
+
+    @unfold.decorators.display(
+        description="Identifiers",
+    )
+    def identifiers_display(self, obj):
+        return format_html_join(
+            mark_safe("<br>"),
+            "{}",
+            ([i.get_scope_display()] for i in obj.identifiers.all()),
+        )
 
     @unfold.decorators.display(
         description="UID",

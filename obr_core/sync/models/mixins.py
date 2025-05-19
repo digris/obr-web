@@ -13,6 +13,7 @@ class SyncState(models.TextChoices):
 
 class SyncTimeModelMixin(models.Model):
     sync_last_update = models.DateTimeField(
+        verbose_name="Last sync",
         default=timezone.make_aware(datetime.fromtimestamp(0)),
         db_index=True,
         editable=False,
