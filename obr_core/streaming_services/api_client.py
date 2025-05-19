@@ -46,9 +46,10 @@ class SpotifyAPIClient:
         headers = self.get_headers()
 
         try:
-            response = requests.get(url, params=params, headers=headers, timeout=(1, 2))
+            response = requests.get(url, params=params, headers=headers, timeout=(2, 5))
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
+            print("HTTPError", e)
             raise APIClientError(f"HTTP error: {e}") from e
 
         try:
