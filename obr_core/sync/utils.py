@@ -6,7 +6,7 @@ from urllib.request import urlopen
 from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.db.utils import IntegrityError
 
 import filetype
@@ -91,7 +91,9 @@ def update_tags(
                     type=tag_type,
                 )
                 try:
-                    tag.save()
+                    # https://stackoverflow.com/a/23326971
+                    with transaction.atomic():
+                        tag.save()
                 except IntegrityError as e:
                     logger.warning(f"unable to add tag: {tag} - {e}")
                     continue
