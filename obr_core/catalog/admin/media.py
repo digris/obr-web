@@ -4,7 +4,6 @@ from datetime import date, datetime, timedelta
 from django.contrib import admin
 from django.db.models import Count, Max, Q
 from django.db.models.functions import Coalesce
-from django.utils.html import format_html_join
 from django.utils.safestring import mark_safe
 from django.utils.timezone import make_aware
 
