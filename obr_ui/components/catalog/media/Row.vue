@@ -98,7 +98,6 @@ export default defineComponent({
         </div>
       </div>
       <div class="artist">
-        {{ media.license }} /
         <MediaArtists :artists="media.artists" />
       </div>
       <div class="release">
