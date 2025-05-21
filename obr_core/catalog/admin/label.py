@@ -2,9 +2,9 @@ from django.contrib import admin
 from django.db.models import Count
 
 import unfold.admin
-import unfold.contrib.filters.admin
 import unfold.decorators
 from catalog.models.label import Label, LabelImage
+from catalog.models.license import LicenseKind
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
@@ -26,15 +26,17 @@ class LabelAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     list_display = [
         "image_display",
         "label_display",
-        "kind_display",
+        "root_display",
         "num_releases_display",
         "num_children_display",
-        "sync_last_update",
+        "license_display",
+        # "sync_last_update",
         "sync_state_display",
         "uid_display",
     ]
     list_filter = [
         "kind",
+        "license",
         "sync_state",
     ]
     search_fields = [
@@ -87,15 +89,17 @@ class LabelAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         ordering="name",
     )
     def label_display(self, obj):
-        return obj.name, obj.root or "-"
+        return obj.name, obj.get_kind_display() or "-"
 
     @unfold.decorators.display(
-        description="type",
+        description="umbrella",
         header=True,
-        ordering="kind",
+        ordering="root__name",
     )
-    def kind_display(self, obj):
-        return obj.get_kind_display(), obj.root.get_kind_display() if obj.root else "-"
+    def root_display(self, obj):
+        if not obj.root:
+            return "-", "-"
+        return obj.root.name, obj.root.get_kind_display() or "-"
 
     @admin.display(
         description="releases",
@@ -109,6 +113,19 @@ class LabelAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     )
     def num_children_display(self, obj):  # pragma: no cover
         return obj.children.count() or "-"
+
+    @unfold.decorators.display(
+        description="license",
+        ordering="license",
+        label={
+            LicenseKind.UNKNOWN: None,
+            LicenseKind.INDEPENDENT: "success",
+            LicenseKind.MAJOR: "warning",
+            LicenseKind.MAJOR_ROOT: "warning",
+        },
+    )
+    def license_display(self, obj):
+        return obj.license
 
     @unfold.decorators.display(
         description="UID",

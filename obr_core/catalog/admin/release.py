@@ -4,6 +4,7 @@ from django.db.models import Count
 import unfold.admin
 import unfold.contrib.filters.admin
 import unfold.decorators
+from catalog.models.license import LicenseKind
 from catalog.models.release import Release, ReleaseImage
 from identifier.admin import IdentifierInline
 from image.admin import SortableImageInlineMixin
@@ -37,7 +38,8 @@ class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         "release_display",
         "label_display",
         "num_media_display",
-        "sync_last_update",
+        "license_display",
+        # "sync_last_update",
         "sync_state_display",
         "uid_display",
     ]
@@ -118,7 +120,13 @@ class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         ordering="label__name",
     )
     def label_display(self, obj):
-        return obj.label or "-", obj.label.get_kind_display() if obj.label else "-"
+        if not obj.label:
+            return "-", "-"
+
+        return [
+            obj.label,
+            obj.label.root if obj.label.root else "-",
+        ]
 
     @admin.display(
         description="Num. tracks",
@@ -126,6 +134,19 @@ class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     )
     def num_media_display(self, obj):  # pragma: no cover
         return obj.num_media
+
+    @unfold.decorators.display(
+        description="license",
+        ordering="license",
+        label={
+            LicenseKind.UNKNOWN: None,
+            LicenseKind.INDEPENDENT: "success",
+            LicenseKind.MAJOR: "warning",
+            LicenseKind.MAJOR_ROOT: "warning",
+        },
+    )
+    def license_display(self, obj):
+        return obj.license
 
     @unfold.decorators.display(
         description="UID",

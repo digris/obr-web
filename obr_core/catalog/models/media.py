@@ -4,10 +4,13 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models.functions import Now
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 
+from catalog.models.license import LicenseKind
 from catalog.sync.media import sync_master, sync_media
 from common.models.mixins import CTModelMixin, CTUIDModelMixin, TimestampedModelMixin
 from sync.models.mixins import SyncModelMixin
@@ -51,6 +54,17 @@ class Media(
         db_index=True,
         choices=Kind.choices,
         default=Kind.UNDEFINED,
+    )
+    # NOTE: this field gets populated from release (first) > label
+    #       we keep it here for faster access
+    license = models.CharField(
+        verbose_name="license",
+        max_length=16,
+        choices=LicenseKind.choices,
+        default=LicenseKind.UNKNOWN,
+        db_index=True,
+        blank=True,
+        editable=False,
     )
     artists = models.ManyToManyField(
         "catalog.Artist",
@@ -221,6 +235,13 @@ class Master(
 
     def sync_data(self, *args, **kwargs):
         return sync_master(self, *args, **kwargs)
+
+
+@receiver(pre_save, sender=Media)
+# pylint: disable=unused-argument
+def media_pre_save(sender, instance=None, **kwargs):
+    if release := instance.releases.first():
+        instance.license = release.license if release.license else LicenseKind.UNKNOWN
 
 
 class MediaArtists(models.Model):

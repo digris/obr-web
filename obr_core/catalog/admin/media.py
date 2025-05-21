@@ -11,6 +11,7 @@ from django.utils.timezone import make_aware
 import qsstats
 import unfold.admin
 import unfold.decorators
+from catalog.models.license import LicenseKind
 from catalog.models.media import Airplay, Master, Media
 from catalog.models.release import Release
 from identifier.admin import IdentifierInline
@@ -54,15 +55,17 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         # "rating_display",
         # "num_airplays_display",
         # "latest_airplay_display",
-        "lyrics_display",
         "identifiers_display",
-        "sync_last_update",
+        "lyrics_display",
+        "license_display",
+        # "sync_last_update",
         "sync_state_display",
         "uid_display",
     ]
     list_filter = [
         # "sync_last_update",
-        "kind",
+        # "kind",
+        "license",
         "lyrics_explicit",
         "sync_state",
         "identifiers__scope",
@@ -82,6 +85,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         "uuid",
         "uid",
         "tags",
+        "license",
     ]
     inlines = [
         MediaArtistInline,
@@ -253,6 +257,19 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         return obj.get_lyrics_explicit_display()
 
     @unfold.decorators.display(
+        description="license",
+        ordering="license",
+        label={
+            LicenseKind.UNKNOWN: None,
+            LicenseKind.INDEPENDENT: "success",
+            LicenseKind.MAJOR: "warning",
+            LicenseKind.MAJOR_ROOT: "warning",
+        },
+    )
+    def license_display(self, obj):
+        return obj.license
+
+    @unfold.decorators.display(
         description="Identifiers",
     )
     def identifiers_display(self, obj):
@@ -278,6 +295,7 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
                     "name",
                     "duration",
                     "kind",
+                    "license",
                     "uuid",
                     "uid",
                     "tags",

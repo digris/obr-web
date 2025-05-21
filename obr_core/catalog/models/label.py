@@ -1,7 +1,10 @@
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.utils.functional import cached_property
 
+from catalog.models.license import LicenseKind
 from catalog.sync.label import sync_label
 from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from image.models import BaseSortableImage
@@ -17,8 +20,8 @@ class Label(
 ):
     class Kind(models.TextChoices):
         UNDEFINED = "", "-"
-        MAJOR = "major", "Major"
         INDEPENDENT = "independent", "Independent"
+        MAJOR = "major", "Major"
         NET = "net", "Netlabel"
         EVENT = "event", "Event"
 
@@ -33,6 +36,14 @@ class Label(
         db_index=True,
         choices=Kind.choices,
         default=Kind.UNDEFINED,
+    )
+    license = models.CharField(
+        verbose_name="license",
+        max_length=16,
+        choices=LicenseKind.choices,
+        default=LicenseKind.UNKNOWN,
+        db_index=True,
+        blank=True,
     )
     date_start = models.DateField(
         null=True,
@@ -104,3 +115,18 @@ class LabelImage(BaseSortableImage):
 
     def __str__(self):
         return f"{self.pk}"
+
+
+@receiver(pre_save, sender=Label)
+# pylint: disable=unused-argument
+def label_pre_save(sender, instance=None, **kwargs):
+
+    from_root = instance.root is not None
+    base_label = instance.root if from_root else instance
+
+    if base_label.kind in [None, Label.Kind.UNDEFINED]:
+        instance.license = LicenseKind.UNKNOWN
+    elif base_label.kind == Label.Kind.MAJOR:
+        instance.license = LicenseKind.MAJOR_ROOT if from_root else LicenseKind.MAJOR
+    else:
+        instance.license = LicenseKind.INDEPENDENT

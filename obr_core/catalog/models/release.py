@@ -4,6 +4,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.functional import cached_property
 
+from catalog.models.license import LicenseKind
 from catalog.sync.release import sync_release
 from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 from image.models import BaseSortableImage
@@ -17,22 +18,20 @@ class Release(
     SyncModelMixin,
     models.Model,
 ):
+
     name = models.CharField(
         max_length=256,
     )
-
     release_date = models.DateField(
         null=True,
         blank=True,
         db_index=True,
     )
-
     release_type = models.CharField(
         max_length=32,
         default="",
         blank=True,
     )
-
     media = models.ManyToManyField(
         "catalog.Media",
         through="catalog.ReleaseMedia",
@@ -40,7 +39,6 @@ class Release(
         related_name="releases",
         blank=True,
     )
-
     label = models.ForeignKey(
         "catalog.Label",
         on_delete=models.SET_NULL,
@@ -48,17 +46,14 @@ class Release(
         null=True,
         blank=True,
     )
-
     tags = TaggableManager(
         through=TaggedItem,
         blank=True,
     )
-
     votes = GenericRelation(
         "rating.Vote",
         related_query_name="release",
     )
-
     identifiers = GenericRelation(
         "identifier.Identifier",
         related_name="artist",
@@ -95,6 +90,10 @@ class Release(
     def is_new(self):
         new_after = datetime.date.today() - datetime.timedelta(days=90)
         return bool(self.release_date and self.release_date > new_after)
+
+    @cached_property
+    def license(self):
+        return self.label.license if self.label else LicenseKind.UNKNOWN
 
     def sync_data(self, *args, **kwargs):
         return sync_release(self, *args, **kwargs)
