@@ -240,7 +240,7 @@ class Master(
 @receiver(pre_save, sender=Media)
 # pylint: disable=unused-argument
 def media_pre_save(sender, instance=None, **kwargs):
-    if release := instance.releases.first():
+    if instance.id and (release := instance.releases.first()):
         instance.license = release.license if release.license else LicenseKind.UNKNOWN
 
 
