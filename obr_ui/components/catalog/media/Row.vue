@@ -34,7 +34,8 @@ export default defineComponent({
   setup(props) {
     const { objKey } = useObjKey(props.media);
     const { isMobile } = useDevice();
-    const { darkMode } = useSettings();
+    const { darkMode, userSettings } = useSettings();
+    const testingEnabled = computed(() => userSettings.value?.testingEnabled);
     const isHover = ref(isMobile);
     const release = computed(() => {
       return props.media.releases && props.media.releases.length ? props.media.releases[0] : null;
@@ -50,6 +51,7 @@ export default defineComponent({
     });
     return {
       objKey,
+      testingEnabled,
       isMobile,
       darkMode,
       isHover,
@@ -74,6 +76,12 @@ export default defineComponent({
           :outlined="true"
           :color="darkMode ? [255, 255, 255] : [0, 0, 0]"
         />
+        <div
+          v-if="testingEnabled"
+          class="license"
+          :class="`license--${media.license}`"
+          v-text="media.license.charAt(0)"
+        />
       </div>
       <div class="name">
         <router-link
@@ -85,11 +93,12 @@ export default defineComponent({
           }"
           v-text="media.name"
         />
-        <div v-if="media.lyricsExplicit" class="lyrics-explicit">
+        <div v-if="media.lyricsExplicit === 'explicit'" class="lyrics-explicit">
           <span title="Explicit lyrics">E</span>
         </div>
       </div>
       <div class="artist">
+        {{ media.license }} /
         <MediaArtists :artists="media.artists" />
       </div>
       <div class="release">
@@ -141,6 +150,29 @@ export default defineComponent({
   .play {
     position: relative;
     grid-area: play;
+
+    & > .license {
+      top: 6px;
+      position: absolute;
+      font-size: 8px;
+      font-family: monospace;
+      font-weight: 600;
+      left: 0;
+      color: currentcolor;
+      text-transform: uppercase;
+      display: none;
+
+      &--major,
+      &--major_root {
+        display: block;
+        color: rgb(var(--c-red));
+      }
+
+      &--independent {
+        display: block;
+        color: rgb(var(--c-green));
+      }
+    }
   }
 
   .name {

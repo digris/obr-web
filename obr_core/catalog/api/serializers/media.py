@@ -131,6 +131,7 @@ class MediaSerializer(
             "lyrics_text",
             "lyrics_language",
             "lyrics_explicit",
+            "license",
             "artists",
             "releases",
             "duration",

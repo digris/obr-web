@@ -251,10 +251,13 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     @unfold.decorators.display(
         description="Lyrics",
         ordering="lyrics_explicit",
-        label=True,
+        label={
+            Media.LyricsExplicit.CLEAN: "success",
+            Media.LyricsExplicit.EXPLICIT: "warning",
+        },
     )
     def lyrics_display(self, obj):
-        return obj.get_lyrics_explicit_display()
+        return obj.lyrics_explicit
 
     @unfold.decorators.display(
         description="license",

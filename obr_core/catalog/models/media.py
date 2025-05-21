@@ -38,9 +38,9 @@ class Media(
         LIVEACT = "liveact", "Live Act PA)"
         RADIOSHOW = "radioshow", "Radio show"
 
-    class LyricsExplicit(models.IntegerChoices):
-        CLEAN = 0, "Clean"
-        EXPLICIT = 1, "Explicit"
+    class LyricsExplicit(models.TextChoices):
+        CLEAN = "clean", "Clean"
+        EXPLICIT = "explicit", "Explicit"
 
     name = models.CharField(max_length=256)
     duration = models.DurationField(
@@ -100,8 +100,9 @@ class Media(
         default="",
         db_index=True,
     )
-    lyrics_explicit = models.IntegerField(
+    lyrics_explicit = models.CharField(
         verbose_name="Explicit lyrics",
+        max_length=16,
         choices=LyricsExplicit.choices,
         default=LyricsExplicit.CLEAN,
         db_index=True,
