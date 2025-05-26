@@ -1,0 +1,190 @@
+---
+
+# to run without inventory file (note the comma!):
+# ansible-playbook -i 34.65.11.251, ansible/news-ftp.yml
+
+- name: news-ftp
+  hosts: 34.65.11.251
+  remote_user: "{{ lookup('env', 'GCP_SSH_USER') }}"
+  become: true
+  gather_facts: yes
+  environment:
+    LC_ALL: en_US.UTF-8
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+
+    ###################################################################
+    # system
+    ###################################################################
+    - name: install base packages
+      tags: system
+      ansible.builtin.apt:
+        pkg: [
+          acl,
+          git,
+          htop,
+          locales,
+          net-tools,
+          direnv,
+          fuse,
+          python3-pip,
+          python3-virtualenv,
+        ]
+        state: present
+
+    - name: add group "obr"
+      tags: system
+      ansible.builtin.group:
+        name: obr
+        state: present
+
+    - name: ddd user "obr"
+      tags: system
+      ansible.builtin.user:
+        name: obr
+        group: obr
+
+    - name: add /opt
+      tags: system
+      ansible.builtin.file:
+        path: /opt
+        state: directory
+
+    - name: add /opt/news-ftp
+      tags: system
+      ansible.builtin.file:
+        path: /opt
+        state: directory
+        owner: obr
+        group: obr
+
+    - name: add /data
+      tags: system
+      ansible.builtin.file:
+        path: /data
+        state: directory
+
+    - name: add /data/news-ftp
+      tags: system
+      ansible.builtin.file:
+        path: /data/news-ftp
+        state: directory
+        owner: obr
+        group: obr
+
+    - name: create ftp directories
+      ansible.builtin.file:
+        path: "/data/news-ftp/{{ item }}"
+        state: directory
+        owner: obr
+        group: obr
+      with_items:
+        - rsi
+
+    - name: copy module files
+      ansible.builtin.copy:
+        src: "../{{ item }}"
+        dest: /opt/news-ftp/
+      with_items:
+        - main.py
+        - config.py
+
+    - name: install python dependencies
+      ansible.builtin.pip:
+        name:
+          - pydantic-settings>=2.7.1
+          - pyftpdlib>=2.0.1
+        virtualenv: /opt/news-ftp/.venv
+
+    - name: check if .env file exists
+      ansible.builtin.stat:
+        path: /opt/news-ftp/.env
+      register: env_file
+
+    - name: create initial .env file if missing
+      ansible.builtin.copy:
+        dest: /opt/news-ftp/.env
+        content: |
+          FTP_BASE_DIR=/data/news-ftp
+          FTP_PORT=21
+          FTP_USERS=__FILL_IN_USERS__
+        owner: obr
+        group: obr
+        mode: "0644"
+      when: not env_file.stat.exists
+
+    - name: create ftp-server cap systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/news-ftp-cap.service
+        content: |
+          [Unit]
+          Description=Set cap_net_bind_service for Python in news-ftp venv
+          Before=news-ftp.service
+          
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/sbin/setcap 'cap_net_bind_service=+ep' /usr/bin/python3.11
+          RemainAfterExit=true
+          
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: create ftp-server systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/news-ftp.service
+        content: |
+          [Unit]
+          Description=News-FTP Server
+          After=network.target
+  
+          [Service]
+          User=obr
+          Group=obr
+          
+          WorkingDirectory=/opt/news-ftp
+          
+          ExecStart=/opt/news-ftp/.venv/bin/python3 main.py
+          
+          # this theoretically should remove the need for setcap
+          AmbientCapabilities=CAP_NET_BIND_SERVICE
+          CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+          
+          Restart=always
+          RestartSec=5
+          
+          StandardOutput=syslog
+          StandardError=syslog
+          SyslogIdentifier=news-ftp
+          
+          KillMode=control-group
+          KillSignal=SIGKILL
+  
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: yes
+
+    - name: enable ftp-server cap systemd service
+      ansible.builtin.systemd:
+        name: news-ftp-cap
+        enabled: yes
+
+    - name: start ftp-server cap systemd service
+      ansible.builtin.systemd:
+        name: news-ftp-cap
+        state: restarted
+
+    - name: enable ftp-server systemd service
+      ansible.builtin.systemd:
+        name: news-ftp
+        enabled: yes
+
+    - name: start ftp-server systemd service
+      ansible.builtin.systemd:
+        name: news-ftp
+        state: restarted

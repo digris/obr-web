@@ -1,0 +1,17 @@
+[project]
+name = "news-ftp"
+version = "0.0.1"
+description = "FTP server for news uploads"
+readme = "README.md"
+requires-python = ">=3.11.3"
+dependencies = [
+    "pydantic-settings>=2.7.1",
+    "pyftpdlib>=2.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.0",
+    "ruff>=0.9.4",
+]
