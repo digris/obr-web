@@ -5,43 +5,41 @@ from django.db import models
 from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
 
 
-class IdentifierScope(models.TextChoices):
-    MUSICBRAINZ = "musicbrainz", "Musicbrainz"
-    OBP = "obp", "open broadcast platform"
-    DISCOGS = "discogs", "Discogs"
-    WIKIPEDIA = "wikipedia", "Wikipedia"
-    SOUNDCLOUD = "soundcloud", "SoundCloud"
-    OFFICIAL = "official", "Website"
-    # NOTE: how to handle scopes that don't make sense for all content-types?
-    ISRC = "isrc", "ISRC"
-    SPOTIFY = "spotify", "Spotify"
-    DEEZER = "deezer", "Deezer"
-
-
-class IdentifierOrigin(
-    models.TextChoices,
-):
-    OBP = "obp", "OBP"
-    CRAWLER = "crawler", "Crawler"
-
-
 class Identifier(
     TimestampedModelMixin,
     CTUIDModelMixin,
     models.Model,
 ):
+    class Scope(models.TextChoices):
+        MUSICBRAINZ = "musicbrainz", "Musicbrainz"
+        OBP = "obp", "open broadcast platform"
+        DISCOGS = "discogs", "Discogs"
+        WIKIPEDIA = "wikipedia", "Wikipedia"
+        SOUNDCLOUD = "soundcloud", "SoundCloud"
+        OFFICIAL = "official", "Website"
+        # NOTE: how to handle scopes that don't make sense for all content-types?
+        ISRC = "isrc", "ISRC"
+        SPOTIFY = "spotify", "Spotify"
+        DEEZER = "deezer", "Deezer"
+
+    class Origin(
+        models.TextChoices,
+    ):
+        OBP = "obp", "OBP"
+        CRAWLER = "crawler", "Crawler"
+
     scope = models.CharField(  # NOQA: DJ001
         verbose_name="Identifier scope",
         max_length=32,
-        choices=IdentifierScope.choices,
+        choices=Scope.choices,
         db_index=True,
         null=True,
         blank=False,
     )
     origin = models.CharField(  # NOQA: DJ001
         max_length=32,
-        choices=IdentifierOrigin.choices,
-        default=IdentifierOrigin.OBP,
+        choices=Origin.choices,
+        default=Origin.OBP,
         db_index=True,
     )
     value = models.CharField(  # NOQA: DJ001

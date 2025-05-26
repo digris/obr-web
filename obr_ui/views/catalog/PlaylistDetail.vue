@@ -77,7 +77,13 @@ export default defineComponent({
       />
     </template>
     <template #header>
-      <DetailHeader v-if="playlist" :obj="playlist" :title="title" title-scope="Show">
+      <DetailHeader
+        v-if="playlist"
+        :obj="playlist"
+        :title="title"
+        :subtitle="playlist.name"
+        title-scope="Show"
+      >
         <template #visual>
           <LazyImage class="image" :image="playlist.image">
             <PlayAction

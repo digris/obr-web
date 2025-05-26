@@ -455,6 +455,7 @@ class HlsPlayer {
       return;
     }
 
+    // NOTE: do we need this? it should already be handled
     if (provider && provider !== this.newsProvider) {
       log.debug("endPlayNews:skip - provider mismatch");
       return;

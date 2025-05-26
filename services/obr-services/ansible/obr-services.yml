@@ -29,6 +29,7 @@
           direnv,
           fuse,
           python3-pip,
+          libcap2-bin,
         ]
         state: present
 

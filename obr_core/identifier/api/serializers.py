@@ -12,4 +12,5 @@ class IdentifierSerializer(
         fields = CTUIDModelSerializer.Meta.fields + [
             "scope",
             "value",
+            "origin",
         ]

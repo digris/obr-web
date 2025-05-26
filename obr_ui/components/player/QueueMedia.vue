@@ -95,7 +95,7 @@ watch(
       -->
     </div>
     <div class="release">
-      <MediaReleases :link="false" :releases="releases" />
+      <MediaReleases link="false" :releases="releases" />
     </div>
     <div class="actions">
       <CircleButton color-var="--c-light">

@@ -27,6 +27,7 @@ class Release(
         blank=True,
         db_index=True,
     )
+    # NOTE: to align with other models, this should be renamed to 'kind'
     release_type = models.CharField(
         max_length=32,
         default="",
@@ -85,6 +86,10 @@ class Release(
     @cached_property
     def num_media(self):
         return self.media.count()
+
+    @cached_property
+    def release_year(self):
+        return self.release_date.year if self.release_date else None
 
     @cached_property
     def is_new(self):

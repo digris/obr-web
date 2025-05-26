@@ -26,6 +26,14 @@
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    &__secondary {
+      &::before {
+        content: "•";
+        padding-left: 0.25em;
+        padding-right: 0.25em;
+      }
+    }
   }
 
   .subtitle {

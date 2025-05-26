@@ -41,8 +41,13 @@ export async function init(app: App): Promise<void> {
     }
 
     if (cmd === "stop") {
+      if (selectedProvider.value?.key !== provider) {
+        console.info("news provider not enabled", selectedProvider);
+        return;
+      }
+
       setTimeout(async () => {
-        await endPlayNews(provider);
+        await endPlayNews();
       }, delay);
     }
   });

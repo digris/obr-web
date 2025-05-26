@@ -70,6 +70,7 @@ export default defineComponent({
     <div class="meta">
       <router-link class="title" :to="link">
         <PlaylistName :playlist="playlist" />
+        <span v-if="isDesktop" class="title__secondary" v-text="playlist.name" />
       </router-link>
       <ObjectTags v-if="isDesktop" class="tags" :obj="playlist" :limit="4" :types="['genre']" />
       <RelativeDateTime class="subtitle" :date-time="latestEmission" />

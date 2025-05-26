@@ -33,6 +33,11 @@ export default defineComponent({
       required: false,
       default: null,
     },
+    subtitle: {
+      type: String,
+      required: false,
+      default: null,
+    },
     showObjRating: {
       type: Boolean,
       default: true,
@@ -92,6 +97,7 @@ export default defineComponent({
       <div class="body" :class="`mobile-position--${mobileBodyPosition}`">
         <div class="title">
           <h1 class="title--primary" v-text="title" />
+          <h2 v-if="subtitle" class="title--secondary" v-text="subtitle" />
         </div>
         <div class="info-panel">
           <slot name="info-panel" />
@@ -231,6 +237,12 @@ export default defineComponent({
         margin-bottom: 0.5rem;
 
         &--primary {
+          @include typo.x-large;
+
+          line-height: 4rem;
+        }
+
+        &--secondary {
           @include typo.x-large;
 
           line-height: 4rem;

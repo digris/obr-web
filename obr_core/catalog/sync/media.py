@@ -12,7 +12,7 @@ from django.utils import timezone
 
 from catalog.signals import sync_media_completed
 from google.cloud import storage
-from identifier.models import IdentifierScope
+from identifier.models import Identifier
 from sync import api_client
 from sync.utils import update_identifier, update_relations, update_tags
 
@@ -47,7 +47,7 @@ def sync_media(media, skip_media=False, **kwargs):
 
     update_tags(media, data.get("tags", []))
 
-    update_identifier(media, IdentifierScope.ISRC, data.get("isrc"))
+    update_identifier(media, Identifier.Scope.ISRC, data.get("isrc"))
 
     try:
         master = Master.objects.get(media=media)

@@ -10,7 +10,7 @@ from django.db import transaction
 from django.db.utils import IntegrityError
 
 import filetype
-from identifier.models import Identifier, IdentifierScope
+from identifier.models import Identifier
 from image.extract import extract_md5
 from tagging.models import Tag, TaggedItem, TagType
 
@@ -24,7 +24,7 @@ def update_relations(
     # TODO: implement removal of vanished relations
     content_type = ContentType.objects.get_for_model(obj)
     object_id = obj.id
-    scopes = [s[0] for s in IdentifierScope.choices]
+    scopes = [s[0] for s in Identifier.Scope.choices]
     for relation_dict in [r for r in relations if r["service"] in scopes]:
         uuid = relation_dict.get("uuid")
         scope = relation_dict.get("service")

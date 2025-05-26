@@ -87,7 +87,7 @@ export default defineComponent({
             <MediaArtists :artists="media.artists" />
           </div>
           <div class="releases">
-            <MediaReleases :releases="media.releases" />
+            <MediaReleases show-details :releases="media.releases" />
           </div>
           <ObjectTags class="tags" :obj="media" :limit="4" />
           <ObjectIdentifiers class="identifiers" :obj="media" :limit="4" />

@@ -21,6 +21,15 @@ class ReleaseSerializer(
     name = serializers.CharField(
         read_only=True,
     )
+    year = serializers.IntegerField(
+        read_only=True,
+        allow_null=True,
+        source="release_year",
+    )
+    kind = serializers.CharField(
+        read_only=True,
+        source="release_type",
+    )
     label = LabelSerializer(
         read_only=True,
         allow_null=True,
@@ -38,6 +47,8 @@ class ReleaseSerializer(
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "name",
+            "year",
+            "kind",
             "is_new",
             "image",
             "label_display",

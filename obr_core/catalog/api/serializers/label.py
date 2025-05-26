@@ -20,6 +20,10 @@ class LabelSerializer(
     name = serializers.CharField(
         read_only=True,
     )
+    kind = serializers.ChoiceField(
+        choices=Label.Kind.choices,
+        read_only=True,
+    )
     image = LabelImageSerializer(
         read_only=True,
         allow_null=True,
@@ -30,5 +34,6 @@ class LabelSerializer(
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "name",
+            "kind",
             "image",
         ]
