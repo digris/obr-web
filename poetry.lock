@@ -1057,14 +1057,14 @@ tests = ["coverage"]
 
 [[package]]
 name = "django-unfold"
-version = "0.54.0"
+version = "0.59.0"
 description = "Modern Django admin theme for seamless interface development"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "django_unfold-0.54.0-py3-none-any.whl", hash = "sha256:552df0ec2e826bc24f4134f0c54403b225191df13278a863118cb53d64109eb7"},
-    {file = "django_unfold-0.54.0.tar.gz", hash = "sha256:7388535302f91f841c6c0a7c595a8d6f34da0639051af5525ca3403a7a2a02ac"},
+    {file = "django_unfold-0.59.0-py3-none-any.whl", hash = "sha256:ddd00241d84ec8ad337ce07666ede5dded8812279ed70b0eca45f65382492e06"},
+    {file = "django_unfold-0.59.0.tar.gz", hash = "sha256:ae252a1df8c09394dd66871dcf657d8001543b30920e63743ebce7f5f4ea0e6e"},
 ]
 
 [package.dependencies]
@@ -4693,4 +4693,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11, <3.13"
-content-hash = "42983a0ed25c8712fe32c408d4a0793ffcdc5b3798e510f0a3510808e07359bd"
+content-hash = "015a1f281a1a8a21f86c819dc9dcebcd8858510245ff1e6c9500aee61560e853"

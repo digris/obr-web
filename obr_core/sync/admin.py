@@ -52,7 +52,7 @@ class SyncAdminMixin(unfold.admin.ModelAdmin):
         },
     )
     def sync_state_display(self, obj):
-        return obj.sync_state
+        return obj.sync_state, obj.sync_last_update
 
     ###################################################################
     # actions

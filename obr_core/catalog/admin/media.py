@@ -10,6 +10,7 @@ from django.utils.timezone import make_aware
 import qsstats
 import unfold.admin
 import unfold.decorators
+import unfold.paginator
 from catalog.models.license import LicenseKind
 from catalog.models.media import Airplay, Master, Media
 from catalog.models.release import Release
@@ -42,6 +43,8 @@ class MediaReleaseInline(unfold.admin.TabularInline):
 class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
     compressed_fields = True
     warn_unsaved_form = True
+    paginator = unfold.paginator.InfinitePaginator
+    show_full_result_count = False
     list_fullwidth = True
     list_filter_sheet = False
 
