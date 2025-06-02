@@ -31,6 +31,7 @@ class PaymentCreateSerializer(
     next = serializers.CharField(
         required=False,
         allow_null=True,
+        allow_blank=True,
     )
 
 
@@ -79,6 +80,7 @@ class PaymentView(
         serializer = PaymentCreateSerializer(
             data=request.data,
         )
+
         user = request.user
         sku = request.data.get("sku")
         donation = request.data.get("donation", 0)

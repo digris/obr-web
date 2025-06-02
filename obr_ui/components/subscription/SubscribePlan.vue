@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from "vue";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js/pure";
 import type { AxiosError } from "axios";
 
 import { createStripeCheckoutSession, getPlanOptions } from "@/api/subscription";
@@ -12,7 +12,6 @@ import settings from "@/settings";
 import type { SubscriptionOptionOption } from "@/typings";
 
 const { STRIPE_PUBLISHABLE_KEY } = settings;
-// const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 export default defineComponent({
   components: {
@@ -55,6 +54,7 @@ export default defineComponent({
       }
       return options.value.find((o: any) => o.sku === selectedKey.value);
     });
+    console.debug("stripeSetup");
     const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
     const startStripePayment = async () => {
       const stripe = await stripePromise;
