@@ -13,7 +13,7 @@ const { isSmallScreen } = useDevice();
 <template>
   <router-link v-if="editor" class="editor" :to="`/discover/editors/${editor.uid}/`">
     <div v-if="!isSmallScreen" class="visual">
-      <LazyImage v-if="editor.image" class="image" :image="editor.image" :size="128" />
+      <LazyImage v-if="editor.image" class="image" :image="editor.image" />
     </div>
     <div class="name" v-text="editor.name" />
   </router-link>

@@ -3,7 +3,8 @@ import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 import { fileURLToPath, URL } from "url";
-import { type PluginOption, defineConfig, splitVendorChunkPlugin } from "vite";
+// import { type PluginOption, defineConfig, splitVendorChunkPlugin } from "vite";
+import { type PluginOption, defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
@@ -14,7 +15,7 @@ export default defineConfig({
     __INTLIFY_PROD_DEVTOOLS__: false,
   },
   plugins: [
-    splitVendorChunkPlugin(),
+    // splitVendorChunkPlugin(),
     vue({
       template: {
         compilerOptions: {
@@ -47,13 +48,13 @@ export default defineConfig({
       },
       output: {
         entryFileNames: "[name].js",
-        chunkFileNames: "[name].js",
+        // chunkFileNames: "[name].js",
         assetFileNames: "[name].[ext]",
       },
     },
     outDir: resolve(__dirname, "build"),
     sourcemap: true,
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 2000,
     assetsInlineLimit: 8092,
   },
   resolve: {

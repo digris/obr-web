@@ -1,6 +1,6 @@
 import settings from "@/settings";
 
-const RESIZER_IMAGE_WITHS = [72, 96, 120, 240, 280, 360, 600, 800, 1200, 1800];
+const RESIZER_IMAGE_WITHS = [48, 72, 96, 120, 240, 280, 360, 600, 800, 1200, 1800];
 const RESIZER_MAX_WIDTH = 1800;
 
 const { IMAGE_RESIZER_ENDPOINT } = settings;

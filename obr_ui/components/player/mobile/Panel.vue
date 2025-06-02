@@ -115,9 +115,6 @@ export default defineComponent({
     </nav>
     <main>
       <div class="visual">
-        <!--
-        <LazyImage class="next" v-if="nextImage" :image="nextImage" />
-        -->
         <LazyImage :image="image" />
       </div>
       <div class="meta">
