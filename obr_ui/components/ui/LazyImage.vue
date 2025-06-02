@@ -1,5 +1,6 @@
 <script>
 import { computed, ref, watch } from "vue";
+import { useElementSize } from "@vueuse/core";
 
 import Intersect from "@/components/utils/intersect.js";
 import { getImageColor, getImageSrc } from "@/utils/image";
@@ -24,18 +25,30 @@ export default {
       type: Number,
       default: 1,
     },
+    preload: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
+    const imageEl = ref(null);
     const isLoading = ref(false);
     const isLoaded = ref(false);
     const imageSrc = ref(PLACEHOLDER_SRC);
+
+    const { height: imageHeight, width: imageWidth } = useElementSize(imageEl);
+
+    const calculatedSize = computed(() => {
+      return Math.round(Math.max(imageHeight.value, imageWidth.value));
+    });
 
     const color = computed(() => {
       return getImageColor(props.image);
     });
 
     const src = computed(() => {
-      return getImageSrc(props.image, props.size);
+      return getImageSrc(props.image, calculatedSize.value);
+      // return getImageSrc(props.image, props.size);
     });
 
     const loadImage = async () => {
@@ -54,6 +67,9 @@ export default {
     };
 
     const onEnter = () => {
+      if (!calculatedSize.value) {
+        return;
+      }
       if (!src.value) {
         return;
       }
@@ -82,17 +98,30 @@ export default {
         isLoaded.value = false;
         imageSrc.value = PLACEHOLDER_SRC;
 
-        loadImage();
+        await loadImage();
       }
     );
 
+    watch(
+      calculatedSize,
+      (val) => {
+        if (props.preload && val > 0 && !isLoaded.value && !isLoading.value) {
+          loadImage();
+        }
+      },
+      { immediate: true }
+    );
+
     return {
+      imageEl,
       isLoading,
       isLoaded,
       imageSrc,
       onEnter,
       cssVars,
       //
+      imageHeight,
+      imageWidth,
       src,
     };
   },
@@ -109,12 +138,14 @@ export default {
     >
       <img
         alt="Image"
+        ref="imageEl"
         :src="imageSrc"
         :style="cssVars"
         :class="{
           'is-pending': !isLoaded,
           'is-loading': isLoading,
         }"
+        :fetchpriority="preload ? 'high' : undefined"
       />
       <div class="overlay">
         <slot name="default"></slot>

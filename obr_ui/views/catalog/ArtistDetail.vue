@@ -75,7 +75,7 @@ export default defineComponent({
         :title="artist.name"
       >
         <template #visual>
-          <LazyImage class="image" :image="artist.image">
+          <LazyImage class="image" :image="artist.image" preload>
             <PlayAction
               :obj-key="objKey"
               :icon-scale="2"

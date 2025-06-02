@@ -1,12 +1,17 @@
 import settings from "@/settings";
 
+const RESIZER_IMAGE_WITHS = [72, 96, 120, 240, 280, 360, 600, 800, 1200, 1800];
+const RESIZER_MAX_WIDTH = 1800;
+
 const { IMAGE_RESIZER_ENDPOINT } = settings;
 
 const getImageSrc = (image: any, size = 800) => {
+  const resizeSize = RESIZER_IMAGE_WITHS.find((s) => s >= size) || RESIZER_MAX_WIDTH;
+
   // @ts-ignore
   if (image && image.path) {
     // @ts-ignore
-    return `${IMAGE_RESIZER_ENDPOINT}crop/${size}x${size}/${image.path}`;
+    return `${IMAGE_RESIZER_ENDPOINT}crop/${resizeSize}x${resizeSize}/${image.path}`;
   }
   return null;
 };
