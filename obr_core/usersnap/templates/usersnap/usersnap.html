@@ -1,13 +1,14 @@
 {% if api_key %}{% spaceless %}
 <script>
-    window.onUsersnapCXLoad = function (api) {
-      api.init();
-    }
-    var script = document.createElement('script');
-    script.defer = 1;
-    script.src = 'https://widget.usersnap.com/global/load/{{ api_key }}?onload=onUsersnapCXLoad';
-    document.getElementsByTagName('head')[0].appendChild(script);
-    window.onUsersnapCXLoad = function(api) {
+  (function () {
+    const loadUsersnap = () => {
+      const script = document.createElement("script");
+      script.src = "https://widget.usersnap.com/global/load/{{ api_key }}?onload=onUsersnapCXInit";
+      script.async = true; // their documentation is wrong...
+      document.body.appendChild(script);
+    };
+
+    window.onUsersnapCXInit = function (api) {
       api.init({
         {% if email %}user: {
           userId: "{{ uid }}",
@@ -16,6 +17,13 @@
         useSystemFonts: true,
         enableScreenshot: true
       })
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", loadUsersnap);
+    } else {
+      loadUsersnap();
     }
+  })();
 </script>
 {% endspaceless %}{% endif %}
