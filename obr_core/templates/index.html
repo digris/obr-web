@@ -12,7 +12,7 @@
   <link rel="manifest" href="{% url 'manifest:manifest' %}">
   {% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
   <link href="{% static 'main.js' %}" rel="modulepreload">
-  <link href="{% static 'vendor.js' %}" rel="modulepreload">
+  {% comment %}<link href="{% static 'vendor.js' %}" rel="modulepreload">{% endcomment %}
   <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}{% opengraph_meta %}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
@@ -51,7 +51,7 @@
   <div id="app"></div>
   {% spaceless %}
   {% if not vite_proxied %}
-  <script type="module" src="{% static 'vendor.js' %}"></script>
+  {% comment %}<script type="module" src="{% static 'vendor.js' %}"></script>{% endcomment %}
   <script type="module" src="{% static 'main.js' %}"></script>
   {% else %}
   <script type="module" src="{{ vite_server_url }}/obr_ui/main.ts?t={% now 'U' %}"></script>
