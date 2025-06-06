@@ -1,17 +1,7 @@
 <script lang="ts" setup>
 import { useI18n } from "vue-i18n";
 
-import eventBus from "@/eventBus";
-
 const { t } = useI18n();
-
-const onClick = (e: PointerEvent) => {
-  if (e.shiftKey) {
-    eventBus.emit("donation:showCta");
-  } else {
-    eventBus.emit("donation:togglePanel");
-  }
-};
 </script>
 
 <i18n lang="yaml">
@@ -22,9 +12,9 @@ en:
 </i18n>
 
 <template>
-  <div @click="onClick" class="donate">
+  <router-link to="/donate/" class="donate">
     <span class="donate__text" v-text="t('title')" />
-  </div>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
