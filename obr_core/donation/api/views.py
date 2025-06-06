@@ -237,7 +237,7 @@ class SingleDonationReturnView(
         responses={status.HTTP_302_FOUND: None},
     )
     def get(self, request):
-        next = request.GET.get("next", "/")
+        next_url = request.GET.get("next", "/")
         payment_intent_id = request.GET.get("payment_intent")
 
         donation = SingleDonation.objects.get(
@@ -261,7 +261,7 @@ class SingleDonationReturnView(
             extra_data=payment_intent,
         )
 
-        return HttpResponseRedirect(f"{next}#donate:success")
+        return HttpResponseRedirect(f"{next_url}#donate:success")
 
 
 class RecurringDonationOptionsView(
@@ -545,7 +545,7 @@ class RecurringDonationReturnView(
         responses={status.HTTP_302_FOUND: None},
     )
     def get(self, request):
-        next = request.GET.get("next", "/")
+        next_url = request.GET.get("next", "/")
         payment_intent_id = request.GET.get("payment_intent")
 
         donation = RecurringDonation.objects.get(
@@ -574,4 +574,4 @@ class RecurringDonationReturnView(
             extra_data=subscription,
         )
 
-        return HttpResponseRedirect(f"{next}#donate:success")
+        return HttpResponseRedirect(f"{next_url}#donate:success")
