@@ -281,3 +281,26 @@ def get_meta_for_request(request):
     # if playlist_uid := get_playlist_uid(request.path):
 
     return get_default_meta(request)
+
+
+def get_image_preload_for_request(request):
+    # NOTE: this actually is not about "share". we should rename the module...
+
+    def get_image_preload(request, image, w=280, h=280):
+        if not image:
+            return None
+
+        image_url = f"/images/crop/{w}x{h}/{image.path}"
+        return "http://mba.local:5000" + image_url
+
+    scope, uid = get_scope_and_uid(request.path)
+
+    if scope == "artists" and uid:
+        try:
+            obj = Artist.objects.get(uid=uid)
+        except Artist.DoesNotExist:
+            return None
+
+        return get_image_preload(request, obj.image)
+
+    return None

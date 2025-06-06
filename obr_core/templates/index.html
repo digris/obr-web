@@ -13,16 +13,64 @@
   {% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
   <link href="{% static 'main.js' %}" rel="modulepreload">
   {% comment %}<link href="{% static 'vendor.js' %}" rel="modulepreload">{% endcomment %}
-  <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}{% opengraph_meta %}
+  <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}{% opengraph_meta %}{% image_preload %}
+  {% comment %}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
   </style>
+  {% endcomment %}
+  <link
+    rel="preload"
+    href="{% static 'IBMPlexSans-Regular.woff' %}"
+    as="font"
+    type="font/woff"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="preload"
+    href="{% static 'IBMPlexSans-Medium.woff' %}"
+    as="font"
+    type="font/woff"
+    crossorigin="anonymous"
+  />
+  <style>
+    @font-face {
+      font-family: "IBM Plex Sans";
+      font-style: normal;
+      font-weight: 400;
+      src: url({% static 'IBMPlexSans-Regular.woff' %}) format("woff");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "IBM Plex Sans";
+      font-style: normal;
+      font-weight: 500;
+      src: url({% static 'IBMPlexSans-Medium.woff' %}) format("woff");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "IBM Plex Sans";
+      font-style: normal;
+      font-weight: 600;
+      src: url({% static 'IBMPlexSans-SemiBold.woff' %}) format("woff");
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "IBM Plex Sans";
+      font-style: normal;
+      font-weight: 300;
+      src: url({% static 'IBMPlexSans-Light.woff' %}) format("woff");
+      font-display: swap;
+    }
+  </style>
+
   <script>
     document.settings = {% json_settings settings %};
     document.settings.VERSION = "{{ version }}";
     {% if color %}document.settings.COLOR = {{ color }};{% endif %}
     {% if client_mode %}document.settings.CLIENT_MODE = "{{ client_mode }}";{% endif %}
   </script>
+  <script src="https://accounts.google.com/gsi/client" async></script>
   <script>
     window.dataLayer = [];
   </script>
@@ -60,6 +108,7 @@
   }
   </script>
   {% usersnap %}{% endspaceless %}
+  <script>
 </body>
 <!--
 version:     {{ version }}
