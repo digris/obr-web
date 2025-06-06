@@ -154,6 +154,14 @@ class User(
         db_index=True,
     )
 
+    # NOTE: maybe we should store this in a separate model?
+    stripe_customer_id = models.CharField(
+        max_length=64,
+        default="",
+        blank=True,
+        db_index=True,
+    )
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

@@ -35,6 +35,11 @@ urlpatterns = [
         name="google-id-token-login",
     ),
     path(
+        "google-one-tap-login/",
+        views.GoogleOneTapLoginView.as_view(),
+        name="google-one-tap-login",
+    ),
+    path(
         "signed-login-credentials/",
         views.SignedLoginCredentialsView.as_view(),
         name="signed-login-credentials",

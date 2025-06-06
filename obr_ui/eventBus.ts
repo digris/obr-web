@@ -22,6 +22,11 @@ export type EventBusEvents = {
   "side-menu:show": void;
   "side-menu:hide": void;
   "global-search:show": void;
+  //
+  "donation:showCta": void;
+  "donation:showPanel": void;
+  "donation:hidePanel": void;
+  "donation:togglePanel": void;
 };
 
 const eventBus = mitt<EventBusEvents>();

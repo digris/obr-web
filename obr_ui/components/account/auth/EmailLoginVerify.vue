@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 import { whenever } from "@vueuse/core";
 import type { AxiosError } from "axios";
 
@@ -13,11 +14,13 @@ const tokenRegex = new RegExp("^([A-Z0-9]{3})-?([A-Z0-9]{3})$");
 
 const props = defineProps<{
   email: string;
+  next: string;
 }>();
 
 const emit = defineEmits(["reset"]);
 
 const { t } = useI18n();
+const router = useRouter();
 const { loadUser, loginUserByToken } = useAccount();
 const token = ref("");
 const tokenValid = ref(false);
@@ -41,11 +44,28 @@ const submitForm = async () => {
   try {
     const { created } = await loginUserByToken(credentials);
     await loadUser();
+
+    if (props.next) {
+      const url = new URL(props.next, window.location.origin);
+      await router.push({
+        path: url.pathname,
+        hash: url.hash,
+      });
+    } else if (created) {
+      await router.push({
+        name: "accountSettings",
+      });
+    } else {
+      console.debug("loginUserByToken");
+    }
+    // NOTE: do we really need to reload the page?
+    /*
     if (created) {
       document.location = "/account/";
     } else {
       document.location.reload();
     }
+    */
   } catch (err: unknown) {
     const error = err as AxiosError;
     errors.value = [error];
@@ -62,6 +82,7 @@ const reset = async () => {
 </script>
 
 <template>
+  <pre v-text="{ next }" />
   <div>
     <p class="lead">
       <i18n-t keypath="account.auth.loginEmailSent.title" tag="div" class="title">

@@ -98,8 +98,22 @@ async function loginByGoogleIdToken(idToken: string) {
   };
 }
 
+async function loginByGoogleOneTap(credential: string) {
+  const url = `${ACCOUNT_ENDPOINT}google-one-tap-login/`;
+  const payload = {
+    credential,
+  };
+  const response = await APIClient.post(url, payload);
+  // NOTE: maybe we should return the same data for
+  //       all login requests.
+  return {
+    created: response.status === 201,
+    user: response.data,
+  };
+}
+
 async function getUser() {
-  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription,address`;
+  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription,address,recurring_donation`;
   const response = await APIClient.get(url);
   return response.data;
 }
@@ -182,6 +196,7 @@ export {
   login,
   loginByAppleId,
   loginByGoogleIdToken,
+  loginByGoogleOneTap,
   loginBySignedEmail,
   loginByToken,
   logout,

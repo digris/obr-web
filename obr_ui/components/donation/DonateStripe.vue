@@ -1,6 +1,25 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
+const isStripeReady = ref(false);
+
+onMounted(() => {
+  if (customElements.get("stripe-buy-button")) {
+    isStripeReady.value = true;
+    return;
+  }
+
+  const script = document.createElement("script");
+  script.src = "https://js.stripe.com/v3/buy-button.js";
+  script.async = true;
+  script.onload = () => {
+    if (customElements.get("stripe-buy-button")) {
+      isStripeReady.value = true;
+    }
+  };
+  document.head.appendChild(script);
+});
 </script>
 
 <i18n lang="yaml">
@@ -26,7 +45,7 @@ en:
       <p v-text="t('line2')" />
       <p v-text="t('line3')" />
     </div>
-    <div class="prompt__actions">
+    <div v-if="isStripeReady" class="prompt__actions">
       <stripe-buy-button
         buy-button-id="buy_btn_1QmsRaE8KzeSVu8lq4qLbQAF"
         publishable-key="pk_test_51Oo27aE8KzeSVu8lSnFuT4hJGQTJNW4tC4BXTSii61fVvGCoWSHjNAJEkNB9oMlb27xJOmdIxKFMd2l5Llmq4Ubc00McFuC8yp"

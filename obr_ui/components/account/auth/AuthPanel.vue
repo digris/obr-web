@@ -56,7 +56,7 @@ export default defineComponent({
         <EmailLoginForm :next="next" @email-sent="handleEmailSent" />
       </section>
       <section v-if="emailLoginVerifyVisible" class="section email">
-        <EmailLoginVerify :email="emailSentTo" @reset="reset" />
+        <EmailLoginVerify :next="next" :email="emailSentTo" @reset="reset" />
       </section>
     </div>
   </div>
