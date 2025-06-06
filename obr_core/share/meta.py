@@ -290,8 +290,7 @@ def get_image_preload_for_request(request):
         if not image:
             return None
 
-        image_url = f"/images/crop/{w}x{h}/{image.path}"
-        return "http://mba.local:5000" + image_url
+        return f"/images/crop/{w}x{h}/{image.path}"
 
     scope, uid = get_scope_and_uid(request.path)
 
