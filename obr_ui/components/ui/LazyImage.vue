@@ -145,6 +145,7 @@ export default {
           'is-pending': !isLoaded,
           'is-loading': isLoading,
         }"
+        :loading="preload ? 'eager' : 'lazy'"
         :fetchpriority="preload ? 'high' : undefined"
         :decoding="preload ? 'async' : 'auto'"
       />

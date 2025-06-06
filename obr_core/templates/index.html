@@ -10,10 +10,10 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com/">
   <link rel="icon" type="image/png" href="{% static 'assets/manifest/icon-triangle-white.png' %}">
   <link rel="manifest" href="{% url 'manifest:manifest' %}">
-  {% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
+  {% image_preload %}{% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
   <link href="{% static 'main.js' %}" rel="modulepreload">
   {% comment %}<link href="{% static 'vendor.js' %}" rel="modulepreload">{% endcomment %}
-  <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}{% opengraph_meta %}{% image_preload %}
+  <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}{% opengraph_meta %}
   {% comment %}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
