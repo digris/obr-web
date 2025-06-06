@@ -50,6 +50,14 @@ export default defineConfig({
         entryFileNames: "[name].js",
         // chunkFileNames: "[name].js",
         assetFileNames: "[name].[ext]",
+        chunkFileNames(chunkInfo) {
+          return chunkInfo.name === "hls" ? "hls.js" : "[name].js";
+        },
+        manualChunks(id) {
+          if (id.includes("hls.light.min.js")) {
+            return "hls";
+          }
+        },
       },
     },
     outDir: resolve(__dirname, "build"),
