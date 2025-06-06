@@ -3,6 +3,7 @@ import { createI18n } from "vue-i18n";
 // import { Integrations } from "@sentry/tracing";
 // import * as Sentry from "@sentry/vue";
 import log from "loglevel";
+import { onCLS, onINP, onLCP, onTTFB } from "web-vitals/attribution";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
@@ -106,3 +107,23 @@ window.router = router;
 
 // @ts-ignore
 // window.tracker = tracker;
+
+function wvSend(metric: any) {
+  console.debug("metric", metric);
+  // @ts-ignore
+  window.dataLayer = window.dataLayer || [];
+  // @ts-ignore
+  window.dataLayer.push({
+    event: "web_vitals",
+    event_category: "Web Vitals",
+    event_action: metric.name,
+    event_label: metric.id,
+    value: Math.round(metric.value),
+    non_interaction: true,
+  });
+}
+
+onCLS(wvSend);
+onLCP(wvSend);
+onTTFB(wvSend);
+onINP(wvSend);
