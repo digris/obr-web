@@ -146,6 +146,7 @@ export default {
           'is-loading': isLoading,
         }"
         :fetchpriority="preload ? 'high' : undefined"
+        :decoding="preload ? 'async' : 'auto'"
       />
       <div class="overlay">
         <slot name="default"></slot>

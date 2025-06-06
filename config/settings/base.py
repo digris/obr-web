@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "app_bridge",
     "user_identity",
     "subscription",
+    "donation",
     "identifier",
     "rating",
     "broadcast",
@@ -553,7 +554,7 @@ MEDIA_ENDPOINTS = {
 
 IMAGE_RESIZER_ENDPOINT = env(
     "IMAGE_RESIZER_ENDPOINT",
-    default="https://openbroadcast.ch/images/",
+    default="/images/",
 )
 
 
@@ -953,6 +954,23 @@ UNFOLD = {
                         "title": "Redemptions",
                         "icon": "redeem",
                         "link": reverse_lazy("admin:subscription_redemption_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": "Donation",
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": "Donations",
+                        "icon": "paid",
+                        "link": reverse_lazy("admin:donation_singledonation_changelist"),
+                    },
+                    {
+                        "title": "Donations (recurring)",
+                        "icon": "payments",
+                        "link": reverse_lazy("admin:donation_recurringdonation_changelist"),
                     },
                 ],
             },
