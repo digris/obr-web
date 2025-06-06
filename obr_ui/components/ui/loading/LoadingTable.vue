@@ -83,7 +83,7 @@ export default defineComponent({
     grid-gap: 1rem;
     grid-template-columns: 48px 16fr 16fr 48px;
     max-width: var(--container-width);
-    height: 74px;
+    height: 704px;
     margin-right: auto;
     margin-left: auto;
     padding: 0 1.5rem;

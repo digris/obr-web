@@ -6,6 +6,8 @@ import { AppBridge } from "@/app-bridge/appBridge";
 import AuthSidebar from "@/components/account/auth/AuthSidebar.vue";
 import CompatibilityNotice from "@/components/browser-compatibility/CompatibilityNotice.vue";
 import CtaPresenter from "@/components/cta/CtaPresenter.vue";
+import DonateCta from "@/components/donation/DonateCta.vue";
+import DonatePanel from "@/components/donation/DonatePanel.vue";
 import GeoblockNotice from "@/components/geolocation/GeoblockNotice.vue";
 import CookieConsent from "@/components/legal/CookieConsent.vue";
 import LegalLinks from "@/components/legal/LegalLinks.vue";
@@ -51,6 +53,8 @@ export default defineComponent({
     GeoblockNotice,
     Player,
     MobilePlayer,
+    DonateCta,
+    DonatePanel,
     CtaPresenter,
     ClaimVoucher,
     CookieConsent,
@@ -117,6 +121,8 @@ export default defineComponent({
   <MobilePlayer v-if="isSmallScreen" />
   <Player v-else />
   <LegalLinks />
+  <DonateCta />
+  <DonatePanel />
   <CtaPresenter />
   <CookieConsent />
   <CompatibilityNotice />

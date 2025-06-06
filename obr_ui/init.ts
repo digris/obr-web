@@ -1,6 +1,10 @@
 import type { App } from "vue";
+import type { AxiosError } from "axios";
 
+import { loginByGoogleOneTap } from "@/api/account";
+import { useAccount } from "@/composables/account";
 import { useNews } from "@/composables/news";
+import { useNotification } from "@/composables/notification";
 import type { NewsProvider } from "@/player/hlsPlayer";
 import settings from "@/settings";
 
@@ -13,8 +17,16 @@ interface NewsMessage {
 }
 
 export async function init(app: App): Promise<void> {
-  console.log("init", app);
+  /*
+  NOTE: we run some random init steps here. likely this should be
+  refactored at some point of time
+  */
 
+  console.debug("init", app);
+
+  /*
+  NOTE: SSE-handler (news)
+  */
   const { selectedProvider } = useNews();
   const { playNews, endPlayNews } = useNews();
 
@@ -23,7 +35,7 @@ export async function init(app: App): Promise<void> {
   sse.addEventListener("news", async (e): Promise<void> => {
     const message: NewsMessage = JSON.parse(e.data) as NewsMessage;
 
-    console.info("SSE-event", message);
+    console.debug("SSE-event", message);
 
     const { ts, cmd, provider } = message;
 
@@ -31,7 +43,6 @@ export async function init(app: App): Promise<void> {
 
     if (cmd === "start") {
       if (selectedProvider.value?.key !== provider) {
-        console.info("news provider not enabled", selectedProvider);
         return;
       }
 
@@ -42,7 +53,6 @@ export async function init(app: App): Promise<void> {
 
     if (cmd === "stop") {
       if (selectedProvider.value?.key !== provider) {
-        console.info("news provider not enabled", selectedProvider);
         return;
       }
 
@@ -51,4 +61,47 @@ export async function init(app: App): Promise<void> {
       }, delay);
     }
   });
+
+  /*
+  NOTE: google one-tap sign-in
+  */
+  window.onload = async function () {
+    if (settings.CLIENT_MODE === "web" && google?.accounts) {
+      const { loadUser, user } = useAccount();
+      const { notify } = useNotification();
+
+      google.accounts.id.initialize({
+        client_id: "888119763922-4elhmvnb4tkakhtalr19q507sqqrig2g.apps.googleusercontent.com",
+        auto_select: true,
+        cancel_on_tap_outside: false,
+        context: "use",
+        callback: async (response: object) => {
+          // const u = await loginByGoogleOneTap(response.credential);
+          // await loadUser();
+          try {
+            await loginByGoogleOneTap(response.credential);
+            await loadUser();
+            await notify({
+              level: "success",
+              body: `logged in as ${user.value?.email}`,
+              ttl: 3,
+            });
+          } catch (err: unknown) {
+            const error = err as AxiosError;
+            const message = error.response?.data.message ?? "Login error";
+            await notify({
+              level: "error",
+              body: `login error: ${message}`,
+              ttl: 30,
+            });
+          }
+        },
+      });
+
+      console.debug("current user", user.value);
+      if (!user.value) {
+        google.accounts.id.prompt();
+      }
+    }
+  };
 }

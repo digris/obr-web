@@ -1,4 +1,5 @@
 import logging
+import pprint
 
 from django.conf import settings
 
@@ -15,26 +16,38 @@ SOCIAL_AUTH_PROVIDER = "google-oauth2"
 logger = logging.getLogger(__name__)
 
 
-class IdTokenLoginError(Exception):
+class OneTapLoginError(Exception):
     pass
 
 
-def get_or_create_user(request, token):
-    logger.debug(f"initiate google id-token login: {token}")
+def get_or_create_user(request, credential):
+    logger.debug(f"initiate google one-tap login: {credential}")
 
     try:
-        id_data = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+        id_data = id_token.verify_oauth2_token(
+            credential,
+            requests.Request(),
+            CLIENT_ID,
+        )
     except GoogleAuthError as e:
-        raise IdTokenLoginError(f"auth error: {e}") from e
+        raise OneTapLoginError(f"auth error: {e}") from e
 
     if id_data["aud"] != CLIENT_ID:
-        raise IdTokenLoginError("invalid token audience.")
+        raise OneTapLoginError("invalid token audience.")
+
+    pprint.pprint(id_data)
 
     user_created = False
     social_auth_uid = id_data["sub"]
     email = id_data["email"]
     first_name = id_data.get("given_name", "")
     last_name = id_data.get("family_name", "")
+
+    print("user_created   ", user_created)
+    print("social_auth_uid", social_auth_uid)
+    print("email          ", email)
+    print("first_name     ", first_name)
+    print("last_name      ", last_name)
 
     try:
         user = User.objects.get(

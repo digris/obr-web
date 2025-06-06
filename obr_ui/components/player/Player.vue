@@ -65,9 +65,6 @@ const testingEnabled = computed(() => userSettings.value?.testingEnabled);
           -->
           <News v-if="testingEnabled" />
           <NewsSurvey v-else />
-          <!--
-          donate disabled for the moment
-          -->
           <Donate />
           <Bandwidth />
           <VolumeControl />

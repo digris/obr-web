@@ -3,6 +3,7 @@ from django.urls import reverse
 from account.models import Address, Settings, User
 from api_extra.serializers import CTUIDModelSerializer
 from django_countries.serializer_fields import CountryField
+from donation.models import RecurringDonation
 from drf_spectacular.utils import OpenApiTypes, extend_schema_field
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
@@ -111,6 +112,14 @@ class GoogleIdTokenLoginSerializer(
     )
 
 
+class GoogleOneTapLoginSerializer(
+    serializers.Serializer,
+):
+    credential = serializers.CharField(
+        write_only=True,
+    )
+
+
 class SignedLoginCredentialsSerializer(
     serializers.Serializer,
 ):
@@ -208,6 +217,21 @@ class SubscriptionSerializer(
         ]
 
 
+class RecurringDonationSerializer(
+    CTUIDModelSerializer,
+    serializers.ModelSerializer,
+):
+
+    class Meta(CTUIDModelSerializer.Meta):
+        model = RecurringDonation
+        fields = CTUIDModelSerializer.Meta.fields + [
+            "state",
+            "amount",
+            "currency",
+            "subscription_id",
+        ]
+
+
 class UserSerializer(
     CTUIDModelSerializer,
     FlexFieldsSerializerMixin,
@@ -261,6 +285,7 @@ class UserSerializer(
             "settings": SettingsSerializer,
             "address": AddressSerializer,
             "subscription": SubscriptionSerializer,
+            "recurring_donation": RecurringDonationSerializer,
         }
 
 

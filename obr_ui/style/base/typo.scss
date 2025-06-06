@@ -50,6 +50,10 @@ body {
   font-weight: 400;
 }
 
+@mixin extra-light {
+  font-weight: 300;
+}
+
 @mixin dim($r: 0.33) {
   opacity: 1 * $r;
 }

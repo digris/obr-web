@@ -58,6 +58,10 @@ def api_root(request, format=None):
                 "api:common:settings",
                 request=request,
             ),
+            # "subscription/": reverse(
+            #     "api:subscription:api-root",
+            #     request=request,
+            # ),
             "broadcast/": reverse(
                 "api:broadcast:api-root",
                 request=request,
@@ -128,6 +132,10 @@ urlpatterns = [
     path(
         "subscription/",
         include("subscription.api.urls", "subscription"),
+    ),
+    path(
+        "donation/",
+        include("donation.api.urls", "donation"),
     ),
     path(
         "rating/",

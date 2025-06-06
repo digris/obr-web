@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 import { whenever } from "@vueuse/core";
 import * as EmailValidator from "email-validator";
 import { debounce } from "lodash-es";
@@ -20,10 +21,15 @@ enum Flow {
   Register = "register",
 }
 
+const props = defineProps<{
+  next: string;
+}>();
+
 const emit = defineEmits(["emailSent"]);
 
 const { t } = useI18n();
-const { loginUser } = useAccount();
+const router = useRouter();
+const { loadUser, loginUser } = useAccount();
 const email = ref("");
 const password = ref("");
 const emailValid = ref(false);
@@ -105,7 +111,19 @@ const submitPasswordLogin = async () => {
   errors.value = [];
   try {
     await loginUser(credentials);
-    document.location.reload();
+    await loadUser(); // make sure user data is fully loaded
+    if (props.next) {
+      const url = new URL(props.next, window.location.origin);
+      await router.push({
+        path: url.pathname,
+        hash: url.hash,
+      });
+      // NOTE: do we really need to reload the page?
+      // document.location.reload();
+    } else {
+      // NOTE: do we really need to reload the page?
+      // document.location.reload();
+    }
   } catch (err: unknown) {
     const error = err as AxiosError;
     errors.value = [error];
@@ -125,7 +143,7 @@ const resetPassword = async () => {
   await submitEmailLogin();
 };
 
-// auto-submit form in case of existing account
+// auto-submit form in case of an existing account
 whenever(emailExists, async () => {
   if (!promptPassword.value) {
     await submitForm();
@@ -134,6 +152,7 @@ whenever(emailExists, async () => {
 </script>
 
 <template>
+  <pre v-text="{ next }" />
   <form class="form" @submit.prevent="submitForm">
     <div class="input-container">
       <i18n-t keypath="account.auth.usingEmail" tag="label" for="email-1625" />

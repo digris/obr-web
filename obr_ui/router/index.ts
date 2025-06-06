@@ -28,21 +28,9 @@ import Page from "@/views/cms/Page.vue";
 import Collection from "@/views/Collection.vue";
 import Discover from "@/views/Discover.vue";
 import Faq from "@/views/faq/Faq.vue";
-// import store from "@/store";
 import NotFound from "@/views/NotFound.vue";
-//
 import Donate from "@/views/pages/Donate.vue";
 import Program from "@/views/Program.vue";
-import ProtoAppBridge from "@/views/proto/AppBridge.vue";
-import ProtoAutocomplete from "@/views/proto/Autocomplete.vue";
-import ProtoCodes from "@/views/proto/Codes.vue";
-import ProtoGoogleIdLogin from "@/views/proto/GoogleIdLogin.vue";
-import ProtoIcons from "@/views/proto/Icons.vue";
-import ProtoPlayer from "@/views/proto/PlayerHLS.vue";
-import ProtoBase from "@/views/proto/Proto.vue";
-import ProtoRating from "@/views/proto/Rating.vue";
-import ProtoVisual from "@/views/proto/Visual.vue";
-// import OnAir from '@/views/OnAir.vue';
 import Radio from "@/views/Radio.vue";
 
 const isAuthenticated = async () => {
@@ -467,57 +455,6 @@ const routes = [
     meta: {
       title: "Donate",
     },
-  },
-  // prototypes
-  {
-    path: "/proto/",
-    name: "proto",
-    component: ProtoBase,
-    redirect: {
-      name: "protoIcons",
-    },
-    children: [
-      {
-        path: "icons/",
-        name: "protoIcons",
-        component: ProtoIcons,
-      },
-      {
-        path: "codes/",
-        name: "protoCodes",
-        component: ProtoCodes,
-      },
-      {
-        path: "rating/",
-        name: "protoRating",
-        component: ProtoRating,
-      },
-      {
-        path: "app-bridge/",
-        name: "protoAppBridge",
-        component: ProtoAppBridge,
-      },
-      {
-        path: "player/",
-        name: "protoPlayer",
-        component: ProtoPlayer,
-      },
-      {
-        path: "google-id-login/",
-        name: "protoGoogleIdLogin",
-        component: ProtoGoogleIdLogin,
-      },
-      {
-        path: "visual/",
-        name: "protoVisual",
-        component: ProtoVisual,
-      },
-      {
-        path: "autocomplete/",
-        name: "protoAutocomplete",
-        component: ProtoAutocomplete,
-      },
-    ],
   },
   // "cms" pages
   {
