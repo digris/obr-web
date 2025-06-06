@@ -7,20 +7,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
   <meta id="apple-itunes-app" name="apple-itunes-app" content="app-id=1643695398">
   <meta id="theme-color" name="theme-color" content="rgb({% if color %}{{ color|join:',' }}{% else %}200,200,200{% endif %})">
-  {% comment %}<link rel="dns-prefetch" href="https://fonts.googleapis.com/">{% endcomment %}
-  {% comment %}{% image_preload %}{% endcomment %}
+  {% if not vite_proxied %}{% image_preload %}{% endif %}
   <link rel="icon" type="image/png" href="{% static 'assets/manifest/icon-triangle-white.png' %}">
   <link rel="manifest" href="{% url 'manifest:manifest' %}">
   {% if not vite_proxied %}<link href="{% static 'main.css' %}" rel="preload" as="style">
   <link href="{% static 'main.js' %}" rel="modulepreload">
-  {% comment %}<link href="{% static 'vendor.js' %}" rel="modulepreload">{% endcomment %}
   <link href="{% static 'main.css' %}" rel="stylesheet">{% endif %}{% opengraph_meta %}
-  {% comment %}
+  {% if vite_proxied %}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
   </style>
-  {% endcomment %}
-  {% comment %}
+  {% endif %}
+  {% if not vite_proxied %}
   <link
     rel="preload"
     href="{% static 'IBMPlexSans-Regular.woff' %}"
@@ -35,7 +33,7 @@
     type="font/woff"
     crossorigin="anonymous"
   />
-  {% endcomment %}
+  {% endif %}
   <style>
     @font-face {
       font-family: "IBM Plex Sans";

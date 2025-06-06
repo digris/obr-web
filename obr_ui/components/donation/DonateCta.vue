@@ -139,6 +139,7 @@ eventBus.on("donation:showCta", () => {
       background: transparent;
       border: none;
       color: inherit;
+      cursor: pointer;
 
       &--cancel {
         @include typo.light;
