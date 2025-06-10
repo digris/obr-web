@@ -82,7 +82,6 @@ const reset = async () => {
 </script>
 
 <template>
-  <pre v-text="{ next }" />
   <div>
     <p class="lead">
       <i18n-t keypath="account.auth.loginEmailSent.title" tag="div" class="title">

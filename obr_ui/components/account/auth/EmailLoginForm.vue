@@ -152,7 +152,6 @@ whenever(emailExists, async () => {
 </script>
 
 <template>
-  <pre v-text="{ next }" />
   <form class="form" @submit.prevent="submitForm">
     <div class="input-container">
       <i18n-t keypath="account.auth.usingEmail" tag="label" for="email-1625" />

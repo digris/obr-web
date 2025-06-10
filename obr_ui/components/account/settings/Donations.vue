@@ -37,9 +37,6 @@ const cancelDonation = (uid: string) => {
 
 <template>
   <Section :title="t('account.settings.donations.title')" :outlined="false">
-    <!--
-    <pre v-text="donations" />
-    -->
     <div class="info">
       <i18n-t keypath="account.settings.donations.info" tag="p" />
     </div>
