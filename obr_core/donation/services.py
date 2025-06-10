@@ -146,7 +146,7 @@ def payment_recurring_create_for_donation(
         )
     except stripe.error.InvalidRequestError as e:
         logger.error(f"error creating subscription: {e}")
-        raise ServiceError(str(e))
+        raise ServiceError(str(e)) from e
 
     return subscription
 
@@ -262,4 +262,4 @@ def donation_cancel_on_stripe(
         stripe.Subscription.cancel(donation.subscription_id)
     except stripe.error.InvalidRequestError as e:
         logger.error(f"Error canceling subscription: {e}")
-        raise ServiceError(str(e))
+        raise ServiceError(str(e)) from e
