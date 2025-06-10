@@ -185,4 +185,8 @@ urlpatterns = [
         "sync/",
         include("sync.api.urls", "sync"),
     ),
+    path(
+        "webhook/",
+        include("webhook.api.urls", "webhook"),
+    ),
 ]

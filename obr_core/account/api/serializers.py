@@ -3,7 +3,7 @@ from django.urls import reverse
 from account.models import Address, Settings, User
 from api_extra.serializers import CTUIDModelSerializer
 from django_countries.serializer_fields import CountryField
-from donation.models import RecurringDonation
+from donation.models import Donation
 from drf_spectacular.utils import OpenApiTypes, extend_schema_field
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
@@ -217,15 +217,17 @@ class SubscriptionSerializer(
         ]
 
 
-class RecurringDonationSerializer(
+class DonationSerializer(
     CTUIDModelSerializer,
     serializers.ModelSerializer,
 ):
 
     class Meta(CTUIDModelSerializer.Meta):
-        model = RecurringDonation
+        model = Donation
         fields = CTUIDModelSerializer.Meta.fields + [
+            "kind",
             "state",
+            "created",
             "amount",
             "currency",
             "subscription_id",
@@ -285,7 +287,7 @@ class UserSerializer(
             "settings": SettingsSerializer,
             "address": AddressSerializer,
             "subscription": SubscriptionSerializer,
-            "recurring_donation": RecurringDonationSerializer,
+            "donations": (DonationSerializer, {"many": True}),
         }
 
 

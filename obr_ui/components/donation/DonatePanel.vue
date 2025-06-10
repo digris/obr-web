@@ -15,16 +15,17 @@ const route = useRoute();
 const router = useRouter();
 const { loadUser, user } = useAccount();
 
-const hasRecurringDonation = ref(false);
+const hasActiveDonation = ref(false);
 
-const updateDonationStatus = () => {
-  hasRecurringDonation.value = user.value?.recurringDonation?.state === "active" || false;
+const updateActiveDonation = () => {
+  /* @ts-ignore */
+  hasActiveDonation.value = !!(user.value?.donations ?? []).find((d) => d.state === "active");
 };
 
 onMounted(() => {
   // NOTE: we only run this on mounted, so the panel does not change
   //       when the user creates a new recurring donation ;)
-  updateDonationStatus();
+  updateActiveDonation();
 });
 
 watch(
@@ -83,7 +84,7 @@ const successVisible = computed(() => {
 });
 
 eventBus.on("donation:showPanel", () => {
-  updateDonationStatus();
+  updateActiveDonation();
   isVisible.value = true;
 });
 
@@ -92,22 +93,22 @@ eventBus.on("donation:hidePanel", () => {
 });
 
 eventBus.on("donation:togglePanel", () => {
-  updateDonationStatus();
+  updateActiveDonation();
   isVisible.value = !isVisible.value;
 });
 
 const setStep = (value: string) => {
   step.value = value;
-  console.debug("OnatePanel:setStep", value);
+  console.debug("DonatePanel:setStep", value);
 };
 
 const onStep = (value: string) => {
-  console.debug("OnatePanel:onStep", value);
+  console.debug("DonatePanel:onStep", value);
   setStep(value);
 };
 
 const onSuccess = (response: object) => {
-  console.debug("OnatePanel:onSuccess", response);
+  console.debug("DonatePanel:onSuccess", response);
   successData.value = response;
   loadUser(); // make sure the donation status is updated
   setStep("success");
@@ -126,7 +127,7 @@ const onSuccess = (response: object) => {
       <!--
       <pre v-text="{infoVisible, navVisible, kind, step}" />
       -->
-      <div v-if="hasRecurringDonation" class="body">
+      <div v-if="hasActiveDonation" class="body">
         <div class="info">
           <h2>Vielen Dank!</h2>
           <p>Du hast bereits eine wiederkehrende Spende eingerichtet.</p>

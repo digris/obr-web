@@ -2,17 +2,19 @@ from django.contrib import admin
 
 import unfold.admin
 import unfold.decorators
-from donation.models import RecurringDonation, SingleDonation
+from donation.models import Donation
+from unfold.contrib.filters.admin import RangeDateFilter
 
 
-@admin.register(SingleDonation)
-class SingleDonationAdmin(unfold.admin.ModelAdmin):
+@admin.register(Donation)
+class DonationAdmin(unfold.admin.ModelAdmin):
     compressed_fields = True
 
-    date_hierarchy = "updated"
+    date_hierarchy = "created"
     list_display = [
-        "user_display",
         "state_display",
+        "kind_display",
+        "user_display",
         "amount",
         "currency",
         "created",
@@ -24,17 +26,22 @@ class SingleDonationAdmin(unfold.admin.ModelAdmin):
         "user__uid",
     ]
     list_filter = [
+        "kind",
         "state",
-        "updated",
+        ("updated", RangeDateFilter),
     ]
     readonly_fields = [
         "user",
         "user_identity",
+        "kind",
         "state",
         "amount",
         "currency",
         "payment_intent_id",
-        "extra_data",
+        "price_id",
+        "subscription_id",
+        "payment_intent_data",
+        "subscription_data",
     ]
 
     ###################################################################
@@ -47,74 +54,26 @@ class SingleDonationAdmin(unfold.admin.ModelAdmin):
         return str(obj.user) if obj.user else "Anonymous User"
 
     @unfold.decorators.display(
-        description="state",
-        ordering="state",
+        description="kind",
+        ordering="kind",
         label={
-            SingleDonation.State.PENDING: "info",
-            SingleDonation.State.SUCCEEDED: "success",
-            SingleDonation.State.FAILED: "danger",
+            Donation.Kind.SINGLE: "",
+            Donation.Kind.RECURRING: "",
         },
     )
-    def state_display(self, obj):
-        return obj.state, obj.get_state_display()
-
-    @unfold.decorators.display(
-        description="UID",
-        label=True,
-    )
-    def uid_display(self, obj):
-        return obj.uid
-
-
-@admin.register(RecurringDonation)
-class RecurringDonationAdmin(unfold.admin.ModelAdmin):
-    compressed_fields = True
-
-    date_hierarchy = "updated"
-    list_display = [
-        "user_display",
-        "state_display",
-        "amount",
-        "currency",
-        "created",
-        "uid_display",
-    ]
-    search_fields = [
-        "uid",
-        "user__email",
-        "user__uid",
-    ]
-    list_filter = [
-        "state",
-        "updated",
-    ]
-    readonly_fields = [
-        "user",
-        "state",
-        "amount",
-        "currency",
-        "payment_intent_id",
-        "subscription_id",
-        "extra_data",
-    ]
-
-    ###################################################################
-    # display
-    ###################################################################
-    @unfold.decorators.display(
-        description="user",
-    )
-    def user_display(self, obj):
-        return str(obj.user)
+    def kind_display(self, obj):
+        return obj.kind, obj.get_kind_display()
 
     @unfold.decorators.display(
         description="state",
         ordering="state",
         label={
-            RecurringDonation.State.PENDING: "info",
-            RecurringDonation.State.ACTIVE: "success",
-            RecurringDonation.State.CANCELED: "warning",
-            RecurringDonation.State.EXPIRED: "warning",
+            Donation.State.PENDING: "info",
+            Donation.State.FAILED: "danger",
+            Donation.State.SUCCEEDED: "success",
+            Donation.State.ACTIVE: "success",
+            Donation.State.CANCELED: "warning",
+            Donation.State.EXPIRED: "warning",
         },
     )
     def state_display(self, obj):

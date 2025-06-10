@@ -60,7 +60,7 @@ const optionsDisplay = computed(() => {
 // initialize step and retrieve options (calls stripe API in backend)
 onMounted(async () => {
   setStep("amount");
-  const url = "/api/v1/donation/recurring/options/";
+  const url = "/api/v1/donation/options/";
   const response = await APIClient.get(url);
   options.value = response.data;
 });

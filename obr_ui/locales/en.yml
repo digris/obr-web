@@ -167,6 +167,8 @@ account:
       streamingAccounts:
         title: Streaming accounts
         info: Connect your streaming accounts  # TODO: Text needed
+    donations:
+      title: Donations
 subscription:
   credits: Credits
   # temporary
