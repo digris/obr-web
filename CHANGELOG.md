@@ -6,6 +6,10 @@ For details visit the project on [GitHub](https://github.com/digris/obr-web/).
 
 <!--next-version-placeholder-->
 
+## v0.1.0 (2025-06-10)
+### Feature
+* Implement donations ([`4ed07bf`](https://github.com/digris/obr-web/commit/4ed07bfbc3ede5610d811020d73c0dc8399efd74))
+
 ## v0.0.116 (2024-07-04)
 ### Fix
 * Player-event post-process ([`02ee1fb`](https://github.com/digris/obr-web/commit/02ee1fb3ed8c1056464829e5f3d969f7b5c82354))
