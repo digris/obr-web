@@ -187,9 +187,7 @@ def payment_finalize_for_donation(
             donation.subscription_id,
         )
 
-        state = (
-            Donation.State.ACTIVE if subscription.plan.active else Donation.State.FAILED
-        )
+        state = subscription.status
 
         Donation.objects.filter(pk=donation.pk).update(
             state=state,
@@ -231,6 +229,7 @@ def payment_update_from_event(
         pprint.pp(plan)
 
         Donation.objects.filter(pk=donation.pk).update(
+            state=subscription.status,
             amount=plan.amount / 100,
             currency=plan.currency.upper(),
             price_id=plan.id,
