@@ -1,11 +1,9 @@
 import logging
-import pprint
 
 from django.conf import settings
 from django.core.cache import cache
 
 import stripe
-import stripe.error
 from donation.models import Donation
 
 logger = logging.getLogger(__name__)
@@ -58,7 +56,9 @@ def customer_get_for_user(*, user):
                 stripe_customer_id,
             )
             customer = (
-                existing_customer if not hasattr(existing_customer, "deleted") else None
+                existing_customer
+                if not getattr(existing_customer, "deleted", False)
+                else None
             )
         except stripe.error.InvalidRequestError as e:
             logger.error(f"Error retrieving customer: {e}")
@@ -212,7 +212,7 @@ def payment_update_from_event(
     obj_key = metadata.obj_key
     obj_ct, obj_uid = obj_key.split(":")
 
-    pprint.pp(event_type)
+    logger.debug(f"event: {event_type} - obj_key: {obj_key}")
 
     if event_type == "payment_intent.succeeded":
         donation = Donation.objects.get(uid=obj_uid)
@@ -225,8 +225,6 @@ def payment_update_from_event(
         print("update donation", donation, donation.state)
         subscription = event_object
         plan = subscription.plan
-        pprint.pp(subscription)
-        pprint.pp(plan)
 
         Donation.objects.filter(pk=donation.pk).update(
             state=subscription.status,
@@ -241,8 +239,6 @@ def payment_update_from_event(
         print("cancel donation", donation, donation.state)
         subscription = event_object
         plan = subscription.plan
-        pprint.pp(subscription)
-        pprint.pp(plan)
 
         Donation.objects.filter(pk=donation.pk).update(
             state=Donation.State.CANCELED,

@@ -1,12 +1,8 @@
 import logging
-import pprint
 
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
-import stripe
-import stripe.error
 from donation import services
 from donation.models import Donation
 from drf_spectacular.utils import extend_schema
@@ -15,8 +11,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 logger = logging.getLogger(__name__)
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class DonationOptionsView(
@@ -141,15 +135,11 @@ class DonationCreateView(
             defaults=input_data,
         )
 
-        pprint.pprint(donation)
-
         customer = (
             services.customer_get_for_user(user=request.user)
             if request.user.is_authenticated
             else None
         )
-
-        pprint.pprint(customer)
 
         if donation.kind == Donation.Kind.SINGLE:
 
@@ -157,8 +147,6 @@ class DonationCreateView(
                 donation=donation,
                 customer=customer,
             )
-
-            pprint.pprint(payment_intent)
 
             Donation.objects.filter(pk=donation.pk).update(
                 payment_intent_id=payment_intent.id,
@@ -183,16 +171,11 @@ class DonationCreateView(
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            print("*" * 72)
-            pprint.pprint(subscription)
-            print("*" * 72)
-
             client_secret = (
                 subscription.latest_invoice.confirmation_secret.client_secret
             )
 
             # NOTE: not sure if this is a good idea... we use secret first part as id
-
             Donation.objects.filter(pk=donation.pk).update(
                 payment_intent_id=client_secret.split("_secret_")[0],
                 subscription_id=subscription.id,
