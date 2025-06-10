@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
+import { useSettings } from "@/composables/settings";
 import eventBus from "@/eventBus";
 
 const isVisible = ref(false);
+
+const { userSettings } = useSettings();
+const testingEnabled = computed(() => userSettings.value?.testingEnabled);
 
 const dismiss = () => {
   isVisible.value = false;
@@ -16,6 +20,9 @@ const confirm = () => {
 };
 
 onMounted(async () => {
+  if (!testingEnabled.value) {
+    return;
+  }
   setTimeout(() => {
     isVisible.value = true;
   }, 2000);

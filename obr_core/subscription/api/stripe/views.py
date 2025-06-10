@@ -186,7 +186,7 @@ class PaymentSuccessView(
 class PaymentWebhookView(
     APIView,
 ):
-    # NOTE: logic is moved to "shared" webhook logic (webhook.views)
+    # NOTE: logic is moved to "shared" webhook logic (webhook.views.StripeWebhookView)
     @staticmethod
     @extend_schema(
         request=None,

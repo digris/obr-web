@@ -21,7 +21,7 @@ const emit = defineEmits<{
 const errors = ref<string[]>([]);
 
 class PaymentFlow {
-  private baseUrl = "/api/v1/donation/recurring/";
+  private baseUrl = "/api/v1/donation/";
   private stripe: any = null;
   private elements: any = null;
   private donationUid: string | null = null;
@@ -41,6 +41,7 @@ class PaymentFlow {
 
     try {
       const response = await APIClient.post(url, {
+        kind: "recurring",
         priceId: this.priceId,
         amount: this.amount,
         currency: this.currency,

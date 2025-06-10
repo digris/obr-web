@@ -127,5 +127,10 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
+        "donation": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
     },
 }

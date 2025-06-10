@@ -12,8 +12,8 @@ import { getContrastColor } from "@/utils/color";
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
 import Donate from "./button/Donate.vue";
+import DonatePage from "./button/DonatePage.vue";
 import News from "./button/News.vue";
-import NewsSurvey from "./button/NewsSurvey.vue";
 import OnAir from "./button/OnAir.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import CurrentNews from "./CurrentNews.vue";
@@ -60,12 +60,9 @@ const testingEnabled = computed(() => userSettings.value?.testingEnabled);
         </div>
         <div class="right">
           <OnAir />
-          <!--
-          news controls for test-users. survey for the others.
-          -->
-          <News v-if="testingEnabled" />
-          <NewsSurvey v-else />
-          <Donate />
+          <News />
+          <Donate v-if="testingEnabled" />
+          <DonatePage v-else />
           <Bandwidth />
           <VolumeControl />
           <Circle v-if="objKey">

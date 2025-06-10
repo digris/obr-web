@@ -113,7 +113,7 @@ async function loginByGoogleOneTap(credential: string) {
 }
 
 async function getUser() {
-  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription,address,recurring_donation`;
+  const url = `${ACCOUNT_ENDPOINT}users/me/?expand=settings,subscription,address,donations`;
   const response = await APIClient.get(url);
   return response.data;
 }

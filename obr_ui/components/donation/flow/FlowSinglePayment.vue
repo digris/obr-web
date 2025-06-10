@@ -3,6 +3,7 @@ import { type Ref, onMounted, ref } from "vue";
 import { loadStripe } from "@stripe/stripe-js/pure";
 
 import { APIClient } from "@/api/client";
+import AsyncButton from "@/components/ui/button/AsyncButton.vue";
 import Spinner from "@/components/ui/loading/Spinner.vue";
 import { useAccount } from "@/composables/account";
 import settings from "@/settings";
@@ -21,7 +22,7 @@ const emit = defineEmits<{
 const errors = ref<string[]>([]);
 
 class PaymentFlow {
-  private baseUrl = "/api/v1/donation/single/";
+  private baseUrl = "/api/v1/donation/";
   private stripe: any = null;
   private elements: any = null;
   private donationUid: string | null = null;
@@ -41,6 +42,7 @@ class PaymentFlow {
 
     try {
       const response = await APIClient.post(url, {
+        kind: "single",
         amount: this.amount,
         currency: this.currency,
       });
@@ -180,11 +182,15 @@ class PaymentFlow {
     } else {
       const paymentIntentId = result.paymentIntent.id;
       const url = `${this.baseUrl}${paymentIntentId}/finalize/`;
-      const response = await APIClient.post(url, {
-        uid: this.donationUid,
-      });
-      console.debug("payment:finalized", response);
-      this.emitFn("success", response.data);
+      const response = await APIClient.post(url);
+
+      if (response.data.state === "failed") {
+        console.warn("payment:finalize-failed", response.data);
+        this.errorsRef.value = [response.data.message || "Payment failed"];
+      } else {
+        console.debug("payment:finalized", response.data);
+        this.emitFn("success", response.data);
+      }
     }
   }
 }
@@ -225,12 +231,12 @@ const submitPayment = async () => {
       <p v-for="(error, index) in errors" :key="`error-${index}`" class="error">{{ error }}</p>
     </div>
     <div class="actions">
-      <button>
+      <AsyncButton @click.prevent="submitPayment()">
         <span>Jetzt</span>
         <span v-text="currency" />
         <span v-text="amount" />
         <span>spenden!</span>
-      </button>
+      </AsyncButton>
     </div>
   </form>
 </template>

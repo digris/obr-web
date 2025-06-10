@@ -585,6 +585,10 @@ STRIPE_SECRET_KEY = env(
     "STRIPE_SECRET_KEY",
     default="",
 )
+STRIPE_WEBHOOK_SECRET = env(
+    "STRIPE_WEBHOOK_SECRET",
+    default="",
+)
 
 
 ##################################################################
@@ -965,13 +969,8 @@ UNFOLD = {
                     {
                         "title": "Donations",
                         "icon": "paid",
-                        "link": reverse_lazy("admin:donation_singledonation_changelist"),
-                    },
-                    {
-                        "title": "Donations (recurring)",
-                        "icon": "payments",
-                        "link": reverse_lazy("admin:donation_recurringdonation_changelist"),
-                    },
+                        "link": reverse_lazy("admin:donation_donation_changelist"),
+                    }
                 ],
             },
             {

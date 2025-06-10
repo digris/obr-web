@@ -12,7 +12,6 @@ import { useUiStore } from "@/stores/ui";
 import { getContrastColor } from "@/utils/color";
 
 import News from "../button/News.vue";
-import NewsSurvey from "../button/NewsSurvey.vue";
 import OnAir from "../button/OnAir.vue";
 // NOTE: shared components for desktop & mobile
 import Queue from "../Queue.vue";
@@ -28,7 +27,6 @@ export default defineComponent({
     QueueControl,
     MediaArtists,
     News,
-    NewsSurvey,
     OnAir,
     PlayerPlayButton,
   },
@@ -136,8 +134,7 @@ export default defineComponent({
           </div>
           <div class="right">
             <OnAir class="on-air" />
-            <News v-if="testingEnabled" />
-            <NewsSurvey v-else />
+            <News v-if="!isApp" />
             <QueueControl
               class="queue-control"
               :queue-visible="queueVisible"

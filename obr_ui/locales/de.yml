@@ -172,6 +172,9 @@ account:
         info: "Verbinde deine streaming-Konten:\n
          Deine Library wird automatisch synchronisiert und deine Likes werden als  
          Playliste \"open broadcast\" gespeichert."
+    donations:
+      title: Spenden
+      info: Montaliche Spenden helfen uns, den Betrieb von open broadcast zu finanzieren.
 subscription:
   credits: Guthaben
   # temporary
