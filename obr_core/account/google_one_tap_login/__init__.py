@@ -8,7 +8,7 @@ from google.auth.exceptions import GoogleAuthError
 from google.auth.transport import requests
 from google.oauth2 import id_token
 
-CLIENT_ID = settings.GOOGLE_AUTH_CLIENT_ID
+CLIENT_ID = settings.GOOGLE_ACCOUNTS_CLIENT_ID
 
 SOCIAL_AUTH_PROVIDER = "google-oauth2"
 

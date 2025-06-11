@@ -325,9 +325,14 @@ SOCIAL_AUTH_APPLE_ID_SCOPE = [
 ]
 
 
-# additional authentication services
+# additional authentication services (iOS)
 GOOGLE_AUTH_CLIENT_ID = env(
     "GOOGLE_AUTH_CLIENT_ID",
+    default="",
+)
+# additional authentication services (one-tap)
+GOOGLE_ACCOUNTS_CLIENT_ID = env(
+    "GOOGLE_ACCOUNTS_CLIENT_ID",
     default="",
 )
 
@@ -614,7 +619,7 @@ SETTINGS_EXPORT = [
     "MEDIA_ENDPOINTS",
     "GIT_SHORT_SHA",
     "GOOGLE_GTM_ID",
-    "GOOGLE_AUTH_CLIENT_ID",
+    "GOOGLE_ACCOUNTS_CLIENT_ID",
     "SENTRY_DSN",
     "OPENREPLAY_PROJECT_KEY",
     "STRIPE_PUBLISHABLE_KEY",

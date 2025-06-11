@@ -9,7 +9,7 @@ import type { NewsProvider } from "@/player/hlsPlayer";
 import settings from "@/settings";
 
 const SSE_PUBLISHER_URL = settings.SSE_PUBLISHER_URL;
-const GOOGLE_AUTH_CLIENT_ID = settings.GOOGLE_AUTH_CLIENT_ID;
+const GOOGLE_ACCOUNTS_CLIENT_ID = settings.GOOGLE_ACCOUNTS_CLIENT_ID;
 
 interface NewsMessage {
   ts: number;
@@ -72,7 +72,7 @@ export async function init(app: App): Promise<void> {
       const { notify } = useNotification();
 
       google.accounts.id.initialize({
-        client_id: GOOGLE_AUTH_CLIENT_ID,
+        client_id: GOOGLE_ACCOUNTS_CLIENT_ID,
         auto_select: true,
         cancel_on_tap_outside: false,
         context: "use",
