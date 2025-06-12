@@ -3,6 +3,7 @@ import type { AxiosError } from "axios";
 
 import { loginByGoogleOneTap } from "@/api/account";
 import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
 import { useNews } from "@/composables/news";
 import { useNotification } from "@/composables/notification";
 import type { NewsProvider } from "@/player/hlsPlayer";
@@ -28,46 +29,49 @@ export async function init(app: App): Promise<void> {
   /*
   NOTE: SSE-handler (news)
   */
+  const { isDesktop } = useDevice();
   const { selectedProvider } = useNews();
   const { playNews, endPlayNews } = useNews();
 
-  const sse = new EventSource(SSE_PUBLISHER_URL);
+  if (isDesktop) {
+    const sse = new EventSource(SSE_PUBLISHER_URL);
 
-  sse.addEventListener("news", async (e): Promise<void> => {
-    const message: NewsMessage = JSON.parse(e.data) as NewsMessage;
+    sse.addEventListener("news", async (e): Promise<void> => {
+      const message: NewsMessage = JSON.parse(e.data) as NewsMessage;
 
-    console.debug("SSE-event", message);
+      console.debug("SSE-event", message);
 
-    const { ts, cmd, provider } = message;
+      const { ts, cmd, provider } = message;
 
-    const delay = (ts + 4) * 1000 - Date.now();
+      const delay = (ts + 4) * 1000 - Date.now();
 
-    if (cmd === "start") {
-      if (selectedProvider.value?.key !== provider) {
-        return;
+      if (cmd === "start") {
+        if (selectedProvider.value?.key !== provider) {
+          return;
+        }
+
+        setTimeout(async () => {
+          await playNews(provider);
+        }, delay);
       }
 
-      setTimeout(async () => {
-        await playNews(provider);
-      }, delay);
-    }
+      if (cmd === "stop") {
+        if (selectedProvider.value?.key !== provider) {
+          return;
+        }
 
-    if (cmd === "stop") {
-      if (selectedProvider.value?.key !== provider) {
-        return;
+        setTimeout(async () => {
+          await endPlayNews();
+        }, delay);
       }
-
-      setTimeout(async () => {
-        await endPlayNews();
-      }, delay);
-    }
-  });
+    });
+  }
 
   /*
   NOTE: google one-tap sign-in
   */
-  window.onload = async function () {
-    if (settings.CLIENT_MODE === "web" && google?.accounts) {
+  window.addEventListener("load", async () => {
+    if (isDesktop && google?.accounts) {
       const { loadUser, user } = useAccount();
       const { notify } = useNotification();
 
@@ -97,10 +101,9 @@ export async function init(app: App): Promise<void> {
         },
       });
 
-      console.debug("current user", user.value);
       if (!user.value) {
         google.accounts.id.prompt();
       }
     }
-  };
+  });
 }
