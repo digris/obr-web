@@ -52,7 +52,7 @@ const toggleProvider = async (key: string) => {
         <div class="title">
           <span class="title__name" v-text="provider.title" />
           <span v-if="provider.language" class="title__language" v-text="provider.language" />
-          <span v-if="!provider.enabled" class="title__disabled" v-text="`coming soon`" />
+          <span v-if="!provider.enabled" class="title__disabled" v-text="`planned`" />
         </div>
         <div class="description">
           <p v-text="provider.description" />
