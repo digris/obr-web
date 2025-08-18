@@ -89,9 +89,6 @@ eventBus.on("donation:togglePanel", () => {
 </script>
 
 <template>
-  <div class="debug">
-    <pre v-text="{ hasActiveDonation, ctaDismissed, documentVisible, documentVisibleSeconds }" />
-  </div>
   <div v-if="isVisible" class="cta-container">
     <div class="header">
       <div
