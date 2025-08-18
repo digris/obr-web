@@ -7,8 +7,7 @@ import eventBus from "@/eventBus";
 
 import Section from "./Section.vue";
 
-const STRIPE_SELF_SERVICE_PORTAL_URL =
-  "https://billing.stripe.com/p/login/test_6oU28re1Mbb42gU6KA2oE00";
+const STRIPE_SELF_SERVICE_PORTAL_URL = "https://billing.stripe.com/p/login/4gM00jbVbcOD2405M11oI00";
 
 const props = defineProps<{
   donations?: any[];
