@@ -104,7 +104,7 @@ urlpatterns = [
         SpectacularJSONAPIView.as_view(),
         name="schema-json",
     ),
-    # Optional UI:
+    # Optional UI (spectacular generated)
     path(
         "schema/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="api:schema"),
@@ -114,6 +114,11 @@ urlpatterns = [
         "schema/redoc/",
         SpectacularRedocView.as_view(url_name="api:schema"),
         name="redoc",
+    ),
+    # API Docs (scalar, manually configured)
+    path(
+        "docs/",
+        include("api_docs.urls", "api_docs"),
     ),
     # Core API
     # "base/" is kept for compatibility

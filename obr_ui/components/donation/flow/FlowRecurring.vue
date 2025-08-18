@@ -34,7 +34,6 @@ const authenticate = () => {
   const event = {
     intent: "login",
     next: `${route.path}#donate:recurring`,
-    // next: "/foo-bar/",
   };
   eventBus.emit("account:authenticate", event);
 };
@@ -79,14 +78,13 @@ const setStep = (value: string) => {
 <template>
   <div v-if="!user">
     <div class="notice notice--anonymous">
-      <p>Want to donate monthly?</p>
-      <p>
-        Please log in or create an account first — this helps if you ever want to cancel your
-        donation later. 😉
-      </p>
+      <i18n-t keypath="donate.flow.recurring.title" tag="p" />
+      <i18n-t keypath="donate.flow.recurring.lead" tag="p" />
     </div>
     <div class="actions">
-      <button @click.prevent="authenticate" class="action action--continue">Sign in</button>
+      <button @click.prevent="authenticate" class="action action--continue">
+        <i18n-t keypath="account.auth.login" />
+      </button>
     </div>
   </div>
   <div v-else>
@@ -108,13 +106,13 @@ const setStep = (value: string) => {
           class="action action--continue"
           :disabled="!option"
         >
-          Continue
+          <i18n-t keypath="donate.flow.continue" />
         </button>
       </div>
     </div>
     <div v-if="option && step === 'payment'">
       <div @click.prevent="setStep('amount')" class="navigate-back">
-        <span>⇽ Back</span>
+        <span>⇽ <i18n-t keypath="donate.flow.back" /></span>
       </div>
       <FlowRecurringPayment
         @success="(response: object) => emit('success', response)"

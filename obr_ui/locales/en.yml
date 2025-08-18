@@ -217,3 +217,34 @@ browserCompatibility:
     faqLabel: FAQ
 pages:
   pageNotFound: Page not found
+donate:
+  cta:
+    title: Donate today
+    lead: Your support matters!
+    confirm: Donate
+    dismiss: Not now
+  panel:
+    title: Support our work
+    lead: Your contributions help us keep the project alive!
+    kindSingle: One-time
+    kindRecurring: Monthly
+    success:
+      title: Thank you!
+      lead: Your donation helps us keep an independent and diverse radio program alive.
+      lead2: ❤️❤️❤️❤️❤️❤️
+      lead3: With your contribution you make ongoing, carefully curated music possible —
+             beyond the mainstream, handpicked, surprising, and free from commercial interests.
+    activeDonation:
+      title: Thank you!
+      lead: You’ve already set up a recurring donation.
+      lead2: If you’d like to change or cancel your regular donation, 
+             you’ll find everything you need in your account.
+  flow:
+    continue: Continue
+    back: Back
+    single:
+      customAmount: Custom amount
+    recurring:
+      title: Would you like to donate monthly?
+      lead: "Please log in or create an account first —
+             this helps if you ever want to cancel your donation later. 😉"

@@ -68,6 +68,7 @@ opensearch-py = "^2.7.1"
 qrcode = {extras = ["pil"], version = "^8.0"}
 django-unfold = "0.59.0"
 pygments = "^2.19.1"
+scalar-docs = "^0.1.2"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "*"

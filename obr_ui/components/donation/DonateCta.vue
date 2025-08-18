@@ -1,16 +1,28 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
+import { useDocumentVisibility, useIntervalFn, useStorage } from "@vueuse/core";
 
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
-import { useSettings } from "@/composables/settings";
+import { useAccount } from "@/composables/account";
 import eventBus from "@/eventBus";
+
+const CTA_SHOW_AGAIN_AFTER = 28 * 24 * 60 * 60 * 1000; // 28 days
+const CTA_SHOW_AFTER_SECONDS = 30;
 
 const isVisible = ref(false);
 
-const { userSettings } = useSettings();
-const testingEnabled = computed(() => userSettings.value?.testingEnabled);
+const documentVisible = useDocumentVisibility();
+const documentVisibleSeconds = ref(0);
+const ctaDismissed = useStorage("donate/ctaDismissed", -1);
+
+const { user } = useAccount();
+
+const hasActiveDonation = computed(() => {
+  return !!(user.value?.donations ?? []).find((d: object) => d?.state === "active");
+});
 
 const dismiss = () => {
+  ctaDismissed.value = Date.now();
   isVisible.value = false;
 };
 
@@ -19,21 +31,67 @@ const confirm = () => {
   eventBus.emit("donation:showPanel");
 };
 
+const { pause, resume } = useIntervalFn(
+  () => {
+    documentVisibleSeconds.value += 1;
+    if (documentVisibleSeconds.value >= CTA_SHOW_AFTER_SECONDS) {
+      pause();
+      isVisible.value = true;
+    }
+  },
+  1000,
+  {
+    immediate: false,
+  }
+);
+
 onMounted(async () => {
-  if (!testingEnabled.value) {
+  // check if cta was dismissed more than CTA_SHOW_AGAIN_AFTER ago.
+  // if so, reset it to -1 to show the cta again.
+  if (ctaDismissed.value > 0 && Date.now() - ctaDismissed.value > CTA_SHOW_AGAIN_AFTER) {
+    ctaDismissed.value = -1;
+  }
+
+  if (ctaDismissed.value > 0) {
+    console.debug("CTA was dismissed, not showing it again");
     return;
   }
-  setTimeout(() => {
-    isVisible.value = true;
-  }, 2000);
+
+  // check if user has an active donation
+  if (hasActiveDonation.value) {
+    console.debug("User has an active donation, not showing CTA");
+    return;
+  }
+
+  // start timer
+  // resume(); // NOTE: disabled until implementation is tested
 });
+
+watch(
+  () => documentVisible.value,
+  (value) => {
+    if (value === "hidden") {
+      pause();
+    } else {
+      resume();
+    }
+  }
+);
 
 eventBus.on("donation:showCta", () => {
   isVisible.value = !isVisible.value;
 });
+
+eventBus.on("donation:togglePanel", () => {
+  // stop the timer if user manually opens the donation panel
+  pause();
+});
 </script>
 
 <template>
+  <div class="debug">
+    <pre v-text="{ hasActiveDonation, ctaDismissed, documentVisible, documentVisibleSeconds }" />
+  </div>
   <div v-if="isVisible" class="cta-container">
     <div class="header">
       <div
@@ -45,14 +103,24 @@ eventBus.on("donation:showCta", () => {
         <IconHeart :scale="1.25" />
       </div>
       <div class="text">
-        <h2>Spende noch heute</h2>
-        <p>Deine Unterstützung zählt!</p>
+        <i18n-t keypath="donate.cta.title" tag="h2" />
+        <i18n-t keypath="donate.cta.lead" tag="p" />
       </div>
     </div>
     <div class="actions">
-      <button @click.prevent="dismiss()" class="action action--cancel">Jetzt nicht</button>
+      <i18n-t
+        keypath="donate.cta.dismiss"
+        tag="button"
+        @click.prevent="dismiss()"
+        class="action action--cancel"
+      />
       <div class="separator" />
-      <button @click.prevent="confirm()" class="action action--confirm">Spenden</button>
+      <i18n-t
+        keypath="donate.cta.confirm"
+        tag="button"
+        @click.prevent="confirm()"
+        class="action action--confirm"
+      />
     </div>
   </div>
 </template>

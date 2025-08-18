@@ -6,13 +6,11 @@ import UserRating from "@/components/rating/UserRating.vue";
 import { useObjKey } from "@/composables/obj";
 import { usePlayerControls, usePlayerState } from "@/composables/player";
 import { useQueueState } from "@/composables/queue";
-import { useSettings } from "@/composables/settings";
 import { getContrastColor } from "@/utils/color";
 
 import Bandwidth from "./button/Bandwidth.vue";
 import Circle from "./button/Circle.vue";
 import Donate from "./button/Donate.vue";
-import DonatePage from "./button/DonatePage.vue";
 import News from "./button/News.vue";
 import OnAir from "./button/OnAir.vue";
 import CurrentMedia from "./CurrentMedia.vue";
@@ -31,14 +29,10 @@ const fgColor = computed(() => getContrastColor(bgColor.value));
 const fgColorInverse = computed(() => getContrastColor(fgColor.value));
 const queueVisible = ref(false);
 const toggleQueue = useToggle(queueVisible);
-
-const { userSettings } = useSettings();
-const testingEnabled = computed(() => userSettings.value?.testingEnabled);
 </script>
 
 <template>
   <Queue :is-visible="queueVisible && queueLength > 0" @close="toggleQueue(false)" />
-  <!--<pre style="position: fixed; z-index: 999" class="debug" v-text="{ objKey }" />-->
   <transition name="slide">
     <div
       v-if="isVisible"
@@ -61,8 +55,7 @@ const testingEnabled = computed(() => userSettings.value?.testingEnabled);
         <div class="right">
           <OnAir />
           <News />
-          <Donate v-if="testingEnabled" />
-          <DonatePage v-else />
+          <Donate />
           <Bandwidth />
           <VolumeControl />
           <Circle v-if="objKey">

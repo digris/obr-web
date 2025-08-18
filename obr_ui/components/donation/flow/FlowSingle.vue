@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { type Ref, computed, onMounted, ref, watch } from "vue";
+import { useI18n } from "vue-i18n";
 
 import FlowSinglePayment from "./FlowSinglePayment.vue";
 
@@ -8,6 +9,8 @@ const AMOUNT_OPTIONS = [5, 10, 20, 50, 100, 200];
 const props = defineProps<{
   currency: string;
 }>();
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: "success", response: object): void;
@@ -82,7 +85,7 @@ watch(customAmount, (newValue) => {
         min="1"
         max="10000"
         type="number"
-        placeholder="Enter Custom Amount"
+        :placeholder="t('donate.flow.single.customAmount')"
         :class="{ 'is-selected': typeof customAmount === 'number' && customAmount > 0 }"
         v-model="customAmount"
       />
@@ -93,13 +96,13 @@ watch(customAmount, (newValue) => {
         class="action action--continue"
         :disabled="!amountValid"
       >
-        Continue
+        <i18n-t keypath="donate.flow.continue" />
       </button>
     </div>
   </div>
   <div v-if="step === 'payment'">
     <div @click.prevent="setStep('amount')" class="navigate-back">
-      <span>⇽ Back</span>
+      <span>⇽ <i18n-t keypath="donate.flow.back" /></span>
     </div>
     <FlowSinglePayment
       @success="(response: object) => emit('success', response)"

@@ -18,8 +18,7 @@ const { loadUser, user } = useAccount();
 const hasActiveDonation = ref(false);
 
 const updateActiveDonation = () => {
-  /* @ts-ignore */
-  hasActiveDonation.value = !!(user.value?.donations ?? []).find((d) => d.state === "active");
+  return !!(user.value?.donations ?? []).find((d: object) => d?.state === "active");
 };
 
 onMounted(() => {
@@ -124,17 +123,11 @@ const onSuccess = (response: object) => {
       <div class="close">
         <IconClose @click.prevent="close" :style="{ '--c-fg': 'var(--c-white)' }" />
       </div>
-      <!--
-      <pre v-text="{infoVisible, navVisible, kind, step}" />
-      -->
       <div v-if="hasActiveDonation" class="body">
         <div class="info">
-          <h2>Vielen Dank!</h2>
-          <p>Du hast bereits eine wiederkehrende Spende eingerichtet.</p>
-          <p>
-            Wenn du deine regelmässige Spende ändern oder canceln möchtest findest du alles nötige
-            in deinm Konto
-          </p>
+          <i18n-t keypath="donate.panel.activeDonation.title" tag="h2" />
+          <i18n-t keypath="donate.panel.activeDonation.lead" tag="p" />
+          <i18n-t keypath="donate.panel.activeDonation.lead2" tag="p" />
         </div>
         <div class="actions">
           <router-link
@@ -146,8 +139,8 @@ const onSuccess = (response: object) => {
       </div>
       <div v-else class="body">
         <div v-if="infoVisible" class="info">
-          <h2>Support Our Work</h2>
-          <p>Your contributions help us keep the project alive!</p>
+          <i18n-t keypath="donate.panel.title" tag="h2" />
+          <i18n-t keypath="donate.panel.lead" tag="p" />
         </div>
         <div v-if="navVisible" class="nav">
           <div class="currency">
@@ -165,7 +158,7 @@ const onSuccess = (response: object) => {
                 'is-selected': kind === 'single',
               }"
             >
-              Einmalig
+              <i18n-t keypath="donate.panel.kindSingle" />
             </div>
             <div
               @click.prevent="setKind('recurring')"
@@ -174,7 +167,7 @@ const onSuccess = (response: object) => {
                 'is-selected': kind === 'recurring',
               }"
             >
-              Monatlich
+              <i18n-t keypath="donate.panel.kindRecurring" />
             </div>
           </div>
           <div class="alt">
@@ -190,16 +183,10 @@ const onSuccess = (response: object) => {
           </div>
         </div>
         <div v-if="successVisible" class="success">
-          <h2>Vielen Dank!</h2>
-          <p>
-            Deine Spende hilft uns, ein unabhängiges und vielseitiges Radioprogramm am Leben zu
-            erhalten.
-          </p>
-          <p>❤️❤️❤️❤️❤️❤️</p>
-          <p>
-            Mit deinem Beitrag ermöglichst du die fortlaufende, sorgfältige Musik-Kuration jenseits
-            des Mainstreams – handverlesen, überraschend und unkommerziell.
-          </p>
+          <i18n-t keypath="donate.panel.success.title" tag="h2" />
+          <i18n-t keypath="donate.panel.success.lead" tag="p" />
+          <i18n-t keypath="donate.panel.success.lead2" tag="p" />
+          <i18n-t keypath="donate.panel.success.lead3" tag="p" />
           <!--
           <div v-if="successData && successData?.invoice">
             <a :href="successData.invoice.pdfInvoiceUrl">Invoice (PDF)</a>

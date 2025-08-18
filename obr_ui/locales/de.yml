@@ -59,15 +59,17 @@ player:
   bannedRemove: Mag ich doch
   share: Teilen
 rating:
-  downvoteTitle: Was stört dich?
-  downvoteLead: Um das Radioprogramm ständig zu verbessern benötigen wir dein Feedback!
+#  downvoteTitle: Was stört dich?
+  downvoteTitle: Feedback
+  downvoteLead: "Wir feilen ständig am Programm – und deine Rückmeldung macht unser Radio noch besser.\n
+                 Was können wir noch feiner abstimmen?"
   downvoteScope:
-    track: Ich mag diesen Titel nicht
-    genre: Ich mag diese Art von Musik nicht
-    emission: Ich mag diese Sendung nicht
-    daytime: Der Track oder die Sendung passen nicht zur Tageszeit
-    repetition: Ich habe diesen Track schon zu oft gehört
-  downvoteComment: Kommentar
+    track: Dieser Titel gefällt mir einfach nicht
+    genre: Diese Musikrichtung ist nicht mein Geschmack
+    emission: Diese Sendung spricht mich nicht an
+    daytime: Die Musikrichtung oder Sendung passt nicht zur Tageszeit
+    repetition: Ich habe diesen Titel schon zu oft gehört
+  downvoteComment: Magst du uns noch etwas dazu sagen?
   downvoteThankYou: Vielen Dank für dein feedback!
 pullToRefresh:
   pull: Pull down to refresh
@@ -226,3 +228,35 @@ browserCompatibility:
     faqLabel: FAQ
 pages:
   pageNotFound: Seite nicht gefunden
+donate:
+  cta:
+    title: Spende noch heute
+    lead: Deine Unterstützung zählt!
+    confirm: Spenden
+    dismiss: Jetzt nicht
+  panel:
+    title: Unterstütze unsere Arbeit
+    lead: Deine Beiträge helfen uns, das Projekt am Leben zu erhalten!
+    kindSingle: Einmalig
+    kindRecurring: Monatlich
+    success:
+      title: Vielen Dank!
+      lead: Deine Spende hilft uns, ein unabhängiges und vielfältiges Radioprogramm am Leben zu
+            erhalten.
+      lead2: ❤️❤️❤️❤️❤️❤️
+      lead3: Mit deinem Beitrag ermöglichst du die fortlaufende, sorgfältige Musikkuration jenseits
+             des Mainstreams – handverlesen, überraschend und frei von kommerziellen Interessen.
+    activeDonation:
+      title: Vielen Dank!
+      lead: Du hast bereits eine wiederkehrende Spende eingerichtet.
+      lead2: Wenn du deine regelmäßige Spende ändern oder kündigen möchtest, 
+             findest du alles Nötige in deinem Konto.
+  flow:
+    continue: Weiter
+    back: Zurück
+    single:
+      customAmount: Individueller Betrag
+    recurring:
+      title: Möchtest du monatlich spenden?
+      lead: "Bitte melde dich zuerst an oder erstelle ein Konto — 
+             das hilft dir, falls du deine Spende später einmal kündigen möchtest. 😉"
