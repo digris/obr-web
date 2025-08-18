@@ -36,7 +36,7 @@ const { pause, resume } = useIntervalFn(
     documentVisibleSeconds.value += 1;
     if (documentVisibleSeconds.value >= CTA_SHOW_AFTER_SECONDS) {
       pause();
-      isVisible.value = true;
+      // isVisible.value = true; // NOTE: disabled until implementation is tested
     }
   },
   1000,
@@ -64,7 +64,7 @@ onMounted(async () => {
   }
 
   // start timer
-  // resume(); // NOTE: disabled until implementation is tested
+  resume();
 });
 
 watch(
