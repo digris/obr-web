@@ -408,6 +408,9 @@ GS_MASTER_BUCKET = env(
 ##################################################################
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 X_FRAME_OPTIONS = "SAMEORIGIN"
+# needed for PayPal:
+# https://stackoverflow.com/questions/71104248
+SECURE_CROSS_ORIGIN_OPENER_POLICY="same-origin-allow-popups"
 
 
 ##################################################################
