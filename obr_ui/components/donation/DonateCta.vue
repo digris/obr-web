@@ -73,7 +73,9 @@ watch(
     if (value === "hidden") {
       pause();
     } else {
-      resume();
+      if (ctaDismissed.value <= 0) {
+        resume();
+      }
     }
   }
 );
