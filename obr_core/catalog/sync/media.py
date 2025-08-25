@@ -24,7 +24,7 @@ class MasterDownloadError(Exception):
 
 
 # pylint: disable=too-many-locals, unused-argument
-def sync_media(media, skip_media=False, **kwargs):
+def sync_media(media, skip_media=False, **kwargs):  # NOQA: C901
     # pylint: disable=import-outside-toplevel
     from catalog.models import Artist, Master, MediaArtists, Release, ReleaseMedia
 
