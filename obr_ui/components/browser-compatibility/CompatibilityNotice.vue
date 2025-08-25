@@ -68,7 +68,7 @@ onMounted(() => {
   const isSupportedBrowser = uaParser.satisfies(BROWSER_REQUIREMENTS);
   if (!isSupportedBrowser) {
     browserDisplay.value = `${browser.name} ${browser.version}`;
-    isVisible.value = true;
+    // isVisible.value = true; // NOTE: for the moment we don't show the compatibility notice
   }
 });
 </script>
