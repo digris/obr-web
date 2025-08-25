@@ -43,6 +43,7 @@ SESSION_DICT = {
     "duration_playing_s": 0,
     "duration_playing_live_s": 0,
     "duration_playing_ondemand_s": 0,
+    "duration_playing_news_s": 0,
     #
     "bytes_sent": 0,
     #
@@ -184,6 +185,7 @@ def get_player_sessions(
            SUM(calculated_duration_s) as duration_playing_s,
            SUM(CASE WHEN source = 'live' THEN calculated_duration_s ELSE 0 END) as duration_playing_live_s,
            SUM(CASE WHEN source = 'on-demand' THEN calculated_duration_s ELSE 0 END) as duration_playing_ondemand_s,
+           SUM(CASE WHEN source = 'news' THEN calculated_duration_s ELSE 0 END) as duration_playing_news_s,
            user_identity,
            device_key,
            convert_from(decode(split_part(device_key, '-', 1), 'base64'), 'UTF8') as remote_addr
@@ -394,6 +396,7 @@ def ingest_player_sessions(
                 "duration_playing_s": r["duration_playing_s"],
                 "duration_playing_live_s": r["duration_playing_live_s"],
                 "duration_playing_ondemand_s": r["duration_playing_ondemand_s"],
+                "duration_playing_news_s": r["duration_playing_news_s"],
                 "remote_addr": r["remote_addr"],
                 "path": "play.hls",
                 "user_agent": "obr",
