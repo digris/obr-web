@@ -33,7 +33,7 @@ harbor_port = int_of_string(environment.get("HARBOR_PORT", default="8000"))
 news_source = mksafe(playlist("mock/srf/"))
 # news_final (see below)
 
-jingle_opener = "jingles/opener-5s.mp3"
+jingle_opener = "jingles/opener.mp3"
 jingle_closer = "jingles/closer.mp3"
 
 

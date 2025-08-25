@@ -28,6 +28,9 @@ def sync_media(media, skip_media=False, **kwargs):
     # pylint: disable=import-outside-toplevel
     from catalog.models import Artist, Master, MediaArtists, Release, ReleaseMedia
 
+    if media.sync_excluded:
+        return None
+
     try:
         data = api_client.get(f"media/{media.uuid}/")
     except api_client.APIClientError as e:

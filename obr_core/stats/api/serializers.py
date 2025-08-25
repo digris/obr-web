@@ -12,6 +12,7 @@ class PlayerEventCreateSerializer(
         choices=[
             "live",
             "on-demand",
+            "news",
         ],
     )
 

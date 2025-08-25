@@ -156,39 +156,43 @@ class MediaAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
         extra_context = extra_context or {}
         obj = self.get_object(request, object_id)
 
-        today = date.today()
+        if obj:
+            today = date.today()
 
-        qss = qsstats.QuerySetStats(obj.airplays.all(), "time_start")
-        qss_archived = qsstats.QuerySetStats(obj.archived_airplays.all(), "time_start")
+            qss = qsstats.QuerySetStats(obj.airplays.all(), "time_start")
+            qss_archived = qsstats.QuerySetStats(
+                obj.archived_airplays.all(),
+                "time_start",
+            )
 
-        ts = qss.time_series(today - timedelta(days=365), today, interval="months")
-        ts_archived = qss_archived.time_series(
-            today - timedelta(days=365),
-            today,
-            interval="months",
-        )
+            ts = qss.time_series(today - timedelta(days=365), today, interval="months")
+            ts_archived = qss_archived.time_series(
+                today - timedelta(days=365),
+                today,
+                interval="months",
+            )
 
-        labels = [f"{d[0]:%b. %Y}" for d in ts]
-        values = [d[1] for d in ts]
-        values_archived = [d[1] for d in ts_archived]
+            labels = [f"{d[0]:%b. %Y}" for d in ts]
+            values = [d[1] for d in ts]
+            values_archived = [d[1] for d in ts_archived]
 
-        data = [x + y for x, y in zip(values, values_archived, strict=True)]
+            data = [x + y for x, y in zip(values, values_archived, strict=True)]
 
-        extra_context.update(
-            {
-                "airplays_chart": json.dumps(
-                    {
-                        "labels": labels,
-                        "datasets": [
-                            {
-                                "data": data,
-                                "backgroundColor": "var(--color-primary-600)",
-                            },
-                        ],
-                    },
-                ),
-            },
-        )
+            extra_context.update(
+                {
+                    "airplays_chart": json.dumps(
+                        {
+                            "labels": labels,
+                            "datasets": [
+                                {
+                                    "data": data,
+                                    "backgroundColor": "var(--color-primary-600)",
+                                },
+                            ],
+                        },
+                    ),
+                },
+            )
         return super().changeform_view(request, object_id, form_url, extra_context)
 
     ###################################################################

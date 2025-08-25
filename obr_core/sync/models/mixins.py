@@ -9,6 +9,7 @@ class SyncState(models.TextChoices):
     RUNNING = "running", "Running"
     COMPLETED = "completed", "Completed"
     FAILED = "failed", "Failed"
+    EXCLUDED = "excluded", "Excluded"
 
 
 class SyncTimeModelMixin(models.Model):
@@ -39,3 +40,7 @@ class SyncModelMixin(
 
     def sync_data(self, *args, **kwargs):
         raise NotImplementedError("sync_data not implemented")
+
+    @property
+    def sync_excluded(self):
+        return self.sync_state == SyncState.EXCLUDED

@@ -4,6 +4,7 @@ from django.utils.html import mark_safe
 
 import unfold.admin
 import unfold.decorators
+import unfold.paginator
 from stats.models import PlayerEvent, StreamEvent
 from ua_parser import user_agent_parser
 from user_identity.admin import get_admin_link_for_user_identity
@@ -13,6 +14,8 @@ from user_identity.admin import get_admin_link_for_user_identity
 class PlayerEventAdmin(
     unfold.admin.ModelAdmin,
 ):
+    paginator = unfold.paginator.InfinitePaginator
+    show_full_result_count = False
     list_display = [
         "state_display",
         "time_display",
@@ -110,6 +113,8 @@ class PlayerEventAdmin(
 class StreamEventAdmin(
     unfold.admin.ModelAdmin,
 ):
+    paginator = unfold.paginator.InfinitePaginator
+    show_full_result_count = False
     list_display = [
         "time_start",
         "seconds_connected",

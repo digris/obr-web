@@ -19,6 +19,9 @@ def sync_qs_action(modeladmin, request, queryset):
         if SKIP_ALL:
             continue
 
+        if hasattr(obj, "sync_excluded") and obj.sync_excluded:
+            continue
+
         result = obj.sync_data(
             skip_media=SKIP_MEDIA,
             skip_images=SKIP_IMAGES,
@@ -62,6 +65,10 @@ class SyncAdminMixin(unfold.admin.ModelAdmin):
     )
     def sync_item(self, request, object_id):
         obj = self.get_object(request, object_id)
+
+        if hasattr(obj, "sync_excluded") and obj.sync_excluded:
+            messages.info(request, f"sync excluded: {obj}")
+            return redirect(request.META["HTTP_REFERER"])
 
         result = obj.sync_data(
             skip_media=SKIP_MEDIA,

@@ -8,6 +8,7 @@ export interface State {
   playState: PlayState;
   duration: number;
   currentTime: number;
+  newsProvider: null | string;
   bandwidth: number;
   liveLatency: number;
 }
@@ -23,6 +24,7 @@ export const usePlayerStore = defineStore("player", {
     playState: "stopped",
     duration: 0,
     currentTime: 0,
+    newsProvider: null,
     bandwidth: 0,
     liveLatency: 24, // TODO: evaluate default latency
     //
@@ -85,6 +87,9 @@ export const usePlayerStore = defineStore("player", {
         } else {
           this.currentTime = state.currentTime;
         }
+      }
+      if (state.newsProvider !== this.newsProvider) {
+        this.newsProvider = state.newsProvider;
       }
       if (state.mode === "live" && state.liveLatency && state.liveLatency !== this.liveLatency) {
         this.liveLatency = state.liveLatency;

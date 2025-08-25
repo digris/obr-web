@@ -37,6 +37,7 @@ class Media(
         CONCERT = "concert", "Concert"
         LIVEACT = "liveact", "Live Act PA)"
         RADIOSHOW = "radioshow", "Radio show"
+        NEWS = "news", "News"
 
     class LyricsExplicit(models.TextChoices):
         CLEAN = "clean", "Clean"

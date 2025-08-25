@@ -547,13 +547,14 @@ class HlsPlayer {
   }
 
   private async syncStateToStore(): Promise<void> {
-    const { mode, playState, duration, currentTime, hls } = this;
+    const { mode, playState, duration, currentTime, newsProvider, hls } = this;
 
     const state = {
       mode,
       playState,
       duration: duration === Infinity ? 0 : duration,
       currentTime,
+      newsProvider,
       //
       liveLatency: round(hls?.latency ?? -1, 0),
       bandwidth: round(hls?.bandwidthEstimate ?? -1, 0),

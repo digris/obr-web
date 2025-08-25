@@ -21,17 +21,28 @@ const createAnalyticsEvent = (event: Event) => {
   });
 };
 
+// NOTE: this is a quick-n-dirty hack. we need another way to handle news objects
+const NEWS_OBJ_KEYS = {
+  srf: "catalog.media:F00000F1",
+  rfi: "catalog.media:F00000F2",
+};
+
 class EventHandler {
   constructor() {
-    const { media, isLive, playState } = usePlayerState();
+    const { media, isLive, isNews, playState, newsProvider } = usePlayerState();
     let lastPlayState: string | undefined = undefined;
+    const objKey = computed(() => {
+      if (isNews.value) {
+        return NEWS_OBJ_KEYS[newsProvider.value as keyof typeof NEWS_OBJ_KEYS] || null;
+      }
+      return media.value ? `${media.value.ct}:${media.value.uid}` : null;
+    });
     const combinedState = computed(() => {
-      const objKey = media.value ? `${media.value.ct}:${media.value.uid}` : null;
       return {
         state: playState.value,
-        objKey,
+        objKey: objKey.value,
         objName: media.value?.name,
-        source: isLive.value ? "live" : "on-demand",
+        source: isNews.value ? "news" : isLive.value ? "live" : "on-demand",
       };
     });
     const addEvent = debounce(async (event) => {
