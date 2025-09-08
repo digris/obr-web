@@ -28,6 +28,11 @@ ALLOWED_HOSTS = ["*"]
 DEBUG = env("DEBUG")
 DATABASES = {"default": env.db()}
 
+# use persistent connections
+DATABASES["default"]["CONN_MAX_AGE"] = 300
+DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
+
+
 SECURE_SSL_REDIRECT = True
 
 
