@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # "django.contrib.sites",
     "django.contrib.sitemaps",
     "django.contrib.postgres",
+    "django_admin_lightweight_date_hierarchy",
     "storages",
     "rest_framework",
     "rest_framework.authtoken",

@@ -160,6 +160,9 @@ class VoucherAdmin(unfold.admin.ModelAdmin):
     ]
     raw_id_fields = [
         "parent",
+        # "user",
+    ]
+    autocomplete_fields = [
         "user",
     ]
 

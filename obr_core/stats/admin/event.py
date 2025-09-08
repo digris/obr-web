@@ -16,6 +16,12 @@ class PlayerEventAdmin(
 ):
     paginator = unfold.paginator.InfinitePaginator
     show_full_result_count = False
+
+    date_hierarchy = "time"
+    date_hierarchy_drilldown = False
+
+    list_fullwidth = True
+    list_filter_sheet = False
     list_display = [
         "state_display",
         "time_display",
@@ -37,7 +43,7 @@ class PlayerEventAdmin(
         "ingested",
     ]
     ordering = ["-time"]
-    date_hierarchy = "time"
+
     search_fields = [
         "obj_key",
         "user_identity",
@@ -115,6 +121,8 @@ class StreamEventAdmin(
 ):
     paginator = unfold.paginator.InfinitePaginator
     show_full_result_count = False
+    list_fullwidth = True
+    list_filter_sheet = False
     list_display = [
         "time_start",
         "seconds_connected",
