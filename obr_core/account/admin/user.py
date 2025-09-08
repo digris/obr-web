@@ -130,11 +130,7 @@ class UserAdmin(unfold.admin.ModelAdmin, AuthUserAdmin):
         "is_staff",
         "is_active",
         "is_superuser",
-        "migration_source",
         "date_joined",
-        "last_login",
-        "sync_state",
-        "sync_last_update",
     ]
     readonly_fields = [
         "last_login",
