@@ -5,7 +5,7 @@ from django.db.models.functions import Coalesce, Now
 import unfold.admin
 import unfold.contrib.filters.admin
 import unfold.decorators
-from adminsortable2.admin import SortableAdminBase, SortableInlineAdminMixin
+from adminsortable2.admin import SortableAdminBase
 from catalog.models.playlist import Playlist, PlaylistImage, Series
 from image.admin import SortableImageInlineMixin
 from image.utils import get_admin_inline_image
@@ -35,7 +35,6 @@ class PlaylistMediaInline(
 
 class PlaylistImageInline(
     SortableImageInlineMixin,
-    SortableInlineAdminMixin,
     unfold.admin.TabularInline,
 ):
     model = PlaylistImage

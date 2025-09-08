@@ -1,12 +1,11 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
 
 import unfold.admin
 
 from .models import Identifier
 
 
-class IdentifierInline(unfold.admin.TabularInline, GenericTabularInline):
+class IdentifierInline(unfold.admin.GenericTabularInline):
     model = Identifier
     extra = 0
     tab = True

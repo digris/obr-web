@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericTabularInline
 from django.utils.safestring import mark_safe
 
 import unfold.admin
@@ -9,7 +8,7 @@ from modeltranslation.admin import TabbedTranslationAdmin
 from tagging.models import TaggedItem
 
 
-class TaggedItemInline(unfold.admin.TabularInline, GenericTabularInline):
+class TaggedItemInline(unfold.admin.GenericTabularInline):
     model = TaggedItem
     extra = 0
     autocomplete_fields = [

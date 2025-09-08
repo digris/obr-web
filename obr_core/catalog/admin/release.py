@@ -12,7 +12,9 @@ from image.utils import get_admin_inline_image
 from sync.admin import SyncAdminMixin, sync_qs_action
 
 
-class ReleaseMediaInline(unfold.admin.TabularInline):
+class ReleaseMediaInline(
+    unfold.admin.TabularInline,
+):
     model = Release.media.through
     autocomplete_fields = ["media"]
     extra = 0
@@ -21,12 +23,18 @@ class ReleaseMediaInline(unfold.admin.TabularInline):
     verbose_name_plural = "Tracks"
 
 
-class ReleaseImageInline(SortableImageInlineMixin, unfold.admin.TabularInline):
+class ReleaseImageInline(
+    SortableImageInlineMixin,
+    unfold.admin.TabularInline,
+):
     model = ReleaseImage
 
 
 @admin.register(Release)
-class ReleaseAdmin(SyncAdminMixin, unfold.admin.ModelAdmin):
+class ReleaseAdmin(
+    SyncAdminMixin,
+    unfold.admin.ModelAdmin,
+):
     compressed_fields = True
     warn_unsaved_form = True
     list_fullwidth = True
