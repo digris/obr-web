@@ -52,21 +52,26 @@ ENV PYTHONFAULTHANDLER=1 \
     PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
+    POETRY_CACHE_DIR=/tmp/poetry-cache \
     POETRY_VERSION=2.0.1
 
 RUN set -ex \
     && apt-get update \
-    && apt-get install -y \
+    && apt-get install -y --no-install-recommends \
     gettext \
     git \
-    build-essential
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install -U pip "poetry==$POETRY_VERSION" \
     && poetry config virtualenvs.create false
 
 COPY ["pyproject.toml","poetry.lock", "./"]
 
-RUN poetry install --no-root --without dev
+RUN poetry install --no-root --without dev \
+    && rm -rf /root/.cache /tmp/* \
+    && apt-get purge -y --auto-remove build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -d /app app
 
@@ -87,7 +92,6 @@ COPY CHANGELOG.md ./content/pages/changelog.md
 ENV DJANGO_SETTINGS_MODULE=config.settings.build
 RUN ./manage.py check
 RUN ./manage.py collectstatic --clear --no-input
-#RUN ./manage.py compilemessages
 RUN unset DJANGO_SETTINGS_MODULE
 
 USER app
