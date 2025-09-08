@@ -128,8 +128,8 @@ filterwarnings = [
     "ignore:::pkg_resources",
     "ignore:::standard_library",
     "ignore:::html5lib",
-#    "ignore::django.utils.deprecation.RemovedInDjango50Warning:django",
-    "ignore::django.utils.deprecation.RemovedInDjango51Warning:django",
+    "ignore::django.utils.deprecation.RemovedInDjango60Warning:rest_framework.urlpatterns",
+    "ignore::DeprecationWarning:stripe",
     "ignore::DeprecationWarning:future",
     "ignore::DeprecationWarning:google",
 ]
