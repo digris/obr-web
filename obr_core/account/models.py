@@ -139,6 +139,7 @@ class User(
     )
     date_joined = models.DateTimeField(
         default=timezone.now,
+        db_index=True,
     )
     obp_id = models.PositiveIntegerField(
         verbose_name="open broadcast - platform ID",
