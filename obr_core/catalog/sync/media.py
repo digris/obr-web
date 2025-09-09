@@ -11,6 +11,7 @@ from django.core.files.temp import NamedTemporaryFile
 from django.utils import timezone
 
 from catalog.signals import sync_media_completed
+from google.api_core.retry import Retry, if_transient_error
 from google.cloud import storage
 from identifier.models import Identifier
 from sync import api_client
@@ -164,8 +165,16 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
             client = storage.Client()
             bucket = client.get_bucket(settings.GS_MASTER_BUCKET, timeout=300.0)
             blob = bucket.blob(path)
-            # NOTE: we upload via name instead of file object to 'detect' content type
-            blob.upload_from_filename(f.name)
+
+            # NOTE: we upload via name instead of a file object to 'detect' content type
+            blob.upload_from_filename(
+                f.name,
+                timeout=(10, 180),
+                retry=Retry(
+                    predicate=if_transient_error,
+                    deadline=600,
+                ),
+            )
 
             update = {
                 "encoding": encoding,
