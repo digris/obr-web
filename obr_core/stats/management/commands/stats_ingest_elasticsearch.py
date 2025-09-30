@@ -10,7 +10,8 @@ class Command(BaseCommand):
 
     source_choices = [
         "stream",
-        "player",
+        "player-sessions",
+        "player-events",
         "legacy-stream",
         #
         "user",
@@ -64,9 +65,20 @@ class Command(BaseCommand):
             except stats.ingest.IngestError as e:
                 self.stderr.write(f"error ingesting player sessions: {e}")
 
-        if "player" in source:
+        if "player-sessions" in source:
             try:
                 num_ingested += stats.ingest.ingest_player_sessions(
+                    database=options["database"],
+                    index_prefix=options["index_prefix"],
+                    time_from=options["time_from"],
+                    time_until=options["time_until"],
+                )
+            except stats.ingest.IngestError as e:
+                self.stderr.write(f"error ingesting player sessions: {e}")
+
+        if "player-events" in source:
+            try:
+                num_ingested += stats.ingest.ingest_player_events(
                     database=options["database"],
                     index_prefix=options["index_prefix"],
                     time_from=options["time_from"],

@@ -16,8 +16,9 @@ def apple_app_site_association(request):
                     {
                         "appID": IOS_APP_ID,
                         "paths": [
-                            "NOT /social/*",
                             "NOT /admin/*",
+                            "NOT /kibana/*",
+                            "NOT /social/*",
                             "NOT /social/complete/apple-id/",
                             "NOT /social/complete/google-oauth2/",
                             "*",

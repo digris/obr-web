@@ -4,13 +4,16 @@ import json
 import logging
 from datetime import datetime, timedelta
 
+from django.apps import apps
 from django.conf import settings
 from django.db import connections
+from django.utils import timezone
 
 import elasticsearch
 import elasticsearch.helpers
 from account.models import User
 from rating.models import Vote
+from stats.models import PlayerEvent
 
 LOGGER = logging.getLogger(__name__)
 
@@ -62,10 +65,54 @@ SESSION_DICT = {
     "aggregator": None,
 }
 
-
 class IngestError(Exception):
     pass
 
+
+class Cache:
+    def __init__(self, database="default"):
+        self.database = database
+        self.user_cache = {}
+        self.obj_cache = {}
+
+    def get_user(self, user_identity: str):
+
+        if not user_identity.startswith("account.user:"):
+            return None
+
+        uid = user_identity.replace("account.user:", "")
+
+        if user_dict := self.user_cache.get(uid):
+            return user_dict
+
+        if user := User.objects.using(self.database).filter(uid=uid).first():
+            user_dict = {
+                "uid": user.uid,
+                "email": user.email,
+            }
+            self.user_cache[user.uid] = user_dict
+            print(f"cached user: {user_dict['email']}")
+            return user_dict
+
+        return None
+
+    def get_obj(self, obj_key: str):
+
+        if obj_dic := self.obj_cache.get(obj_key):
+            return obj_dic
+
+        obj_ct, obj_uid = obj_key.split(":", 1)
+        if obj := apps.get_model(*obj_ct.split(".")).objects.filter(uid=obj_uid).first():
+            obj_dic = {
+                "ct": obj.ct,
+                "uid": obj.uid,
+                "name": obj.name if hasattr(obj, "name") else str(obj),
+            }
+            self.obj_cache[obj_key] = obj_dic
+            print(f"cached obj: {obj_dic['name']}")
+            return obj_dic
+
+        return None
 
 def encode_sha1(value):
     hashed_value = hashlib.sha1()  # NOQA: S324
@@ -203,6 +250,38 @@ def get_player_sessions(
         results = [dict(zip(columns, row)) for row in cursor.fetchall()]  # noqa B905
 
     return results
+
+
+# def get_player_events(
+#     database="default",
+#     time_from: datetime | None = None,
+#     time_until: datetime | None = None,
+# ):
+#     time_starts_str = (
+#         time_from.strftime("%Y-%m-%d %H:%M:%S") if time_from else "2000-01-01 00:00:00"
+#     )
+#     time_until_str = (
+#         time_until.strftime("%Y-%m-%d %H:%M:%S")
+#         if time_until
+#         else "3000-12-31 00:00:00"
+#     )
+#
+#     query = f"""
+#     SELECT * FROM stats_player_event
+#              WHERE calculated_duration_s > 0
+#              AND state = 'playing'
+#              AND time >= '{time_starts_str}'
+#              AND time_end <= '{time_until_str}';
+#     """
+#
+#     print(query)
+#
+#     with connections[database].cursor() as cursor:
+#         cursor.execute(query)
+#         columns = [col[0] for col in cursor.description]
+#         results = [dict(zip(columns, row)) for row in cursor.fetchall()]  # noqa B905
+#
+#     return results
 
 
 def get_stream_sessions(
@@ -433,6 +512,65 @@ def ingest_player_sessions(
     print(f"inserted:  {len(sessions)} sessions")
 
     return len(sessions)
+
+
+def ingest_player_events(
+    database="default",
+    index_prefix="",
+    time_from: datetime | None = None,
+    time_until: datetime | None = None,
+):
+
+    # raw = get_player_events(database=database, time_from=time_from, time_until=time_until)
+    # return len(raw)
+
+    print(f"START: {timezone.now()}")
+
+    qs = PlayerEvent.objects.using(database).filter(
+        state=PlayerEvent.State.PLAYING,
+        calculated_duration_s__gt=0,
+    ).defer(
+        "state",
+        "max_duration",
+    )
+
+    if time_from:
+        qs = qs.filter(time__gte=timezone.make_aware(time_from))
+
+    if time_until:
+        qs = qs.filter(time__lte=timezone.make_aware(time_until))
+
+    cache = Cache(database=database)
+
+    events = []
+
+    for e in qs:
+        events.append(
+            {
+                "_id": str(e.id),
+                "@timestamp": e.time,
+                "duration_s": e.calculated_duration_s,
+                "obj_key": e.obj_key,
+                "source": e.source,
+                "device_key": e.device_key,
+                "user_identity": e.user_identity,
+                "user": cache.get_user(e.user_identity),
+                "obj": cache.get_obj(e.obj_key),
+            }
+        )
+
+
+
+    print(f"RAW:   {timezone.now()}")
+
+    es = EsService()
+    es.ingest(index_prefix + "player-events", events)
+
+    print(f"inserted:  {len(events)} events")
+
+    print(f"END:   {timezone.now()}")
+
+    return len(events)
 
 
 def ingest_users(database="default"):
