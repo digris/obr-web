@@ -8,7 +8,7 @@ def get_client_mode(request):
     """
     if user_agent := request.META.get("HTTP_USER_AGENT"):
         return (
-            "app" if "obr-app-ios/" in user_agent.lower().startswith else DEFAULT_MODE
+            "app" if "obr-app-ios/" in user_agent.lower() else DEFAULT_MODE
         )
     return DEFAULT_MODE
 
