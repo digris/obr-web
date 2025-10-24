@@ -7,9 +7,7 @@ def get_client_mode(request):
     Mozilla/5.0 (iPhone; CPU iPhone OS like Mac OS X) OBR-App-iOS/1.0.2.6
     """
     if user_agent := request.META.get("HTTP_USER_AGENT"):
-        return (
-            "app" if "obr-app-ios/" in user_agent.lower() else DEFAULT_MODE
-        )
+        return "app" if "obr-app-ios/" in user_agent.lower() else DEFAULT_MODE
     return DEFAULT_MODE
 
 
