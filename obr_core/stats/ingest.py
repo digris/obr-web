@@ -65,6 +65,7 @@ SESSION_DICT = {
     "aggregator": None,
 }
 
+
 class IngestError(Exception):
     pass
 
@@ -102,7 +103,11 @@ class Cache:
             return obj_dic
 
         obj_ct, obj_uid = obj_key.split(":", 1)
-        if obj := apps.get_model(*obj_ct.split(".")).objects.filter(uid=obj_uid).first():
+        if (
+            obj := apps.get_model(*obj_ct.split("."))
+            .objects.filter(uid=obj_uid)
+            .first()
+        ):
             obj_dic = {
                 "ct": obj.ct,
                 "uid": obj.uid,
@@ -113,6 +118,7 @@ class Cache:
             return obj_dic
 
         return None
+
 
 def encode_sha1(value):
     hashed_value = hashlib.sha1()  # NOQA: S324
@@ -253,18 +259,9 @@ def get_player_sessions(
 
 
 # def get_player_events(
-#     database="default",
-#     time_from: datetime | None = None,
-#     time_until: datetime | None = None,
 # ):
-#     time_starts_str = (
-#         time_from.strftime("%Y-%m-%d %H:%M:%S") if time_from else "2000-01-01 00:00:00"
-#     )
-#     time_until_str = (
-#         time_until.strftime("%Y-%m-%d %H:%M:%S")
 #         if time_until
 #         else "3000-12-31 00:00:00"
-#     )
 #
 #     query = f"""
 #     SELECT * FROM stats_player_event
@@ -274,14 +271,10 @@ def get_player_sessions(
 #              AND time_end <= '{time_until_str}';
 #     """
 #
-#     print(query)
 #
 #     with connections[database].cursor() as cursor:
-#         cursor.execute(query)
-#         columns = [col[0] for col in cursor.description]
 #         results = [dict(zip(columns, row)) for row in cursor.fetchall()]  # noqa B905
 #
-#     return results
 
 
 def get_stream_sessions(
@@ -521,17 +514,18 @@ def ingest_player_events(
     time_until: datetime | None = None,
 ):
 
-    # raw = get_player_events(database=database, time_from=time_from, time_until=time_until)
-    # return len(raw)
-
     print(f"START: {timezone.now()}")
 
-    qs = PlayerEvent.objects.using(database).filter(
-        state=PlayerEvent.State.PLAYING,
-        calculated_duration_s__gt=0,
-    ).defer(
-        "state",
-        "max_duration",
+    qs = (
+        PlayerEvent.objects.using(database)
+        .filter(
+            state=PlayerEvent.State.PLAYING,
+            calculated_duration_s__gt=0,
+        )
+        .defer(
+            "state",
+            "max_duration",
+        )
     )
 
     if time_from:
@@ -556,10 +550,8 @@ def ingest_player_events(
                 "user_identity": e.user_identity,
                 "user": cache.get_user(e.user_identity),
                 "obj": cache.get_obj(e.obj_key),
-            }
+            },
         )
-
-
 
     print(f"RAW:   {timezone.now()}")
 
