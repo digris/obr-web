@@ -47,7 +47,7 @@ class Command(BaseCommand):
             default="",
         )
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # NOQA: C901
         source = options["source"] or self.source_choices
 
         self.stdout.write(f"ingest from: {', '.join(source)}")
