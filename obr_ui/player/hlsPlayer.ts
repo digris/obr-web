@@ -144,7 +144,9 @@ class HlsPlayer {
     const hls = nativeHlsSupported ? null : new Hls(hlsConfig);
 
     // NOTE: without setting this explicitly audio does not work vor chrome >= 141
-    audio.crossOrigin = "anonymous";
+    if (!nativeHlsSupported) {
+      audio.crossOrigin = "anonymous";
+    }
 
     this.setupAudioEvents(audio);
 
