@@ -4,6 +4,7 @@ import { useDocumentVisibility, useIntervalFn, useStorage } from "@vueuse/core";
 
 import IconHeart from "@/components/ui/icon/IconHeart.vue";
 import { useAccount } from "@/composables/account";
+import { useDevice } from "@/composables/device";
 import eventBus from "@/eventBus";
 
 const CTA_SHOW_AGAIN_AFTER = 28 * 24 * 60 * 60 * 1000; // 28 days
@@ -16,6 +17,7 @@ const documentVisibleSeconds = ref(0);
 const ctaDismissed = useStorage("donate/ctaDismissed", -1);
 
 const { user } = useAccount();
+const { isApp } = useDevice();
 
 const hasActiveDonation = computed(() => {
   return !!(user.value?.donations ?? []).find((d: object) => d?.state === "active");
@@ -46,6 +48,12 @@ const { pause, resume } = useIntervalFn(
 );
 
 onMounted(async () => {
+  // disable cta for app users
+  if (isApp) {
+    console.debug("App user, not showing donation CTA");
+    return;
+  }
+
   // check if cta was dismissed more than CTA_SHOW_AGAIN_AFTER ago.
   // if so, reset it to -1 to show the cta again.
   if (ctaDismissed.value > 0 && Date.now() - ctaDismissed.value > CTA_SHOW_AGAIN_AFTER) {
