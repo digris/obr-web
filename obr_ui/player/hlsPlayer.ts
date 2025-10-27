@@ -146,7 +146,7 @@ class HlsPlayer {
     }
 
     // NOTE: without setting this explicitly audio does not work vor chrome >= 141
-    audio.crossOrigin = "anonymous";
+    // audio.crossOrigin = "anonymous";
 
     this.audio = audio;
     this.newsAudio = newsAudio;
