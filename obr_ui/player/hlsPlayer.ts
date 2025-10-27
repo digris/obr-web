@@ -98,7 +98,7 @@ class HlsPlayer {
 
     const { isSupported: wakeLockIsSupported, request: wakeLockRequest } = useWakeLock();
 
-    const { isWeb, isAndroid } = useDevice();
+    const { isWeb, isAndroid, isSafari } = useDevice();
 
     if (!isWeb) {
       log.info("HlsPlayer only available in web-mode");
@@ -108,9 +108,14 @@ class HlsPlayer {
       return;
     }
 
-    const nativeHlsSupported = isAndroid
+    // const nativeHlsSupported = isAndroid
+    //   ? false
+    //   : !!audio.canPlayType("application/vnd.apple.mpegurl");
+
+    const nativeHlsSupported = !isSafari
       ? false
       : !!audio.canPlayType("application/vnd.apple.mpegurl");
+
     const hlsSupported = Hls.isSupported();
 
     log.debug("nativeHlsSupported", nativeHlsSupported);
@@ -138,15 +143,15 @@ class HlsPlayer {
 
     const hls = nativeHlsSupported ? null : new Hls(hlsConfig);
 
+    // NOTE: without setting this explicitly audio does not work vor chrome >= 141
+    audio.crossOrigin = "anonymous";
+
     this.setupAudioEvents(audio);
 
     if (hls) {
       this.setupHlsEvents(hls);
       hls.attachMedia(audio);
     }
-
-    // NOTE: without setting this explicitly audio does not work vor chrome >= 141
-    audio.crossOrigin = "anonymous";
 
     this.audio = audio;
     this.newsAudio = newsAudio;
