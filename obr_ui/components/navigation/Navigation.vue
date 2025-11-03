@@ -6,6 +6,7 @@ import ToggleMenuButton from "@/components/navigation/ToggleMenuButton.vue";
 import ToggleSearchButton from "@/components/navigation/ToggleSearchButton.vue";
 import CircleButton from "@/components/ui/button/CircleButton.vue";
 import IconProgram from "@/components/ui/icon/IconProgram.vue";
+import IconShop from "@/components/ui/icon/IconShop.vue";
 import Logo from "@/components/ui/logo/Logo.vue";
 import { useAnalytics } from "@/composables/analytics";
 import { useDevice } from "@/composables/device";
@@ -37,6 +38,11 @@ const showGlobalSearch = () => {
         <SubscriptionStatus class="menu menu--subscription" />
         <AccountMenu class="menu menu--account" />
       </div>
+      <router-link v-if="!isSmallScreen" class="shop-link" :to="{ path: '/shop/' }">
+        <CircleButton>
+          <IconShop color-var="--c-page-fg" />
+        </CircleButton>
+      </router-link>
       <div class="search-toggle" @click.prevent="showGlobalSearch">
         <ToggleSearchButton />
       </div>
@@ -76,14 +82,14 @@ const showGlobalSearch = () => {
   width: 100%;
   z-index: 20;
   display: grid;
-  grid-template-columns: 242px 1fr 146px 48px 48px;
+  grid-template-columns: 290px 1fr 146px 48px 48px 48px;
   padding: 0 1.5rem 0 0;
   border-bottom: 7px solid rgb(var(--c-page-fg));
 
   // transition: background 10ms;
   transition: background-color 600ms, color 100ms 1ms;
 
-  @include responsive.bp-medium {
+  @include responsive.bp-large {
     height: 66px;
     grid-template-columns: 172px 1fr 40px 40px 40px;
     padding: 0 0.625rem;
@@ -111,7 +117,7 @@ const showGlobalSearch = () => {
       transition: color, background-color 200ms;
     }
 
-    @include responsive.bp-medium {
+    @include responsive.bp-large {
       line-height: 1.25rem;
       padding-left: 0;
       padding-right: 0;
@@ -141,7 +147,7 @@ const showGlobalSearch = () => {
       justify-content: flex-end;
     }
 
-    @include responsive.bp-medium {
+    @include responsive.bp-large {
       display: none;
     }
   }
@@ -159,6 +165,12 @@ const showGlobalSearch = () => {
   }
 
   .program {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .shop-link {
     display: flex;
     align-items: center;
     justify-content: flex-end;

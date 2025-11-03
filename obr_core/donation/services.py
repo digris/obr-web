@@ -112,9 +112,9 @@ def payment_single_create_for_donation(
     if not payment_intent:
         payment_intent = stripe.PaymentIntent.create(
             payment_method_configuration=payment_method_configuration,
+            automatic_payment_methods={"enabled": True},
             amount=int(round(donation.amount * 100)),
             currency=donation.currency,
-            automatic_payment_methods={"enabled": True},
             customer=customer.id if customer else None,
             description=payment_intent_description,
             metadata={
