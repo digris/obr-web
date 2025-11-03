@@ -14,6 +14,7 @@ class DonationAdmin(unfold.admin.ModelAdmin):
     list_display = [
         "state_display",
         "kind_display",
+        "client_mode_display",
         "user_display",
         "amount",
         "currency",
@@ -34,6 +35,7 @@ class DonationAdmin(unfold.admin.ModelAdmin):
         "user",
         "user_identity",
         "kind",
+        "client_mode",
         "state",
         "amount",
         "currency",
@@ -63,6 +65,14 @@ class DonationAdmin(unfold.admin.ModelAdmin):
     )
     def kind_display(self, obj):
         return obj.kind, obj.get_kind_display()
+
+    @unfold.decorators.display(
+        description="client",
+        ordering="client_mode",
+        label=True,
+    )
+    def client_mode_display(self, obj):
+        return obj.get_client_mode_display()
 
     @unfold.decorators.display(
         description="state",

@@ -10,6 +10,9 @@ logger = logging.getLogger(__name__)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+PMC_WEB = settings.STRIPE_PMC_WEB
+PMC_APP = settings.STRIPE_PMC_APP
+
 
 class ServiceError(Exception): ...
 
@@ -89,10 +92,14 @@ def payment_single_create_for_donation(
         f"Donation:  {donation.currency.upper()} {donation.amount:.2f}"
     )
 
+    # NOTE: for app mode we provide a payment configuration *without* twint
+    payment_method_configuration = PMC_APP if donation.client_mode == "app" else PMC_WEB
+
     if donation.payment_intent_id:
         try:
             payment_intent = stripe.PaymentIntent.modify(
                 donation.payment_intent_id,
+                payment_method_configuration=payment_method_configuration,
                 amount=int(round(donation.amount * 100)),
                 currency=donation.currency,
                 description=payment_intent_description,
@@ -104,6 +111,7 @@ def payment_single_create_for_donation(
 
     if not payment_intent:
         payment_intent = stripe.PaymentIntent.create(
+            payment_method_configuration=payment_method_configuration,
             amount=int(round(donation.amount * 100)),
             currency=donation.currency,
             automatic_payment_methods={"enabled": True},

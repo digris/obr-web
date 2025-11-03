@@ -116,6 +116,7 @@ class DonationCreateView(
         # check for existing pending donation / payment intent
         lookup = {
             "state": Donation.State.PENDING,
+            "client_mode": request.client_mode,
         }
         if request.user.is_authenticated:
             lookup.update(

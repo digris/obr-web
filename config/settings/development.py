@@ -48,7 +48,7 @@ if SITE_URL not in CSRF_TRUSTED_ORIGINS:
     CSRF_TRUSTED_ORIGINS.append(SITE_URL)
 
 MIDDLEWARE += [
-    "querycount.middleware.QueryCountMiddleware",
+    # "querycount.middleware.QueryCountMiddleware",
 ]
 
 QUERYCOUNT = {

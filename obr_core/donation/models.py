@@ -23,6 +23,10 @@ class Donation(
         CANCELED = "canceled", "Canceled"
         EXPIRED = "expired", "Expired"
 
+    class ClientMode(models.TextChoices):
+        WEB = "web", "Web"
+        APP = "app", "App"
+
     kind = models.CharField(
         verbose_name="Kind",
         max_length=16,
@@ -36,6 +40,13 @@ class Donation(
         db_index=True,
         choices=State.choices,
         default=State.PENDING,
+    )
+    client_mode = models.CharField(
+        verbose_name="Client mode",
+        max_length=16,
+        db_index=True,
+        choices=ClientMode.choices,
+        default=ClientMode.WEB,
     )
     amount = models.DecimalField(
         verbose_name="Amount",

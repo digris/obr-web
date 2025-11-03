@@ -197,6 +197,7 @@ class PaymentFlow {
 
 const formEl = ref<HTMLFormElement | null>(null);
 const { user } = useAccount();
+
 let flow: PaymentFlow;
 
 onMounted(async () => {

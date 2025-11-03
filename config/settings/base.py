@@ -598,6 +598,14 @@ STRIPE_WEBHOOK_SECRET = env(
     "STRIPE_WEBHOOK_SECRET",
     default="",
 )
+STRIPE_PMC_WEB = env(
+    "STRIPE_PMC_WEB",
+    default="",
+)
+STRIPE_PMC_APP = env(
+    "STRIPE_PMC_APP",
+    default="",
+)
 
 
 ##################################################################
