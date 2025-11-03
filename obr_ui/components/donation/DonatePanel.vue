@@ -359,6 +359,7 @@ const onSuccess = (response: object) => {
           cursor: pointer;
           padding: 0.25rem 0.5rem;
           border-bottom: 2px solid rgb(var(--c-green) / 0%);
+          white-space: nowrap;
 
           &.is-selected {
             color: rgb(var(--c-white));
