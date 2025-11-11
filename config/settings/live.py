@@ -74,9 +74,9 @@ if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
+        traces_sample_rate=0.1,
         send_default_pii=True,
         _experiments={
-            "profiles_sample_rate": 1.0,
+            "profiles_sample_rate": 0.1,
         },
     )

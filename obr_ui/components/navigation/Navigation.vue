@@ -38,7 +38,7 @@ const showGlobalSearch = () => {
         <SubscriptionStatus class="menu menu--subscription" />
         <AccountMenu class="menu menu--account" />
       </div>
-      <router-link v-if="!isSmallScreen" class="shop-link" :to="{ path: '/shop/' }">
+      <router-link v-if="!isSmallScreen" class="shop-link" title="Shop" :to="{ path: '/shop/' }">
         <CircleButton>
           <IconShop color-var="--c-page-fg" />
         </CircleButton>
