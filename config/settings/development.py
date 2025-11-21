@@ -113,7 +113,7 @@ LOGGING = {
             "propagate": False,
         },
         "stats": {
-            "level": "INFO",
+            "level": "DEBUG",
             "handlers": ["console"],
             "propagate": False,
         },
