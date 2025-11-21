@@ -156,6 +156,21 @@ def parse_ua_aggregator(ua: str) -> str | None:  # noqa C901
 
     if "radioplayer" in ua:
         return "radioplayer"
+    
+    if "radiogarden" in ua:
+        return "radiogarden"
+    
+    if "radio.de" in ua:
+        return "radiode"
+    
+    if "replaio" in ua:
+        return "replaio"
+    
+    if ua.startswith("echo/") or "alexa" in ua:
+        return "alexa"
+
+    if "teslamusic" in ua:
+        return "teslamusic"
 
     return None
 
