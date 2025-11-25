@@ -130,48 +130,40 @@ def encode_base64(value):
     return base64.b64encode(value.encode("ascii")).decode("ascii")
 
 
-def parse_ua_aggregator(ua: str) -> str | None:  # noqa C901
+def parse_ua_aggregator(ua: str) -> str | None:
     ua = ua.lower() if ua else ""
 
+    # directories / apps
     if "tunein" in ua:
         return "tunein"
-
+    if "mytuner" in ua:
+        return "mytuner"
+    if "radioplayer" in ua:
+        return "radioplayer"
+    if "radiogarden" in ua:
+        return "radiogarden"
+    if "radio.de" in ua:
+        return "radiode"
+    if "replaio" in ua:
+        return "replaio"
+    if "dabplayer" in ua:
+        return "dabplayer"
+    if "onlineradiobox hisbot" in ua:
+        return "histbot"
     if "onestream iptv" in ua:
         return "onestream"
 
-    if "icecast" in ua:
-        return "icecast"
-
-    if "dabplayer" in ua:
-        return "dabplayer"
-
-    if "onlineradiobox hisbot" in ua:
-        return "histbot"
-
+    # devices / ecosystems
     if "sonos/" in ua:
         return "sonos"
-
-    if "mytuner" in ua:
-        return "mytuner"
-
-    if "radioplayer" in ua:
-        return "radioplayer"
-
-    if "radiogarden" in ua:
-        return "radiogarden"
-
-    if "radio.de" in ua:
-        return "radiode"
-
-    if "replaio" in ua:
-        return "replaio"
-
     if ua.startswith("echo/") or "alexa" in ua:
         return "alexa"
-
     if "teslamusic" in ua:
         return "teslamusic"
+    if "bose/" in ua:
+        return "bose"  # NEW
 
+    # fallback
     return None
 
 

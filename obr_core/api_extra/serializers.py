@@ -59,11 +59,17 @@ class CTUIDModelSerializer(
         max_length=8,
         help_text="UID",
     )
+    # NOTE: keeping here for backward compatibility
+    uuid = serializers.UUIDField(
+        read_only=True,
+        help_text="UUID",
+    )
 
     class Meta:
         fields = [
             "ct",
             "uid",
+            "uuid",
         ]
         abstract = True
 
