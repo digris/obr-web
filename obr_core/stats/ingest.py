@@ -130,7 +130,7 @@ def encode_base64(value):
     return base64.b64encode(value.encode("ascii")).decode("ascii")
 
 
-def parse_ua_aggregator(ua: str) -> str | None:
+def parse_ua_aggregator(ua: str) -> str | None:  # noqa C901
     ua = ua.lower() if ua else ""
 
     # directories / apps
