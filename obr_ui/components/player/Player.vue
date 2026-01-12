@@ -13,6 +13,7 @@ import Circle from "./button/Circle.vue";
 import Donate from "./button/Donate.vue";
 import News from "./button/News.vue";
 import OnAir from "./button/OnAir.vue";
+import Survey from "./button/Survey.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import CurrentNews from "./CurrentNews.vue";
 import PlayerControl from "./PlayerControl.vue";
@@ -53,6 +54,7 @@ const toggleQueue = useToggle(queueVisible);
           <PlayerControl :fg-color="fgColor" />
         </div>
         <div class="right">
+          <Survey />
           <OnAir />
           <News />
           <Donate />
@@ -73,6 +75,7 @@ const toggleQueue = useToggle(queueVisible);
 </template>
 
 <style lang="scss" scoped>
+@use "@/style/base/responsive";
 @use "@/style/elements/container";
 
 $player-height: 72px;
@@ -102,7 +105,7 @@ $player-height: 72px;
 
   padding-top: 0.25rem;
   display: grid;
-  grid-template-columns: 4fr 6fr 4fr;
+  grid-template-columns: 4fr 2fr 4fr;
 
   .left,
   .center,
@@ -124,12 +127,26 @@ $player-height: 72px;
   .right {
     justify-content: flex-end;
 
+    .survey {
+      @include responsive.bp-large {
+        display: none;
+      }
+    }
+
+    .on-air {
+      margin-left: 1rem;
+    }
+
     .news {
       margin-left: 1rem;
     }
 
     .donate {
       margin-left: 1rem;
+
+      @include responsive.bp-large {
+        display: none;
+      }
     }
 
     .bandwidth {
