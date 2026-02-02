@@ -13,7 +13,7 @@ import Circle from "./button/Circle.vue";
 import Donate from "./button/Donate.vue";
 import News from "./button/News.vue";
 import OnAir from "./button/OnAir.vue";
-import Survey from "./button/Survey.vue";
+// import Survey from "./button/Survey.vue";
 import CurrentMedia from "./CurrentMedia.vue";
 import CurrentNews from "./CurrentNews.vue";
 import PlayerControl from "./PlayerControl.vue";
@@ -54,7 +54,9 @@ const toggleQueue = useToggle(queueVisible);
           <PlayerControl :fg-color="fgColor" />
         </div>
         <div class="right">
+          <!--
           <Survey />
+          -->
           <OnAir />
           <News />
           <Donate />
