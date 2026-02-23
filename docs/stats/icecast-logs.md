@@ -20,9 +20,21 @@ compatible with Icecast2 log files.
 ## Quick Plausibility Check
 
 ```shell
-goaccess data/logs/* \                                                                                                                                                                                                                                                                                      main ✭ ✚ ✖ ✱
+goaccess data/logs/* \
   --log-format='%h - %^[%d:%t %^] "%r" %s %b "%R" "%u" %T' \
   --date-format='%d/%b/%Y' \
   --time-format='%T' \
   -o data/logs/report.html
+```
+
+## Log Export - Live Server
+
+```shell
+./obr-cli stats_export_icecast_logs \
+  --date-from 2025-01-01 \
+  --date-until 2025-12-31 \
+  --dst-dir /data/obr/logs/ \
+  --database default \
+  --origin hls icecast \
+  --filename-prefix obr
 ```

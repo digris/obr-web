@@ -7,4 +7,5 @@ from .event import (  # NOQA
 )
 from .heartbeat import HeartbeatView  # NOQA
 from .ingest import PlayerEventCreateView, StreamEventCreateView  # NOQA
+from .radiodata import RadiodataLogUploadView  # NOQA
 from .rating import RatingViewSet  # NOQA

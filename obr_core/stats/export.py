@@ -1,8 +1,12 @@
 import datetime
+import ftplib
 import hashlib
 import ipaddress
 import logging
 import pathlib
+import tempfile
+
+from django.conf import settings
 
 from stats.models import StreamEvent
 
@@ -211,8 +215,8 @@ class LogExporter:
 
 def icecast_log_export(
     *,
-    date_from: datetime.datetime,
-    date_until: datetime.datetime,
+    date_from: datetime.date,
+    date_until: datetime.date,
     dst_dir: pathlib.Path,
     filename_prefix: str | None = None,
     anonymize_ip: bool = False,
@@ -234,3 +238,61 @@ def icecast_log_export(
         date_until=date_until,
         filter_origin=origin or [],
     )
+
+
+def radiodata_log_upload(
+    *,
+    date_from: datetime.date,
+    date_until: datetime.date,
+    database: str = "default",
+):
+    files_uploaded = []
+
+    ftp_host = settings.RADIODATA_FTP_HOST
+    ftp_user = settings.RADIODATA_FTP_USER
+    ftp_password = settings.RADIODATA_FTP_PASSWORD
+
+    filename_prefix = "obr"
+
+    try:
+        ftp = ftplib.FTP(ftp_host, ftp_user, ftp_password)
+        ftp.encoding = "utf-8"
+        ftp.voidcmd("NOOP")
+    except ftplib.all_errors as e:
+        raise ExporterError(
+            f"error connecting to FTP server {ftp_host}: {str(e)}",
+        ) from e
+
+    logger.debug(
+        f"radiodata upload: {date_from} to {date_until} - ftp: {ftp_host} (database: {database})",
+    )
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        exporter = LogExporter(
+            dst_dir=pathlib.Path(tmp_dir),
+            filename_prefix=filename_prefix,
+            database=database,
+        )
+
+        files_written = exporter.export(
+            date_from=date_from,
+            date_until=date_until,
+        )
+
+        for path in files_written:
+            logger.debug(f"uploading {path}")
+
+            with open(path, "rb") as fp:
+                try:
+                    ftp.storbinary(f"STOR {path.name}", fp)
+                    logger.debug(f"uploaded {path.name}")
+                    files_uploaded.append(path)
+                except ftplib.all_errors as e:
+                    logger.error(f"error uploading {path.name}: {str(e)}")
+
+    try:
+        ftp.quit()
+    except ftplib.Error as e:
+        logger.warning(f"error closing FTP connection: {str(e)}")
+
+    return files_uploaded

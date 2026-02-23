@@ -42,4 +42,9 @@ urlpatterns = [
         views.StatsArchiveView.as_view(),
         name="archive",
     ),
+    path(
+        "radiodata-log-upload/",
+        views.RadiodataLogUploadView.as_view(),
+        name="radiodata-log-upload",
+    ),
 ]

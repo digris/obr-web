@@ -727,6 +727,22 @@ CMS_PAGES_DIR = env(
 
 
 ##################################################################
+# radio-data.ch FTP
+##################################################################
+RADIODATA_FTP_HOST = env(
+    "RADIODATA_FTP_HOST",
+    default="upload.uplink-digital.de",
+)
+RADIODATA_FTP_USER = env(
+    "RADIODATA_FTP_USER",
+    default="",
+)
+RADIODATA_FTP_PASSWORD = env(
+    "RADIODATA_FTP_PASSWORD",
+    default="",
+)
+
+##################################################################
 # Address / Countries
 ##################################################################
 COUNTRIES_FIRST = [
