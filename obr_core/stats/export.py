@@ -255,7 +255,7 @@ def radiodata_log_upload(
     filename_prefix = "obr"
 
     try:
-        ftp = ftplib.FTP(ftp_host, ftp_user, ftp_password)
+        ftp = ftplib.FTP(ftp_host, ftp_user, ftp_password)  # NOQA S321
         ftp.encoding = "utf-8"
         ftp.voidcmd("NOOP")
     except ftplib.all_errors as e:
