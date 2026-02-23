@@ -92,7 +92,6 @@ class Cache:
                 "email": user.email,
             }
             self.user_cache[user.uid] = user_dict
-            print(f"cached user: {user_dict['email']}")
             return user_dict
 
         return None
@@ -114,7 +113,6 @@ class Cache:
                 "name": obj.name if hasattr(obj, "name") else str(obj),
             }
             self.obj_cache[obj_key] = obj_dic
-            print(f"cached obj: {obj_dic['name']}")
             return obj_dic
 
         return None
@@ -400,12 +398,6 @@ def ingest_stream_sessions(
             time_start = time_start + timedelta(hours=1)
             time_end = time_end + timedelta(hours=1)
 
-        # if r["origin"] == "hls":
-        #     if r["ip"] == "83.150.2.154":
-
-        if r["ip"] == "83.150.2.154":
-            print(time_start, time_end, r["origin"])
-
         s.update(
             {
                 "_id": str(r["uuid"]),
@@ -432,13 +424,11 @@ def ingest_stream_sessions(
 
         sessions.append(s)
 
-    # if sessions:
-
     print(f"annotated: {len(sessions)} sessions")
 
     es = EsService()
     es.ingest(index_prefix + "listener-sessions", sessions)
-    #
+
     print(f"inserted:  {len(sessions)} sessions")
 
     return len(sessions)
@@ -521,8 +511,6 @@ def ingest_player_events(
     time_until: datetime | None = None,
 ):
 
-    print(f"START: {timezone.now()}")
-
     qs = (
         PlayerEvent.objects.using(database)
         .filter(
@@ -536,10 +524,14 @@ def ingest_player_events(
     )
 
     if time_from:
-        qs = qs.filter(time__gte=timezone.make_aware(time_from))
+        if timezone.is_naive(time_from):
+            time_from = timezone.make_aware(time_from)
+        qs = qs.filter(time__gte=time_from)
 
     if time_until:
-        qs = qs.filter(time__lte=timezone.make_aware(time_until))
+        if timezone.is_naive(time_until):
+            time_until = timezone.make_aware(time_until)
+        qs = qs.filter(time__lte=time_until)
 
     cache = Cache(database=database)
 

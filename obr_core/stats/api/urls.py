@@ -43,6 +43,11 @@ urlpatterns = [
         name="archive",
     ),
     path(
+        "elasticsearch-ingest/",
+        views.ElasticsearchIngestView.as_view(),
+        name="elasticsearch-ingest",
+    ),
+    path(
         "radiodata-log-upload/",
         views.RadiodataLogUploadView.as_view(),
         name="radiodata-log-upload",

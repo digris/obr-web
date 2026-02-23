@@ -20,10 +20,6 @@ class RadiodataLogUploadView(
             default=1,
             help_text="Number of days to upload, counting backwards from yesterday. Default: 1",
         )
-        database = serializers.CharField(
-            default="default",
-            help_text="Django database to use. Default: 'default'",
-        )
 
     class OutputSerializer(serializers.Serializer):
         num_uploaded = serializers.IntegerField()
@@ -41,7 +37,6 @@ class RadiodataLogUploadView(
         input_serializer.is_valid(raise_exception=True)
 
         num_days = input_serializer.validated_data["num_days"]
-        database = input_serializer.validated_data["database"]
 
         today = datetime.date.today()
         date_until = today - datetime.timedelta(days=1)
@@ -51,7 +46,6 @@ class RadiodataLogUploadView(
             files_uploaded = export.radiodata_log_upload(
                 date_from=date_from,
                 date_until=date_until,
-                database=database,
             )
         except export.ExporterError as e:
             return Response(

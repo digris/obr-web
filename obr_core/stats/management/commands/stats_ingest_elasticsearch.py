@@ -63,7 +63,7 @@ class Command(BaseCommand):
                     time_until=options["time_until"],
                 )
             except stats.ingest.IngestError as e:
-                self.stderr.write(f"error ingesting player sessions: {e}")
+                self.stderr.write(f"error ingesting stream sessions: {e}")
 
         if "player-sessions" in source:
             try:
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                     time_until=options["time_until"],
                 )
             except stats.ingest.IngestError as e:
-                self.stderr.write(f"error ingesting player sessions: {e}")
+                self.stderr.write(f"error ingesting player events: {e}")
 
         if "legacy-stream" in source:
             num_ingested += stats.ingest.ingest_legacy_stream_sessions(

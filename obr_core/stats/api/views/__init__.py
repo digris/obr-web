@@ -1,4 +1,5 @@
 from .archive import StatsArchiveView  # NOQA
+from .elasticsearch_ingest import ElasticsearchIngestView  # NOQA
 from .event import (  # NOQA
     PlayerEventProcessView,
     PlayerEventViewSet,
