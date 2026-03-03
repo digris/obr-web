@@ -33,7 +33,7 @@ def media_link_to_spotify(
                 artist_name=" ".join(ma.artist.name for ma in media.media_artist.all()),
             )
         except APIClientError as e:
-            logger.error(f"APIClientError (Search): {e}")
+            logger.info(f"APIClientError (Search): {e}")
 
         return None
 
@@ -73,10 +73,12 @@ def media_set_remote_identifiers(
     if not media.identifiers.filter(scope="spotify").exists():
         media_link_to_spotify(media=media)
     else:
-        logger.debug("identifier exists")
+        logger.debug("identifier exists: spotify")
 
     if not media.identifiers.filter(scope="deezer").exists():
         media_link_to_deezer(media=media)
+    else:
+        logger.debug("identifier exists: deezer")
 
 
 def remote_media_sync_all_from_for_user(

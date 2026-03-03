@@ -63,6 +63,9 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
         verbose_name_plural = "Emissions"
         ordering = ["-time_start"]
         get_latest_by = "time_start"
+        indexes = [
+            models.Index(fields=["time_start", "time_end"]),
+        ]
 
     def __str__(self):
         # if self.playlist and self.playlist.name:

@@ -17,6 +17,8 @@ services:
       - obr
     depends_on:
       - core
+      - image-resizer
+      - cdn-cookie-validator
     extra_hosts:
       - "host.docker.internal:host-gateway"
   db:

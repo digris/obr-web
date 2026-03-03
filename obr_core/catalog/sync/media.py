@@ -191,6 +191,8 @@ def sync_master(master, force=False, skip_media=False, **kwargs):
 
             shutil.copy(f.name, filename)
 
+            f.seek(0)
+
             update = {
                 "encoding": encoding,
                 "size": os.path.getsize(f.name),

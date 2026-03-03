@@ -322,6 +322,7 @@ class MasterAdmin(unfold.admin.ModelAdmin):
         "content_type",
         "size",
         "path",
+        "md5_hash",
         "sync_state",
     ]
     list_filter = [

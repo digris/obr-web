@@ -221,7 +221,7 @@ class PlaylistMedia(
     def effective_duration(self):
         # calculate effective duration, taking into account cues + fade-out
         diff_s = (self.cue_in + self.cue_out + self.fade_cross) / 1000.0
-        return self.media.duration - timedelta(seconds=diff_s)
+        return max(self.media.duration - timedelta(seconds=diff_s), timedelta(0))
 
 
 class PlaylistImage(

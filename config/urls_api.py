@@ -66,6 +66,10 @@ def api_root(request, format=None):
                 "api:broadcast:api-root",
                 request=request,
             ),
+            # "playout/": reverse(
+            #     "api:playout:api-root",
+            #     request=request,
+            # ),
             "catalog/": reverse(
                 "api:catalog:api-root",
                 request=request,
