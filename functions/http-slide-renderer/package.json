@@ -1,0 +1,38 @@
+{
+  "name": "http-slide-renderer",
+  "version": "0.0.1",
+  "type": "module",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.2",
+    "@resvg/resvg-js": "^2.6.2",
+    "react": "^19.2.4",
+    "satori": "^0.26.0",
+    "sharp": "^0.34.5",
+    "tsx": "^4.21.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "PORT=7007 tsx watch ./node_modules/@google-cloud/functions-framework/build/src/main.js --target=render --source=src/index.ts",
+    "start": "functions-framework --target=render --source=dist --port=7007",
+    "serve": "yarn build && yarn start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.8.1",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.57.2"
+  }
+}

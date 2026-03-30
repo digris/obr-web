@@ -33,7 +33,7 @@ ffmpeg -hide_banner \
 ```shell
 
 # playout
-export SRC=http://46.101.248.105/main.mp3
+export SRC=http://64.225.92.68/main.mp3
 
 # ingress
 -

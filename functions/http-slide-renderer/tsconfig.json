@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+
+    "jsx": "react-jsx",
+    // "jsxImportSource": "satori",
+
+    "lib": ["ES2022", "DOM"],
+    "allowSyntheticDefaultImports": true,
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src"]
+}
