@@ -1,20 +1,20 @@
 import fs from 'node:fs/promises'
 
 import { Resvg } from '@resvg/resvg-js'
+import type { SatoriOptions } from 'satori'
 import satori from 'satori'
+import sharp from 'sharp'
 
+import { config } from '@/config.js'
 import { ArtistSlide } from '@/templates/ArtistSlide.js'
+import { LogoSlide } from '@/templates/LogoSlide.js'
 import { MediaSlide } from '@/templates/MediaSlide.js'
 import type { Context } from '@/types/context.js'
 
-const BASE_URL = 'https://openbroadcast.ch/api/v1/'
+const API_BASE_URL = config.api.baseUrl
+const IMAGE_RESIZE_FIT = config.image.resize.fit
 
 let fontData: ArrayBuffer | null = null
-
-const templateMap = {
-  'catalog.media': MediaSlide,
-  'catalog.artist': ArtistSlide,
-} as const
 
 async function getFont() {
   if (!fontData) {
@@ -25,14 +25,29 @@ async function getFont() {
   return fontData
 }
 
-async function fetchContext(ct: string, uid: string) {
-  // api pattern: ct: catalog.media -> catalog/media etc
-  // https://openbroadcast.ch/api/v1/catalog/media/A8FE72BD/
+async function fetchContext(ct: string, uid: string): Promise<Context> {
+  const parts = ct.split('.')
 
-  const path = `${ct.replace('.', '/')}/${uid}/`
-  const url = `${BASE_URL}${path}`
+  const irregularPlural: Record<string, string> = {
+    media: 'media',
+  }
 
-  console.debug('fetch_context', { url })
+  if (parts.length !== 2) {
+    throw new Error(`Invalid context type: ${ct}`)
+  }
+
+  const [app, model] = parts
+
+  if (app !== 'catalog') {
+    throw new Error(`Unsupported context app: ${app}`)
+  }
+
+  const modelPlural = irregularPlural[model] ?? `${model}s`
+
+  const path = `${app}/${modelPlural}/${uid}/`
+  const url = `${API_BASE_URL}${path}`
+
+  console.log('fetch_context', { ct, uid, url })
 
   const res = await fetch(url)
 
@@ -40,25 +55,25 @@ async function fetchContext(ct: string, uid: string) {
     throw new Error(`Failed to fetch context: ${res.status} ${res.statusText}`)
   }
 
-  return res.json()
+  return (await res.json()) as Context
 }
 
-export async function renderSvg(ct: string, uid: string, width: number, height: number) {
-  const font = await getFont()
-
-  const context = (await fetchContext(ct, uid)) as Context
-
-  const Template = templateMap[context.ct as keyof typeof templateMap]
-
-  if (!Template) {
-    throw new Error(`No template for ct: ${context.ct}`)
+export async function renderLogo(rgb: [number, number, number] = [0, 0, 0]): Promise<string> {
+  const svgOpts: SatoriOptions = {
+    width: 640,
+    height: 480,
+    fonts: [],
   }
 
-  console.debug(context)
+  return await satori(<LogoSlide rgb={rgb} />, svgOpts)
+}
 
-  const svg = await satori(<Template {...context} />, {
-    width,
-    height,
+export async function renderSlide(ct: string, uid: string, _kind: string): Promise<string> {
+  const font = await getFont()
+
+  const svgOpts: SatoriOptions = {
+    width: 640,
+    height: 480,
     fonts: [
       {
         name: 'IBMPlexSans',
@@ -67,18 +82,76 @@ export async function renderSvg(ct: string, uid: string, width: number, height: 
         style: 'normal',
       },
     ],
-  })
+  }
 
-  return svg
+  const context: Context = await fetchContext(ct, uid)
+
+  if (context.ct === 'catalog.media') {
+    return await satori(<MediaSlide {...context} />, svgOpts)
+  }
+
+  if (context.ct === 'catalog.artist') {
+    return await satori(<ArtistSlide {...context} />, svgOpts)
+  }
+
+  throw new Error(`Unsupported context type: ${ct}`)
 }
 
-export async function renderPng(svg: string) {
+export async function svgToPng(svg: string) {
   const resvg = new Resvg(svg, {
-    logLevel: 'debug',
+    // logLevel: 'debug',
     font: {
       loadSystemFonts: false,
     },
     textRendering: 1,
   })
   return resvg.render().asPng()
+}
+
+export async function encodePng(input: Buffer, width: number, height: number) {
+  return await sharp(input).resize(width, height, { fit: IMAGE_RESIZE_FIT }).png().toBuffer()
+}
+
+export async function encodeJpeg(input: Buffer, width: number, height: number, maxBytes?: number) {
+  console.log('encode_jpeg', { width, height, maxBytes })
+  const resized = await sharp(input).resize(width, height, { fit: IMAGE_RESIZE_FIT }).toBuffer()
+
+  const jpegConfig = config.image.jpeg
+
+  const jpegOptions: sharp.JpegOptions = {
+    mozjpeg: true,
+    chromaSubsampling: '4:2:0',
+  }
+
+  if (maxBytes == null) {
+    return await sharp(resized)
+      .jpeg({
+        quality: jpegConfig.defaultQuality,
+        ...jpegOptions,
+      })
+      .toBuffer()
+  }
+
+  for (
+    let quality = jpegConfig.defaultQuality;
+    quality >= jpegConfig.minQuality;
+    quality -= jpegConfig.step
+  ) {
+    const output = await sharp(resized)
+      .jpeg({
+        quality,
+        ...jpegOptions,
+      })
+      .toBuffer()
+
+    const size = output.length
+
+    // logger.debug({ msg: 'jpeg_attempt', quality, size })
+
+    if (size <= maxBytes) {
+      return output
+    }
+  }
+
+  throw new Error(`Unable to encode JPEG under ${maxBytes} bytes (min quality reached)`)
 }

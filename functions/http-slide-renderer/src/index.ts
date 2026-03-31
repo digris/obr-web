@@ -1,67 +1,97 @@
-import { parse } from 'node:path'
-
 import type { Request, Response } from '@google-cloud/functions-framework'
 import { http } from '@google-cloud/functions-framework'
-import sharp from 'sharp'
 
-import { parseRequest } from './parser.js'
-import { renderPng, renderSvg } from './render.js'
+import { logger } from '@/logger.js'
+import type { RenderRequest } from '@/parser.js'
+import { parseLogoRequest, parseSlideRequest } from '@/parser.js'
+import { encodeJpeg, encodePng, renderLogo, renderSlide, svgToPng } from '@/render.js'
 
+type FormatOptions = {
+  maxBytes?: number
+}
+
+function parseFormatOptions(req: Request): FormatOptions {
+  const raw = req.query.maxBytes
+
+  if (!raw) return {}
+
+  const value = Number(raw)
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new Error('Invalid maxBytes')
+  }
+
+  return {
+    maxBytes: Math.min(value, 100 * 1024),
+  }
+}
+
+async function respond(
+  svg: string,
+  req: RenderRequest,
+  res: Response,
+  options: FormatOptions = {},
+) {
+  switch (req.format) {
+    case 'svg': {
+      res.set('Content-Type', 'image/svg+xml')
+      return res.status(200).send(svg)
+    }
+
+    case 'png': {
+      const png = await svgToPng(svg)
+
+      const img = await encodePng(png, req.width, req.height)
+
+      res.set('Content-Type', 'image/png')
+      return res.status(200).send(img)
+    }
+
+    case 'jpg': {
+      const png = await svgToPng(svg)
+      const img = await encodeJpeg(png, req.width, req.height, options.maxBytes)
+
+      res.set('Content-Type', 'image/jpeg')
+      return res.status(200).send(img)
+    }
+  }
+}
 async function render(req: Request, res: Response) {
+  const splat = req.params.splat ?? []
+  const [kind, ...rest] = splat
+
+  const formatOptions = parseFormatOptions(req)
+
+  logger.info({ kind, rest }, 'request_received')
+
   try {
-    const parsed = parseRequest(req.path)
+    let parsed: RenderRequest
+    let svg: string
 
-    console.log('render_request', parsed)
-
-    const svg = await renderSvg(parsed.ct, parsed.uid, parsed.width, parsed.height)
-
-    console.log('svg', svg.length)
-
-    // res.set("Content-Type", "application/json")
-    // res.status(200).send(parsed)
-
-    switch (parsed.format) {
-      case 'svg':
-        res.set('Content-Type', 'image/svg+xml')
-        res.status(200).send(svg)
-        break
-      case 'png': {
-        const png = await renderPng(svg)
-        console.log('png', png.length)
-        res.set('Content-Type', `image/png`)
-        res.status(200).send(png)
+    switch (kind) {
+      case 'logo': {
+        parsed = parseLogoRequest(rest.join('/'))
+        logger.info({ parsed }, 'parsed_logo_request')
+        svg = await renderLogo(parsed.rgb)
         break
       }
-      case 'jpg': {
-        const png = await renderPng(svg)
-        const jpg = await sharp(png).jpeg({ quality: 50 }).toBuffer()
-        console.log('jpg', jpg.length)
-        res.set('Content-Type', `image/jpeg`)
-        res.status(200).send(jpg)
-        break
-      }
-      case 'webp': {
-        const png = await renderPng(svg)
-        const webp = await sharp(png).webp({ quality: 50 }).toBuffer()
-        console.log('webp', webp.length)
-        res.set('Content-Type', `image/webp`)
-        res.status(200).send(webp)
+      case 'slide': {
+        parsed = parseSlideRequest(rest.join('/'))
+        logger.info({ parsed }, 'parsed_slide_request')
+        svg = await renderSlide(parsed.ct, parsed.uid, parsed.kind)
         break
       }
       default:
-        throw new Error(`Unsupported format: ${parsed.format}`)
+        throw new Error(`Unknown kind: ${kind}`)
     }
+
+    return await respond(svg, parsed, res, formatOptions)
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error'
 
-    console.warn('render_error', {
-      path: req.path,
-      error: message,
-    })
+    logger.warn({ path: req.path, error: message }, 'render_error')
 
     res.status(400).send({ error: message })
   }
 }
 
-// 👇 THIS is the key line for dev mode
 http('render', render)

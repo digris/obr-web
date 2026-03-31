@@ -18,6 +18,11 @@ export type ArtistContext = {
   ct: 'catalog.artist'
   uid: string
   name: string
+  image?: {
+    url: string
+    path: string
+    rgb?: [number, number, number]
+  }
 }
 
 export type Context = MediaContext | ArtistContext

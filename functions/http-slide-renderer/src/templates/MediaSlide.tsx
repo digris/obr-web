@@ -1,18 +1,12 @@
 import type { MediaContext } from '@/types/context.js'
 
-const IMAGE_BASE_URL = 'https://openbroadcast.ch/images/'
-const CONTRAST_BREAKPOINT = 86
-
-const getContrastColor = (rgb: Array<number>) => {
-  const mean = rgb.reduce((s, b) => s + b, 0) / 3
-  return mean > CONTRAST_BREAKPOINT ? [0, 0, 0] : [255, 255, 255]
-}
+import { getContrastColor, getImageUrl } from './utils.js'
 
 export function MediaSlide({ name, artistDisplay, releases }: MediaContext) {
   const image = releases.find((r) => r.image)?.image
   const size = 400
 
-  const imageUrl = image?.path ? `${IMAGE_BASE_URL}crop/${size}x${size}/${image.path}` : undefined
+  const imageUrl = image ? getImageUrl(image.path, size, size) : undefined
 
   const bgColor = image?.rgb ?? [0, 0, 0]
   const fgColor = getContrastColor(bgColor)
