@@ -5,11 +5,12 @@ import type { SatoriOptions } from 'satori'
 import satori from 'satori'
 import sharp from 'sharp'
 
-import { config } from '@/config.js'
-import { ArtistSlide } from '@/templates/ArtistSlide.js'
-import { LogoSlide } from '@/templates/LogoSlide.js'
-import { MediaSlide } from '@/templates/MediaSlide.js'
 import type { Context } from '@/types/context.js'
+
+import { config } from './config.js'
+import { ArtistSlide } from './templates/ArtistSlide.js'
+import { LogoSlide } from './templates/LogoSlide.js'
+import { MediaSlide } from './templates/MediaSlide.js'
 
 const API_BASE_URL = config.api.baseUrl
 const IMAGE_RESIZE_FIT = config.image.resize.fit

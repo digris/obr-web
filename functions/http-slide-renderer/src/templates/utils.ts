@@ -1,4 +1,4 @@
-import { config } from '@/config.js'
+import { config } from '../config.js'
 
 const IMAGE_BASE_URL = config.image.baseUrl
 const CONTRAST_BREAKPOINT = config.image.contrastBreakpoint

@@ -16,5 +16,7 @@ export const logger = pino({
   },
 
   base: undefined,
+  transport: undefined,
+
   timestamp: isGCP ? false : pino.stdTimeFunctions.isoTime,
 })
