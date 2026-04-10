@@ -1,10 +1,16 @@
 from api_extra.serializers import CTUIDModelSerializer
 from broadcast.models import Emission
 from catalog.api.serializers import MediaSerializer as CatalogMediaSerializer
-from catalog.models import Media, Playlist
+from catalog.models import Media, Playlist, PlaylistImage
+from image.api.serializers import BaseImageSerializer
 from rating.api.serializers import VoteSerializer
 from rest_flex_fields.serializers import FlexFieldsSerializerMixin
 from rest_framework import serializers
+
+
+class EmissionPlaylistImageSerializer(BaseImageSerializer):
+    class Meta(BaseImageSerializer.Meta):
+        model = PlaylistImage
 
 
 class EmissionPlaylistSerializer(
@@ -17,12 +23,19 @@ class EmissionPlaylistSerializer(
         lookup_field="uid",
     )
 
+    image = EmissionPlaylistImageSerializer(
+        read_only=True,
+        allow_null=True,
+    )
+
     class Meta(CTUIDModelSerializer.Meta):
         model = Playlist
         fields = CTUIDModelSerializer.Meta.fields + [
             "url",
             "name",
-            # "image",
+            "series_display",
+            "editor_display",
+            "image",
         ]
 
 

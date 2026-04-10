@@ -92,6 +92,19 @@ class Playlist(
         return f"{title}{self.name}"
 
     @cached_property
+    def series_display(self):
+        series = ""
+        if self.series:
+            series += self.series.name
+            if self.series_episode:
+                series += f" #{self.series_episode}"
+        return series or None
+
+    @cached_property
+    def editor_display(self):
+        return self.editor.display_name if self.editor else None
+
+    @cached_property
     def image(self):
         try:
             return self.images.latest()
