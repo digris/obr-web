@@ -173,9 +173,6 @@ class PlaylistViewSet(
                     emissions__time_start__lte=Now(),
                 ),
             ),
-            #     "emissions",
-            #     ),
-            # ),
         )
 
         # annotate with request user's rating
@@ -199,9 +196,11 @@ class PlaylistViewSet(
                 ),
             )
 
-        qs = qs.filter(
-            latest_emission_time_start__lte=Now(),
-        )
+        # NOTE: do not apply count filter in detail view
+        if self.action != "retrieve":
+            qs = qs.filter(
+                latest_emission_time_start__lte=Now(),
+            )
 
         if q := self.request.GET.get("q", None):
             qs = get_search_qs(qs, q)

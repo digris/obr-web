@@ -180,7 +180,7 @@ class MediaViewSet(
                 ),
             )
 
-        if not include_upcoming:
+        if self.action != "retrieve" and not include_upcoming:
             qs = qs.filter(latest_airplay__lte=Now())
 
         # tag handling (filter seems to not support `tags[]=***`)
@@ -208,7 +208,7 @@ class MediaViewSet(
         except AssertionError as e:
             raise ParseError(f"Invalid UID: {self.kwargs['uid']}") from e
 
-        obj = get_object_or_404(self.queryset, uid=obj_uid)
+        obj = get_object_or_404(self.get_queryset(), uid=obj_uid)
 
         return obj
 

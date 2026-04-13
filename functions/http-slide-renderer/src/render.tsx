@@ -11,6 +11,8 @@ import { config } from './config.js'
 import { ArtistSlide } from './templates/ArtistSlide.js'
 import { LogoSlide } from './templates/LogoSlide.js'
 import { MediaSlide } from './templates/MediaSlide.js'
+import { PlaylistSlide } from './templates/PlaylistSlide.js'
+import { EmissionSlide } from './templates/EmissionSlide.js'
 
 const API_BASE_URL = config.api.baseUrl
 const IMAGE_RESIZE_FIT = config.image.resize.fit
@@ -39,16 +41,20 @@ async function fetchContext(ct: string, uid: string): Promise<Context> {
 
   const [app, model] = parts
 
-  if (app !== 'catalog') {
+  if (!['catalog', 'broadcast'].includes(app)) {
     throw new Error(`Unsupported context app: ${app}`)
   }
 
   const modelPlural = irregularPlural[model] ?? `${model}s`
 
   const path = `${app}/${modelPlural}/${uid}/`
-  const url = `${API_BASE_URL}${path}`
+  const url = new URL(`${API_BASE_URL}${path}`);
 
-  console.log('fetch_context', { ct, uid, url })
+  if (ct === 'catalog.playlist') {
+    url.searchParams.set('expand', 'editor')
+  }
+
+  console.log('fetch_context', { ct, uid, url: url.href })
 
   const res = await fetch(url)
 
@@ -87,12 +93,22 @@ export async function renderSlide(ct: string, uid: string, _kind: string): Promi
 
   const context: Context = await fetchContext(ct, uid)
 
+  console.log('context_response', { ct, uid, context })
+
   if (context.ct === 'catalog.media') {
     return await satori(<MediaSlide {...context} />, svgOpts)
   }
 
   if (context.ct === 'catalog.artist') {
     return await satori(<ArtistSlide {...context} />, svgOpts)
+  }
+
+  if (context.ct === 'catalog.playlist') {
+    return await satori(<PlaylistSlide {...context} />, svgOpts)
+  }
+
+  if (context.ct === 'broadcast.emission') {
+    return await satori(<EmissionSlide {...context} />, svgOpts)
   }
 
   throw new Error(`Unsupported context type: ${ct}`)

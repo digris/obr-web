@@ -7,6 +7,8 @@ import { config } from './config.js';
 import { ArtistSlide } from './templates/ArtistSlide.js';
 import { LogoSlide } from './templates/LogoSlide.js';
 import { MediaSlide } from './templates/MediaSlide.js';
+import { PlaylistSlide } from './templates/PlaylistSlide.js';
+import { EmissionSlide } from './templates/EmissionSlide.js';
 const API_BASE_URL = config.api.baseUrl;
 const IMAGE_RESIZE_FIT = config.image.resize.fit;
 let fontData = null;
@@ -26,13 +28,16 @@ async function fetchContext(ct, uid) {
         throw new Error(`Invalid context type: ${ct}`);
     }
     const [app, model] = parts;
-    if (app !== 'catalog') {
+    if (!['catalog', 'broadcast'].includes(app)) {
         throw new Error(`Unsupported context app: ${app}`);
     }
     const modelPlural = irregularPlural[model] ?? `${model}s`;
     const path = `${app}/${modelPlural}/${uid}/`;
-    const url = `${API_BASE_URL}${path}`;
-    console.log('fetch_context', { ct, uid, url });
+    const url = new URL(`${API_BASE_URL}${path}`);
+    if (ct === 'catalog.playlist') {
+        url.searchParams.set('expand', 'editor');
+    }
+    console.log('fetch_context', { ct, uid, url: url.href });
     const res = await fetch(url);
     if (!res.ok) {
         throw new Error(`Failed to fetch context: ${res.status} ${res.statusText}`);
@@ -62,11 +67,18 @@ export async function renderSlide(ct, uid, _kind) {
         ],
     };
     const context = await fetchContext(ct, uid);
+    console.log('context_response', { ct, uid, context });
     if (context.ct === 'catalog.media') {
         return await satori(_jsx(MediaSlide, { ...context }), svgOpts);
     }
     if (context.ct === 'catalog.artist') {
         return await satori(_jsx(ArtistSlide, { ...context }), svgOpts);
+    }
+    if (context.ct === 'catalog.playlist') {
+        return await satori(_jsx(PlaylistSlide, { ...context }), svgOpts);
+    }
+    if (context.ct === 'broadcast.emission') {
+        return await satori(_jsx(EmissionSlide, { ...context }), svgOpts);
     }
     throw new Error(`Unsupported context type: ${ct}`);
 }

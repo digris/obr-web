@@ -162,10 +162,11 @@ class ArtistViewSet(
         for uid in tag_uids:
             qs = qs.filter(tags__uid=uid)
 
-        # NOTE: make dynamic...
-        qs = qs.filter(
-            num_media__gte=ARTIST_MIN_NUM_MEDIA,
-        )
+        # NOTE: do not apply count filter in detail view
+        if self.action != "retrieve":
+            qs = qs.filter(
+                num_media__gte=ARTIST_MIN_NUM_MEDIA,
+            )
 
         return qs
 

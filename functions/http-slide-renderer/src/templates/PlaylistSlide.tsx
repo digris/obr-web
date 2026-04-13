@@ -1,21 +1,20 @@
-import type { ArtistContext } from '@/types/context.js'
+import type { PlaylistContext } from '@/types/context.js'
 
 import { getContrastColor, getImageUrl } from './utils.js'
 
-function adjustColor(rgb: number[], amount: number) {
-  return rgb.map((c) =>
-    Math.max(0, Math.min(255, Math.round(c + amount)))
-  )
-}
-
-export function ArtistSlide({ name, image }: ArtistContext) {
+export function PlaylistSlide({ name, image, editor }: PlaylistContext) {
   const size = 440
 
   const imageUrl = image ? getImageUrl(image.path, size, size) : undefined
-  // const imageUrl = undefined
+
+  // const editorImageUrl = editor?.image ? getImageUrl(editor.image.path, size, size) : undefined
+  const editorImageUrl = undefined
 
   const bgColor = image?.rgb ?? [0, 0, 0]
   const fgColor = getContrastColor(bgColor)
+
+
+  console.log('playlist_slide', { name, imageUrl, bgColor, fgColor, editor })
 
   return (
     <div
@@ -77,6 +76,21 @@ export function ArtistSlide({ name, image }: ArtistContext) {
               <circle cx="301" cy="301" r="287" />
             </svg>
           </div>
+        )}
+        {editorImageUrl && (
+          <img
+            src={editorImageUrl}
+            style={{
+              position: 'absolute',
+              bottom: 16,
+              right: 16,
+              width: Math.round(size * 0.5),
+              height: Math.round(size * 0.5),
+              borderRadius: 9999,
+              objectFit: 'cover',
+              border: '4px solid white',
+            }}
+          />
         )}
       </div>
     </div>

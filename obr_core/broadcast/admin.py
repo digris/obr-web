@@ -41,6 +41,7 @@ class EmissionAdmin(unfold.admin.ModelAdmin):
         "state_display",
         "time_start",
         "time_end",
+        "uid_display",
     ]
     list_filter = [
         "time_start",
