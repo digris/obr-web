@@ -18,7 +18,7 @@ from stats.models import PlayerEvent
 LOGGER = logging.getLogger(__name__)
 
 
-EVENT_MIN_DURATION = 20
+EVENT_MIN_DURATION = 10
 
 
 ES_API_URL = settings.STATS_ES_API_URL
