@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-import ListenerSurvey from "@/components/survey/ListenerSurvey.vue";
+import OpenHouseSurvey from "@/components/survey/OpenHouseSurvey.vue";
 import OverlayPanel from "@/components/ui/panel/OverlayPanel.vue";
 
 const { t } = useI18n();
@@ -12,9 +12,9 @@ const overlayVisible = ref(false);
 
 <i18n lang="yaml">
 de:
-  title: "Umfrage"
+  title: "Open House"
 en:
-  title: "Survey"
+  title: "Open House"
 </i18n>
 
 <template>
@@ -26,7 +26,7 @@ en:
         @close="overlayVisible = false"
         :title="t('title')"
       >
-        <ListenerSurvey @close="overlayVisible = false" />
+        <OpenHouseSurvey @close="overlayVisible = false" />
       </OverlayPanel>
     </Teleport>
   </div>
@@ -52,6 +52,7 @@ en:
     @include typo.small;
 
     color: rgb(var(--c-fg));
+    white-space: nowrap;
   }
 
   @include responsive.on-hover {

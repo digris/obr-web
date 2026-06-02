@@ -2,6 +2,7 @@ import datetime
 import ftplib
 import hashlib
 import ipaddress
+import json
 import logging
 import pathlib
 import tempfile
@@ -296,3 +297,53 @@ def radiodata_log_upload(
         logger.warning(f"error closing FTP connection: {str(e)}")
 
     return files_uploaded
+
+
+def sessions_export(
+    *,
+    date_from: datetime.date,
+    date_until: datetime.date,
+    dst_dir: pathlib.Path,
+    database: str = "default",
+) -> list[pathlib.Path]:
+
+    utc_time_from = LogExporter.date_to_utc_day(date_from)
+    utc_time_until = (
+        LogExporter.date_to_utc_day(date_until)
+        + datetime.timedelta(days=1)
+        - datetime.timedelta(microseconds=1)
+    )
+
+    qs = StreamEvent.objects.filter(
+        time_start__gte=utc_time_from,
+        time_end__lte=utc_time_until,
+    ).order_by("time_end")
+
+    sessions = []
+
+    for event in qs.using(database).iterator():
+        session = {
+            "uid": event.uid,
+            "ip": event.ip,
+            "device_key": event.device_key,
+            "time_start": event.time_start.isoformat(),
+            "time_end": event.time_end.isoformat(),
+            "method": event.method,
+            "path": event.path,
+            "status": event.status,
+            "bytes_sent": event.bytes_sent,
+            "referer": event.referer,
+            "user_agent": event.user_agent,
+            "seconds_connected": (
+                int(event.seconds_connected) if event.seconds_connected else 0
+            ),
+        }
+        sessions.append(session)
+
+    dst_file = (
+        dst_dir / f"sessions-{date_from.isoformat()}-to-{date_until.isoformat()}.json"
+    )
+    with open(dst_file, "w", encoding="utf-8") as fp:
+        json.dump(sessions, fp, ensure_ascii=False, indent=2)
+
+    return dst_file

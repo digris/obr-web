@@ -192,8 +192,6 @@ class User(
 
     @property
     def access_token(self):
-        timedelta(minutes=60 * 12)
-        timedelta(days=28)
         return str(SlidingToken.for_user(self))
 
     @property
