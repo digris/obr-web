@@ -16,7 +16,7 @@ const openSurvey = async () => {
 <i18n lang="yaml">
 de:
   lead: "Open Broadcast öffnet seine Türen"
-  lead2: "Samstag, 27. Juni, ab 16 Uhr"
+  lead2: "Samstag, 29. August, ab 16 Uhr"
   line1: "Komm vorbei und wirf einen Blick hinter die Kulissen von Open Broadcast."
   line2: "Wir erzählen, wie unsere Radioidee entstand, wie Open Broadcast das Radioangebot in der Schweiz verdoppelte – und warum Radio bis heute neugierig bleibt."
   line3: "Es gibt Essen, Getränke, Musik und Spielmöglichkeiten für Kinder."
@@ -29,7 +29,7 @@ de:
 
 en:
   lead: "Open Broadcast opens its doors"
-  lead2: "Saturday, June 27, from 4 PM"
+  lead2: "Saturday, August 29, from 4 PM"
   line1: "Come by and take a look behind the scenes at Open Broadcast."
   line2: "We’ll share how our radio idea began, how Open Broadcast doubled the radio offering in Switzerland — and why radio remains curious to this day."
   line3: "There will be food, drinks, music and activities for children."
