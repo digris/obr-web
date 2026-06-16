@@ -50,3 +50,4 @@ pnpm-debug.log*
 
 # diagrams.net
 *.svg.bkp
+.omx/
