@@ -715,6 +715,10 @@ MAILCHIMP_LIST_ID = env(
     "MAILCHIMP_LIST_ID",
     default=None,
 )
+IPREGISTRY_API_KEY = env(
+    "IPREGISTRY_API_KEY",
+    default=None,
+)
 
 
 ##################################################################
