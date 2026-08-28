@@ -24,7 +24,6 @@ SQLITE_CACHE = settings.PROJECT_ROOT / "data" / "stats" / "annotate-cache.sqlite
 LOGGER = logging.getLogger(__name__)
 
 
-
 class CachedWhois:
 
     db_table = "whois_cache"
@@ -35,12 +34,14 @@ class CachedWhois:
         self.cache: dict[str, dict] = {}
 
         self.db = sqlite3.connect(db_path)
-        self.db.execute(f"""
+        self.db.execute(
+            f"""
             CREATE TABLE IF NOT EXISTS {self.db_table} (
                 cidr TEXT PRIMARY KEY,
                 data TEXT NOT NULL
             )
-        """)
+        """,
+        )
         self.db.commit()
 
         self.cache_load()
@@ -213,8 +214,8 @@ class CachedWhois:
 
         return res
 
-class CachedIPIntel:
 
+class CachedIPIntel:
 
     db_table = "ipintel_cache"
 
@@ -232,12 +233,14 @@ class CachedIPIntel:
         )
 
         self.db = sqlite3.connect(db_path)
-        self.db.execute(f"""
+        self.db.execute(
+            f"""
             CREATE TABLE IF NOT EXISTS {self.db_table} (
                 ip TEXT PRIMARY KEY,
                 data TEXT NOT NULL
             )
-        """)
+        """,
+        )
         self.db.commit()
 
         self.cache_load()
@@ -261,7 +264,8 @@ class CachedIPIntel:
             self.LOGGER.debug("IPIntel cache hit for %s", ip)
             return self.cache[ip]
         row = self.db.execute(
-            f"SELECT data FROM {self.db_table} WHERE ip = ?", (ip,),
+            f"SELECT data FROM {self.db_table} WHERE ip = ?",
+            (ip,),
         ).fetchone()
         if not row:
             return None
@@ -400,19 +404,23 @@ class CachedIPIntel:
             "loc_region": loc.region.code,
             "loc_city": loc.city,
             "loc_zip_code": loc.postal,
-            "loc_coordinates": {"lat": loc.latitude, "lon": loc.longitude}
-            if loc.latitude is not None and loc.longitude is not None
-            else None,
+            "loc_coordinates": (
+                {"lat": loc.latitude, "lon": loc.longitude}
+                if loc.latitude is not None and loc.longitude is not None
+                else None
+            ),
             "tz_code": time_zone.abbreviation,
             "access": self.parse_access(carrier, conn, sec),
             "tags": self.parse_tags(sec),
-            "mobile": {
-                "operator": carrier.name,
-                "mcc": carrier.mcc,
-                "mnc": carrier.mnc,
-            }
-            if carrier.name
-            else None,
+            "mobile": (
+                {
+                    "operator": carrier.name,
+                    "mcc": carrier.mcc,
+                    "mnc": carrier.mnc,
+                }
+                if carrier.name
+                else None
+            ),
         }
 
         return parsed

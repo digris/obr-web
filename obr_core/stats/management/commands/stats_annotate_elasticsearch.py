@@ -1,4 +1,3 @@
-
 from django.core.management.base import BaseCommand
 
 import stats.annotate
@@ -47,4 +46,6 @@ class Command(BaseCommand):
 
         cnt, cnt_total = annotate_func(limit=limit, reset_cache=reset_cache)
 
-        self.stdout.write(f"annotated: {kind} - {cnt} unique IPs - {cnt_total} total events")
+        self.stdout.write(
+            f"annotated: {kind} - {cnt} unique IPs - {cnt_total} total events",
+        )

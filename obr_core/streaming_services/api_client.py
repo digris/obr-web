@@ -38,8 +38,12 @@ class SpotifyAPIClient:
         # spotify auth does not include 'expires'. we check when the token was last updated
         # and "manually" refresh if older than 30 minutes (token valid for 1 hour)
         if sa.modified < timezone.now() - timedelta(seconds=30 * 60):
-            print("refreshing token")
-            sa.refresh_token(strategy=load_strategy())
+            try:
+                sa.refresh_token(strategy=load_strategy())
+            except requests.RequestException as e:
+                raise APIClientError(
+                    f"Failed to refresh Spotify access token: {e}",
+                ) from e
 
         return sa.access_token
 
