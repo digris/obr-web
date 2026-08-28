@@ -195,7 +195,7 @@ class CachedWhois:
         try:
             self.LOGGER.debug("Running WHOIS RDAP lookup for %s", ip)
             whois_res = IPWhois(ip, timeout=2).lookup_rdap(depth=1, inc_nir=False)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             self.LOGGER.exception("WHOIS RDAP lookup failed for %s: %s", ip, e)
             return None
 
@@ -284,7 +284,7 @@ class CachedIPIntel:
         self.LOGGER.debug("Stored IPIntel cache entry for %s", ip)
 
     @staticmethod
-    def parse_tags(sec):
+    def parse_tags(sec):  # noqa: C901
         tags = []
         if sec.is_anonymous:
             tags.append("anonymous")
@@ -327,7 +327,7 @@ class CachedIPIntel:
         return conn.type or "unknown"
 
     def parse_ipreg_result(self, res):
-        credits = res.credits
+        api_credits = res.credits
         data = res.data
 
         """
@@ -378,10 +378,10 @@ class CachedIPIntel:
 
         """
 
-        if credits.remaining % 100 == 0:
+        if api_credits.remaining % 100 == 0:
             self.LOGGER.info(
                 "IPIntel lookup credits: %s remaining",
-                credits.remaining,
+                api_credits.remaining,
             )
 
         carrier = data.carrier
