@@ -98,11 +98,20 @@ def update_tags(
                     logger.warning(f"unable to add tag: {tag} - {e}")
                     continue
 
-        TaggedItem.objects.get_or_create(
-            content_type=content_type,
-            object_id=object_id,
-            tag=tag,
-        )
+        try:
+            TaggedItem.objects.get_or_create(
+                content_type=content_type,
+                object_id=object_id,
+                tag=tag,
+            )
+        except TaggedItem.MultipleObjectsReturned as e:
+            logger.warning(
+                f"multiple tagged items found for {content_type}:{object_id} - {tag} - {e}"
+            )
+        except IntegrityError as e:
+            logger.warning(
+                f"unable to add tagged item for {content_type}:{object_id} - {tag} - {e}"
+            )
 
 
 def update_image(
