@@ -106,11 +106,11 @@ def update_tags(
             )
         except TaggedItem.MultipleObjectsReturned as e:
             logger.warning(
-                f"multiple tagged items found for {content_type}:{object_id} - {tag} - {e}"
+                f"multiple tagged items found for {content_type}:{object_id} - {tag} - {e}",
             )
         except IntegrityError as e:
             logger.warning(
-                f"unable to add tagged item for {content_type}:{object_id} - {tag} - {e}"
+                f"unable to add tagged item for {content_type}:{object_id} - {tag} - {e}",
             )
 
 
