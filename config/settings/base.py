@@ -495,6 +495,7 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "OBR API",
     "DESCRIPTION": "open broadcast - radio",
     "VERSION": str(__version__),
+    "REDOC_DIST": "https://cdn.jsdelivr.net/npm/redoc@2.5.2/bundles/redoc.standalone.js",
     "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
     "CAMELIZE_NAMES": True,
     "DEFAULT_GENERATOR_CLASS": "drf_spectacular.generators.SchemaGenerator",
