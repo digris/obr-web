@@ -4,7 +4,7 @@ from django.utils.functional import cached_property
 
 from broadcast.sync.editor import sync_editor
 from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
-from image.models import BaseSortableImage
+from image.models import BaseSortableImage, get_latest_image
 from sync.models.mixins import SyncModelMixin
 from tagging.models import TaggableManager, TaggedItem
 
@@ -90,10 +90,7 @@ class Editor(
 
     @cached_property
     def image(self):
-        try:
-            return self.images.latest()
-        except self.images.model.DoesNotExist:
-            return None
+        return get_latest_image(self.images)
 
     @cached_property
     def is_former(self):

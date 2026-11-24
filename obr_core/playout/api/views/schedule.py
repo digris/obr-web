@@ -1,10 +1,10 @@
 import itertools
 import logging
-from datetime import timedelta
 
 from django.utils import timezone
 
 from api_extra.serializers import DurationInMillisecondsSerializer
+from broadcast.api.utils import TIME_RANGE_PARAMETERS, get_time_range
 from broadcast.models import Emission
 from common.api.serializers import inline_serializer
 from drf_spectacular.utils import extend_schema
@@ -13,8 +13,8 @@ from rest_framework.views import APIView, Response
 
 logger = logging.getLogger(__name__)
 
-SCHEDULE_SECONDS_BACK = 60 * 60 * 0.5
-SCHEDULE_SECONDS_AHEAD = 60 * 60 * 1
+SCHEDULE_SECONDS_BACK = 60 * 30
+SCHEDULE_SECONDS_AHEAD = 60 * 60
 
 
 class ScheduleView(
@@ -97,6 +97,7 @@ class ScheduleView(
             ref_name = "PlayoutScheduleSerializer"
 
     @extend_schema(
+        parameters=TIME_RANGE_PARAMETERS,
         responses={
             200: OutputSerializer(
                 many=False,
@@ -108,8 +109,12 @@ class ScheduleView(
 
         time_now = timezone.now().replace(microsecond=0)
 
-        time_from = time_now - timedelta(seconds=SCHEDULE_SECONDS_BACK)
-        time_until = time_now + timedelta(seconds=SCHEDULE_SECONDS_AHEAD)
+        time_from, time_until = get_time_range(
+            request,
+            now=time_now,
+            seconds_back=SCHEDULE_SECONDS_BACK,
+            seconds_ahead=SCHEDULE_SECONDS_AHEAD,
+        )
 
         # first we need to get the current (and eventually upcoming) emission(s)
         qs = (

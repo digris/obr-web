@@ -66,6 +66,9 @@ class Identifier(
             "content_type",
             "object_id",
         ]
+        indexes = [
+            models.Index(fields=["content_type", "object_id"]),
+        ]
 
     def __str__(self):
         return f"{self.key}"

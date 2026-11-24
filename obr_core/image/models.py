@@ -103,6 +103,12 @@ class BaseSortableImage(BaseImage):
     # def __str__(self):
 
 
+def get_latest_image(images):
+    # equivalent to `images.latest()`, but evaluated in python to make use of
+    # prefetched images (`latest()` always hits the database)
+    return max(images.all(), key=lambda i: i.created, default=None)
+
+
 @receiver(pre_save)
 # pylint: disable=unused-argument
 def image_pre_save(sender, instance=None, **kwargs):

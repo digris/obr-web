@@ -16,9 +16,6 @@ class ArtistSitemap(Sitemap):
 
     def items(self):
         qs = Artist.objects.all()
-        qs = qs.prefetch_related(
-            "media",
-        )
         qs = qs.annotate(
             num_media=Count(
                 "media",

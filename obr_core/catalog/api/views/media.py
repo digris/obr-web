@@ -136,8 +136,6 @@ class MediaViewSet(
             "releases__images",
             "releases__media",
             "releases__label",
-            "votes",
-            "votes__user",
         )
 
         if include_upcoming:

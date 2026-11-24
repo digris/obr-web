@@ -7,7 +7,7 @@ from django.utils.functional import cached_property
 from catalog.models.license import LicenseKind
 from catalog.sync.release import sync_release
 from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
-from image.models import BaseSortableImage
+from image.models import BaseSortableImage, get_latest_image
 from sync.models.mixins import SyncModelMixin
 from tagging.models import TaggableManager, TaggedItem
 
@@ -78,10 +78,7 @@ class Release(
 
     @cached_property
     def image(self):
-        try:
-            return self.images.latest()
-        except self.images.model.DoesNotExist:
-            return None
+        return get_latest_image(self.images)
 
     @cached_property
     def num_media(self):

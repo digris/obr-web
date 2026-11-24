@@ -8,7 +8,7 @@ from django.utils.functional import cached_property
 
 from catalog.sync.playlist import sync_playlist
 from common.models.mixins import CTUIDModelMixin, TimestampedModelMixin
-from image.models import BaseSortableImage
+from image.models import BaseSortableImage, get_latest_image
 from sync.models.mixins import SyncModelMixin
 from tagging.models import TaggableManager, TaggedItem
 
@@ -106,10 +106,7 @@ class Playlist(
 
     @cached_property
     def image(self):
-        try:
-            return self.images.latest()
-        except self.images.model.DoesNotExist:
-            return None
+        return get_latest_image(self.images)
 
     @property
     # NOTE: rethink this implementation (currently not in use)
