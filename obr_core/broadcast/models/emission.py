@@ -92,24 +92,30 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
     def series(self):
         return self.playlist.series if self.playlist else None
 
-    def get_media_set(self, include_all=False):
+    def get_media_set(self, include_all=False, for_playout=False):
         if not self.playlist:
             return []
 
         media_set = []
         time_base = self.time_start
         time_offset = timedelta()
-        qs = (
-            self.playlist.playlist_media.order_by(
-                "position",
+        qs = self.playlist.playlist_media.order_by(
+            "position",
+        )
+
+        if for_playout:
+            # playout only needs media & master - skip the display related lookups
+            qs = qs.select_related(
+                "media",
+                "media__master",
             )
-            .select_related(
+        else:
+            qs = qs.select_related(
                 "media",
                 "playlist",
                 "playlist__series",
                 "playlist__editor",
-            )
-            .prefetch_related(
+            ).prefetch_related(
                 "media__artists",
                 "media__media_artist",
                 "media__media_artist__artist",
@@ -117,7 +123,6 @@ class Emission(TimestampedModelMixin, CTUIDModelMixin, models.Model):
                 "media__releases__images",
                 "playlist__editor__images",
             )
-        )
 
         if not include_all:
             qs = qs.filter(

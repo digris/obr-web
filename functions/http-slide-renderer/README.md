@@ -32,7 +32,7 @@ gcloud functions deploy \
   --entry-point=render \
   --allow-unauthenticated \
   --memory 1024MB \
-  --max-instances=4 \
+  --max-instances=20 \
   --trigger-http
 
 ```

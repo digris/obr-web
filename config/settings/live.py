@@ -28,9 +28,14 @@ ALLOWED_HOSTS = ["*"]
 DEBUG = env("DEBUG")
 DATABASES = {"default": env.db()}
 
-# use persistent connections
-DATABASES["default"]["CONN_MAX_AGE"] = 300
+# use connection pool (persistent connections / CONN_MAX_AGE do not work under ASGI)
+# NOTE: max_size should match cloud run's `--concurrency`
+DATABASES["default"]["CONN_MAX_AGE"] = 0
 DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
+DATABASES["default"].setdefault("OPTIONS", {})["pool"] = {
+    "min_size": 1,
+    "max_size": 4,
+}
 
 
 SECURE_SSL_REDIRECT = True

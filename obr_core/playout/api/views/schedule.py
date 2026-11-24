@@ -104,18 +104,12 @@ class ScheduleView(
             ),
         },
     )
-    # @method_decorator(cache_page(5 * 60))
     def get(self, request):
 
         time_now = timezone.now().replace(microsecond=0)
 
         time_from = time_now - timedelta(seconds=SCHEDULE_SECONDS_BACK)
         time_until = time_now + timedelta(seconds=SCHEDULE_SECONDS_AHEAD)
-
-        #
-        print(f"now:   {time_now}")
-        print(f"from:  {time_from}")
-        print(f"until: {time_until}")
 
         # first we need to get the current (and eventually upcoming) emission(s)
         qs = (
@@ -131,7 +125,7 @@ class ScheduleView(
 
         # then we get all containing media objects
         all_items = itertools.chain.from_iterable(
-            e.get_media_set(include_all=True) for e in qs
+            e.get_media_set(include_all=True, for_playout=True) for e in qs
         )
 
         # and finally filter the media objects for the given time range
@@ -142,22 +136,6 @@ class ScheduleView(
         ]
 
         items_in_range.sort(key=lambda i: i["time_start"])
-
-        print(f"# range:\n  {time_from:%H:%M:%S} - {time_until:%H:%M:%S}")
-
-        print("# emissions")
-        for e in qs:
-            is_current = e.time_start <= time_now < e.time_end
-            print(
-                f"{'*' if is_current else ' '} {e.time_start:%H:%M:%S} - {e.time_end:%H:%M:%S} : {e}",
-            )
-
-        print("# media")
-        for m in items_in_range:
-            is_current = m["time_start"] <= time_now < m["time_end"]
-            print(
-                f"{'*' if is_current else ' '} {m['time_start']:%H:%M:%S} - {m['time_end']:%H:%M:%S} : {m['media']}",
-            )
 
         serializer = self.OutputSerializer(
             {

@@ -13,11 +13,12 @@ steps:
     '--image', 'gcr.io/open-broadcast/obr-web:main',
     '--region', 'europe-west6',
     '--platform', 'managed',
-    '--max-instances', '10',
+    '--max-instances', '20',
     '--memory', '2048M',
     '--cpu', '1',
-    '--concurrency', '20',
+    '--concurrency', '4',
     '--use-http2',
+    '--cpu-boost',
     '--add-cloudsql-instances', 'open-broadcast:europe-west6:open-broadcast-db',
     '--allow-unauthenticated'
   ]
