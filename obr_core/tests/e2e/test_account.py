@@ -5,14 +5,11 @@ from django.conf import settings
 
 import pytest
 from freezegun import freeze_time
-from libfaketime import fake_time, reexec_if_needed
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
-reexec_if_needed()
 
 USER_DATA = {
     "email": "ohrstrom+obr-e2e@gmail.com",
