@@ -98,7 +98,7 @@ jobs:
       # https://mestrak.com/blog/semantic-release-with-python-poetry-github-actions-20nn
       - uses: actions/setup-python@v3
         with:
-          python-version: 3.9
+          python-version: '3.11'
       - uses: actions/checkout@v3
       - name: Semantic release
         run: |
